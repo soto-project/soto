@@ -59,6 +59,14 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailContentFilterStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailContentFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hate = "HATE"
         case insults = "INSULTS"
@@ -644,15 +652,18 @@ extension BedrockRuntime {
         public let action: GuardrailAction
         /// The assessment details in the response from the guardrail.
         public let assessments: [GuardrailAssessment]
+        /// The guardrail coverage details in the apply guardrail response.
+        public let guardrailCoverage: GuardrailCoverage?
         /// The output details in the response from the guardrail.
         public let outputs: [GuardrailOutputContent]
         /// The usage details in the response from the guardrail.
         public let usage: GuardrailUsage
 
         @inlinable
-        public init(action: GuardrailAction, assessments: [GuardrailAssessment], outputs: [GuardrailOutputContent], usage: GuardrailUsage) {
+        public init(action: GuardrailAction, assessments: [GuardrailAssessment], guardrailCoverage: GuardrailCoverage? = nil, outputs: [GuardrailOutputContent], usage: GuardrailUsage) {
             self.action = action
             self.assessments = assessments
+            self.guardrailCoverage = guardrailCoverage
             self.outputs = outputs
             self.usage = usage
         }
@@ -660,6 +671,7 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case assessments = "assessments"
+            case guardrailCoverage = "guardrailCoverage"
             case outputs = "outputs"
             case usage = "usage"
         }
@@ -1016,6 +1028,8 @@ extension BedrockRuntime {
         public let contentPolicy: GuardrailContentPolicyAssessment?
         /// The contextual grounding policy used for the guardrail assessment.
         public let contextualGroundingPolicy: GuardrailContextualGroundingPolicyAssessment?
+        /// The invocation metrics for the guardrail assessment.
+        public let invocationMetrics: GuardrailInvocationMetrics?
         /// The sensitive information policy.
         public let sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment?
         /// The topic policy.
@@ -1024,9 +1038,10 @@ extension BedrockRuntime {
         public let wordPolicy: GuardrailWordPolicyAssessment?
 
         @inlinable
-        public init(contentPolicy: GuardrailContentPolicyAssessment? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicyAssessment? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
+        public init(contentPolicy: GuardrailContentPolicyAssessment? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicyAssessment? = nil, invocationMetrics: GuardrailInvocationMetrics? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
             self.contentPolicy = contentPolicy
             self.contextualGroundingPolicy = contextualGroundingPolicy
+            self.invocationMetrics = invocationMetrics
             self.sensitiveInformationPolicy = sensitiveInformationPolicy
             self.topicPolicy = topicPolicy
             self.wordPolicy = wordPolicy
@@ -1035,6 +1050,7 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case contentPolicy = "contentPolicy"
             case contextualGroundingPolicy = "contextualGroundingPolicy"
+            case invocationMetrics = "invocationMetrics"
             case sensitiveInformationPolicy = "sensitiveInformationPolicy"
             case topicPolicy = "topicPolicy"
             case wordPolicy = "wordPolicy"
@@ -1074,19 +1090,23 @@ extension BedrockRuntime {
         public let action: GuardrailContentPolicyAction
         /// The guardrail confidence.
         public let confidence: GuardrailContentFilterConfidence
+        /// The filter strength setting for the guardrail content filter.
+        public let filterStrength: GuardrailContentFilterStrength?
         /// The guardrail type.
         public let type: GuardrailContentFilterType
 
         @inlinable
-        public init(action: GuardrailContentPolicyAction, confidence: GuardrailContentFilterConfidence, type: GuardrailContentFilterType) {
+        public init(action: GuardrailContentPolicyAction, confidence: GuardrailContentFilterConfidence, filterStrength: GuardrailContentFilterStrength? = nil, type: GuardrailContentFilterType) {
             self.action = action
             self.confidence = confidence
+            self.filterStrength = filterStrength
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case confidence = "confidence"
+            case filterStrength = "filterStrength"
             case type = "type"
         }
     }
@@ -1163,6 +1183,20 @@ extension BedrockRuntime {
         }
     }
 
+    public struct GuardrailCoverage: AWSDecodableShape {
+        /// The text characters of the guardrail coverage details.
+        public let textCharacters: GuardrailTextCharactersCoverage?
+
+        @inlinable
+        public init(textCharacters: GuardrailTextCharactersCoverage? = nil) {
+            self.textCharacters = textCharacters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textCharacters = "textCharacters"
+        }
+    }
+
     public struct GuardrailCustomWord: AWSDecodableShape {
         /// The action for the custom word.
         public let action: GuardrailWordPolicyAction
@@ -1178,6 +1212,28 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case match = "match"
+        }
+    }
+
+    public struct GuardrailInvocationMetrics: AWSDecodableShape {
+        /// The coverage details for the guardrail invocation metrics.
+        public let guardrailCoverage: GuardrailCoverage?
+        /// The processing latency details for the guardrail invocation metrics.
+        public let guardrailProcessingLatency: Int64?
+        /// The usage details for the guardrail invocation metrics.
+        public let usage: GuardrailUsage?
+
+        @inlinable
+        public init(guardrailCoverage: GuardrailCoverage? = nil, guardrailProcessingLatency: Int64? = nil, usage: GuardrailUsage? = nil) {
+            self.guardrailCoverage = guardrailCoverage
+            self.guardrailProcessingLatency = guardrailProcessingLatency
+            self.usage = usage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailCoverage = "guardrailCoverage"
+            case guardrailProcessingLatency = "guardrailProcessingLatency"
+            case usage = "usage"
         }
     }
 
@@ -1330,6 +1386,24 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case qualifiers = "qualifiers"
             case text = "text"
+        }
+    }
+
+    public struct GuardrailTextCharactersCoverage: AWSDecodableShape {
+        /// The text characters that were guarded by the guardrail coverage.
+        public let guarded: Int?
+        /// The total text characters by the guardrail coverage.
+        public let total: Int?
+
+        @inlinable
+        public init(guarded: Int? = nil, total: Int? = nil) {
+            self.guarded = guarded
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guarded = "guarded"
+            case total = "total"
         }
     }
 

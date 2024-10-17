@@ -456,7 +456,7 @@ extension Lambda {
         public let functionName: String
         /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let functionUrlAuthType: FunctionUrlAuthType?
-        /// The Amazon Web Servicesservice or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
+        /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
         public let principal: String
         /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
         public let principalOrgID: String?
@@ -464,9 +464,9 @@ extension Lambda {
         public let qualifier: String?
         /// Update the policy only if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
         public let revisionId: String?
-        /// For Amazon Web Servicesservice, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
+        /// For Amazon Web Services service, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
         public let sourceAccount: String?
-        /// For Amazon Web Servicesservices, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
+        /// For Amazon Web Services services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
         public let sourceArn: String?
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
@@ -833,12 +833,15 @@ extension Lambda {
         public let codeSigningPolicies: CodeSigningPolicies?
         /// Descriptive name for this code signing configuration.
         public let description: String?
+        /// A list of tags to add to the code signing configuration.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(allowedPublishers: AllowedPublishers, codeSigningPolicies: CodeSigningPolicies? = nil, description: String? = nil) {
+        public init(allowedPublishers: AllowedPublishers, codeSigningPolicies: CodeSigningPolicies? = nil, description: String? = nil, tags: [String: String]? = nil) {
             self.allowedPublishers = allowedPublishers
             self.codeSigningPolicies = codeSigningPolicies
             self.description = description
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -850,6 +853,7 @@ extension Lambda {
             case allowedPublishers = "AllowedPublishers"
             case codeSigningPolicies = "CodeSigningPolicies"
             case description = "Description"
+            case tags = "Tags"
         }
     }
 
@@ -912,13 +916,15 @@ extension Lambda {
         public let startingPosition: EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
         public let startingPositionTimestamp: Date?
+        /// A list of tags to apply to the event source mapping.
+        public let tags: [String: String]?
         /// The name of the Kafka topic.
         public let topics: [String]?
         /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
         public let tumblingWindowInSeconds: Int?
 
         @inlinable
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, tags: [String: String]? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -941,6 +947,7 @@ extension Lambda {
             self.sourceAccessConfigurations = sourceAccessConfigurations
             self.startingPosition = startingPosition
             self.startingPositionTimestamp = startingPositionTimestamp
+            self.tags = tags
             self.topics = topics
             self.tumblingWindowInSeconds = tumblingWindowInSeconds
         }
@@ -1014,6 +1021,7 @@ extension Lambda {
             case sourceAccessConfigurations = "SourceAccessConfigurations"
             case startingPosition = "StartingPosition"
             case startingPositionTimestamp = "StartingPositionTimestamp"
+            case tags = "Tags"
             case topics = "Topics"
             case tumblingWindowInSeconds = "TumblingWindowInSeconds"
         }
@@ -1685,6 +1693,8 @@ extension Lambda {
         public let documentDBEventSourceConfig: DocumentDBEventSourceConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public let eventSourceArn: String?
+        /// The Amazon Resource Name (ARN) of the event source mapping.
+        public let eventSourceMappingArn: String?
         /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering. If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
         public let filterCriteria: FilterCriteria?
         /// An object that contains details about an error related to filter criteria encryption.
@@ -1735,13 +1745,14 @@ extension Lambda {
         public let uuid: String?
 
         @inlinable
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, filterCriteriaError: FilterCriteriaError? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, eventSourceArn: String? = nil, eventSourceMappingArn: String? = nil, filterCriteria: FilterCriteria? = nil, filterCriteriaError: FilterCriteriaError? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
             self.documentDBEventSourceConfig = documentDBEventSourceConfig
             self.eventSourceArn = eventSourceArn
+            self.eventSourceMappingArn = eventSourceMappingArn
             self.filterCriteria = filterCriteria
             self.filterCriteriaError = filterCriteriaError
             self.functionArn = functionArn
@@ -1774,6 +1785,7 @@ extension Lambda {
             case destinationConfig = "DestinationConfig"
             case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
             case eventSourceArn = "EventSourceArn"
+            case eventSourceMappingArn = "EventSourceMappingArn"
             case filterCriteria = "FilterCriteria"
             case filterCriteriaError = "FilterCriteriaError"
             case functionArn = "FunctionArn"
@@ -3893,7 +3905,7 @@ extension Lambda {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
-        /// The function's Amazon Resource Name (ARN).  Note: Lambda does not support adding tags to aliases or versions.
+        /// The resource's Amazon Resource Name (ARN).  Note: Lambda does not support adding tags to function aliases or versions.
         public let resource: String
 
         @inlinable
@@ -3908,7 +3920,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.resource, name: "resource", parent: name, max: 256)
+            try self.validate(self.resource, name: "resource", parent: name, min: 1)
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4784,9 +4798,9 @@ extension Lambda {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The function's Amazon Resource Name (ARN).
+        /// The resource's Amazon Resource Name (ARN).
         public let resource: String
-        /// A list of tags to apply to the function.
+        /// A list of tags to apply to the resource.
         public let tags: [String: String]
 
         @inlinable
@@ -4803,7 +4817,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.resource, name: "resource", parent: name, max: 256)
+            try self.validate(self.resource, name: "resource", parent: name, min: 1)
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4840,9 +4856,9 @@ extension Lambda {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The function's Amazon Resource Name (ARN).
+        /// The resource's Amazon Resource Name (ARN).
         public let resource: String
-        /// A list of tag keys to remove from the function.
+        /// A list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
         @inlinable
@@ -4859,7 +4875,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.resource, name: "resource", parent: name, max: 256)
+            try self.validate(self.resource, name: "resource", parent: name, min: 1)
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}

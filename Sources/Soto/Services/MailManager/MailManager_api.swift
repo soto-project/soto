@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS MailManager service.
 ///
-/// AWS SES Mail Manager API  AWS SES Mail Manager API contains operations and data types that comprise the Mail Manager feature of Amazon Simple Email Service. Mail Manager is a set of Amazon SES email gateway features designed to help you strengthen your organization's email infrastructure, simplify email workflow management, and streamline email compliance control. To learn more, see the Mail Manager chapter in the Amazon SES Developer Guide.
+/// Amazon SES Mail Manager API The Amazon SES Mail Manager API contains operations and data types that comprise the Mail Manager feature of Amazon Simple Email Service (SES). Mail Manager is a set of Amazon SES email gateway features designed to help you strengthen your organization's email infrastructure, simplify email workflow management, and streamline email compliance control. To learn more, see the Mail Manager chapter in the Amazon SES Developer Guide.
 /// API Reference: https://w.amazon.com/bin/view/AWS/Border
 public struct MailManager: AWSService {
     // MARK: Member variables
@@ -1260,6 +1260,7 @@ public struct MailManager: AWSService {
     ///   - exportDestinationConfiguration: Details on where to deliver the exported email data.
     ///   - filters: Criteria to filter which emails are included in the export.
     ///   - fromTimestamp: The start of the timestamp range to include emails from.
+    ///   - includeMetadata: Whether to include message metadata as JSON files in the export.
     ///   - maxResults: The maximum number of email items to include in the export.
     ///   - toTimestamp: The end of the timestamp range to include emails from.
     ///   - logger: Logger use during operation
@@ -1269,6 +1270,7 @@ public struct MailManager: AWSService {
         exportDestinationConfiguration: ExportDestinationConfiguration,
         filters: ArchiveFilters? = nil,
         fromTimestamp: Date,
+        includeMetadata: Bool? = nil,
         maxResults: Int? = nil,
         toTimestamp: Date,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1278,6 +1280,7 @@ public struct MailManager: AWSService {
             exportDestinationConfiguration: exportDestinationConfiguration, 
             filters: filters, 
             fromTimestamp: fromTimestamp, 
+            includeMetadata: includeMetadata, 
             maxResults: maxResults, 
             toTimestamp: toTimestamp
         )
@@ -1567,7 +1570,7 @@ public struct MailManager: AWSService {
         return try await self.updateRelay(input, logger: logger)
     }
 
-    /// &gt;Update attributes of an already provisioned rule set.
+    /// Update attributes of an already provisioned rule set.
     @Sendable
     @inlinable
     public func updateRuleSet(_ input: UpdateRuleSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuleSetResponse {
@@ -1580,7 +1583,7 @@ public struct MailManager: AWSService {
             logger: logger
         )
     }
-    /// &gt;Update attributes of an already provisioned rule set.
+    /// Update attributes of an already provisioned rule set.
     ///
     /// Parameters:
     ///   - rules: A new set of rules to replace the current rules of the rule set—these rules will override all the rules of the rule set.

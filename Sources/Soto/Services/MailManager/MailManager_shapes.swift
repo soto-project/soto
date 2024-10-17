@@ -57,6 +57,8 @@ extension MailManager {
 
     public enum ArchiveStringEmailAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cc = "CC"
+        case envelopeFrom = "ENVELOPE_FROM"
+        case envelopeTo = "ENVELOPE_TO"
         case from = "FROM"
         case subject = "SUBJECT"
         case to = "TO"
@@ -675,6 +677,56 @@ extension MailManager {
         }
     }
 
+    public enum RuleStringToEvaluate: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The email attribute to evaluate in a string condition expression.
+        case attribute(RuleStringEmailAttribute)
+        /// The email MIME X-Header attribute to evaluate in a string condition expression.
+        case mimeHeaderAttribute(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .attribute:
+                let value = try container.decode(RuleStringEmailAttribute.self, forKey: .attribute)
+                self = .attribute(value)
+            case .mimeHeaderAttribute:
+                let value = try container.decode(String.self, forKey: .mimeHeaderAttribute)
+                self = .mimeHeaderAttribute(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .attribute(let value):
+                try container.encode(value, forKey: .attribute)
+            case .mimeHeaderAttribute(let value):
+                try container.encode(value, forKey: .mimeHeaderAttribute)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .mimeHeaderAttribute(let value):
+                try self.validate(value, name: "mimeHeaderAttribute", parent: name, pattern: "^X-[a-zA-Z0-9-]{1,256}$")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case mimeHeaderAttribute = "MimeHeaderAttribute"
+        }
+    }
+
     public enum RuleVerdictToEvaluate: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The Add On ARN and its returned value to evaluate in a verdict condition expression.
         case analysis(Analysis)
@@ -947,6 +999,10 @@ extension MailManager {
         }
 
         public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 2048)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -1562,6 +1618,28 @@ extension MailManager {
         public init() {}
     }
 
+    public struct Envelope: AWSDecodableShape {
+        /// The RCPT FROM given by the host from which the email was received.
+        public let from: String?
+        /// The HELO used by the host from which the email was received.
+        public let helo: String?
+        /// All SMTP TO entries given by the host from which the email was received.
+        public let to: [String]?
+
+        @inlinable
+        public init(from: String? = nil, helo: String? = nil, to: [String]? = nil) {
+            self.from = from
+            self.helo = helo
+            self.to = to
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case from = "From"
+            case helo = "Helo"
+            case to = "To"
+        }
+    }
+
     public struct ExportStatus: AWSDecodableShape {
         /// The timestamp of when the export job completed (if finished).
         public let completionTimestamp: Date?
@@ -1794,16 +1872,24 @@ extension MailManager {
     }
 
     public struct GetArchiveMessageResponse: AWSDecodableShape {
+        /// The SMTP envelope information of the email.
+        public let envelope: Envelope?
         /// A pre-signed URL to temporarily download the full message content.
         public let messageDownloadLink: String?
+        /// The metadata about the email.
+        public let metadata: Metadata?
 
         @inlinable
-        public init(messageDownloadLink: String? = nil) {
+        public init(envelope: Envelope? = nil, messageDownloadLink: String? = nil, metadata: Metadata? = nil) {
+            self.envelope = envelope
             self.messageDownloadLink = messageDownloadLink
+            self.metadata = metadata
         }
 
         private enum CodingKeys: String, CodingKey {
+            case envelope = "Envelope"
             case messageDownloadLink = "MessageDownloadLink"
+            case metadata = "Metadata"
         }
     }
 
@@ -2847,6 +2933,48 @@ extension MailManager {
         }
     }
 
+    public struct Metadata: AWSDecodableShape {
+        /// The ID of the ingress endpoint through which the email was received.
+        public let ingressPointId: String?
+        /// The ID of the rule set that processed the email.
+        public let ruleSetId: String?
+        /// The name of the host from which the email was received.
+        public let senderHostname: String?
+        /// The IP address of the host from which the email was received.
+        public let senderIpAddress: String?
+        /// The timestamp of when the email was received.
+        public let timestamp: Date?
+        /// The TLS cipher suite used to communicate with the host from which the email was received.
+        public let tlsCipherSuite: String?
+        /// The TLS protocol used to communicate with the host from which the email was received.
+        public let tlsProtocol: String?
+        /// The ID of the traffic policy that was in effect when the email was received.
+        public let trafficPolicyId: String?
+
+        @inlinable
+        public init(ingressPointId: String? = nil, ruleSetId: String? = nil, senderHostname: String? = nil, senderIpAddress: String? = nil, timestamp: Date? = nil, tlsCipherSuite: String? = nil, tlsProtocol: String? = nil, trafficPolicyId: String? = nil) {
+            self.ingressPointId = ingressPointId
+            self.ruleSetId = ruleSetId
+            self.senderHostname = senderHostname
+            self.senderIpAddress = senderIpAddress
+            self.timestamp = timestamp
+            self.tlsCipherSuite = tlsCipherSuite
+            self.tlsProtocol = tlsProtocol
+            self.trafficPolicyId = trafficPolicyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingressPointId = "IngressPointId"
+            case ruleSetId = "RuleSetId"
+            case senderHostname = "SenderHostname"
+            case senderIpAddress = "SenderIpAddress"
+            case timestamp = "Timestamp"
+            case tlsCipherSuite = "TlsCipherSuite"
+            case tlsProtocol = "TlsProtocol"
+            case trafficPolicyId = "TrafficPolicyId"
+        }
+    }
+
     public struct NoAuthentication: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -2956,10 +3084,14 @@ extension MailManager {
         public let cc: String?
         /// The date the email was sent.
         public let date: String?
+        /// The SMTP envelope information of the email.
+        public let envelope: Envelope?
         /// The email address of the sender.
         public let from: String?
         /// A flag indicating if the email has attachments.
         public let hasAttachments: Bool?
+        /// The ID of the ingress endpoint through which the email was received.
+        public let ingressPointId: String?
         /// The email message ID this is a reply to.
         public let inReplyTo: String?
         /// The unique message ID of the email.
@@ -2968,6 +3100,10 @@ extension MailManager {
         public let receivedHeaders: [String]?
         /// The timestamp of when the email was received.
         public let receivedTimestamp: Date?
+        /// The name of the host from which the email was received.
+        public let senderHostname: String?
+        /// The IP address of the host from which the email was received.
+        public let senderIpAddress: String?
         /// The subject header value of the email.
         public let subject: String?
         /// The email addresses in the To header.
@@ -2980,16 +3116,20 @@ extension MailManager {
         public let xPriority: String?
 
         @inlinable
-        public init(archivedMessageId: String? = nil, cc: String? = nil, date: String? = nil, from: String? = nil, hasAttachments: Bool? = nil, inReplyTo: String? = nil, messageId: String? = nil, receivedHeaders: [String]? = nil, receivedTimestamp: Date? = nil, subject: String? = nil, to: String? = nil, xMailer: String? = nil, xOriginalMailer: String? = nil, xPriority: String? = nil) {
+        public init(archivedMessageId: String? = nil, cc: String? = nil, date: String? = nil, envelope: Envelope? = nil, from: String? = nil, hasAttachments: Bool? = nil, ingressPointId: String? = nil, inReplyTo: String? = nil, messageId: String? = nil, receivedHeaders: [String]? = nil, receivedTimestamp: Date? = nil, senderHostname: String? = nil, senderIpAddress: String? = nil, subject: String? = nil, to: String? = nil, xMailer: String? = nil, xOriginalMailer: String? = nil, xPriority: String? = nil) {
             self.archivedMessageId = archivedMessageId
             self.cc = cc
             self.date = date
+            self.envelope = envelope
             self.from = from
             self.hasAttachments = hasAttachments
+            self.ingressPointId = ingressPointId
             self.inReplyTo = inReplyTo
             self.messageId = messageId
             self.receivedHeaders = receivedHeaders
             self.receivedTimestamp = receivedTimestamp
+            self.senderHostname = senderHostname
+            self.senderIpAddress = senderIpAddress
             self.subject = subject
             self.to = to
             self.xMailer = xMailer
@@ -3001,12 +3141,16 @@ extension MailManager {
             case archivedMessageId = "ArchivedMessageId"
             case cc = "Cc"
             case date = "Date"
+            case envelope = "Envelope"
             case from = "From"
             case hasAttachments = "HasAttachments"
+            case ingressPointId = "IngressPointId"
             case inReplyTo = "InReplyTo"
             case messageId = "MessageId"
             case receivedHeaders = "ReceivedHeaders"
             case receivedTimestamp = "ReceivedTimestamp"
+            case senderHostname = "SenderHostname"
+            case senderIpAddress = "SenderIpAddress"
             case subject = "Subject"
             case to = "To"
             case xMailer = "XMailer"
@@ -3193,6 +3337,7 @@ extension MailManager {
         }
 
         public func validate(name: String) throws {
+            try self.evaluate.validate(name: "\(name).evaluate")
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 4096)
                 try validate($0, name: "values[]", parent: name, min: 1)
@@ -3376,17 +3521,20 @@ extension MailManager {
         public let filters: ArchiveFilters?
         /// The start of the timestamp range to include emails from.
         public let fromTimestamp: Date
+        /// Whether to include message metadata as JSON files in the export.
+        public let includeMetadata: Bool?
         /// The maximum number of email items to include in the export.
         public let maxResults: Int?
         /// The end of the timestamp range to include emails from.
         public let toTimestamp: Date
 
         @inlinable
-        public init(archiveId: String, exportDestinationConfiguration: ExportDestinationConfiguration, filters: ArchiveFilters? = nil, fromTimestamp: Date, maxResults: Int? = nil, toTimestamp: Date) {
+        public init(archiveId: String, exportDestinationConfiguration: ExportDestinationConfiguration, filters: ArchiveFilters? = nil, fromTimestamp: Date, includeMetadata: Bool? = nil, maxResults: Int? = nil, toTimestamp: Date) {
             self.archiveId = archiveId
             self.exportDestinationConfiguration = exportDestinationConfiguration
             self.filters = filters
             self.fromTimestamp = fromTimestamp
+            self.includeMetadata = includeMetadata
             self.maxResults = maxResults
             self.toTimestamp = toTimestamp
         }
@@ -3404,6 +3552,7 @@ extension MailManager {
             case exportDestinationConfiguration = "ExportDestinationConfiguration"
             case filters = "Filters"
             case fromTimestamp = "FromTimestamp"
+            case includeMetadata = "IncludeMetadata"
             case maxResults = "MaxResults"
             case toTimestamp = "ToTimestamp"
         }
@@ -4008,20 +4157,6 @@ extension MailManager {
 
         @inlinable
         public init(attribute: RuleNumberEmailAttribute? = nil) {
-            self.attribute = attribute
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attribute = "Attribute"
-        }
-    }
-
-    public struct RuleStringToEvaluate: AWSEncodableShape & AWSDecodableShape {
-        /// The email attribute to evaluate in a string condition expression.
-        public let attribute: RuleStringEmailAttribute?
-
-        @inlinable
-        public init(attribute: RuleStringEmailAttribute? = nil) {
             self.attribute = attribute
         }
 

@@ -692,7 +692,7 @@ extension RoboMaker {
         public let environment: Environment?
         /// The name of the robot application.
         public let name: String
-        /// The robot software suite (ROS distribuition) used by the robot application.
+        /// The robot software suite used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The sources of the robot application.
         public let sources: [SourceConfig]?
@@ -746,7 +746,7 @@ extension RoboMaker {
         public let name: String?
         /// The revision id of the robot application.
         public let revisionId: String?
-        /// The robot software suite (ROS distribution) used by the robot application.
+        /// The robot software suite used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The sources of the robot application.
         public let sources: [Source]?
@@ -829,7 +829,7 @@ extension RoboMaker {
         public let name: String?
         /// The revision id of the robot application.
         public let revisionId: String?
-        /// The robot software suite (ROS distribution) used by the robot application.
+        /// The robot software suite used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The sources of the robot application.
         public let sources: [Source]?
@@ -944,7 +944,7 @@ extension RoboMaker {
         public let name: String
         /// The rendering engine for the simulation application.
         public let renderingEngine: RenderingEngine?
-        /// The robot software suite (ROS distribution) used by the simulation application.
+        /// The robot software suite used by the simulation application.
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite
@@ -1008,7 +1008,7 @@ extension RoboMaker {
         public let renderingEngine: RenderingEngine?
         /// The revision id of the simulation application.
         public let revisionId: String?
-        /// Information about the robot software suite (ROS distribution).
+        /// Information about the robot software suite.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
@@ -1099,7 +1099,7 @@ extension RoboMaker {
         public let renderingEngine: RenderingEngine?
         /// The revision ID of the simulation application.
         public let revisionId: String?
-        /// Information about the robot software suite (ROS distribution).
+        /// Information about the robot software suite.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
@@ -2178,7 +2178,7 @@ extension RoboMaker {
         public let name: String?
         /// The revision id of the robot application.
         public let revisionId: String?
-        /// The robot software suite (ROS distribution) used by the robot application.
+        /// The robot software suite used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The sources of the robot application.
         public let sources: [Source]?
@@ -2327,7 +2327,7 @@ extension RoboMaker {
         public let renderingEngine: RenderingEngine?
         /// The revision id of the simulation application.
         public let revisionId: String?
-        /// Information about the robot software suite (ROS distribution).
+        /// Information about the robot software suite.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
@@ -4030,7 +4030,7 @@ extension RoboMaker {
         public let lastUpdatedAt: Date?
         /// The name of the robot application.
         public let name: String?
-        /// Information about a robot software suite (ROS distribution).
+        /// Information about a robot software suite.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The version of the robot application.
         public let version: String?
@@ -4092,9 +4092,9 @@ extension RoboMaker {
     }
 
     public struct RobotSoftwareSuite: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the robot software suite (ROS distribution).
+        /// The name of the robot software suite. General is the only supported value.
         public let name: RobotSoftwareSuiteType?
-        /// The version of the robot software suite (ROS distribution).
+        /// The version of the robot software suite. Not applicable for General software suite.
         public let version: RobotSoftwareSuiteVersionType?
 
         @inlinable
@@ -4173,7 +4173,7 @@ extension RoboMaker {
         public let useDefaultTools: Bool?
         /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.  This API is no longer supported and will throw an error if used.
         public let useDefaultUploadConfigurations: Bool?
-        /// A list of world configurations.
+        /// A list of world configurations.  This API is no longer supported and will throw an error if used.
         public let worldConfigs: [WorldConfig]?
 
         @inlinable
@@ -4242,7 +4242,7 @@ extension RoboMaker {
         public let lastUpdatedAt: Date?
         /// The name of the simulation application.
         public let name: String?
-        /// Information about a robot software suite (ROS distribution).
+        /// Information about a robot software suite.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// Information about a simulation software suite.
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
@@ -4531,9 +4531,9 @@ extension RoboMaker {
     }
 
     public struct SimulationSoftwareSuite: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the simulation software suite.
+        /// The name of the simulation software suite. SimulationRuntime is the only supported value.
         public let name: SimulationSoftwareSuiteType?
-        /// The version of the simulation software suite.
+        /// The version of the simulation software suite. Not applicable for SimulationRuntime.
         public let version: String?
 
         @inlinable
@@ -4960,7 +4960,7 @@ extension RoboMaker {
         public let currentRevisionId: String?
         /// The object that contains the Docker image URI for your robot application.
         public let environment: Environment?
-        /// The robot software suite (ROS distribution) used by the robot application.
+        /// The robot software suite used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The sources of the robot application.
         public let sources: [SourceConfig]?
@@ -5007,7 +5007,7 @@ extension RoboMaker {
         public let name: String?
         /// The revision id of the robot application.
         public let revisionId: String?
-        /// The robot software suite (ROS distribution) used by the robot application.
+        /// The robot software suite used by the robot application.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The sources of the robot application.
         public let sources: [Source]?
@@ -5047,7 +5047,7 @@ extension RoboMaker {
         public let environment: Environment?
         /// The rendering engine for the simulation application.
         public let renderingEngine: RenderingEngine?
-        /// Information about the robot software suite (ROS distribution).
+        /// Information about the robot software suite.
         public let robotSoftwareSuite: RobotSoftwareSuite
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite
@@ -5104,7 +5104,7 @@ extension RoboMaker {
         public let renderingEngine: RenderingEngine?
         /// The revision id of the simulation application.
         public let revisionId: String?
-        /// Information about the robot software suite (ROS distribution).
+        /// Information about the robot software suite.
         public let robotSoftwareSuite: RobotSoftwareSuite?
         /// The simulation software suite used by the simulation application.
         public let simulationSoftwareSuite: SimulationSoftwareSuite?
@@ -5206,7 +5206,7 @@ extension RoboMaker {
     }
 
     public struct UploadConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A prefix that specifies where files will be uploaded in Amazon S3. It is appended to the simulation output location to determine the final path.  For example, if your simulation output location is s3://my-bucket and your upload configuration name is robot-test, your files will be uploaded to s3://my-bucket///robot-test.
+        /// A prefix that specifies where files will be uploaded in Amazon S3. It is appended to the simulation output location to determine the final path.  For example, if your simulation output location is s3://amzn-s3-demo-bucket and your upload configuration name is robot-test, your files will be uploaded to s3://amzn-s3-demo-bucket///robot-test.
         public let name: String
         ///  Specifies the path of the file(s) to upload. Standard Unix glob matching rules are accepted, with the addition of ** as a super asterisk. For example, specifying /var/log/**.log causes all .log files in the /var/log directory tree to be collected. For more examples, see Glob Library.
         public let path: String

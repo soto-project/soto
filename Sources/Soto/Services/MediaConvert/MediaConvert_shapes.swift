@@ -2586,6 +2586,29 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case presetAudio1 = "PRESET_AUDIO_1"
+        case presetAudio2 = "PRESET_AUDIO_2"
+        case presetAudio3 = "PRESET_AUDIO_3"
+        case shared = "SHARED"
+        case unencrypted = "UNENCRYPTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case presetVideo1 = "PRESET_VIDEO_1"
+        case presetVideo2 = "PRESET_VIDEO_2"
+        case presetVideo3 = "PRESET_VIDEO_3"
+        case presetVideo4 = "PRESET_VIDEO_4"
+        case presetVideo5 = "PRESET_VIDEO_5"
+        case presetVideo6 = "PRESET_VIDEO_6"
+        case presetVideo7 = "PRESET_VIDEO_7"
+        case presetVideo8 = "PRESET_VIDEO_8"
+        case shared = "SHARED"
+        case unencrypted = "UNENCRYPTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PricingPlan: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onDemand = "ON_DEMAND"
         case reserved = "RESERVED"
@@ -6209,6 +6232,24 @@ extension MediaConvert {
             case source608ChannelNumber = "source608ChannelNumber"
             case source608TrackNumber = "source608TrackNumber"
             case terminateCaptions = "terminateCaptions"
+        }
+    }
+
+    public struct EncryptionContractConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specify which SPEKE version 2.0 audio preset MediaConvert uses to request content keys from your SPEKE server. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/drm-content-speke-v2-presets.html To encrypt to your audio outputs, choose from the following: Audio preset 1, Audio preset 2, or Audio preset 3. To encrypt your audio outputs, using the same content key for both your audio and video outputs: Choose Shared. When you do, you must also set SPEKE v2.0 video preset to Shared. To not encrypt your audio outputs: Choose Unencrypted. When you do, to encrypt your video outputs, you must also specify a SPEKE v2.0 video preset (other than Shared or Unencrypted).
+        public let spekeAudioPreset: PresetSpeke20Audio?
+        /// Specify which SPEKE version 2.0 video preset MediaConvert uses to request content keys from your SPEKE server. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/drm-content-speke-v2-presets.html To encrypt to your video outputs, choose from the following: Video preset 1, Video preset 2, Video preset 3, Video preset 4, Video preset 5, Video preset 6, Video preset 7, or Video preset 8. To encrypt your video outputs, using the same content key for both your video and audio outputs: Choose Shared. When you do, you must also set SPEKE v2.0 audio preset to Shared. To not encrypt your video outputs: Choose Unencrypted. When you do, to encrypt your audio outputs, you must also specify a SPEKE v2.0 audio preset (other than Shared or Unencrypted).
+        public let spekeVideoPreset: PresetSpeke20Video?
+
+        @inlinable
+        public init(spekeAudioPreset: PresetSpeke20Audio? = nil, spekeVideoPreset: PresetSpeke20Video? = nil) {
+            self.spekeAudioPreset = spekeAudioPreset
+            self.spekeVideoPreset = spekeVideoPreset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spekeAudioPreset = "spekeAudioPreset"
+            case spekeVideoPreset = "spekeVideoPreset"
         }
     }
 
@@ -11078,6 +11119,8 @@ extension MediaConvert {
     public struct SpekeKeyProvider: AWSEncodableShape & AWSDecodableShape {
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
         public let certificateArn: String?
+        /// Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses when encrypting your output. For more information, see: https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0 video preset and a SPEKE v2.0 audio preset.
+        public let encryptionContractConfiguration: EncryptionContractConfiguration?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
         public let resourceId: String?
         /// Relates to SPEKE implementation. DRM system identifiers. DASH output groups support a max of two system ids. Other group types support one system id. See https://dashif.org/identifiers/content_protection/ for more details.
@@ -11086,8 +11129,9 @@ extension MediaConvert {
         public let url: String?
 
         @inlinable
-        public init(certificateArn: String? = nil, resourceId: String? = nil, systemIds: [String]? = nil, url: String? = nil) {
+        public init(certificateArn: String? = nil, encryptionContractConfiguration: EncryptionContractConfiguration? = nil, resourceId: String? = nil, systemIds: [String]? = nil, url: String? = nil) {
             self.certificateArn = certificateArn
+            self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
             self.systemIds = systemIds
             self.url = url
@@ -11103,6 +11147,7 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "certificateArn"
+            case encryptionContractConfiguration = "encryptionContractConfiguration"
             case resourceId = "resourceId"
             case systemIds = "systemIds"
             case url = "url"
@@ -11114,6 +11159,8 @@ extension MediaConvert {
         public let certificateArn: String?
         /// Specify the DRM system IDs that you want signaled in the DASH manifest that MediaConvert creates as part of this CMAF package. The DASH manifest can currently signal up to three system IDs. For more information, see https://dashif.org/identifiers/content_protection/.
         public let dashSignaledSystemIds: [String]?
+        /// Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses when encrypting your output. For more information, see: https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0 video preset and a SPEKE v2.0 audio preset.
+        public let encryptionContractConfiguration: EncryptionContractConfiguration?
         /// Specify the DRM system ID that you want signaled in the HLS manifest that MediaConvert creates as part of this CMAF package. The HLS manifest can currently signal only one system ID. For more information, see https://dashif.org/identifiers/content_protection/.
         public let hlsSignaledSystemIds: [String]?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
@@ -11122,9 +11169,10 @@ extension MediaConvert {
         public let url: String?
 
         @inlinable
-        public init(certificateArn: String? = nil, dashSignaledSystemIds: [String]? = nil, hlsSignaledSystemIds: [String]? = nil, resourceId: String? = nil, url: String? = nil) {
+        public init(certificateArn: String? = nil, dashSignaledSystemIds: [String]? = nil, encryptionContractConfiguration: EncryptionContractConfiguration? = nil, hlsSignaledSystemIds: [String]? = nil, resourceId: String? = nil, url: String? = nil) {
             self.certificateArn = certificateArn
             self.dashSignaledSystemIds = dashSignaledSystemIds
+            self.encryptionContractConfiguration = encryptionContractConfiguration
             self.hlsSignaledSystemIds = hlsSignaledSystemIds
             self.resourceId = resourceId
             self.url = url
@@ -11149,6 +11197,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "certificateArn"
             case dashSignaledSystemIds = "dashSignaledSystemIds"
+            case encryptionContractConfiguration = "encryptionContractConfiguration"
             case hlsSignaledSystemIds = "hlsSignaledSystemIds"
             case resourceId = "resourceId"
             case url = "url"

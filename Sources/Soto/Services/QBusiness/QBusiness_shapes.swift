@@ -1701,7 +1701,7 @@ extension QBusiness {
         public let inputStream: AWSEventStream<ChatInputStream>?
         /// The identifier used to associate a user message with a AI generated response.
         public let parentMessageId: String?
-        /// The groups that a user associated with the chat input belongs to.
+        /// The group names that a user associated with the chat input belongs to.
         public let userGroups: [String]?
         /// The identifier of the user attached to the chat input.
         public let userId: String?
@@ -1792,7 +1792,7 @@ extension QBusiness {
         public let conversationId: String?
         /// The identifier of the previous system message in a conversation.
         public let parentMessageId: String?
-        /// The groups that a user associated with the chat input belongs to.
+        /// The group names that a user associated with the chat input belongs to.
         public let userGroups: [String]?
         /// The identifier of the user attached to the chat input.
         public let userId: String?
@@ -2031,7 +2031,7 @@ extension QBusiness {
         public let personalizationConfiguration: PersonalizationConfiguration?
         /// An option to allow end users to create and use Amazon Q Apps in the web experience.
         public let qAppsConfiguration: QAppsConfiguration?
-        ///  The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics.
+        ///  The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics. If this property is not specified, Amazon Q Business will create a service linked role (SLR) and use it as the application's role.
         public let roleArn: String?
         /// A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
         public let tags: [Tag]?
@@ -2548,6 +2548,8 @@ extension QBusiness {
         public let clientToken: String?
         /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
+        /// Sets the website domain origins that  are allowed to embed the Amazon Q Business web experience.  The domain origin refers to the  base URL for accessing a website including the protocol  (http/https), the domain name, and the port number (if specified).   You must only submit a base URL and  not a full path. For example, https://docs.aws.amazon.com.
+        public let origins: [String]?
         /// The Amazon Resource Name (ARN) of the service role attached to your web experience.  You must provide this value if you're using IAM Identity Center to manage end user access to your application. If you're using legacy identity management to manage user access, you don't need to provide this value.
         public let roleArn: String?
         /// Determines whether sample prompts are enabled in the web experience for an end user.
@@ -2562,10 +2564,11 @@ extension QBusiness {
         public let welcomeMessage: String?
 
         @inlinable
-        public init(applicationId: String, clientToken: String? = CreateWebExperienceRequest.idempotencyToken(), identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, tags: [Tag]? = nil, title: String? = nil, welcomeMessage: String? = nil) {
+        public init(applicationId: String, clientToken: String? = CreateWebExperienceRequest.idempotencyToken(), identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, tags: [Tag]? = nil, title: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.clientToken = clientToken
             self.identityProviderConfiguration = identityProviderConfiguration
+            self.origins = origins
             self.roleArn = roleArn
             self.samplePromptsControlMode = samplePromptsControlMode
             self.subtitle = subtitle
@@ -2580,6 +2583,7 @@ extension QBusiness {
             request.encodePath(self.applicationId, key: "applicationId")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.identityProviderConfiguration, forKey: .identityProviderConfiguration)
+            try container.encodeIfPresent(self.origins, forKey: .origins)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.samplePromptsControlMode, forKey: .samplePromptsControlMode)
             try container.encodeIfPresent(self.subtitle, forKey: .subtitle)
@@ -2595,6 +2599,12 @@ extension QBusiness {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.identityProviderConfiguration?.validate(name: "\(name).identityProviderConfiguration")
+            try self.origins?.forEach {
+                try validate($0, name: "origins[]", parent: name, max: 256)
+                try validate($0, name: "origins[]", parent: name, min: 1)
+                try validate($0, name: "origins[]", parent: name, pattern: "^(http://|https://)[a-zA-Z0-9-_.]+(?::[0-9]{1,5})?$")
+            }
+            try self.validate(self.origins, name: "origins", parent: name, max: 10)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.subtitle, name: "subtitle", parent: name, max: 500)
@@ -2611,6 +2621,7 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case identityProviderConfiguration = "identityProviderConfiguration"
+            case origins = "origins"
             case roleArn = "roleArn"
             case samplePromptsControlMode = "samplePromptsControlMode"
             case subtitle = "subtitle"
@@ -4254,6 +4265,8 @@ extension QBusiness {
         public let error: ErrorDetail?
         /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
+        /// Gets the website domain origins that  are allowed to embed the Amazon Q Business web experience.  The domain origin refers to the  base URL for accessing a website including the protocol  (http/https), the domain name, and the port number (if specified).
+        public let origins: [String]?
         ///  The Amazon Resource Name (ARN) of the service role attached to your web experience.
         public let roleArn: String?
         /// Determines whether sample prompts are enabled in the web experience for an end user.
@@ -4274,13 +4287,14 @@ extension QBusiness {
         public let welcomeMessage: String?
 
         @inlinable
-        public init(applicationId: String? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
+        public init(applicationId: String? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = nil
             self.createdAt = createdAt
             self.defaultEndpoint = defaultEndpoint
             self.error = error
             self.identityProviderConfiguration = identityProviderConfiguration
+            self.origins = origins
             self.roleArn = roleArn
             self.samplePromptsControlMode = samplePromptsControlMode
             self.status = status
@@ -4294,13 +4308,14 @@ extension QBusiness {
 
         @available(*, deprecated, message: "Members authenticationConfiguration have been deprecated")
         @inlinable
-        public init(applicationId: String? = nil, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
+        public init(applicationId: String? = nil, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = authenticationConfiguration
             self.createdAt = createdAt
             self.defaultEndpoint = defaultEndpoint
             self.error = error
             self.identityProviderConfiguration = identityProviderConfiguration
+            self.origins = origins
             self.roleArn = roleArn
             self.samplePromptsControlMode = samplePromptsControlMode
             self.status = status
@@ -4319,6 +4334,7 @@ extension QBusiness {
             case defaultEndpoint = "defaultEndpoint"
             case error = "error"
             case identityProviderConfiguration = "identityProviderConfiguration"
+            case origins = "origins"
             case roleArn = "roleArn"
             case samplePromptsControlMode = "samplePromptsControlMode"
             case status = "status"
@@ -6831,6 +6847,8 @@ extension QBusiness {
         public let authenticationConfiguration: WebExperienceAuthConfiguration?
         /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
+        /// Updates the website domain origins that  are allowed to embed the Amazon Q Business web experience.  The domain origin refers to the  base URL for accessing a website including the protocol  (http/https), the domain name, and the port number (if specified).    Any values except null submitted as part of this  update will replace all previous values.   You must only submit a base URL and  not a full path. For example, https://docs.aws.amazon.com.
+        public let origins: [String]?
         /// The Amazon Resource Name (ARN) of the role with permission to access the Amazon Q Business web experience and required resources.
         public let roleArn: String?
         /// Determines whether sample prompts are enabled in the web experience for an end user.
@@ -6845,10 +6863,11 @@ extension QBusiness {
         public let welcomeMessage: String?
 
         @inlinable
-        public init(applicationId: String, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
+        public init(applicationId: String, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = nil
             self.identityProviderConfiguration = identityProviderConfiguration
+            self.origins = origins
             self.roleArn = roleArn
             self.samplePromptsControlMode = samplePromptsControlMode
             self.subtitle = subtitle
@@ -6859,10 +6878,11 @@ extension QBusiness {
 
         @available(*, deprecated, message: "Members authenticationConfiguration have been deprecated")
         @inlinable
-        public init(applicationId: String, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
+        public init(applicationId: String, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = authenticationConfiguration
             self.identityProviderConfiguration = identityProviderConfiguration
+            self.origins = origins
             self.roleArn = roleArn
             self.samplePromptsControlMode = samplePromptsControlMode
             self.subtitle = subtitle
@@ -6877,6 +6897,7 @@ extension QBusiness {
             request.encodePath(self.applicationId, key: "applicationId")
             try container.encodeIfPresent(self.authenticationConfiguration, forKey: .authenticationConfiguration)
             try container.encodeIfPresent(self.identityProviderConfiguration, forKey: .identityProviderConfiguration)
+            try container.encodeIfPresent(self.origins, forKey: .origins)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.samplePromptsControlMode, forKey: .samplePromptsControlMode)
             try container.encodeIfPresent(self.subtitle, forKey: .subtitle)
@@ -6891,6 +6912,12 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
             try self.authenticationConfiguration?.validate(name: "\(name).authenticationConfiguration")
             try self.identityProviderConfiguration?.validate(name: "\(name).identityProviderConfiguration")
+            try self.origins?.forEach {
+                try validate($0, name: "origins[]", parent: name, max: 256)
+                try validate($0, name: "origins[]", parent: name, min: 1)
+                try validate($0, name: "origins[]", parent: name, pattern: "^(http://|https://)[a-zA-Z0-9-_.]+(?::[0-9]{1,5})?$")
+            }
+            try self.validate(self.origins, name: "origins", parent: name, max: 10)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.subtitle, name: "subtitle", parent: name, max: 500)
@@ -6906,6 +6933,7 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case authenticationConfiguration = "authenticationConfiguration"
             case identityProviderConfiguration = "identityProviderConfiguration"
+            case origins = "origins"
             case roleArn = "roleArn"
             case samplePromptsControlMode = "samplePromptsControlMode"
             case subtitle = "subtitle"
@@ -6952,7 +6980,7 @@ extension QBusiness {
     }
 
     public struct UsersAndGroups: AWSEncodableShape & AWSDecodableShape {
-        /// The user groups associated with a topic control rule.
+        /// The user group names associated with a topic control rule.
         public let userGroups: [String]?
         /// The user ids associated with a topic control rule.
         public let userIds: [String]?

@@ -2745,6 +2745,8 @@ extension CustomerProfiles {
         /// It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders,
         /// ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
         public let objectTypeNames: [String: String]?
+        /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
+        public let roleArn: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
@@ -2753,13 +2755,14 @@ extension CustomerProfiles {
         public let workflowId: String?
 
         @inlinable
-        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
+            self.roleArn = roleArn
             self.tags = tags
             self.uri = uri
             self.workflowId = workflowId
@@ -2772,6 +2775,7 @@ extension CustomerProfiles {
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
+            case roleArn = "RoleArn"
             case tags = "Tags"
             case uri = "Uri"
             case workflowId = "WorkflowId"
@@ -3783,6 +3787,8 @@ extension CustomerProfiles {
         /// It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders,
         /// ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
         public let objectTypeNames: [String: String]?
+        /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
+        public let roleArn: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
@@ -3791,13 +3797,14 @@ extension CustomerProfiles {
         public let workflowId: String?
 
         @inlinable
-        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
+            self.roleArn = roleArn
             self.tags = tags
             self.uri = uri
             self.workflowId = workflowId
@@ -3810,6 +3817,7 @@ extension CustomerProfiles {
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
+            case roleArn = "RoleArn"
             case tags = "Tags"
             case uri = "Uri"
             case workflowId = "WorkflowId"
@@ -4720,17 +4728,20 @@ extension CustomerProfiles {
         /// It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders,
         /// ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
         public let objectTypeNames: [String: String]?
+        /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
+        public let roleArn: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String?
 
         @inlinable
-        public init(domainName: String, flowDefinition: FlowDefinition? = nil, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String? = nil) {
+        public init(domainName: String, flowDefinition: FlowDefinition? = nil, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String? = nil) {
             self.domainName = domainName
             self.flowDefinition = flowDefinition
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
+            self.roleArn = roleArn
             self.tags = tags
             self.uri = uri
         }
@@ -4742,6 +4753,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.flowDefinition, forKey: .flowDefinition)
             try container.encodeIfPresent(self.objectTypeName, forKey: .objectTypeName)
             try container.encodeIfPresent(self.objectTypeNames, forKey: .objectTypeNames)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encodeIfPresent(self.uri, forKey: .uri)
         }
@@ -4761,6 +4773,8 @@ extension CustomerProfiles {
                 try validate($0.value, name: "objectTypeNames[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "objectTypeNames[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
             }
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam:.*:[0-9]+:")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -4777,6 +4791,7 @@ extension CustomerProfiles {
             case flowDefinition = "FlowDefinition"
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
+            case roleArn = "RoleArn"
             case tags = "Tags"
             case uri = "Uri"
         }
@@ -4797,6 +4812,8 @@ extension CustomerProfiles {
         /// It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders,
         /// ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
         public let objectTypeNames: [String: String]?
+        /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
+        public let roleArn: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
@@ -4805,13 +4822,14 @@ extension CustomerProfiles {
         public let workflowId: String?
 
         @inlinable
-        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
+            self.roleArn = roleArn
             self.tags = tags
             self.uri = uri
             self.workflowId = workflowId
@@ -4824,6 +4842,7 @@ extension CustomerProfiles {
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
+            case roleArn = "RoleArn"
             case tags = "Tags"
             case uri = "Uri"
             case workflowId = "WorkflowId"

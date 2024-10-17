@@ -32,6 +32,7 @@ extension AppStream {
     }
 
     public enum Action: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autoTimeZoneRedirection = "AUTO_TIME_ZONE_REDIRECTION"
         case clipboardCopyFromLocalDevice = "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
         case clipboardCopyToLocalDevice = "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
         case domainPasswordSignin = "DOMAIN_PASSWORD_SIGNIN"

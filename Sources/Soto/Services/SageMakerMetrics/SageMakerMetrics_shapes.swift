@@ -26,6 +26,32 @@ import Foundation
 extension SageMakerMetrics {
     // MARK: Enums
 
+    public enum MetricQueryResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "Complete"
+        case internalError = "InternalError"
+        case truncated = "Truncated"
+        case validationError = "ValidationError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case avg = "Avg"
+        case count = "Count"
+        case last = "Last"
+        case max = "Max"
+        case min = "Min"
+        case stdDev = "StdDev"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Period: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fiveMinute = "FiveMinute"
+        case iterationNumber = "IterationNumber"
+        case oneHour = "OneHour"
+        case oneMinute = "OneMinute"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PutMetricsErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case conflictError = "CONFLICT_ERROR"
         case internalError = "INTERNAL_ERROR"
@@ -34,7 +60,49 @@ extension SageMakerMetrics {
         public var description: String { return self.rawValue }
     }
 
+    public enum XAxisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iterationNumber = "IterationNumber"
+        case timestamp = "Timestamp"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct BatchGetMetricsRequest: AWSEncodableShape {
+        /// Queries made to retrieve training metrics from SageMaker.
+        public let metricQueries: [MetricQuery]?
+
+        @inlinable
+        public init(metricQueries: [MetricQuery]? = nil) {
+            self.metricQueries = metricQueries
+        }
+
+        public func validate(name: String) throws {
+            try self.metricQueries?.forEach {
+                try $0.validate(name: "\(name).metricQueries[]")
+            }
+            try self.validate(self.metricQueries, name: "metricQueries", parent: name, max: 100)
+            try self.validate(self.metricQueries, name: "metricQueries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricQueries = "MetricQueries"
+        }
+    }
+
+    public struct BatchGetMetricsResponse: AWSDecodableShape {
+        /// The results of a query to retrieve training metrics from SageMaker.
+        public let metricQueryResults: [MetricQueryResult]?
+
+        @inlinable
+        public init(metricQueryResults: [MetricQueryResult]? = nil) {
+            self.metricQueryResults = metricQueryResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricQueryResults = "MetricQueryResults"
+        }
+    }
 
     public struct BatchPutMetricsError: AWSDecodableShape {
         /// The error code of an error that occured when attempting to put metrics.    METRIC_LIMIT_EXCEEDED: The maximum amount of metrics per resource is exceeded.    INTERNAL_ERROR: An internal error occured.    VALIDATION_ERROR: The metric data failed validation.    CONFLICT_ERROR: Multiple requests attempted to modify the same data simultaneously.
@@ -57,7 +125,7 @@ extension SageMakerMetrics {
     public struct BatchPutMetricsRequest: AWSEncodableShape {
         /// A list of raw metric values to put.
         public let metricData: [RawMetricData]?
-        /// The name of the Trial Component to associate with the metrics.
+        /// The name of the Trial Component to associate with the metrics. The Trial Component name must be entirely lowercase.
         public let trialComponentName: String?
 
         @inlinable
@@ -74,7 +142,7 @@ extension SageMakerMetrics {
             try self.validate(self.metricData, name: "metricData", parent: name, min: 1)
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, max: 120)
             try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, min: 1)
-            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}$")
+            try self.validate(self.trialComponentName, name: "trialComponentName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9]){0,119}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -94,6 +162,78 @@ extension SageMakerMetrics {
 
         private enum CodingKeys: String, CodingKey {
             case errors = "Errors"
+        }
+    }
+
+    public struct MetricQuery: AWSEncodableShape {
+        /// The end time of metrics to retrieve.
+        public let end: Int64?
+        /// The name of the metric to retrieve.
+        public let metricName: String?
+        /// The metrics stat type of metrics to retrieve.
+        public let metricStat: MetricStatistic?
+        /// The time period of metrics to retrieve.
+        public let period: Period?
+        /// The ARN of the SageMaker resource to retrieve metrics for.
+        public let resourceArn: String?
+        /// The start time of metrics to retrieve.
+        public let start: Int64?
+        /// The x-axis type of metrics to retrieve.
+        public let xAxisType: XAxisType?
+
+        @inlinable
+        public init(end: Int64? = nil, metricName: String? = nil, metricStat: MetricStatistic? = nil, period: Period? = nil, resourceArn: String? = nil, start: Int64? = nil, xAxisType: XAxisType? = nil) {
+            self.end = end
+            self.metricName = metricName
+            self.metricStat = metricStat
+            self.period = period
+            self.resourceArn = resourceArn
+            self.start = start
+            self.xAxisType = xAxisType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "^.+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-].*/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case metricName = "MetricName"
+            case metricStat = "MetricStat"
+            case period = "Period"
+            case resourceArn = "ResourceArn"
+            case start = "Start"
+            case xAxisType = "XAxisType"
+        }
+    }
+
+    public struct MetricQueryResult: AWSDecodableShape {
+        /// A message describing the status of the metric query.
+        public let message: String?
+        /// The metric values retrieved by the query.
+        public let metricValues: [Double]?
+        /// The status of the metric query.
+        public let status: MetricQueryResultStatus?
+        /// The values for the x-axis of the metrics.
+        public let xAxisValues: [Int64]?
+
+        @inlinable
+        public init(message: String? = nil, metricValues: [Double]? = nil, status: MetricQueryResultStatus? = nil, xAxisValues: [Int64]? = nil) {
+            self.message = message
+            self.metricValues = metricValues
+            self.status = status
+            self.xAxisValues = xAxisValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case metricValues = "MetricValues"
+            case status = "Status"
+            case xAxisValues = "XAxisValues"
         }
     }
 

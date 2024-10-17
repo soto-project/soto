@@ -575,7 +575,7 @@ extension Budgets {
             try self.definition.validate(name: "\(name).definition")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 618)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 32)
-            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
             try self.resourceTags?.forEach {
                 try $0.validate(name: "\(name).resourceTags[]")
             }
@@ -1593,7 +1593,7 @@ extension Budgets {
             try self.validate(self.groups, name: "groups", parent: name, min: 1)
             try self.validate(self.policyArn, name: "policyArn", parent: name, max: 684)
             try self.validate(self.policyArn, name: "policyArn", parent: name, min: 25)
-            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::(\\d{12}|aws):policy(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::(\\d{12}|aws):policy(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
             try self.roles?.forEach {
                 try validate($0, name: "roles[]", parent: name, max: 576)
                 try validate($0, name: "roles[]", parent: name, min: 1)
@@ -2002,7 +2002,7 @@ extension Budgets {
             try self.definition?.validate(name: "\(name).definition")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 618)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 32)
-            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
             try self.subscribers?.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
             }

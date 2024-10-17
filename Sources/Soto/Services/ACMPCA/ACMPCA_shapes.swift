@@ -531,16 +531,14 @@ extension ACMPCA {
         /// 				cannot be created in this region with the specified security standard." For information about security standard support in various Regions, see Storage
         /// 					and security compliance of Amazon Web Services Private CA private keys.
         public let keyStorageSecurityStandard: KeyStorageSecurityStandard?
-        /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to
-        /// 			enable a certificate revocation list (CRL), to enable both, or to enable neither. The
-        /// 			default is for both certificate validation mechanisms to be disabled.   The following requirements apply to revocation configurations.   A configuration disabling CRLs or OCSP must contain only the Enabled=False
+        /// Contains information to enable support for Online Certificate Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither. By default, both certificate validation mechanisms are disabled. The following requirements apply to revocation configurations.   A configuration disabling CRLs or OCSP must contain only the Enabled=False
         /// 					parameter, and will fail if other parameters such as CustomCname or
         /// 					ExpirationInDays are included.   In a CRL configuration, the S3BucketName parameter must conform to
         /// 					Amazon S3
         /// 					bucket naming rules.   A configuration containing a custom Canonical
         /// 						Name (CNAME) parameter for CRLs or OCSP must conform to RFC2396 restrictions
         /// 						on the use of special characters in a CNAME.    In a CRL or OCSP configuration, the value of a CNAME parameter must not include a
-        /// 						protocol prefix such as "http://" or "https://".    For more information, see the OcspConfiguration and CrlConfiguration
+        /// 						protocol prefix such as "http://" or "https://".   For more information, see the OcspConfiguration and CrlConfiguration
         /// 			types.
         public let revocationConfiguration: RevocationConfiguration?
         /// Key-value pairs that will be attached to the new private CA. You can associate up to
@@ -2060,17 +2058,15 @@ extension ACMPCA {
         /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be
         /// 			revoked. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
-        /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to
-        /// 			enable a certificate revocation list (CRL), to enable both, or to enable neither. If
-        /// 			this parameter is not supplied, existing capibilites remain unchanged. For more
-        /// 			information, see the OcspConfiguration and CrlConfiguration types.  The following requirements apply to revocation configurations.   A configuration disabling CRLs or OCSP must contain only the Enabled=False
+        /// Contains information to enable support for Online Certificate Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither. If you don't supply this parameter, existing capibilites remain unchanged. For more
+        /// 			information, see the OcspConfiguration and CrlConfiguration types. The following requirements apply to revocation configurations.   A configuration disabling CRLs or OCSP must contain only the Enabled=False
         /// 					parameter, and will fail if other parameters such as CustomCname or
         /// 					ExpirationInDays are included.   In a CRL configuration, the S3BucketName parameter must conform to
         /// 					Amazon S3
         /// 					bucket naming rules.   A configuration containing a custom Canonical
         /// 						Name (CNAME) parameter for CRLs or OCSP must conform to RFC2396 restrictions
         /// 						on the use of special characters in a CNAME.    In a CRL or OCSP configuration, the value of a CNAME parameter must not include a
-        /// 						protocol prefix such as "http://" or "https://".
+        /// 						protocol prefix such as "http://" or "https://".    If you update the S3BucketName of CrlConfiguration, you can break revocation for existing certificates. In other words, if you call UpdateCertificateAuthority to update the CRL configuration's S3 bucket name, Amazon Web Services Private CA only writes CRLs to the new S3 bucket. Certificates issued prior to this point will have the old S3 bucket name in your CRL Distribution Point (CDP) extension, essentially breaking revocation. If you must update the S3 bucket, you'll need to reissue old certificates to keep the revocation working. Alternatively, you can use a CustomCname in your CRL configuration if you might need to change the S3 bucket name in the future.
         public let revocationConfiguration: RevocationConfiguration?
         /// Status of your private CA.
         public let status: CertificateAuthorityStatus?

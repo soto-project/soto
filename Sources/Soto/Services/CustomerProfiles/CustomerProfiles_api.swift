@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS CustomerProfiles service.
 ///
-/// Amazon Connect Customer Profiles Amazon Connect Customer Profiles is a unified customer profile for your contact center that has pre-built connectors powered by AppFlow that make it easy to combine customer information from third party applications, such as Salesforce (CRM), ServiceNow (ITSM), and your enterprise resource planning (ERP), with contact history from your Amazon Connect contact center.  For more information about the Amazon Connect Customer Profiles feature, see Use Customer Profiles in the Amazon Connect Administrator's Guide.
+/// Amazon Connect Customer Profiles    Customer Profiles actions     Customer Profiles data types    Amazon Connect Customer Profiles is a unified customer profile for your contact center that has pre-built connectors powered by AppFlow that make it easy to combine customer information from third party applications, such as Salesforce (CRM), ServiceNow (ITSM), and your enterprise resource planning (ERP), with contact history from your Amazon Connect contact center.  For more information about the Amazon Connect Customer Profiles feature, see Use Customer Profiles in the Amazon Connect Administrator's Guide.
 public struct CustomerProfiles: AWSService {
     // MARK: Member variables
 
@@ -1713,6 +1713,7 @@ public struct CustomerProfiles: AWSService {
     ///   - flowDefinition: The configuration that controls how Customer Profiles retrieves data from the source.
     ///   - objectTypeName: The name of the profile object type.
     ///   - objectTypeNames: A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - uri: The URI of the S3 bucket or any other type of data source.
     ///   - logger: Logger use during operation
@@ -1722,6 +1723,7 @@ public struct CustomerProfiles: AWSService {
         flowDefinition: FlowDefinition? = nil,
         objectTypeName: String? = nil,
         objectTypeNames: [String: String]? = nil,
+        roleArn: String? = nil,
         tags: [String: String]? = nil,
         uri: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1731,6 +1733,7 @@ public struct CustomerProfiles: AWSService {
             flowDefinition: flowDefinition, 
             objectTypeName: objectTypeName, 
             objectTypeNames: objectTypeNames, 
+            roleArn: roleArn, 
             tags: tags, 
             uri: uri
         )

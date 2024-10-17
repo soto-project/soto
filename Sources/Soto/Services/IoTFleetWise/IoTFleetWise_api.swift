@@ -195,7 +195,6 @@ public struct IoTFleetWise: AWSService {
     ///   - expiryTime:  (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires.  Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
     ///   - name:  The name of the campaign to create.
     ///   - postTriggerCollectionDuration:  (Optional) How long (in milliseconds) to collect raw data after a triggering event initiates the collection. If it's not specified, 0 is used. Default: 0
-    ///   - priority: (Optional) A number indicating the priority of one campaign over another campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed to vehicles before any other campaigns. If it's not specified, 0 is used.  Default: 0
     ///   - signalCatalogArn: The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.
     ///   - signalsToCollect: (Optional) A list of information about signals to collect.
     ///   - spoolingMode: (Optional) Whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise. If you want to store collected data when a vehicle loses connection with the cloud, use TO_DISK. If it's not specified, OFF is used. Default: OFF
@@ -214,7 +213,6 @@ public struct IoTFleetWise: AWSService {
         expiryTime: Date? = nil,
         name: String,
         postTriggerCollectionDuration: Int64? = nil,
-        priority: Int? = nil,
         signalCatalogArn: String,
         signalsToCollect: [SignalInformation]? = nil,
         spoolingMode: SpoolingMode? = nil,
@@ -233,7 +231,6 @@ public struct IoTFleetWise: AWSService {
             expiryTime: expiryTime, 
             name: name, 
             postTriggerCollectionDuration: postTriggerCollectionDuration, 
-            priority: priority, 
             signalCatalogArn: signalCatalogArn, 
             signalsToCollect: signalsToCollect, 
             spoolingMode: spoolingMode, 

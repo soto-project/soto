@@ -1000,6 +1000,7 @@ extension IoTFleetWise {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.conditionLanguageVersion, name: "conditionLanguageVersion", parent: name, max: 1)
             try self.validate(self.conditionLanguageVersion, name: "conditionLanguageVersion", parent: name, min: 1)
             try self.validate(self.expression, name: "expression", parent: name, max: 2048)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
@@ -1049,6 +1050,27 @@ extension IoTFleetWise {
         ///  The ARN of the vehicle or fleet to deploy a campaign to.
         public let targetArn: String
 
+        @inlinable
+        public init(collectionScheme: CollectionScheme, compression: Compression? = nil, dataDestinationConfigs: [DataDestinationConfig]? = nil, dataExtraDimensions: [String]? = nil, description: String? = nil, diagnosticsMode: DiagnosticsMode? = nil, expiryTime: Date? = nil, name: String, postTriggerCollectionDuration: Int64? = nil, signalCatalogArn: String, signalsToCollect: [SignalInformation]? = nil, spoolingMode: SpoolingMode? = nil, startTime: Date? = nil, tags: [Tag]? = nil, targetArn: String) {
+            self.collectionScheme = collectionScheme
+            self.compression = compression
+            self.dataDestinationConfigs = dataDestinationConfigs
+            self.dataExtraDimensions = dataExtraDimensions
+            self.description = description
+            self.diagnosticsMode = diagnosticsMode
+            self.expiryTime = expiryTime
+            self.name = name
+            self.postTriggerCollectionDuration = postTriggerCollectionDuration
+            self.priority = nil
+            self.signalCatalogArn = signalCatalogArn
+            self.signalsToCollect = signalsToCollect
+            self.spoolingMode = spoolingMode
+            self.startTime = startTime
+            self.tags = tags
+            self.targetArn = targetArn
+        }
+
+        @available(*, deprecated, message: "Members priority have been deprecated")
         @inlinable
         public init(collectionScheme: CollectionScheme, compression: Compression? = nil, dataDestinationConfigs: [DataDestinationConfig]? = nil, dataExtraDimensions: [String]? = nil, description: String? = nil, diagnosticsMode: DiagnosticsMode? = nil, expiryTime: Date? = nil, name: String, postTriggerCollectionDuration: Int64? = nil, priority: Int? = nil, signalCatalogArn: String, signalsToCollect: [SignalInformation]? = nil, spoolingMode: SpoolingMode? = nil, startTime: Date? = nil, tags: [Tag]? = nil, targetArn: String) {
             self.collectionScheme = collectionScheme
@@ -2828,6 +2850,9 @@ extension IoTFleetWise {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.status, name: "status", parent: name, max: 20)
+            try self.validate(self.status, name: "status", parent: name, min: 7)
+            try self.validate(self.status, name: "status", parent: name, pattern: "^[A-Z_]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3339,6 +3364,7 @@ extension IoTFleetWise {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:.*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4181,6 +4207,7 @@ extension IoTFleetWise {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:.*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4206,7 +4233,7 @@ extension IoTFleetWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.periodMs, name: "periodMs", parent: name, max: 60000)
+            try self.validate(self.periodMs, name: "periodMs", parent: name, max: 86400000)
             try self.validate(self.periodMs, name: "periodMs", parent: name, min: 10000)
         }
 
@@ -4325,6 +4352,7 @@ extension IoTFleetWise {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:.*")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

@@ -106,6 +106,7 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - name: The name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB instance names must be unique per customer and per region.
     ///   - organization: The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
     ///   - password: The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in AWS SecretManager in your account.
+    ///   - port: The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
     ///   - publiclyAccessible: Configures the DB instance with a public IP to facilitate access.
     ///   - tags: A list of key-value pairs to associate with the DB instance.
     ///   - username: The username of the initial admin user created in InfluxDB. Must start with a letter and can't end with a hyphen or contain two consecutive hyphens. For example, my-user1. This username will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Amazon Secrets Manager in your account.
@@ -124,6 +125,7 @@ public struct TimestreamInfluxDB: AWSService {
         name: String,
         organization: String? = nil,
         password: String,
+        port: Int? = nil,
         publiclyAccessible: Bool? = nil,
         tags: [String: String]? = nil,
         username: String? = nil,
@@ -142,6 +144,7 @@ public struct TimestreamInfluxDB: AWSService {
             name: name, 
             organization: organization, 
             password: password, 
+            port: port, 
             publiclyAccessible: publiclyAccessible, 
             tags: tags, 
             username: username, 
@@ -454,6 +457,7 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - deploymentType: Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
     ///   - identifier: The id of the DB instance.
     ///   - logDeliveryConfiguration: Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
+    ///   - port: The port number on which InfluxDB accepts connections. If you change the Port value, your database restarts immediately. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDbInstance(
@@ -462,6 +466,7 @@ public struct TimestreamInfluxDB: AWSService {
         deploymentType: DeploymentType? = nil,
         identifier: String,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
+        port: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDbInstanceOutput {
         let input = UpdateDbInstanceInput(
@@ -469,7 +474,8 @@ public struct TimestreamInfluxDB: AWSService {
             dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
             deploymentType: deploymentType, 
             identifier: identifier, 
-            logDeliveryConfiguration: logDeliveryConfiguration
+            logDeliveryConfiguration: logDeliveryConfiguration, 
+            port: port
         )
         return try await self.updateDbInstance(input, logger: logger)
     }

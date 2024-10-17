@@ -65,6 +65,7 @@ public struct ResourceExplorer2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2022-07-28",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: ResourceExplorer2ErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -76,6 +77,25 @@ public struct ResourceExplorer2: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "resource-explorer-2-fips.ca-central-1.api.aws",
+            "ca-west-1": "resource-explorer-2-fips.ca-west-1.api.aws",
+            "us-east-1": "resource-explorer-2-fips.us-east-1.api.aws",
+            "us-east-2": "resource-explorer-2-fips.us-east-2.api.aws",
+            "us-west-1": "resource-explorer-2-fips.us-west-1.api.aws",
+            "us-west-2": "resource-explorer-2-fips.us-west-2.api.aws"
+        ]),
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "resource-explorer-2-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "resource-explorer-2-fips.ca-west-1.amazonaws.com",
+            "us-east-1": "resource-explorer-2-fips.us-east-1.amazonaws.com",
+            "us-east-2": "resource-explorer-2-fips.us-east-2.amazonaws.com",
+            "us-west-1": "resource-explorer-2-fips.us-west-1.amazonaws.com",
+            "us-west-2": "resource-explorer-2-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -284,7 +304,7 @@ public struct ResourceExplorer2: AWSService {
         )
     }
 
-    /// Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account or a delegated administrator with service access enabled can invoke this API call.
+    /// Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call.
     @Sendable
     @inlinable
     public func getAccountLevelServiceConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountLevelServiceConfigurationOutput {
@@ -423,6 +443,44 @@ public struct ResourceExplorer2: AWSService {
             nextToken: nextToken
         )
         return try await self.listIndexesForMembers(input, logger: logger)
+    }
+
+    /// Returns a list of resources and their details that match the specified criteria. This query must  use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region  in which you call this operation.
+    @Sendable
+    @inlinable
+    public func listResources(_ input: ListResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourcesOutput {
+        try await self.client.execute(
+            operation: "ListResources", 
+            path: "/ListResources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of resources and their details that match the specified criteria. This query must  use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region  in which you call this operation.
+    ///
+    /// Parameters:
+    ///   - filters: 
+    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+    ///   - viewArn: Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't  specify a value for this parameter, then the operation automatically uses the default view  for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have  a default view or if you don't have permission to use the default view, then the operation  fails with a 401 Unauthorized exception.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResources(
+        filters: SearchFilter? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        viewArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResourcesOutput {
+        let input = ListResourcesInput(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            viewArn: viewArn
+        )
+        return try await self.listResources(input, logger: logger)
     }
 
     /// Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
@@ -786,6 +844,46 @@ extension ResourceExplorer2 {
         return self.listIndexesForMembersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourcesPaginator(
+        _ input: ListResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourcesInput, ListResourcesOutput> {
+        return .init(
+            input: input,
+            command: self.listResources,
+            inputKey: \ListResourcesInput.nextToken,
+            outputKey: \ListResourcesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: 
+    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - viewArn: Specifies the Amazon resource name (ARN) of the view to use for the query. If you don't  specify a value for this parameter, then the operation automatically uses the default view  for the Amazon Web Services Region in which you called this operation. If the Region either doesn't have  a default view or if you don't have permission to use the default view, then the operation  fails with a 401 Unauthorized exception.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourcesPaginator(
+        filters: SearchFilter? = nil,
+        maxResults: Int? = nil,
+        viewArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListResourcesInput, ListResourcesOutput> {
+        let input = ListResourcesInput(
+            filters: filters, 
+            maxResults: maxResults, 
+            viewArn: viewArn
+        )
+        return self.listResourcesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listSupportedResourceTypes(_:logger:)``.
     ///
     /// - Parameters:
@@ -914,6 +1012,18 @@ extension ResourceExplorer2.ListIndexesInput: AWSPaginateToken {
             nextToken: token,
             regions: self.regions,
             type: self.type
+        )
+    }
+}
+
+extension ResourceExplorer2.ListResourcesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ResourceExplorer2.ListResourcesInput {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            viewArn: self.viewArn
         )
     }
 }

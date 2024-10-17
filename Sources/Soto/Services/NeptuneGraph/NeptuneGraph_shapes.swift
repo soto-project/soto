@@ -242,7 +242,7 @@ extension NeptuneGraph {
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
             try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, max: 24576)
-            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 32)
+            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 16)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, max: 2)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, min: 0)
             try self.tags?.forEach {
@@ -418,7 +418,7 @@ extension NeptuneGraph {
         public let deletionProtection: Bool?
         /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
         public let failOnError: Bool?
-        /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+        /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format, OPEN_CYPHER, which identifies the openCypher load format, or ntriples, which identifies the RDF n-triples format.
         public let format: Format?
         /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
         public let graphName: String
@@ -470,9 +470,9 @@ extension NeptuneGraph {
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
             try self.validate(self.maxProvisionedMemory, name: "maxProvisionedMemory", parent: name, max: 24576)
-            try self.validate(self.maxProvisionedMemory, name: "maxProvisionedMemory", parent: name, min: 32)
+            try self.validate(self.maxProvisionedMemory, name: "maxProvisionedMemory", parent: name, min: 16)
             try self.validate(self.minProvisionedMemory, name: "minProvisionedMemory", parent: name, max: 24576)
-            try self.validate(self.minProvisionedMemory, name: "minProvisionedMemory", parent: name, min: 32)
+            try self.validate(self.minProvisionedMemory, name: "minProvisionedMemory", parent: name, min: 16)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, max: 2)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, min: 0)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
@@ -2054,7 +2054,7 @@ extension NeptuneGraph {
             try self.validate(self.graphName, name: "graphName", parent: name, min: 1)
             try self.validate(self.graphName, name: "graphName", parent: name, pattern: "^(?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*$")
             try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, max: 24576)
-            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 32)
+            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 16)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, max: 2)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, min: 0)
             try self.validate(self.snapshotIdentifier, name: "snapshotIdentifier", parent: name, pattern: "^gs-[a-z0-9]{10}$")
@@ -2345,7 +2345,7 @@ extension NeptuneGraph {
         public func validate(name: String) throws {
             try self.validate(self.graphIdentifier, name: "graphIdentifier", parent: name, pattern: "^g-[a-z0-9]{10}$")
             try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, max: 24576)
-            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 32)
+            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 16)
         }
 
         private enum CodingKeys: String, CodingKey {

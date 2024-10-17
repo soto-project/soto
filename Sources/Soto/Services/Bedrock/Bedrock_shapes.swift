@@ -455,7 +455,7 @@ extension Bedrock {
         public let customerEncryptionKeyId: String?
         /// Specifies whether the model evaluation job is automatic or uses human worker.
         public let evaluationConfig: EvaluationConfig
-        /// Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model, and model evaluation job that use human workers support two models.
+        /// Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model or inference profile, and model evaluation job that use human workers support two models or inference profiles.
         public let inferenceConfig: EvaluationInferenceConfig
         /// A description of the model evaluation job.
         public let jobDescription: String?
@@ -791,7 +791,7 @@ extension Bedrock {
         public let trainingDataConfig: TrainingDataConfig
         /// Information about the validation dataset.
         public let validationDataConfig: ValidationDataConfig?
-        /// VPC configuration (optional). Configuration parameters for the private Virtual Private Cloud (VPC) that contains the resources you are using for this job.
+        /// The configuration of the Virtual Private Cloud (VPC) that contains the resources that you're using for this job. For more information, see Protect your model customization jobs using a VPC.
         public let vpcConfig: VpcConfig?
 
         @inlinable
@@ -980,9 +980,11 @@ extension Bedrock {
         public let tags: [Tag]?
         /// The number of hours after which to force the batch inference job to time out.
         public let timeoutDurationInHours: Int?
+        /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see Protect batch inference jobs using a VPC.
+        public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(clientRequestToken: String? = CreateModelInvocationJobRequest.idempotencyToken(), inputDataConfig: ModelInvocationJobInputDataConfig, jobName: String, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, tags: [Tag]? = nil, timeoutDurationInHours: Int? = nil) {
+        public init(clientRequestToken: String? = CreateModelInvocationJobRequest.idempotencyToken(), inputDataConfig: ModelInvocationJobInputDataConfig, jobName: String, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, tags: [Tag]? = nil, timeoutDurationInHours: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
@@ -991,6 +993,7 @@ extension Bedrock {
             self.roleArn = roleArn
             self.tags = tags
             self.timeoutDurationInHours = timeoutDurationInHours
+            self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
@@ -1013,6 +1016,7 @@ extension Bedrock {
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.timeoutDurationInHours, name: "timeoutDurationInHours", parent: name, max: 168)
             try self.validate(self.timeoutDurationInHours, name: "timeoutDurationInHours", parent: name, min: 24)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1024,6 +1028,7 @@ extension Bedrock {
             case roleArn = "roleArn"
             case tags = "tags"
             case timeoutDurationInHours = "timeoutDurationInHours"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -1270,7 +1275,7 @@ extension Bedrock {
     public struct EvaluationBedrockModel: AWSEncodableShape & AWSDecodableShape {
         /// Each Amazon Bedrock support different inference parameters that change how the model behaves during inference.
         public let inferenceParams: String
-        /// The ARN of the Amazon Bedrock model specified.
+        /// The ARN of the Amazon Bedrock model or inference profile specified.
         public let modelIdentifier: String
 
         @inlinable
@@ -1284,7 +1289,7 @@ extension Bedrock {
             try self.validate(self.inferenceParams, name: "inferenceParams", parent: name, min: 1)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
-            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/(([a-z]{2}.)[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))))|(([a-z]{2}[.]{1})([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2333,9 +2338,11 @@ extension Bedrock {
         public var submitTime: Date
         /// The number of hours after which batch inference job was set to time out.
         public let timeoutDurationInHours: Int?
+        /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see Protect batch inference jobs using a VPC.
+        public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(clientRequestToken: String? = nil, endTime: Date? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String? = nil, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, timeoutDurationInHours: Int? = nil) {
+        public init(clientRequestToken: String? = nil, endTime: Date? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String? = nil, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, timeoutDurationInHours: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -2350,6 +2357,7 @@ extension Bedrock {
             self.status = status
             self.submitTime = submitTime
             self.timeoutDurationInHours = timeoutDurationInHours
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2367,6 +2375,7 @@ extension Bedrock {
             case status = "status"
             case submitTime = "submitTime"
             case timeoutDurationInHours = "timeoutDurationInHours"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -4189,42 +4198,51 @@ extension Bedrock {
     }
 
     public struct ModelInvocationJobS3InputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Amazon Web Services account that owns the S3 bucket containing the input data.
+        public let s3BucketOwner: String?
         /// The format of the input data.
         public let s3InputFormat: S3InputFormat?
         /// The S3 location of the input data.
         public let s3Uri: String
 
         @inlinable
-        public init(s3InputFormat: S3InputFormat? = nil, s3Uri: String) {
+        public init(s3BucketOwner: String? = nil, s3InputFormat: S3InputFormat? = nil, s3Uri: String) {
+            self.s3BucketOwner = s3BucketOwner
             self.s3InputFormat = s3InputFormat
             self.s3Uri = s3Uri
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case s3BucketOwner = "s3BucketOwner"
             case s3InputFormat = "s3InputFormat"
             case s3Uri = "s3Uri"
         }
     }
 
     public struct ModelInvocationJobS3OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Amazon Web Services account that owns the S3 bucket containing the output data.
+        public let s3BucketOwner: String?
         /// The unique identifier of the key that encrypts the S3 location of the output data.
         public let s3EncryptionKeyId: String?
         /// The S3 location of the output data.
         public let s3Uri: String
 
         @inlinable
-        public init(s3EncryptionKeyId: String? = nil, s3Uri: String) {
+        public init(s3BucketOwner: String? = nil, s3EncryptionKeyId: String? = nil, s3Uri: String) {
+            self.s3BucketOwner = s3BucketOwner
             self.s3EncryptionKeyId = s3EncryptionKeyId
             self.s3Uri = s3Uri
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.s3EncryptionKeyId, name: "s3EncryptionKeyId", parent: name, max: 2048)
             try self.validate(self.s3EncryptionKeyId, name: "s3EncryptionKeyId", parent: name, min: 1)
             try self.validate(self.s3EncryptionKeyId, name: "s3EncryptionKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
@@ -4234,6 +4252,7 @@ extension Bedrock {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case s3BucketOwner = "s3BucketOwner"
             case s3EncryptionKeyId = "s3EncryptionKeyId"
             case s3Uri = "s3Uri"
         }
@@ -4272,9 +4291,11 @@ extension Bedrock {
         public var submitTime: Date
         /// The number of hours after which the batch inference job was set to time out.
         public let timeoutDurationInHours: Int?
+        /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see Protect batch inference jobs using a VPC.
+        public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(clientRequestToken: String? = nil, endTime: Date? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, timeoutDurationInHours: Int? = nil) {
+        public init(clientRequestToken: String? = nil, endTime: Date? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, timeoutDurationInHours: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -4289,6 +4310,7 @@ extension Bedrock {
             self.status = status
             self.submitTime = submitTime
             self.timeoutDurationInHours = timeoutDurationInHours
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4306,6 +4328,7 @@ extension Bedrock {
             case status = "status"
             case submitTime = "submitTime"
             case timeoutDurationInHours = "timeoutDurationInHours"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -4880,9 +4903,9 @@ extension Bedrock {
     }
 
     public struct VpcConfig: AWSEncodableShape & AWSDecodableShape {
-        /// VPC configuration security group Ids.
+        /// An array of IDs for each security group in the VPC to use.
         public let securityGroupIds: [String]
-        /// VPC configuration subnets.
+        /// An array of IDs for each subnet in the VPC to use.
         public let subnetIds: [String]
 
         @inlinable
@@ -4955,7 +4978,7 @@ extension Bedrock {
     }
 
     public struct EvaluationModelConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Defines the Amazon Bedrock model and inference parameters you want used.
+        /// Defines the Amazon Bedrock model or inference profile and inference parameters you want used.
         public let bedrockModel: EvaluationBedrockModel?
 
         @inlinable

@@ -158,6 +158,13 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum HttpsPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optional = "OPTIONAL"
+        case require = "REQUIRE"
+        case requireOpenOnly = "REQUIRE_OPEN_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domain = "DOMAIN"
         case emailAddress = "EMAIL_ADDRESS"
@@ -799,6 +806,10 @@ extension SESv2 {
             self.tags = tags
             self.trackingOptions = trackingOptions
             self.vdmOptions = vdmOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.deliveryOptions?.validate(name: "\(name).deliveryOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1606,18 +1617,27 @@ extension SESv2 {
     }
 
     public struct DeliveryOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of time, in seconds, that Amazon SES API v2 will attempt delivery of email. If specified, the value must greater than or equal to 300 seconds (5 minutes) and less than or equal to 50400 seconds (840 minutes).
+        public let maxDeliverySeconds: Int64?
         /// The name of the dedicated IP pool to associate with the configuration set.
         public let sendingPoolName: String?
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
 
         @inlinable
-        public init(sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
+        public init(maxDeliverySeconds: Int64? = nil, sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
+            self.maxDeliverySeconds = maxDeliverySeconds
             self.sendingPoolName = sendingPoolName
             self.tlsPolicy = tlsPolicy
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.maxDeliverySeconds, name: "maxDeliverySeconds", parent: name, max: 50400)
+            try self.validate(self.maxDeliverySeconds, name: "maxDeliverySeconds", parent: name, min: 300)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case maxDeliverySeconds = "MaxDeliverySeconds"
             case sendingPoolName = "SendingPoolName"
             case tlsPolicy = "TlsPolicy"
         }
@@ -4438,14 +4458,17 @@ extension SESv2 {
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSEncodableShape {
         /// The name of the configuration set to associate with a dedicated IP pool.
         public let configurationSetName: String
+        /// The maximum amount of time, in seconds, that Amazon SES API v2 will attempt delivery of email. If specified, the value must greater than or equal to 300 seconds (5 minutes) and less than or equal to 50400 seconds (840 minutes).
+        public let maxDeliverySeconds: Int64?
         /// The name of the dedicated IP pool to associate with the configuration set.
         public let sendingPoolName: String?
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
 
         @inlinable
-        public init(configurationSetName: String, sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
+        public init(configurationSetName: String, maxDeliverySeconds: Int64? = nil, sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
             self.configurationSetName = configurationSetName
+            self.maxDeliverySeconds = maxDeliverySeconds
             self.sendingPoolName = sendingPoolName
             self.tlsPolicy = tlsPolicy
         }
@@ -4454,11 +4477,18 @@ extension SESv2 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.maxDeliverySeconds, forKey: .maxDeliverySeconds)
             try container.encodeIfPresent(self.sendingPoolName, forKey: .sendingPoolName)
             try container.encodeIfPresent(self.tlsPolicy, forKey: .tlsPolicy)
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.maxDeliverySeconds, name: "maxDeliverySeconds", parent: name, max: 50400)
+            try self.validate(self.maxDeliverySeconds, name: "maxDeliverySeconds", parent: name, min: 300)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case maxDeliverySeconds = "MaxDeliverySeconds"
             case sendingPoolName = "SendingPoolName"
             case tlsPolicy = "TlsPolicy"
         }
@@ -4557,11 +4587,13 @@ extension SESv2 {
         public let configurationSetName: String
         /// The domain to use to track open and click events.
         public let customRedirectDomain: String?
+        public let httpsPolicy: HttpsPolicy?
 
         @inlinable
-        public init(configurationSetName: String, customRedirectDomain: String? = nil) {
+        public init(configurationSetName: String, customRedirectDomain: String? = nil, httpsPolicy: HttpsPolicy? = nil) {
             self.configurationSetName = configurationSetName
             self.customRedirectDomain = customRedirectDomain
+            self.httpsPolicy = httpsPolicy
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4569,10 +4601,12 @@ extension SESv2 {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
             try container.encodeIfPresent(self.customRedirectDomain, forKey: .customRedirectDomain)
+            try container.encodeIfPresent(self.httpsPolicy, forKey: .httpsPolicy)
         }
 
         private enum CodingKeys: String, CodingKey {
             case customRedirectDomain = "CustomRedirectDomain"
+            case httpsPolicy = "HttpsPolicy"
         }
     }
 
@@ -5583,14 +5617,18 @@ extension SESv2 {
     public struct TrackingOptions: AWSEncodableShape & AWSDecodableShape {
         /// The domain to use for tracking open and click events.
         public let customRedirectDomain: String
+        /// The https policy to use for tracking open and click events.
+        public let httpsPolicy: HttpsPolicy?
 
         @inlinable
-        public init(customRedirectDomain: String) {
+        public init(customRedirectDomain: String, httpsPolicy: HttpsPolicy? = nil) {
             self.customRedirectDomain = customRedirectDomain
+            self.httpsPolicy = httpsPolicy
         }
 
         private enum CodingKeys: String, CodingKey {
             case customRedirectDomain = "CustomRedirectDomain"
+            case httpsPolicy = "HttpsPolicy"
         }
     }
 

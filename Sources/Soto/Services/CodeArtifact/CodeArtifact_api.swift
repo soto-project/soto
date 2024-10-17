@@ -1078,6 +1078,7 @@ public struct CodeArtifact: AWSService {
     /// Parameters:
     ///   - domain:  The name of the domain that contains the repository.
     ///   - domainOwner:  The 12-digit account number of the Amazon Web Services account that owns the domain that contains the repository. It does not include  dashes or spaces.
+    ///   - endpointType: A string that specifies the type of endpoint.
     ///   - format:  Returns which endpoint of a repository to return. A repository has one endpoint for each  package format.
     ///   - repository:  The name of the repository.
     ///   - logger: Logger use during operation
@@ -1085,6 +1086,7 @@ public struct CodeArtifact: AWSService {
     public func getRepositoryEndpoint(
         domain: String,
         domainOwner: String? = nil,
+        endpointType: EndpointType? = nil,
         format: PackageFormat,
         repository: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1092,6 +1094,7 @@ public struct CodeArtifact: AWSService {
         let input = GetRepositoryEndpointRequest(
             domain: domain, 
             domainOwner: domainOwner, 
+            endpointType: endpointType, 
             format: format, 
             repository: repository
         )

@@ -80,6 +80,7 @@ public struct Wisdom: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "wisdom-fips.ca-central-1.amazonaws.com",
             "us-east-1": "wisdom-fips.us-east-1.amazonaws.com",
             "us-west-2": "wisdom-fips.us-west-2.amazonaws.com"
         ])

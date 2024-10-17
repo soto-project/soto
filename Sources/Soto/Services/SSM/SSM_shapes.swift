@@ -1547,7 +1547,7 @@ extension SSM {
         public let key: AttachmentsSourceKey?
         /// The name of the document attachment file.
         public let name: String?
-        /// The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify.   For the key SourceUrl, the value is an S3 bucket location. For example:  "Values": [ "s3://doc-example-bucket/my-folder" ]    For the key S3FileUrl, the value is a file in an S3 bucket. For example:  "Values": [ "s3://doc-example-bucket/my-folder/my-file.py" ]    For the key AttachmentReference, the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example:  "Values": [ "MyOtherDocument/3/my-other-file.py" ]  However, if the SSM document is shared with you from another account, the full SSM document ARN must be specified instead of the document name only. For example:  "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py" ]
+        /// The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify.   For the key SourceUrl, the value is an S3 bucket location. For example:  "Values": [ "s3://amzn-s3-demo-bucket/my-prefix" ]    For the key S3FileUrl, the value is a file in an S3 bucket. For example:  "Values": [ "s3://amzn-s3-demo-bucket/my-prefix/my-file.py" ]    For the key AttachmentReference, the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example:  "Values": [ "MyOtherDocument/3/my-other-file.py" ]  However, if the SSM document is shared with you from another account, the full SSM document ARN must be specified instead of the document name only. For example:  "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py" ]
         public let values: [String]?
 
         @inlinable
@@ -1633,6 +1633,8 @@ extension SSM {
         public let target: String?
         /// The combination of Amazon Web Services Regions and/or Amazon Web Services accounts where you want to run the Automation.
         public let targetLocations: [TargetLocation]?
+        /// A publicly accessible URL for a file that contains the TargetLocations body. Currently, only files in presigned Amazon S3 buckets are supported
+        public let targetLocationsURL: String?
         /// The specified key-value mapping of document parameters to target resources.
         public let targetMaps: [[String: [String]]]?
         /// The parameter name.
@@ -1645,7 +1647,7 @@ extension SSM {
         public let variables: [String: [String]]?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, variables: [String: [String]]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetLocationsURL: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, variables: [String: [String]]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.automationExecutionId = automationExecutionId
@@ -1675,6 +1677,7 @@ extension SSM {
             self.stepExecutionsTruncated = stepExecutionsTruncated
             self.target = target
             self.targetLocations = targetLocations
+            self.targetLocationsURL = targetLocationsURL
             self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
             self.targets = targets
@@ -1712,6 +1715,7 @@ extension SSM {
             case stepExecutionsTruncated = "StepExecutionsTruncated"
             case target = "Target"
             case targetLocations = "TargetLocations"
+            case targetLocationsURL = "TargetLocationsURL"
             case targetMaps = "TargetMaps"
             case targetParameterName = "TargetParameterName"
             case targets = "Targets"
@@ -1758,7 +1762,7 @@ extension SSM {
         public let automationExecutionStatus: AutomationExecutionStatus?
         /// The subtype of the Automation operation. Currently, the only supported value is ChangeRequest.
         public let automationSubtype: AutomationSubtype?
-        /// Use this filter with DescribeAutomationExecutions. Specify either Local or CrossAccount. CrossAccount is an Automation that runs in multiple Amazon Web Services Regions and Amazon Web Services accounts. For more information, see Running Automation workflows in multiple Amazon Web Services Regions and accounts in the Amazon Web Services Systems Manager User Guide.
+        /// Use this filter with DescribeAutomationExecutions. Specify either Local or CrossAccount. CrossAccount is an Automation that runs in multiple Amazon Web Services Regions and Amazon Web Services accounts. For more information, see Running automations in multiple Amazon Web Services Regions and accounts in the Amazon Web Services Systems Manager User Guide.
         public let automationType: AutomationType?
         /// The name of the Change Manager change request.
         public let changeRequestName: String?
@@ -1800,6 +1804,8 @@ extension SSM {
         public let scheduledTime: Date?
         /// The list of execution outputs as defined in the Automation runbook.
         public let target: String?
+        /// A publicly accessible URL for a file that contains the TargetLocations body. Currently, only files in presigned Amazon S3 buckets are supported
+        public let targetLocationsURL: String?
         /// The specified key-value mapping of document parameters to target resources.
         public let targetMaps: [[String: [String]]]?
         /// The list of execution outputs as defined in the Automation runbook.
@@ -1810,7 +1816,7 @@ extension SSM {
         public let triggeredAlarms: [AlarmStateInformation]?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, automationType: AutomationType? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, logFile: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, target: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, automationType: AutomationType? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, logFile: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, target: String? = nil, targetLocationsURL: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.automationExecutionId = automationExecutionId
@@ -1837,6 +1843,7 @@ extension SSM {
             self.runbooks = runbooks
             self.scheduledTime = scheduledTime
             self.target = target
+            self.targetLocationsURL = targetLocationsURL
             self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
             self.targets = targets
@@ -1870,6 +1877,7 @@ extension SSM {
             case runbooks = "Runbooks"
             case scheduledTime = "ScheduledTime"
             case target = "Target"
+            case targetLocationsURL = "TargetLocationsURL"
             case targetMaps = "TargetMaps"
             case targetParameterName = "TargetParameterName"
             case targets = "Targets"
@@ -1879,7 +1887,7 @@ extension SSM {
 
     public struct BaselineOverride: AWSEncodableShape {
         public let approvalRules: PatchRuleGroup?
-        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
+        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
         public let approvedPatches: [String]?
         /// Defines the compliance level for approved patches. When an approved patch is reported as missing, this value describes the severity of the compliance violation.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
@@ -1888,7 +1896,7 @@ extension SSM {
         public let globalFilters: PatchFilterGroup?
         /// The operating system rule used by the patch baseline override.
         public let operatingSystem: OperatingSystem?
-        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
+        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
         public let rejectedPatches: [String]?
         /// The action for Patch Manager to take on patches included in the RejectedPackages list. A patch can be allowed only if it is a dependency of another package, or blocked entirely along with packages that include it as a dependency.
         public let rejectedPatchesAction: PatchAction?
@@ -2145,7 +2153,7 @@ extension SSM {
     public struct CommandFilter: AWSEncodableShape {
         /// The name of the filter.  The ExecutionStage filter can't be used with the ListCommandInvocations operation, only with ListCommands.
         public let key: CommandFilterKey
-        /// The filter value. Valid values for each filter key are as follows:    InvokedAfter: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions occurring July 7, 2021, and later.    InvokedBefore: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions from before July 7, 2021.    Status: Specify a valid command status to see a list of all command executions with that status. The status choices depend on the API you call. The status values you can specify for ListCommands are:    Pending     InProgress     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Incomplete     NoInstancesInTag     LimitExceeded    The status values you can specify for ListCommandInvocations are:    Pending     InProgress     Delayed     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Undeliverable     InvalidPlatform     Terminated       DocumentName: Specify name of the Amazon Web Services Systems Manager document (SSM document) for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on managed nodes.     ExecutionStage: Specify one of the following values (ListCommands operations only):    Executing: Returns a list of command executions that are currently still running.    Complete: Returns a list of command executions that have already completed.
+        /// The filter value. Valid values for each filter key are as follows:    InvokedAfter: Specify a timestamp to limit your results. For example, specify 2024-07-07T00:00:00Z to see a list of command executions occurring July 7, 2021, and later.    InvokedBefore: Specify a timestamp to limit your results. For example, specify 2024-07-07T00:00:00Z to see a list of command executions from before July 7, 2021.    Status: Specify a valid command status to see a list of all command executions with that status. The status choices depend on the API you call. The status values you can specify for ListCommands are:    Pending     InProgress     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Incomplete     NoInstancesInTag     LimitExceeded    The status values you can specify for ListCommandInvocations are:    Pending     InProgress     Delayed     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Undeliverable     InvalidPlatform     Terminated       DocumentName: Specify name of the Amazon Web Services Systems Manager document (SSM document) for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on managed nodes.     ExecutionStage: Specify one of the following values (ListCommands operations only):    Executing: Returns a list of command executions that are currently still running.    Complete: Returns a list of command executions that have already completed.
         public let value: String
 
         @inlinable
@@ -2244,9 +2252,9 @@ extension SSM {
         public let name: String?
         /// Output of the plugin execution.
         public let output: String?
-        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript   doc-example-bucket is the name of the S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;  i-02573cafcfEXAMPLE is the managed node ID;  awsrunShellScript is the name of the plugin.
+        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  amzn-s3-demo-bucket/my-prefix/i-02573cafcfEXAMPLE/awsrunShellScript   amzn-s3-demo-bucket is the name of the S3 bucket;  my-prefix is the name of the S3 prefix;  i-02573cafcfEXAMPLE is the managed node ID;  awsrunShellScript is the name of the plugin.
         public let outputS3BucketName: String?
-        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript   doc-example-bucket is the name of the S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;  i-02573cafcfEXAMPLE is the managed node ID;  awsrunShellScript is the name of the plugin.
+        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  amzn-s3-demo-bucket/my-prefix/i-02573cafcfEXAMPLE/awsrunShellScript   amzn-s3-demo-bucket is the name of the S3 bucket;  my-prefix is the name of the S3 prefix;  i-02573cafcfEXAMPLE is the managed node ID;  awsrunShellScript is the name of the plugin.
         public let outputS3KeyPrefix: String?
         /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Amazon Web Services Systems Manager automatically determines the S3 bucket region.
         public let outputS3Region: String?
@@ -2483,9 +2491,9 @@ extension SSM {
         public let defaultInstanceName: String?
         /// A user-defined description of the resource that you want to register with Systems Manager.   Don't enter personally identifiable information in this field.
         public let description: String?
-        /// The date by which this activation request should expire, in timestamp format, such as "2021-07-07T00:00:00". You can specify a date up to 30 days in advance. If you don't provide an expiration date, the activation code expires in 24 hours.
+        /// The date by which this activation request should expire, in timestamp format, such as "2024-07-07T00:00:00". You can specify a date up to 30 days in advance. If you don't provide an expiration date, the activation code expires in 24 hours.
         public let expirationDate: Date?
-        /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid and multicloud environment in the Amazon Web Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this parameter. You must create a unique role.
+        /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create the IAM service role required for Systems Manager in a hybrid and multicloud environments in the Amazon Web Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this parameter. You must create a unique role.
         public let iamRole: String
         /// Specify the maximum number of managed nodes you want to register. The default value is 1.
         public let registrationLimit: Int?
@@ -2755,7 +2763,7 @@ extension SSM {
         public let targetLocations: [TargetLocation]?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
         public let targetMaps: [[String: [String]]]?
-        /// The targets for the association. You can target managed nodes by using tags, Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account, or individual managed node IDs. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see About targets and rate controls in State Manager associations in the Amazon Web Services Systems Manager User Guide.
+        /// The targets for the association. You can target managed nodes by using tags, Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account, or individual managed node IDs. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see Understanding targets and rate controls in State Manager associations in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
 
         @inlinable
@@ -3223,7 +3231,7 @@ extension SSM {
     public struct CreatePatchBaselineRequest: AWSEncodableShape {
         /// A set of rules used to include patches in the baseline.
         public let approvalRules: PatchRuleGroup?
-        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
+        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
         public let approvedPatches: [String]?
         /// Defines the compliance level for approved patches. When an approved patch is reported as missing, this value describes the severity of the compliance violation. The default value is UNSPECIFIED.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
@@ -3239,7 +3247,7 @@ extension SSM {
         public let name: String
         /// Defines the operating system the patch baseline applies to. The default value is WINDOWS.
         public let operatingSystem: OperatingSystem?
-        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
+        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
         public let rejectedPatches: [String]?
         /// The action for Patch Manager to take on patches included in the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified.  BLOCK   All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
         public let rejectedPatchesAction: PatchAction?
@@ -3491,7 +3499,7 @@ extension SSM {
     public struct DeleteInventoryResult: AWSDecodableShape {
         /// Every DeleteInventory operation is assigned a unique ID. This option returns a unique ID. You can use this ID to query the status of a delete operation. This option is useful for ensuring that a delete operation has completed before you begin other operations.
         public let deletionId: String?
-        /// A summary of the delete operation. For more information about this summary, see Understanding the delete inventory summary in the Amazon Web Services Systems Manager User Guide.
+        /// A summary of the delete operation. For more information about this summary, see Deleting custom inventory in the Amazon Web Services Systems Manager User Guide.
         public let deletionSummary: InventoryDeletionSummary?
         /// The name of the inventory data type specified in the request.
         public let typeName: String?
@@ -4690,7 +4698,7 @@ extension SSM {
     }
 
     public struct DescribeInstancePatchesRequest: AWSEncodableShape {
-        /// Each element in the array is a structure containing a key-value pair. Supported keys for DescribeInstancePatchesinclude the following:     Classification   Sample values: Security | SecurityUpdates      KBId   Sample values: KB4480056 | java-1.7.0-openjdk.x86_64      Severity   Sample values: Important | Medium | Low      State   Sample values: Installed | InstalledOther | InstalledPendingReboot  For lists of all State values, see Understanding patch compliance state values in the Amazon Web Services Systems Manager User Guide.
+        /// Each element in the array is a structure containing a key-value pair. Supported keys for DescribeInstancePatchesinclude the following:     Classification   Sample values: Security | SecurityUpdates      KBId   Sample values: KB4480056 | java-1.7.0-openjdk.x86_64      Severity   Sample values: Important | Medium | Low      State   Sample values: Installed | InstalledOther | InstalledPendingReboot  For lists of all State values, see Patch compliance state values in the Amazon Web Services Systems Manager User Guide.
         public let filters: [PatchOrchestratorFilter]?
         /// The ID of the managed node whose patch state information should be retrieved.
         public let instanceId: String
@@ -4968,7 +4976,7 @@ extension SSM {
     }
 
     public struct DescribeMaintenanceWindowExecutionsRequest: AWSEncodableShape {
-        /// Each entry in the array is a structure containing:   Key. A string between 1 and 128 characters. Supported keys include ExecutedBefore and ExecutedAfter.   Values. An array of strings, each between 1 and 256 characters. Supported values are date/time strings in a valid ISO 8601 date/time format, such as 2021-11-04T05:00:00Z.
+        /// Each entry in the array is a structure containing:   Key. A string between 1 and 128 characters. Supported keys include ExecutedBefore and ExecutedAfter.   Values. An array of strings, each between 1 and 256 characters. Supported values are date/time strings in a valid ISO 8601 date/time format, such as 2024-11-04T05:00:00Z.
         public let filters: [MaintenanceWindowFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -7150,7 +7158,7 @@ extension SSM {
         public let name: String?
         /// The priority of the task when it runs. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
         public let priority: Int?
-        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up Maintenance Windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// The targets where the task should run.
         public let targets: [Target]?
@@ -7963,7 +7971,7 @@ extension SSM {
         public let lastPingDateTime: Date?
         /// The last date the association was successfully run.
         public let lastSuccessfulAssociationExecutionDate: Date?
-        /// The name assigned to an on-premises server, edge device, or virtual machine (VM) when it is activated as a Systems Manager managed node. The name is specified as the DefaultInstanceName property using the CreateActivation command. It is applied to the managed node by specifying the Activation Code and Activation ID when you install SSM Agent on the node, as explained in Install SSM Agent for a hybrid and multicloud environment (Linux) and Install SSM Agent for a hybrid and multicloud environment (Windows). To retrieve the Name tag of an EC2 instance, use the Amazon EC2 DescribeInstances operation. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the Amazon Web Services CLI Command Reference.
+        /// The name assigned to an on-premises server, edge device, or virtual machine (VM) when it is activated as a Systems Manager managed node. The name is specified as the DefaultInstanceName property using the CreateActivation command. It is applied to the managed node by specifying the Activation Code and Activation ID when you install SSM Agent on the node, as explained in How to install SSM Agent on hybrid Linux nodes and How to install SSM Agent on hybrid Windows Server nodes. To retrieve the Name tag of an EC2 instance, use the Amazon EC2 DescribeInstances operation. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the Amazon Web Services CLI Command Reference.
         public let name: String?
         /// Connection status of SSM Agent.   The status Inactive has been deprecated and is no longer in use.
         public let pingStatus: PingStatus?
@@ -8100,7 +8108,7 @@ extension SSM {
         public let installedPendingRebootCount: Int?
         /// The number of patches installed on a managed node that are specified in a RejectedPatches list. Patches with a status of InstalledRejected were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstalledRejectedCount will always be 0 (zero).
         public let installedRejectedCount: Int?
-        /// An https URL or an Amazon Simple Storage Service (Amazon S3) path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see About the AWS-RunPatchBaseline SSM document in the Amazon Web Services Systems Manager User Guide.
+        /// An https URL or an Amazon Simple Storage Service (Amazon S3) path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see SSM Command document for patching: AWS-RunPatchBaseline in the Amazon Web Services Systems Manager User Guide.
         public let installOverrideList: String?
         /// The ID of the managed node the high-level patch compliance information was collected for.
         public let instanceId: String
@@ -9969,7 +9977,7 @@ extension SSM {
         public let outputS3KeyPrefix: String?
         /// The parameters for the RUN_COMMAND task execution.
         public let parameters: [String: [String]]?
-        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up Maintenance Windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// If this time is reached and the command hasn't already started running, it doesn't run.
         public let timeoutSeconds: Int?
@@ -10095,7 +10103,7 @@ extension SSM {
         public let name: String?
         /// The priority of the task in the maintenance window. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
         public let priority: Int?
-        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up Maintenance Windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// The targets (either managed nodes or tags). Managed nodes are specified using Key=instanceids,Values=,. Tags are specified using Key=,Values=.
         public let targets: [Target]?
@@ -10477,7 +10485,7 @@ extension SSM {
         public let severity: String?
         /// The origin of the OpsItem, such as Amazon EC2 or Systems Manager. The impacted resource is a subset of source.
         public let source: String?
-        /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem details in the Amazon Web Services Systems Manager User Guide.
+        /// The OpsItem status. For more information, see Editing OpsItem details in the Amazon Web Services Systems Manager User Guide.
         public let status: OpsItemStatus?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
@@ -10773,7 +10781,7 @@ extension SSM {
         public let severity: String?
         /// The impacted Amazon Web Services resource.
         public let source: String?
-        /// The OpsItem status. Status can be Open, In Progress, or Resolved.
+        /// The OpsItem status.
         public let status: OpsItemStatus?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
@@ -11463,9 +11471,9 @@ extension SSM {
     }
 
     public struct PatchRule: AWSEncodableShape & AWSDecodableShape {
-        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released.  This parameter is marked as not required, but your request must include a value for either ApproveAfterDays or ApproveUntilDate.  Not supported for Debian Server or Ubuntu Server.
+        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. This parameter is marked as Required: No, but your request must include a value for either ApproveAfterDays or ApproveUntilDate. Not supported for Debian Server or Ubuntu Server.  Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic How security patches are selected in the Amazon Web Services Systems Manager User Guide.
         public let approveAfterDays: Int?
-        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Enter dates in the format YYYY-MM-DD. For example, 2021-12-31.  This parameter is marked as not required, but your request must include a value for either ApproveUntilDate or ApproveAfterDays.  Not supported for Debian Server or Ubuntu Server.
+        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Enter dates in the format YYYY-MM-DD. For example, 2024-12-31. This parameter is marked as Required: No, but your request must include a value for either ApproveUntilDate or ApproveAfterDays. Not supported for Debian Server or Ubuntu Server.  Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic How security patches are selected in the Amazon Web Services Systems Manager User Guide.
         public let approveUntilDate: String?
         /// A compliance severity level for all approved patches in a patch baseline.
         public let complianceLevel: PatchComplianceLevel?
@@ -12014,7 +12022,7 @@ extension SSM {
         public let name: String?
         /// The priority of the task in the maintenance window, the lower the number the higher the priority. Tasks in a maintenance window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
         public let priority: Int?
-        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up Maintenance Windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// The targets (either managed nodes or maintenance window targets).  One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide.  Specify managed nodes using the following format:   Key=InstanceIds,Values=,  Specify maintenance window targets using the following format:  Key=WindowTargetIds,Values=,
         public let targets: [Target]?
@@ -13009,7 +13017,7 @@ extension SSM {
     public struct SessionFilter: AWSEncodableShape {
         /// The name of the filter.
         public let key: SessionFilterKey
-        /// The filter value. Valid values for each filter key are as follows:   InvokedAfter: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started August 29, 2018, and later.   InvokedBefore: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started before August 29, 2018.   Target: Specify a managed node to which session connections have been made.   Owner: Specify an Amazon Web Services user to see a list of sessions started by that user.   Status: Specify a valid session status to see a list of all sessions with that status. Status values you can specify include:   Connected   Connecting   Disconnected   Terminated   Terminating   Failed     SessionId: Specify a session ID to return details about the session.
+        /// The filter value. Valid values for each filter key are as follows:   InvokedAfter: Specify a timestamp to limit your results. For example, specify 2024-08-29T00:00:00Z to see sessions that started August 29, 2024, and later.   InvokedBefore: Specify a timestamp to limit your results. For example, specify 2024-08-29T00:00:00Z to see sessions that started before August 29, 2024.   Target: Specify a managed node to which session connections have been made.   Owner: Specify an Amazon Web Services user to see a list of sessions started by that user.   Status: Specify a valid session status to see a list of all sessions with that status. Status values you can specify include:   Connected   Connecting   Disconnected   Terminated   Terminating   Failed     SessionId: Specify a session ID to return details about the session.
         public let value: String
 
         @inlinable
@@ -13116,9 +13124,9 @@ extension SSM {
         public let documentName: String
         /// The version of the Automation runbook to use for this execution.
         public let documentVersion: String?
-        /// The maximum number of targets allowed to run this task in parallel. You can specify a number, such as 10, or a percentage, such as 10%. The default value is 10.
+        /// The maximum number of targets allowed to run this task in parallel. You can specify a number, such as 10, or a percentage, such as 10%. The default value is 10. If both this parameter and the TargetLocation:TargetsMaxConcurrency are supplied, TargetLocation:TargetsMaxConcurrency takes precedence.
         public let maxConcurrency: String?
-        /// The number of errors that are allowed before the system stops running the automation on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops running the automation when the fourth error is received. If you specify 0, then the system stops running the automation on additional targets after the first error result is returned. If you run an automation on 50 resources and set max-errors to 10%, then the system stops running the automation on additional targets when the sixth error is received. Executions that are already running an automation when max-errors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set max-concurrency to 1 so the executions proceed one at a time.
+        /// The number of errors that are allowed before the system stops running the automation on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops running the automation when the fourth error is received. If you specify 0, then the system stops running the automation on additional targets after the first error result is returned. If you run an automation on 50 resources and set max-errors to 10%, then the system stops running the automation on additional targets when the sixth error is received. Executions that are already running an automation when max-errors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set max-concurrency to 1 so the executions proceed one at a time. If this parameter and the TargetLocation:TargetsMaxErrors parameter are both supplied, TargetLocation:TargetsMaxErrors takes precedence.
         public let maxErrors: String?
         /// The execution mode of the automation. Valid modes include the following: Auto and Interactive. The default mode is Auto.
         public let mode: ExecutionMode?
@@ -13126,17 +13134,19 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an automation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an automation to identify an environment or operating system. In this case, you could specify the following key-value pairs:    Key=environment,Value=test     Key=OS,Value=Windows     To add tags to an existing automation, use the AddTagsToResource operation.
         public let tags: [Tag]?
-        /// A location is a combination of Amazon Web Services Regions and/or Amazon Web Services accounts where you want to run the automation. Use this operation to start an automation in multiple Amazon Web Services Regions and multiple Amazon Web Services accounts. For more information, see Running Automation workflows in multiple Amazon Web Services Regions and Amazon Web Services accounts in the Amazon Web Services Systems Manager User Guide.
+        /// A location is a combination of Amazon Web Services Regions and/or Amazon Web Services accounts where you want to run the automation. Use this operation to start an automation in multiple Amazon Web Services Regions and multiple Amazon Web Services accounts. For more information, see Running automations in multiple Amazon Web Services Regions and accounts in the Amazon Web Services Systems Manager User Guide.
         public let targetLocations: [TargetLocation]?
+        /// Specify a publicly accessible URL for a file that contains the TargetLocations body. Currently, only files in presigned Amazon S3 buckets are supported.
+        public let targetLocationsURL: String?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
         public let targetMaps: [[String: [String]]]?
         /// The name of the parameter used as the target resource for the rate-controlled execution. Required if you specify targets.
         public let targetParameterName: String?
-        /// A key-value mapping to target resources. Required if you specify TargetParameterName.
+        /// A key-value mapping to target resources. Required if you specify TargetParameterName. If both this parameter and the TargetLocation:Targets parameter are supplied, TargetLocation:Targets takes precedence.
         public let targets: [Target]?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, parameters: [String: [String]]? = nil, tags: [Tag]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, parameters: [String: [String]]? = nil, tags: [Tag]? = nil, targetLocations: [TargetLocation]? = nil, targetLocationsURL: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.clientToken = clientToken
             self.documentName = documentName
@@ -13147,6 +13157,7 @@ extension SSM {
             self.parameters = parameters
             self.tags = tags
             self.targetLocations = targetLocations
+            self.targetLocationsURL = targetLocationsURL
             self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
             self.targets = targets
@@ -13181,6 +13192,7 @@ extension SSM {
             }
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
+            try self.validate(self.targetLocationsURL, name: "targetLocationsURL", parent: name, pattern: "^https:\\/\\/[-a-zA-Z0-9@:%._\\+~#=]{1,253}\\.s3(\\.[a-z\\d-]{9,16})?\\.amazonaws\\.com\\/.{1,2000}$")
             try self.targetMaps?.forEach {
                 try validate($0, name: "targetMaps[]", parent: name, max: 20)
                 try validate($0, name: "targetMaps[]", parent: name, min: 1)
@@ -13205,6 +13217,7 @@ extension SSM {
             case parameters = "Parameters"
             case tags = "Tags"
             case targetLocations = "TargetLocations"
+            case targetLocationsURL = "TargetLocationsURL"
             case targetMaps = "TargetMaps"
             case targetParameterName = "TargetParameterName"
             case targets = "Targets"
@@ -13598,8 +13611,12 @@ extension SSM {
     public struct TargetLocation: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Web Services accounts targeted by the current Automation execution.
         public let accounts: [String]?
+        /// Amazon Web Services accounts or organizational units to exclude as expanded targets.
+        public let excludeAccounts: [String]?
         /// The Automation execution role used by the currently running Automation. If not specified, the default value is AWS-SystemsManager-AutomationExecutionRole.
         public let executionRoleName: String?
+        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false.
+        public let includeChildOrganizationUnits: Bool?
         /// The Amazon Web Services Regions targeted by the current Automation execution.
         public let regions: [String]?
         public let targetLocationAlarmConfiguration: AlarmConfiguration?
@@ -13607,20 +13624,38 @@ extension SSM {
         public let targetLocationMaxConcurrency: String?
         /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation.
         public let targetLocationMaxErrors: String?
+        /// A list of key-value mappings to target resources. If you specify values for this data type, you must also specify a value for TargetParameterName. This Targets parameter takes precedence over the StartAutomationExecution:Targets parameter if both are supplied.
+        public let targets: [Target]?
+        /// The maximum number of targets allowed to run this task in parallel. This TargetsMaxConcurrency takes precedence over the StartAutomationExecution:MaxConcurrency parameter if both are supplied.
+        public let targetsMaxConcurrency: String?
+        /// The maximum number of errors that are allowed before the system stops running the automation on additional targets. This TargetsMaxErrors parameter takes precedence over the StartAutomationExecution:MaxErrors parameter if both are supplied.
+        public let targetsMaxErrors: String?
 
         @inlinable
-        public init(accounts: [String]? = nil, executionRoleName: String? = nil, regions: [String]? = nil, targetLocationAlarmConfiguration: AlarmConfiguration? = nil, targetLocationMaxConcurrency: String? = nil, targetLocationMaxErrors: String? = nil) {
+        public init(accounts: [String]? = nil, excludeAccounts: [String]? = nil, executionRoleName: String? = nil, includeChildOrganizationUnits: Bool? = nil, regions: [String]? = nil, targetLocationAlarmConfiguration: AlarmConfiguration? = nil, targetLocationMaxConcurrency: String? = nil, targetLocationMaxErrors: String? = nil, targets: [Target]? = nil, targetsMaxConcurrency: String? = nil, targetsMaxErrors: String? = nil) {
             self.accounts = accounts
+            self.excludeAccounts = excludeAccounts
             self.executionRoleName = executionRoleName
+            self.includeChildOrganizationUnits = includeChildOrganizationUnits
             self.regions = regions
             self.targetLocationAlarmConfiguration = targetLocationAlarmConfiguration
             self.targetLocationMaxConcurrency = targetLocationMaxConcurrency
             self.targetLocationMaxErrors = targetLocationMaxErrors
+            self.targets = targets
+            self.targetsMaxConcurrency = targetsMaxConcurrency
+            self.targetsMaxErrors = targetsMaxErrors
         }
 
         public func validate(name: String) throws {
             try self.validate(self.accounts, name: "accounts", parent: name, max: 50)
             try self.validate(self.accounts, name: "accounts", parent: name, min: 1)
+            try self.excludeAccounts?.forEach {
+                try validate($0, name: "excludeAccounts[]", parent: name, max: 68)
+                try validate($0, name: "excludeAccounts[]", parent: name, min: 6)
+                try validate($0, name: "excludeAccounts[]", parent: name, pattern: "^(ou-[a-z0-9]{4,32}-[a-z0-9]{8,32})|(\\d{12})$")
+            }
+            try self.validate(self.excludeAccounts, name: "excludeAccounts", parent: name, max: 5000)
+            try self.validate(self.excludeAccounts, name: "excludeAccounts", parent: name, min: 1)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, max: 64)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, min: 1)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, pattern: "^[\\w+=,.@/-]+$")
@@ -13633,15 +13668,30 @@ extension SSM {
             try self.validate(self.targetLocationMaxErrors, name: "targetLocationMaxErrors", parent: name, max: 7)
             try self.validate(self.targetLocationMaxErrors, name: "targetLocationMaxErrors", parent: name, min: 1)
             try self.validate(self.targetLocationMaxErrors, name: "targetLocationMaxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try self.targets?.forEach {
+                try $0.validate(name: "\(name).targets[]")
+            }
+            try self.validate(self.targets, name: "targets", parent: name, max: 5)
+            try self.validate(self.targetsMaxConcurrency, name: "targetsMaxConcurrency", parent: name, max: 7)
+            try self.validate(self.targetsMaxConcurrency, name: "targetsMaxConcurrency", parent: name, min: 1)
+            try self.validate(self.targetsMaxConcurrency, name: "targetsMaxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.validate(self.targetsMaxErrors, name: "targetsMaxErrors", parent: name, max: 7)
+            try self.validate(self.targetsMaxErrors, name: "targetsMaxErrors", parent: name, min: 1)
+            try self.validate(self.targetsMaxErrors, name: "targetsMaxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case accounts = "Accounts"
+            case excludeAccounts = "ExcludeAccounts"
             case executionRoleName = "ExecutionRoleName"
+            case includeChildOrganizationUnits = "IncludeChildOrganizationUnits"
             case regions = "Regions"
             case targetLocationAlarmConfiguration = "TargetLocationAlarmConfiguration"
             case targetLocationMaxConcurrency = "TargetLocationMaxConcurrency"
             case targetLocationMaxErrors = "TargetLocationMaxErrors"
+            case targets = "Targets"
+            case targetsMaxConcurrency = "TargetsMaxConcurrency"
+            case targetsMaxErrors = "TargetsMaxErrors"
         }
     }
 
@@ -14306,7 +14356,7 @@ extension SSM {
         public let priority: Int?
         /// If True, then all fields that are required by the RegisterTaskWithMaintenanceWindow operation are also required for this API request. Optional fields that aren't specified are set to null.
         public let replace: Bool?
-        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up Maintenance Windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// The targets (either managed nodes or tags) to modify. Managed nodes are specified using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using the format  Key=tag_name,Values=tag_value.   One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
@@ -14413,7 +14463,7 @@ extension SSM {
         public let name: String?
         /// The updated priority value.
         public let priority: Int?
-        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up Maintenance Windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// The updated target values.
         public let targets: [Target]?
@@ -14467,7 +14517,7 @@ extension SSM {
     }
 
     public struct UpdateManagedInstanceRoleRequest: AWSEncodableShape {
-        /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid and multicloud environment in the Amazon Web Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this parameter. You must create a unique role.
+        /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create the IAM service role required for Systems Manager in hybrid and multicloud environments in the Amazon Web Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this parameter. You must create a unique role.
         public let iamRole: String
         /// The ID of the managed node where you want to update the role.
         public let instanceId: String
@@ -14524,7 +14574,7 @@ extension SSM {
         public let relatedOpsItems: [RelatedOpsItem]?
         /// Specify a new severity for an OpsItem.
         public let severity: String?
-        /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem details in the Amazon Web Services Systems Manager User Guide.
+        /// The OpsItem status. For more information, see Editing OpsItem details in the Amazon Web Services Systems Manager User Guide.
         public let status: OpsItemStatus?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
@@ -14660,7 +14710,7 @@ extension SSM {
     public struct UpdatePatchBaselineRequest: AWSEncodableShape {
         /// A set of rules used to include patches in the baseline.
         public let approvalRules: PatchRuleGroup?
-        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
+        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
         public let approvedPatches: [String]?
         /// Assigns a new compliance severity level to an existing patch baseline.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
@@ -14674,7 +14724,7 @@ extension SSM {
         public let globalFilters: PatchFilterGroup?
         /// The name of the patch baseline.
         public let name: String?
-        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
+        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
         public let rejectedPatches: [String]?
         /// The action for Patch Manager to take on patches included in the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified.  BLOCK   All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
         public let rejectedPatchesAction: PatchAction?
@@ -15274,7 +15324,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var subTypeCountLimitExceededException: Self { .init(.subTypeCountLimitExceededException) }
     /// You specified the Safe option for the DeregisterTargetFromMaintenanceWindow operation, but the target is still referenced in a task.
     public static var targetInUseException: Self { .init(.targetInUseException) }
-    /// The specified target managed node for the session isn't fully configured for use with Session Manager. For more information, see Getting started with Session Manager in the Amazon Web Services Systems Manager User Guide. This error is also returned if you attempt to start a session on a managed node that is located in a different account or Region
+    /// The specified target managed node for the session isn't fully configured for use with Session Manager. For more information, see Setting up Session Manager in the Amazon Web Services Systems Manager User Guide. This error is also returned if you attempt to start a session on a managed node that is located in a different account or Region
     public static var targetNotConnected: Self { .init(.targetNotConnected) }
     /// The Targets parameter includes too many tags. Remove one or more tags and try the command again.
     public static var tooManyTagsError: Self { .init(.tooManyTagsError) }

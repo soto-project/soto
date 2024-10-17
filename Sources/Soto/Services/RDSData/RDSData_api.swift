@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS RDSData service.
 ///
-/// RDS Data API Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora DB cluster. To run these statements, you use the RDS Data API (Data API). Data API is available with the following types of Aurora databases:   Aurora PostgreSQL - Serverless v2, Serverless v1, and provisioned   Aurora MySQL - Serverless v1 only   For more information about the Data API, see Using RDS Data API in the Amazon Aurora User Guide.
+/// RDS Data API Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora DB cluster. To run these statements, you use the RDS Data API (Data API). Data API is available with the following types of Aurora databases:   Aurora PostgreSQL - Serverless v2, provisioned, and Serverless v1   Aurora MySQL - Serverless v2, provisioned, and Serverless v1   For more information about the Data API, see Using RDS Data API in the Amazon Aurora User Guide.
 public struct RDSData: AWSService {
     // MARK: Member variables
 
@@ -136,7 +136,7 @@ public struct RDSData: AWSService {
         return try await self.batchExecuteStatement(input, logger: logger)
     }
 
-    /// Starts a SQL transaction.  A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. DDL statements inside a transaction cause an implicit commit. We recommend that you run each DDL statement in a separate ExecuteStatement call with continueAfterTimeout enabled.
+    /// Starts a SQL transaction.  A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfterTimeout enabled.
     @Sendable
     @inlinable
     public func beginTransaction(_ input: BeginTransactionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BeginTransactionResponse {
@@ -149,7 +149,7 @@ public struct RDSData: AWSService {
             logger: logger
         )
     }
-    /// Starts a SQL transaction.  A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. DDL statements inside a transaction cause an implicit commit. We recommend that you run each DDL statement in a separate ExecuteStatement call with continueAfterTimeout enabled.
+    /// Starts a SQL transaction.  A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfterTimeout enabled.
     ///
     /// Parameters:
     ///   - database: The name of the database.
@@ -209,7 +209,7 @@ public struct RDSData: AWSService {
         return try await self.commitTransaction(input, logger: logger)
     }
 
-    /// Runs one or more SQL statements.  This operation isn't supported for Aurora PostgreSQL Serverless v2 and provisioned DB clusters, and for Aurora Serverless v1 DB clusters,  the operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
+    /// Runs one or more SQL statements.  This operation isn't supported for Aurora Serverless v2 and provisioned DB clusters. For Aurora Serverless v1 DB clusters, the operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
     @available(*, deprecated, message: "The ExecuteSql API is deprecated, please use the ExecuteStatement API.")
     @Sendable
     @inlinable
@@ -223,7 +223,7 @@ public struct RDSData: AWSService {
             logger: logger
         )
     }
-    /// Runs one or more SQL statements.  This operation isn't supported for Aurora PostgreSQL Serverless v2 and provisioned DB clusters, and for Aurora Serverless v1 DB clusters,  the operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
+    /// Runs one or more SQL statements.  This operation isn't supported for Aurora Serverless v2 and provisioned DB clusters. For Aurora Serverless v1 DB clusters, the operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
     ///
     /// Parameters:
     ///   - awsSecretStoreArn: The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret.

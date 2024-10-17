@@ -7307,6 +7307,38 @@ public struct Glue: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
+    /// Tests a connection to a service to validate the service credentials that you provide. You can either provide an existing connection name or a TestConnectionInput for testing a non-existing connection input. Providing both at the same time will cause an error. If the action is successful, the service sends back an HTTP 200 response.
+    @Sendable
+    @inlinable
+    public func testConnection(_ input: TestConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestConnectionResponse {
+        try await self.client.execute(
+            operation: "TestConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Tests a connection to a service to validate the service credentials that you provide. You can either provide an existing connection name or a TestConnectionInput for testing a non-existing connection input. Providing both at the same time will cause an error. If the action is successful, the service sends back an HTTP 200 response.
+    ///
+    /// Parameters:
+    ///   - connectionName: Optional. The name of the connection to test. If only name is provided, the operation will get the connection and use that for testing.
+    ///   - testConnectionInput: A structure that is used to specify testing a connection to a service.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func testConnection(
+        connectionName: String? = nil,
+        testConnectionInput: TestConnectionInput? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TestConnectionResponse {
+        let input = TestConnectionRequest(
+            connectionName: connectionName, 
+            testConnectionInput: testConnectionInput
+        )
+        return try await self.testConnection(input, logger: logger)
+    }
+
     /// Removes tags from a resource.
     @Sendable
     @inlinable

@@ -2255,6 +2255,8 @@ extension EMR {
     }
 
     public struct InstanceFleet: AWSDecodableShape {
+        /// Reserved.
+        public let context: String?
         /// The unique identifier of the instance fleet.
         public let id: String?
         /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, or TASK.
@@ -2279,7 +2281,8 @@ extension EMR {
         public let targetSpotCapacity: Int?
 
         @inlinable
-        public init(id: String? = nil, instanceFleetType: InstanceFleetType? = nil, instanceTypeSpecifications: [InstanceTypeSpecification]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, provisionedOnDemandCapacity: Int? = nil, provisionedSpotCapacity: Int? = nil, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, status: InstanceFleetStatus? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
+        public init(context: String? = nil, id: String? = nil, instanceFleetType: InstanceFleetType? = nil, instanceTypeSpecifications: [InstanceTypeSpecification]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, provisionedOnDemandCapacity: Int? = nil, provisionedSpotCapacity: Int? = nil, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, status: InstanceFleetStatus? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
+            self.context = context
             self.id = id
             self.instanceFleetType = instanceFleetType
             self.instanceTypeSpecifications = instanceTypeSpecifications
@@ -2294,6 +2297,7 @@ extension EMR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case context = "Context"
             case id = "Id"
             case instanceFleetType = "InstanceFleetType"
             case instanceTypeSpecifications = "InstanceTypeSpecifications"
@@ -2309,6 +2313,8 @@ extension EMR {
     }
 
     public struct InstanceFleetConfig: AWSEncodableShape {
+        /// Reserved.
+        public let context: String?
         /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, and TASK.
         public let instanceFleetType: InstanceFleetType?
         /// The instance type configurations that define the Amazon EC2 instances in the instance fleet.
@@ -2325,7 +2331,8 @@ extension EMR {
         public let targetSpotCapacity: Int?
 
         @inlinable
-        public init(instanceFleetType: InstanceFleetType? = nil, instanceTypeConfigs: [InstanceTypeConfig]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
+        public init(context: String? = nil, instanceFleetType: InstanceFleetType? = nil, instanceTypeConfigs: [InstanceTypeConfig]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
+            self.context = context
             self.instanceFleetType = instanceFleetType
             self.instanceTypeConfigs = instanceTypeConfigs
             self.launchSpecifications = launchSpecifications
@@ -2336,6 +2343,8 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.context, name: "context", parent: name, max: 256)
+            try self.validate(self.context, name: "context", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.instanceTypeConfigs?.forEach {
                 try $0.validate(name: "\(name).instanceTypeConfigs[]")
             }
@@ -2348,6 +2357,7 @@ extension EMR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case context = "Context"
             case instanceFleetType = "InstanceFleetType"
             case instanceTypeConfigs = "InstanceTypeConfigs"
             case launchSpecifications = "LaunchSpecifications"
@@ -2359,6 +2369,8 @@ extension EMR {
     }
 
     public struct InstanceFleetModifyConfig: AWSEncodableShape {
+        /// Reserved.
+        public let context: String?
         /// A unique identifier for the instance fleet.
         public let instanceFleetId: String?
         /// An array of InstanceTypeConfig objects that specify how Amazon EMR provisions Amazon EC2 instances when it fulfills On-Demand and Spot capacities. For more information, see InstanceTypeConfig.
@@ -2371,7 +2383,8 @@ extension EMR {
         public let targetSpotCapacity: Int?
 
         @inlinable
-        public init(instanceFleetId: String? = nil, instanceTypeConfigs: [InstanceTypeConfig]? = nil, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
+        public init(context: String? = nil, instanceFleetId: String? = nil, instanceTypeConfigs: [InstanceTypeConfig]? = nil, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
+            self.context = context
             self.instanceFleetId = instanceFleetId
             self.instanceTypeConfigs = instanceTypeConfigs
             self.resizeSpecifications = resizeSpecifications
@@ -2380,6 +2393,8 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.context, name: "context", parent: name, max: 256)
+            try self.validate(self.context, name: "context", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.instanceTypeConfigs?.forEach {
                 try $0.validate(name: "\(name).instanceTypeConfigs[]")
             }
@@ -2389,6 +2404,7 @@ extension EMR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case context = "Context"
             case instanceFleetId = "InstanceFleetId"
             case instanceTypeConfigs = "InstanceTypeConfigs"
             case resizeSpecifications = "ResizeSpecifications"

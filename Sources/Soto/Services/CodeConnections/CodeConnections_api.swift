@@ -219,6 +219,7 @@ public struct CodeConnections: AWSService {
     ///   - branch: The branch in the repository from which changes will be synced.
     ///   - configFile: The file name of the configuration file that manages syncing between the connection and the repository. This configuration file is stored in the repository.
     ///   - publishDeploymentStatus: Whether to enable or disable publishing of deployment status to source providers.
+    ///   - pullRequestComment: A toggle that specifies whether to enable or disable pull request comments for the sync configuration to be created.
     ///   - repositoryLinkId: The ID of the repository link created for the connection. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
     ///   - resourceName: The name of the Amazon Web Services resource (for example, a CloudFormation stack in the case of CFN_STACK_SYNC) that will be synchronized from the linked repository.
     ///   - roleArn: The ARN of the IAM role that grants permission for Amazon Web Services to use Git sync to update a given Amazon Web Services resource on your behalf.
@@ -230,6 +231,7 @@ public struct CodeConnections: AWSService {
         branch: String,
         configFile: String,
         publishDeploymentStatus: PublishDeploymentStatus? = nil,
+        pullRequestComment: PullRequestComment? = nil,
         repositoryLinkId: String,
         resourceName: String,
         roleArn: String,
@@ -241,6 +243,7 @@ public struct CodeConnections: AWSService {
             branch: branch, 
             configFile: configFile, 
             publishDeploymentStatus: publishDeploymentStatus, 
+            pullRequestComment: pullRequestComment, 
             repositoryLinkId: repositoryLinkId, 
             resourceName: resourceName, 
             roleArn: roleArn, 
@@ -979,6 +982,7 @@ public struct CodeConnections: AWSService {
     ///   - branch: The branch for the sync configuration to be updated.
     ///   - configFile: The configuration file for the sync configuration to be updated.
     ///   - publishDeploymentStatus: Whether to enable or disable publishing of deployment status to source providers.
+    ///   - pullRequestComment: TA toggle that specifies whether to enable or disable pull request comments for the sync configuration to be updated.
     ///   - repositoryLinkId: The ID of the repository link for the sync configuration to be updated.
     ///   - resourceName: The name of the Amazon Web Services resource for the sync configuration to be updated.
     ///   - roleArn: The ARN of the IAM role for the sync configuration to be updated.
@@ -990,6 +994,7 @@ public struct CodeConnections: AWSService {
         branch: String? = nil,
         configFile: String? = nil,
         publishDeploymentStatus: PublishDeploymentStatus? = nil,
+        pullRequestComment: PullRequestComment? = nil,
         repositoryLinkId: String? = nil,
         resourceName: String,
         roleArn: String? = nil,
@@ -1001,6 +1006,7 @@ public struct CodeConnections: AWSService {
             branch: branch, 
             configFile: configFile, 
             publishDeploymentStatus: publishDeploymentStatus, 
+            pullRequestComment: pullRequestComment, 
             repositoryLinkId: repositoryLinkId, 
             resourceName: resourceName, 
             roleArn: roleArn, 

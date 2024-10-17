@@ -282,12 +282,15 @@ extension Kinesis {
         public let streamModeDetails: StreamModeDetails?
         /// A name to identify the stream. The stream name is scoped to the Amazon Web Services account used by the application that creates the stream. It is also scoped by Amazon Web Services Region. That is, two streams in two different Amazon Web Services accounts can have the same name. Two streams in the same Amazon Web Services account but in two different Regions can also have the same name.
         public let streamName: String
+        /// A set of up to 10 key-value pairs to use to create the tags.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(shardCount: Int? = nil, streamModeDetails: StreamModeDetails? = nil, streamName: String) {
+        public init(shardCount: Int? = nil, streamModeDetails: StreamModeDetails? = nil, streamName: String, tags: [String: String]? = nil) {
             self.shardCount = shardCount
             self.streamModeDetails = streamModeDetails
             self.streamName = streamName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -295,12 +298,20 @@ extension Kinesis {
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case shardCount = "ShardCount"
             case streamModeDetails = "StreamModeDetails"
             case streamName = "StreamName"
+            case tags = "Tags"
         }
     }
 

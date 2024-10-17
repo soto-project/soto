@@ -2121,17 +2121,19 @@ extension Deadline {
         public let priority: Int
         /// The ID of the queue that the job is submitted to.
         public let queueId: String
+        /// The job ID for the source job.
+        public let sourceJobId: String?
         /// The storage profile ID for the storage profile to connect to the job.
         public let storageProfileId: String?
         /// The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued.
         public let targetTaskRunStatus: CreateJobTargetTaskRunStatus?
         /// The job template to use for this job.
-        public let template: String
+        public let template: String?
         /// The file type for the job template.
-        public let templateType: JobTemplateType
+        public let templateType: JobTemplateType?
 
         @inlinable
-        public init(attachments: Attachments? = nil, clientToken: String? = CreateJobRequest.idempotencyToken(), farmId: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, parameters: [String: JobParameter]? = nil, priority: Int, queueId: String, storageProfileId: String? = nil, targetTaskRunStatus: CreateJobTargetTaskRunStatus? = nil, template: String, templateType: JobTemplateType) {
+        public init(attachments: Attachments? = nil, clientToken: String? = CreateJobRequest.idempotencyToken(), farmId: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, parameters: [String: JobParameter]? = nil, priority: Int, queueId: String, sourceJobId: String? = nil, storageProfileId: String? = nil, targetTaskRunStatus: CreateJobTargetTaskRunStatus? = nil, template: String? = nil, templateType: JobTemplateType? = nil) {
             self.attachments = attachments
             self.clientToken = clientToken
             self.farmId = farmId
@@ -2140,6 +2142,7 @@ extension Deadline {
             self.parameters = parameters
             self.priority = priority
             self.queueId = queueId
+            self.sourceJobId = sourceJobId
             self.storageProfileId = storageProfileId
             self.targetTaskRunStatus = targetTaskRunStatus
             self.template = template
@@ -2157,10 +2160,11 @@ extension Deadline {
             try container.encodeIfPresent(self.parameters, forKey: .parameters)
             try container.encode(self.priority, forKey: .priority)
             request.encodePath(self.queueId, key: "queueId")
+            try container.encodeIfPresent(self.sourceJobId, forKey: .sourceJobId)
             try container.encodeIfPresent(self.storageProfileId, forKey: .storageProfileId)
             try container.encodeIfPresent(self.targetTaskRunStatus, forKey: .targetTaskRunStatus)
-            try container.encode(self.template, forKey: .template)
-            try container.encode(self.templateType, forKey: .templateType)
+            try container.encodeIfPresent(self.template, forKey: .template)
+            try container.encodeIfPresent(self.templateType, forKey: .templateType)
         }
 
         public func validate(name: String) throws {
@@ -2178,6 +2182,7 @@ extension Deadline {
             try self.validate(self.priority, name: "priority", parent: name, max: 100)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+            try self.validate(self.sourceJobId, name: "sourceJobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
             try self.validate(self.storageProfileId, name: "storageProfileId", parent: name, pattern: "^sp-[0-9a-f]{32}$")
             try self.validate(self.template, name: "template", parent: name, max: 300000)
             try self.validate(self.template, name: "template", parent: name, min: 1)
@@ -2189,6 +2194,7 @@ extension Deadline {
             case maxRetriesPerTask = "maxRetriesPerTask"
             case parameters = "parameters"
             case priority = "priority"
+            case sourceJobId = "sourceJobId"
             case storageProfileId = "storageProfileId"
             case targetTaskRunStatus = "targetTaskRunStatus"
             case template = "template"
@@ -4123,6 +4129,8 @@ extension Deadline {
         public let parameters: [String: JobParameter]?
         /// The job priority.
         public let priority: Int
+        /// The job ID for the source job.
+        public let sourceJobId: String?
         /// The date and time the resource started running.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startedAt: Date?
@@ -4141,7 +4149,7 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(attachments: Attachments? = nil, createdAt: Date, createdBy: String, description: String? = nil, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String, parameters: [String: JobParameter]? = nil, priority: Int, startedAt: Date? = nil, storageProfileId: String? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(attachments: Attachments? = nil, createdAt: Date, createdBy: String, description: String? = nil, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String, parameters: [String: JobParameter]? = nil, priority: Int, sourceJobId: String? = nil, startedAt: Date? = nil, storageProfileId: String? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.attachments = attachments
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4155,6 +4163,7 @@ extension Deadline {
             self.name = name
             self.parameters = parameters
             self.priority = priority
+            self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.storageProfileId = storageProfileId
             self.targetTaskRunStatus = targetTaskRunStatus
@@ -4178,6 +4187,7 @@ extension Deadline {
             case name = "name"
             case parameters = "parameters"
             case priority = "priority"
+            case sourceJobId = "sourceJobId"
             case startedAt = "startedAt"
             case storageProfileId = "storageProfileId"
             case targetTaskRunStatus = "targetTaskRunStatus"
@@ -5597,6 +5607,8 @@ extension Deadline {
         public let priority: Int?
         /// The queue ID.
         public let queueId: String?
+        /// The job ID for the source job.
+        public let sourceJobId: String?
         /// The date and time the resource started running.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startedAt: Date?
@@ -5608,7 +5620,7 @@ extension Deadline {
         public let taskRunStatusCounts: [TaskRunStatus: Int]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, endedAt: Date? = nil, jobId: String? = nil, jobParameters: [String: JobParameter]? = nil, lifecycleStatus: JobLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, endedAt: Date? = nil, jobId: String? = nil, jobParameters: [String: JobParameter]? = nil, lifecycleStatus: JobLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String? = nil, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
@@ -5621,6 +5633,7 @@ extension Deadline {
             self.name = name
             self.priority = priority
             self.queueId = queueId
+            self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.targetTaskRunStatus = targetTaskRunStatus
             self.taskRunStatus = taskRunStatus
@@ -5640,6 +5653,7 @@ extension Deadline {
             case name = "name"
             case priority = "priority"
             case queueId = "queueId"
+            case sourceJobId = "sourceJobId"
             case startedAt = "startedAt"
             case targetTaskRunStatus = "targetTaskRunStatus"
             case taskRunStatus = "taskRunStatus"
@@ -5670,6 +5684,8 @@ extension Deadline {
         public let name: String
         /// The job priority.
         public let priority: Int
+        /// The job ID for the source job.
+        public let sourceJobId: String?
         /// The date and time the resource started running.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startedAt: Date?
@@ -5686,7 +5702,7 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String, priority: Int, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String, priority: Int, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
@@ -5697,6 +5713,7 @@ extension Deadline {
             self.maxRetriesPerTask = maxRetriesPerTask
             self.name = name
             self.priority = priority
+            self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.targetTaskRunStatus = targetTaskRunStatus
             self.taskRunStatus = taskRunStatus
@@ -5716,6 +5733,7 @@ extension Deadline {
             case maxRetriesPerTask = "maxRetriesPerTask"
             case name = "name"
             case priority = "priority"
+            case sourceJobId = "sourceJobId"
             case startedAt = "startedAt"
             case targetTaskRunStatus = "targetTaskRunStatus"
             case taskRunStatus = "taskRunStatus"
@@ -6130,6 +6148,66 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case members = "members"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListJobParameterDefinitionsRequest: AWSEncodableShape {
+        /// The farm ID of the job to list.
+        public let farmId: String
+        /// The job ID to include on the list.
+        public let jobId: String
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null to start from the beginning.
+        public let nextToken: String?
+        /// The queue ID to include on the list.
+        public let queueId: String
+
+        @inlinable
+        public init(farmId: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.queueId, key: "queueId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListJobParameterDefinitionsResponse: AWSDecodableShape {
+        /// Lists parameter definitions of a job.
+        public let jobParameterDefinitions: [String]
+        /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+        public let nextToken: String?
+
+        @inlinable
+        public init(jobParameterDefinitions: [String], nextToken: String? = nil) {
+            self.jobParameterDefinitions = jobParameterDefinitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobParameterDefinitions = "jobParameterDefinitions"
             case nextToken = "nextToken"
         }
     }

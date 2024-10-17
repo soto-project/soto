@@ -3117,6 +3117,35 @@ public struct QuickSight: AWSService {
         return try await self.describeNamespace(input, logger: logger)
     }
 
+    /// Describes a personalization configuration.
+    @Sendable
+    @inlinable
+    public func describeQPersonalizationConfiguration(_ input: DescribeQPersonalizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQPersonalizationConfigurationResponse {
+        try await self.client.execute(
+            operation: "DescribeQPersonalizationConfiguration", 
+            path: "/accounts/{AwsAccountId}/q-personalization-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a personalization configuration.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the personalization configuration that the user wants described.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeQPersonalizationConfiguration(
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeQPersonalizationConfigurationResponse {
+        let input = DescribeQPersonalizationConfigurationRequest(
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeQPersonalizationConfiguration(input, logger: logger)
+    }
+
     /// Provides a summary of a refresh schedule.
     @Sendable
     @inlinable
@@ -4143,6 +4172,44 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.listFolders(input, logger: logger)
+    }
+
+    /// List all folders that a resource is a member of.
+    @Sendable
+    @inlinable
+    public func listFoldersForResource(_ input: ListFoldersForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFoldersForResourceResponse {
+        try await self.client.execute(
+            operation: "ListFoldersForResource", 
+            path: "/accounts/{AwsAccountId}/resource/{ResourceArn}/folders", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all folders that a resource is a member of.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID for the Amazon Web Services account that contains the resource.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - resourceArn: The Amazon Resource Name (ARN) the resource whose folders you need to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFoldersForResource(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFoldersForResourceResponse {
+        let input = ListFoldersForResourceRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceArn: resourceArn
+        )
+        return try await self.listFoldersForResource(input, logger: logger)
     }
 
     /// Lists member users in a group.
@@ -5356,6 +5423,8 @@ public struct QuickSight: AWSService {
     ///   - cloudFormationOverridePropertyConfiguration: An optional collection of structures that generate CloudFormation parameters to override the existing resource property values when the resource is exported to a new CloudFormation template. Use this field if the ExportFormat field of a StartAssetBundleExportJobRequest API call is set to CLOUDFORMATION_JSON.
     ///   - exportFormat: The export data format.
     ///   - includeAllDependencies: A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you provided a Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any theme, dataset, and data source resource that is a dependency of the dashboard is also exported.
+    ///   - includeFolderMembers: A setting that indicates whether you want to include folder assets. You can also use this setting to recusrsively include all subfolders of an exported folder.
+    ///   - includeFolderMemberships: A Boolean that determines if the exported asset carries over information about the folders that the asset is a member of.
     ///   - includePermissions: A Boolean that determines whether all permissions for each resource ARN are exported with the job. If you set IncludePermissions to TRUE, any permissions associated with each resource are exported.
     ///   - includeTags:  A Boolean that determines whether all tags for each resource ARN are exported with the job. If you set IncludeTags to TRUE, any tags associated with each resource are exported.
     ///   - resourceArns: An array of resource ARNs to export. The following resources are supported.    Analysis     Dashboard     DataSet     DataSource     RefreshSchedule     Theme     VPCConnection    The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
@@ -5368,6 +5437,8 @@ public struct QuickSight: AWSService {
         cloudFormationOverridePropertyConfiguration: AssetBundleCloudFormationOverridePropertyConfiguration? = nil,
         exportFormat: AssetBundleExportFormat,
         includeAllDependencies: Bool? = nil,
+        includeFolderMembers: IncludeFolderMembers? = nil,
+        includeFolderMemberships: Bool? = nil,
         includePermissions: Bool? = nil,
         includeTags: Bool? = nil,
         resourceArns: [String],
@@ -5380,6 +5451,8 @@ public struct QuickSight: AWSService {
             cloudFormationOverridePropertyConfiguration: cloudFormationOverridePropertyConfiguration, 
             exportFormat: exportFormat, 
             includeAllDependencies: includeAllDependencies, 
+            includeFolderMembers: includeFolderMembers, 
+            includeFolderMemberships: includeFolderMemberships, 
             includePermissions: includePermissions, 
             includeTags: includeTags, 
             resourceArns: resourceArns, 
@@ -6375,6 +6448,38 @@ public struct QuickSight: AWSService {
             publicSharingEnabled: publicSharingEnabled
         )
         return try await self.updatePublicSharingSettings(input, logger: logger)
+    }
+
+    /// Updates a personalization configuration.
+    @Sendable
+    @inlinable
+    public func updateQPersonalizationConfiguration(_ input: UpdateQPersonalizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQPersonalizationConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateQPersonalizationConfiguration", 
+            path: "/accounts/{AwsAccountId}/q-personalization-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a personalization configuration.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account account that contains the personalization configuration that the user wants to update.
+    ///   - personalizationMode: An option to allow Amazon QuickSight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateQPersonalizationConfiguration(
+        awsAccountId: String,
+        personalizationMode: PersonalizationMode,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateQPersonalizationConfigurationResponse {
+        let input = UpdateQPersonalizationConfigurationRequest(
+            awsAccountId: awsAccountId, 
+            personalizationMode: personalizationMode
+        )
+        return try await self.updateQPersonalizationConfiguration(input, logger: logger)
     }
 
     /// Updates a refresh schedule for a dataset.
@@ -7382,6 +7487,46 @@ extension QuickSight {
         return self.listFoldersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listFoldersForResource(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFoldersForResourcePaginator(
+        _ input: ListFoldersForResourceRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFoldersForResourceRequest, ListFoldersForResourceResponse> {
+        return .init(
+            input: input,
+            command: self.listFoldersForResource,
+            inputKey: \ListFoldersForResourceRequest.nextToken,
+            outputKey: \ListFoldersForResourceResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFoldersForResource(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID for the Amazon Web Services account that contains the resource.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - resourceArn: The Amazon Resource Name (ARN) the resource whose folders you need to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFoldersForResourcePaginator(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFoldersForResourceRequest, ListFoldersForResourceResponse> {
+        let input = ListFoldersForResourceRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            resourceArn: resourceArn
+        )
+        return self.listFoldersForResourcePaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listGroupMemberships(_:logger:)``.
     ///
     /// - Parameters:
@@ -8381,6 +8526,18 @@ extension QuickSight.ListFolderMembersRequest: AWSPaginateToken {
             folderId: self.folderId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListFoldersForResourceRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListFoldersForResourceRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
         )
     }
 }

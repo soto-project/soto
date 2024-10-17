@@ -54,6 +54,55 @@ extension SupplyChain {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataIntegrationFlowFileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case csv = "CSV"
+        case json = "JSON"
+        case parquet = "PARQUET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataIntegrationFlowLoadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case incremental = "INCREMENTAL"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataIntegrationFlowSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataset = "DATASET"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataIntegrationFlowTargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataset = "DATASET"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataIntegrationFlowTransformationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case sql = "SQL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataLakeDatasetSchemaFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case double = "DOUBLE"
+        case int = "INT"
+        case string = "STRING"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case createFailed = "CreateFailed"
+        case deleteFailed = "DeleteFailed"
+        case deleted = "Deleted"
+        case deleting = "Deleting"
+        case initializing = "Initializing"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct BillOfMaterialsImportJob: AWSDecodableShape {
@@ -87,7 +136,7 @@ extension SupplyChain {
     }
 
     public struct CreateBillOfMaterialsImportJobRequest: AWSEncodableShape {
-        /// An idempotency token.
+        /// An idempotency token ensures the API request is only completed no more than once. This way, retrying the request will not trigger the operation multiple times. A client token is a unique, case-sensitive string of 33 to 128 ASCII characters. To make an idempotent API request, specify a client token in the request. You should not reuse the same client token for other requests. If you retry a successful request with the same client token, the request will succeed with no further actions being taken, and you will receive the same API response as the original successful request.
         public let clientToken: String?
         /// The AWS Supply Chain instance identifier.
         public let instanceId: String
@@ -139,6 +188,753 @@ extension SupplyChain {
         }
     }
 
+    public struct CreateDataIntegrationFlowRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// Name of the DataIntegrationFlow.
+        public let name: String
+        /// The source configurations for DataIntegrationFlow.
+        public let sources: [DataIntegrationFlowSource]
+        /// The tags of the DataIntegrationFlow to be created
+        public let tags: [String: String]?
+        /// The target configurations for DataIntegrationFlow.
+        public let target: DataIntegrationFlowTarget
+        /// The transformation configurations for DataIntegrationFlow.
+        public let transformation: DataIntegrationFlowTransformation
+
+        @inlinable
+        public init(instanceId: String, name: String, sources: [DataIntegrationFlowSource], tags: [String: String]? = nil, target: DataIntegrationFlowTarget, transformation: DataIntegrationFlowTransformation) {
+            self.instanceId = instanceId
+            self.name = name
+            self.sources = sources
+            self.tags = tags
+            self.target = target
+            self.transformation = transformation
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+            try container.encode(self.sources, forKey: .sources)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.target, forKey: .target)
+            try container.encode(self.transformation, forKey: .transformation)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-]+$")
+            try self.sources.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
+            try self.validate(self.sources, name: "sources", parent: name, max: 40)
+            try self.validate(self.sources, name: "sources", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.target.validate(name: "\(name).target")
+            try self.transformation.validate(name: "\(name).transformation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sources = "sources"
+            case tags = "tags"
+            case target = "target"
+            case transformation = "transformation"
+        }
+    }
+
+    public struct CreateDataIntegrationFlowResponse: AWSDecodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the DataIntegrationFlow created.
+        public let name: String
+
+        @inlinable
+        public init(instanceId: String, name: String) {
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case name = "name"
+        }
+    }
+
+    public struct CreateDataLakeDatasetRequest: AWSEncodableShape {
+        /// The description of the dataset.
+        public let description: String?
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+        public let name: String
+        /// The name space of the dataset.    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+        public let namespace: String
+        /// The custom schema of the data lake dataset and is only required when the name space is default.
+        public let schema: DataLakeDatasetSchema?
+        /// The tags of the dataset.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, instanceId: String, name: String, namespace: String, schema: DataLakeDatasetSchema? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.namespace = namespace
+            self.schema = schema
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.namespace, key: "namespace")
+            try container.encodeIfPresent(self.schema, forKey: .schema)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 75)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 50)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+            try self.schema?.validate(name: "\(name).schema")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case schema = "schema"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDataLakeDatasetResponse: AWSDecodableShape {
+        /// The detail of created dataset.
+        public let dataset: DataLakeDataset
+
+        @inlinable
+        public init(dataset: DataLakeDataset) {
+            self.dataset = dataset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataset = "dataset"
+        }
+    }
+
+    public struct CreateInstanceRequest: AWSEncodableShape {
+        /// The client token for idempotency.
+        public let clientToken: String?
+        /// The AWS Supply Chain instance description.
+        public let instanceDescription: String?
+        /// The AWS Supply Chain instance name.
+        public let instanceName: String?
+        /// The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you provide for encryption. This is required if you do not want to use the Amazon Web Services owned KMS key. If you don't provide anything here, AWS Supply Chain uses the Amazon Web Services owned KMS key.
+        public let kmsKeyArn: String?
+        /// The Amazon Web Services tags of an instance to be created.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateInstanceRequest.idempotencyToken(), instanceDescription: String? = nil, instanceName: String? = nil, kmsKeyArn: String? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.instanceDescription = instanceDescription
+            self.instanceName = instanceName
+            self.kmsKeyArn = kmsKeyArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 126)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.instanceDescription, name: "instanceDescription", parent: name, max: 501)
+            try self.validate(self.instanceDescription, name: "instanceDescription", parent: name, pattern: "^([a-zA-Z0-9., _ʼ'%-]){0,500}$")
+            try self.validate(self.instanceName, name: "instanceName", parent: name, max: 63)
+            try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "^(?![ _ʼ'%-])[a-zA-Z0-9 _ʼ'%-]{0,62}[a-zA-Z0-9]$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:[a-z0-9][-.a-z0-9]{0,62}:kms:([a-z0-9][-.a-z0-9]{0,62})?:([a-z0-9][-.a-z0-9]{0,62})?:key/.{0,1019}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case instanceDescription = "instanceDescription"
+            case instanceName = "instanceName"
+            case kmsKeyArn = "kmsKeyArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateInstanceResponse: AWSDecodableShape {
+        /// The AWS Supply Chain instance resource data details.
+        public let instance: Instance
+
+        @inlinable
+        public init(instance: Instance) {
+            self.instance = instance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instance = "instance"
+        }
+    }
+
+    public struct DataIntegrationFlow: AWSDecodableShape {
+        /// The DataIntegrationFlow creation timestamp.
+        public let createdTime: Date
+        /// The DataIntegrationFlow instance ID.
+        public let instanceId: String
+        /// The DataIntegrationFlow last modified timestamp.
+        public let lastModifiedTime: Date
+        /// The DataIntegrationFlow name.
+        public let name: String
+        /// The DataIntegrationFlow source configurations.
+        public let sources: [DataIntegrationFlowSource]
+        /// The DataIntegrationFlow target configuration.
+        public let target: DataIntegrationFlowTarget
+        /// The DataIntegrationFlow transformation configurations.
+        public let transformation: DataIntegrationFlowTransformation
+
+        @inlinable
+        public init(createdTime: Date, instanceId: String, lastModifiedTime: Date, name: String, sources: [DataIntegrationFlowSource], target: DataIntegrationFlowTarget, transformation: DataIntegrationFlowTransformation) {
+            self.createdTime = createdTime
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.sources = sources
+            self.target = target
+            self.transformation = transformation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "createdTime"
+            case instanceId = "instanceId"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
+            case sources = "sources"
+            case target = "target"
+            case transformation = "transformation"
+        }
+    }
+
+    public struct DataIntegrationFlowDatasetOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The dataset load option to remove duplicates.
+        public let dedupeRecords: Bool?
+        /// The dataset data load type in dataset options.
+        public let loadType: DataIntegrationFlowLoadType?
+
+        @inlinable
+        public init(dedupeRecords: Bool? = nil, loadType: DataIntegrationFlowLoadType? = nil) {
+            self.dedupeRecords = dedupeRecords
+            self.loadType = loadType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dedupeRecords = "dedupeRecords"
+            case loadType = "loadType"
+        }
+    }
+
+    public struct DataIntegrationFlowDatasetSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the dataset.
+        public let datasetIdentifier: String
+        /// The dataset DataIntegrationFlow source options.
+        public let options: DataIntegrationFlowDatasetOptions?
+
+        @inlinable
+        public init(datasetIdentifier: String, options: DataIntegrationFlowDatasetOptions? = nil) {
+            self.datasetIdentifier = datasetIdentifier
+            self.options = options
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, max: 1011)
+            try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, min: 1)
+            try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, pattern: "^[-_/A-Za-z0-9:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetIdentifier = "datasetIdentifier"
+            case options = "options"
+        }
+    }
+
+    public struct DataIntegrationFlowDatasetTargetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The dataset ARN.
+        public let datasetIdentifier: String
+        /// The dataset DataIntegrationFlow target options.
+        public let options: DataIntegrationFlowDatasetOptions?
+
+        @inlinable
+        public init(datasetIdentifier: String, options: DataIntegrationFlowDatasetOptions? = nil) {
+            self.datasetIdentifier = datasetIdentifier
+            self.options = options
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, max: 1011)
+            try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, min: 1)
+            try self.validate(self.datasetIdentifier, name: "datasetIdentifier", parent: name, pattern: "^[-_/A-Za-z0-9:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetIdentifier = "datasetIdentifier"
+            case options = "options"
+        }
+    }
+
+    public struct DataIntegrationFlowS3Options: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 file type in S3 options.
+        public let fileType: DataIntegrationFlowFileType?
+
+        @inlinable
+        public init(fileType: DataIntegrationFlowFileType? = nil) {
+            self.fileType = fileType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileType = "fileType"
+        }
+    }
+
+    public struct DataIntegrationFlowS3SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The bucketName of the S3 source objects.
+        public let bucketName: String
+        /// The other options of the S3 DataIntegrationFlow source.
+        public let options: DataIntegrationFlowS3Options?
+        /// The prefix of the S3 source objects.
+        public let prefix: String
+
+        @inlinable
+        public init(bucketName: String, options: DataIntegrationFlowS3Options? = nil, prefix: String) {
+            self.bucketName = bucketName
+            self.options = options
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9.-]*[a-z0-9]$")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 700)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^[/A-Za-z0-9._-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case options = "options"
+            case prefix = "prefix"
+        }
+    }
+
+    public struct DataIntegrationFlowS3TargetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The bucketName of the S3 target objects.
+        public let bucketName: String
+        /// The S3 DataIntegrationFlow target options.
+        public let options: DataIntegrationFlowS3Options?
+        /// The prefix of the S3 target objects.
+        public let prefix: String
+
+        @inlinable
+        public init(bucketName: String, options: DataIntegrationFlowS3Options? = nil, prefix: String) {
+            self.bucketName = bucketName
+            self.options = options
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9.-]*[a-z0-9]$")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 700)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^[/A-Za-z0-9._-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case options = "options"
+            case prefix = "prefix"
+        }
+    }
+
+    public struct DataIntegrationFlowSQLTransformationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The transformation SQL query body based on SparkSQL.
+        public let query: String
+
+        @inlinable
+        public init(query: String) {
+            self.query = query
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.query, name: "query", parent: name, max: 65535)
+            try self.validate(self.query, name: "query", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case query = "query"
+        }
+    }
+
+    public struct DataIntegrationFlowSource: AWSEncodableShape & AWSDecodableShape {
+        /// The dataset DataIntegrationFlow source.
+        public let datasetSource: DataIntegrationFlowDatasetSourceConfiguration?
+        /// The S3 DataIntegrationFlow source.
+        public let s3Source: DataIntegrationFlowS3SourceConfiguration?
+        /// The DataIntegrationFlow source name that can be used as table alias in SQL transformation query.
+        public let sourceName: String
+        /// The DataIntegrationFlow source type.
+        public let sourceType: DataIntegrationFlowSourceType
+
+        @inlinable
+        public init(datasetSource: DataIntegrationFlowDatasetSourceConfiguration? = nil, s3Source: DataIntegrationFlowS3SourceConfiguration? = nil, sourceName: String, sourceType: DataIntegrationFlowSourceType) {
+            self.datasetSource = datasetSource
+            self.s3Source = s3Source
+            self.sourceName = sourceName
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.datasetSource?.validate(name: "\(name).datasetSource")
+            try self.s3Source?.validate(name: "\(name).s3Source")
+            try self.validate(self.sourceName, name: "sourceName", parent: name, max: 256)
+            try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
+            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^[A-Za-z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetSource = "datasetSource"
+            case s3Source = "s3Source"
+            case sourceName = "sourceName"
+            case sourceType = "sourceType"
+        }
+    }
+
+    public struct DataIntegrationFlowTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The dataset DataIntegrationFlow target.
+        public let datasetTarget: DataIntegrationFlowDatasetTargetConfiguration?
+        /// The S3 DataIntegrationFlow target.
+        public let s3Target: DataIntegrationFlowS3TargetConfiguration?
+        /// The DataIntegrationFlow target type.
+        public let targetType: DataIntegrationFlowTargetType
+
+        @inlinable
+        public init(datasetTarget: DataIntegrationFlowDatasetTargetConfiguration? = nil, s3Target: DataIntegrationFlowS3TargetConfiguration? = nil, targetType: DataIntegrationFlowTargetType) {
+            self.datasetTarget = datasetTarget
+            self.s3Target = s3Target
+            self.targetType = targetType
+        }
+
+        public func validate(name: String) throws {
+            try self.datasetTarget?.validate(name: "\(name).datasetTarget")
+            try self.s3Target?.validate(name: "\(name).s3Target")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetTarget = "datasetTarget"
+            case s3Target = "s3Target"
+            case targetType = "targetType"
+        }
+    }
+
+    public struct DataIntegrationFlowTransformation: AWSEncodableShape & AWSDecodableShape {
+        /// The SQL DataIntegrationFlow transformation configuration.
+        public let sqlTransformation: DataIntegrationFlowSQLTransformationConfiguration?
+        /// The DataIntegrationFlow transformation type.
+        public let transformationType: DataIntegrationFlowTransformationType
+
+        @inlinable
+        public init(sqlTransformation: DataIntegrationFlowSQLTransformationConfiguration? = nil, transformationType: DataIntegrationFlowTransformationType) {
+            self.sqlTransformation = sqlTransformation
+            self.transformationType = transformationType
+        }
+
+        public func validate(name: String) throws {
+            try self.sqlTransformation?.validate(name: "\(name).sqlTransformation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sqlTransformation = "sqlTransformation"
+            case transformationType = "transformationType"
+        }
+    }
+
+    public struct DataLakeDataset: AWSDecodableShape {
+        /// The arn of the dataset.
+        public let arn: String
+        /// The creation time of the dataset.
+        public let createdTime: Date
+        /// The description of the dataset.
+        public let description: String?
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The last modified time of the dataset.
+        public let lastModifiedTime: Date
+        /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+        public let name: String
+        /// The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+        public let namespace: String
+        /// The schema of the dataset.
+        public let schema: DataLakeDatasetSchema
+
+        @inlinable
+        public init(arn: String, createdTime: Date, description: String? = nil, instanceId: String, lastModifiedTime: Date, name: String, namespace: String, schema: DataLakeDatasetSchema) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.namespace = namespace
+            self.schema = schema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case instanceId = "instanceId"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
+            case namespace = "namespace"
+            case schema = "schema"
+        }
+    }
+
+    public struct DataLakeDatasetSchema: AWSEncodableShape & AWSDecodableShape {
+        /// The list of field details of the dataset schema.
+        public let fields: [DataLakeDatasetSchemaField]
+        /// The name of the dataset schema.
+        public let name: String
+
+        @inlinable
+        public init(fields: [DataLakeDatasetSchemaField], name: String) {
+            self.fields = fields
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.fields.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+            try self.validate(self.fields, name: "fields", parent: name, max: 500)
+            try self.validate(self.fields, name: "fields", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case name = "name"
+        }
+    }
+
+    public struct DataLakeDatasetSchemaField: AWSEncodableShape & AWSDecodableShape {
+        /// Indicate if the field is required or not.
+        public let isRequired: Bool
+        /// The dataset field name.
+        public let name: String
+        /// The dataset field type.
+        public let type: DataLakeDatasetSchemaFieldType
+
+        @inlinable
+        public init(isRequired: Bool, name: String, type: DataLakeDatasetSchemaFieldType) {
+            self.isRequired = isRequired
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isRequired = "isRequired"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct DeleteDataIntegrationFlowRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the DataIntegrationFlow to be deleted.
+        public let name: String
+
+        @inlinable
+        public init(instanceId: String, name: String) {
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataIntegrationFlowResponse: AWSDecodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the DataIntegrationFlow deleted.
+        public let name: String
+
+        @inlinable
+        public init(instanceId: String, name: String) {
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case name = "name"
+        }
+    }
+
+    public struct DeleteDataLakeDatasetRequest: AWSEncodableShape {
+        /// The AWS Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the dataset. If the namespace is asc, the name must be one of the supported data entities .
+        public let name: String
+        /// The namespace of the dataset. The available values are:   asc: for  AWS Supply Chain supported datasets .   default: for datasets with custom user-defined schemas.
+        public let namespace: String
+
+        @inlinable
+        public init(instanceId: String, name: String, namespace: String) {
+            self.instanceId = instanceId
+            self.name = name
+            self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.namespace, key: "namespace")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 75)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 50)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataLakeDatasetResponse: AWSDecodableShape {
+        /// The AWS Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of deleted dataset.
+        public let name: String
+        /// The namespace of deleted dataset.
+        public let namespace: String
+
+        @inlinable
+        public init(instanceId: String, name: String, namespace: String) {
+            self.instanceId = instanceId
+            self.name = name
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case name = "name"
+            case namespace = "namespace"
+        }
+    }
+
+    public struct DeleteInstanceRequest: AWSEncodableShape {
+        /// The AWS Supply Chain instance identifier.
+        public let instanceId: String
+
+        @inlinable
+        public init(instanceId: String) {
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteInstanceResponse: AWSDecodableShape {
+        /// The AWS Supply Chain instance resource data details.
+        public let instance: Instance
+
+        @inlinable
+        public init(instance: Instance) {
+            self.instance = instance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instance = "instance"
+        }
+    }
+
     public struct GetBillOfMaterialsImportJobRequest: AWSEncodableShape {
         /// The AWS Supply Chain instance identifier.
         public let instanceId: String
@@ -181,6 +977,405 @@ extension SupplyChain {
 
         private enum CodingKeys: String, CodingKey {
             case job = "job"
+        }
+    }
+
+    public struct GetDataIntegrationFlowRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the DataIntegrationFlow created.
+        public let name: String
+
+        @inlinable
+        public init(instanceId: String, name: String) {
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataIntegrationFlowResponse: AWSDecodableShape {
+        /// The details of the DataIntegrationFlow returned.
+        public let flow: DataIntegrationFlow
+
+        @inlinable
+        public init(flow: DataIntegrationFlow) {
+            self.flow = flow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flow = "flow"
+        }
+    }
+
+    public struct GetDataLakeDatasetRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+        public let name: String
+        /// The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+        public let namespace: String
+
+        @inlinable
+        public init(instanceId: String, name: String, namespace: String) {
+            self.instanceId = instanceId
+            self.name = name
+            self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.namespace, key: "namespace")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 75)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 50)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataLakeDatasetResponse: AWSDecodableShape {
+        /// The fetched dataset details.
+        public let dataset: DataLakeDataset
+
+        @inlinable
+        public init(dataset: DataLakeDataset) {
+            self.dataset = dataset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataset = "dataset"
+        }
+    }
+
+    public struct GetInstanceRequest: AWSEncodableShape {
+        /// The AWS Supply Chain instance identifier
+        public let instanceId: String
+
+        @inlinable
+        public init(instanceId: String) {
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetInstanceResponse: AWSDecodableShape {
+        /// The instance resource data details.
+        public let instance: Instance
+
+        @inlinable
+        public init(instance: Instance) {
+            self.instance = instance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instance = "instance"
+        }
+    }
+
+    public struct Instance: AWSDecodableShape {
+        /// The Amazon Web Services account ID that owns the instance.
+        public let awsAccountId: String
+        /// The instance creation timestamp.
+        public let createdTime: Date?
+        /// The Amazon Web Services Supply Chain instance description.
+        public let instanceDescription: String?
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The Amazon Web Services Supply Chain instance name.
+        public let instanceName: String?
+        /// The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you optionally provided for encryption. If you did not provide anything here, AWS Supply Chain uses the Amazon Web Services owned KMS key and nothing is returned.
+        public let kmsKeyArn: String?
+        /// The instance last modified timestamp.
+        public let lastModifiedTime: Date?
+        /// The state of the instance.
+        public let state: InstanceState
+        /// The version number of the instance.
+        public let versionNumber: Double?
+        /// The WebApp DNS domain name of the instance.
+        public let webAppDnsDomain: String?
+
+        @inlinable
+        public init(awsAccountId: String, createdTime: Date? = nil, instanceDescription: String? = nil, instanceId: String, instanceName: String? = nil, kmsKeyArn: String? = nil, lastModifiedTime: Date? = nil, state: InstanceState, versionNumber: Double? = nil, webAppDnsDomain: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.createdTime = createdTime
+            self.instanceDescription = instanceDescription
+            self.instanceId = instanceId
+            self.instanceName = instanceName
+            self.kmsKeyArn = kmsKeyArn
+            self.lastModifiedTime = lastModifiedTime
+            self.state = state
+            self.versionNumber = versionNumber
+            self.webAppDnsDomain = webAppDnsDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "awsAccountId"
+            case createdTime = "createdTime"
+            case instanceDescription = "instanceDescription"
+            case instanceId = "instanceId"
+            case instanceName = "instanceName"
+            case kmsKeyArn = "kmsKeyArn"
+            case lastModifiedTime = "lastModifiedTime"
+            case state = "state"
+            case versionNumber = "versionNumber"
+            case webAppDnsDomain = "webAppDnsDomain"
+        }
+    }
+
+    public struct ListDataIntegrationFlowsRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// Specify the maximum number of DataIntegrationFlows to fetch in one paginated request.
+        public let maxResults: Int?
+        /// The pagination token to fetch the next page of the DataIntegrationFlows.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataIntegrationFlowsResponse: AWSDecodableShape {
+        /// The response parameters for ListDataIntegrationFlows.
+        public let flows: [DataIntegrationFlow]
+        /// The pagination token to fetch the next page of the DataIntegrationFlows.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flows: [DataIntegrationFlow], nextToken: String? = nil) {
+            self.flows = flows
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flows = "flows"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataLakeDatasetsRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The max number of datasets to fetch in this paginated request.
+        public let maxResults: Int?
+        /// The namespace of the dataset. The available values are:   asc: for  AWS Supply Chain supported datasets .   default: for datasets with custom user-defined schemas.
+        public let namespace: String
+        /// The pagination token to fetch next page of datasets.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.namespace = namespace
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.namespace, key: "namespace")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 50)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataLakeDatasetsResponse: AWSDecodableShape {
+        /// The list of fetched dataset details.
+        public let datasets: [DataLakeDataset]
+        /// The pagination token to fetch next page of datasets.
+        public let nextToken: String?
+
+        @inlinable
+        public init(datasets: [DataLakeDataset], nextToken: String? = nil) {
+            self.datasets = datasets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasets = "datasets"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListInstancesRequest: AWSEncodableShape {
+        /// The filter to ListInstances based on their names.
+        public let instanceNameFilter: [String]?
+        /// The filter to ListInstances based on their state.
+        public let instanceStateFilter: [InstanceState]?
+        /// Specify the maximum number of instances to fetch in this paginated request.
+        public let maxResults: Int?
+        /// The pagination token to fetch the next page of instances.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instanceNameFilter: [String]? = nil, instanceStateFilter: [InstanceState]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceNameFilter = instanceNameFilter
+            self.instanceStateFilter = instanceStateFilter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.instanceNameFilter, key: "instanceNameFilter")
+            request.encodeQuery(self.instanceStateFilter, key: "instanceStateFilter")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceNameFilter?.forEach {
+                try validate($0, name: "instanceNameFilter[]", parent: name, max: 63)
+                try validate($0, name: "instanceNameFilter[]", parent: name, pattern: "^(?![ _ʼ'%-])[a-zA-Z0-9 _ʼ'%-]{0,62}[a-zA-Z0-9]$")
+            }
+            try self.validate(self.instanceNameFilter, name: "instanceNameFilter", parent: name, max: 10)
+            try self.validate(self.instanceStateFilter, name: "instanceStateFilter", parent: name, max: 6)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInstancesResponse: AWSDecodableShape {
+        /// The list of instances resource data details.
+        public let instances: [Instance]
+        /// The pagination token to fetch the next page of instances.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instances: [Instance], nextToken: String? = nil) {
+            self.instances = instances
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "instances"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply chain resource ARN that needs tags to be listed.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:scn(?::([a-z0-9-]+):([0-9]+):instance)?/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})[-_./A-Za-z0-9]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tags added to an Amazon Web Services Supply Chain resource.
+        public let tags: [String: String]
+
+        @inlinable
+        public init(tags: [String: String]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
         }
     }
 
@@ -251,6 +1446,264 @@ extension SupplyChain {
 
         private enum CodingKeys: String, CodingKey {
             case eventId = "eventId"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply chain resource ARN that needs to be tagged.
+        public let resourceArn: String
+        /// The tags of the Amazon Web Services Supply chain resource to be created.
+        public let tags: [String: String]
+
+        @inlinable
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:scn(?::([a-z0-9-]+):([0-9]+):instance)?/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})[-_./A-Za-z0-9]*$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply chain resource ARN that needs to be untagged.
+        public let resourceArn: String
+        /// The list of tag keys to be deleted for an Amazon Web Services Supply Chain resource.
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:scn(?::([a-z0-9-]+):([0-9]+):instance)?/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})[-_./A-Za-z0-9]*$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateDataIntegrationFlowRequest: AWSEncodableShape {
+        /// The Amazon Web Services Supply Chain instance identifier.
+        public let instanceId: String
+        /// The name of the DataIntegrationFlow to be updated.
+        public let name: String
+        /// The new source configurations for the DataIntegrationFlow.
+        public let sources: [DataIntegrationFlowSource]?
+        /// The new target configurations for the DataIntegrationFlow.
+        public let target: DataIntegrationFlowTarget?
+        /// The new transformation configurations for the DataIntegrationFlow.
+        public let transformation: DataIntegrationFlowTransformation?
+
+        @inlinable
+        public init(instanceId: String, name: String, sources: [DataIntegrationFlowSource]? = nil, target: DataIntegrationFlowTarget? = nil, transformation: DataIntegrationFlowTransformation? = nil) {
+            self.instanceId = instanceId
+            self.name = name
+            self.sources = sources
+            self.target = target
+            self.transformation = transformation
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.sources, forKey: .sources)
+            try container.encodeIfPresent(self.target, forKey: .target)
+            try container.encodeIfPresent(self.transformation, forKey: .transformation)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-]+$")
+            try self.sources?.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
+            try self.validate(self.sources, name: "sources", parent: name, max: 40)
+            try self.validate(self.sources, name: "sources", parent: name, min: 1)
+            try self.target?.validate(name: "\(name).target")
+            try self.transformation?.validate(name: "\(name).transformation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sources = "sources"
+            case target = "target"
+            case transformation = "transformation"
+        }
+    }
+
+    public struct UpdateDataIntegrationFlowResponse: AWSDecodableShape {
+        /// The details of the updated DataIntegrationFlow.
+        public let flow: DataIntegrationFlow
+
+        @inlinable
+        public init(flow: DataIntegrationFlow) {
+            self.flow = flow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flow = "flow"
+        }
+    }
+
+    public struct UpdateDataLakeDatasetRequest: AWSEncodableShape {
+        /// The updated description of the data lake dataset.
+        public let description: String?
+        /// The Amazon Web Services Chain instance identifier.
+        public let instanceId: String
+        /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+        public let name: String
+        /// The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+        public let namespace: String
+
+        @inlinable
+        public init(description: String? = nil, instanceId: String, name: String, namespace: String) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "instanceId")
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.namespace, key: "namespace")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 75)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 50)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+        }
+    }
+
+    public struct UpdateDataLakeDatasetResponse: AWSDecodableShape {
+        /// The updated dataset details.
+        public let dataset: DataLakeDataset
+
+        @inlinable
+        public init(dataset: DataLakeDataset) {
+            self.dataset = dataset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataset = "dataset"
+        }
+    }
+
+    public struct UpdateInstanceRequest: AWSEncodableShape {
+        /// The AWS Supply Chain instance description.
+        public let instanceDescription: String?
+        /// The AWS Supply Chain instance identifier.
+        public let instanceId: String
+        /// The AWS Supply Chain instance name.
+        public let instanceName: String?
+
+        @inlinable
+        public init(instanceDescription: String? = nil, instanceId: String, instanceName: String? = nil) {
+            self.instanceDescription = instanceDescription
+            self.instanceId = instanceId
+            self.instanceName = instanceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.instanceDescription, forKey: .instanceDescription)
+            request.encodePath(self.instanceId, key: "instanceId")
+            try container.encodeIfPresent(self.instanceName, forKey: .instanceName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceDescription, name: "instanceDescription", parent: name, max: 501)
+            try self.validate(self.instanceDescription, name: "instanceDescription", parent: name, pattern: "^([a-zA-Z0-9., _ʼ'%-]){0,500}$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.instanceName, name: "instanceName", parent: name, max: 63)
+            try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "^(?![ _ʼ'%-])[a-zA-Z0-9 _ʼ'%-]{0,62}[a-zA-Z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceDescription = "instanceDescription"
+            case instanceName = "instanceName"
+        }
+    }
+
+    public struct UpdateInstanceResponse: AWSDecodableShape {
+        /// The instance resource data details.
+        public let instance: Instance
+
+        @inlinable
+        public init(instance: Instance) {
+            self.instance = instance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instance = "instance"
         }
     }
 }

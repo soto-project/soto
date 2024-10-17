@@ -88,6 +88,9 @@ public struct DirectoryService: AWSService {
             "us-east-2": "ds-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "ds-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "ds-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "ds-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "ds-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "ds-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "ds-fips.us-west-1.amazonaws.com",
             "us-west-2": "ds-fips.us-west-2.amazonaws.com"
         ])
@@ -142,7 +145,7 @@ public struct DirectoryService: AWSService {
     /// Parameters:
     ///   - directoryId: Identifier (ID) of the directory to which to add the address block.
     ///   - ipRoutes: IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your self-managed domain.
-    ///   - updateSecurityGroupForDirectoryControllers: If set to true, updates the inbound and outbound rules of the security group that has the description: "Amazon Web Services created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
+    ///   - updateSecurityGroupForDirectoryControllers: If set to true, updates the inbound and outbound rules of the security group that has the description: "Amazon Web Services created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: LDAP, Protocol: TCP, Range: 389, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: All ICMP, Protocol: All, Range: N/A, Source: Managed Microsoft AD VPC IPv4 CIDR    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
     ///   - logger: Logger use during operation
     @inlinable
     public func addIpRoutes(
@@ -592,7 +595,7 @@ public struct DirectoryService: AWSService {
     ///   - remoteDomainName: The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
     ///   - selectiveAuth: Optional parameter to enable selective authentication for the trust.
     ///   - trustDirection: The direction of the trust relationship.
-    ///   - trustPassword: The trust password. The must be the same password that was used when creating the trust relationship on the external domain.
+    ///   - trustPassword: The trust password. The trust password must be the same password that was used when creating the trust relationship on the external domain.
     ///   - trustType: The trust relationship type. Forest is the default.
     ///   - logger: Logger use during operation
     @inlinable
@@ -970,6 +973,35 @@ public struct DirectoryService: AWSService {
         return try await self.describeDirectories(input, logger: logger)
     }
 
+    /// Obtains status of directory data access enablement through the Directory Service Data API for the specified directory.
+    @Sendable
+    @inlinable
+    public func describeDirectoryDataAccess(_ input: DescribeDirectoryDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDirectoryDataAccessResult {
+        try await self.client.execute(
+            operation: "DescribeDirectoryDataAccess", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Obtains status of directory data access enablement through the Directory Service Data API for the specified directory.
+    ///
+    /// Parameters:
+    ///   - directoryId: The directory identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDirectoryDataAccess(
+        directoryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDirectoryDataAccessResult {
+        let input = DescribeDirectoryDataAccessRequest(
+            directoryId: directoryId
+        )
+        return try await self.describeDirectoryDataAccess(input, logger: logger)
+    }
+
     /// Provides information about any domain controllers in your directory.
     @Sendable
     @inlinable
@@ -1317,7 +1349,7 @@ public struct DirectoryService: AWSService {
     ///
     /// Parameters:
     ///   - directoryId: The identifier of the directory
-    ///   - type: The type of client authentication to disable. Currently, only the parameter, SmartCard is supported.
+    ///   - type: The type of client authentication to disable. Currently the only parameter "SmartCard" is supported.
     ///   - logger: Logger use during operation
     @inlinable
     public func disableClientAuthentication(
@@ -1330,6 +1362,35 @@ public struct DirectoryService: AWSService {
             type: type
         )
         return try await self.disableClientAuthentication(input, logger: logger)
+    }
+
+    /// Deactivates access to directory data via the Directory Service Data API for the specified directory.
+    @Sendable
+    @inlinable
+    public func disableDirectoryDataAccess(_ input: DisableDirectoryDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableDirectoryDataAccessResult {
+        try await self.client.execute(
+            operation: "DisableDirectoryDataAccess", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deactivates access to directory data via the Directory Service Data API for the specified directory.
+    ///
+    /// Parameters:
+    ///   - directoryId: The directory identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disableDirectoryDataAccess(
+        directoryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisableDirectoryDataAccessResult {
+        let input = DisableDirectoryDataAccessRequest(
+            directoryId: directoryId
+        )
+        return try await self.disableDirectoryDataAccess(input, logger: logger)
     }
 
     /// Deactivates LDAP secure calls for the specified directory.
@@ -1458,6 +1519,35 @@ public struct DirectoryService: AWSService {
             type: type
         )
         return try await self.enableClientAuthentication(input, logger: logger)
+    }
+
+    /// Enables access to directory data via the Directory Service Data API for the specified directory.
+    @Sendable
+    @inlinable
+    public func enableDirectoryDataAccess(_ input: EnableDirectoryDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableDirectoryDataAccessResult {
+        try await self.client.execute(
+            operation: "EnableDirectoryDataAccess", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables access to directory data via the Directory Service Data API for the specified directory.
+    ///
+    /// Parameters:
+    ///   - directoryId: The directory identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func enableDirectoryDataAccess(
+        directoryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EnableDirectoryDataAccessResult {
+        let input = EnableDirectoryDataAccessRequest(
+            directoryId: directoryId
+        )
+        return try await self.enableDirectoryDataAccess(input, logger: logger)
     }
 
     /// Activates the switch for the specific directory to always use LDAP secure calls.
@@ -1981,7 +2071,7 @@ public struct DirectoryService: AWSService {
         return try await self.removeTagsFromResource(input, logger: logger)
     }
 
-    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. You can reset the password for any user in your directory with the following exceptions:   For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user.   For Managed Microsoft AD, you can only reset the password for a user that is in an OU based off of the NetBIOS name that you typed when you created your directory. For example, you cannot reset the password for a user in the Amazon Web Services Reserved OU. For more information about the OU structure for an Managed Microsoft AD directory, see What Gets Created in the Directory Service Administration Guide.
+    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenticated following the API call. You can reset the password for any user in your directory with the following exceptions:   For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user.   For Managed Microsoft AD, you can only reset the password for a user that is in an OU based off of the NetBIOS name that you typed when you created your directory. For example, you cannot reset the password for a user in the Amazon Web Services Reserved OU. For more information about the OU structure for an Managed Microsoft AD directory, see What Gets Created in the Directory Service Administration Guide.
     @Sendable
     @inlinable
     public func resetUserPassword(_ input: ResetUserPasswordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetUserPasswordResult {
@@ -1994,7 +2084,7 @@ public struct DirectoryService: AWSService {
             logger: logger
         )
     }
-    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. You can reset the password for any user in your directory with the following exceptions:   For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user.   For Managed Microsoft AD, you can only reset the password for a user that is in an OU based off of the NetBIOS name that you typed when you created your directory. For example, you cannot reset the password for a user in the Amazon Web Services Reserved OU. For more information about the OU structure for an Managed Microsoft AD directory, see What Gets Created in the Directory Service Administration Guide.
+    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenticated following the API call. You can reset the password for any user in your directory with the following exceptions:   For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user.   For Managed Microsoft AD, you can only reset the password for a user that is in an OU based off of the NetBIOS name that you typed when you created your directory. For example, you cannot reset the password for a user in the Amazon Web Services Reserved OU. For more information about the OU structure for an Managed Microsoft AD directory, see What Gets Created in the Directory Service Administration Guide.
     ///
     /// Parameters:
     ///   - directoryId: Identifier of the Managed Microsoft AD or Simple AD directory in which the user resides.

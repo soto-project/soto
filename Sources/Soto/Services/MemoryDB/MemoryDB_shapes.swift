@@ -255,9 +255,11 @@ extension MemoryDB {
         public let dataTiering: DataTieringStatus?
         /// A description of the cluster
         public let description: String?
-        /// The Redis OSS engine patch version used by the cluster
+        ///  The Redis OSS or Valkey engine used by the cluster.
+        public let engine: String?
+        /// The engine patch version used by the cluster
         public let enginePatchVersion: String?
-        /// The Redis OSS engine version used by the cluster
+        /// The Redis engine version used by the cluster
         public let engineVersion: String?
         /// The ID of the KMS key used to encrypt the cluster
         public let kmsKeyId: String?
@@ -295,7 +297,7 @@ extension MemoryDB {
         public let tlsEnabled: Bool?
 
         @inlinable
-        public init(aclName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tlsEnabled: Bool? = nil) {
+        public init(aclName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, engine: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tlsEnabled: Bool? = nil) {
             self.aclName = aclName
             self.arn = arn
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -303,6 +305,7 @@ extension MemoryDB {
             self.clusterEndpoint = clusterEndpoint
             self.dataTiering = dataTiering
             self.description = description
+            self.engine = engine
             self.enginePatchVersion = enginePatchVersion
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
@@ -332,6 +335,7 @@ extension MemoryDB {
             case clusterEndpoint = "ClusterEndpoint"
             case dataTiering = "DataTiering"
             case description = "Description"
+            case engine = "Engine"
             case enginePatchVersion = "EnginePatchVersion"
             case engineVersion = "EngineVersion"
             case kmsKeyId = "KmsKeyId"
@@ -357,7 +361,9 @@ extension MemoryDB {
     public struct ClusterConfiguration: AWSDecodableShape {
         /// The description of the cluster configuration
         public let description: String?
-        /// The Redis OSS engine version used by the cluster
+        /// The configuration for the Redis OSS or Valkey engine used by the cluster.
+        public let engine: String?
+        /// The engine version used by the cluster
         public let engineVersion: String?
         /// The specified maintenance window for the cluster
         public let maintenanceWindow: String?
@@ -385,8 +391,9 @@ extension MemoryDB {
         public let vpcId: String?
 
         @inlinable
-        public init(description: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, shards: [ShardDetail]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, subnetGroupName: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
+        public init(description: String? = nil, engine: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, shards: [ShardDetail]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, subnetGroupName: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
             self.description = description
+            self.engine = engine
             self.engineVersion = engineVersion
             self.maintenanceWindow = maintenanceWindow
             self.name = name
@@ -404,6 +411,7 @@ extension MemoryDB {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case engine = "Engine"
             case engineVersion = "EngineVersion"
             case maintenanceWindow = "MaintenanceWindow"
             case name = "Name"
@@ -549,7 +557,9 @@ extension MemoryDB {
         public let dataTiering: Bool?
         /// An optional description of the cluster.
         public let description: String?
-        /// The version number of the Redis OSS engine to be used for the cluster.
+        /// The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
+        public let engine: String?
+        /// The version number of the engine to be used for the cluster.
         public let engineVersion: String?
         /// The ID of the KMS key used to encrypt the cluster.
         public let kmsKeyId: String?
@@ -585,12 +595,13 @@ extension MemoryDB {
         public let tlsEnabled: Bool?
 
         @inlinable
-        public init(aclName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, dataTiering: Bool? = nil, description: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
+        public init(aclName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, dataTiering: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
             self.aclName = aclName
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.clusterName = clusterName
             self.dataTiering = dataTiering
             self.description = description
+            self.engine = engine
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
             self.maintenanceWindow = maintenanceWindow
@@ -622,6 +633,7 @@ extension MemoryDB {
             case clusterName = "ClusterName"
             case dataTiering = "DataTiering"
             case description = "Description"
+            case engine = "Engine"
             case engineVersion = "EngineVersion"
             case kmsKeyId = "KmsKeyId"
             case maintenanceWindow = "MaintenanceWindow"
@@ -1100,7 +1112,9 @@ extension MemoryDB {
     public struct DescribeEngineVersionsRequest: AWSEncodableShape {
         /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
         public let defaultOnly: Bool?
-        /// The Redis OSS engine version
+        /// The engine version to return. Valid values are either valkey or redis.
+        public let engine: String?
+        /// The engine version.
         public let engineVersion: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -1110,8 +1124,9 @@ extension MemoryDB {
         public let parameterGroupFamily: String?
 
         @inlinable
-        public init(defaultOnly: Bool? = nil, engineVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, parameterGroupFamily: String? = nil) {
+        public init(defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, parameterGroupFamily: String? = nil) {
             self.defaultOnly = defaultOnly
+            self.engine = engine
             self.engineVersion = engineVersion
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1120,6 +1135,7 @@ extension MemoryDB {
 
         private enum CodingKeys: String, CodingKey {
             case defaultOnly = "DefaultOnly"
+            case engine = "Engine"
             case engineVersion = "EngineVersion"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -1605,6 +1621,8 @@ extension MemoryDB {
     }
 
     public struct EngineVersionInfo: AWSDecodableShape {
+        /// The version of the Redis OSS or Valkey engine used by the cluster.
+        public let engine: String?
         /// The patched engine version
         public let enginePatchVersion: String?
         /// The engine version
@@ -1613,13 +1631,15 @@ extension MemoryDB {
         public let parameterGroupFamily: String?
 
         @inlinable
-        public init(enginePatchVersion: String? = nil, engineVersion: String? = nil, parameterGroupFamily: String? = nil) {
+        public init(engine: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, parameterGroupFamily: String? = nil) {
+            self.engine = engine
             self.enginePatchVersion = enginePatchVersion
             self.engineVersion = engineVersion
             self.parameterGroupFamily = parameterGroupFamily
         }
 
         private enum CodingKeys: String, CodingKey {
+            case engine = "Engine"
             case enginePatchVersion = "EnginePatchVersion"
             case engineVersion = "EngineVersion"
             case parameterGroupFamily = "ParameterGroupFamily"
@@ -2135,6 +2155,8 @@ extension MemoryDB {
         public let clusterName: String?
         /// Provides details of the service update
         public let description: String?
+        /// The MemoryDB engine to which the update applies. The values are either Redis or Valkey.
+        public let engine: String?
         /// A list of nodes updated by the service update
         public let nodesUpdated: String?
         /// The date when the service update is initially available
@@ -2147,10 +2169,11 @@ extension MemoryDB {
         public let type: ServiceUpdateType?
 
         @inlinable
-        public init(autoUpdateStartDate: Date? = nil, clusterName: String? = nil, description: String? = nil, nodesUpdated: String? = nil, releaseDate: Date? = nil, serviceUpdateName: String? = nil, status: ServiceUpdateStatus? = nil, type: ServiceUpdateType? = nil) {
+        public init(autoUpdateStartDate: Date? = nil, clusterName: String? = nil, description: String? = nil, engine: String? = nil, nodesUpdated: String? = nil, releaseDate: Date? = nil, serviceUpdateName: String? = nil, status: ServiceUpdateStatus? = nil, type: ServiceUpdateType? = nil) {
             self.autoUpdateStartDate = autoUpdateStartDate
             self.clusterName = clusterName
             self.description = description
+            self.engine = engine
             self.nodesUpdated = nodesUpdated
             self.releaseDate = releaseDate
             self.serviceUpdateName = serviceUpdateName
@@ -2162,6 +2185,7 @@ extension MemoryDB {
             case autoUpdateStartDate = "AutoUpdateStartDate"
             case clusterName = "ClusterName"
             case description = "Description"
+            case engine = "Engine"
             case nodesUpdated = "NodesUpdated"
             case releaseDate = "ReleaseDate"
             case serviceUpdateName = "ServiceUpdateName"
@@ -2536,6 +2560,8 @@ extension MemoryDB {
         public let clusterName: String
         /// The description of the cluster to update
         public let description: String?
+        /// The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
+        public let engine: String?
         /// The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
         public let engineVersion: String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
@@ -2560,10 +2586,11 @@ extension MemoryDB {
         public let snsTopicStatus: String?
 
         @inlinable
-        public init(aclName: String? = nil, clusterName: String, description: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, nodeType: String? = nil, parameterGroupName: String? = nil, replicaConfiguration: ReplicaConfigurationRequest? = nil, securityGroupIds: [String]? = nil, shardConfiguration: ShardConfigurationRequest? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil) {
+        public init(aclName: String? = nil, clusterName: String, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, nodeType: String? = nil, parameterGroupName: String? = nil, replicaConfiguration: ReplicaConfigurationRequest? = nil, securityGroupIds: [String]? = nil, shardConfiguration: ShardConfigurationRequest? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil) {
             self.aclName = aclName
             self.clusterName = clusterName
             self.description = description
+            self.engine = engine
             self.engineVersion = engineVersion
             self.maintenanceWindow = maintenanceWindow
             self.nodeType = nodeType
@@ -2586,6 +2613,7 @@ extension MemoryDB {
             case aclName = "ACLName"
             case clusterName = "ClusterName"
             case description = "Description"
+            case engine = "Engine"
             case engineVersion = "EngineVersion"
             case maintenanceWindow = "MaintenanceWindow"
             case nodeType = "NodeType"

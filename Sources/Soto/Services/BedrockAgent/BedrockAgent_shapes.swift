@@ -182,6 +182,8 @@ extension BedrockAgent {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -1665,7 +1667,7 @@ extension BedrockAgent {
         public let customerEncryptionKeyArn: String?
         /// A description of the agent.
         public let description: String?
-        /// The foundation model to be used for orchestration by the agent you create.
+        /// The Amazon Resource Name (ARN) of the foundation model to be used for orchestration by the agent you create.
         public let foundationModel: String?
         /// The unique Guardrail configuration assigned to the agent when it is created.
         public let guardrailConfiguration: GuardrailConfiguration?
@@ -3773,7 +3775,7 @@ extension BedrockAgent {
     public struct GetDataSourceRequest: AWSEncodableShape {
         /// The unique identifier of the data source.
         public let dataSourceId: String
-        /// The unique identifier of the knowledge base that the data source was added to.
+        /// The unique identifier of the knowledge base for the data source.
         public let knowledgeBaseId: String
 
         @inlinable
@@ -4043,11 +4045,11 @@ extension BedrockAgent {
     }
 
     public struct GetIngestionJobRequest: AWSEncodableShape {
-        /// The unique identifier of the data source in the ingestion job.
+        /// The unique identifier of the data source for the data ingestion job you want to get information on.
         public let dataSourceId: String
-        /// The unique identifier of the ingestion job.
+        /// The unique identifier of the data ingestion job you want to get information on.
         public let ingestionJobId: String
-        /// The unique identifier of the knowledge base for which the ingestion job applies.
+        /// The unique identifier of the knowledge base for the data ingestion job you want to get information on.
         public let knowledgeBaseId: String
 
         @inlinable
@@ -4075,7 +4077,7 @@ extension BedrockAgent {
     }
 
     public struct GetIngestionJobResponse: AWSDecodableShape {
-        /// Contains details about the ingestion job.
+        /// Contains details about the data ingestion job.
         public let ingestionJob: IngestionJob
 
         @inlinable
@@ -4089,7 +4091,7 @@ extension BedrockAgent {
     }
 
     public struct GetKnowledgeBaseRequest: AWSEncodableShape {
-        /// The unique identifier of the knowledge base for which to get information.
+        /// The unique identifier of the knowledge base you want to get information on.
         public let knowledgeBaseId: String
 
         @inlinable
@@ -4309,24 +4311,24 @@ extension BedrockAgent {
     }
 
     public struct IngestionJob: AWSDecodableShape {
-        /// The unique identifier of the ingested data source.
+        /// The unique identifier of the data source for the data ingestion job.
         public let dataSourceId: String
-        /// The description of the ingestion job.
+        /// The description of the data ingestion job.
         public let description: String?
-        /// A list of reasons that the ingestion job failed.
+        /// A list of reasons that the data ingestion job failed.
         public let failureReasons: [String]?
-        /// The unique identifier of the ingestion job.
+        /// The unique identifier of the data ingestion job.
         public let ingestionJobId: String
-        /// The unique identifier of the knowledge base to which the data source is being added.
+        /// The unique identifier of the knowledge for the data ingestion job.
         public let knowledgeBaseId: String
-        /// The time at which the ingestion job started.
+        /// The time the data ingestion job started. If you stop a data ingestion job, the startedAt time is the time the job was started before the job was stopped.
         @CustomCoding<ISO8601DateCoder>
         public var startedAt: Date
-        /// Contains statistics about the ingestion job.
+        /// Contains statistics about the data ingestion job.
         public let statistics: IngestionJobStatistics?
-        /// The status of the ingestion job.
+        /// The status of the data ingestion job.
         public let status: IngestionJobStatus
-        /// The time at which the ingestion job was last updated.
+        /// The time the data ingestion job was last updated. If you stop a data ingestion job, the updatedAt time is the time the job was stopped.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
@@ -4357,11 +4359,11 @@ extension BedrockAgent {
     }
 
     public struct IngestionJobFilter: AWSEncodableShape {
-        /// The attribute by which to filter the results.
+        /// The name of field or attribute to apply the filter.
         public let attribute: IngestionJobFilterAttribute
-        /// The operation to carry out between the attribute and the values.
+        /// The operation to apply to the field or attribute.
         public let `operator`: IngestionJobFilterOperator
-        /// A list of values for the attribute.
+        /// A list of values that belong to the field or attribute.
         public let values: [String]
 
         @inlinable
@@ -4387,9 +4389,9 @@ extension BedrockAgent {
     }
 
     public struct IngestionJobSortBy: AWSEncodableShape {
-        /// The attribute by which to sort the results.
+        /// The name of field or attribute to apply sorting of data.
         public let attribute: IngestionJobSortByAttribute
-        /// The order by which to sort the results.
+        /// The order for sorting the data.
         public let order: SortOrder
 
         @inlinable
@@ -4405,7 +4407,7 @@ extension BedrockAgent {
     }
 
     public struct IngestionJobStatistics: AWSDecodableShape {
-        /// The number of source documents that was deleted.
+        /// The number of source documents that were deleted.
         public let numberOfDocumentsDeleted: Int64?
         /// The number of source documents that failed to be ingested.
         public let numberOfDocumentsFailed: Int64?
@@ -4443,22 +4445,22 @@ extension BedrockAgent {
     }
 
     public struct IngestionJobSummary: AWSDecodableShape {
-        /// The unique identifier of the data source in the ingestion job.
+        /// The unique identifier of the data source for the data ingestion job.
         public let dataSourceId: String
-        /// The description of the ingestion job.
+        /// The description of the data ingestion job.
         public let description: String?
-        /// The unique identifier of the ingestion job.
+        /// The unique identifier of the data ingestion job.
         public let ingestionJobId: String
-        /// The unique identifier of the knowledge base to which the data source is added.
+        /// The unique identifier of the knowledge base for the data ingestion job.
         public let knowledgeBaseId: String
-        /// The time at which the ingestion job was started.
+        /// The time the data ingestion job started.
         @CustomCoding<ISO8601DateCoder>
         public var startedAt: Date
-        /// Contains statistics for the ingestion job.
+        /// Contains statistics for the data ingestion job.
         public let statistics: IngestionJobStatistics?
-        /// The status of the ingestion job.
+        /// The status of the data ingestion job.
         public let status: IngestionJobStatus
-        /// The time at which the ingestion job was last updated.
+        /// The time the data ingestion job was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
@@ -4513,7 +4515,7 @@ extension BedrockAgent {
     }
 
     public struct KnowledgeBase: AWSDecodableShape {
-        /// The time at which the knowledge base was created.
+        /// The time the knowledge base was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
         /// The description of the knowledge base.
@@ -4534,7 +4536,7 @@ extension BedrockAgent {
         public let status: KnowledgeBaseStatus
         /// Contains details about the storage configuration of the knowledge base.
         public let storageConfiguration: StorageConfiguration
-        /// The time at which the knowledge base was last updated.
+        /// The time the knowledge base was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
@@ -4571,7 +4573,7 @@ extension BedrockAgent {
     public struct KnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The type of data that the data source is converted into for the knowledge base.
         public let type: KnowledgeBaseType
-        /// Contains details about the embeddings model that'sused to convert the data source.
+        /// Contains details about the model that's used to convert the data source into vector embeddings.
         public let vectorKnowledgeBaseConfiguration: VectorKnowledgeBaseConfiguration?
 
         @inlinable
@@ -4593,7 +4595,7 @@ extension BedrockAgent {
     public struct KnowledgeBaseFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier of the knowledge base to query.
         public let knowledgeBaseId: String
-        /// The unique identifier of the model to use to generate a response from the query results. Omit this field if you want to return the retrieved results as an array.
+        /// The unique identifier of the model or inference profile to use to generate a response from the query results. Omit this field if you want to return the retrieved results as an array.
         public let modelId: String?
 
         @inlinable
@@ -4607,7 +4609,7 @@ extension BedrockAgent {
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):(model-gateway|inference-profile)/[a-zA-Z0-9-:.]+)|([a-zA-Z0-9-:.]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4625,7 +4627,7 @@ extension BedrockAgent {
         public let name: String
         /// The status of the knowledge base.
         public let status: KnowledgeBaseStatus
-        /// The time at which the knowledge base was last updated.
+        /// The time the knowledge base was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
@@ -5184,17 +5186,17 @@ extension BedrockAgent {
     }
 
     public struct ListIngestionJobsRequest: AWSEncodableShape {
-        /// The unique identifier of the data source for which to return ingestion jobs.
+        /// The unique identifier of the data source for the list of data ingestion jobs.
         public let dataSourceId: String
-        /// Contains a definition of a filter for which to filter the results.
+        /// Contains information about the filters for filtering the data.
         public let filters: [IngestionJobFilter]?
-        /// The unique identifier of the knowledge base for which to return ingestion jobs.
+        /// The unique identifier of the knowledge base for the list of data ingestion jobs.
         public let knowledgeBaseId: String
         /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
         public let maxResults: Int?
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
-        /// Contains details about how to sort the results.
+        /// Contains details about how to sort the data.
         public let sortBy: IngestionJobSortBy?
 
         @inlinable
@@ -5242,7 +5244,7 @@ extension BedrockAgent {
     }
 
     public struct ListIngestionJobsResponse: AWSDecodableShape {
-        /// A list of objects, each of which contains information about an ingestion job.
+        /// A list of data ingestion jobs with information about each job.
         public let ingestionJobSummaries: [IngestionJobSummary]
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
@@ -5286,7 +5288,7 @@ extension BedrockAgent {
     }
 
     public struct ListKnowledgeBasesResponse: AWSDecodableShape {
-        /// A list of objects, each of which contains information about a knowledge base.
+        /// A list of knowledge bases with information about each knowledge base.
         public let knowledgeBaseSummaries: [KnowledgeBaseSummary]
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
@@ -5908,7 +5910,7 @@ extension BedrockAgent {
     public struct PromptFlowNodeInlineConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains inference configurations for the prompt.
         public let inferenceConfiguration: PromptInferenceConfiguration?
-        /// The unique identifier of the model to run inference with.
+        /// The unique identifier of the model or inference profile to run inference with.
         public let modelId: String
         /// Contains a prompt and variables in the prompt that can be replaced with values at runtime.
         public let templateConfiguration: PromptTemplateConfiguration
@@ -5927,7 +5929,7 @@ extension BedrockAgent {
             try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):(model-gateway|inference-profile)/[a-zA-Z0-9-:.]+)|([a-zA-Z0-9-:.]+)$")
             try self.templateConfiguration.validate(name: "\(name).templateConfiguration")
         }
 
@@ -6044,7 +6046,7 @@ extension BedrockAgent {
     }
 
     public struct PromptOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN. For more information, see Parser Lambda function in Agents for Amazon Bedrock.
+        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN. For more information, see Parser Lambda function in Amazon Bedrock Agents.
         public let overrideLambda: String?
         /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see Advanced prompts.
         public let promptConfigurations: [PromptConfiguration]
@@ -6115,7 +6117,7 @@ extension BedrockAgent {
         public let inferenceConfiguration: PromptInferenceConfiguration?
         /// An array of objects, each containing a key-value pair that defines a metadata tag and value to attach to a prompt variant. For more information, see Create a prompt using Prompt management.
         public let metadata: [PromptMetadataEntry]?
-        /// The unique identifier of the model with which to run inference on the prompt.
+        /// The unique identifier of the model or inference profile with which to run inference on the prompt.
         public let modelId: String?
         /// The name of the prompt variant.
         public let name: String
@@ -6142,7 +6144,7 @@ extension BedrockAgent {
             try self.validate(self.metadata, name: "metadata", parent: name, max: 50)
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):(model-gateway|inference-profile)/[a-zA-Z0-9-:.]+)|([a-zA-Z0-9-:.]+)$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.templateConfiguration?.validate(name: "\(name).templateConfiguration")
         }
@@ -6642,11 +6644,11 @@ extension BedrockAgent {
     public struct StartIngestionJobRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
-        /// The unique identifier of the data source to ingest.
+        /// The unique identifier of the data source you want to ingest into your knowledge base.
         public let dataSourceId: String
-        /// A description of the ingestion job.
+        /// A description of the data ingestion job.
         public let description: String?
-        /// The unique identifier of the knowledge base to which to add the data source.
+        /// The unique identifier of the knowledge base for the data ingestion job.
         public let knowledgeBaseId: String
 
         @inlinable
@@ -6683,7 +6685,53 @@ extension BedrockAgent {
     }
 
     public struct StartIngestionJobResponse: AWSDecodableShape {
-        /// An object containing information about the ingestion job.
+        /// Contains information about the data ingestion job.
+        public let ingestionJob: IngestionJob
+
+        @inlinable
+        public init(ingestionJob: IngestionJob) {
+            self.ingestionJob = ingestionJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestionJob = "ingestionJob"
+        }
+    }
+
+    public struct StopIngestionJobRequest: AWSEncodableShape {
+        /// The unique identifier of the data source for the data ingestion job you want to stop.
+        public let dataSourceId: String
+        /// The unique identifier of the data ingestion job you want to stop.
+        public let ingestionJobId: String
+        /// The unique identifier of the knowledge base for the data ingestion job you want to stop.
+        public let knowledgeBaseId: String
+
+        @inlinable
+        public init(dataSourceId: String, ingestionJobId: String, knowledgeBaseId: String) {
+            self.dataSourceId = dataSourceId
+            self.ingestionJobId = ingestionJobId
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSourceId, key: "dataSourceId")
+            request.encodePath(self.ingestionJobId, key: "ingestionJobId")
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.validate(self.ingestionJobId, name: "ingestionJobId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopIngestionJobResponse: AWSDecodableShape {
+        /// Contains information about the stopped data ingestion job.
         public let ingestionJob: IngestionJob
 
         @inlinable

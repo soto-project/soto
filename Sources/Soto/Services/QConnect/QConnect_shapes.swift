@@ -26,6 +26,35 @@ import Foundation
 extension QConnect {
     // MARK: Enums
 
+    public enum AIAgentAssociationConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case knowledgeBase = "KNOWLEDGE_BASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AIAgentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case answerRecommendation = "ANSWER_RECOMMENDATION"
+        case manualSearch = "MANUAL_SEARCH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AIPromptAPIFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anthropicClaudeMessages = "ANTHROPIC_CLAUDE_MESSAGES"
+        case anthropicClaudeTextCompletions = "ANTHROPIC_CLAUDE_TEXT_COMPLETIONS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AIPromptTemplateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AIPromptType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case answerGeneration = "ANSWER_GENERATION"
+        case intentLabelingGeneration = "INTENT_LABELING_GENERATION"
+        case queryReformulation = "QUERY_REFORMULATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssistantCapabilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case v1 = "V1"
         case v2 = "V2"
@@ -49,6 +78,14 @@ extension QConnect {
 
     public enum AssociationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case knowledgeBase = "KNOWLEDGE_BASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChunkingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fixedSize = "FIXED_SIZE"
+        case hierarchical = "HIERARCHICAL"
+        case none = "NONE"
+        case semantic = "SEMANTIC"
         public var description: String { return self.rawValue }
     }
 
@@ -98,6 +135,12 @@ extension QConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum KnowledgeBaseSearchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hybrid = "HYBRID"
+        case semantic = "SEMANTIC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KnowledgeBaseStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
@@ -111,6 +154,8 @@ extension QConnect {
     public enum KnowledgeBaseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case custom = "CUSTOM"
         case external = "EXTERNAL"
+        case managed = "MANAGED"
+        case messageTemplates = "MESSAGE_TEMPLATES"
         case quickResponses = "QUICK_RESPONSES"
         public var description: String { return self.rawValue }
     }
@@ -118,6 +163,17 @@ extension QConnect {
     public enum Order: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "ASC"
         case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Origin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customer = "CUSTOMER"
+        case system = "SYSTEM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParsingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockFoundationModel = "BEDROCK_FOUNDATION_MODEL"
         public var description: String { return self.rawValue }
     }
 
@@ -140,6 +196,7 @@ extension QConnect {
 
     public enum QueryResultType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case generativeAnswer = "GENERATIVE_ANSWER"
+        case intentAnswer = "INTENT_ANSWER"
         case knowledgeContent = "KNOWLEDGE_CONTENT"
         public var description: String { return self.rawValue }
     }
@@ -182,9 +239,16 @@ extension QConnect {
     }
 
     public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case detectedIntent = "DETECTED_INTENT"
         case generativeAnswer = "GENERATIVE_ANSWER"
         case generativeResponse = "GENERATIVE_RESPONSE"
         case knowledgeContent = "KNOWLEDGE_CONTENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReferenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case knowledgeBase = "KNOWLEDGE_BASE"
+        case webCrawler = "WEB_CRAWLER"
         public var description: String { return self.rawValue }
     }
 
@@ -201,8 +265,31 @@ extension QConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum SessionDataNamespace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "Custom"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SourceContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case knowledgeContent = "KNOWLEDGE_CONTENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case deleted = "DELETED"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case syncingInProgress = "SYNCING_IN_PROGRESS"
+        case syncFailed = "SYNC_FAILED"
+        case syncSuccess = "SYNC_SUCCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -212,11 +299,75 @@ extension QConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum VisibilityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case published = "PUBLISHED"
+        case saved = "SAVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WebScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hostOnly = "HOST_ONLY"
+        case subdomains = "SUBDOMAINS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AIAgentConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration for AI Agents of type ANSWER_RECOMMENDATION.
+        case answerRecommendationAIAgentConfiguration(AnswerRecommendationAIAgentConfiguration)
+        /// The configuration for AI Agents of type MANUAL_SEARCH.
+        case manualSearchAIAgentConfiguration(ManualSearchAIAgentConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .answerRecommendationAIAgentConfiguration:
+                let value = try container.decode(AnswerRecommendationAIAgentConfiguration.self, forKey: .answerRecommendationAIAgentConfiguration)
+                self = .answerRecommendationAIAgentConfiguration(value)
+            case .manualSearchAIAgentConfiguration:
+                let value = try container.decode(ManualSearchAIAgentConfiguration.self, forKey: .manualSearchAIAgentConfiguration)
+                self = .manualSearchAIAgentConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .answerRecommendationAIAgentConfiguration(let value):
+                try container.encode(value, forKey: .answerRecommendationAIAgentConfiguration)
+            case .manualSearchAIAgentConfiguration(let value):
+                try container.encode(value, forKey: .manualSearchAIAgentConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .answerRecommendationAIAgentConfiguration(let value):
+                try value.validate(name: "\(name).answerRecommendationAIAgentConfiguration")
+            case .manualSearchAIAgentConfiguration(let value):
+                try value.validate(name: "\(name).manualSearchAIAgentConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerRecommendationAIAgentConfiguration = "answerRecommendationAIAgentConfiguration"
+            case manualSearchAIAgentConfiguration = "manualSearchAIAgentConfiguration"
+        }
+    }
+
     public enum DataDetails: AWSDecodableShape, Sendable {
         /// Details about the content data.
         case contentData(ContentDataDetails)
         ///  Details about the generative data.
         case generativeData(GenerativeDataDetails)
+        /// Details about the intent data.
+        case intentDetectedData(IntentDetectedDataDetails)
         /// Details about the content data.
         case sourceContentData(SourceContentDataDetails)
 
@@ -236,6 +387,9 @@ extension QConnect {
             case .generativeData:
                 let value = try container.decode(GenerativeDataDetails.self, forKey: .generativeData)
                 self = .generativeData(value)
+            case .intentDetectedData:
+                let value = try container.decode(IntentDetectedDataDetails.self, forKey: .intentDetectedData)
+                self = .intentDetectedData(value)
             case .sourceContentData:
                 let value = try container.decode(SourceContentDataDetails.self, forKey: .sourceContentData)
                 self = .sourceContentData(value)
@@ -245,6 +399,7 @@ extension QConnect {
         private enum CodingKeys: String, CodingKey {
             case contentData = "contentData"
             case generativeData = "generativeData"
+            case intentDetectedData = "intentDetectedData"
             case sourceContentData = "sourceContentData"
         }
     }
@@ -331,6 +486,87 @@ extension QConnect {
         }
     }
 
+    public enum QueryInputData: AWSEncodableShape, Sendable {
+        /// Input information for the intent.
+        case intentInputData(IntentInputData)
+        /// Input information for the query.
+        case queryTextInputData(QueryTextInputData)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .intentInputData(let value):
+                try container.encode(value, forKey: .intentInputData)
+            case .queryTextInputData(let value):
+                try container.encode(value, forKey: .queryTextInputData)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .intentInputData(let value):
+                try value.validate(name: "\(name).intentInputData")
+            case .queryTextInputData(let value):
+                try value.validate(name: "\(name).queryTextInputData")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentInputData = "intentInputData"
+            case queryTextInputData = "queryTextInputData"
+        }
+    }
+
+    public enum SourceConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Configuration information for Amazon AppIntegrations to automatically ingest content.
+        case appIntegrations(AppIntegrationsConfiguration)
+        /// Source configuration for managed resources.
+        case managedSourceConfiguration(ManagedSourceConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .appIntegrations:
+                let value = try container.decode(AppIntegrationsConfiguration.self, forKey: .appIntegrations)
+                self = .appIntegrations(value)
+            case .managedSourceConfiguration:
+                let value = try container.decode(ManagedSourceConfiguration.self, forKey: .managedSourceConfiguration)
+                self = .managedSourceConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .appIntegrations(let value):
+                try container.encode(value, forKey: .appIntegrations)
+            case .managedSourceConfiguration(let value):
+                try container.encode(value, forKey: .managedSourceConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .appIntegrations(let value):
+                try value.validate(name: "\(name).appIntegrations")
+            case .managedSourceConfiguration(let value):
+                try value.validate(name: "\(name).managedSourceConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appIntegrations = "appIntegrations"
+            case managedSourceConfiguration = "managedSourceConfiguration"
+        }
+    }
+
     public enum TagFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A list of conditions which would be applied together with an AND condition.
         case andConditions([TagCondition])
@@ -397,6 +633,328 @@ extension QConnect {
 
     // MARK: Shapes
 
+    public struct AIAgentConfigurationData: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the AI Agent to be configured.
+        public let aiAgentId: String
+
+        @inlinable
+        public init(aiAgentId: String) {
+            self.aiAgentId = aiAgentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiAgentId, name: "aiAgentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentId = "aiAgentId"
+        }
+    }
+
+    public struct AIAgentData: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AI agent.
+        public let aiAgentArn: String
+        /// The identifier of the AI Agent.
+        public let aiAgentId: String
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
+        public let assistantArn: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// Configuration for the AI Agent.
+        public let configuration: AIAgentConfiguration
+        /// The description of the AI Agent.
+        public let description: String?
+        /// The time the AI Agent was last modified.
+        public let modifiedTime: Date?
+        /// The name of the AI Agent.
+        public let name: String
+        /// Specifies the origin of the AI Agent. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+        public let origin: Origin?
+        /// The status of the AI Agent.
+        public let status: Status?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The type of the AI Agent.
+        public let type: AIAgentType
+        /// The visibility status of the AI Agent.
+        public let visibilityStatus: VisibilityStatus
+
+        @inlinable
+        public init(aiAgentArn: String, aiAgentId: String, assistantArn: String, assistantId: String, configuration: AIAgentConfiguration, description: String? = nil, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, type: AIAgentType, visibilityStatus: VisibilityStatus) {
+            self.aiAgentArn = aiAgentArn
+            self.aiAgentId = aiAgentId
+            self.assistantArn = assistantArn
+            self.assistantId = assistantId
+            self.configuration = configuration
+            self.description = description
+            self.modifiedTime = modifiedTime
+            self.name = name
+            self.origin = origin
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.visibilityStatus = visibilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentArn = "aiAgentArn"
+            case aiAgentId = "aiAgentId"
+            case assistantArn = "assistantArn"
+            case assistantId = "assistantId"
+            case configuration = "configuration"
+            case description = "description"
+            case modifiedTime = "modifiedTime"
+            case name = "name"
+            case origin = "origin"
+            case status = "status"
+            case tags = "tags"
+            case type = "type"
+            case visibilityStatus = "visibilityStatus"
+        }
+    }
+
+    public struct AIAgentSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AI agent.
+        public let aiAgentArn: String
+        /// The identifier of the AI Agent.
+        public let aiAgentId: String
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
+        public let assistantArn: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The configuration for the AI Agent.
+        public let configuration: AIAgentConfiguration?
+        /// The description of the AI Agent.
+        public let description: String?
+        /// The time the AI Agent was last modified.
+        public let modifiedTime: Date?
+        /// The name of the AI Agent.
+        public let name: String
+        /// The origin of the AI Agent. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+        public let origin: Origin?
+        /// The status of the AI Agent.
+        public let status: Status?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The type of the AI Agent.
+        public let type: AIAgentType
+        /// The visibility status of the AI Agent.
+        public let visibilityStatus: VisibilityStatus
+
+        @inlinable
+        public init(aiAgentArn: String, aiAgentId: String, assistantArn: String, assistantId: String, configuration: AIAgentConfiguration? = nil, description: String? = nil, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, type: AIAgentType, visibilityStatus: VisibilityStatus) {
+            self.aiAgentArn = aiAgentArn
+            self.aiAgentId = aiAgentId
+            self.assistantArn = assistantArn
+            self.assistantId = assistantId
+            self.configuration = configuration
+            self.description = description
+            self.modifiedTime = modifiedTime
+            self.name = name
+            self.origin = origin
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.visibilityStatus = visibilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentArn = "aiAgentArn"
+            case aiAgentId = "aiAgentId"
+            case assistantArn = "assistantArn"
+            case assistantId = "assistantId"
+            case configuration = "configuration"
+            case description = "description"
+            case modifiedTime = "modifiedTime"
+            case name = "name"
+            case origin = "origin"
+            case status = "status"
+            case tags = "tags"
+            case type = "type"
+            case visibilityStatus = "visibilityStatus"
+        }
+    }
+
+    public struct AIAgentVersionSummary: AWSDecodableShape {
+        /// The data for the summary of the AI Agent version.
+        public let aiAgentSummary: AIAgentSummary?
+        /// The version number for this AI Agent version.
+        public let versionNumber: Int64?
+
+        @inlinable
+        public init(aiAgentSummary: AIAgentSummary? = nil, versionNumber: Int64? = nil) {
+            self.aiAgentSummary = aiAgentSummary
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentSummary = "aiAgentSummary"
+            case versionNumber = "versionNumber"
+        }
+    }
+
+    public struct AIPromptData: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AI Prompt.
+        public let aiPromptArn: String
+        /// The identifier of the Amazon Q in Connect AI prompt.
+        public let aiPromptId: String
+        /// The API format used for this AI Prompt.
+        public let apiFormat: AIPromptAPIFormat
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
+        public let assistantArn: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The description of the AI Prompt.
+        public let description: String?
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1.
+        public let modelId: String
+        /// The time the AI Prompt was last modified.
+        public let modifiedTime: Date?
+        /// The name of the AI Prompt
+        public let name: String
+        /// The origin of the AI Prompt. SYSTEM for a default AI Prompt created by Q in Connect or CUSTOMER for an AI Prompt created by calling AI Prompt creation APIs.
+        public let origin: Origin?
+        /// The status of the AI Prompt.
+        public let status: Status?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The configuration of the prompt template for this AI Prompt.
+        public let templateConfiguration: AIPromptTemplateConfiguration
+        /// The type of the prompt template for this AI Prompt.
+        public let templateType: AIPromptTemplateType
+        /// The type of this AI Prompt.
+        public let type: AIPromptType
+        /// The visibility status of the AI Prompt.
+        public let visibilityStatus: VisibilityStatus
+
+        @inlinable
+        public init(aiPromptArn: String, aiPromptId: String, apiFormat: AIPromptAPIFormat, assistantArn: String, assistantId: String, description: String? = nil, modelId: String, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, templateConfiguration: AIPromptTemplateConfiguration, templateType: AIPromptTemplateType, type: AIPromptType, visibilityStatus: VisibilityStatus) {
+            self.aiPromptArn = aiPromptArn
+            self.aiPromptId = aiPromptId
+            self.apiFormat = apiFormat
+            self.assistantArn = assistantArn
+            self.assistantId = assistantId
+            self.description = description
+            self.modelId = modelId
+            self.modifiedTime = modifiedTime
+            self.name = name
+            self.origin = origin
+            self.status = status
+            self.tags = tags
+            self.templateConfiguration = templateConfiguration
+            self.templateType = templateType
+            self.type = type
+            self.visibilityStatus = visibilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiPromptArn = "aiPromptArn"
+            case aiPromptId = "aiPromptId"
+            case apiFormat = "apiFormat"
+            case assistantArn = "assistantArn"
+            case assistantId = "assistantId"
+            case description = "description"
+            case modelId = "modelId"
+            case modifiedTime = "modifiedTime"
+            case name = "name"
+            case origin = "origin"
+            case status = "status"
+            case tags = "tags"
+            case templateConfiguration = "templateConfiguration"
+            case templateType = "templateType"
+            case type = "type"
+            case visibilityStatus = "visibilityStatus"
+        }
+    }
+
+    public struct AIPromptSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AI Prompt.
+        public let aiPromptArn: String
+        /// The identifier of the Amazon Q in Connect AI prompt.
+        public let aiPromptId: String
+        /// The API format used for this AI Prompt.
+        public let apiFormat: AIPromptAPIFormat
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
+        public let assistantArn: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The description of the AI Prompt.
+        public let description: String?
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1.
+        public let modelId: String
+        /// The time the AI Prompt was last modified.
+        public let modifiedTime: Date?
+        /// The name of the AI Prompt.
+        public let name: String
+        /// The origin of the AI Prompt. SYSTEM for a default AI Prompt created by Q in Connect or CUSTOMER for an AI Prompt created by calling AI Prompt creation APIs.
+        public let origin: Origin?
+        /// The status of the AI Prompt.
+        public let status: Status?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The type of the prompt template for this AI Prompt.
+        public let templateType: AIPromptTemplateType
+        /// The type of this AI Prompt.
+        public let type: AIPromptType
+        /// The visibility status of the AI Prompt.
+        public let visibilityStatus: VisibilityStatus
+
+        @inlinable
+        public init(aiPromptArn: String, aiPromptId: String, apiFormat: AIPromptAPIFormat, assistantArn: String, assistantId: String, description: String? = nil, modelId: String, modifiedTime: Date? = nil, name: String, origin: Origin? = nil, status: Status? = nil, tags: [String: String]? = nil, templateType: AIPromptTemplateType, type: AIPromptType, visibilityStatus: VisibilityStatus) {
+            self.aiPromptArn = aiPromptArn
+            self.aiPromptId = aiPromptId
+            self.apiFormat = apiFormat
+            self.assistantArn = assistantArn
+            self.assistantId = assistantId
+            self.description = description
+            self.modelId = modelId
+            self.modifiedTime = modifiedTime
+            self.name = name
+            self.origin = origin
+            self.status = status
+            self.tags = tags
+            self.templateType = templateType
+            self.type = type
+            self.visibilityStatus = visibilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiPromptArn = "aiPromptArn"
+            case aiPromptId = "aiPromptId"
+            case apiFormat = "apiFormat"
+            case assistantArn = "assistantArn"
+            case assistantId = "assistantId"
+            case description = "description"
+            case modelId = "modelId"
+            case modifiedTime = "modifiedTime"
+            case name = "name"
+            case origin = "origin"
+            case status = "status"
+            case tags = "tags"
+            case templateType = "templateType"
+            case type = "type"
+            case visibilityStatus = "visibilityStatus"
+        }
+    }
+
+    public struct AIPromptVersionSummary: AWSDecodableShape {
+        /// The date for the summary of the AI Prompt version.
+        public let aiPromptSummary: AIPromptSummary?
+        /// The version number for this AI Prompt version.
+        public let versionNumber: Int64?
+
+        @inlinable
+        public init(aiPromptSummary: AIPromptSummary? = nil, versionNumber: Int64? = nil) {
+            self.aiPromptSummary = aiPromptSummary
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiPromptSummary = "aiPromptSummary"
+            case versionNumber = "versionNumber"
+        }
+    }
+
     public struct AmazonConnectGuideAssociationData: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step guides are a type of flow.
         public let flowId: String?
@@ -414,6 +972,41 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case flowId = "flowId"
+        }
+    }
+
+    public struct AnswerRecommendationAIAgentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The AI Prompt identifier for the Answer Generation prompt used by the ANSWER_RECOMMENDATION AI Agent.
+        public let answerGenerationAIPromptId: String?
+        /// The association configurations for overriding behavior on this AI Agent.
+        public let associationConfigurations: [AssociationConfiguration]?
+        /// The AI Prompt identifier for the Intent Labeling prompt used by the ANSWER_RECOMMENDATION AI Agent.
+        public let intentLabelingGenerationAIPromptId: String?
+        /// The AI Prompt identifier for the Query Reformulation prompt used by the ANSWER_RECOMMENDATION AI Agent.
+        public let queryReformulationAIPromptId: String?
+
+        @inlinable
+        public init(answerGenerationAIPromptId: String? = nil, associationConfigurations: [AssociationConfiguration]? = nil, intentLabelingGenerationAIPromptId: String? = nil, queryReformulationAIPromptId: String? = nil) {
+            self.answerGenerationAIPromptId = answerGenerationAIPromptId
+            self.associationConfigurations = associationConfigurations
+            self.intentLabelingGenerationAIPromptId = intentLabelingGenerationAIPromptId
+            self.queryReformulationAIPromptId = queryReformulationAIPromptId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.answerGenerationAIPromptId, name: "answerGenerationAIPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
+            try self.associationConfigurations?.forEach {
+                try $0.validate(name: "\(name).associationConfigurations[]")
+            }
+            try self.validate(self.intentLabelingGenerationAIPromptId, name: "intentLabelingGenerationAIPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.queryReformulationAIPromptId, name: "queryReformulationAIPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerGenerationAIPromptId = "answerGenerationAIPromptId"
+            case associationConfigurations = "associationConfigurations"
+            case intentLabelingGenerationAIPromptId = "intentLabelingGenerationAIPromptId"
+            case queryReformulationAIPromptId = "queryReformulationAIPromptId"
         }
     }
 
@@ -538,6 +1131,8 @@ extension QConnect {
     }
 
     public struct AssistantData: AWSDecodableShape {
+        /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that is set on the Amazon Q in Connect Assistant.
+        public let aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]?
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         public let assistantArn: String
         /// The identifier of the Amazon Q in Connect assistant.
@@ -560,7 +1155,8 @@ extension QConnect {
         public let type: AssistantType
 
         @inlinable
-        public init(assistantArn: String, assistantId: String, capabilityConfiguration: AssistantCapabilityConfiguration? = nil, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
+        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, assistantArn: String, assistantId: String, capabilityConfiguration: AssistantCapabilityConfiguration? = nil, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
+            self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.capabilityConfiguration = capabilityConfiguration
@@ -574,6 +1170,7 @@ extension QConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aiAgentConfiguration = "aiAgentConfiguration"
             case assistantArn = "assistantArn"
             case assistantId = "assistantId"
             case capabilityConfiguration = "capabilityConfiguration"
@@ -602,6 +1199,8 @@ extension QConnect {
     }
 
     public struct AssistantSummary: AWSDecodableShape {
+        /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that is set on the Amazon Q in Connect Assistant.
+        public let aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]?
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         public let assistantArn: String
         /// The identifier of the Amazon Q in Connect assistant.
@@ -624,7 +1223,8 @@ extension QConnect {
         public let type: AssistantType
 
         @inlinable
-        public init(assistantArn: String, assistantId: String, capabilityConfiguration: AssistantCapabilityConfiguration? = nil, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
+        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, assistantArn: String, assistantId: String, capabilityConfiguration: AssistantCapabilityConfiguration? = nil, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
+            self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.capabilityConfiguration = capabilityConfiguration
@@ -638,6 +1238,7 @@ extension QConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aiAgentConfiguration = "aiAgentConfiguration"
             case assistantArn = "assistantArn"
             case assistantId = "assistantId"
             case capabilityConfiguration = "capabilityConfiguration"
@@ -648,6 +1249,106 @@ extension QConnect {
             case status = "status"
             case tags = "tags"
             case type = "type"
+        }
+    }
+
+    public struct AssociationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The data of the configuration for an Amazon Q in Connect Assistant Association.
+        public let associationConfigurationData: AssociationConfigurationData?
+        /// The identifier of the association for this Association Configuration.
+        public let associationId: String?
+        /// The type of the association for this Association Configuration.
+        public let associationType: AIAgentAssociationConfigurationType?
+
+        @inlinable
+        public init(associationConfigurationData: AssociationConfigurationData? = nil, associationId: String? = nil, associationType: AIAgentAssociationConfigurationType? = nil) {
+            self.associationConfigurationData = associationConfigurationData
+            self.associationId = associationId
+            self.associationType = associationType
+        }
+
+        public func validate(name: String) throws {
+            try self.associationConfigurationData?.validate(name: "\(name).associationConfigurationData")
+            try self.validate(self.associationId, name: "associationId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationConfigurationData = "associationConfigurationData"
+            case associationId = "associationId"
+            case associationType = "associationType"
+        }
+    }
+
+    public struct BedrockFoundationModelConfigurationForParsing: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the foundation model.
+        public let modelArn: String
+        /// Instructions for interpreting the contents of a document.
+        public let parsingPrompt: ParsingPrompt?
+
+        @inlinable
+        public init(modelArn: String, parsingPrompt: ParsingPrompt? = nil) {
+            self.modelArn = modelArn
+            self.parsingPrompt = parsingPrompt
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/anthropic.claude-3-haiku-20240307-v1:0$")
+            try self.parsingPrompt?.validate(name: "\(name).parsingPrompt")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "modelArn"
+            case parsingPrompt = "parsingPrompt"
+        }
+    }
+
+    public struct ChunkingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Knowledge base can split your source data into chunks. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried. You have the following options for chunking your data. If you opt for NONE, then you may want to pre-process your files by splitting them up such that each file corresponds to a chunk.
+        public let chunkingStrategy: ChunkingStrategy
+        /// Configurations for when you choose fixed-size chunking. If you set the chunkingStrategy as NONE, exclude this field.
+        public let fixedSizeChunkingConfiguration: FixedSizeChunkingConfiguration?
+        /// Settings for hierarchical document chunking for a data source. Hierarchical chunking splits documents into layers of chunks where the first layer contains large chunks, and the second layer contains smaller chunks derived from the first layer.
+        public let hierarchicalChunkingConfiguration: HierarchicalChunkingConfiguration?
+        /// Settings for semantic document chunking for a data source. Semantic chunking splits a document into smaller documents based on groups of similar content derived from the text with natural language processing.
+        public let semanticChunkingConfiguration: SemanticChunkingConfiguration?
+
+        @inlinable
+        public init(chunkingStrategy: ChunkingStrategy, fixedSizeChunkingConfiguration: FixedSizeChunkingConfiguration? = nil, hierarchicalChunkingConfiguration: HierarchicalChunkingConfiguration? = nil, semanticChunkingConfiguration: SemanticChunkingConfiguration? = nil) {
+            self.chunkingStrategy = chunkingStrategy
+            self.fixedSizeChunkingConfiguration = fixedSizeChunkingConfiguration
+            self.hierarchicalChunkingConfiguration = hierarchicalChunkingConfiguration
+            self.semanticChunkingConfiguration = semanticChunkingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.hierarchicalChunkingConfiguration?.validate(name: "\(name).hierarchicalChunkingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chunkingStrategy = "chunkingStrategy"
+            case fixedSizeChunkingConfiguration = "fixedSizeChunkingConfiguration"
+            case hierarchicalChunkingConfiguration = "hierarchicalChunkingConfiguration"
+            case semanticChunkingConfiguration = "semanticChunkingConfiguration"
+        }
+    }
+
+    public struct CitationSpan: AWSDecodableShape {
+        /// Where the text with a citation starts in the generated output.
+        public let beginOffsetInclusive: Int?
+        /// Where the text with a citation ends in the generated output.
+        public let endOffsetExclusive: Int?
+
+        @inlinable
+        public init(beginOffsetInclusive: Int? = nil, endOffsetExclusive: Int? = nil) {
+            self.beginOffsetInclusive = beginOffsetInclusive
+            self.endOffsetExclusive = endOffsetExclusive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffsetInclusive = "beginOffsetInclusive"
+            case endOffsetExclusive = "endOffsetExclusive"
         }
     }
 
@@ -856,13 +1557,19 @@ extension QConnect {
         public let knowledgeBaseArn: String?
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         public let knowledgeBaseId: String?
+        /// The type of reference content.
+        public let referenceType: ReferenceType?
+        /// The web URL of the source content.
+        public let sourceURL: String?
 
         @inlinable
-        public init(contentArn: String? = nil, contentId: String? = nil, knowledgeBaseArn: String? = nil, knowledgeBaseId: String? = nil) {
+        public init(contentArn: String? = nil, contentId: String? = nil, knowledgeBaseArn: String? = nil, knowledgeBaseId: String? = nil, referenceType: ReferenceType? = nil, sourceURL: String? = nil) {
             self.contentArn = contentArn
             self.contentId = contentId
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
+            self.referenceType = referenceType
+            self.sourceURL = sourceURL
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -870,6 +1577,8 @@ extension QConnect {
             case contentId = "contentId"
             case knowledgeBaseArn = "knowledgeBaseArn"
             case knowledgeBaseId = "knowledgeBaseId"
+            case referenceType = "referenceType"
+            case sourceURL = "sourceURL"
         }
     }
 
@@ -925,6 +1634,315 @@ extension QConnect {
             case status = "status"
             case tags = "tags"
             case title = "title"
+        }
+    }
+
+    public struct CreateAIAgentRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The configuration of the AI Agent.
+        public let configuration: AIAgentConfiguration
+        /// The description of the AI Agent.
+        public let description: String?
+        /// The name of the AI Agent.
+        public let name: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The type of the AI Agent.
+        public let type: AIAgentType
+        /// The visibility status of the AI Agent.
+        public let visibilityStatus: VisibilityStatus
+
+        @inlinable
+        public init(assistantId: String, clientToken: String? = CreateAIAgentRequest.idempotencyToken(), configuration: AIAgentConfiguration, description: String? = nil, name: String, tags: [String: String]? = nil, type: AIAgentType, visibilityStatus: VisibilityStatus) {
+            self.assistantId = assistantId
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.description = description
+            self.name = name
+            self.tags = tags
+            self.type = type
+            self.visibilityStatus = visibilityStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.type, forKey: .type)
+            try container.encode(self.visibilityStatus, forKey: .visibilityStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9\\s_.,-]+")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\s_.,-]+")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case type = "type"
+            case visibilityStatus = "visibilityStatus"
+        }
+    }
+
+    public struct CreateAIAgentResponse: AWSDecodableShape {
+        /// The data of the created AI Agent.
+        public let aiAgent: AIAgentData?
+
+        @inlinable
+        public init(aiAgent: AIAgentData? = nil) {
+            self.aiAgent = aiAgent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgent = "aiAgent"
+        }
+    }
+
+    public struct CreateAIAgentVersionRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI Agent.
+        public let aiAgentId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The modification time of the AI Agent should be tracked for version creation. This field should be specified to avoid version creation when simultaneous update to the underlying AI Agent are possible. The value should be the modifiedTime returned from the request to create or update an AI Agent so that version creation can fail if an update to the AI Agent post the specified modification time has been made.
+        public let modifiedTime: Date?
+
+        @inlinable
+        public init(aiAgentId: String, assistantId: String, clientToken: String? = CreateAIAgentVersionRequest.idempotencyToken(), modifiedTime: Date? = nil) {
+            self.aiAgentId = aiAgentId
+            self.assistantId = assistantId
+            self.clientToken = clientToken
+            self.modifiedTime = modifiedTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiAgentId, key: "aiAgentId")
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.modifiedTime, forKey: .modifiedTime)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiAgentId, name: "aiAgentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case modifiedTime = "modifiedTime"
+        }
+    }
+
+    public struct CreateAIAgentVersionResponse: AWSDecodableShape {
+        /// The data of the AI Agent version.
+        public let aiAgent: AIAgentData?
+        /// The version number of the AI Agent version.
+        public let versionNumber: Int64?
+
+        @inlinable
+        public init(aiAgent: AIAgentData? = nil, versionNumber: Int64? = nil) {
+            self.aiAgent = aiAgent
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgent = "aiAgent"
+            case versionNumber = "versionNumber"
+        }
+    }
+
+    public struct CreateAIPromptRequest: AWSEncodableShape {
+        /// The API Format of the AI Prompt.
+        public let apiFormat: AIPromptAPIFormat
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The description of the AI Prompt.
+        public let description: String?
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1
+        public let modelId: String
+        /// The name of the AI Prompt.
+        public let name: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The configuration of the prompt template for this AI Prompt.
+        public let templateConfiguration: AIPromptTemplateConfiguration
+        /// The type of the prompt template for this AI Prompt.
+        public let templateType: AIPromptTemplateType
+        /// The type of this AI Prompt.
+        public let type: AIPromptType
+        /// The visibility status of the AI Prompt.
+        public let visibilityStatus: VisibilityStatus
+
+        @inlinable
+        public init(apiFormat: AIPromptAPIFormat, assistantId: String, clientToken: String? = CreateAIPromptRequest.idempotencyToken(), description: String? = nil, modelId: String, name: String, tags: [String: String]? = nil, templateConfiguration: AIPromptTemplateConfiguration, templateType: AIPromptTemplateType, type: AIPromptType, visibilityStatus: VisibilityStatus) {
+            self.apiFormat = apiFormat
+            self.assistantId = assistantId
+            self.clientToken = clientToken
+            self.description = description
+            self.modelId = modelId
+            self.name = name
+            self.tags = tags
+            self.templateConfiguration = templateConfiguration
+            self.templateType = templateType
+            self.type = type
+            self.visibilityStatus = visibilityStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.apiFormat, forKey: .apiFormat)
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.modelId, forKey: .modelId)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.templateConfiguration, forKey: .templateConfiguration)
+            try container.encode(self.templateType, forKey: .templateType)
+            try container.encode(self.type, forKey: .type)
+            try container.encode(self.visibilityStatus, forKey: .visibilityStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9\\s_.,-]+")
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\s_.,-]+")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.templateConfiguration.validate(name: "\(name).templateConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiFormat = "apiFormat"
+            case clientToken = "clientToken"
+            case description = "description"
+            case modelId = "modelId"
+            case name = "name"
+            case tags = "tags"
+            case templateConfiguration = "templateConfiguration"
+            case templateType = "templateType"
+            case type = "type"
+            case visibilityStatus = "visibilityStatus"
+        }
+    }
+
+    public struct CreateAIPromptResponse: AWSDecodableShape {
+        /// The data of the AI Prompt.
+        public let aiPrompt: AIPromptData?
+
+        @inlinable
+        public init(aiPrompt: AIPromptData? = nil) {
+            self.aiPrompt = aiPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiPrompt = "aiPrompt"
+        }
+    }
+
+    public struct CreateAIPromptVersionRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI prompt.
+        public let aiPromptId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The time the AI Prompt was last modified.
+        public let modifiedTime: Date?
+
+        @inlinable
+        public init(aiPromptId: String, assistantId: String, clientToken: String? = CreateAIPromptVersionRequest.idempotencyToken(), modifiedTime: Date? = nil) {
+            self.aiPromptId = aiPromptId
+            self.assistantId = assistantId
+            self.clientToken = clientToken
+            self.modifiedTime = modifiedTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiPromptId, key: "aiPromptId")
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.modifiedTime, forKey: .modifiedTime)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiPromptId, name: "aiPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case modifiedTime = "modifiedTime"
+        }
+    }
+
+    public struct CreateAIPromptVersionResponse: AWSDecodableShape {
+        /// The data of the AI Prompt version.
+        public let aiPrompt: AIPromptData?
+        /// The version number of the AI Prompt version.
+        public let versionNumber: Int64?
+
+        @inlinable
+        public init(aiPrompt: AIPromptData? = nil, versionNumber: Int64? = nil) {
+            self.aiPrompt = aiPrompt
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiPrompt = "aiPrompt"
+            case versionNumber = "versionNumber"
         }
     }
 
@@ -1249,9 +2267,11 @@ extension QConnect {
         public let sourceConfiguration: SourceConfiguration?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
+        /// Contains details about how to ingest the documents in a data source.
+        public let vectorIngestionConfiguration: VectorIngestionConfiguration?
 
         @inlinable
-        public init(clientToken: String? = CreateKnowledgeBaseRequest.idempotencyToken(), description: String? = nil, knowledgeBaseType: KnowledgeBaseType, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateKnowledgeBaseRequest.idempotencyToken(), description: String? = nil, knowledgeBaseType: KnowledgeBaseType, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, tags: [String: String]? = nil, vectorIngestionConfiguration: VectorIngestionConfiguration? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.knowledgeBaseType = knowledgeBaseType
@@ -1260,6 +2280,7 @@ extension QConnect {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.sourceConfiguration = sourceConfiguration
             self.tags = tags
+            self.vectorIngestionConfiguration = vectorIngestionConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1281,6 +2302,7 @@ extension QConnect {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.vectorIngestionConfiguration?.validate(name: "\(name).vectorIngestionConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1292,6 +2314,7 @@ extension QConnect {
             case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
             case sourceConfiguration = "sourceConfiguration"
             case tags = "tags"
+            case vectorIngestionConfiguration = "vectorIngestionConfiguration"
         }
     }
 
@@ -1426,6 +2449,8 @@ extension QConnect {
     }
 
     public struct CreateSessionRequest: AWSEncodableShape {
+        /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
+        public let aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]?
         /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
@@ -1440,7 +2465,8 @@ extension QConnect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(assistantId: String, clientToken: String? = CreateSessionRequest.idempotencyToken(), description: String? = nil, name: String, tagFilter: TagFilter? = nil, tags: [String: String]? = nil) {
+        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, assistantId: String, clientToken: String? = CreateSessionRequest.idempotencyToken(), description: String? = nil, name: String, tagFilter: TagFilter? = nil, tags: [String: String]? = nil) {
+            self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantId = assistantId
             self.clientToken = clientToken
             self.description = description
@@ -1452,6 +2478,7 @@ extension QConnect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.aiAgentConfiguration, forKey: .aiAgentConfiguration)
             request.encodePath(self.assistantId, key: "assistantId")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -1461,6 +2488,9 @@ extension QConnect {
         }
 
         public func validate(name: String) throws {
+            try self.aiAgentConfiguration?.forEach {
+                try $0.value.validate(name: "\(name).aiAgentConfiguration[\"\($0.key)\"]")
+            }
             try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
@@ -1481,6 +2511,7 @@ extension QConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aiAgentConfiguration = "aiAgentConfiguration"
             case clientToken = "clientToken"
             case description = "description"
             case name = "name"
@@ -1519,6 +2550,140 @@ extension QConnect {
             case details = "details"
             case reference = "reference"
         }
+    }
+
+    public struct DeleteAIAgentRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI Agent. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let aiAgentId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+
+        @inlinable
+        public init(aiAgentId: String, assistantId: String) {
+            self.aiAgentId = aiAgentId
+            self.assistantId = assistantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiAgentId, key: "aiAgentId")
+            request.encodePath(self.assistantId, key: "assistantId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiAgentId, name: "aiAgentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAIAgentResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAIAgentVersionRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI Agent. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let aiAgentId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The version number of the AI Agent version.
+        public let versionNumber: Int64
+
+        @inlinable
+        public init(aiAgentId: String, assistantId: String, versionNumber: Int64) {
+            self.aiAgentId = aiAgentId
+            self.assistantId = assistantId
+            self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiAgentId, key: "aiAgentId")
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodePath(self.versionNumber, key: "versionNumber")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiAgentId, name: "aiAgentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAIAgentVersionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAIPromptRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI prompt. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let aiPromptId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+
+        @inlinable
+        public init(aiPromptId: String, assistantId: String) {
+            self.aiPromptId = aiPromptId
+            self.assistantId = assistantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiPromptId, key: "aiPromptId")
+            request.encodePath(self.assistantId, key: "assistantId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiPromptId, name: "aiPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAIPromptResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAIPromptVersionRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI prompt.
+        public let aiPromptId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The version number of the AI Prompt version to be deleted.
+        public let versionNumber: Int64
+
+        @inlinable
+        public init(aiPromptId: String, assistantId: String, versionNumber: Int64) {
+            self.aiPromptId = aiPromptId
+            self.assistantId = assistantId
+            self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiPromptId, key: "aiPromptId")
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodePath(self.versionNumber, key: "versionNumber")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiPromptId, name: "aiPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAIPromptVersionResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteAssistantAssociationRequest: AWSEncodableShape {
@@ -1822,6 +2987,24 @@ extension QConnect {
         }
     }
 
+    public struct FixedSizeChunkingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of tokens to include in a chunk.
+        public let maxTokens: Int
+        /// The percentage of overlap between adjacent chunks of a data source.
+        public let overlapPercentage: Int
+
+        @inlinable
+        public init(maxTokens: Int, overlapPercentage: Int) {
+            self.maxTokens = maxTokens
+            self.overlapPercentage = overlapPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxTokens = "maxTokens"
+            case overlapPercentage = "overlapPercentage"
+        }
+    }
+
     public struct GenerativeContentFeedbackData: AWSEncodableShape & AWSDecodableShape {
         /// The relevance of the feedback.
         public let relevance: Relevance
@@ -1873,6 +3056,96 @@ extension QConnect {
         private enum CodingKeys: String, CodingKey {
             case generationId = "generationId"
             case modelId = "modelId"
+        }
+    }
+
+    public struct GetAIAgentRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI Agent (with or without a version qualifier). Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let aiAgentId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+
+        @inlinable
+        public init(aiAgentId: String, assistantId: String) {
+            self.aiAgentId = aiAgentId
+            self.assistantId = assistantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiAgentId, key: "aiAgentId")
+            request.encodePath(self.assistantId, key: "assistantId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiAgentId, name: "aiAgentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAIAgentResponse: AWSDecodableShape {
+        /// The data of the AI Agent.
+        public let aiAgent: AIAgentData?
+        /// The version number of the AI Agent version (returned if an AI Agent version was specified via use of a qualifier for the aiAgentId on the request).
+        public let versionNumber: Int64?
+
+        @inlinable
+        public init(aiAgent: AIAgentData? = nil, versionNumber: Int64? = nil) {
+            self.aiAgent = aiAgent
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgent = "aiAgent"
+            case versionNumber = "versionNumber"
+        }
+    }
+
+    public struct GetAIPromptRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI prompt.
+        public let aiPromptId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+
+        @inlinable
+        public init(aiPromptId: String, assistantId: String) {
+            self.aiPromptId = aiPromptId
+            self.assistantId = assistantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiPromptId, key: "aiPromptId")
+            request.encodePath(self.assistantId, key: "assistantId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiPromptId, name: "aiPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAIPromptResponse: AWSDecodableShape {
+        /// The data of the AI Prompt.
+        public let aiPrompt: AIPromptData?
+        /// The version number of the AI Prompt version (returned if an AI Prompt version was specified via use of a qualifier for the aiPromptId on the request).
+        public let versionNumber: Int64?
+
+        @inlinable
+        public init(aiPrompt: AIPromptData? = nil, versionNumber: Int64? = nil) {
+            self.aiPrompt = aiPrompt
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiPrompt = "aiPrompt"
+            case versionNumber = "versionNumber"
         }
     }
 
@@ -2324,6 +3597,43 @@ extension QConnect {
         }
     }
 
+    public struct HierarchicalChunkingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Token settings for each layer.
+        public let levelConfigurations: [HierarchicalChunkingLevelConfiguration]
+        /// The number of tokens to repeat across chunks in the same layer.
+        public let overlapTokens: Int
+
+        @inlinable
+        public init(levelConfigurations: [HierarchicalChunkingLevelConfiguration], overlapTokens: Int) {
+            self.levelConfigurations = levelConfigurations
+            self.overlapTokens = overlapTokens
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.levelConfigurations, name: "levelConfigurations", parent: name, max: 2)
+            try self.validate(self.levelConfigurations, name: "levelConfigurations", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case levelConfigurations = "levelConfigurations"
+            case overlapTokens = "overlapTokens"
+        }
+    }
+
+    public struct HierarchicalChunkingLevelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of tokens that a chunk can contain in this layer.
+        public let maxTokens: Int
+
+        @inlinable
+        public init(maxTokens: Int) {
+            self.maxTokens = maxTokens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxTokens = "maxTokens"
+        }
+    }
+
     public struct Highlight: AWSDecodableShape {
         /// The offset for the start of the highlight.
         public let beginOffsetInclusive: Int?
@@ -2453,6 +3763,69 @@ extension QConnect {
         }
     }
 
+    public struct IntentDetectedDataDetails: AWSDecodableShape {
+        /// The detected intent.
+        public let intent: String
+        /// The identifier of the detected intent.
+        public let intentId: String
+
+        @inlinable
+        public init(intent: String, intentId: String) {
+            self.intent = intent
+            self.intentId = intentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intent = "intent"
+            case intentId = "intentId"
+        }
+    }
+
+    public struct IntentInputData: AWSEncodableShape {
+        /// The identifier of the Amazon Q intent.
+        public let intentId: String
+
+        @inlinable
+        public init(intentId: String) {
+            self.intentId = intentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.intentId, name: "intentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentId = "intentId"
+        }
+    }
+
+    public struct KnowledgeBaseAssociationConfigurationData: AWSEncodableShape & AWSDecodableShape {
+        public let contentTagFilter: TagFilter?
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The search type to be used against the Knowledge Base for this request. The values can be SEMANTIC which uses vector embeddings or HYBRID which use vector embeddings and raw text
+        public let overrideKnowledgeBaseSearchType: KnowledgeBaseSearchType?
+
+        @inlinable
+        public init(contentTagFilter: TagFilter? = nil, maxResults: Int? = nil, overrideKnowledgeBaseSearchType: KnowledgeBaseSearchType? = nil) {
+            self.contentTagFilter = contentTagFilter
+            self.maxResults = maxResults
+            self.overrideKnowledgeBaseSearchType = overrideKnowledgeBaseSearchType
+        }
+
+        public func validate(name: String) throws {
+            try self.contentTagFilter?.validate(name: "\(name).contentTagFilter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentTagFilter = "contentTagFilter"
+            case maxResults = "maxResults"
+            case overrideKnowledgeBaseSearchType = "overrideKnowledgeBaseSearchType"
+        }
+    }
+
     public struct KnowledgeBaseAssociationData: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String?
@@ -2474,6 +3847,10 @@ extension QConnect {
     public struct KnowledgeBaseData: AWSDecodableShape {
         /// The description.
         public let description: String?
+        /// List of failure reasons on ingestion per file.
+        public let ingestionFailureReasons: [String]?
+        /// Status of ingestion on data source.
+        public let ingestionStatus: SyncStatus?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
         /// The identifier of the knowledge base.
@@ -2494,10 +3871,14 @@ extension QConnect {
         public let status: KnowledgeBaseStatus
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
+        /// Contains details about how to ingest the documents in a data source.
+        public let vectorIngestionConfiguration: VectorIngestionConfiguration?
 
         @inlinable
-        public init(description: String? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseType: KnowledgeBaseType, lastContentModificationTime: Date? = nil, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, status: KnowledgeBaseStatus, tags: [String: String]? = nil) {
+        public init(description: String? = nil, ingestionFailureReasons: [String]? = nil, ingestionStatus: SyncStatus? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseType: KnowledgeBaseType, lastContentModificationTime: Date? = nil, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, status: KnowledgeBaseStatus, tags: [String: String]? = nil, vectorIngestionConfiguration: VectorIngestionConfiguration? = nil) {
             self.description = description
+            self.ingestionFailureReasons = ingestionFailureReasons
+            self.ingestionStatus = ingestionStatus
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
             self.knowledgeBaseType = knowledgeBaseType
@@ -2508,10 +3889,13 @@ extension QConnect {
             self.sourceConfiguration = sourceConfiguration
             self.status = status
             self.tags = tags
+            self.vectorIngestionConfiguration = vectorIngestionConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case ingestionFailureReasons = "ingestionFailureReasons"
+            case ingestionStatus = "ingestionStatus"
             case knowledgeBaseArn = "knowledgeBaseArn"
             case knowledgeBaseId = "knowledgeBaseId"
             case knowledgeBaseType = "knowledgeBaseType"
@@ -2522,6 +3906,7 @@ extension QConnect {
             case sourceConfiguration = "sourceConfiguration"
             case status = "status"
             case tags = "tags"
+            case vectorIngestionConfiguration = "vectorIngestionConfiguration"
         }
     }
 
@@ -2546,9 +3931,11 @@ extension QConnect {
         public let status: KnowledgeBaseStatus
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
+        /// Contains details about how to ingest the documents in a data source.
+        public let vectorIngestionConfiguration: VectorIngestionConfiguration?
 
         @inlinable
-        public init(description: String? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseType: KnowledgeBaseType, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, status: KnowledgeBaseStatus, tags: [String: String]? = nil) {
+        public init(description: String? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseType: KnowledgeBaseType, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, status: KnowledgeBaseStatus, tags: [String: String]? = nil, vectorIngestionConfiguration: VectorIngestionConfiguration? = nil) {
             self.description = description
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
@@ -2559,6 +3946,7 @@ extension QConnect {
             self.sourceConfiguration = sourceConfiguration
             self.status = status
             self.tags = tags
+            self.vectorIngestionConfiguration = vectorIngestionConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2572,6 +3960,241 @@ extension QConnect {
             case sourceConfiguration = "sourceConfiguration"
             case status = "status"
             case tags = "tags"
+            case vectorIngestionConfiguration = "vectorIngestionConfiguration"
+        }
+    }
+
+    public struct ListAIAgentVersionsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI Agent for which versions are to be listed.
+        public let aiAgentId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The origin of the AI Agent versions to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+        public let origin: Origin?
+
+        @inlinable
+        public init(aiAgentId: String, assistantId: String, maxResults: Int? = nil, nextToken: String? = nil, origin: Origin? = nil) {
+            self.aiAgentId = aiAgentId
+            self.assistantId = assistantId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.origin = origin
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiAgentId, key: "aiAgentId")
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.origin, key: "origin")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiAgentId, name: "aiAgentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAIAgentVersionsResponse: AWSDecodableShape {
+        /// The summaries of AI Agent versions.
+        public let aiAgentVersionSummaries: [AIAgentVersionSummary]
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(aiAgentVersionSummaries: [AIAgentVersionSummary], nextToken: String? = nil) {
+            self.aiAgentVersionSummaries = aiAgentVersionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentVersionSummaries = "aiAgentVersionSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAIAgentsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The origin of the AI Agents to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+        public let origin: Origin?
+
+        @inlinable
+        public init(assistantId: String, maxResults: Int? = nil, nextToken: String? = nil, origin: Origin? = nil) {
+            self.assistantId = assistantId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.origin = origin
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.origin, key: "origin")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAIAgentsResponse: AWSDecodableShape {
+        /// The summaries of AI Agents.
+        public let aiAgentSummaries: [AIAgentSummary]
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(aiAgentSummaries: [AIAgentSummary], nextToken: String? = nil) {
+            self.aiAgentSummaries = aiAgentSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentSummaries = "aiAgentSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAIPromptVersionsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI prompt for which versions are to be listed.
+        public let aiPromptId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The origin of the AI Prompt versions to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+        public let origin: Origin?
+
+        @inlinable
+        public init(aiPromptId: String, assistantId: String, maxResults: Int? = nil, nextToken: String? = nil, origin: Origin? = nil) {
+            self.aiPromptId = aiPromptId
+            self.assistantId = assistantId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.origin = origin
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiPromptId, key: "aiPromptId")
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.origin, key: "origin")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiPromptId, name: "aiPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAIPromptVersionsResponse: AWSDecodableShape {
+        /// The summaries of the AI Prompt versions.
+        public let aiPromptVersionSummaries: [AIPromptVersionSummary]
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(aiPromptVersionSummaries: [AIPromptVersionSummary], nextToken: String? = nil) {
+            self.aiPromptVersionSummaries = aiPromptVersionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiPromptVersionSummaries = "aiPromptVersionSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAIPromptsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The origin of the AI Prompts to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+        public let origin: Origin?
+
+        @inlinable
+        public init(assistantId: String, maxResults: Int? = nil, nextToken: String? = nil, origin: Origin? = nil) {
+            self.assistantId = assistantId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.origin = origin
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.origin, key: "origin")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAIPromptsResponse: AWSDecodableShape {
+        /// The summaries of the AI Prompts.
+        public let aiPromptSummaries: [AIPromptSummary]
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(aiPromptSummaries: [AIPromptSummary], nextToken: String? = nil) {
+            self.aiPromptSummaries = aiPromptSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiPromptSummaries = "aiPromptSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2979,6 +4602,31 @@ extension QConnect {
         }
     }
 
+    public struct ManualSearchAIAgentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The AI Prompt identifier for the Answer Generation prompt used by the MANUAL_SEARCH AI Agent.
+        public let answerGenerationAIPromptId: String?
+        /// The association configurations for overriding behavior on this AI Agent.
+        public let associationConfigurations: [AssociationConfiguration]?
+
+        @inlinable
+        public init(answerGenerationAIPromptId: String? = nil, associationConfigurations: [AssociationConfiguration]? = nil) {
+            self.answerGenerationAIPromptId = answerGenerationAIPromptId
+            self.associationConfigurations = associationConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.answerGenerationAIPromptId, name: "answerGenerationAIPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
+            try self.associationConfigurations?.forEach {
+                try $0.validate(name: "\(name).associationConfigurations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerGenerationAIPromptId = "answerGenerationAIPromptId"
+            case associationConfigurations = "associationConfigurations"
+        }
+    }
+
     public struct NotifyRecommendationsReceivedError: AWSDecodableShape {
         /// A recommendation is causing an error.
         public let message: String?
@@ -3050,6 +4698,47 @@ extension QConnect {
         private enum CodingKeys: String, CodingKey {
             case errors = "errors"
             case recommendationIds = "recommendationIds"
+        }
+    }
+
+    public struct ParsingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Settings for a foundation model used to parse documents for a data source.
+        public let bedrockFoundationModelConfiguration: BedrockFoundationModelConfigurationForParsing?
+        /// The parsing strategy for the data source.
+        public let parsingStrategy: ParsingStrategy
+
+        @inlinable
+        public init(bedrockFoundationModelConfiguration: BedrockFoundationModelConfigurationForParsing? = nil, parsingStrategy: ParsingStrategy) {
+            self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.parsingStrategy = parsingStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockFoundationModelConfiguration?.validate(name: "\(name).bedrockFoundationModelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockFoundationModelConfiguration = "bedrockFoundationModelConfiguration"
+            case parsingStrategy = "parsingStrategy"
+        }
+    }
+
+    public struct ParsingPrompt: AWSEncodableShape & AWSDecodableShape {
+        /// Instructions for interpreting the contents of a document.
+        public let parsingPromptText: String
+
+        @inlinable
+        public init(parsingPromptText: String) {
+            self.parsingPromptText = parsingPromptText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.parsingPromptText, name: "parsingPromptText", parent: name, max: 10000)
+            try self.validate(self.parsingPromptText, name: "parsingPromptText", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parsingPromptText = "parsingPromptText"
         }
     }
 
@@ -3130,19 +4819,25 @@ extension QConnect {
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
+        /// The search type to be used against the Knowledge Base for this request. The values can be SEMANTIC which uses vector embeddings or HYBRID which use vector embeddings and raw text.
+        public let overrideKnowledgeBaseSearchType: KnowledgeBaseSearchType?
         /// Information about how to query content.
         public let queryCondition: [QueryCondition]?
+        /// Information about the query.
+        public let queryInputData: QueryInputData?
         /// The text to search for.
-        public let queryText: String
+        public let queryText: String?
         /// The identifier of the Amazon Q in Connect session. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let sessionId: String?
 
         @inlinable
-        public init(assistantId: String, maxResults: Int? = nil, nextToken: String? = nil, queryCondition: [QueryCondition]? = nil, queryText: String, sessionId: String? = nil) {
+        public init(assistantId: String, maxResults: Int? = nil, nextToken: String? = nil, overrideKnowledgeBaseSearchType: KnowledgeBaseSearchType? = nil, queryCondition: [QueryCondition]? = nil, queryInputData: QueryInputData? = nil, queryText: String? = nil, sessionId: String? = nil) {
             self.assistantId = assistantId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.overrideKnowledgeBaseSearchType = overrideKnowledgeBaseSearchType
             self.queryCondition = queryCondition
+            self.queryInputData = queryInputData
             self.queryText = queryText
             self.sessionId = sessionId
         }
@@ -3153,8 +4848,10 @@ extension QConnect {
             request.encodePath(self.assistantId, key: "assistantId")
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.overrideKnowledgeBaseSearchType, forKey: .overrideKnowledgeBaseSearchType)
             try container.encodeIfPresent(self.queryCondition, forKey: .queryCondition)
-            try container.encode(self.queryText, forKey: .queryText)
+            try container.encodeIfPresent(self.queryInputData, forKey: .queryInputData)
+            try container.encodeIfPresent(self.queryText, forKey: .queryText)
             try container.encodeIfPresent(self.sessionId, forKey: .sessionId)
         }
 
@@ -3168,14 +4865,17 @@ extension QConnect {
                 try $0.validate(name: "\(name).queryCondition[]")
             }
             try self.validate(self.queryCondition, name: "queryCondition", parent: name, max: 1)
-            try self.validate(self.queryText, name: "queryText", parent: name, max: 1024)
+            try self.queryInputData?.validate(name: "\(name).queryInputData")
+            try self.validate(self.queryText, name: "queryText", parent: name, max: 512)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
+            case overrideKnowledgeBaseSearchType = "overrideKnowledgeBaseSearchType"
             case queryCondition = "queryCondition"
+            case queryInputData = "queryInputData"
             case queryText = "queryText"
             case sessionId = "sessionId"
         }
@@ -3233,6 +4933,24 @@ extension QConnect {
         @inlinable
         public init(text: String? = nil) {
             self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct QueryTextInputData: AWSEncodableShape {
+        /// The text to search for.
+        public let text: String
+
+        @inlinable
+        public init(text: String) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.text, name: "text", parent: name, max: 512)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3711,6 +5429,36 @@ extension QConnect {
         }
     }
 
+    public struct RemoveAssistantAIAgentRequest: AWSEncodableShape {
+        /// The type of the AI Agent being removed for use by default from the Amazon Q in Connect Assistant.
+        public let aiAgentType: AIAgentType
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+
+        @inlinable
+        public init(aiAgentType: AIAgentType, assistantId: String) {
+            self.aiAgentType = aiAgentType
+            self.assistantId = assistantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.aiAgentType, key: "aiAgentType")
+            request.encodePath(self.assistantId, key: "assistantId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RemoveAssistantAIAgentResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct RemoveKnowledgeBaseTemplateUriRequest: AWSEncodableShape {
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
@@ -3783,6 +5531,30 @@ extension QConnect {
             case relevanceScore = "relevanceScore"
             case resultId = "resultId"
             case type = "type"
+        }
+    }
+
+    public struct RuntimeSessionData: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the data stored on the session.
+        public let key: String
+        /// The value of the data stored on the session.
+        public let value: RuntimeSessionDataValue
+
+        @inlinable
+        public init(key: String, value: RuntimeSessionDataValue) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 4096)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -3992,6 +5764,46 @@ extension QConnect {
         }
     }
 
+    public struct SeedUrl: AWSEncodableShape & AWSDecodableShape {
+        /// URL for crawling
+        public let url: String?
+
+        @inlinable
+        public init(url: String? = nil) {
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.url, name: "url", parent: name, pattern: "^https?://[A-Za-z0-9][^\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "url"
+        }
+    }
+
+    public struct SemanticChunkingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The dissimilarity threshold for splitting chunks.
+        public let breakpointPercentileThreshold: Int
+        /// The buffer size.
+        public let bufferSize: Int
+        /// The maximum number of tokens that a chunk can contain.
+        public let maxTokens: Int
+
+        @inlinable
+        public init(breakpointPercentileThreshold: Int, bufferSize: Int, maxTokens: Int) {
+            self.breakpointPercentileThreshold = breakpointPercentileThreshold
+            self.bufferSize = bufferSize
+            self.maxTokens = maxTokens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case breakpointPercentileThreshold = "breakpointPercentileThreshold"
+            case bufferSize = "bufferSize"
+            case maxTokens = "maxTokens"
+        }
+    }
+
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The customer managed key used for encryption. For more information about setting up a customer managed key for Amazon Q in Connect, see Enable Amazon Q in Connect for your instance. For information about valid ID values, see Key identifiers (KeyId).
         public let kmsKeyId: String?
@@ -4012,6 +5824,8 @@ extension QConnect {
     }
 
     public struct SessionData: AWSDecodableShape {
+        /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
+        public let aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]?
         /// The description of the session.
         public let description: String?
         /// The configuration information for the session integration.
@@ -4028,7 +5842,8 @@ extension QConnect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(description: String? = nil, integrationConfiguration: SessionIntegrationConfiguration? = nil, name: String, sessionArn: String, sessionId: String, tagFilter: TagFilter? = nil, tags: [String: String]? = nil) {
+        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, description: String? = nil, integrationConfiguration: SessionIntegrationConfiguration? = nil, name: String, sessionArn: String, sessionId: String, tagFilter: TagFilter? = nil, tags: [String: String]? = nil) {
+            self.aiAgentConfiguration = aiAgentConfiguration
             self.description = description
             self.integrationConfiguration = integrationConfiguration
             self.name = name
@@ -4039,6 +5854,7 @@ extension QConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aiAgentConfiguration = "aiAgentConfiguration"
             case description = "description"
             case integrationConfiguration = "integrationConfiguration"
             case name = "name"
@@ -4090,6 +5906,8 @@ extension QConnect {
     }
 
     public struct SourceContentDataDetails: AWSDecodableShape {
+        /// Contains information about where the text with a citation begins and ends in the generated output.
+        public let citationSpan: CitationSpan?
         /// The identifier of the source content.
         public let id: String
         /// Details about the source content ranking data.
@@ -4100,7 +5918,8 @@ extension QConnect {
         public let type: SourceContentType
 
         @inlinable
-        public init(id: String, rankingData: RankingData, textData: TextData, type: SourceContentType) {
+        public init(citationSpan: CitationSpan? = nil, id: String, rankingData: RankingData, textData: TextData, type: SourceContentType) {
+            self.citationSpan = citationSpan
             self.id = id
             self.rankingData = rankingData
             self.textData = textData
@@ -4108,6 +5927,7 @@ extension QConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case citationSpan = "citationSpan"
             case id = "id"
             case rankingData = "rankingData"
             case textData = "textData"
@@ -4332,6 +6152,25 @@ extension QConnect {
         }
     }
 
+    public struct TextFullAIPromptEditTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The YAML text for the AI Prompt template.
+        public let text: String
+
+        @inlinable
+        public init(text: String) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.text, name: "text", parent: name, max: 200000)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -4367,6 +6206,189 @@ extension QConnect {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAIAgentRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI Agent.
+        public let aiAgentId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The configuration of the Amazon Q in Connect AI Agent.
+        public let configuration: AIAgentConfiguration?
+        /// The description of the Amazon Q in Connect AI Agent.
+        public let description: String?
+        /// The visbility status of the Amazon Q in Connect AI Agent.
+        public let visibilityStatus: VisibilityStatus
+
+        @inlinable
+        public init(aiAgentId: String, assistantId: String, clientToken: String? = UpdateAIAgentRequest.idempotencyToken(), configuration: AIAgentConfiguration? = nil, description: String? = nil, visibilityStatus: VisibilityStatus) {
+            self.aiAgentId = aiAgentId
+            self.assistantId = assistantId
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.description = description
+            self.visibilityStatus = visibilityStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiAgentId, key: "aiAgentId")
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.visibilityStatus, forKey: .visibilityStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiAgentId, name: "aiAgentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9\\s_.,-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case description = "description"
+            case visibilityStatus = "visibilityStatus"
+        }
+    }
+
+    public struct UpdateAIAgentResponse: AWSDecodableShape {
+        /// The data of the updated Amazon Q in Connect AI Agent.
+        public let aiAgent: AIAgentData?
+
+        @inlinable
+        public init(aiAgent: AIAgentData? = nil) {
+            self.aiAgent = aiAgent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgent = "aiAgent"
+        }
+    }
+
+    public struct UpdateAIPromptRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect AI Prompt.
+        public let aiPromptId: String
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The description of the Amazon Q in Connect AI Prompt.
+        public let description: String?
+        /// The configuration of the prompt template for this AI Prompt.
+        public let templateConfiguration: AIPromptTemplateConfiguration?
+        /// The visibility status of the Amazon Q in Connect AI prompt.
+        public let visibilityStatus: VisibilityStatus
+
+        @inlinable
+        public init(aiPromptId: String, assistantId: String, clientToken: String? = UpdateAIPromptRequest.idempotencyToken(), description: String? = nil, templateConfiguration: AIPromptTemplateConfiguration? = nil, visibilityStatus: VisibilityStatus) {
+            self.aiPromptId = aiPromptId
+            self.assistantId = assistantId
+            self.clientToken = clientToken
+            self.description = description
+            self.templateConfiguration = templateConfiguration
+            self.visibilityStatus = visibilityStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aiPromptId, key: "aiPromptId")
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.templateConfiguration, forKey: .templateConfiguration)
+            try container.encode(self.visibilityStatus, forKey: .visibilityStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aiPromptId, name: "aiPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}(:[A-Z0-9_$]+){0,1}$")
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 4096)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9\\s_.,-]+")
+            try self.templateConfiguration?.validate(name: "\(name).templateConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case templateConfiguration = "templateConfiguration"
+            case visibilityStatus = "visibilityStatus"
+        }
+    }
+
+    public struct UpdateAIPromptResponse: AWSDecodableShape {
+        /// The data of the updated Amazon Q in Connect AI Prompt.
+        public let aiPrompt: AIPromptData?
+
+        @inlinable
+        public init(aiPrompt: AIPromptData? = nil) {
+            self.aiPrompt = aiPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiPrompt = "aiPrompt"
+        }
+    }
+
+    public struct UpdateAssistantAIAgentRequest: AWSEncodableShape {
+        /// The type of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
+        public let aiAgentType: AIAgentType
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
+        public let configuration: AIAgentConfigurationData
+
+        @inlinable
+        public init(aiAgentType: AIAgentType, assistantId: String, configuration: AIAgentConfigurationData) {
+            self.aiAgentType = aiAgentType
+            self.assistantId = assistantId
+            self.configuration = configuration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.aiAgentType, forKey: .aiAgentType)
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encode(self.configuration, forKey: .configuration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentType = "aiAgentType"
+            case configuration = "configuration"
+        }
+    }
+
+    public struct UpdateAssistantAIAgentResponse: AWSDecodableShape {
+        public let assistant: AssistantData?
+
+        @inlinable
+        public init(assistant: AssistantData? = nil) {
+            self.assistant = assistant
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assistant = "assistant"
+        }
     }
 
     public struct UpdateContentRequest: AWSEncodableShape {
@@ -4617,7 +6639,77 @@ extension QConnect {
         }
     }
 
+    public struct UpdateSessionDataRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let assistantId: String
+        /// The data stored on the Amazon Q in Connect Session.
+        public let data: [RuntimeSessionData]
+        /// The namespace into which the session data is stored. Supported namespaces are: Custom
+        public let namespace: SessionDataNamespace?
+        /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        public let sessionId: String
+
+        @inlinable
+        public init(assistantId: String, data: [RuntimeSessionData], namespace: SessionDataNamespace? = nil, sessionId: String) {
+            self.assistantId = assistantId
+            self.data = data
+            self.namespace = namespace
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assistantId, key: "assistantId")
+            try container.encode(self.data, forKey: .data)
+            try container.encodeIfPresent(self.namespace, forKey: .namespace)
+            request.encodePath(self.sessionId, key: "sessionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.data.forEach {
+                try $0.validate(name: "\(name).data[]")
+            }
+            try self.validate(self.data, name: "data", parent: name, max: 50)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "data"
+            case namespace = "namespace"
+        }
+    }
+
+    public struct UpdateSessionDataResponse: AWSDecodableShape {
+        /// Data stored in the session.
+        public let data: [RuntimeSessionData]
+        /// The namespace into which the session data is stored. Supported namespaces are: Custom
+        public let namespace: SessionDataNamespace
+        /// The Amazon Resource Name (ARN) of the session.
+        public let sessionArn: String
+        /// The identifier of the session.
+        public let sessionId: String
+
+        @inlinable
+        public init(data: [RuntimeSessionData], namespace: SessionDataNamespace, sessionArn: String, sessionId: String) {
+            self.data = data
+            self.namespace = namespace
+            self.sessionArn = sessionArn
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "data"
+            case namespace = "namespace"
+            case sessionArn = "sessionArn"
+            case sessionId = "sessionId"
+        }
+    }
+
     public struct UpdateSessionRequest: AWSEncodableShape {
+        /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
+        public let aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]?
         /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
         /// The description.
@@ -4628,7 +6720,8 @@ extension QConnect {
         public let tagFilter: TagFilter?
 
         @inlinable
-        public init(assistantId: String, description: String? = nil, sessionId: String, tagFilter: TagFilter? = nil) {
+        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, assistantId: String, description: String? = nil, sessionId: String, tagFilter: TagFilter? = nil) {
+            self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantId = assistantId
             self.description = description
             self.sessionId = sessionId
@@ -4638,6 +6731,7 @@ extension QConnect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.aiAgentConfiguration, forKey: .aiAgentConfiguration)
             request.encodePath(self.assistantId, key: "assistantId")
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.sessionId, key: "sessionId")
@@ -4645,6 +6739,9 @@ extension QConnect {
         }
 
         public func validate(name: String) throws {
+            try self.aiAgentConfiguration?.forEach {
+                try $0.value.validate(name: "\(name).aiAgentConfiguration[\"\($0.key)\"]")
+            }
             try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, min: 1)
@@ -4654,6 +6751,7 @@ extension QConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aiAgentConfiguration = "aiAgentConfiguration"
             case description = "description"
             case tagFilter = "tagFilter"
         }
@@ -4669,6 +6767,129 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case session = "session"
+        }
+    }
+
+    public struct UrlConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// List of URLs for crawling.
+        public let seedUrls: [SeedUrl]?
+
+        @inlinable
+        public init(seedUrls: [SeedUrl]? = nil) {
+            self.seedUrls = seedUrls
+        }
+
+        public func validate(name: String) throws {
+            try self.seedUrls?.forEach {
+                try $0.validate(name: "\(name).seedUrls[]")
+            }
+            try self.validate(self.seedUrls, name: "seedUrls", parent: name, max: 100)
+            try self.validate(self.seedUrls, name: "seedUrls", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case seedUrls = "seedUrls"
+        }
+    }
+
+    public struct VectorIngestionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
+        public let chunkingConfiguration: ChunkingConfiguration?
+        /// A custom parser for data source documents.
+        public let parsingConfiguration: ParsingConfiguration?
+
+        @inlinable
+        public init(chunkingConfiguration: ChunkingConfiguration? = nil, parsingConfiguration: ParsingConfiguration? = nil) {
+            self.chunkingConfiguration = chunkingConfiguration
+            self.parsingConfiguration = parsingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.chunkingConfiguration?.validate(name: "\(name).chunkingConfiguration")
+            try self.parsingConfiguration?.validate(name: "\(name).parsingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chunkingConfiguration = "chunkingConfiguration"
+            case parsingConfiguration = "parsingConfiguration"
+        }
+    }
+
+    public struct WebCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of crawl limits for the web URLs.
+        public let crawlerLimits: WebCrawlerLimits?
+        /// A list of one or more exclusion regular expression patterns to exclude certain URLs. If you specify an inclusion and exclusion filter/pattern and both match a URL, the exclusion filter takes precedence and the web content of the URL isn’t crawled.
+        public let exclusionFilters: [String]?
+        /// A list of one or more inclusion regular expression patterns to include certain URLs. If you specify an inclusion and exclusion filter/pattern and both match a URL, the exclusion filter takes precedence and the web content of the URL isn’t crawled.
+        public let inclusionFilters: [String]?
+        /// The scope of what is crawled for your URLs. You can choose to crawl only web pages that belong to the same host or primary domain. For example, only web pages that contain the seed URL https://docs.aws.amazon.com/bedrock/latest/userguide/ and no other domains. You can choose to include sub domains in addition to the host or primary domain. For example, web pages that contain aws.amazon.com can also include sub domain docs.aws.amazon.com.
+        public let scope: WebScopeType?
+        /// The configuration of the URL/URLs for the web content that you want to crawl. You should be authorized to crawl the URLs.
+        public let urlConfiguration: UrlConfiguration
+
+        @inlinable
+        public init(crawlerLimits: WebCrawlerLimits? = nil, exclusionFilters: [String]? = nil, inclusionFilters: [String]? = nil, scope: WebScopeType? = nil, urlConfiguration: UrlConfiguration) {
+            self.crawlerLimits = crawlerLimits
+            self.exclusionFilters = exclusionFilters
+            self.inclusionFilters = inclusionFilters
+            self.scope = scope
+            self.urlConfiguration = urlConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.exclusionFilters?.forEach {
+                try validate($0, name: "exclusionFilters[]", parent: name, max: 1000)
+                try validate($0, name: "exclusionFilters[]", parent: name, min: 1)
+            }
+            try self.validate(self.exclusionFilters, name: "exclusionFilters", parent: name, max: 25)
+            try self.validate(self.exclusionFilters, name: "exclusionFilters", parent: name, min: 1)
+            try self.inclusionFilters?.forEach {
+                try validate($0, name: "inclusionFilters[]", parent: name, max: 1000)
+                try validate($0, name: "inclusionFilters[]", parent: name, min: 1)
+            }
+            try self.validate(self.inclusionFilters, name: "inclusionFilters", parent: name, max: 25)
+            try self.validate(self.inclusionFilters, name: "inclusionFilters", parent: name, min: 1)
+            try self.urlConfiguration.validate(name: "\(name).urlConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerLimits = "crawlerLimits"
+            case exclusionFilters = "exclusionFilters"
+            case inclusionFilters = "inclusionFilters"
+            case scope = "scope"
+            case urlConfiguration = "urlConfiguration"
+        }
+    }
+
+    public struct WebCrawlerLimits: AWSEncodableShape & AWSDecodableShape {
+        /// Rate of web URLs retrieved per minute.
+        public let rateLimit: Int?
+
+        @inlinable
+        public init(rateLimit: Int? = nil) {
+            self.rateLimit = rateLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rateLimit = "rateLimit"
+        }
+    }
+
+    public struct AIPromptTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for a prompt template that supports full textual prompt configuration using a YAML prompt.
+        public let textFullAIPromptEditTemplateConfiguration: TextFullAIPromptEditTemplateConfiguration?
+
+        @inlinable
+        public init(textFullAIPromptEditTemplateConfiguration: TextFullAIPromptEditTemplateConfiguration? = nil) {
+            self.textFullAIPromptEditTemplateConfiguration = textFullAIPromptEditTemplateConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.textFullAIPromptEditTemplateConfiguration?.validate(name: "\(name).textFullAIPromptEditTemplateConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textFullAIPromptEditTemplateConfiguration = "textFullAIPromptEditTemplateConfiguration"
         }
     }
 
@@ -4701,6 +6922,24 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case knowledgeBaseAssociation = "knowledgeBaseAssociation"
+        }
+    }
+
+    public struct AssociationConfigurationData: AWSEncodableShape & AWSDecodableShape {
+        /// The data of the configuration for a KNOWLEDGE_BASE type Amazon Q in Connect Assistant Association.
+        public let knowledgeBaseAssociationConfigurationData: KnowledgeBaseAssociationConfigurationData?
+
+        @inlinable
+        public init(knowledgeBaseAssociationConfigurationData: KnowledgeBaseAssociationConfigurationData? = nil) {
+            self.knowledgeBaseAssociationConfigurationData = knowledgeBaseAssociationConfigurationData
+        }
+
+        public func validate(name: String) throws {
+            try self.knowledgeBaseAssociationConfigurationData?.validate(name: "\(name).knowledgeBaseAssociationConfigurationData")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseAssociationConfigurationData = "knowledgeBaseAssociationConfigurationData"
         }
     }
 
@@ -4751,6 +6990,24 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case generativeContentFeedbackData = "generativeContentFeedbackData"
+        }
+    }
+
+    public struct ManagedSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration data for web crawler data source.
+        public let webCrawlerConfiguration: WebCrawlerConfiguration?
+
+        @inlinable
+        public init(webCrawlerConfiguration: WebCrawlerConfiguration? = nil) {
+            self.webCrawlerConfiguration = webCrawlerConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.webCrawlerConfiguration?.validate(name: "\(name).webCrawlerConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webCrawlerConfiguration = "webCrawlerConfiguration"
         }
     }
 
@@ -4819,21 +7076,22 @@ extension QConnect {
         }
     }
 
-    public struct SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Configuration information for Amazon AppIntegrations to automatically ingest content.
-        public let appIntegrations: AppIntegrationsConfiguration?
+    public struct RuntimeSessionDataValue: AWSEncodableShape & AWSDecodableShape {
+        /// The string value of the data stored on the session.
+        public let stringValue: String?
 
         @inlinable
-        public init(appIntegrations: AppIntegrationsConfiguration? = nil) {
-            self.appIntegrations = appIntegrations
+        public init(stringValue: String? = nil) {
+            self.stringValue = stringValue
         }
 
         public func validate(name: String) throws {
-            try self.appIntegrations?.validate(name: "\(name).appIntegrations")
+            try self.validate(self.stringValue, name: "stringValue", parent: name, max: 4096)
+            try self.validate(self.stringValue, name: "stringValue", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appIntegrations = "appIntegrations"
+            case stringValue = "stringValue"
         }
     }
 }

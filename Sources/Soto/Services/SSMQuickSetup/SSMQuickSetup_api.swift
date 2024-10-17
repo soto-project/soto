@@ -65,6 +65,7 @@ public struct SSMQuickSetup: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: SSMQuickSetupErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -76,6 +77,16 @@ public struct SSMQuickSetup: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "ssm-quicksetup-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "ssm-quicksetup-fips.us-east-1.amazonaws.com",
+            "us-east-2": "ssm-quicksetup-fips.us-east-2.amazonaws.com",
+            "us-west-1": "ssm-quicksetup-fips.us-west-1.amazonaws.com",
+            "us-west-2": "ssm-quicksetup-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

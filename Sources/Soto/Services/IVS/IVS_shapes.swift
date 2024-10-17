@@ -1847,6 +1847,15 @@ extension IVS {
     }
 
     public struct StreamEvent: AWSDecodableShape {
+        /// Provides additional details about the stream event. There are several values; note that
+        /// 			the long descriptions are provided in the IVS console but not delivered through
+        /// 	  	    the IVS API or EventBridge:    StreamTakeoverMediaMismatch — The broadcast client attempted to take over
+        /// 			with different media properties (e.g., codec, resolution, or video track type) from the
+        /// 			original stream.    StreamTakeoverInvalidPriority — The broadcast client attempted a takeover
+        /// 			with either a priority integer value equal to or lower than the original stream's value or a value outside
+        /// 			the allowed range of 1 to 2,147,483,647.    StreamTakeoverLimitBreached — The broadcast client reached the maximum allowed
+        /// 			takeover attempts for this stream.
+        public let code: String?
         /// Time when the event occurred. This is an ISO 8601 timestamp; note that this is returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var eventTime: Date?
@@ -1856,13 +1865,15 @@ extension IVS {
         public let type: String?
 
         @inlinable
-        public init(eventTime: Date? = nil, name: String? = nil, type: String? = nil) {
+        public init(code: String? = nil, eventTime: Date? = nil, name: String? = nil, type: String? = nil) {
+            self.code = code
             self.eventTime = eventTime
             self.name = name
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case code = "code"
             case eventTime = "eventTime"
             case name = "name"
             case type = "type"

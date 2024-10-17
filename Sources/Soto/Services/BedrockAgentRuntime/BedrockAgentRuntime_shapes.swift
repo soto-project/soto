@@ -1233,9 +1233,9 @@ extension BedrockAgentRuntime {
     public struct ExternalSourcesRetrieveAndGenerateConfiguration: AWSEncodableShape {
         /// The prompt used with the external source wrapper object with the retrieveAndGenerate function.
         public let generationConfiguration: ExternalSourcesGenerationConfiguration?
-        /// The modelArn used with the external source wrapper object in the retrieveAndGenerate function.
+        /// The model Amazon Resource Name (ARN) for the external source wrapper object in the retrieveAndGenerate function.
         public let modelArn: String
-        /// The document used with the external source wrapper object in the retrieveAndGenerate function.
+        /// The document for the external source wrapper object in the retrieveAndGenerate function.
         public let sources: [ExternalSource]
 
         @inlinable
@@ -2561,19 +2561,25 @@ extension BedrockAgentRuntime {
     }
 
     public struct PostProcessingModelInvocationOutput: AWSDecodableShape {
+        public let metadata: Metadata?
         /// Details about the response from the Lambda parsing of the output of the post-processing step.
         public let parsedResponse: PostProcessingParsedResponse?
+        public let rawResponse: RawResponse?
         /// The unique identifier of the trace.
         public let traceId: String?
 
         @inlinable
-        public init(parsedResponse: PostProcessingParsedResponse? = nil, traceId: String? = nil) {
+        public init(metadata: Metadata? = nil, parsedResponse: PostProcessingParsedResponse? = nil, rawResponse: RawResponse? = nil, traceId: String? = nil) {
+            self.metadata = metadata
             self.parsedResponse = parsedResponse
+            self.rawResponse = rawResponse
             self.traceId = traceId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
             case parsedResponse = "parsedResponse"
+            case rawResponse = "rawResponse"
             case traceId = "traceId"
         }
     }
@@ -2593,19 +2599,25 @@ extension BedrockAgentRuntime {
     }
 
     public struct PreProcessingModelInvocationOutput: AWSDecodableShape {
+        public let metadata: Metadata?
         /// Details about the response from the Lambda parsing of the output of the pre-processing step.
         public let parsedResponse: PreProcessingParsedResponse?
+        public let rawResponse: RawResponse?
         /// The unique identifier of the trace.
         public let traceId: String?
 
         @inlinable
-        public init(parsedResponse: PreProcessingParsedResponse? = nil, traceId: String? = nil) {
+        public init(metadata: Metadata? = nil, parsedResponse: PreProcessingParsedResponse? = nil, rawResponse: RawResponse? = nil, traceId: String? = nil) {
+            self.metadata = metadata
             self.parsedResponse = parsedResponse
+            self.rawResponse = rawResponse
             self.traceId = traceId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
             case parsedResponse = "parsedResponse"
+            case rawResponse = "rawResponse"
             case traceId = "traceId"
         }
     }
@@ -2871,11 +2883,11 @@ extension BedrockAgentRuntime {
     }
 
     public struct RetrieveAndGenerateConfiguration: AWSEncodableShape {
-        /// The configuration used with the external source wrapper object in the retrieveAndGenerate function.
+        /// The configuration for the external source wrapper object in the retrieveAndGenerate function.
         public let externalSourcesConfiguration: ExternalSourcesRetrieveAndGenerateConfiguration?
-        /// Contains details about the resource being queried.
+        /// Contains details about the knowledge base for retrieving information and generating responses.
         public let knowledgeBaseConfiguration: KnowledgeBaseRetrieveAndGenerateConfiguration?
-        /// The type of resource that is queried by the request.
+        /// The type of resource that contains your data for retrieving information and generating responses. If you choose ot use EXTERNAL_SOURCES, then currently only Claude 3 Sonnet models for knowledge bases are supported.
         public let type: RetrieveAndGenerateType
 
         @inlinable

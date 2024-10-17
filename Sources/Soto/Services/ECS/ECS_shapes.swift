@@ -1003,13 +1003,13 @@ extension ECS {
 
     public struct ContainerDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The command that's passed to the container. This parameter maps to Cmd in
-        /// 			the docker conainer create command and the
+        /// 			the docker container create command and the
         /// 				COMMAND parameter to docker
         /// 				run.  If there are multiple arguments, each
         /// 			argument is a separated string in the array.
         public let command: [String]?
         /// The number of cpu units reserved for the container. This parameter maps
-        /// 			to CpuShares in the docker conainer create commandand the --cpu-shares option to docker run. This field is optional for tasks using the Fargate launch type, and the
+        /// 			to CpuShares in the docker container create commandand the --cpu-shares option to docker run. This field is optional for tasks using the Fargate launch type, and the
         /// 			only requirement is that the total amount of CPU reserved for all containers within a
         /// 			task be lower than the task-level cpu value.  You can determine the number of CPU units that are available per EC2 instance type
         /// 				by multiplying the vCPUs listed for that instance type on the Amazon EC2 Instances detail page
@@ -1072,16 +1072,16 @@ extension ECS {
         /// 			the following platforms:   Linux platform version 1.3.0 or later.   Windows platform version 1.0.0 or later.
         public let dependsOn: [ContainerDependency]?
         /// When this parameter is true, networking is off within the container. This parameter
-        /// 			maps to NetworkDisabled in the docker conainer create command.  This parameter is not supported for Windows containers.
+        /// 			maps to NetworkDisabled in the docker container create command.  This parameter is not supported for Windows containers.
         public let disableNetworking: Bool?
         /// A list of DNS search domains that are presented to the container. This parameter maps
-        /// 			to DnsSearch in the docker conainer create command and the --dns-search option to docker run.  This parameter is not supported for Windows containers.
+        /// 			to DnsSearch in the docker container create command and the --dns-search option to docker run.  This parameter is not supported for Windows containers.
         public let dnsSearchDomains: [String]?
         /// A list of DNS servers that are presented to the container. This parameter maps to
-        /// 			Dns in the the docker conainer create command and the --dns option to docker run.  This parameter is not supported for Windows containers.
+        /// 			Dns in the docker container create command and the --dns option to docker run.  This parameter is not supported for Windows containers.
         public let dnsServers: [String]?
         /// A key/value map of labels to add to the container. This parameter maps to
-        /// 			Labels in the docker conainer create command and the --label option to docker run. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
+        /// 			Labels in the docker container create command and the --label option to docker run. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
         public let dockerLabels: [String: String]?
         /// A list of strings to provide custom configuration for multiple security systems. This field isn't valid for containers in tasks
         /// 			using the Fargate launch type. For Linux tasks on EC2, this parameter can be used to reference custom
@@ -1089,7 +1089,7 @@ extension ECS {
         /// 			credential spec file that configures a container for Active Directory authentication.
         /// 			For more information, see Using gMSAs for Windows
         /// 				Containers and Using gMSAs for Linux
-        /// 				Containers in the Amazon Elastic Container Service Developer Guide. This parameter maps to SecurityOpt in the docker conainer create command and the
+        /// 				Containers in the Amazon Elastic Container Service Developer Guide. This parameter maps to SecurityOpt in the docker container create command and the
         /// 				--security-opt option to docker
         /// 				run.  The Amazon ECS container agent running on a container instance must register with the
         /// 					ECS_SELINUX_CAPABLE=true or ECS_APPARMOR_CAPABLE=true
@@ -1102,10 +1102,10 @@ extension ECS {
         /// 					entryPoint parameters. If you have problems using
         /// 					entryPoint, update your container agent or enter your commands and
         /// 				arguments as command array items instead.  The entry point that's passed to the container. This parameter maps to
-        /// 			Entrypoint in tthe docker conainer create command and the --entrypoint option to docker run.
+        /// 			Entrypoint in the docker container create command and the --entrypoint option to docker run.
         public let entryPoint: [String]?
         /// The environment variables to pass to a container. This parameter maps to
-        /// 			Env in the docker conainer create command and the --env option to docker run.  We don't recommend that you use plaintext environment variables for sensitive
+        /// 			Env in the docker container create command and the --env option to docker run.  We don't recommend that you use plaintext environment variables for sensitive
         /// 				information, such as credential data.
         public let environment: [KeyValuePair]?
         /// A list of files containing the environment variables to pass to a container. This
@@ -1130,7 +1130,7 @@ extension ECS {
         /// 				Architecture in the Amazon Elastic Container Service Developer Guide.
         public let essential: Bool?
         /// A list of hostnames and IP address mappings to append to the /etc/hosts
-        /// 			file on the container. This parameter maps to ExtraHosts in the docker conainer create command and the
+        /// 			file on the container. This parameter maps to ExtraHosts in the docker container create command and the
         /// 				--add-host option to docker
         /// 				run.  This parameter isn't supported for Windows containers or tasks that use the
         /// 					awsvpc network mode.
@@ -1140,19 +1140,19 @@ extension ECS {
         /// 			in the Amazon Elastic Container Service Developer Guide.
         public let firelensConfiguration: FirelensConfiguration?
         /// The container health check command and associated configuration parameters for the
-        /// 			container. This parameter maps to HealthCheck in the docker conainer create command and the
+        /// 			container. This parameter maps to HealthCheck in the docker container create command and the
         /// 				HEALTHCHECK parameter of docker
         /// 				run.
         public let healthCheck: HealthCheck?
         /// The hostname to use for your container. This parameter maps to Hostname
-        /// 			in thethe docker conainer create command and the
+        /// 			in the docker container create command and the
         /// 				--hostname option to docker
         /// 				run.  The hostname parameter is not supported if you're using the
         /// 					awsvpc network mode.
         public let hostname: String?
         /// The image used to start a container. This string is passed directly to the Docker
         /// 			daemon. By default, images in the Docker Hub registry are available. Other repositories
-        /// 			are specified with either  repository-url/image:tag or  repository-url/image@digest . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the docker conainer create command and the
+        /// 			are specified with either  repository-url/image:tag or  repository-url/image@digest . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the docker container create command and the
         /// 				IMAGE parameter of docker
         /// 				run.   When a new task starts, the Amazon ECS container agent pulls the latest version of
         /// 					the specified image and tag for the container to use. However, subsequent
@@ -1169,13 +1169,13 @@ extension ECS {
         public let image: String?
         /// When this parameter is true, you can deploy containerized applications
         /// 			that require stdin or a tty to be allocated. This parameter
-        /// 			maps to OpenStdin in the docker conainer create command and the --interactive option to docker run.
+        /// 			maps to OpenStdin in the docker container create command and the --interactive option to docker run.
         public let interactive: Bool?
         /// The links parameter allows containers to communicate with each other
         /// 			without the need for port mappings. This parameter is only supported if the network mode
         /// 			of a task definition is bridge. The name:internalName
         /// 			construct is analogous to name:alias in Docker links.
-        /// 			Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.. This parameter maps to Links in the docker conainer create command and the
+        /// 			Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.. This parameter maps to Links in the docker container create command and the
         /// 				--link option to docker
         /// 			run.  This parameter is not supported for Windows containers.   Containers that are collocated on a single container instance may be able to
         /// 				communicate with each other without requiring links or host port mappings. Network
@@ -1185,7 +1185,7 @@ extension ECS {
         /// Linux-specific modifications that are applied to the container, such as Linux kernel
         /// 			capabilities. For more information see KernelCapabilities.  This parameter is not supported for Windows containers.
         public let linuxParameters: LinuxParameters?
-        /// The log configuration specification for the container. This parameter maps to LogConfig in the docker conainer create command and the
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the docker container create command and the
         /// 				--log-driver option to docker
         /// 				run. By default, containers use the same logging driver that the Docker
         /// 			daemon uses. However the container can use a different logging driver than the Docker
@@ -1205,7 +1205,7 @@ extension ECS {
         /// 			to exceed the memory specified here, the container is killed. The total amount of memory
         /// 			reserved for all containers within a task must be lower than the task
         /// 				memory value, if one is specified. This parameter maps to
-        /// 			Memory in thethe docker conainer create command and the --memory option to docker run. If using the Fargate launch type, this parameter is optional. If using the EC2 launch type, you must specify either a task-level
+        /// 			Memory in the docker container create command and the --memory option to docker run. If using the Fargate launch type, this parameter is optional. If using the EC2 launch type, you must specify either a task-level
         /// 			memory value or a container-level memory value. If you specify both a container-level
         /// 				memory and memoryReservation value, memory
         /// 			must be greater than memoryReservation. If you specify
@@ -1220,7 +1220,7 @@ extension ECS {
         /// 			However, your container can consume more memory when it needs to, up to either the hard
         /// 			limit specified with the memory parameter (if applicable), or all of the
         /// 			available memory on the container instance, whichever comes first. This parameter maps
-        /// 			to MemoryReservation in the the docker conainer create command and the --memory-reservation option to docker run. If a task-level memory value is not specified, you must specify a non-zero integer for
+        /// 			to MemoryReservation in the docker container create command and the --memory-reservation option to docker run. If a task-level memory value is not specified, you must specify a non-zero integer for
         /// 			one or both of memory or memoryReservation in a container
         /// 			definition. If you specify both, memory must be greater than
         /// 				memoryReservation. If you specify memoryReservation, then
@@ -1235,14 +1235,14 @@ extension ECS {
         /// 			container. So, don't specify less than 6 MiB of memory for your containers.  The Docker 19.03.13-ce or earlier daemon reserves a minimum of 4 MiB of memory for a
         /// 			container. So, don't specify less than 4 MiB of memory for your containers.
         public let memoryReservation: Int?
-        /// The mount points for data volumes in your container. This parameter maps to Volumes in the the docker conainer create command and the --volume option to docker run. Windows containers can mount whole directories on the same drive as
+        /// The mount points for data volumes in your container. This parameter maps to Volumes in the docker container create command and the --volume option to docker run. Windows containers can mount whole directories on the same drive as
         /// 				$env:ProgramData. Windows containers can't mount directories on a
         /// 			different drive, and mount point can't be across drives.
         public let mountPoints: [MountPoint]?
         /// The name of a container. If you're linking multiple containers together in a task
         /// 			definition, the name of one container can be entered in the
         /// 				links of another container to connect the containers.
-        /// 			Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. This parameter maps to name in tthe docker conainer create command and the
+        /// 			Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. This parameter maps to name in the docker container create command and the
         /// 				--name option to docker
         /// 			run.
         public let name: String?
@@ -1252,7 +1252,7 @@ extension ECS {
         /// 			be the same value as the containerPort. Port mappings on Windows use the NetNAT gateway address rather than
         /// 				localhost. There's no loopback for port mappings on Windows, so you
         /// 			can't access a container's mapped port from the host itself.  This parameter maps to PortBindings in the
-        /// 			the docker conainer create command and the
+        /// 			the docker container create command and the
         /// 				--publish option to docker
         /// 				run. If the network mode of a task definition is set to none,
         /// 			then you can't specify port mappings. If the network mode of a task definition is set to
@@ -1266,13 +1266,13 @@ extension ECS {
         public let portMappings: [PortMapping]?
         /// When this parameter is true, the container is given elevated privileges on the host
         /// 			container instance (similar to the root user). This parameter maps to
-        /// 			Privileged in the the docker conainer create command and the --privileged option to docker run  This parameter is not supported for Windows containers or tasks run on Fargate.
+        /// 			Privileged in the docker container create command and the --privileged option to docker run  This parameter is not supported for Windows containers or tasks run on Fargate.
         public let privileged: Bool?
         /// When this parameter is true, a TTY is allocated. This parameter maps to
-        /// 			Tty in tthe docker conainer create command and the --tty option to docker run.
+        /// 			Tty in the docker container create command and the --tty option to docker run.
         public let pseudoTerminal: Bool?
         /// When this parameter is true, the container is given read-only access to its root file
-        /// 			system. This parameter maps to ReadonlyRootfs in the docker conainer create command and the
+        /// 			system. This parameter maps to ReadonlyRootfs in the docker container create command and the
         /// 				--read-only option to docker
         /// 				run.  This parameter is not supported for Windows containers.
         public let readonlyRootFilesystem: Bool?
@@ -1309,7 +1309,7 @@ extension ECS {
         public let startTimeout: Int?
         /// Time duration (in seconds) to wait before the container is forcefully killed if it
         /// 			doesn't exit normally on its own. For tasks using the Fargate launch type, the task or service requires
-        /// 			the following platforms:   Linux platform version 1.3.0 or later.   Windows platform version 1.0.0 or later.   The max stop timeout value is 120 seconds and if the parameter is not specified, the
+        /// 			the following platforms:   Linux platform version 1.3.0 or later.   Windows platform version 1.0.0 or later.   For tasks that use the Fargate launch type, the max stop timeout value is 120 seconds and if the parameter is not specified, the
         /// 			default value of 30 seconds is used. For tasks that use the EC2 launch type, if the stopTimeout
         /// 			parameter isn't specified, the value set for the Amazon ECS container agent configuration
         /// 			variable ECS_CONTAINER_STOP_TIMEOUT is used. If neither the
@@ -1322,16 +1322,16 @@ extension ECS {
         /// 			an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the
         /// 				ecs-init package. If your container instances are launched from version
         /// 				20190301 or later, then they contain the required versions of the
-        /// 			container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide. The valid values are 2-120 seconds.
+        /// 			container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide. The valid values for Fargate are 2-120 seconds.
         public let stopTimeout: Int?
         /// A list of namespaced kernel parameters to set in the container. This parameter maps to
-        /// 			Sysctls in tthe docker conainer create command and the --sysctl option to docker run. For example, you can configure
+        /// 			Sysctls in the docker container create command and the --sysctl option to docker run. For example, you can configure
         /// 				net.ipv4.tcp_keepalive_time setting to maintain longer lived
         /// 			connections.
         public let systemControls: [SystemControl]?
         /// A list of ulimits to set in the container. If a ulimit value
         /// 			is specified in a task definition, it overrides the default values set by Docker. This
-        /// 			parameter maps to Ulimits in tthe docker conainer create command and the --ulimit option to docker run. Valid naming values are displayed
+        /// 			parameter maps to Ulimits in the docker container create command and the --ulimit option to docker run. Valid naming values are displayed
         /// 			in the Ulimit data type. Amazon ECS tasks hosted on Fargate use the default
         /// 							resource limit values set by the operating system with the exception of
         /// 							the nofile resource limit parameter which Fargate
@@ -1340,7 +1340,7 @@ extension ECS {
         /// 								nofile soft limit is  65535 and the default hard limit
         /// 							is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   This parameter is not supported for Windows containers.
         public let ulimits: [Ulimit]?
-        /// The user to use inside the container. This parameter maps to User in the docker conainer create command and the
+        /// The user to use inside the container. This parameter maps to User in the docker container create command and the
         /// 				--user option to docker
         /// 			run.  When running tasks using the host network mode, don't run containers
         /// 				using the root user (UID 0). We recommend using a non-root user for better
@@ -1348,10 +1348,10 @@ extension ECS {
         /// 			or GID, you must specify it as a positive integer.    user     user:group     uid     uid:gid     user:gid     uid:group     This parameter is not supported for Windows containers.
         public let user: String?
         /// Data volumes to mount from another container. This parameter maps to
-        /// 			VolumesFrom in tthe docker conainer create command and the --volumes-from option to docker run.
+        /// 			VolumesFrom in the docker container create command and the --volumes-from option to docker run.
         public let volumesFrom: [VolumeFrom]?
         /// The working directory to run commands inside the container in. This parameter maps to
-        /// 			WorkingDir in the docker conainer create command and the --workdir option to docker run.
+        /// 			WorkingDir in the docker container create command and the --workdir option to docker run.
         public let workingDirectory: String?
 
         @inlinable
@@ -2702,11 +2702,12 @@ extension ECS {
         /// 			tasks before stopping the four older tasks (provided that the cluster resources required
         /// 			to do this are available). The default maximumPercent value for a service
         /// 			using the REPLICA service scheduler is 200%. If a service is using either the blue/green (CODE_DEPLOY) or
-        /// 				EXTERNAL deployment types and tasks that use the EC2
+        /// 				EXTERNAL deployment types, and tasks in the service use the EC2
         /// 			launch type, the maximum percent value is set to the
-        /// 			default value and is used to define the upper limit on the number of the tasks in the
+        /// 			default value. The maximum percent value is used to define the upper limit on the number of the tasks in the
         /// 			service that remain in the RUNNING state while the container instances are
-        /// 			in the DRAINING state. If the tasks in the service use the
+        /// 			in the DRAINING state.  You can't specify a custom maximumPercent value for a service that uses either the blue/green (CODE_DEPLOY) or
+        /// 			EXTERNAL deployment types and has tasks that use the EC2 launch type.  If the tasks in the service use the
         /// 			Fargate launch type, the maximum percent value is not used, although it is
         /// 			returned when describing your service.
         public let maximumPercent: Int?
@@ -2742,9 +2743,10 @@ extension ECS {
         /// 			rounded up to the nearest integer value. If a service is using either the blue/green (CODE_DEPLOY) or
         /// 				EXTERNAL deployment types and is running tasks that use the
         /// 			EC2 launch type, the minimum healthy
-        /// 				percent value is set to the default value and is used to define the lower
+        /// 				percent value is set to the default value. The minimum healthy percent value is used to define the lower
         /// 			limit on the number of the tasks in the service that remain in the RUNNING
-        /// 			state while the container instances are in the DRAINING state. If a service
+        /// 			state while the container instances are in the DRAINING state.  You can't specify a custom minimumHealthyPercent value for a service that uses either the blue/green (CODE_DEPLOY) or
+        /// 			EXTERNAL deployment types and has tasks that use the EC2 launch type.  If a service
         /// 			is using either the blue/green (CODE_DEPLOY) or EXTERNAL
         /// 			deployment types and is running tasks that use the Fargate launch type,
         /// 			the minimum healthy percent value is not used, although it is returned when describing
@@ -3292,7 +3294,7 @@ extension ECS {
         /// 			by Docker because it is used for task placement. If the driver was installed using the
         /// 			Docker plugin CLI, use docker plugin ls to retrieve the driver name from
         /// 			your container instance. If the driver was installed using another method, use Docker
-        /// 			plugin discovery to retrieve the driver name. This parameter maps to Driver in the docker conainer create command and the
+        /// 			plugin discovery to retrieve the driver name. This parameter maps to Driver in the docker container create command and the
         /// 				xxdriver option to docker
         /// 				volume create.
         public let driver: String?
@@ -3301,7 +3303,7 @@ extension ECS {
         /// 				volume create.
         public let driverOpts: [String: String]?
         /// Custom metadata to add to your Docker volume. This parameter maps to
-        /// 				Labels in the docker conainer create command and the xxlabel option to docker
+        /// 				Labels in the docker container create command and the xxlabel option to docker
         /// 				volume create.
         public let labels: [String: String]?
         /// The scope for the Docker volume that determines its lifecycle. Docker volumes that are
@@ -3736,7 +3738,7 @@ extension ECS {
         /// 			directly, or CMD-SHELL to run the command with the container's default
         /// 			shell.  When you use the Amazon Web Services Management Console JSON panel, the Command Line Interface, or the APIs, enclose the list
         /// 			of commands in double quotes and brackets.  [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]  You don't include the double quotes and brackets when you use the Amazon Web Services Management Console.  CMD-SHELL, curl -f http://localhost/ || exit 1  An exit code of 0 indicates success, and non-zero exit code indicates failure. For
-        /// 			more information, see HealthCheck in tthe docker conainer create command
+        /// 			more information, see HealthCheck in the docker container create command
         public let command: [String]
         /// The time period in seconds between each health check execution. You may specify
         /// 			between 5 and 300 seconds. The default value is 30 seconds.
@@ -3880,7 +3882,7 @@ extension ECS {
 
     public struct KernelCapabilities: AWSEncodableShape & AWSDecodableShape {
         /// The Linux capabilities for the container that have been added to the default
-        /// 			configuration provided by Docker. This parameter maps to CapAdd in the docker conainer create command and the
+        /// 			configuration provided by Docker. This parameter maps to CapAdd in the docker container create command and the
         /// 				--cap-add option to docker
         /// 				run.  Tasks launched on Fargate only support adding the SYS_PTRACE kernel
         /// 				capability.  Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" |
@@ -3893,7 +3895,7 @@ extension ECS {
         /// 			"WAKE_ALARM"
         public let add: [String]?
         /// The Linux capabilities for the container that have been removed from the default
-        /// 			configuration provided by Docker. This parameter maps to CapDrop in the docker conainer create command and the
+        /// 			configuration provided by Docker. This parameter maps to CapDrop in the docker container create command and the
         /// 				--cap-drop option to docker
         /// 				run. Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" |
         /// 				"CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" |
@@ -3945,7 +3947,7 @@ extension ECS {
         /// 				later.
         public let capabilities: KernelCapabilities?
         /// Any host devices to expose to the container. This parameter maps to
-        /// 			Devices in tthe docker conainer create command and the --device option to docker run.  If you're using tasks that use the Fargate launch type, the
+        /// 			Devices in the docker container create command and the --device option to docker run.  If you're using tasks that use the Fargate launch type, the
         /// 					devices parameter isn't supported.
         public let devices: [Device]?
         /// Run an init process inside the container that forwards signals and reaps
@@ -4731,7 +4733,129 @@ extension ECS {
         /// 				submit pull requests for changes that you would like to have included. However, we
         /// 				don't currently provide support for running modified copies of this software.
         public let logDriver: LogDriver
-        /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
+        /// The configuration options to send to the log driver. The options you can specify depend on the log driver. Some
+        /// 				of the options you can specify when you use the awslogs log driver to route logs to
+        /// 				Amazon CloudWatch include the following:  awslogs-create-group  Required: No Specify whether you want the log group to be
+        /// 							created automatically. If this option isn't
+        /// 							specified, it defaults to
+        /// 							false.  Your IAM policy must include the
+        /// 								logs:CreateLogGroup permission before
+        /// 								you attempt to use
+        /// 								awslogs-create-group.   awslogs-region  Required: Yes Specify the Amazon Web Services Region that the
+        /// 							awslogs log driver is to send your
+        /// 							Docker logs to. You can choose to send all of your
+        /// 							logs from clusters in different Regions to a
+        /// 							single region in CloudWatch Logs. This is so that they're
+        /// 							all visible in one location. Otherwise, you can
+        /// 							separate them by Region for more granularity. Make
+        /// 							sure that the specified log group exists in the
+        /// 							Region that you specify with this option.  awslogs-group  Required: Yes Make sure to specify a log group that the
+        /// 							awslogs log driver sends its log
+        /// 							streams to.  awslogs-stream-prefix  Required: Yes, when
+        /// 							using the Fargate launch
+        /// 							type.Optional for
+        /// 								the EC2 launch type, required for
+        /// 								the Fargate launch
+        /// 								type. Use the awslogs-stream-prefix
+        /// 							option to associate a log stream with the
+        /// 							specified prefix, the container name, and the ID
+        /// 							of the Amazon ECS task that the container belongs to.
+        /// 							If you specify a prefix with this option, then the
+        /// 							log stream takes the format prefix-name/container-name/ecs-task-id. If you don't specify a prefix
+        /// 							with this option, then the log stream is named
+        /// 							after the container ID that's assigned by the
+        /// 							Docker daemon on the container instance. Because
+        /// 							it's difficult to trace logs back to the container
+        /// 							that sent them with just the Docker container ID
+        /// 							(which is only available on the container
+        /// 							instance), we recommend that you specify a prefix
+        /// 							with this option. For Amazon ECS services, you can use the service
+        /// 							name as the prefix. Doing so, you can trace log
+        /// 							streams to the service that the container belongs
+        /// 							to, the name of the container that sent them, and
+        /// 							the ID of the task that the container belongs
+        /// 							to. You must specify a
+        /// 							stream-prefix for your logs to have your logs
+        /// 							appear in the Log pane when using the Amazon ECS
+        /// 							console.  awslogs-datetime-format  Required: No This option defines a multiline start pattern
+        /// 							in Python strftime format. A log
+        /// 							message consists of a line that matches the
+        /// 							pattern and any following lines that don’t match
+        /// 							the pattern. The matched line is the delimiter
+        /// 							between log messages. One example of a use case for using this
+        /// 							format is for parsing output such as a stack dump,
+        /// 							which might otherwise be logged in multiple
+        /// 							entries. The correct pattern allows it to be
+        /// 							captured in a single entry. For more information, see awslogs-datetime-format. You cannot configure both the
+        /// 							awslogs-datetime-format and
+        /// 							awslogs-multiline-pattern
+        /// 							options.  Multiline logging performs regular
+        /// 								expression parsing and matching of all log
+        /// 								messages. This might have a negative impact on
+        /// 								logging performance.   awslogs-multiline-pattern  Required: No This option defines a multiline start pattern
+        /// 							that uses a regular expression. A log message
+        /// 							consists of a line that matches the pattern and
+        /// 							any following lines that don’t match the pattern.
+        /// 							The matched line is the delimiter between log
+        /// 							messages. For more information, see awslogs-multiline-pattern. This option is ignored if
+        /// 							awslogs-datetime-format is also
+        /// 							configured. You cannot configure both the
+        /// 							awslogs-datetime-format and
+        /// 							awslogs-multiline-pattern
+        /// 							options.  Multiline logging performs regular
+        /// 								expression parsing and matching of all log
+        /// 								messages. This might have a negative impact on
+        /// 								logging performance.   mode  Required: No Valid values: non-blocking |
+        /// 							blocking  This option defines the delivery mode of log
+        /// 							messages from the container to CloudWatch Logs. The delivery
+        /// 							mode you choose affects application availability
+        /// 							when the flow of logs from container to CloudWatch is
+        /// 							interrupted. If you use the blocking
+        /// 							mode and the flow of logs to CloudWatch is interrupted,
+        /// 							calls from container code to write to the
+        /// 							stdout and stderr
+        /// 							streams will block. The logging thread of the
+        /// 							application will block as a result. This may cause
+        /// 							the application to become unresponsive and lead to
+        /// 							container healthcheck failure.  If you use the non-blocking mode,
+        /// 							the container's logs are instead stored in an
+        /// 							in-memory intermediate buffer configured with the
+        /// 							max-buffer-size option. This prevents
+        /// 							the application from becoming unresponsive when
+        /// 							logs cannot be sent to CloudWatch. We recommend using this mode if you want to
+        /// 							ensure service availability and are okay with some
+        /// 							log loss. For more information, see Preventing log loss with non-blocking mode in the awslogs container log driver.  max-buffer-size  Required: No Default value: 1m  When non-blocking mode is used,
+        /// 							the max-buffer-size log option
+        /// 							controls the size of the buffer that's used for
+        /// 							intermediate message storage. Make sure to specify
+        /// 							an adequate buffer size based on your application.
+        /// 							When the buffer fills up, further logs cannot be
+        /// 							stored. Logs that cannot be stored are lost.
+        /// 						   To route logs using the splunk log router, you need to specify a
+        /// 				splunk-token and a
+        /// 				splunk-url. When you use the awsfirelens log router to route logs to an Amazon Web Services Service or
+        /// 				Amazon Web Services Partner Network destination for log storage and analytics, you can
+        /// 				set the log-driver-buffer-limit option to limit
+        /// 				the number of events that are buffered in memory, before
+        /// 				being sent to the log router container. It can help to
+        /// 				resolve potential log loss issue because high throughput
+        /// 				might result in memory running out for the buffer inside of
+        /// 				Docker. Other options you can specify when using awsfirelens to route
+        /// 				logs depend on the destination. When you export logs to
+        /// 				Amazon Data Firehose, you can specify the Amazon Web Services Region with
+        /// 				region and a name for the log stream with
+        /// 				delivery_stream. When you export logs to
+        /// 				Amazon Kinesis Data Streams, you can specify an Amazon Web Services Region with
+        /// 				region and a data stream name with
+        /// 				stream. When you export logs to Amazon OpenSearch Service,
+        /// 				you can specify options like Name,
+        /// 				Host (OpenSearch Service endpoint without protocol), Port,
+        /// 				Index, Type,
+        /// 				Aws_auth, Aws_region, Suppress_Type_Name, and
+        /// 				tls. When you export logs to Amazon S3, you can
+        /// 					specify the bucket using the bucket option. You can also specify region,
+        /// 					total_file_size, upload_timeout,
+        /// 					and use_put_object as options. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
         public let options: [String: String]?
         /// The secrets to pass to the log configuration. For more information, see Specifying
         /// 				sensitive data in the Amazon Elastic Container Service Developer Guide.
@@ -5325,8 +5449,7 @@ extension ECS {
         /// 					mode, your tasks using the awsvpc network mode can have an IPv6
         /// 					address assigned. For more information on using IPv6 with tasks launched on
         /// 					Amazon EC2 instances, see Using a VPC in dual-stack mode. For more information on using IPv6
-        /// 					with tasks launched on Fargate, see Using a VPC in dual-stack mode.    fargateFIPSMode - If you specify fargateFIPSMode,
-        /// 					Fargate FIPS 140 compliance is affected.    fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a
+        /// 					with tasks launched on Fargate, see Using a VPC in dual-stack mode.    fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a
         /// 					security or infrastructure update is needed for an Amazon ECS task hosted on
         /// 					Fargate, the tasks need to be stopped and new tasks launched to replace them.
         /// 					Use fargateTaskRetirementWaitPeriod to configure the wait time to
@@ -7225,8 +7348,8 @@ extension ECS {
     }
 
     public struct TaskDefinition: AWSDecodableShape {
-        /// The task launch types the task definition validated against during task definition
-        /// 			registration. For more information, see Amazon ECS launch types
+        /// Amazon ECS validates the task definition parameters with those supported by the launch type. For
+        /// 			more information, see Amazon ECS launch types
         /// 			in the Amazon Elastic Container Service Developer Guide.
         public let compatibilities: [Compatibility]?
         /// A list of container definitions in JSON format that describe the different containers
@@ -7798,11 +7921,11 @@ extension ECS {
     }
 
     public struct Ulimit: AWSEncodableShape & AWSDecodableShape {
-        /// The hard limit for the ulimit type.
+        /// The hard limit for the ulimit type. The value can be specified in bytes, seconds, or as a count, depending on the type of the ulimit.
         public let hardLimit: Int
         /// The type of the ulimit.
         public let name: UlimitName
-        /// The soft limit for the ulimit type.
+        /// The soft limit for the ulimit type. The value can be specified in bytes, seconds, or as a count, depending on the type of the ulimit.
         public let softLimit: Int
 
         @inlinable

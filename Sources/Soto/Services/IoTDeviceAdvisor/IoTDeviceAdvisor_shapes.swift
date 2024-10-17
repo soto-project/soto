@@ -88,18 +88,24 @@ extension IoTDeviceAdvisor {
     // MARK: Shapes
 
     public struct CreateSuiteDefinitionRequest: AWSEncodableShape {
+        /// The client token for the test suite definition creation.  This token is used for tracking test suite definition creation  using retries and obtaining its status. This parameter is optional.
+        public let clientToken: String?
         /// Creates a Device Advisor test suite with suite definition configuration.
         public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration?
         /// The tags to be attached to the suite definition.
         public let tags: [String: String]?
 
         @inlinable
-        public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateSuiteDefinitionRequest.idempotencyToken(), suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
             self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0021-\\u007E]+$")
             try self.suiteDefinitionConfiguration?.validate(name: "\(name).suiteDefinitionConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -111,6 +117,7 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
             case suiteDefinitionConfiguration = "suiteDefinitionConfiguration"
             case tags = "tags"
         }

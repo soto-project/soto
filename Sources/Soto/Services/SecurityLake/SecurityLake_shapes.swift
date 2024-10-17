@@ -74,7 +74,7 @@ extension SecurityLake {
     }
 
     public enum LogSourceResource: AWSEncodableShape & AWSDecodableShape, Sendable {
-        /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services. For more information, see the Amazon Security Lake User Guide.
+        /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services. For more information, see the Amazon Security Lake User Guide.
         case awsLogSource(AwsLogSourceResource)
         /// Amazon Security Lake supports custom source types. For more information, see the Amazon Security Lake User Guide.
         case customLogSource(CustomLogSourceResource)
@@ -124,7 +124,7 @@ extension SecurityLake {
     }
 
     public enum NotificationConfiguration: AWSEncodableShape, Sendable {
-        /// The configurations for HTTPS subscriber notification.
+        /// The configurations used for HTTPS subscriber notification.
         case httpsNotificationConfiguration(HttpsNotificationConfiguration)
         /// The configurations for SQS subscriber notification.
         case sqsNotificationConfiguration(SqsNotificationConfiguration)
@@ -157,9 +157,9 @@ extension SecurityLake {
     // MARK: Shapes
 
     public struct AwsIdentity: AWSEncodableShape & AWSDecodableShape {
-        /// The external ID used to estalish trust relationship with the AWS identity.
+        /// The external ID used to establish trust relationship with the Amazon Web Services identity.
         public let externalId: String
-        /// The AWS identity principal.
+        /// The Amazon Web Services identity principal.
         public let principal: String
 
         @inlinable
@@ -186,9 +186,9 @@ extension SecurityLake {
         public let accounts: [String]?
         /// Specify the Regions where you want to enable Security Lake.
         public let regions: [String]
-        /// The name for a Amazon Web Services source. This must be a Regionally unique value.
+        /// The name for a Amazon Web Services source.
         public let sourceName: AwsLogSourceName
-        /// The version for a Amazon Web Services source. This must be a Regionally unique value.
+        /// The version for a Amazon Web Services source.
         public let sourceVersion: String?
 
         @inlinable
@@ -264,7 +264,7 @@ extension SecurityLake {
     }
 
     public struct CreateAwsLogSourceResponse: AWSDecodableShape {
-        /// Lists all accounts in which enabling a natively supported Amazon Web Service as a Security Lake source failed. The failure occurred as these accounts are not part of an organization.
+        /// Lists all accounts in which enabling a natively supported Amazon Web Services service as a Security Lake source failed. The failure occurred as these accounts are not part of an organization.
         public let failed: [String]?
 
         @inlinable
@@ -278,11 +278,11 @@ extension SecurityLake {
     }
 
     public struct CreateCustomLogSourceRequest: AWSEncodableShape {
-        /// The configuration for the third-party custom source.
+        /// The configuration used for the third-party custom source.
         public let configuration: CustomLogSourceConfiguration
         /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. The supported event classes are:    ACCESS_ACTIVITY     FILE_ACTIVITY     KERNEL_ACTIVITY     KERNEL_EXTENSION     MEMORY_ACTIVITY     MODULE_ACTIVITY     PROCESS_ACTIVITY     REGISTRY_KEY_ACTIVITY     REGISTRY_VALUE_ACTIVITY     RESOURCE_ACTIVITY     SCHEDULED_JOB_ACTIVITY     SECURITY_FINDING     ACCOUNT_CHANGE     AUTHENTICATION     AUTHORIZATION     ENTITY_MANAGEMENT_AUDIT     DHCP_ACTIVITY     NETWORK_ACTIVITY     DNS_ACTIVITY     FTP_ACTIVITY     HTTP_ACTIVITY     RDP_ACTIVITY     SMB_ACTIVITY     SSH_ACTIVITY     CONFIG_STATE     INVENTORY_INFO     EMAIL_ACTIVITY     API_ACTIVITY     CLOUD_API
         public let eventClasses: [String]?
-        /// Specify the name for a third-party custom source. This must be a Regionally unique value.
+        /// Specify the name for a third-party custom source. This must be a Regionally unique value. The sourceName you enter here, is used in the LogProviderRole name which follows the convention AmazonSecurityLake-Provider-{name of the custom source}-{region}. You must use a CustomLogSource name that is shorter than or equal to 20 characters. This ensures that the LogProviderRole name is below the 64 character limit.
         public let sourceName: String
         /// Specify the source version for the third-party custom source, to limit log collection to a specific version of custom data source.
         public let sourceVersion: String?
@@ -317,7 +317,7 @@ extension SecurityLake {
     }
 
     public struct CreateCustomLogSourceResponse: AWSDecodableShape {
-        /// The created third-party custom source.
+        /// The third-party custom source that was created.
         public let source: CustomLogSourceResource?
 
         @inlinable
@@ -331,7 +331,7 @@ extension SecurityLake {
     }
 
     public struct CreateDataLakeExceptionSubscriptionRequest: AWSEncodableShape {
-        /// The expiration period and time-to-live (TTL).
+        /// The expiration period and time-to-live (TTL). It is the duration of time until which the exception message remains.
         public let exceptionTimeToLive: Int64?
         /// The Amazon Web Services account where you want to receive exception notifications.
         public let notificationEndpoint: String
@@ -480,7 +480,7 @@ extension SecurityLake {
     public struct CreateSubscriberRequest: AWSEncodableShape {
         /// The Amazon S3 or Lake Formation access type.
         public let accessTypes: [AccessType]?
-        /// The supported Amazon Web Services from which logs and events are collected. Security Lake supports log and event collection for natively supported Amazon Web Services.
+        /// The supported Amazon Web Services services from which logs and events are collected. Security Lake supports log and event collection for natively supported Amazon Web Services services.
         public let sources: [LogSourceResource]
         /// The description for your subscriber account in Security Lake.
         public let subscriberDescription: String?
@@ -555,13 +555,13 @@ extension SecurityLake {
         public func validate(name: String) throws {
             try self.validate(self.crawlerArn, name: "crawlerArn", parent: name, max: 1011)
             try self.validate(self.crawlerArn, name: "crawlerArn", parent: name, min: 1)
-            try self.validate(self.crawlerArn, name: "crawlerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.crawlerArn, name: "crawlerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\\-]{0,127}$")
             try self.validate(self.databaseArn, name: "databaseArn", parent: name, max: 1011)
             try self.validate(self.databaseArn, name: "databaseArn", parent: name, min: 1)
-            try self.validate(self.databaseArn, name: "databaseArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.databaseArn, name: "databaseArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\\-]{0,127}$")
             try self.validate(self.tableArn, name: "tableArn", parent: name, max: 1011)
             try self.validate(self.tableArn, name: "tableArn", parent: name, min: 1)
-            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\\-]{0,127}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -572,7 +572,7 @@ extension SecurityLake {
     }
 
     public struct CustomLogSourceConfiguration: AWSEncodableShape {
-        /// The configuration for the Glue Crawler for the third-party custom source.
+        /// The configuration used for the Glue Crawler for a third-party custom source.
         public let crawlerConfiguration: CustomLogSourceCrawlerConfiguration
         /// The identity of the log provider for the third-party custom source.
         public let providerIdentity: AwsIdentity
@@ -731,7 +731,7 @@ extension SecurityLake {
     }
 
     public struct DataLakeEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The id of KMS encryption key used by Amazon Security Lake to encrypt the Security Lake object.
+        /// The identifier of KMS encryption key used by Amazon Security Lake to encrypt the Security Lake object.
         public let kmsKeyId: String?
 
         @inlinable
@@ -846,7 +846,7 @@ extension SecurityLake {
     }
 
     public struct DataLakeResource: AWSDecodableShape {
-        /// Retrieves the status of the configuration operation for an account in Amazon Security Lake.
+        /// Retrieves the status of the CreateDatalake API call for an account in Amazon Security Lake.
         public let createStatus: DataLakeStatus?
         /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see the Amazon Security Lake User Guide.
         public let dataLakeArn: String
@@ -892,7 +892,7 @@ extension SecurityLake {
         public let account: String?
         /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. The supported event classes are:    ACCESS_ACTIVITY     FILE_ACTIVITY     KERNEL_ACTIVITY     KERNEL_EXTENSION     MEMORY_ACTIVITY     MODULE_ACTIVITY     PROCESS_ACTIVITY     REGISTRY_KEY_ACTIVITY     REGISTRY_VALUE_ACTIVITY     RESOURCE_ACTIVITY     SCHEDULED_JOB_ACTIVITY     SECURITY_FINDING     ACCOUNT_CHANGE     AUTHENTICATION     AUTHORIZATION     ENTITY_MANAGEMENT_AUDIT     DHCP_ACTIVITY     NETWORK_ACTIVITY     DNS_ACTIVITY     FTP_ACTIVITY     HTTP_ACTIVITY     RDP_ACTIVITY     SMB_ACTIVITY     SSH_ACTIVITY     CONFIG_STATE     INVENTORY_INFO     EMAIL_ACTIVITY     API_ACTIVITY     CLOUD_API
         public let eventClasses: [String]?
-        /// The supported Amazon Web Services from which logs and events are collected. Amazon Security Lake supports log and event collection for natively supported Amazon Web Services.
+        /// The supported Amazon Web Services services from which logs and events are collected. Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services.
         public let sourceName: String?
         /// The log status for the Security Lake account.
         public let sourceStatuses: [DataLakeSourceStatus]?
@@ -1164,7 +1164,7 @@ extension SecurityLake {
     }
 
     public struct GetDataLakeExceptionSubscriptionResponse: AWSDecodableShape {
-        /// The expiration period and time-to-live (TTL).
+        /// The expiration period and time-to-live (TTL). It is the duration of time until which the exception message remains.
         public let exceptionTimeToLive: Int64?
         /// The Amazon Web Services account where you receive exception notifications.
         public let notificationEndpoint: String?
@@ -1190,7 +1190,7 @@ extension SecurityLake {
     }
 
     public struct GetDataLakeOrganizationConfigurationResponse: AWSDecodableShape {
-        /// The configuration for new accounts.
+        /// The configuration used for new accounts in Security Lake.
         public let autoEnableNewAccount: [DataLakeAutoEnableNewAccountConfiguration]?
 
         @inlinable
@@ -1329,9 +1329,9 @@ extension SecurityLake {
     }
 
     public struct ListDataLakeExceptionsRequest: AWSEncodableShape {
-        /// List the maximum number of failures in Security Lake.
+        /// Lists the maximum number of failures in Security Lake.
         public let maxResults: Int?
-        /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The Amazon Web Services Regions from which exceptions are retrieved.
         public let regions: [String]?
@@ -1360,9 +1360,9 @@ extension SecurityLake {
     }
 
     public struct ListDataLakeExceptionsResponse: AWSDecodableShape {
-        /// Lists the failures that cannot be retried in the current Region.
+        /// Lists the failures that cannot be retried.
         public let exceptions: [DataLakeException]?
-        /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -1544,7 +1544,7 @@ extension SecurityLake {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\\-]{0,127}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1625,7 +1625,7 @@ extension SecurityLake {
         public let roleArn: String?
         /// The ARN for the Amazon S3 bucket.
         public let s3BucketArn: String?
-        /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services. For more information, see the Amazon Security Lake User Guide.
+        /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services. For more information, see the Amazon Security Lake User Guide.
         public let sources: [LogSourceResource]
         /// The subscriber ARN of the Amazon Security Lake subscriber account.
         public let subscriberArn: String
@@ -1728,7 +1728,7 @@ extension SecurityLake {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\\-]{0,127}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1766,7 +1766,7 @@ extension SecurityLake {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-Za-z0-9_/.\\-]{0,127}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1782,7 +1782,7 @@ extension SecurityLake {
     }
 
     public struct UpdateDataLakeExceptionSubscriptionRequest: AWSEncodableShape {
-        /// The time-to-live (TTL) for the exception message to remain.
+        /// The time-to-live (TTL) for the exception message to remain. It is the duration of time until which the exception message remains.
         public let exceptionTimeToLive: Int64?
         /// The account that is subscribed to receive exception notifications.
         public let notificationEndpoint: String
@@ -1813,7 +1813,7 @@ extension SecurityLake {
     }
 
     public struct UpdateDataLakeRequest: AWSEncodableShape {
-        /// Specify the Region or Regions that will contribute data to the rollup region.
+        /// Specifies the Region or Regions that will contribute data to the rollup region.
         public let configurations: [DataLakeConfiguration]
         /// The Amazon Resource Name (ARN) used to create and update the Glue table. This table contains partitions generated by the ingestion and normalization of Amazon Web Services log sources and custom sources.
         public let metaStoreManagerRoleArn: String?
@@ -1896,13 +1896,13 @@ extension SecurityLake {
     }
 
     public struct UpdateSubscriberRequest: AWSEncodableShape {
-        /// The supported Amazon Web Services from which logs and events are collected. For the list of supported Amazon Web Services, see the Amazon Security Lake User Guide.
+        /// The supported Amazon Web Services services from which logs and events are collected. For the list of supported Amazon Web Services services, see the Amazon Security Lake User Guide.
         public let sources: [LogSourceResource]?
         /// The description of the Security Lake account subscriber.
         public let subscriberDescription: String?
         /// A value created by Security Lake that uniquely identifies your subscription.
         public let subscriberId: String
-        /// The AWS identity used to access your data.
+        /// The Amazon Web Services identity used to access your data.
         public let subscriberIdentity: AwsIdentity?
         /// The name of the Security Lake account subscriber.
         public let subscriberName: String?

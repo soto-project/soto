@@ -150,7 +150,7 @@ public struct ACMPCA: AWSService {
     ///   - certificateAuthorityType: The type of the certificate authority.
     ///   - idempotencyToken: Custom string that can be used to distinguish between calls to the CreateCertificateAuthority action. Idempotency tokens for
     ///   - keyStorageSecurityStandard: Specifies a cryptographic key management compliance standard used for handling CA
-    ///   - revocationConfiguration: Contains information to enable Online Certificate Status Protocol (OCSP) support, to
+    ///   - revocationConfiguration: Contains information to enable support for Online Certificate Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither. By default, both certificate validation mechanisms are disabled. The following requirements apply to revocation configurations.   A configuration disabling CRLs or OCSP must contain only the Enabled=False
     ///   - tags: Key-value pairs that will be attached to the new private CA. You can associate up to
     ///   - usageMode: Specifies whether the CA issues general-purpose certificates that typically require a
     ///   - logger: Logger use during operation
@@ -177,10 +177,8 @@ public struct ACMPCA: AWSService {
         return try await self.createCertificateAuthority(input, logger: logger)
     }
 
-    /// Creates an audit report that lists every time that your CA private key is used. The
-    /// 			report is saved in the Amazon S3 bucket that you specify on input. The IssueCertificate and RevokeCertificate actions use
-    /// 			the private key.   Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access
-    /// 						policies for CRLs in Amazon S3.  Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption.  For more information, see Encrypting Your Audit
+    /// Creates an audit report that lists every time that your CA private key is used to issue a certificate. The IssueCertificate and RevokeCertificate actions use
+    /// 			the private key. To save the audit report to your designated Amazon S3 bucket, you must create a bucket policy that grants Amazon Web Services Private CA permission to access and write to it. For an example policy, see Prepare an Amazon S3 bucket for audit reports. Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption.  For more information, see Encrypting Your Audit
     /// 				Reports.  You can generate a maximum of one report every 30 minutes.
     @Sendable
     @inlinable
@@ -194,10 +192,8 @@ public struct ACMPCA: AWSService {
             logger: logger
         )
     }
-    /// Creates an audit report that lists every time that your CA private key is used. The
-    /// 			report is saved in the Amazon S3 bucket that you specify on input. The IssueCertificate and RevokeCertificate actions use
-    /// 			the private key.   Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access
-    /// 						policies for CRLs in Amazon S3.  Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption.  For more information, see Encrypting Your Audit
+    /// Creates an audit report that lists every time that your CA private key is used to issue a certificate. The IssueCertificate and RevokeCertificate actions use
+    /// 			the private key. To save the audit report to your designated Amazon S3 bucket, you must create a bucket policy that grants Amazon Web Services Private CA permission to access and write to it. For an example policy, see Prepare an Amazon S3 bucket for audit reports. Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption.  For more information, see Encrypting Your Audit
     /// 				Reports.  You can generate a maximum of one report every 30 minutes.
     ///
     /// Parameters:
@@ -721,8 +717,8 @@ public struct ACMPCA: AWSService {
     /// 					certificate, if any, that your root CA signed must be next to last. The
     /// 					subordinate certificate signed by the preceding subordinate CA must come next,
     /// 					and so on until your chain is built.    The chain must be PEM-encoded.   The maximum allowed size of a certificate is 32 KB.   The maximum allowed size of a certificate chain is 2 MB.    Enforcement of Critical Constraints  Amazon Web Services Private CA allows the following extensions to be marked critical in the imported CA
-    /// 			certificate or chain.   Basic constraints (must be marked critical)   Subject alternative names   Key usage   Extended key usage   Authority key identifier   Subject key identifier   Issuer alternative name   Subject directory attributes   Subject information access   Certificate policies   Policy mappings   Inhibit anyPolicy   Amazon Web Services Private CA rejects the following extensions when they are marked critical in an
-    /// 			imported CA certificate or chain.   Name constraints   Policy constraints   CRL distribution points   Authority information access   Freshest CRL   Any other extension
+    /// 			certificate or chain.   Authority key identifier   Basic constraints (must be marked critical)   Certificate policies   Extended key usage   Inhibit anyPolicy   Issuer alternative name   Key usage   Name constraints   Policy mappings   Subject alternative name   Subject directory attributes   Subject key identifier   Subject information access   Amazon Web Services Private CA rejects the following extensions when they are marked critical in an
+    /// 			imported CA certificate or chain.   Authority information access   CRL distribution points   Freshest CRL   Policy constraints   Amazon Web Services Private Certificate Authority will also reject any other extension marked as critical not contained on the preceding list of allowed extensions.
     @Sendable
     @inlinable
     public func importCertificateAuthorityCertificate(_ input: ImportCertificateAuthorityCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -748,8 +744,8 @@ public struct ACMPCA: AWSService {
     /// 					certificate, if any, that your root CA signed must be next to last. The
     /// 					subordinate certificate signed by the preceding subordinate CA must come next,
     /// 					and so on until your chain is built.    The chain must be PEM-encoded.   The maximum allowed size of a certificate is 32 KB.   The maximum allowed size of a certificate chain is 2 MB.    Enforcement of Critical Constraints  Amazon Web Services Private CA allows the following extensions to be marked critical in the imported CA
-    /// 			certificate or chain.   Basic constraints (must be marked critical)   Subject alternative names   Key usage   Extended key usage   Authority key identifier   Subject key identifier   Issuer alternative name   Subject directory attributes   Subject information access   Certificate policies   Policy mappings   Inhibit anyPolicy   Amazon Web Services Private CA rejects the following extensions when they are marked critical in an
-    /// 			imported CA certificate or chain.   Name constraints   Policy constraints   CRL distribution points   Authority information access   Freshest CRL   Any other extension
+    /// 			certificate or chain.   Authority key identifier   Basic constraints (must be marked critical)   Certificate policies   Extended key usage   Inhibit anyPolicy   Issuer alternative name   Key usage   Name constraints   Policy mappings   Subject alternative name   Subject directory attributes   Subject key identifier   Subject information access   Amazon Web Services Private CA rejects the following extensions when they are marked critical in an
+    /// 			imported CA certificate or chain.   Authority information access   CRL distribution points   Freshest CRL   Policy constraints   Amazon Web Services Private Certificate Authority will also reject any other extension marked as critical not contained on the preceding list of allowed extensions.
     ///
     /// Parameters:
     ///   - certificate: The PEM-encoded certificate for a private CA. This may be a self-signed certificate in
@@ -1237,7 +1233,7 @@ public struct ACMPCA: AWSService {
     ///
     /// Parameters:
     ///   - certificateAuthorityArn: Amazon Resource Name (ARN) of the private CA that issued the certificate to be
-    ///   - revocationConfiguration: Contains information to enable Online Certificate Status Protocol (OCSP) support, to
+    ///   - revocationConfiguration: Contains information to enable support for Online Certificate Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither. If you don't supply this parameter, existing capibilites remain unchanged. For more
     ///   - status: Status of your private CA.
     ///   - logger: Logger use during operation
     @inlinable

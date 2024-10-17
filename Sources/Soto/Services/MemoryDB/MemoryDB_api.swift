@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS MemoryDB service.
 ///
-/// MemoryDB is a fully managed, Redis OSS-compatible, in-memory database that delivers ultra-fast performance and Multi-AZ durability for modern applications built using microservices architectures.  MemoryDB stores the entire database in-memory, enabling low latency and high throughput data access. It is compatible with Redis OSS, a popular open source data store, enabling you to leverage Redis OSS’ flexible and friendly data structures, APIs, and commands.
+/// MemoryDB for Redis is a fully managed, Redis-compatible, in-memory database that delivers ultra-fast performance and Multi-AZ durability for modern applications built using microservices architectures.  MemoryDB stores the entire database in-memory, enabling low latency and high throughput data access. It is compatible with Redis, a popular open source data store, enabling you to leverage Redis’ flexible and friendly data structures, APIs, and commands.
 public struct MemoryDB: AWSService {
     // MARK: Member variables
 
@@ -216,7 +216,8 @@ public struct MemoryDB: AWSService {
     ///   - clusterName: The name of the cluster. This value must be unique as it also serves as the cluster identifier.
     ///   - dataTiering: Enables data tiering. Data tiering is only supported for clusters using the r6gd node type.  This parameter must be set when using r6gd nodes. For more information, see Data tiering.
     ///   - description: An optional description of the cluster.
-    ///   - engineVersion: The version number of the Redis OSS engine to be used for the cluster.
+    ///   - engine: The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
+    ///   - engineVersion: The version number of the engine to be used for the cluster.
     ///   - kmsKeyId: The ID of the KMS key used to encrypt the cluster.
     ///   - maintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
     ///   - nodeType: The compute and memory capacity of the nodes in the cluster.
@@ -241,6 +242,7 @@ public struct MemoryDB: AWSService {
         clusterName: String,
         dataTiering: Bool? = nil,
         description: String? = nil,
+        engine: String? = nil,
         engineVersion: String? = nil,
         kmsKeyId: String? = nil,
         maintenanceWindow: String? = nil,
@@ -266,6 +268,7 @@ public struct MemoryDB: AWSService {
             clusterName: clusterName, 
             dataTiering: dataTiering, 
             description: description, 
+            engine: engine, 
             engineVersion: engineVersion, 
             kmsKeyId: kmsKeyId, 
             maintenanceWindow: maintenanceWindow, 
@@ -468,7 +471,7 @@ public struct MemoryDB: AWSService {
         return try await self.deleteACL(input, logger: logger)
     }
 
-    /// Deletes a cluster. It also deletes all associated nodes and node endpoints   CreateSnapshot permission is required to create a final snapshot.  Without this permission, the API call will fail with an Access Denied exception.
+    /// Deletes a cluster. It also deletes all associated nodes and node endpoints
     @Sendable
     @inlinable
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
@@ -481,7 +484,7 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// Deletes a cluster. It also deletes all associated nodes and node endpoints   CreateSnapshot permission is required to create a final snapshot.  Without this permission, the API call will fail with an Access Denied exception.
+    /// Deletes a cluster. It also deletes all associated nodes and node endpoints
     ///
     /// Parameters:
     ///   - clusterName: The name of the cluster to be deleted
@@ -689,7 +692,7 @@ public struct MemoryDB: AWSService {
         return try await self.describeClusters(input, logger: logger)
     }
 
-    /// Returns a list of the available Redis OSS engine versions.
+    /// Returns a list of the available engine versions.
     @Sendable
     @inlinable
     public func describeEngineVersions(_ input: DescribeEngineVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEngineVersionsResponse {
@@ -702,11 +705,12 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the available Redis OSS engine versions.
+    /// Returns a list of the available engine versions.
     ///
     /// Parameters:
     ///   - defaultOnly: If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
-    ///   - engineVersion: The Redis OSS engine version
+    ///   - engine: The engine version to return. Valid values are either valkey or redis.
+    ///   - engineVersion: The engine version.
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - nextToken: An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     ///   - parameterGroupFamily: The name of a specific parameter group family to return details for.
@@ -714,6 +718,7 @@ public struct MemoryDB: AWSService {
     @inlinable
     public func describeEngineVersions(
         defaultOnly: Bool? = nil,
+        engine: String? = nil,
         engineVersion: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -722,6 +727,7 @@ public struct MemoryDB: AWSService {
     ) async throws -> DescribeEngineVersionsResponse {
         let input = DescribeEngineVersionsRequest(
             defaultOnly: defaultOnly, 
+            engine: engine, 
             engineVersion: engineVersion, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -1381,6 +1387,7 @@ public struct MemoryDB: AWSService {
     ///   - aclName: The Access Control List that is associated with the cluster
     ///   - clusterName: The name of the cluster to update
     ///   - description: The description of the cluster to update
+    ///   - engine: The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
     ///   - engineVersion: The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
     ///   - maintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
     ///   - nodeType: A valid node type that you want to scale this cluster up or down to.
@@ -1398,6 +1405,7 @@ public struct MemoryDB: AWSService {
         aclName: String? = nil,
         clusterName: String,
         description: String? = nil,
+        engine: String? = nil,
         engineVersion: String? = nil,
         maintenanceWindow: String? = nil,
         nodeType: String? = nil,
@@ -1415,6 +1423,7 @@ public struct MemoryDB: AWSService {
             aclName: aclName, 
             clusterName: clusterName, 
             description: description, 
+            engine: engine, 
             engineVersion: engineVersion, 
             maintenanceWindow: maintenanceWindow, 
             nodeType: nodeType, 
@@ -1645,13 +1654,15 @@ extension MemoryDB {
     ///
     /// - Parameters:
     ///   - defaultOnly: If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
-    ///   - engineVersion: The Redis OSS engine version
+    ///   - engine: The engine version to return. Valid values are either valkey or redis.
+    ///   - engineVersion: The engine version.
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - parameterGroupFamily: The name of a specific parameter group family to return details for.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeEngineVersionsPaginator(
         defaultOnly: Bool? = nil,
+        engine: String? = nil,
         engineVersion: String? = nil,
         maxResults: Int? = nil,
         parameterGroupFamily: String? = nil,
@@ -1659,6 +1670,7 @@ extension MemoryDB {
     ) -> AWSClient.PaginatorSequence<DescribeEngineVersionsRequest, DescribeEngineVersionsResponse> {
         let input = DescribeEngineVersionsRequest(
             defaultOnly: defaultOnly, 
+            engine: engine, 
             engineVersion: engineVersion, 
             maxResults: maxResults, 
             parameterGroupFamily: parameterGroupFamily
@@ -2079,6 +2091,7 @@ extension MemoryDB.DescribeEngineVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MemoryDB.DescribeEngineVersionsRequest {
         return .init(
             defaultOnly: self.defaultOnly,
+            engine: self.engine,
             engineVersion: self.engineVersion,
             maxResults: self.maxResults,
             nextToken: token,

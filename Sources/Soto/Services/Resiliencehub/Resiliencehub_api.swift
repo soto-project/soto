@@ -200,6 +200,7 @@ public struct Resiliencehub: AWSService {
     ///
     /// Parameters:
     ///   - assessmentSchedule:  Assessment execution schedule with 'Daily' or 'Disabled' values.
+    ///   - awsApplicationArn: Amazon Resource Name (ARN) of  Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs,
     ///   - clientToken: Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters.
     ///   - description: The optional description for an app.
     ///   - eventSubscriptions: The list of events you would like to subscribe and get notification for. Currently, Resilience Hub supports only Drift detected and Scheduled assessment failure events notification.
@@ -211,6 +212,7 @@ public struct Resiliencehub: AWSService {
     @inlinable
     public func createApp(
         assessmentSchedule: AppAssessmentScheduleType? = nil,
+        awsApplicationArn: String? = nil,
         clientToken: String? = CreateAppRequest.idempotencyToken(),
         description: String? = nil,
         eventSubscriptions: [EventSubscription]? = nil,
@@ -222,6 +224,7 @@ public struct Resiliencehub: AWSService {
     ) async throws -> CreateAppResponse {
         let input = CreateAppRequest(
             assessmentSchedule: assessmentSchedule, 
+            awsApplicationArn: awsApplicationArn, 
             clientToken: clientToken, 
             description: description, 
             eventSubscriptions: eventSubscriptions, 
@@ -1089,7 +1092,7 @@ public struct Resiliencehub: AWSService {
         return try await self.listAlarmRecommendations(input, logger: logger)
     }
 
-    /// List of compliance drifts that were detected while running an assessment.
+    /// Indicates the list of compliance drifts that were detected while running an assessment.
     @Sendable
     @inlinable
     public func listAppAssessmentComplianceDrifts(_ input: ListAppAssessmentComplianceDriftsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppAssessmentComplianceDriftsResponse {
@@ -1102,7 +1105,7 @@ public struct Resiliencehub: AWSService {
             logger: logger
         )
     }
-    /// List of compliance drifts that were detected while running an assessment.
+    /// Indicates the list of compliance drifts that were detected while running an assessment.
     ///
     /// Parameters:
     ///   - assessmentArn: Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
@@ -1492,6 +1495,7 @@ public struct Resiliencehub: AWSService {
     ///
     /// Parameters:
     ///   - appArn: Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
+    ///   - awsApplicationArn: Amazon Resource Name (ARN) of  Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs,
     ///   - fromLastAssessmentTime: Indicates the lower limit of the range that is used to filter applications based on their last assessment times.
     ///   - maxResults: Maximum number of results to include in the response. If more results exist than the specified
     ///   - name: The name for the one of the listed applications.
@@ -1502,6 +1506,7 @@ public struct Resiliencehub: AWSService {
     @inlinable
     public func listApps(
         appArn: String? = nil,
+        awsApplicationArn: String? = nil,
         fromLastAssessmentTime: Date? = nil,
         maxResults: Int? = nil,
         name: String? = nil,
@@ -1512,6 +1517,7 @@ public struct Resiliencehub: AWSService {
     ) async throws -> ListAppsResponse {
         let input = ListAppsRequest(
             appArn: appArn, 
+            awsApplicationArn: awsApplicationArn, 
             fromLastAssessmentTime: fromLastAssessmentTime, 
             maxResults: maxResults, 
             name: name, 
@@ -2819,6 +2825,7 @@ extension Resiliencehub {
     ///
     /// - Parameters:
     ///   - appArn: Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
+    ///   - awsApplicationArn: Amazon Resource Name (ARN) of  Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs,
     ///   - fromLastAssessmentTime: Indicates the lower limit of the range that is used to filter applications based on their last assessment times.
     ///   - maxResults: Maximum number of results to include in the response. If more results exist than the specified
     ///   - name: The name for the one of the listed applications.
@@ -2828,6 +2835,7 @@ extension Resiliencehub {
     @inlinable
     public func listAppsPaginator(
         appArn: String? = nil,
+        awsApplicationArn: String? = nil,
         fromLastAssessmentTime: Date? = nil,
         maxResults: Int? = nil,
         name: String? = nil,
@@ -2837,6 +2845,7 @@ extension Resiliencehub {
     ) -> AWSClient.PaginatorSequence<ListAppsRequest, ListAppsResponse> {
         let input = ListAppsRequest(
             appArn: appArn, 
+            awsApplicationArn: awsApplicationArn, 
             fromLastAssessmentTime: fromLastAssessmentTime, 
             maxResults: maxResults, 
             name: name, 
@@ -3259,6 +3268,7 @@ extension Resiliencehub.ListAppsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppsRequest {
         return .init(
             appArn: self.appArn,
+            awsApplicationArn: self.awsApplicationArn,
             fromLastAssessmentTime: self.fromLastAssessmentTime,
             maxResults: self.maxResults,
             name: self.name,

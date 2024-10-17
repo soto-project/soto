@@ -78,6 +78,14 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
+    public enum DescribeIntegrationsFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case integrationArn = "integration-arn"
+        case sourceArn = "source-arn"
+        case sourceTypes = "source-types"
+        case status = "status"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImpactRankingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
@@ -1740,7 +1748,7 @@ extension Redshift {
         public let masterUserPassword: String?
         /// If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
         public let multiAZ: Bool?
-        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values:  dc2.large | dc2.8xlarge |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
+        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values:  dc2.large | dc2.8xlarge |  ra3.large |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
         public let nodeType: String?
         /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node.  For information about determining how many nodes you need, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1  Constraints: Value must be at least 1 and no more than 100.
         public let numberOfNodes: Int?
@@ -2382,6 +2390,66 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case hsmConfiguration = "HsmConfiguration"
+        }
+    }
+
+    public struct CreateIntegrationMessage: AWSEncodableShape {
+        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// An optional set of non-secret key–value pairs that contains additional contextual information about the data. For more information, see Encryption context in the Amazon Web Services Key Management Service Developer Guide. You can only include this parameter if you specify the KMSKeyId parameter.
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
+        public var additionalEncryptionContext: [String: String]?
+        /// A description of the integration.
+        public let description: String?
+        /// The name of the integration.
+        public let integrationName: String?
+        /// An Key Management Service (KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, the default Amazon Web Services owned key is used.
+        public let kmsKeyId: String?
+        /// The Amazon Resource Name (ARN) of the database to use as the source for replication.
+        public let sourceArn: String?
+        /// A list of tags.
+        @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
+        public var tagList: [Tag]?
+        /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication.
+        public let targetArn: String?
+
+        @inlinable
+        public init(additionalEncryptionContext: [String: String]? = nil, description: String? = nil, integrationName: String? = nil, kmsKeyId: String? = nil, sourceArn: String? = nil, tagList: [Tag]? = nil, targetArn: String? = nil) {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.description = description
+            self.integrationName = integrationName
+            self.kmsKeyId = kmsKeyId
+            self.sourceArn = sourceArn
+            self.tagList = tagList
+            self.targetArn = targetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalEncryptionContext?.forEach {
+                try validate($0.key, name: "additionalEncryptionContext.key", parent: name, max: 2147483647)
+                try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, max: 2147483647)
+            }
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 63)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2147483647)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 2147483647)
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2147483647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalEncryptionContext = "AdditionalEncryptionContext"
+            case description = "Description"
+            case integrationName = "IntegrationName"
+            case kmsKeyId = "KMSKeyId"
+            case sourceArn = "SourceArn"
+            case tagList = "TagList"
+            case targetArn = "TargetArn"
         }
     }
 
@@ -3148,6 +3216,26 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+        }
+    }
+
+    public struct DeleteIntegrationMessage: AWSEncodableShape {
+        /// The unique identifier of the integration to delete.
+        public let integrationArn: String?
+
+        @inlinable
+        public init(integrationArn: String? = nil) {
+            self.integrationArn = integrationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, max: 255)
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, min: 1)
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, pattern: "^arn:aws[a-z\\-]*:redshift:[a-z0-9\\-]*:[0-9]*:integration:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationArn = "IntegrationArn"
         }
     }
 
@@ -4260,6 +4348,72 @@ extension Redshift {
         }
     }
 
+    public struct DescribeIntegrationsFilter: AWSEncodableShape {
+        public struct _ValuesEncoding: ArrayCoderProperties { public static let member = "Value" }
+
+        /// Specifies the type of integration filter.
+        public let name: DescribeIntegrationsFilterName?
+        /// Specifies the values to filter on.
+        @OptionalCustomCoding<ArrayCoder<_ValuesEncoding, String>>
+        public var values: [String]?
+
+        @inlinable
+        public init(name: DescribeIntegrationsFilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 2147483647)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct DescribeIntegrationsMessage: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "DescribeIntegrationsFilter" }
+
+        /// A filter that specifies one or more resources to return.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, DescribeIntegrationsFilter>>
+        public var filters: [DescribeIntegrationsFilter]?
+        /// The unique identifier of the integration.
+        public let integrationArn: String?
+        /// An optional pagination token provided by a previous DescribeIntegrations request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
+        public let maxRecords: Int?
+
+        @inlinable
+        public init(filters: [DescribeIntegrationsFilter]? = nil, integrationArn: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.filters = filters
+            self.integrationArn = integrationArn
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, max: 255)
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, min: 1)
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, pattern: "^arn:aws[a-z\\-]*:redshift:[a-z0-9\\-]*:[0-9]*:integration:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.marker, name: "marker", parent: name, max: 2147483647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case integrationArn = "IntegrationArn"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
     public struct DescribeLoggingStatusMessage: AWSEncodableShape {
         /// The identifier of the cluster from which to get the logging status. Example: examplecluster
         public let clusterIdentifier: String?
@@ -4805,7 +4959,7 @@ extension Redshift {
         public let maxRecords: Int?
         /// The Amazon Resource Name (ARN) for which you want to describe the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1.
         public let resourceName: String?
-        /// The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide.
+        /// The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   Integration (zero-ETL integration)  To describe the tags associated with an integration, don't specify ResourceType,  instead specify the ResourceName of the integration.    For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide.
         public let resourceType: String?
         /// A tag key or keys for which you want to return all matching resources that are associated with the specified key or keys. For example, suppose that you have resources tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with all resources that have either or both of these tag keys associated with them.
         @OptionalCustomCoding<ArrayCoder<_TagKeysEncoding, String>>
@@ -5039,7 +5193,7 @@ extension Redshift {
         /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logExports: [String]?
-        /// The prefix applied to the log file names. Constraints:   Cannot exceed 512 characters   Cannot contain spaces( ), double quotes ("), single quotes ('), a backslash (\), or control characters. The hexadecimal codes for invalid characters are:    x00 to x20   x22   x27   x5c   x7f or larger
+        /// The prefix applied to the log file names. Valid characters are any letter from any language, any whitespace character, any numeric character, and the following characters:  underscore (_), period (.), colon (:), slash (/), equal (=), plus (+), backslash (\), hyphen (-), at symbol (@).
         public let s3KeyPrefix: String?
 
         @inlinable
@@ -5057,7 +5211,8 @@ extension Redshift {
             try self.logExports?.forEach {
                 try validate($0, name: "logExports[]", parent: name, max: 2147483647)
             }
-            try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, max: 2147483647)
+            try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, max: 256)
+            try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5949,6 +6104,66 @@ extension Redshift {
         }
     }
 
+    public struct Integration: AWSDecodableShape {
+        public struct _ErrorsEncoding: ArrayCoderProperties { public static let member = "IntegrationError" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The encryption context for the integration. For more information,  see Encryption context in the Amazon Web Services Key Management Service Developer Guide.
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
+        public var additionalEncryptionContext: [String: String]?
+        /// The time (UTC) when the integration was created.
+        public let createTime: Date?
+        /// The description of the integration.
+        public let description: String?
+        /// Any errors associated with the integration.
+        @OptionalCustomCoding<ArrayCoder<_ErrorsEncoding, IntegrationError>>
+        public var errors: [IntegrationError]?
+        /// The Amazon Resource Name (ARN) of the integration.
+        public let integrationArn: String?
+        /// The name of the integration.
+        public let integrationName: String?
+        /// The Key Management Service (KMS) key identifier for the key used to encrypt the integration.
+        public let kmsKeyId: String?
+        /// The Amazon Resource Name (ARN) of the database used as the source for replication.
+        public let sourceArn: String?
+        /// The current status of the integration.
+        public let status: ZeroETLIntegrationStatus?
+        /// The list of tags associated with the integration.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication.
+        public let targetArn: String?
+
+        @inlinable
+        public init(additionalEncryptionContext: [String: String]? = nil, createTime: Date? = nil, description: String? = nil, errors: [IntegrationError]? = nil, integrationArn: String? = nil, integrationName: String? = nil, kmsKeyId: String? = nil, sourceArn: String? = nil, status: ZeroETLIntegrationStatus? = nil, tags: [Tag]? = nil, targetArn: String? = nil) {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.createTime = createTime
+            self.description = description
+            self.errors = errors
+            self.integrationArn = integrationArn
+            self.integrationName = integrationName
+            self.kmsKeyId = kmsKeyId
+            self.sourceArn = sourceArn
+            self.status = status
+            self.tags = tags
+            self.targetArn = targetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalEncryptionContext = "AdditionalEncryptionContext"
+            case createTime = "CreateTime"
+            case description = "Description"
+            case errors = "Errors"
+            case integrationArn = "IntegrationArn"
+            case integrationName = "IntegrationName"
+            case kmsKeyId = "KMSKeyId"
+            case sourceArn = "SourceArn"
+            case status = "Status"
+            case tags = "Tags"
+            case targetArn = "TargetArn"
+        }
+    }
+
     public struct IntegrationError: AWSDecodableShape {
         /// The error code of an inbound integration error.
         public let errorCode: String?
@@ -5964,6 +6179,27 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct IntegrationsMessage: AWSDecodableShape {
+        public struct _IntegrationsEncoding: ArrayCoderProperties { public static let member = "Integration" }
+
+        /// List of integrations that are described.
+        @OptionalCustomCoding<ArrayCoder<_IntegrationsEncoding, Integration>>
+        public var integrations: [Integration]?
+        /// A value that indicates the starting point for the next set of response records in a subsequent request.  If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command.  If the Marker field is empty, all response records have been retrieved for the request.
+        public let marker: String?
+
+        @inlinable
+        public init(integrations: [Integration]? = nil, marker: String? = nil) {
+            self.integrations = integrations
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrations = "Integrations"
+            case marker = "Marker"
         }
     }
 
@@ -6380,7 +6616,7 @@ extension Redshift {
         /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter.
         /// For more information about resizing clusters, go to
         /// Resizing Clusters in Amazon Redshift
-        /// in the Amazon Redshift Cluster Management Guide. Valid Values:  dc2.large | dc2.8xlarge |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
+        /// in the Amazon Redshift Cluster Management Guide. Valid Values:  dc2.large | dc2.8xlarge |  ra3.large |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
         public let nodeType: String?
         /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter.
         /// For more information about resizing clusters, go to
@@ -6792,6 +7028,39 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct ModifyIntegrationMessage: AWSEncodableShape {
+        /// A new description for the integration.
+        public let description: String?
+        /// The unique identifier of the integration to modify.
+        public let integrationArn: String?
+        /// A new name for the integration.
+        public let integrationName: String?
+
+        @inlinable
+        public init(description: String? = nil, integrationArn: String? = nil, integrationName: String? = nil) {
+            self.description = description
+            self.integrationArn = integrationArn
+            self.integrationName = integrationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, max: 255)
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, min: 1)
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, pattern: "^arn:aws[a-z\\-]*:redshift:[a-z0-9\\-]*:[0-9]*:integration:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 63)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case integrationArn = "IntegrationArn"
+            case integrationName = "IntegrationName"
         }
     }
 
@@ -9603,7 +9872,13 @@ public struct RedshiftErrorType: AWSErrorType {
         case incompatibleOrderableOptions = "IncompatibleOrderableOptions"
         case insufficientClusterCapacityFault = "InsufficientClusterCapacity"
         case insufficientS3BucketPolicyFault = "InsufficientS3BucketPolicyFault"
+        case integrationAlreadyExistsFault = "IntegrationAlreadyExistsFault"
+        case integrationConflictOperationFault = "IntegrationConflictOperationFault"
+        case integrationConflictStateFault = "IntegrationConflictStateFault"
         case integrationNotFoundFault = "IntegrationNotFoundFault"
+        case integrationQuotaExceededFault = "IntegrationQuotaExceededFault"
+        case integrationSourceNotFoundFault = "IntegrationSourceNotFoundFault"
+        case integrationTargetNotFoundFault = "IntegrationTargetNotFoundFault"
         case invalidAuthenticationProfileRequestFault = "InvalidAuthenticationProfileRequestFault"
         case invalidAuthorizationStateFault = "InvalidAuthorizationState"
         case invalidClusterParameterGroupStateFault = "InvalidClusterParameterGroupState"
@@ -9828,8 +10103,20 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var insufficientClusterCapacityFault: Self { .init(.insufficientClusterCapacityFault) }
     /// The cluster does not have read bucket or put object permissions on the S3 bucket specified when enabling logging.
     public static var insufficientS3BucketPolicyFault: Self { .init(.insufficientS3BucketPolicyFault) }
+    /// The integration you are trying to create already exists.
+    public static var integrationAlreadyExistsFault: Self { .init(.integrationAlreadyExistsFault) }
+    /// A conflicting conditional operation is currently in progress against this resource. This typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
+    public static var integrationConflictOperationFault: Self { .init(.integrationConflictOperationFault) }
+    /// The integration is in an invalid state and can't perform the requested operation.
+    public static var integrationConflictStateFault: Self { .init(.integrationConflictStateFault) }
     /// The integration can't be found.
     public static var integrationNotFoundFault: Self { .init(.integrationNotFoundFault) }
+    /// You can't create any more zero-ETL integrations because the quota has been reached.
+    public static var integrationQuotaExceededFault: Self { .init(.integrationQuotaExceededFault) }
+    /// The specified integration source can't be found.
+    public static var integrationSourceNotFoundFault: Self { .init(.integrationSourceNotFoundFault) }
+    /// The specified integration target can't be found.
+    public static var integrationTargetNotFoundFault: Self { .init(.integrationTargetNotFoundFault) }
     /// The authentication profile request is not valid. The profile name can't be null or empty.  The authentication profile API operation must be available in the Amazon Web Services Region.
     public static var invalidAuthenticationProfileRequestFault: Self { .init(.invalidAuthenticationProfileRequestFault) }
     /// The status of the authorization is not valid.

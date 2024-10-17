@@ -142,7 +142,7 @@ public struct BedrockAgent: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
     ///   - customerEncryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
     ///   - description: A description of the agent.
-    ///   - foundationModel: The foundation model to be used for orchestration by the agent you create.
+    ///   - foundationModel: The Amazon Resource Name (ARN) of the foundation model to be used for orchestration by the agent you create.
     ///   - guardrailConfiguration: The unique Guardrail configuration assigned to the agent when it is created.
     ///   - idleSessionTTLInSeconds: The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
     ///   - instruction: Instructions that tell the agent what it should do and how it should interact with users.
@@ -459,7 +459,7 @@ public struct BedrockAgent: AWSService {
         return try await self.createFlowVersion(input, logger: logger)
     }
 
-    /// Creates a knowledge base that contains data sources from which information can be queried and used by LLMs. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up your data for ingestion.  If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon OpenSearch Service, use the console. For more information, see Create a knowledge base.    Provide the name and an optional description.   Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the roleArn field.   Provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.   Provide the configuration for your vector store in the storageConfiguration object.   For an Amazon OpenSearch Service database, use the opensearchServerlessConfiguration object. For more information, see Create a vector store in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone database, use the pineconeConfiguration object. For more information, see Create a vector store in Pinecone.   For a Redis Enterprise Cloud database, use the redisEnterpriseCloudConfiguration object. For more information, see Create a vector store in Redis Enterprise Cloud.
+    /// Creates a knowledge base. A knowledge base contains your data sources so that Large Language Models (LLMs) can use your data. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up a knowledge base.  If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon OpenSearch Service, use the console. For more information, see Create a knowledge base.    Provide the name and an optional description.   Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the roleArn field.   Provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.   Provide the configuration for your vector store in the storageConfiguration object.   For an Amazon OpenSearch Service database, use the opensearchServerlessConfiguration object. For more information, see Create a vector store in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone database, use the pineconeConfiguration object. For more information, see Create a vector store in Pinecone.   For a Redis Enterprise Cloud database, use the redisEnterpriseCloudConfiguration object. For more information, see Create a vector store in Redis Enterprise Cloud.
     @Sendable
     @inlinable
     public func createKnowledgeBase(_ input: CreateKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKnowledgeBaseResponse {
@@ -472,7 +472,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Creates a knowledge base that contains data sources from which information can be queried and used by LLMs. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up your data for ingestion.  If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon OpenSearch Service, use the console. For more information, see Create a knowledge base.    Provide the name and an optional description.   Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the roleArn field.   Provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.   Provide the configuration for your vector store in the storageConfiguration object.   For an Amazon OpenSearch Service database, use the opensearchServerlessConfiguration object. For more information, see Create a vector store in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone database, use the pineconeConfiguration object. For more information, see Create a vector store in Pinecone.   For a Redis Enterprise Cloud database, use the redisEnterpriseCloudConfiguration object. For more information, see Create a vector store in Redis Enterprise Cloud.
+    /// Creates a knowledge base. A knowledge base contains your data sources so that Large Language Models (LLMs) can use your data. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up a knowledge base.  If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon OpenSearch Service, use the console. For more information, see Create a knowledge base.    Provide the name and an optional description.   Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the roleArn field.   Provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.   Provide the configuration for your vector store in the storageConfiguration object.   For an Amazon OpenSearch Service database, use the opensearchServerlessConfiguration object. For more information, see Create a vector store in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone database, use the pineconeConfiguration object. For more information, see Create a vector store in Pinecone.   For a Redis Enterprise Cloud database, use the redisEnterpriseCloudConfiguration object. For more information, see Create a vector store in Redis Enterprise Cloud.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
@@ -1135,7 +1135,7 @@ public struct BedrockAgent: AWSService {
     ///
     /// Parameters:
     ///   - dataSourceId: The unique identifier of the data source.
-    ///   - knowledgeBaseId: The unique identifier of the knowledge base that the data source was added to.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base for the data source.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDataSource(
@@ -1243,7 +1243,7 @@ public struct BedrockAgent: AWSService {
         return try await self.getFlowVersion(input, logger: logger)
     }
 
-    /// Gets information about a ingestion job, in which a data source is added to a knowledge base.
+    /// Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Lanaguage Models (LLMs) can use your data.
     @Sendable
     @inlinable
     public func getIngestionJob(_ input: GetIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIngestionJobResponse {
@@ -1256,12 +1256,12 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a ingestion job, in which a data source is added to a knowledge base.
+    /// Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Lanaguage Models (LLMs) can use your data.
     ///
     /// Parameters:
-    ///   - dataSourceId: The unique identifier of the data source in the ingestion job.
-    ///   - ingestionJobId: The unique identifier of the ingestion job.
-    ///   - knowledgeBaseId: The unique identifier of the knowledge base for which the ingestion job applies.
+    ///   - dataSourceId: The unique identifier of the data source for the data ingestion job you want to get information on.
+    ///   - ingestionJobId: The unique identifier of the data ingestion job you want to get information on.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base for the data ingestion job you want to get information on.
     ///   - logger: Logger use during operation
     @inlinable
     public func getIngestionJob(
@@ -1294,7 +1294,7 @@ public struct BedrockAgent: AWSService {
     /// Gets information about a knoweldge base.
     ///
     /// Parameters:
-    ///   - knowledgeBaseId: The unique identifier of the knowledge base for which to get information.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base you want to get information on.
     ///   - logger: Logger use during operation
     @inlinable
     public func getKnowledgeBase(
@@ -1654,7 +1654,7 @@ public struct BedrockAgent: AWSService {
         return try await self.listFlows(input, logger: logger)
     }
 
-    /// Lists the ingestion jobs for a data source and information about each of them.
+    /// Lists the data ingestion jobs for a data source. The list also includes information about each job.
     @Sendable
     @inlinable
     public func listIngestionJobs(_ input: ListIngestionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIngestionJobsResponse {
@@ -1667,15 +1667,15 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Lists the ingestion jobs for a data source and information about each of them.
+    /// Lists the data ingestion jobs for a data source. The list also includes information about each job.
     ///
     /// Parameters:
-    ///   - dataSourceId: The unique identifier of the data source for which to return ingestion jobs.
-    ///   - filters: Contains a definition of a filter for which to filter the results.
-    ///   - knowledgeBaseId: The unique identifier of the knowledge base for which to return ingestion jobs.
+    ///   - dataSourceId: The unique identifier of the data source for the list of data ingestion jobs.
+    ///   - filters: Contains information about the filters for filtering the data.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base for the list of data ingestion jobs.
     ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
-    ///   - sortBy: Contains details about how to sort the results.
+    ///   - sortBy: Contains details about how to sort the data.
     ///   - logger: Logger use during operation
     @inlinable
     public func listIngestionJobs(
@@ -1698,7 +1698,7 @@ public struct BedrockAgent: AWSService {
         return try await self.listIngestionJobs(input, logger: logger)
     }
 
-    /// Lists the knowledge bases in an account and information about each of them.
+    /// Lists the knowledge bases in an account. The list also includesinformation about each knowledge base.
     @Sendable
     @inlinable
     public func listKnowledgeBases(_ input: ListKnowledgeBasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKnowledgeBasesResponse {
@@ -1711,7 +1711,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Lists the knowledge bases in an account and information about each of them.
+    /// Lists the knowledge bases in an account. The list also includesinformation about each knowledge base.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
@@ -1852,7 +1852,7 @@ public struct BedrockAgent: AWSService {
         return try await self.prepareFlow(input, logger: logger)
     }
 
-    /// Begins an ingestion job, in which a data source is added to a knowledge base.
+    /// Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
     @Sendable
     @inlinable
     public func startIngestionJob(_ input: StartIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartIngestionJobResponse {
@@ -1865,13 +1865,13 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Begins an ingestion job, in which a data source is added to a knowledge base.
+    /// Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
-    ///   - dataSourceId: The unique identifier of the data source to ingest.
-    ///   - description: A description of the ingestion job.
-    ///   - knowledgeBaseId: The unique identifier of the knowledge base to which to add the data source.
+    ///   - dataSourceId: The unique identifier of the data source you want to ingest into your knowledge base.
+    ///   - description: A description of the data ingestion job.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base for the data ingestion job.
     ///   - logger: Logger use during operation
     @inlinable
     public func startIngestionJob(
@@ -1888,6 +1888,41 @@ public struct BedrockAgent: AWSService {
             knowledgeBaseId: knowledgeBaseId
         )
         return try await self.startIngestionJob(input, logger: logger)
+    }
+
+    /// Stops a currently running data ingestion job. You can send a StartIngestionJob request again to ingest the rest of your data when you are ready.
+    @Sendable
+    @inlinable
+    public func stopIngestionJob(_ input: StopIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopIngestionJobResponse {
+        try await self.client.execute(
+            operation: "StopIngestionJob", 
+            path: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/ingestionjobs/{ingestionJobId}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a currently running data ingestion job. You can send a StartIngestionJob request again to ingest the rest of your data when you are ready.
+    ///
+    /// Parameters:
+    ///   - dataSourceId: The unique identifier of the data source for the data ingestion job you want to stop.
+    ///   - ingestionJobId: The unique identifier of the data ingestion job you want to stop.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base for the data ingestion job you want to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopIngestionJob(
+        dataSourceId: String,
+        ingestionJobId: String,
+        knowledgeBaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopIngestionJobResponse {
+        let input = StopIngestionJobRequest(
+            dataSourceId: dataSourceId, 
+            ingestionJobId: ingestionJobId, 
+            knowledgeBaseId: knowledgeBaseId
+        )
+        return try await self.stopIngestionJob(input, logger: logger)
     }
 
     /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
@@ -2742,11 +2777,11 @@ extension BedrockAgent {
     /// Return PaginatorSequence for operation ``listIngestionJobs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - dataSourceId: The unique identifier of the data source for which to return ingestion jobs.
-    ///   - filters: Contains a definition of a filter for which to filter the results.
-    ///   - knowledgeBaseId: The unique identifier of the knowledge base for which to return ingestion jobs.
+    ///   - dataSourceId: The unique identifier of the data source for the list of data ingestion jobs.
+    ///   - filters: Contains information about the filters for filtering the data.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base for the list of data ingestion jobs.
     ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
-    ///   - sortBy: Contains details about how to sort the results.
+    ///   - sortBy: Contains details about how to sort the data.
     ///   - logger: Logger used for logging
     @inlinable
     public func listIngestionJobsPaginator(

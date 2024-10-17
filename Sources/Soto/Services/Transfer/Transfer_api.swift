@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS Transfer service.
 ///
-/// Transfer Family is a fully managed service that enables the transfer of files over the File Transfer Protocol (FTP), File Transfer Protocol over SSL (FTPS), or Secure Shell (SSH) File Transfer Protocol (SFTP) directly into and out of Amazon Simple Storage Service (Amazon S3) or Amazon EFS. Additionally, you can use Applicability Statement 2 (AS2) to transfer files into and out of Amazon S3. Amazon Web Services helps you seamlessly migrate your file transfer workflows to Transfer Family by integrating with existing authentication systems, and providing DNS routing with Amazon Route 53 so nothing changes for your customers and partners, or their applications. With your data in Amazon S3, you can use it with Amazon Web Services for processing, analytics, machine learning, and archiving. Getting started with Transfer Family is easy since there is no infrastructure to buy and set up.
+/// Transfer Family is a fully managed service that enables the transfer of files over the File Transfer Protocol (FTP), File Transfer Protocol over SSL (FTPS), or Secure Shell (SSH) File Transfer Protocol (SFTP) directly into and out of Amazon Simple Storage Service (Amazon S3) or Amazon EFS. Additionally, you can use Applicability Statement 2 (AS2) to transfer files into and out of Amazon S3. Amazon Web Services helps you seamlessly migrate your file transfer workflows to Transfer Family by integrating with existing authentication systems, and providing DNS routing with Amazon Route 53 so nothing changes for your customers and partners, or their applications. With your data in Amazon S3, you can use it with Amazon Web Services services for processing, analytics, machine learning, and archiving. Getting started with Transfer Family is easy since there is no infrastructure to buy and set up.
 public struct Transfer: AWSService {
     // MARK: Member variables
 
@@ -161,7 +161,7 @@ public struct Transfer: AWSService {
     ///
     /// Parameters:
     ///   - accessRole: Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
-    ///   - baseDirectory: The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory.
+    ///   - baseDirectory: The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /amzn-s3-demo-bucket/home/mydirectory.
     ///   - description: A name or short description to identify the agreement.
     ///   - localProfileId: A unique identifier for the AS2 local profile.
     ///   - partnerProfileId: A unique identifier for the partner profile used in the agreement.
@@ -1384,6 +1384,44 @@ public struct Transfer: AWSService {
         return try await self.listExecutions(input, logger: logger)
     }
 
+    ///  Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer operation.  You specify the file transfer by providing its ConnectorId and its TransferId.  File transfer results are available up to 7 days after an operation has been requested.
+    @Sendable
+    @inlinable
+    public func listFileTransferResults(_ input: ListFileTransferResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFileTransferResultsResponse {
+        try await self.client.execute(
+            operation: "ListFileTransferResults", 
+            path: "/listFileTransferResults", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer operation.  You specify the file transfer by providing its ConnectorId and its TransferId.  File transfer results are available up to 7 days after an operation has been requested.
+    ///
+    /// Parameters:
+    ///   - connectorId: A unique identifier for a connector. This value should match the value supplied to the corresponding StartFileTransfer call.
+    ///   - maxResults: The maximum number of files to return in a single page. Note that currently you can specify a maximum of 10 file paths in a single StartFileTransfer operation. Thus, the maximum number of file transfer results that can be returned in a single page is 10.
+    ///   - nextToken: If there are more file details than returned in this call, use this value for a subsequent call to ListFileTransferResults to retrieve them.
+    ///   - transferId: A unique identifier for a file transfer. This value should match the value supplied to the corresponding StartFileTransfer call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFileTransferResults(
+        connectorId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        transferId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFileTransferResultsResponse {
+        let input = ListFileTransferResultsRequest(
+            connectorId: connectorId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            transferId: transferId
+        )
+        return try await self.listFileTransferResults(input, logger: logger)
+    }
+
     /// Returns a list of host keys for the server that's specified by the ServerId parameter.
     @Sendable
     @inlinable
@@ -1716,7 +1754,7 @@ public struct Transfer: AWSService {
     ///   - localDirectoryPath: For an inbound transfer, the LocaDirectoryPath specifies the destination for one or more files that are transferred from the partner's SFTP server.
     ///   - remoteDirectoryPath: For an outbound transfer, the RemoteDirectoryPath specifies the destination for one or more files that are transferred to the partner's SFTP server. If you don't specify a RemoteDirectoryPath, the destination for transferred files is the SFTP user's home directory.
     ///   - retrieveFilePaths: One or more source paths for the partner's SFTP server. Each string represents a source file path for one inbound file transfer.
-    ///   - sendFilePaths: One or more source paths for the Amazon S3 storage. Each string represents a source file path for one outbound file transfer. For example,  DOC-EXAMPLE-BUCKET/myfile.txt .  Replace  DOC-EXAMPLE-BUCKET with one of your actual buckets.
+    ///   - sendFilePaths: One or more source paths for the Amazon S3 storage. Each string represents a source file path for one outbound file transfer. For example,  amzn-s3-demo-bucket/myfile.txt .  Replace  amzn-s3-demo-bucket with one of your actual buckets.
     ///   - logger: Logger use during operation
     @inlinable
     public func startFileTransfer(
@@ -1997,7 +2035,7 @@ public struct Transfer: AWSService {
     /// Parameters:
     ///   - accessRole: Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
     ///   - agreementId: A unique identifier for the agreement. This identifier is returned when you create an agreement.
-    ///   - baseDirectory: To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /DOC-EXAMPLE-BUCKET/home/mydirectory .
+    ///   - baseDirectory: To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /amzn-s3-demo-bucket/home/mydirectory .
     ///   - description: To replace the existing description, provide a short description for the agreement.
     ///   - localProfileId: A unique identifier for the AS2 local profile. To change the local profile identifier, provide a new value here.
     ///   - partnerProfileId: A unique identifier for the partner profile. To change the partner profile identifier, provide a new value here.
@@ -2199,7 +2237,7 @@ public struct Transfer: AWSService {
     /// Parameters:
     ///   - certificate: The Amazon Resource Name (ARN) of the Amazon Web ServicesCertificate Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public certificate, see Request a public certificate in the  Amazon Web ServicesCertificate Manager User Guide. To import an existing certificate into ACM, see Importing certificates into ACM in the  Amazon Web ServicesCertificate Manager User Guide. To request a private certificate to use FTPS through private IP addresses, see Request a private certificate in the  Amazon Web ServicesCertificate Manager User Guide. Certificates with the following cryptographic algorithms and key sizes are supported:   2048-bit RSA (RSA_2048)   4096-bit RSA (RSA_4096)   Elliptic Prime Curve 256 bit (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)    The certificate must be a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and information about the issuer.
     ///   - endpointDetails: The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make your endpoint accessible only to resources within your VPC, or you can attach Elastic IP addresses and make your endpoint accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
-    ///   - endpointType: The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and  resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.  After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
+    ///   - endpointType: The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and  resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.  After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Services account if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Services account on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
     ///   - hostKey: The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice.  If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.  For more information, see Manage host keys for your SFTP-enabled server in the Transfer Family User Guide.
     ///   - identityProviderDetails: An array containing all of the information required to call a customer's authentication API method.
     ///   - loggingRole: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
@@ -2495,6 +2533,46 @@ extension Transfer {
         return self.listExecutionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listFileTransferResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFileTransferResultsPaginator(
+        _ input: ListFileTransferResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFileTransferResultsRequest, ListFileTransferResultsResponse> {
+        return .init(
+            input: input,
+            command: self.listFileTransferResults,
+            inputKey: \ListFileTransferResultsRequest.nextToken,
+            outputKey: \ListFileTransferResultsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFileTransferResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - connectorId: A unique identifier for a connector. This value should match the value supplied to the corresponding StartFileTransfer call.
+    ///   - maxResults: The maximum number of files to return in a single page. Note that currently you can specify a maximum of 10 file paths in a single StartFileTransfer operation. Thus, the maximum number of file transfer results that can be returned in a single page is 10.
+    ///   - transferId: A unique identifier for a file transfer. This value should match the value supplied to the corresponding StartFileTransfer call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFileTransferResultsPaginator(
+        connectorId: String,
+        maxResults: Int? = nil,
+        transferId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFileTransferResultsRequest, ListFileTransferResultsResponse> {
+        let input = ListFileTransferResultsRequest(
+            connectorId: connectorId, 
+            maxResults: maxResults, 
+            transferId: transferId
+        )
+        return self.listFileTransferResultsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listProfiles(_:logger:)``.
     ///
     /// - Parameters:
@@ -2758,6 +2836,18 @@ extension Transfer.ListExecutionsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             workflowId: self.workflowId
+        )
+    }
+}
+
+extension Transfer.ListFileTransferResultsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Transfer.ListFileTransferResultsRequest {
+        return .init(
+            connectorId: self.connectorId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transferId: self.transferId
         )
     }
 }

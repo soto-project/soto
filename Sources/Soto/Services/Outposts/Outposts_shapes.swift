@@ -125,6 +125,7 @@ extension Outposts {
     public enum OrderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
+        case delivered = "DELIVERED"
         case error = "ERROR"
         case fulfilled = "FULFILLED"
         case inProgress = "IN_PROGRESS"
@@ -1850,7 +1851,7 @@ extension Outposts {
         public let paymentOption: PaymentOption?
         /// The payment term.
         public let paymentTerm: PaymentTerm?
-        /// The status of the order.    PREPARING - Order is received and being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. To get more details, see the line item status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.    The following status are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
+        /// The status of the order.    PREPARING - Order is received and being prepared.    IN_PROGRESS - Order is either being built or shipped. To get more details, see the line item status.    DELIVERED - Order was delivered to the Outpost site.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.    The following status are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
         public let status: OrderStatus?
 
         @inlinable

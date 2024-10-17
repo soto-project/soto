@@ -244,6 +244,23 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum BandwidthReductionFilterStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case strength1 = "STRENGTH_1"
+        case strength2 = "STRENGTH_2"
+        case strength3 = "STRENGTH_3"
+        case strength4 = "STRENGTH_4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BandwidthReductionPostFilterSharpening: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case sharpening1 = "SHARPENING_1"
+        case sharpening2 = "SHARPENING_2"
+        case sharpening3 = "SHARPENING_3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BlackoutSlateNetworkEndBlackout: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -1417,7 +1434,6 @@ extension MediaLive {
 
     public enum InputNetworkLocation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
-        case onPremise = "ON_PREMISE"
         case onPremises = "ON_PREMISES"
         public var description: String { return self.rawValue }
     }
@@ -3184,6 +3200,28 @@ extension MediaLive {
             case esam = "esam"
             case scte35SpliceInsert = "scte35SpliceInsert"
             case scte35TimeSignalApos = "scte35TimeSignalApos"
+        }
+    }
+
+    public struct BandwidthReductionFilterSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Configures the sharpening control, which is available when the bandwidth reduction filter is enabled. This
+        /// control sharpens edges and contours, which produces a specific artistic effect that you might want.
+        /// We recommend that you test each of the values (including DISABLED) to observe the sharpening effect on the
+        /// content.
+        public let postFilterSharpening: BandwidthReductionPostFilterSharpening?
+        /// Enables the bandwidth reduction filter. The filter strengths range from 1 to 4. We recommend that you always
+        /// enable this filter and use AUTO, to let MediaLive apply the optimum filtering for the context.
+        public let strength: BandwidthReductionFilterStrength?
+
+        @inlinable
+        public init(postFilterSharpening: BandwidthReductionPostFilterSharpening? = nil, strength: BandwidthReductionFilterStrength? = nil) {
+            self.postFilterSharpening = postFilterSharpening
+            self.strength = strength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case postFilterSharpening = "postFilterSharpening"
+            case strength = "strength"
         }
     }
 
@@ -8903,14 +8941,17 @@ extension MediaLive {
     }
 
     public struct H264FilterSettings: AWSEncodableShape & AWSDecodableShape {
+        public let bandwidthReductionFilterSettings: BandwidthReductionFilterSettings?
         public let temporalFilterSettings: TemporalFilterSettings?
 
         @inlinable
-        public init(temporalFilterSettings: TemporalFilterSettings? = nil) {
+        public init(bandwidthReductionFilterSettings: BandwidthReductionFilterSettings? = nil, temporalFilterSettings: TemporalFilterSettings? = nil) {
+            self.bandwidthReductionFilterSettings = bandwidthReductionFilterSettings
             self.temporalFilterSettings = temporalFilterSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bandwidthReductionFilterSettings = "bandwidthReductionFilterSettings"
             case temporalFilterSettings = "temporalFilterSettings"
         }
     }
@@ -9186,14 +9227,17 @@ extension MediaLive {
     }
 
     public struct H265FilterSettings: AWSEncodableShape & AWSDecodableShape {
+        public let bandwidthReductionFilterSettings: BandwidthReductionFilterSettings?
         public let temporalFilterSettings: TemporalFilterSettings?
 
         @inlinable
-        public init(temporalFilterSettings: TemporalFilterSettings? = nil) {
+        public init(bandwidthReductionFilterSettings: BandwidthReductionFilterSettings? = nil, temporalFilterSettings: TemporalFilterSettings? = nil) {
+            self.bandwidthReductionFilterSettings = bandwidthReductionFilterSettings
             self.temporalFilterSettings = temporalFilterSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bandwidthReductionFilterSettings = "bandwidthReductionFilterSettings"
             case temporalFilterSettings = "temporalFilterSettings"
         }
     }
@@ -13058,8 +13102,97 @@ extension MediaLive {
         }
     }
 
+    public struct MultiplexContainerSettings: AWSEncodableShape & AWSDecodableShape {
+        public let multiplexM2tsSettings: MultiplexM2tsSettings?
+
+        @inlinable
+        public init(multiplexM2tsSettings: MultiplexM2tsSettings? = nil) {
+            self.multiplexM2tsSettings = multiplexM2tsSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.multiplexM2tsSettings?.validate(name: "\(name).multiplexM2tsSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexM2tsSettings = "multiplexM2tsSettings"
+        }
+    }
+
     public struct MultiplexGroupSettings: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct MultiplexM2tsSettings: AWSEncodableShape & AWSDecodableShape {
+        /// When set to drop, output audio streams will be removed from the program if the selected input audio stream is removed from the input. This allows the output audio configuration to dynamically change based on input configuration. If this is set to encodeSilence, all output audio streams will output encoded silence when not connected to an active input stream.
+        public let absentInputAudioBehavior: M2tsAbsentInputAudioBehavior?
+        /// When set to enabled, uses ARIB-compliant field muxing and removes video descriptor.
+        public let arib: M2tsArib?
+        /// When set to dvb, uses DVB buffer model for Dolby Digital audio.  When set to atsc, the ATSC model is used.
+        public let audioBufferModel: M2tsAudioBufferModel?
+        /// The number of audio frames to insert for each PES packet.
+        public let audioFramesPerPes: Int?
+        /// When set to atsc, uses stream type = 0x81 for AC3 and stream type = 0x87 for EAC3. When set to dvb, uses stream type = 0x06.
+        public let audioStreamType: M2tsAudioStreamType?
+        /// When set to enabled, generates captionServiceDescriptor in PMT.
+        public let ccDescriptor: M2tsCcDescriptor?
+        /// If set to passthrough, passes any EBIF data from the input source to this output.
+        public let ebif: M2tsEbifControl?
+        /// Include or exclude the ES Rate field in the PES header.
+        public let esRateInPes: M2tsEsRateInPes?
+        /// If set to passthrough, passes any KLV data from the input source to this output.
+        public let klv: M2tsKlv?
+        /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
+        public let nielsenId3Behavior: M2tsNielsenId3Behavior?
+        /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
+        public let pcrControl: M2tsPcrControl?
+        /// Maximum time in milliseconds between Program Clock Reference (PCRs) inserted into the transport stream.
+        public let pcrPeriod: Int?
+        /// Optionally pass SCTE-35 signals from the input source to this output.
+        public let scte35Control: M2tsScte35Control?
+        /// Defines the amount SCTE-35 preroll will be increased (in milliseconds) on the output. Preroll is the amount of time between the presence of a SCTE-35 indication in a transport stream and the PTS of the video frame it references. Zero means don't add pullup (it doesn't mean set the preroll to zero). Negative pullup is not supported, which means that you can't make the preroll shorter. Be aware that latency in the output will increase by the pullup amount.
+        public let scte35PrerollPullupMilliseconds: Double?
+
+        @inlinable
+        public init(absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, arib: M2tsArib? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int? = nil, audioStreamType: M2tsAudioStreamType? = nil, ccDescriptor: M2tsCcDescriptor? = nil, ebif: M2tsEbifControl? = nil, esRateInPes: M2tsEsRateInPes? = nil, klv: M2tsKlv? = nil, nielsenId3Behavior: M2tsNielsenId3Behavior? = nil, pcrControl: M2tsPcrControl? = nil, pcrPeriod: Int? = nil, scte35Control: M2tsScte35Control? = nil, scte35PrerollPullupMilliseconds: Double? = nil) {
+            self.absentInputAudioBehavior = absentInputAudioBehavior
+            self.arib = arib
+            self.audioBufferModel = audioBufferModel
+            self.audioFramesPerPes = audioFramesPerPes
+            self.audioStreamType = audioStreamType
+            self.ccDescriptor = ccDescriptor
+            self.ebif = ebif
+            self.esRateInPes = esRateInPes
+            self.klv = klv
+            self.nielsenId3Behavior = nielsenId3Behavior
+            self.pcrControl = pcrControl
+            self.pcrPeriod = pcrPeriod
+            self.scte35Control = scte35Control
+            self.scte35PrerollPullupMilliseconds = scte35PrerollPullupMilliseconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, min: 0)
+            try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, max: 500)
+            try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case absentInputAudioBehavior = "absentInputAudioBehavior"
+            case arib = "arib"
+            case audioBufferModel = "audioBufferModel"
+            case audioFramesPerPes = "audioFramesPerPes"
+            case audioStreamType = "audioStreamType"
+            case ccDescriptor = "ccDescriptor"
+            case ebif = "ebif"
+            case esRateInPes = "esRateInPes"
+            case klv = "klv"
+            case nielsenId3Behavior = "nielsenId3Behavior"
+            case pcrControl = "pcrControl"
+            case pcrPeriod = "pcrPeriod"
+            case scte35Control = "scte35Control"
+            case scte35PrerollPullupMilliseconds = "scte35PrerollPullupMilliseconds"
+        }
     }
 
     public struct MultiplexMediaConnectOutputDestinationSettings: AWSDecodableShape {
@@ -13091,15 +13224,22 @@ extension MediaLive {
     }
 
     public struct MultiplexOutputSettings: AWSEncodableShape & AWSDecodableShape {
+        public let containerSettings: MultiplexContainerSettings?
         /// Destination is a Multiplex.
         public let destination: OutputLocationRef?
 
         @inlinable
-        public init(destination: OutputLocationRef? = nil) {
+        public init(containerSettings: MultiplexContainerSettings? = nil, destination: OutputLocationRef? = nil) {
+            self.containerSettings = containerSettings
             self.destination = destination
         }
 
+        public func validate(name: String) throws {
+            try self.containerSettings?.validate(name: "\(name).containerSettings")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case containerSettings = "containerSettings"
             case destination = "destination"
         }
     }
@@ -13927,6 +14067,7 @@ extension MediaLive {
         public func validate(name: String) throws {
             try self.archiveOutputSettings?.validate(name: "\(name).archiveOutputSettings")
             try self.hlsOutputSettings?.validate(name: "\(name).hlsOutputSettings")
+            try self.multiplexOutputSettings?.validate(name: "\(name).multiplexOutputSettings")
             try self.rtmpOutputSettings?.validate(name: "\(name).rtmpOutputSettings")
             try self.srtOutputSettings?.validate(name: "\(name).srtOutputSettings")
             try self.udpOutputSettings?.validate(name: "\(name).udpOutputSettings")
