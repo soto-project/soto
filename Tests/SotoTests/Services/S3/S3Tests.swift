@@ -34,20 +34,20 @@ class S3Tests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(
+        self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middleware: TestEnvironment.middlewares
         )
-        Self.s3 = S3(
-            client: Self.client,
+        self.s3 = S3(
+            client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
-        Self.randomBytes = self.createRandomBuffer(size: 11 * 1024 * 1024)
+        self.randomBytes = self.createRandomBuffer(size: 11 * 1024 * 1024)
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(try Self.client.syncShutdown())
+        XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
     static func createRandomBuffer(size: Int) -> ByteBuffer {
@@ -275,7 +275,7 @@ class S3Tests: XCTestCase {
         try await self.testBucket(name) { name in
             // set lifecycle rules
             let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7) // clear incomplete multipart uploads after 7 days
-            let filter = S3.LifecycleRuleFilter.prefix("") // everything
+            let filter = S3.LifecycleRuleFilter(prefix: "") // everything
             let transitions = [S3.Transition(days: 14, storageClass: .glacier)] // transition objects to glacier after 14 days
             let lifecycleRules = S3.LifecycleRule(
                 abortIncompleteMultipartUpload: incompleteMultipartUploads,
@@ -379,7 +379,7 @@ class S3Tests: XCTestCase {
         try await self.testBucket(name) { name in
             let rule = S3.LifecycleRule(
                 abortIncompleteMultipartUpload: .init(daysAfterInitiation: 7),
-                filter: .prefix(""),
+                filter: .init(prefix: ""),
                 id: "multipart-upload",
                 status: .enabled
             )
