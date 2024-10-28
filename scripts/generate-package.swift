@@ -14,7 +14,7 @@
 //===----------------------------------------------------------------------===//
 
 import Files // JohnSundell/Files
-import HummingbirdMustache // hummingbird-project/swift-mustache
+import Mustache // hummingbird-project/swift-mustache
 
 struct GeneratePackage {
     struct Target {
@@ -25,8 +25,8 @@ struct GeneratePackage {
 
     init() {}
 
-    func run() throws {
-        let library = try HBMustacheLibrary(directory: "./scripts/templates/generate-package")
+    func run() async throws {
+        let library = try await MustacheLibrary(directory: "./scripts/templates/generate-package")
         let servicesFolder = try Folder(path: "./Sources/Soto/Services")
         let extensionsFolder = try Folder(path: "./Sources/Soto/Extensions")
         let testFolder = try Folder(path: "./Tests/SotoTests/Services")
@@ -69,4 +69,4 @@ struct GeneratePackage {
     }
 }
 
-try GeneratePackage().run()
+try await GeneratePackage().run()
