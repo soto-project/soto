@@ -79,6 +79,44 @@ public struct DocDBElastic: AWSService {
 
     // MARK: API Calls
 
+    /// The type of pending maintenance action to be applied to the resource.
+    @Sendable
+    @inlinable
+    public func applyPendingMaintenanceAction(_ input: ApplyPendingMaintenanceActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ApplyPendingMaintenanceActionOutput {
+        try await self.client.execute(
+            operation: "ApplyPendingMaintenanceAction", 
+            path: "/pending-action", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The type of pending maintenance action to be applied to the resource.
+    ///
+    /// Parameters:
+    ///   - applyAction: The pending maintenance action to apply to the resource. Valid actions are:    ENGINE_UPDATE      ENGINE_UPGRADE     SECURITY_UPDATE     OS_UPDATE     MASTER_USER_PASSWORD_UPDATE
+    ///   - applyOn: A specific date to apply the pending maintenance action. Required if opt-in-type is APPLY_ON. Format: yyyy/MM/dd HH:mm-yyyy/MM/dd HH:mm
+    ///   - optInType: A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type IMMEDIATE can't be undone.
+    ///   - resourceArn: The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which the pending maintenance action applies.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func applyPendingMaintenanceAction(
+        applyAction: String,
+        applyOn: String? = nil,
+        optInType: OptInType,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ApplyPendingMaintenanceActionOutput {
+        let input = ApplyPendingMaintenanceActionInput(
+            applyAction: applyAction, 
+            applyOn: applyOn, 
+            optInType: optInType, 
+            resourceArn: resourceArn
+        )
+        return try await self.applyPendingMaintenanceAction(input, logger: logger)
+    }
+
     /// Copies a snapshot of an elastic cluster.
     @Sendable
     @inlinable
@@ -342,6 +380,35 @@ public struct DocDBElastic: AWSService {
         return try await self.getClusterSnapshot(input, logger: logger)
     }
 
+    /// Retrieves all maintenance actions that are pending.
+    @Sendable
+    @inlinable
+    public func getPendingMaintenanceAction(_ input: GetPendingMaintenanceActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPendingMaintenanceActionOutput {
+        try await self.client.execute(
+            operation: "GetPendingMaintenanceAction", 
+            path: "/pending-action/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves all maintenance actions that are pending.
+    ///
+    /// Parameters:
+    ///   - resourceArn: Retrieves pending maintenance actions for a specific Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPendingMaintenanceAction(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPendingMaintenanceActionOutput {
+        let input = GetPendingMaintenanceActionInput(
+            resourceArn: resourceArn
+        )
+        return try await self.getPendingMaintenanceAction(input, logger: logger)
+    }
+
     /// Returns information about snapshots for a specified elastic cluster.
     @Sendable
     @inlinable
@@ -410,6 +477,38 @@ public struct DocDBElastic: AWSService {
             nextToken: nextToken
         )
         return try await self.listClusters(input, logger: logger)
+    }
+
+    /// Retrieves a list of all maintenance actions that are pending.
+    @Sendable
+    @inlinable
+    public func listPendingMaintenanceActions(_ input: ListPendingMaintenanceActionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPendingMaintenanceActionsOutput {
+        try await self.client.execute(
+            operation: "ListPendingMaintenanceActions", 
+            path: "/pending-actions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of all maintenance actions that are pending.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to include in the response.  If more records exist than the specified maxResults value, a pagination token (marker) is included in the response so that the remaining results can be retrieved.
+    ///   - nextToken: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by maxResults.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPendingMaintenanceActions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPendingMaintenanceActionsOutput {
+        let input = ListPendingMaintenanceActionsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPendingMaintenanceActions(input, logger: logger)
     }
 
     /// Lists all tags on a elastic cluster resource
@@ -762,6 +861,40 @@ extension DocDBElastic {
         )
         return self.listClustersPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listPendingMaintenanceActions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPendingMaintenanceActionsPaginator(
+        _ input: ListPendingMaintenanceActionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPendingMaintenanceActionsInput, ListPendingMaintenanceActionsOutput> {
+        return .init(
+            input: input,
+            command: self.listPendingMaintenanceActions,
+            inputKey: \ListPendingMaintenanceActionsInput.nextToken,
+            outputKey: \ListPendingMaintenanceActionsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPendingMaintenanceActions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to include in the response.  If more records exist than the specified maxResults value, a pagination token (marker) is included in the response so that the remaining results can be retrieved.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPendingMaintenanceActionsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPendingMaintenanceActionsInput, ListPendingMaintenanceActionsOutput> {
+        let input = ListPendingMaintenanceActionsInput(
+            maxResults: maxResults
+        )
+        return self.listPendingMaintenanceActionsPaginator(input, logger: logger)
+    }
 }
 
 extension DocDBElastic.ListClusterSnapshotsInput: AWSPaginateToken {
@@ -779,6 +912,16 @@ extension DocDBElastic.ListClusterSnapshotsInput: AWSPaginateToken {
 extension DocDBElastic.ListClustersInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DocDBElastic.ListClustersInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension DocDBElastic.ListPendingMaintenanceActionsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DocDBElastic.ListPendingMaintenanceActionsInput {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

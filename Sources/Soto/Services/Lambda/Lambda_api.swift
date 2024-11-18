@@ -440,7 +440,7 @@ public struct Lambda: AWSService {
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - handler: The name of the method within your code that Lambda calls to run your function.
     ///   - imageConfig: Container image configuration values that override the values in the container image Dockerfile.
-    ///   - kmsKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's
+    ///   - kmsKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see
     ///   - layers: A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
     ///   - loggingConfig: The function's Amazon CloudWatch Logs configuration settings.
     ///   - memorySize: The amount of memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
@@ -2545,6 +2545,7 @@ public struct Lambda: AWSService {
     ///   - s3Bucket: An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different
     ///   - s3Key: The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
     ///   - s3ObjectVersion: For versioned objects, the version of the deployment package object to use.
+    ///   - sourceKMSKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's  .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
     ///   - zipFile: The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients
     ///   - logger: Logger use during operation
     @inlinable
@@ -2558,6 +2559,7 @@ public struct Lambda: AWSService {
         s3Bucket: String? = nil,
         s3Key: String? = nil,
         s3ObjectVersion: String? = nil,
+        sourceKMSKeyArn: String? = nil,
         zipFile: AWSBase64Data? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> FunctionConfiguration {
@@ -2571,6 +2573,7 @@ public struct Lambda: AWSService {
             s3Bucket: s3Bucket, 
             s3Key: s3Key, 
             s3ObjectVersion: s3ObjectVersion, 
+            sourceKMSKeyArn: sourceKMSKeyArn, 
             zipFile: zipFile
         )
         return try await self.updateFunctionCode(input, logger: logger)
@@ -2600,7 +2603,7 @@ public struct Lambda: AWSService {
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - handler: The name of the method within your code that Lambda calls to run your function.
     ///   - imageConfig:  Container image configuration values that override the values in the container image Docker file.
-    ///   - kmsKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's
+    ///   - kmsKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see
     ///   - layers: A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
     ///   - loggingConfig: The function's Amazon CloudWatch Logs configuration settings.
     ///   - memorySize: The amount of memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.

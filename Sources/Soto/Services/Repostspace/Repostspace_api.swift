@@ -79,6 +79,76 @@ public struct Repostspace: AWSService {
 
     // MARK: API Calls
 
+    /// Add role to multiple users or groups in a private re:Post.
+    @Sendable
+    @inlinable
+    public func batchAddRole(_ input: BatchAddRoleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAddRoleOutput {
+        try await self.client.execute(
+            operation: "BatchAddRole", 
+            path: "/spaces/{spaceId}/roles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Add role to multiple users or groups in a private re:Post.
+    ///
+    /// Parameters:
+    ///   - accessorIds: The user or group accessor identifiers to add the role to.
+    ///   - role: The role to add to the users or groups.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchAddRole(
+        accessorIds: [String],
+        role: Role,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchAddRoleOutput {
+        let input = BatchAddRoleInput(
+            accessorIds: accessorIds, 
+            role: role, 
+            spaceId: spaceId
+        )
+        return try await self.batchAddRole(input, logger: logger)
+    }
+
+    /// Remove role from multiple users or groups in a private re:Post.
+    @Sendable
+    @inlinable
+    public func batchRemoveRole(_ input: BatchRemoveRoleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchRemoveRoleOutput {
+        try await self.client.execute(
+            operation: "BatchRemoveRole", 
+            path: "/spaces/{spaceId}/roles", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Remove role from multiple users or groups in a private re:Post.
+    ///
+    /// Parameters:
+    ///   - accessorIds: The user or group accessor identifiers to remove the role from.
+    ///   - role: The role to remove from the users or groups.
+    ///   - spaceId: The unique ID of the private re:Post.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchRemoveRole(
+        accessorIds: [String],
+        role: Role,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchRemoveRoleOutput {
+        let input = BatchRemoveRoleInput(
+            accessorIds: accessorIds, 
+            role: role, 
+            spaceId: spaceId
+        )
+        return try await self.batchRemoveRole(input, logger: logger)
+    }
+
     /// Creates an AWS re:Post Private private re:Post.
     @Sendable
     @inlinable

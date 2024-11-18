@@ -343,6 +343,35 @@ public struct ResourceExplorer2: AWSService {
         )
     }
 
+    /// Retrieves details of the specified Amazon Web Services-managed view.
+    @Sendable
+    @inlinable
+    public func getManagedView(_ input: GetManagedViewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedViewOutput {
+        try await self.client.execute(
+            operation: "GetManagedView", 
+            path: "/GetManagedView", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details of the specified Amazon Web Services-managed view.
+    ///
+    /// Parameters:
+    ///   - managedViewArn: The Amazon resource name (ARN) of the managed view.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getManagedView(
+        managedViewArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetManagedViewOutput {
+        let input = GetManagedViewInput(
+            managedViewArn: managedViewArn
+        )
+        return try await self.getManagedView(input, logger: logger)
+    }
+
     /// Retrieves details of the specified view.
     @Sendable
     @inlinable
@@ -443,6 +472,41 @@ public struct ResourceExplorer2: AWSService {
             nextToken: nextToken
         )
         return try await self.listIndexesForMembers(input, logger: logger)
+    }
+
+    /// Lists the Amazon resource names (ARNs) of the  Amazon Web Services-managed views available  in the Amazon Web Services Region in which you call this operation.
+    @Sendable
+    @inlinable
+    public func listManagedViews(_ input: ListManagedViewsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedViewsOutput {
+        try await self.client.execute(
+            operation: "ListManagedViews", 
+            path: "/ListManagedViews", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the Amazon resource names (ARNs) of the  Amazon Web Services-managed views available  in the Amazon Web Services Region in which you call this operation.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+    ///   - servicePrincipal: Specifies a service principal name. If specified, then the  operation only returns the managed views that are managed by the input service.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listManagedViews(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        servicePrincipal: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListManagedViewsOutput {
+        let input = ListManagedViewsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            servicePrincipal: servicePrincipal
+        )
+        return try await self.listManagedViews(input, logger: logger)
     }
 
     /// Returns a list of resources and their details that match the specified criteria. This query must  use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region  in which you call this operation.
@@ -844,6 +908,43 @@ extension ResourceExplorer2 {
         return self.listIndexesForMembersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listManagedViews(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listManagedViewsPaginator(
+        _ input: ListManagedViewsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListManagedViewsInput, ListManagedViewsOutput> {
+        return .init(
+            input: input,
+            command: self.listManagedViews,
+            inputKey: \ListManagedViewsInput.nextToken,
+            outputKey: \ListManagedViewsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listManagedViews(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+    ///   - servicePrincipal: Specifies a service principal name. If specified, then the  operation only returns the managed views that are managed by the input service.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listManagedViewsPaginator(
+        maxResults: Int? = nil,
+        servicePrincipal: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListManagedViewsInput, ListManagedViewsOutput> {
+        let input = ListManagedViewsInput(
+            maxResults: maxResults, 
+            servicePrincipal: servicePrincipal
+        )
+        return self.listManagedViewsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listResources(_:logger:)``.
     ///
     /// - Parameters:
@@ -1012,6 +1113,17 @@ extension ResourceExplorer2.ListIndexesInput: AWSPaginateToken {
             nextToken: token,
             regions: self.regions,
             type: self.type
+        )
+    }
+}
+
+extension ResourceExplorer2.ListManagedViewsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ResourceExplorer2.ListManagedViewsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            servicePrincipal: self.servicePrincipal
         )
     }
 }

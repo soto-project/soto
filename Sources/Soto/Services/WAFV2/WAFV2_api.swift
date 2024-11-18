@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS WAFV2 service.
 ///
-/// WAF  This is the latest version of the WAF API, released in November, 2019. The names of the entities that you use to access this API, like endpoints and namespaces, all have the versioning information added, like "V2" or "v2", to distinguish from the prior version. We recommend migrating your resources to this version, because it has a number of significant improvements. If you used WAF prior to this release, you can't use this WAFV2 API to access any WAF resources that you created before. You can access your old rules, web ACLs, and other WAF resources only through the WAF Classic APIs. The WAF Classic APIs have retained the prior names, endpoints, and namespaces.  For information, including how to migrate your WAF resources to this version, see the WAF Developer Guide.   WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to an Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, or Amazon Web Services Verified Access instance. WAF also lets you control access to your content, to protect the Amazon Web Services resource that WAF is monitoring. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, the protected resource responds to requests with either the requested content, an HTTP 403 status code (Forbidden), or with a custom response.  This API guide is for developers who need detailed information about WAF API actions, data types, and errors. For detailed information about WAF features and guidance for configuring and using  WAF, see the WAF Developer Guide. You can make calls using the endpoints listed in WAF endpoints and quotas.    For regional applications, you can use any of the endpoints in the list. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.    For Amazon CloudFront applications, you must use the API endpoint listed for US East (N. Virginia): us-east-1.   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. We currently provide two versions of the WAF API: this API and the prior versions, the classic WAF APIs. This new API provides the same functionality as the older versions, with the following major improvements:   You use one API for both global and regional applications. Where you need to distinguish the scope, you specify a Scope parameter and set it to CLOUDFRONT or REGIONAL.    You can define a web ACL or rule group with a single call, and update it with a single call. You define all rule specifications in JSON format, and pass them to your rule group or web ACL calls.   The limits WAF places on the use of rules more closely reflects the cost of running each type of rule. Rule groups include capacity settings, so you know the maximum cost of a rule group when you use it.
+/// WAF  This is the latest version of the WAF API, released in November, 2019. The names of the entities that you use to access this API, like endpoints and namespaces, all have the versioning information added, like "V2" or "v2", to distinguish from the prior version. We recommend migrating your resources to this version, because it has a number of significant improvements. If you used WAF prior to this release, you can't use this WAFV2 API to access any WAF resources that you created before. WAF Classic support will end on September 30, 2025.  For information about WAF, including how to migrate your WAF Classic resources to this version, see the WAF Developer Guide.   WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to an Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, or Amazon Web Services Verified Access instance. WAF also lets you control access to your content, to protect the Amazon Web Services resource that WAF is monitoring. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, the protected resource responds to requests with either the requested content, an HTTP 403 status code (Forbidden), or with a custom response.  This API guide is for developers who need detailed information about WAF API actions, data types, and errors. For detailed information about WAF features and guidance for configuring and using  WAF, see the WAF Developer Guide. You can make calls using the endpoints listed in WAF endpoints and quotas.    For regional applications, you can use any of the endpoints in the list. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.    For Amazon CloudFront applications, you must use the API endpoint listed for US East (N. Virginia): us-east-1.   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs.
 public struct WAFV2: AWSService {
     // MARK: Member variables
 
@@ -91,6 +91,7 @@ public struct WAFV2: AWSService {
         "ap-southeast-2": "wafv2.ap-southeast-2.amazonaws.com",
         "ap-southeast-3": "wafv2.ap-southeast-3.amazonaws.com",
         "ap-southeast-4": "wafv2.ap-southeast-4.amazonaws.com",
+        "ap-southeast-5": "wafv2.ap-southeast-5.amazonaws.com",
         "ca-central-1": "wafv2.ca-central-1.amazonaws.com",
         "ca-west-1": "wafv2.ca-west-1.amazonaws.com",
         "cn-north-1": "wafv2.cn-north-1.amazonaws.com.cn",
@@ -130,6 +131,7 @@ public struct WAFV2: AWSService {
             "ap-southeast-2": "wafv2-fips.ap-southeast-2.amazonaws.com",
             "ap-southeast-3": "wafv2-fips.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "wafv2-fips.ap-southeast-4.amazonaws.com",
+            "ap-southeast-5": "wafv2-fips.ap-southeast-5.amazonaws.com",
             "ca-central-1": "wafv2-fips.ca-central-1.amazonaws.com",
             "ca-west-1": "wafv2-fips.ca-west-1.amazonaws.com",
             "cn-north-1": "wafv2-fips.cn-north-1.amazonaws.com.cn",
@@ -486,7 +488,7 @@ public struct WAFV2: AWSService {
         return try await self.deleteAPIKey(input, logger: logger)
     }
 
-    /// Deletes all rule groups that are managed by Firewall Manager for the specified web ACL.  You can only use this if ManagedByFirewallManager is false in the specified WebACL.
+    /// Deletes all rule groups that are managed by Firewall Manager from the specified WebACL.  You can only use this if ManagedByFirewallManager and RetrofittedByFirewallManager are both false in the web ACL.
     @Sendable
     @inlinable
     public func deleteFirewallManagerRuleGroups(_ input: DeleteFirewallManagerRuleGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallManagerRuleGroupsResponse {
@@ -499,7 +501,7 @@ public struct WAFV2: AWSService {
             logger: logger
         )
     }
-    /// Deletes all rule groups that are managed by Firewall Manager for the specified web ACL.  You can only use this if ManagedByFirewallManager is false in the specified WebACL.
+    /// Deletes all rule groups that are managed by Firewall Manager from the specified WebACL.  You can only use this if ManagedByFirewallManager and RetrofittedByFirewallManager are both false in the web ACL.
     ///
     /// Parameters:
     ///   - webACLArn: The Amazon Resource Name (ARN) of the web ACL.
@@ -696,7 +698,7 @@ public struct WAFV2: AWSService {
         return try await self.deleteRuleGroup(input, logger: logger)
     }
 
-    /// Deletes the specified WebACL.  You can only use this if ManagedByFirewallManager is false in the specified WebACL.   Before deleting any web ACL, first disassociate it from all resources.   To retrieve a list of the resources that are associated with a web ACL, use the following calls:   For regional resources, call ListResourcesForWebACL.   For Amazon CloudFront distributions, use the CloudFront call ListDistributionsByWebACLId. For information, see ListDistributionsByWebACLId  in the Amazon CloudFront API Reference.      To disassociate a resource from a web ACL, use the following calls:   For regional resources, call DisassociateWebACL.   For Amazon CloudFront distributions, provide an empty web ACL ID in the CloudFront call UpdateDistribution. For information, see UpdateDistribution in the Amazon CloudFront API Reference.
+    /// Deletes the specified WebACL.  You can only use this if ManagedByFirewallManager is false in the web ACL.   Before deleting any web ACL, first disassociate it from all resources.   To retrieve a list of the resources that are associated with a web ACL, use the following calls:   For regional resources, call ListResourcesForWebACL.   For Amazon CloudFront distributions, use the CloudFront call ListDistributionsByWebACLId. For information, see ListDistributionsByWebACLId  in the Amazon CloudFront API Reference.      To disassociate a resource from a web ACL, use the following calls:   For regional resources, call DisassociateWebACL.   For Amazon CloudFront distributions, provide an empty web ACL ID in the CloudFront call UpdateDistribution. For information, see UpdateDistribution in the Amazon CloudFront API Reference.
     @Sendable
     @inlinable
     public func deleteWebACL(_ input: DeleteWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWebACLResponse {
@@ -709,7 +711,7 @@ public struct WAFV2: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified WebACL.  You can only use this if ManagedByFirewallManager is false in the specified WebACL.   Before deleting any web ACL, first disassociate it from all resources.   To retrieve a list of the resources that are associated with a web ACL, use the following calls:   For regional resources, call ListResourcesForWebACL.   For Amazon CloudFront distributions, use the CloudFront call ListDistributionsByWebACLId. For information, see ListDistributionsByWebACLId  in the Amazon CloudFront API Reference.      To disassociate a resource from a web ACL, use the following calls:   For regional resources, call DisassociateWebACL.   For Amazon CloudFront distributions, provide an empty web ACL ID in the CloudFront call UpdateDistribution. For information, see UpdateDistribution in the Amazon CloudFront API Reference.
+    /// Deletes the specified WebACL.  You can only use this if ManagedByFirewallManager is false in the web ACL.   Before deleting any web ACL, first disassociate it from all resources.   To retrieve a list of the resources that are associated with a web ACL, use the following calls:   For regional resources, call ListResourcesForWebACL.   For Amazon CloudFront distributions, use the CloudFront call ListDistributionsByWebACLId. For information, see ListDistributionsByWebACLId  in the Amazon CloudFront API Reference.      To disassociate a resource from a web ACL, use the following calls:   For regional resources, call DisassociateWebACL.   For Amazon CloudFront distributions, provide an empty web ACL ID in the CloudFront call UpdateDistribution. For information, see UpdateDistribution in the Amazon CloudFront API Reference.
     ///
     /// Parameters:
     ///   - id: The unique identifier for the web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.

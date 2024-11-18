@@ -244,6 +244,25 @@ extension ApplicationSignals {
         }
     }
 
+    public struct BurnRateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of minutes to use as the look-back window.
+        public let lookBackWindowMinutes: Int
+
+        @inlinable
+        public init(lookBackWindowMinutes: Int) {
+            self.lookBackWindowMinutes = lookBackWindowMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lookBackWindowMinutes, name: "lookBackWindowMinutes", parent: name, max: 10080)
+            try self.validate(self.lookBackWindowMinutes, name: "lookBackWindowMinutes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lookBackWindowMinutes = "LookBackWindowMinutes"
+        }
+    }
+
     public struct CalendarInterval: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the duration of each calendar interval. For example, if Duration is 1 and DurationUnit is MONTH, each interval is one month, aligned with the calendar.
         public let duration: Int
@@ -271,6 +290,8 @@ extension ApplicationSignals {
     }
 
     public struct CreateServiceLevelObjectiveInput: AWSEncodableShape {
+        /// Use this array to create burn rates for this SLO. Each  burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
+        public let burnRateConfigurations: [BurnRateConfiguration]?
         /// An optional description for this SLO.
         public let description: String?
         /// This structure contains the attributes that determine the goal of the SLO.
@@ -285,7 +306,8 @@ extension ApplicationSignals {
         public let tags: [Tag]?
 
         @inlinable
-        public init(description: String? = nil, goal: Goal? = nil, name: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil, tags: [Tag]? = nil) {
+        public init(burnRateConfigurations: [BurnRateConfiguration]? = nil, description: String? = nil, goal: Goal? = nil, name: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil, tags: [Tag]? = nil) {
+            self.burnRateConfigurations = burnRateConfigurations
             self.description = description
             self.goal = goal
             self.name = name
@@ -295,6 +317,10 @@ extension ApplicationSignals {
         }
 
         public func validate(name: String) throws {
+            try self.burnRateConfigurations?.forEach {
+                try $0.validate(name: "\(name).burnRateConfigurations[]")
+            }
+            try self.validate(self.burnRateConfigurations, name: "burnRateConfigurations", parent: name, max: 10)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.goal?.validate(name: "\(name).goal")
@@ -308,6 +334,7 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case burnRateConfigurations = "BurnRateConfigurations"
             case description = "Description"
             case goal = "Goal"
             case name = "Name"
@@ -1394,6 +1421,8 @@ extension ApplicationSignals {
     public struct ServiceLevelObjective: AWSDecodableShape {
         /// The ARN of this SLO.
         public let arn: String
+        /// Each object in this array defines the length of the look-back window used to calculate one burn rate metric for this SLO. The burn rate measures how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
+        public let burnRateConfigurations: [BurnRateConfiguration]?
         /// The date and time that this SLO was created. When used in a raw HTTP Query API, it is formatted as  yyyy-MM-dd'T'HH:mm:ss. For example,  2019-07-01T23:59:59.
         public let createdTime: Date
         /// The description that you created for this SLO.
@@ -1411,8 +1440,9 @@ extension ApplicationSignals {
         public let sli: ServiceLevelIndicator?
 
         @inlinable
-        public init(arn: String, createdTime: Date, description: String? = nil, evaluationType: EvaluationType? = nil, goal: Goal, lastUpdatedTime: Date, name: String, requestBasedSli: RequestBasedServiceLevelIndicator? = nil, sli: ServiceLevelIndicator? = nil) {
+        public init(arn: String, burnRateConfigurations: [BurnRateConfiguration]? = nil, createdTime: Date, description: String? = nil, evaluationType: EvaluationType? = nil, goal: Goal, lastUpdatedTime: Date, name: String, requestBasedSli: RequestBasedServiceLevelIndicator? = nil, sli: ServiceLevelIndicator? = nil) {
             self.arn = arn
+            self.burnRateConfigurations = burnRateConfigurations
             self.createdTime = createdTime
             self.description = description
             self.evaluationType = evaluationType
@@ -1425,6 +1455,7 @@ extension ApplicationSignals {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case burnRateConfigurations = "BurnRateConfigurations"
             case createdTime = "CreatedTime"
             case description = "Description"
             case evaluationType = "EvaluationType"
@@ -1684,6 +1715,8 @@ extension ApplicationSignals {
     }
 
     public struct UpdateServiceLevelObjectiveInput: AWSEncodableShape {
+        /// Use this array to create burn rates for this SLO. Each  burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
+        public let burnRateConfigurations: [BurnRateConfiguration]?
         /// An optional description for the SLO.
         public let description: String?
         /// A structure that contains the attributes that determine the goal of the SLO. This includes the time period for evaluation and the attainment threshold.
@@ -1696,7 +1729,8 @@ extension ApplicationSignals {
         public let sliConfig: ServiceLevelIndicatorConfig?
 
         @inlinable
-        public init(description: String? = nil, goal: Goal? = nil, id: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil) {
+        public init(burnRateConfigurations: [BurnRateConfiguration]? = nil, description: String? = nil, goal: Goal? = nil, id: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil) {
+            self.burnRateConfigurations = burnRateConfigurations
             self.description = description
             self.goal = goal
             self.id = id
@@ -1707,6 +1741,7 @@ extension ApplicationSignals {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.burnRateConfigurations, forKey: .burnRateConfigurations)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.goal, forKey: .goal)
             request.encodePath(self.id, key: "Id")
@@ -1715,6 +1750,10 @@ extension ApplicationSignals {
         }
 
         public func validate(name: String) throws {
+            try self.burnRateConfigurations?.forEach {
+                try $0.validate(name: "\(name).burnRateConfigurations[]")
+            }
+            try self.validate(self.burnRateConfigurations, name: "burnRateConfigurations", parent: name, max: 10)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.goal?.validate(name: "\(name).goal")
@@ -1724,6 +1763,7 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case burnRateConfigurations = "BurnRateConfigurations"
             case description = "Description"
             case goal = "Goal"
             case requestBasedSliConfig = "RequestBasedSliConfig"

@@ -68,6 +68,7 @@ extension GameLift {
 
     public enum ComputeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        case impaired = "IMPAIRED"
         case pending = "PENDING"
         case terminating = "TERMINATING"
         public var description: String { return self.rawValue }
@@ -75,7 +76,6 @@ extension GameLift {
 
     public enum ComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case anywhere = "ANYWHERE"
-        case container = "CONTAINER"
         case ec2 = "EC2"
         public var description: String { return self.rawValue }
     }
@@ -88,10 +88,55 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContainerFleetBillingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onDemand = "ON_DEMAND"
+        case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerFleetLocationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case created = "CREATED"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case pending = "PENDING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerFleetRemoveAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case perInstanceContainerGroupDefinition = "PER_INSTANCE_CONTAINER_GROUP_DEFINITION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerFleetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case created = "CREATED"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case pending = "PENDING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContainerGroupDefinitionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case copying = "COPYING"
         case failed = "FAILED"
         case ready = "READY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gameServer = "GAME_SERVER"
+        case perInstance = "PER_INSTANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerMountPointAccessLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case readAndWrite = "READ_AND_WRITE"
+        case readOnly = "READ_ONLY"
         public var description: String { return self.rawValue }
     }
 
@@ -100,9 +145,26 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerSchedulingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case daemon = "DAEMON"
-        case replica = "REPLICA"
+    public enum DeploymentImpairmentStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case maintain = "MAINTAIN"
+        case rollback = "ROLLBACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentProtectionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ignoreProtection = "IGNORE_PROTECTION"
+        case withProtection = "WITH_PROTECTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case complete = "COMPLETE"
+        case impaired = "IMPAIRED"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        case rollbackComplete = "ROLLBACK_COMPLETE"
+        case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -286,6 +348,7 @@ extension GameLift {
     }
 
     public enum EventCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case computeLogUploadFailed = "COMPUTE_LOG_UPLOAD_FAILED"
         case fleetActivationFailed = "FLEET_ACTIVATION_FAILED"
         case fleetActivationFailedNoInstances = "FLEET_ACTIVATION_FAILED_NO_INSTANCES"
         case fleetBinaryDownloadFailed = "FLEET_BINARY_DOWNLOAD_FAILED"
@@ -302,8 +365,12 @@ extension GameLift {
         case fleetStateActivating = "FLEET_STATE_ACTIVATING"
         case fleetStateActive = "FLEET_STATE_ACTIVE"
         case fleetStateBuilding = "FLEET_STATE_BUILDING"
+        case fleetStateCreated = "FLEET_STATE_CREATED"
+        case fleetStateCreating = "FLEET_STATE_CREATING"
         case fleetStateDownloading = "FLEET_STATE_DOWNLOADING"
         case fleetStateError = "FLEET_STATE_ERROR"
+        case fleetStatePending = "FLEET_STATE_PENDING"
+        case fleetStateUpdating = "FLEET_STATE_UPDATING"
         case fleetStateValidating = "FLEET_STATE_VALIDATING"
         case fleetValidationExecutableRuntimeFailure = "FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE"
         case fleetValidationLaunchPathNotFound = "FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND"
@@ -311,15 +378,30 @@ extension GameLift {
         case fleetVpcPeeringDeleted = "FLEET_VPC_PEERING_DELETED"
         case fleetVpcPeeringFailed = "FLEET_VPC_PEERING_FAILED"
         case fleetVpcPeeringSucceeded = "FLEET_VPC_PEERING_SUCCEEDED"
+        case gameServerContainerGroupCrashed = "GAME_SERVER_CONTAINER_GROUP_CRASHED"
+        case gameServerContainerGroupReplacedUnhealthy = "GAME_SERVER_CONTAINER_GROUP_REPLACED_UNHEALTHY"
         case gameSessionActivationTimeout = "GAME_SESSION_ACTIVATION_TIMEOUT"
         case genericEvent = "GENERIC_EVENT"
         case instanceInterrupted = "INSTANCE_INTERRUPTED"
         case instanceRecycled = "INSTANCE_RECYCLED"
+        case instanceReplacedUnhealthy = "INSTANCE_REPLACED_UNHEALTHY"
+        case locationStateActivating = "LOCATION_STATE_ACTIVATING"
+        case locationStateActive = "LOCATION_STATE_ACTIVE"
+        case locationStateCreated = "LOCATION_STATE_CREATED"
+        case locationStateCreating = "LOCATION_STATE_CREATING"
+        case locationStateDeleted = "LOCATION_STATE_DELETED"
+        case locationStateDeleting = "LOCATION_STATE_DELETING"
+        case locationStateError = "LOCATION_STATE_ERROR"
+        case locationStatePending = "LOCATION_STATE_PENDING"
+        case locationStateUpdating = "LOCATION_STATE_UPDATING"
+        case perInstanceContainerGroupCrashed = "PER_INSTANCE_CONTAINER_GROUP_CRASHED"
         case serverProcessCrashed = "SERVER_PROCESS_CRASHED"
         case serverProcessForceTerminated = "SERVER_PROCESS_FORCE_TERMINATED"
         case serverProcessInvalidPath = "SERVER_PROCESS_INVALID_PATH"
+        case serverProcessMisconfiguredContainerPort = "SERVER_PROCESS_MISCONFIGURED_CONTAINER_PORT"
         case serverProcessProcessExitTimeout = "SERVER_PROCESS_PROCESS_EXIT_TIMEOUT"
         case serverProcessProcessReadyTimeout = "SERVER_PROCESS_PROCESS_READY_TIMEOUT"
+        case serverProcessSdkInitializationFailed = "SERVER_PROCESS_SDK_INITIALIZATION_FAILED"
         case serverProcessSdkInitializationTimeout = "SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT"
         case serverProcessTerminatedUnhealthy = "SERVER_PROCESS_TERMINATED_UNHEALTHY"
         public var description: String { return self.rawValue }
@@ -547,6 +629,12 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListComputeInputStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case impaired = "IMPAIRED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LocationFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
         case custom = "CUSTOM"
@@ -555,6 +643,13 @@ extension GameLift {
 
     public enum LocationUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pendingUpdate = "PENDING_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogDestination: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudwatch = "CLOUDWATCH"
+        case none = "NONE"
+        case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
@@ -816,13 +911,13 @@ extension GameLift {
     }
 
     public struct Build: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) assigned to a Amazon GameLift build resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::build/build-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift build ARN, the resource ID matches the BuildId value.
+        /// The Amazon Resource Name (ARN) that is assigned to a Amazon GameLift build resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::build/build-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift build ARN, the resource ID matches the BuildId value.
         public let buildArn: String?
         /// A unique identifier for the build.
         public let buildId: String?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
-        /// A descriptive label associated with a build. Build names don't need to be unique. It can be set using CreateBuild or UpdateBuild.
+        /// A descriptive label that is associated with a build. Build names do not need to be unique. It can be set using CreateBuild or UpdateBuild.
         public let name: String?
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
         public let operatingSystem: OperatingSystem?
@@ -832,7 +927,7 @@ extension GameLift {
         public let sizeOnDisk: Int64?
         /// Current status of the build. Possible build statuses include the following:    INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY -- The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED -- The game build upload failed. You cannot create new fleets for this build.
         public let status: BuildStatus?
-        /// Version information associated with a build or script. Version strings don't need to be unique.
+        /// Version information that is associated with a build or script. Version strings do not need to be unique.
         public let version: String?
 
         @inlinable
@@ -862,7 +957,7 @@ extension GameLift {
     }
 
     public struct CertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether a TLS/SSL certificate is generated for a fleet.  Valid values include:     GENERATED - Generate a TLS/SSL certificate for this fleet.    DISABLED - (default) Do not generate a TLS/SSL certificate for this fleet.
+        /// Indicates whether a TLS/SSL certificate is generated for a fleet.  Valid values include:     GENERATED -- Generate a TLS/SSL certificate for this fleet.    DISABLED -- (default) Do not generate a TLS/SSL certificate for this fleet.
         public let certificateType: CertificateType?
 
         @inlinable
@@ -948,8 +1043,8 @@ extension GameLift {
         public let computeName: String?
         /// Current status of the compute. A compute must have an ACTIVE status to host game sessions.
         public let computeStatus: ComputeStatus?
-        ///  Some attributes of a container.
-        public let containerAttributes: ContainerAttributes?
+        /// A set of attributes for each container in the compute.
+        public let containerAttributes: [ContainerAttribute]?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
         /// The DNS name of a compute resource. Amazon GameLift requires a DNS name or IP address for a compute.
@@ -962,7 +1057,9 @@ extension GameLift {
         public let gameLiftAgentEndpoint: String?
         /// The Amazon GameLift SDK endpoint connection for a registered compute resource in an Anywhere fleet. The game servers on the compute use this endpoint to connect to the Amazon GameLift service.
         public let gameLiftServiceSdkEndpoint: String?
-        ///  The InstanceID of the Instance hosting the compute for Container and Managed EC2 fleets.
+        /// The game server container group definition for the compute.
+        public let gameServerContainerGroupDefinitionArn: String?
+        ///  The InstanceID of the EC2 instance that is hosting the compute.
         public let instanceId: String?
         /// The IP address of a compute resource. Amazon GameLift requires a DNS name or IP address for a compute.
         public let ipAddress: String?
@@ -974,7 +1071,7 @@ extension GameLift {
         public let type: EC2InstanceType?
 
         @inlinable
-        public init(computeArn: String? = nil, computeName: String? = nil, computeStatus: ComputeStatus? = nil, containerAttributes: ContainerAttributes? = nil, creationTime: Date? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, gameLiftAgentEndpoint: String? = nil, gameLiftServiceSdkEndpoint: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, location: String? = nil, operatingSystem: OperatingSystem? = nil, type: EC2InstanceType? = nil) {
+        public init(computeArn: String? = nil, computeName: String? = nil, computeStatus: ComputeStatus? = nil, containerAttributes: [ContainerAttribute]? = nil, creationTime: Date? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, gameLiftAgentEndpoint: String? = nil, gameLiftServiceSdkEndpoint: String? = nil, gameServerContainerGroupDefinitionArn: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, location: String? = nil, operatingSystem: OperatingSystem? = nil, type: EC2InstanceType? = nil) {
             self.computeArn = computeArn
             self.computeName = computeName
             self.computeStatus = computeStatus
@@ -985,6 +1082,7 @@ extension GameLift {
             self.fleetId = fleetId
             self.gameLiftAgentEndpoint = gameLiftAgentEndpoint
             self.gameLiftServiceSdkEndpoint = gameLiftServiceSdkEndpoint
+            self.gameServerContainerGroupDefinitionArn = gameServerContainerGroupDefinitionArn
             self.instanceId = instanceId
             self.ipAddress = ipAddress
             self.location = location
@@ -1003,6 +1101,7 @@ extension GameLift {
             case fleetId = "FleetId"
             case gameLiftAgentEndpoint = "GameLiftAgentEndpoint"
             case gameLiftServiceSdkEndpoint = "GameLiftServiceSdkEndpoint"
+            case gameServerContainerGroupDefinitionArn = "GameServerContainerGroupDefinitionArn"
             case instanceId = "InstanceId"
             case ipAddress = "IpAddress"
             case location = "Location"
@@ -1036,175 +1135,21 @@ extension GameLift {
         }
     }
 
-    public struct ContainerAttributes: AWSDecodableShape {
-        ///  Describes how container ports map to connection ports on the fleet instance. Incoming traffic connects to a game via a connection port. A ContainerPortMapping directs the traffic from a connection port to a port on the container that hosts the game session.
-        public let containerPortMappings: [ContainerPortMapping]?
-
-        @inlinable
-        public init(containerPortMappings: [ContainerPortMapping]? = nil) {
-            self.containerPortMappings = containerPortMappings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case containerPortMappings = "ContainerPortMappings"
-        }
-    }
-
-    public struct ContainerDefinition: AWSDecodableShape {
-        /// A command that's passed to the container on startup. Each argument for the command is an additional string in the array. See the ContainerDefinition::command parameter in the Amazon Elastic Container Service API reference.
-        public let command: [String]?
-        /// The container definition identifier. Container names are unique within a container group definition.
+    public struct ContainerAttribute: AWSDecodableShape {
+        /// The identifier for a container that's running in a compute.
         public let containerName: String?
-        /// The number of CPU units that are reserved for the container. Note: 1 vCPU unit equals 1024 CPU units. If no resources are reserved, the container shares the total CPU limit for the container group.  Related data type:  ContainerGroupDefinition$TotalCpuLimit
-        public let cpu: Int?
-        /// Indicates that the container relies on the status of other containers in the same container group during its startup and shutdown sequences. A container might have dependencies on multiple containers.
-        public let dependsOn: [ContainerDependency]?
-        /// The entry point that's passed to the container on startup. If there are multiple arguments, each argument is an additional string in the array. See the ContainerDefinition::entryPoint parameter in the Amazon Elastic Container Service API Reference.
-        public let entryPoint: [String]?
-        /// A set of environment variables that's passed to the container on startup. See the ContainerDefinition::environment parameter in the Amazon Elastic Container Service API Reference.
-        public let environment: [ContainerEnvironment]?
-        /// Indicates whether the container is vital to the container group. If an essential container fails, the entire container group is restarted.
-        public let essential: Bool?
-        /// A configuration for a non-terminal health check. A container, which automatically restarts if it stops functioning, also restarts if it fails this health check. If an essential container in the daemon group fails a health check, the entire container group is restarted. The essential container in the replica group doesn't use this health check mechanism, because the Amazon GameLift Agent automatically handles the task.
-        public let healthCheck: ContainerHealthCheck?
-        /// The URI to the image that $short; copied and deployed to a container fleet. For a more specific identifier, see ResolvedImageDigest.
-        public let imageUri: String?
-        /// The amount of memory that Amazon GameLift makes available to the container. If memory limits aren't set for an individual container, the container shares the container group's total memory allocation.  Related data type:  ContainerGroupDefinition$TotalMemoryLimit
-        public let memoryLimits: ContainerMemoryLimits?
-        /// Defines the ports that are available to assign to processes in the container. For example, a game server process requires a container port to allow game clients to connect to it. Container ports aren't directly accessed by inbound traffic. Amazon GameLift maps these container ports to externally accessible connection ports, which are assigned as needed from the container fleet's ConnectionPortRange.
-        public let portConfiguration: ContainerPortConfiguration?
-        /// A unique and immutable identifier for the container image that is deployed to a container fleet. The digest is a SHA 256 hash of the container image manifest.
-        public let resolvedImageDigest: String?
-        /// The directory in the container where commands are run. See the ContainerDefinition::workingDirectory parameter in the Amazon Elastic Container Service API Reference.
-        public let workingDirectory: String?
+        /// The runtime ID for the container that's running in a compute. This value is unique within the compute.
+        public let containerRuntimeId: String?
 
         @inlinable
-        public init(command: [String]? = nil, containerName: String? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, entryPoint: [String]? = nil, environment: [ContainerEnvironment]? = nil, essential: Bool? = nil, healthCheck: ContainerHealthCheck? = nil, imageUri: String? = nil, memoryLimits: ContainerMemoryLimits? = nil, portConfiguration: ContainerPortConfiguration? = nil, resolvedImageDigest: String? = nil, workingDirectory: String? = nil) {
-            self.command = command
+        public init(containerName: String? = nil, containerRuntimeId: String? = nil) {
             self.containerName = containerName
-            self.cpu = cpu
-            self.dependsOn = dependsOn
-            self.entryPoint = entryPoint
-            self.environment = environment
-            self.essential = essential
-            self.healthCheck = healthCheck
-            self.imageUri = imageUri
-            self.memoryLimits = memoryLimits
-            self.portConfiguration = portConfiguration
-            self.resolvedImageDigest = resolvedImageDigest
-            self.workingDirectory = workingDirectory
+            self.containerRuntimeId = containerRuntimeId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command = "Command"
             case containerName = "ContainerName"
-            case cpu = "Cpu"
-            case dependsOn = "DependsOn"
-            case entryPoint = "EntryPoint"
-            case environment = "Environment"
-            case essential = "Essential"
-            case healthCheck = "HealthCheck"
-            case imageUri = "ImageUri"
-            case memoryLimits = "MemoryLimits"
-            case portConfiguration = "PortConfiguration"
-            case resolvedImageDigest = "ResolvedImageDigest"
-            case workingDirectory = "WorkingDirectory"
-        }
-    }
-
-    public struct ContainerDefinitionInput: AWSEncodableShape {
-        /// A command to pass to the container on startup. Add multiple arguments as additional strings in the array. See the ContainerDefinition command parameter in the Amazon Elastic Container Service API reference.
-        public let command: [String]?
-        /// A string that uniquely identifies the container definition within a container group.
-        public let containerName: String?
-        /// The number of CPU units to reserve for this container. The container can use more resources when needed, if available. Note: 1 vCPU unit equals 1024 CPU units. If you don't reserve CPU units for this container, then it shares the total CPU limit for the container group. This property is similar to the Amazon ECS container definition parameter  environment (Amazon Elastic Container Service Developer Guide).   Related data type:  ContainerGroupDefinition$TotalCpuLimit
-        public let cpu: Int?
-        /// Sets up dependencies between this container and the status of other containers in the same container group. A container can have dependencies on multiple different containers.  You can use dependencies to establish a startup/shutdown sequence across the container group. A container startup dependency is reversed on shutdown. For example, you might specify that SideCarContainerB has a START dependency on SideCarContainerA. This dependency means that SideCarContainerB can't start until after SideCarContainerA has started. This dependency is reversed on shutdown, which means that SideCarContainerB must shut down before SideCarContainerA can shut down.
-        public let dependsOn: [ContainerDependency]?
-        /// An entry point to pass to the container on startup. Add multiple arguments as additional strings in the array. See the ContainerDefinition::entryPoint parameter in the Amazon Elastic Container Service API Reference.
-        public let entryPoint: [String]?
-        /// A set of environment variables to pass to the container on startup. See the ContainerDefinition::environment parameter in the Amazon Elastic Container Service API Reference.
-        public let environment: [ContainerEnvironment]?
-        /// Specifies whether the container is vital for the container group to function properly. If an essential container fails, it causes the entire container group to restart. Each container group must have an essential container.  Replica container groups - A replica group must have exactly one essential container. Use the following to configure an essential replica container:   Choose a container is running your game server and the Amazon GameLift Agent.   Include a port configuration. This container runs your game server processes, and each process requires a container port to allow access to game clients.   Don't configure a health check. The Agent handles this task for the essential replica container.     Daemon container groups - A daemon group must have at least one essential container.
-        public let essential: Bool?
-        /// Configuration for a non-terminal health check. A container automatically restarts if it stops functioning. This parameter lets you define additional reasons to consider a container unhealthy and restart it. You can set a health check for any container except for the essential container in the replica container group. If an essential container in the daemon group fails a health check, the entire container group is restarted.
-        public let healthCheck: ContainerHealthCheck?
-        /// The location of a container image that $short; will copy and deploy to a container fleet. Images in Amazon Elastic Container Registry private repositories are supported. The repository must be in the same Amazon Web Services account and Amazon Web Services Region where you're creating the container group definition. For limits on image size, see Amazon GameLift endpoints and quotas. You can use any of the following image URI formats:    Image ID only: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]    Image ID and digest: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]@[digest]    Image ID and tag: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]:[tag]
-        public let imageUri: String?
-        /// The amount of memory to make available to the container. If you don't specify memory limits for this container, then it shares the container group's total memory allocation.   Related data type:  ContainerGroupDefinition$TotalMemoryLimit
-        public let memoryLimits: ContainerMemoryLimits?
-        /// A set of ports that Amazon GameLift can assign to processes in the container. All processes that accept inbound traffic connections, including game server processes, must be assigned a port from this set. The set of ports must be large enough to assign one to each process in the container that needs one. If the container includes your game server, include enough ports to assign one port to each concurrent server process (as defined in a container fleet's RuntimeConfiguration). For more details, see Networking for container fleets.  Container ports aren't directly accessed by inbound traffic. Amazon GameLift maps these container ports to externally accessible connection ports, which are assigned as needed from the container fleet's ConnectionPortRange.
-        public let portConfiguration: ContainerPortConfiguration?
-        /// The directory in the container where commands are run. See the ContainerDefinition::workingDirectory parameter in the Amazon Elastic Container Service API Reference.
-        public let workingDirectory: String?
-
-        @inlinable
-        public init(command: [String]? = nil, containerName: String? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, entryPoint: [String]? = nil, environment: [ContainerEnvironment]? = nil, essential: Bool? = nil, healthCheck: ContainerHealthCheck? = nil, imageUri: String? = nil, memoryLimits: ContainerMemoryLimits? = nil, portConfiguration: ContainerPortConfiguration? = nil, workingDirectory: String? = nil) {
-            self.command = command
-            self.containerName = containerName
-            self.cpu = cpu
-            self.dependsOn = dependsOn
-            self.entryPoint = entryPoint
-            self.environment = environment
-            self.essential = essential
-            self.healthCheck = healthCheck
-            self.imageUri = imageUri
-            self.memoryLimits = memoryLimits
-            self.portConfiguration = portConfiguration
-            self.workingDirectory = workingDirectory
-        }
-
-        public func validate(name: String) throws {
-            try self.command?.forEach {
-                try validate($0, name: "command[]", parent: name, max: 255)
-                try validate($0, name: "command[]", parent: name, min: 1)
-            }
-            try self.validate(self.command, name: "command", parent: name, max: 20)
-            try self.validate(self.command, name: "command", parent: name, min: 1)
-            try self.validate(self.containerName, name: "containerName", parent: name, max: 128)
-            try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
-            try self.validate(self.containerName, name: "containerName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
-            try self.validate(self.cpu, name: "cpu", parent: name, max: 10240)
-            try self.validate(self.cpu, name: "cpu", parent: name, min: 1)
-            try self.dependsOn?.forEach {
-                try $0.validate(name: "\(name).dependsOn[]")
-            }
-            try self.validate(self.dependsOn, name: "dependsOn", parent: name, max: 10)
-            try self.validate(self.dependsOn, name: "dependsOn", parent: name, min: 1)
-            try self.entryPoint?.forEach {
-                try validate($0, name: "entryPoint[]", parent: name, max: 1024)
-                try validate($0, name: "entryPoint[]", parent: name, min: 1)
-            }
-            try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 20)
-            try self.validate(self.entryPoint, name: "entryPoint", parent: name, min: 1)
-            try self.environment?.forEach {
-                try $0.validate(name: "\(name).environment[]")
-            }
-            try self.validate(self.environment, name: "environment", parent: name, max: 20)
-            try self.validate(self.environment, name: "environment", parent: name, min: 1)
-            try self.healthCheck?.validate(name: "\(name).healthCheck")
-            try self.validate(self.imageUri, name: "imageUri", parent: name, max: 255)
-            try self.validate(self.imageUri, name: "imageUri", parent: name, min: 1)
-            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: "^[a-zA-Z0-9-_\\.@\\/:]+$")
-            try self.memoryLimits?.validate(name: "\(name).memoryLimits")
-            try self.portConfiguration?.validate(name: "\(name).portConfiguration")
-            try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, max: 255)
-            try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case command = "Command"
-            case containerName = "ContainerName"
-            case cpu = "Cpu"
-            case dependsOn = "DependsOn"
-            case entryPoint = "EntryPoint"
-            case environment = "Environment"
-            case essential = "Essential"
-            case healthCheck = "HealthCheck"
-            case imageUri = "ImageUri"
-            case memoryLimits = "MemoryLimits"
-            case portConfiguration = "PortConfiguration"
-            case workingDirectory = "WorkingDirectory"
+            case containerRuntimeId = "ContainerRuntimeId"
         }
     }
 
@@ -1257,148 +1202,182 @@ extension GameLift {
         }
     }
 
-    public struct ContainerGroupDefinition: AWSDecodableShape {
-        ///  The set of container definitions that are included in the container group.
-        public let containerDefinitions: [ContainerDefinition]?
-        /// The Amazon Resource Name (ARN) that is assigned to an Amazon GameLift ContainerGroupDefinition resource. It uniquely identifies
-        /// the resource across all Amazon Web Services Regions. Format is
-        /// arn:aws:gamelift:::containergroupdefinition/[container group definition name].
-        public let containerGroupDefinitionArn: String?
+    public struct ContainerFleet: AWSDecodableShape {
+        /// Indicates whether the fleet uses On-Demand or Spot instances for this fleet. Learn more about when to use  On-Demand versus Spot Instances. You can't update this fleet property. By default, this property is set to ON_DEMAND.
+        public let billingType: ContainerFleetBillingType?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
+        /// Information about the most recent deployment for the container fleet.
+        public let deploymentDetails: DeploymentDetails?
+        /// A meaningful description of the container fleet.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift fleet ARN, the resource ID matches the FleetId value.
+        public let fleetArn: String?
+        /// A unique identifier for the container fleet to retrieve.
+        public let fleetId: String?
+        /// The unique identifier for an Identity and Access Management (IAM) role with permissions to run your containers on resources that are managed by Amazon GameLift. See Set up an IAM service role. This fleet property can't be changed.
+        public let fleetRoleArn: String?
+        /// The Amazon Resource Name (ARN) that is assigned to the fleet's game server container group. The ARN value also identifies the specific container group definition version in use.
+        public let gameServerContainerGroupDefinitionArn: String?
+        /// The name of the fleet's game server container group definition, which describes how to deploy containers with your game server build and support software onto each fleet instance.
+        public let gameServerContainerGroupDefinitionName: String?
+        /// The number of times to replicate the game server container group on each fleet instance.
+        public let gameServerContainerGroupsPerInstance: Int?
+        /// A policy that limits the number of game sessions that each individual player can create on instances in this fleet. The limit applies for a specified span of time.
+        public let gameSessionCreationLimitPolicy: GameSessionCreationLimitPolicy?
+        public let instanceConnectionPortRange: ConnectionPortRange?
+        /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet.
+        public let instanceInboundPermissions: [IpPermission]?
+        /// The Amazon EC2 instance type to use for all instances in the fleet. Instance type determines the computing resources and processing power that's available to host your game servers. This includes including CPU, memory, storage, and networking capacity. You can't update this fleet property.
+        public let instanceType: String?
+        /// Information about the container fleet's remote locations where fleet instances are deployed.
+        public let locationAttributes: [ContainerFleetLocationAttributes]?
+        /// The method that is used to collect container logs for the fleet. Amazon GameLift saves all standard output for each container in logs, including game session logs.     CLOUDWATCH -- Send logs to an Amazon CloudWatch log group that you define. Each container emits a log stream, which is organized in the log group.     S3 -- Store logs in an Amazon S3 bucket that you define.    NONE -- Don't collect container logs.
+        public let logConfiguration: LogConfiguration?
+        /// The calculated maximum number of game server container group that can be deployed on each fleet instance. The calculation depends on the resource needs of the container group and the CPU and memory resources of the fleet's instance type.
+        public let maximumGameServerContainerGroupsPerInstance: Int?
+        /// The name of an Amazon Web Services CloudWatch metric group to add this fleet to. Metric groups aggregate metrics for multiple fleets.
+        public let metricGroups: [String]?
+        /// Determines whether Amazon GameLift can shut down game sessions on the fleet that are actively running and hosting players. Amazon GameLift might prompt an instance shutdown when scaling down fleet capacity or when retiring unhealthy instances. You can also set game session protection for individual game sessions using UpdateGameSession.    NoProtection -- Game sessions can be shut down during active gameplay.     FullProtection -- Game sessions in ACTIVE status can't be shut down.
+        public let newGameSessionProtectionPolicy: ProtectionPolicy?
+        /// The Amazon Resource Name (ARN) that is assigned to the fleet's per-instance container group. The ARN value also identifies the specific container group definition version in use.
+        public let perInstanceContainerGroupDefinitionArn: String?
+        /// The name of the fleet's per-instance container group definition.
+        public let perInstanceContainerGroupDefinitionName: String?
+        /// The current status of the container fleet.    PENDING -- A new container fleet has been requested.    CREATING -- A new container fleet resource is being created.     CREATED -- A new container fleet resource has been created. No fleet instances have been deployed.    ACTIVATING -- New container fleet instances are being deployed.    ACTIVE -- The container fleet has been deployed and is ready to host game sessions.    UPDATING -- Updates to the container fleet is being updated. A deployment is in progress.
+        public let status: ContainerFleetStatus?
+
+        @inlinable
+        public init(billingType: ContainerFleetBillingType? = nil, creationTime: Date? = nil, deploymentDetails: DeploymentDetails? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetRoleArn: String? = nil, gameServerContainerGroupDefinitionArn: String? = nil, gameServerContainerGroupDefinitionName: String? = nil, gameServerContainerGroupsPerInstance: Int? = nil, gameSessionCreationLimitPolicy: GameSessionCreationLimitPolicy? = nil, instanceConnectionPortRange: ConnectionPortRange? = nil, instanceInboundPermissions: [IpPermission]? = nil, instanceType: String? = nil, locationAttributes: [ContainerFleetLocationAttributes]? = nil, logConfiguration: LogConfiguration? = nil, maximumGameServerContainerGroupsPerInstance: Int? = nil, metricGroups: [String]? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, perInstanceContainerGroupDefinitionArn: String? = nil, perInstanceContainerGroupDefinitionName: String? = nil, status: ContainerFleetStatus? = nil) {
+            self.billingType = billingType
+            self.creationTime = creationTime
+            self.deploymentDetails = deploymentDetails
+            self.description = description
+            self.fleetArn = fleetArn
+            self.fleetId = fleetId
+            self.fleetRoleArn = fleetRoleArn
+            self.gameServerContainerGroupDefinitionArn = gameServerContainerGroupDefinitionArn
+            self.gameServerContainerGroupDefinitionName = gameServerContainerGroupDefinitionName
+            self.gameServerContainerGroupsPerInstance = gameServerContainerGroupsPerInstance
+            self.gameSessionCreationLimitPolicy = gameSessionCreationLimitPolicy
+            self.instanceConnectionPortRange = instanceConnectionPortRange
+            self.instanceInboundPermissions = instanceInboundPermissions
+            self.instanceType = instanceType
+            self.locationAttributes = locationAttributes
+            self.logConfiguration = logConfiguration
+            self.maximumGameServerContainerGroupsPerInstance = maximumGameServerContainerGroupsPerInstance
+            self.metricGroups = metricGroups
+            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
+            self.perInstanceContainerGroupDefinitionArn = perInstanceContainerGroupDefinitionArn
+            self.perInstanceContainerGroupDefinitionName = perInstanceContainerGroupDefinitionName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingType = "BillingType"
+            case creationTime = "CreationTime"
+            case deploymentDetails = "DeploymentDetails"
+            case description = "Description"
+            case fleetArn = "FleetArn"
+            case fleetId = "FleetId"
+            case fleetRoleArn = "FleetRoleArn"
+            case gameServerContainerGroupDefinitionArn = "GameServerContainerGroupDefinitionArn"
+            case gameServerContainerGroupDefinitionName = "GameServerContainerGroupDefinitionName"
+            case gameServerContainerGroupsPerInstance = "GameServerContainerGroupsPerInstance"
+            case gameSessionCreationLimitPolicy = "GameSessionCreationLimitPolicy"
+            case instanceConnectionPortRange = "InstanceConnectionPortRange"
+            case instanceInboundPermissions = "InstanceInboundPermissions"
+            case instanceType = "InstanceType"
+            case locationAttributes = "LocationAttributes"
+            case logConfiguration = "LogConfiguration"
+            case maximumGameServerContainerGroupsPerInstance = "MaximumGameServerContainerGroupsPerInstance"
+            case metricGroups = "MetricGroups"
+            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
+            case perInstanceContainerGroupDefinitionArn = "PerInstanceContainerGroupDefinitionArn"
+            case perInstanceContainerGroupDefinitionName = "PerInstanceContainerGroupDefinitionName"
+            case status = "Status"
+        }
+    }
+
+    public struct ContainerFleetLocationAttributes: AWSDecodableShape {
+        /// A location identifier.
+        public let location: String?
+        /// The status of fleet activity in the location.     PENDING -- A new container fleet has been requested.    CREATING -- A new container fleet resource is being created.     CREATED -- A new container fleet resource has been created. No fleet instances have been deployed.    ACTIVATING -- New container fleet instances are being deployed.    ACTIVE -- The container fleet has been deployed and is ready to host game sessions.    UPDATING -- Updates to the container fleet is being updated. A deployment is in progress.
+        public let status: ContainerFleetLocationStatus?
+
+        @inlinable
+        public init(location: String? = nil, status: ContainerFleetLocationStatus? = nil) {
+            self.location = location
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case status = "Status"
+        }
+    }
+
+    public struct ContainerGroupDefinition: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that is assigned to an Amazon GameLift ContainerGroupDefinition resource. It uniquely identifies
+        /// the resource across all Amazon Web Services Regions. Format is
+        /// arn:aws:gamelift:[region]::containergroupdefinition/[container group definition name]:[version].
+        public let containerGroupDefinitionArn: String?
+        /// The type of container group. Container group type determines how Amazon GameLift deploys the container group on each fleet instance.
+        public let containerGroupType: ContainerGroupType?
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let creationTime: Date?
+        /// The definition for the game server container in this group. This property is used only when the container group type is GAME_SERVER. This container definition specifies a container image with the game server build.
+        public let gameServerContainerDefinition: GameServerContainerDefinition?
         /// A descriptive identifier for the container group definition. The name value is unique in an Amazon Web Services Region.
         public let name: String?
-        /// The platform required for all containers in the container group definition.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The platform that all containers in the container group definition run on.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
         public let operatingSystem: ContainerOperatingSystem?
-        /// The method for deploying the container group across fleet instances. A replica container group might have multiple copies on each fleet instance. A daemon container group maintains only one copy per fleet instance.
-        public let schedulingStrategy: ContainerSchedulingStrategy?
         /// Current status of the container group definition resource. Values include:    COPYING -- Amazon GameLift is in the process of making copies of all container images that are defined in the group. While in this state, the resource can't be used to create a container fleet.    READY -- Amazon GameLift has copied the registry images for all containers that are defined in the group. You can use a container group definition in this status to create a container fleet.     FAILED -- Amazon GameLift failed to create a valid container group definition resource. For more details on the cause of the failure, see StatusReason. A container group definition resource in failed status will be deleted within a few minutes.
         public let status: ContainerGroupDefinitionStatus?
         /// Additional information about a container group definition that's in FAILED status. Possible reasons include:   An internal issue prevented Amazon GameLift from creating the container group definition resource. Delete the failed resource and call  CreateContainerGroupDefinitionagain.    An access-denied message means that you don't have permissions to access the container image on ECR. See   IAM permission examples for help setting up required IAM permissions for Amazon GameLift.   The ImageUri value for at least one of the containers in the container group definition was invalid or not found in the current Amazon Web Services account.   At least one of the container images referenced in the container group definition exceeds the  allowed size. For size limits, see  Amazon GameLift endpoints and quotas.   At least one of the container images referenced in the  container group definition uses a different operating system than the one defined for the container group.
         public let statusReason: String?
-        /// The amount of CPU units on a fleet instance to allocate for the container group. All containers in the group share these resources. This property is an integer value in CPU units  (1 vCPU is equal to 1024 CPU units).  You can set additional limits for each ContainerDefinition in the group. If individual containers have limits, this value must be equal to or greater than the sum of all container-specific CPU limits in the group. For more details on memory allocation, see the Container fleet design guide.
-        public let totalCpuLimit: Int?
-        /// The amount of memory (in MiB) on a fleet instance to allocate for the container group. All containers in the group share these resources.  You can set additional limits for each ContainerDefinition in the group. If individual containers have limits, this value must meet the following requirements:    Equal to or greater than the sum of all container-specific soft memory limits in the group.   Equal to or greater than any container-specific hard limits in the group.   For more details on memory allocation, see the Container fleet design guide.
-        public let totalMemoryLimit: Int?
+        /// The set of definitions for support containers in this group. A container group definition might have zero support container definitions. Support container can be used in any type of container group.
+        public let supportContainerDefinitions: [SupportContainerDefinition]?
+        /// The amount of memory (in MiB) on a fleet instance to allocate for the container group. All containers in the group share these resources.  You can set a limit for each container definition in the group. If individual containers have limits, this total value must be greater than any individual container's memory limit.
+        public let totalMemoryLimitMebibytes: Int?
+        /// The amount of vCPU units on a fleet instance to allocate for the container group (1 vCPU is equal to 1024 CPU units). All containers in the group share these resources. You can set a limit for each container definition in the group. If individual containers have limits, this total value must be equal to or greater than the sum of the limits for each container in the group.
+        public let totalVcpuLimit: Double?
+        /// An optional description that was provided for a container group definition update. Each version can have a unique description.
+        public let versionDescription: String?
+        /// Indicates the version of a particular container group definition. This number is incremented automatically when you update a container group definition. You can view, update, or delete individual versions or the entire container group definition.
+        public let versionNumber: Int?
 
         @inlinable
-        public init(containerDefinitions: [ContainerDefinition]? = nil, containerGroupDefinitionArn: String? = nil, creationTime: Date? = nil, name: String? = nil, operatingSystem: ContainerOperatingSystem? = nil, schedulingStrategy: ContainerSchedulingStrategy? = nil, status: ContainerGroupDefinitionStatus? = nil, statusReason: String? = nil, totalCpuLimit: Int? = nil, totalMemoryLimit: Int? = nil) {
-            self.containerDefinitions = containerDefinitions
+        public init(containerGroupDefinitionArn: String? = nil, containerGroupType: ContainerGroupType? = nil, creationTime: Date? = nil, gameServerContainerDefinition: GameServerContainerDefinition? = nil, name: String? = nil, operatingSystem: ContainerOperatingSystem? = nil, status: ContainerGroupDefinitionStatus? = nil, statusReason: String? = nil, supportContainerDefinitions: [SupportContainerDefinition]? = nil, totalMemoryLimitMebibytes: Int? = nil, totalVcpuLimit: Double? = nil, versionDescription: String? = nil, versionNumber: Int? = nil) {
             self.containerGroupDefinitionArn = containerGroupDefinitionArn
+            self.containerGroupType = containerGroupType
             self.creationTime = creationTime
+            self.gameServerContainerDefinition = gameServerContainerDefinition
             self.name = name
             self.operatingSystem = operatingSystem
-            self.schedulingStrategy = schedulingStrategy
             self.status = status
             self.statusReason = statusReason
-            self.totalCpuLimit = totalCpuLimit
-            self.totalMemoryLimit = totalMemoryLimit
+            self.supportContainerDefinitions = supportContainerDefinitions
+            self.totalMemoryLimitMebibytes = totalMemoryLimitMebibytes
+            self.totalVcpuLimit = totalVcpuLimit
+            self.versionDescription = versionDescription
+            self.versionNumber = versionNumber
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerDefinitions = "ContainerDefinitions"
             case containerGroupDefinitionArn = "ContainerGroupDefinitionArn"
+            case containerGroupType = "ContainerGroupType"
             case creationTime = "CreationTime"
+            case gameServerContainerDefinition = "GameServerContainerDefinition"
             case name = "Name"
             case operatingSystem = "OperatingSystem"
-            case schedulingStrategy = "SchedulingStrategy"
             case status = "Status"
             case statusReason = "StatusReason"
-            case totalCpuLimit = "TotalCpuLimit"
-            case totalMemoryLimit = "TotalMemoryLimit"
-        }
-    }
-
-    public struct ContainerGroupDefinitionProperty: AWSDecodableShape {
-        /// The unique identifier for the container group definition.
-        public let containerGroupDefinitionName: String?
-        /// The method for scheduling and maintaining copies of the container group across a container fleet.
-        public let schedulingStrategy: ContainerSchedulingStrategy?
-
-        @inlinable
-        public init(containerGroupDefinitionName: String? = nil, schedulingStrategy: ContainerSchedulingStrategy? = nil) {
-            self.containerGroupDefinitionName = containerGroupDefinitionName
-            self.schedulingStrategy = schedulingStrategy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case containerGroupDefinitionName = "ContainerGroupDefinitionName"
-            case schedulingStrategy = "SchedulingStrategy"
-        }
-    }
-
-    public struct ContainerGroupsAttributes: AWSDecodableShape {
-        /// A set of ports that allow inbound traffic to connect to processes running in the fleet's container groups. Amazon GameLift maps each connection port to a container port, which is assigned to a specific container process. A fleet's connection port range can't be changed, but you can control access to connection ports by updating a fleet's EC2InboundPermissions with UpdateFleetPortSettings.
-        public let connectionPortRange: ConnectionPortRange?
-        /// A collection of properties that describe each container group in the fleet. A container fleet is deployed with one or more ContainerGroupDefinition resources, which is where these properties are set.
-        public let containerGroupDefinitionProperties: [ContainerGroupDefinitionProperty]?
-        /// Details about the number of replica container groups that Amazon GameLift deploys to each instance in the container fleet.
-        public let containerGroupsPerInstance: ContainerGroupsPerInstance?
-
-        @inlinable
-        public init(connectionPortRange: ConnectionPortRange? = nil, containerGroupDefinitionProperties: [ContainerGroupDefinitionProperty]? = nil, containerGroupsPerInstance: ContainerGroupsPerInstance? = nil) {
-            self.connectionPortRange = connectionPortRange
-            self.containerGroupDefinitionProperties = containerGroupDefinitionProperties
-            self.containerGroupsPerInstance = containerGroupsPerInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionPortRange = "ConnectionPortRange"
-            case containerGroupDefinitionProperties = "ContainerGroupDefinitionProperties"
-            case containerGroupsPerInstance = "ContainerGroupsPerInstance"
-        }
-    }
-
-    public struct ContainerGroupsConfiguration: AWSEncodableShape {
-        /// A set of ports to allow inbound traffic, including game clients, to connect to processes running in the container fleet.  Connection ports are dynamically mapped to container ports, which are assigned to individual processes running in a container. The connection port range must have enough ports to map to all container ports across a fleet instance. To calculate the minimum connection ports needed, use the following formula:   [Total number of container ports as defined for containers in the replica container group] * [Desired or calculated number of replica container groups per instance] + [Total number of container ports as defined for containers in the daemon container group]  As a best practice, double the minimum number of connection ports.  Use the fleet's EC2InboundPermissions property to control external access to connection ports. Set this property to the connection port numbers that you want to open access to. See IpPermission for more details.
-        public let connectionPortRange: ConnectionPortRange?
-        /// The list of container group definition names to deploy to a new container fleet.
-        public let containerGroupDefinitionNames: [String]?
-        /// The number of times to replicate the replica container group on each instance in a container fleet. By default, Amazon GameLift calculates the maximum number of replica container groups that can fit on a fleet instance (based on CPU and memory resources). Leave this parameter empty if you want to use the maximum number, or specify a desired number to override the maximum. The desired number is used if it's less than the maximum number.
-        public let desiredReplicaContainerGroupsPerInstance: Int?
-
-        @inlinable
-        public init(connectionPortRange: ConnectionPortRange? = nil, containerGroupDefinitionNames: [String]? = nil, desiredReplicaContainerGroupsPerInstance: Int? = nil) {
-            self.connectionPortRange = connectionPortRange
-            self.containerGroupDefinitionNames = containerGroupDefinitionNames
-            self.desiredReplicaContainerGroupsPerInstance = desiredReplicaContainerGroupsPerInstance
-        }
-
-        public func validate(name: String) throws {
-            try self.connectionPortRange?.validate(name: "\(name).connectionPortRange")
-            try self.containerGroupDefinitionNames?.forEach {
-                try validate($0, name: "containerGroupDefinitionNames[]", parent: name, max: 512)
-                try validate($0, name: "containerGroupDefinitionNames[]", parent: name, min: 1)
-                try validate($0, name: "containerGroupDefinitionNames[]", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+$")
-            }
-            try self.validate(self.containerGroupDefinitionNames, name: "containerGroupDefinitionNames", parent: name, max: 2)
-            try self.validate(self.containerGroupDefinitionNames, name: "containerGroupDefinitionNames", parent: name, min: 1)
-            try self.validate(self.desiredReplicaContainerGroupsPerInstance, name: "desiredReplicaContainerGroupsPerInstance", parent: name, max: 5000)
-            try self.validate(self.desiredReplicaContainerGroupsPerInstance, name: "desiredReplicaContainerGroupsPerInstance", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionPortRange = "ConnectionPortRange"
-            case containerGroupDefinitionNames = "ContainerGroupDefinitionNames"
-            case desiredReplicaContainerGroupsPerInstance = "DesiredReplicaContainerGroupsPerInstance"
-        }
-    }
-
-    public struct ContainerGroupsPerInstance: AWSDecodableShape {
-        /// The desired number of replica container groups to place on each fleet instance.
-        public let desiredReplicaContainerGroupsPerInstance: Int?
-        /// The maximum possible number of replica container groups that each fleet instance can have.
-        public let maxReplicaContainerGroupsPerInstance: Int?
-
-        @inlinable
-        public init(desiredReplicaContainerGroupsPerInstance: Int? = nil, maxReplicaContainerGroupsPerInstance: Int? = nil) {
-            self.desiredReplicaContainerGroupsPerInstance = desiredReplicaContainerGroupsPerInstance
-            self.maxReplicaContainerGroupsPerInstance = maxReplicaContainerGroupsPerInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case desiredReplicaContainerGroupsPerInstance = "DesiredReplicaContainerGroupsPerInstance"
-            case maxReplicaContainerGroupsPerInstance = "MaxReplicaContainerGroupsPerInstance"
+            case supportContainerDefinitions = "SupportContainerDefinitions"
+            case totalMemoryLimitMebibytes = "TotalMemoryLimitMebibytes"
+            case totalVcpuLimit = "TotalVcpuLimit"
+            case versionDescription = "VersionDescription"
+            case versionNumber = "VersionNumber"
         }
     }
 
@@ -1407,11 +1386,11 @@ extension GameLift {
         public let command: [String]?
         /// The time period (in seconds) between each health check.
         public let interval: Int?
-        /// The number of times to retry a failed health check before the container is considered unhealthy. The first run of the command does not count as a retry.
+        /// The number of times to retry a failed health check before flagging the container unhealthy. The first run of the command does not count as a retry.
         public let retries: Int?
         /// The optional grace period (in seconds) to give a container time to bootstrap before the first failed health check counts toward the number of retries.
         public let startPeriod: Int?
-        /// The time period (in seconds) to wait for a health check to succeed before a failed health check is counted.
+        /// The time period (in seconds) to wait for a health check to succeed before counting a failed health check.
         public let timeout: Int?
 
         @inlinable
@@ -1449,33 +1428,57 @@ extension GameLift {
         }
     }
 
-    public struct ContainerMemoryLimits: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum amount of memory that the container can use. If a container attempts to exceed this limit, the container is stopped. This property is similar to the Amazon ECS container definition parameter memory in the Amazon Elastic Container Service Developer Guide.
-        public let hardLimit: Int?
-        /// The amount of memory that is reserved for a container. When the container group's shared memory is under contention, the system attempts to maintain the container memory usage at this soft limit. However, the container can use more memory when needed, if available. This property is similar to the Amazon ECS container definition parameter memoryreservation (Amazon Elastic Container Service Developer Guide).
-        public let softLimit: Int?
+    public struct ContainerIdentifier: AWSDecodableShape {
+        /// The identifier for a container that's running in a compute.
+        public let containerName: String?
+        /// The runtime ID for the container that's running in a compute. This value is unique within the compute. It is returned as a ContainerAttribute value in a Compute object.
+        public let containerRuntimeId: String?
 
         @inlinable
-        public init(hardLimit: Int? = nil, softLimit: Int? = nil) {
-            self.hardLimit = hardLimit
-            self.softLimit = softLimit
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.hardLimit, name: "hardLimit", parent: name, max: 1024000)
-            try self.validate(self.hardLimit, name: "hardLimit", parent: name, min: 4)
-            try self.validate(self.softLimit, name: "softLimit", parent: name, max: 1024000)
-            try self.validate(self.softLimit, name: "softLimit", parent: name, min: 4)
+        public init(containerName: String? = nil, containerRuntimeId: String? = nil) {
+            self.containerName = containerName
+            self.containerRuntimeId = containerRuntimeId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hardLimit = "HardLimit"
-            case softLimit = "SoftLimit"
+            case containerName = "ContainerName"
+            case containerRuntimeId = "ContainerRuntimeId"
+        }
+    }
+
+    public struct ContainerMountPoint: AWSEncodableShape & AWSDecodableShape {
+        /// The type of access for the container.
+        public let accessLevel: ContainerMountPointAccessLevel?
+        /// The mount path on the container. If this property isn't set, the instance path is used.
+        public let containerPath: String?
+        /// The path to the source file or directory.
+        public let instancePath: String?
+
+        @inlinable
+        public init(accessLevel: ContainerMountPointAccessLevel? = nil, containerPath: String? = nil, instancePath: String? = nil) {
+            self.accessLevel = accessLevel
+            self.containerPath = containerPath
+            self.instancePath = instancePath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerPath, name: "containerPath", parent: name, max: 1024)
+            try self.validate(self.containerPath, name: "containerPath", parent: name, min: 1)
+            try self.validate(self.containerPath, name: "containerPath", parent: name, pattern: "^(\\/+[^\\/]+\\/*)+$")
+            try self.validate(self.instancePath, name: "instancePath", parent: name, max: 1024)
+            try self.validate(self.instancePath, name: "instancePath", parent: name, min: 1)
+            try self.validate(self.instancePath, name: "instancePath", parent: name, pattern: "^\\/[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLevel = "AccessLevel"
+            case containerPath = "ContainerPath"
+            case instancePath = "InstancePath"
         }
     }
 
     public struct ContainerPortConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies one or more ranges of ports on a container. These ranges must not overlap.
+        /// A set of one or more container port number ranges. The ranges can't overlap.
         public let containerPortRanges: [ContainerPortRange]?
 
         @inlinable
@@ -1493,28 +1496,6 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case containerPortRanges = "ContainerPortRanges"
-        }
-    }
-
-    public struct ContainerPortMapping: AWSDecodableShape {
-        /// The port opened on the fleet instance. This is also called the "host port".
-        public let connectionPort: Int?
-        /// The port opened on the container.
-        public let containerPort: Int?
-        /// The network protocol that this mapping supports.
-        public let `protocol`: IpProtocol?
-
-        @inlinable
-        public init(connectionPort: Int? = nil, containerPort: Int? = nil, protocol: IpProtocol? = nil) {
-            self.connectionPort = connectionPort
-            self.containerPort = containerPort
-            self.`protocol` = `protocol`
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connectionPort = "ConnectionPort"
-            case containerPort = "ContainerPort"
-            case `protocol` = "Protocol"
         }
     }
 
@@ -1601,9 +1582,9 @@ extension GameLift {
     }
 
     public struct CreateBuildInput: AWSEncodableShape {
-        /// A descriptive label associated with a build. Build names don't need to be unique. You can change this value later.
+        /// A descriptive label that is associated with a build. Build names do not need to be unique. You can change this value later.
         public let name: String?
-        /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The environment that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. This parameter is required, and there's no default value. You can't change a build's operating system later.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
         public let operatingSystem: OperatingSystem?
         /// A server SDK version you used when integrating your game server build with Amazon GameLift. For more information see Integrate games with custom game servers. By default Amazon GameLift sets this value to 4.0.2.
         public let serverSdkVersion: String?
@@ -1611,7 +1592,7 @@ extension GameLift {
         public let storageLocation: S3Location?
         /// A list of labels to assign to the new build resource. Tags are developer defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
         public let tags: [Tag]?
-        /// Version information associated with a build or script. Version strings don't need to be unique. You can change this value later.
+        /// Version information that is associated with a build or script. Version strings do not need to be unique. You can change this value later.
         public let version: String?
 
         @inlinable
@@ -1670,65 +1651,198 @@ extension GameLift {
         }
     }
 
-    public struct CreateContainerGroupDefinitionInput: AWSEncodableShape {
-        /// Definitions for all containers in this group. Each container definition identifies the container image and specifies configuration settings for the container. See the  Container fleet design guide for container guidelines.
-        public let containerDefinitions: [ContainerDefinitionInput]?
-        /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
-        public let name: String?
-        /// The platform that is used by containers in the container group definition. All containers in a group must run on the same operating system.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
-        public let operatingSystem: ContainerOperatingSystem?
-        /// The method for deploying the container group across fleet instances. A replica container group might have multiple copies on each fleet instance. A daemon container group has one copy per fleet instance. Default value is REPLICA.
-        public let schedulingStrategy: ContainerSchedulingStrategy?
-        /// A list of labels to assign to the container group definition resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
+    public struct CreateContainerFleetInput: AWSEncodableShape {
+        /// Indicates whether to use On-Demand or Spot instances for this fleet. Learn more about when to use  On-Demand versus Spot Instances. This fleet property can't be changed after the fleet is created. By default, this property is set to ON_DEMAND. You can't update this fleet property later.
+        public let billingType: ContainerFleetBillingType?
+        /// A meaningful description of the container fleet.
+        public let description: String?
+        /// The unique identifier for an Identity and Access Management (IAM) role with permissions to run your containers on resources that are managed by Amazon GameLift. Use an IAM service role with the GameLiftContainerFleetPolicy managed policy attached. For more information, see Set up an IAM service role. You can't change this fleet property after the fleet is created. IAM role ARN values use the following pattern: arn:aws:iam::[Amazon Web Services account]:role/[role name].
+        public let fleetRoleArn: String?
+        /// A container group definition resource that describes how to deploy containers with your game server build and support software onto each fleet instance. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling CreateContainerGroupDefinition. This operation creates a ContainerGroupDefinition resource.
+        public let gameServerContainerGroupDefinitionName: String?
+        /// The number of times to replicate the game server container group on each fleet instance.  By default, Amazon GameLift calculates the maximum number of game server container groups that can fit on each instance. This calculation is based on the CPU and memory resources of the fleet's instance type). To use the calculated maximum, don't set this parameter. If you set this number manually, Amazon GameLift uses your value as long as it's less than the calculated maximum.
+        public let gameServerContainerGroupsPerInstance: Int?
+        /// A policy that limits the number of game sessions that each individual player can create on instances in this fleet. The limit applies for a specified span of time.
+        public let gameSessionCreationLimitPolicy: GameSessionCreationLimitPolicy?
+        /// The set of port numbers to open on each fleet instance. A fleet's connection ports map to container ports that are configured in the fleet's container group definitions.  By default, Amazon GameLift calculates an optimal port range based on your fleet configuration. To use the calculated range, don't set this parameter. The values are:   Port range: 4192 to a number calculated based on your fleet configuration. Amazon GameLift uses the following formula: 4192 + [# of game server container groups per fleet instance] * [# of container ports in the game server container group definition] + [# of container ports in the game server container group definition]    You can also choose to manually set this parameter. When manually setting this parameter, you must use port numbers that match the fleet's inbound permissions port range.  If you set values manually, Amazon GameLift no longer calculates a port range for you, even if you later remove the manual settings.
+        public let instanceConnectionPortRange: ConnectionPortRange?
+        /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. As a best practice, when remotely accessing a fleet instance, we recommend opening ports only when you need them and closing them when you're finished. By default, Amazon GameLift calculates an optimal port range based on your fleet configuration. To use the calculated range, don't set this parameter. The values are:   Protocol: UDP   Port range: 4192 to a number calculated based on your fleet configuration. Amazon GameLift uses the following formula: 4192 + [# of game server container groups per fleet instance] * [# of container ports in the game server container group definition] + [# of container ports in the game server container group definition]    You can also choose to manually set this parameter. When manually setting this parameter, you must use port numbers that match the fleet's connection port range.  If you set values manually, Amazon GameLift no longer calculates a port range for you, even if you later remove the manual settings.
+        public let instanceInboundPermissions: [IpPermission]?
+        /// The Amazon EC2 instance type to use for all instances in the fleet. For multi-location fleets, the instance type must be available in the home region and all remote locations. Instance type determines the computing resources and processing power that's available to host your game servers. This includes including CPU, memory, storage, and networking capacity.  By default, Amazon GameLift selects an instance type that fits the needs of your container groups and is available in all selected fleet locations. You can also choose to manually set this parameter. See Amazon Elastic Compute Cloud Instance Types for detailed descriptions of Amazon EC2 instance types. You can't update this fleet property later.
+        public let instanceType: String?
+        /// A set of locations to deploy container fleet instances to. You can add any Amazon Web Services Region or Local Zone that's supported by Amazon GameLift. Provide a list of one or more Amazon Web Services Region codes, such as us-west-2, or Local Zone names. Also include the fleet's home Region, which is the Amazon Web Services Region where the fleet is created. For a list of supported Regions and Local Zones, see  Amazon GameLift service locations for managed hosting.
+        public let locations: [LocationConfiguration]?
+        /// A method for collecting container logs for the fleet. Amazon GameLift saves all standard output for each container in logs, including game session logs. You can select from the following methods:     CLOUDWATCH -- Send logs to an Amazon CloudWatch log group that you define. Each container emits a log stream, which is organized in the log group.     S3 -- Store logs in an Amazon S3 bucket that you define.    NONE -- Don't collect container logs.   By default, this property is set to CLOUDWATCH.  Amazon GameLift requires permissions to send logs other Amazon Web Services services in your account. These permissions are included in the IAM fleet role for this container fleet (see FleetRoleArn).
+        public let logConfiguration: LogConfiguration?
+        /// The name of an Amazon Web Services CloudWatch metric group to add this fleet to. You can use a metric group  to aggregate metrics for multiple fleets. You can specify an existing metric group name or use a new name to create a new metric group. Each fleet can have only one metric group,  but you can change this value at any time.
+        public let metricGroups: [String]?
+        /// Determines whether Amazon GameLift can shut down game sessions on the fleet that are actively running and hosting players. Amazon GameLift might prompt an instance shutdown when scaling down fleet capacity or when retiring unhealthy instances. You can also set game session protection for individual game sessions using UpdateGameSession.    NoProtection -- Game sessions can be shut down during active gameplay.     FullProtection -- Game sessions in ACTIVE status can't be shut down.   By default, this property is set to NoProtection.
+        public let newGameSessionProtectionPolicy: ProtectionPolicy?
+        /// The name of a container group definition resource that describes a set of axillary software. A fleet instance has one process for executables in this container group. A per-instance container group is optional. You can update the fleet to add or remove a per-instance container group at any time. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number.  Create a container group definition by calling CreateContainerGroupDefinition.  This operation creates a ContainerGroupDefinition resource.
+        public let perInstanceContainerGroupDefinitionName: String?
+        /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
         public let tags: [Tag]?
-        /// The maximum amount of CPU units to allocate to the container group. Set this parameter to an integer value in CPU units (1 vCPU is equal to 1024 CPU units). All containers in the group share this memory. If you specify CPU limits for individual containers, set this parameter based on the following guidelines. The value must be equal to or greater than the sum of the CPU limits for all containers in the group.
-        public let totalCpuLimit: Int?
-        /// The maximum amount of memory (in MiB) to allocate to the container group. All containers in the group share this memory. If you specify memory limits for individual containers, set this parameter based on the following guidelines. The value must be (1) greater than the sum of the soft memory limits for all containers in the group, and (2) greater than any individual container's hard memory limit.
-        public let totalMemoryLimit: Int?
 
         @inlinable
-        public init(containerDefinitions: [ContainerDefinitionInput]? = nil, name: String? = nil, operatingSystem: ContainerOperatingSystem? = nil, schedulingStrategy: ContainerSchedulingStrategy? = nil, tags: [Tag]? = nil, totalCpuLimit: Int? = nil, totalMemoryLimit: Int? = nil) {
-            self.containerDefinitions = containerDefinitions
-            self.name = name
-            self.operatingSystem = operatingSystem
-            self.schedulingStrategy = schedulingStrategy
+        public init(billingType: ContainerFleetBillingType? = nil, description: String? = nil, fleetRoleArn: String? = nil, gameServerContainerGroupDefinitionName: String? = nil, gameServerContainerGroupsPerInstance: Int? = nil, gameSessionCreationLimitPolicy: GameSessionCreationLimitPolicy? = nil, instanceConnectionPortRange: ConnectionPortRange? = nil, instanceInboundPermissions: [IpPermission]? = nil, instanceType: String? = nil, locations: [LocationConfiguration]? = nil, logConfiguration: LogConfiguration? = nil, metricGroups: [String]? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, perInstanceContainerGroupDefinitionName: String? = nil, tags: [Tag]? = nil) {
+            self.billingType = billingType
+            self.description = description
+            self.fleetRoleArn = fleetRoleArn
+            self.gameServerContainerGroupDefinitionName = gameServerContainerGroupDefinitionName
+            self.gameServerContainerGroupsPerInstance = gameServerContainerGroupsPerInstance
+            self.gameSessionCreationLimitPolicy = gameSessionCreationLimitPolicy
+            self.instanceConnectionPortRange = instanceConnectionPortRange
+            self.instanceInboundPermissions = instanceInboundPermissions
+            self.instanceType = instanceType
+            self.locations = locations
+            self.logConfiguration = logConfiguration
+            self.metricGroups = metricGroups
+            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
+            self.perInstanceContainerGroupDefinitionName = perInstanceContainerGroupDefinitionName
             self.tags = tags
-            self.totalCpuLimit = totalCpuLimit
-            self.totalMemoryLimit = totalMemoryLimit
         }
 
         public func validate(name: String) throws {
-            try self.containerDefinitions?.forEach {
-                try $0.validate(name: "\(name).containerDefinitions[]")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.fleetRoleArn, name: "fleetRoleArn", parent: name, max: 512)
+            try self.validate(self.fleetRoleArn, name: "fleetRoleArn", parent: name, min: 1)
+            try self.validate(self.fleetRoleArn, name: "fleetRoleArn", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
+            try self.validate(self.gameServerContainerGroupDefinitionName, name: "gameServerContainerGroupDefinitionName", parent: name, max: 512)
+            try self.validate(self.gameServerContainerGroupDefinitionName, name: "gameServerContainerGroupDefinitionName", parent: name, min: 1)
+            try self.validate(self.gameServerContainerGroupDefinitionName, name: "gameServerContainerGroupDefinitionName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
+            try self.validate(self.gameServerContainerGroupsPerInstance, name: "gameServerContainerGroupsPerInstance", parent: name, max: 5000)
+            try self.validate(self.gameServerContainerGroupsPerInstance, name: "gameServerContainerGroupsPerInstance", parent: name, min: 1)
+            try self.gameSessionCreationLimitPolicy?.validate(name: "\(name).gameSessionCreationLimitPolicy")
+            try self.instanceConnectionPortRange?.validate(name: "\(name).instanceConnectionPortRange")
+            try self.instanceInboundPermissions?.forEach {
+                try $0.validate(name: "\(name).instanceInboundPermissions[]")
             }
-            try self.validate(self.containerDefinitions, name: "containerDefinitions", parent: name, max: 10)
-            try self.validate(self.containerDefinitions, name: "containerDefinitions", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, max: 128)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.instanceInboundPermissions, name: "instanceInboundPermissions", parent: name, max: 50)
+            try self.validate(self.instanceType, name: "instanceType", parent: name, max: 1024)
+            try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
+            try self.locations?.forEach {
+                try $0.validate(name: "\(name).locations[]")
+            }
+            try self.validate(self.locations, name: "locations", parent: name, max: 100)
+            try self.validate(self.locations, name: "locations", parent: name, min: 1)
+            try self.logConfiguration?.validate(name: "\(name).logConfiguration")
+            try self.metricGroups?.forEach {
+                try validate($0, name: "metricGroups[]", parent: name, max: 255)
+                try validate($0, name: "metricGroups[]", parent: name, min: 1)
+            }
+            try self.validate(self.metricGroups, name: "metricGroups", parent: name, max: 1)
+            try self.validate(self.perInstanceContainerGroupDefinitionName, name: "perInstanceContainerGroupDefinitionName", parent: name, max: 512)
+            try self.validate(self.perInstanceContainerGroupDefinitionName, name: "perInstanceContainerGroupDefinitionName", parent: name, min: 1)
+            try self.validate(self.perInstanceContainerGroupDefinitionName, name: "perInstanceContainerGroupDefinitionName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
-            try self.validate(self.totalCpuLimit, name: "totalCpuLimit", parent: name, max: 10240)
-            try self.validate(self.totalCpuLimit, name: "totalCpuLimit", parent: name, min: 128)
-            try self.validate(self.totalMemoryLimit, name: "totalMemoryLimit", parent: name, max: 1024000)
-            try self.validate(self.totalMemoryLimit, name: "totalMemoryLimit", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerDefinitions = "ContainerDefinitions"
+            case billingType = "BillingType"
+            case description = "Description"
+            case fleetRoleArn = "FleetRoleArn"
+            case gameServerContainerGroupDefinitionName = "GameServerContainerGroupDefinitionName"
+            case gameServerContainerGroupsPerInstance = "GameServerContainerGroupsPerInstance"
+            case gameSessionCreationLimitPolicy = "GameSessionCreationLimitPolicy"
+            case instanceConnectionPortRange = "InstanceConnectionPortRange"
+            case instanceInboundPermissions = "InstanceInboundPermissions"
+            case instanceType = "InstanceType"
+            case locations = "Locations"
+            case logConfiguration = "LogConfiguration"
+            case metricGroups = "MetricGroups"
+            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
+            case perInstanceContainerGroupDefinitionName = "PerInstanceContainerGroupDefinitionName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateContainerFleetOutput: AWSDecodableShape {
+        /// The properties for the new container fleet, including current status. All fleets are initially placed in PENDING status.
+        public let containerFleet: ContainerFleet?
+
+        @inlinable
+        public init(containerFleet: ContainerFleet? = nil) {
+            self.containerFleet = containerFleet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerFleet = "ContainerFleet"
+        }
+    }
+
+    public struct CreateContainerGroupDefinitionInput: AWSEncodableShape {
+        /// The type of container group being defined. Container group type determines how Amazon GameLift  deploys the container group on each fleet instance. Default value: GAME_SERVER
+        public let containerGroupType: ContainerGroupType?
+        /// The definition for the game server container in this group. Define a game server container only when the container group type is GAME_SERVER. Game server containers specify a container image with your game server build. You can pass in your container definitions as a JSON file.
+        public let gameServerContainerDefinition: GameServerContainerDefinitionInput?
+        /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
+        public let name: String?
+        /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Default value: AMAZON_LINUX_2023   Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        public let operatingSystem: ContainerOperatingSystem?
+        /// One or more definition for support containers in this group. You can define a support container in any type of container group. You can pass in your container definitions as a JSON file.
+        public let supportContainerDefinitions: [SupportContainerDefinitionInput]?
+        /// A list of labels to assign to the container group definition resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
+        public let tags: [Tag]?
+        /// The maximum amount of memory (in MiB) to allocate to the container group. All containers in the group share this memory. If you specify memory limits for an individual container, the total value must be greater than any individual container's memory limit. Default value: 1024
+        public let totalMemoryLimitMebibytes: Int?
+        /// The maximum amount of vCPU units to allocate to the container group (1 vCPU is equal to 1024 CPU units). All containers in the group share this memory. If you specify vCPU limits for individual containers, the total value must be equal to or greater than the sum of the CPU limits for all containers in the group. Default value: 1
+        public let totalVcpuLimit: Double?
+        /// A description for the initial version of this container group definition.
+        public let versionDescription: String?
+
+        @inlinable
+        public init(containerGroupType: ContainerGroupType? = nil, gameServerContainerDefinition: GameServerContainerDefinitionInput? = nil, name: String? = nil, operatingSystem: ContainerOperatingSystem? = nil, supportContainerDefinitions: [SupportContainerDefinitionInput]? = nil, tags: [Tag]? = nil, totalMemoryLimitMebibytes: Int? = nil, totalVcpuLimit: Double? = nil, versionDescription: String? = nil) {
+            self.containerGroupType = containerGroupType
+            self.gameServerContainerDefinition = gameServerContainerDefinition
+            self.name = name
+            self.operatingSystem = operatingSystem
+            self.supportContainerDefinitions = supportContainerDefinitions
+            self.tags = tags
+            self.totalMemoryLimitMebibytes = totalMemoryLimitMebibytes
+            self.totalVcpuLimit = totalVcpuLimit
+            self.versionDescription = versionDescription
+        }
+
+        public func validate(name: String) throws {
+            try self.gameServerContainerDefinition?.validate(name: "\(name).gameServerContainerDefinition")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.supportContainerDefinitions?.forEach {
+                try $0.validate(name: "\(name).supportContainerDefinitions[]")
+            }
+            try self.validate(self.supportContainerDefinitions, name: "supportContainerDefinitions", parent: name, max: 10)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.totalMemoryLimitMebibytes, name: "totalMemoryLimitMebibytes", parent: name, max: 1024000)
+            try self.validate(self.totalMemoryLimitMebibytes, name: "totalMemoryLimitMebibytes", parent: name, min: 4)
+            try self.validate(self.totalVcpuLimit, name: "totalVcpuLimit", parent: name, max: 10.0)
+            try self.validate(self.totalVcpuLimit, name: "totalVcpuLimit", parent: name, min: 0.125)
+            try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 1024)
+            try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerGroupType = "ContainerGroupType"
+            case gameServerContainerDefinition = "GameServerContainerDefinition"
             case name = "Name"
             case operatingSystem = "OperatingSystem"
-            case schedulingStrategy = "SchedulingStrategy"
+            case supportContainerDefinitions = "SupportContainerDefinitions"
             case tags = "Tags"
-            case totalCpuLimit = "TotalCpuLimit"
-            case totalMemoryLimit = "TotalMemoryLimit"
+            case totalMemoryLimitMebibytes = "TotalMemoryLimitMebibytes"
+            case totalVcpuLimit = "TotalVcpuLimit"
+            case versionDescription = "VersionDescription"
         }
     }
 
     public struct CreateContainerGroupDefinitionOutput: AWSDecodableShape {
-        /// The properties of the newly created container group definition resource. You use this resource  to create a container fleet.
+        /// The properties of the new container group definition resource. You can use this resource to create a container fleet.
         public let containerGroupDefinition: ContainerGroupDefinition?
 
         @inlinable
@@ -1748,19 +1862,17 @@ extension GameLift {
         public let buildId: String?
         /// Prompts Amazon GameLift to generate a TLS/SSL certificate for the fleet. Amazon GameLift uses the certificates to encrypt traffic between game clients and the game servers running on Amazon GameLift. By default, the CertificateConfiguration is DISABLED. You can't change this property after you create the fleet.  Certificate Manager (ACM) certificates expire after 13 months. Certificate expiration can cause fleets to fail, preventing players from connecting to instances in the fleet. We recommend you replace fleets before 13 months, consider using fleet aliases for a smooth transition.  ACM isn't available in all Amazon Web Services regions. A fleet creation request with certificate generation enabled in an unsupported Region, fails with a 4xx error. For more information about the supported Regions, see Supported Regions in the Certificate Manager User Guide.
         public let certificateConfiguration: CertificateConfiguration?
-        /// The type of compute resource used to host your game servers.     EC2 – The game server build is deployed to Amazon EC2 instances for cloud hosting. This is the default setting.    CONTAINER – Container images with your game server build and supporting software are deployed to Amazon EC2 instances for cloud hosting. With this compute type, you must specify the ContainerGroupsConfiguration parameter.    ANYWHERE – Game servers or container images with your game server and supporting software are deployed to compute resources that are provided and managed by you. With this compute type, you can also set the AnywhereConfiguration parameter.
+        /// The type of compute resource used to host your game servers.     EC2 – The game server build is deployed to Amazon EC2 instances for cloud hosting. This is the default setting.    ANYWHERE – Your game server and supporting software is deployed to compute resources that are provided and managed by you. With this compute type, you can also set the AnywhereConfiguration parameter.
         public let computeType: ComputeType?
-        /// The container groups to deploy to instances in the container fleet and other fleet-level configuration settings. Use the CreateContainerGroupDefinition action to create container groups. A container fleet must have exactly one replica container group, and can optionally have one daemon container group. You can't change this property after you create the fleet.
-        public let containerGroupsConfiguration: ContainerGroupsConfiguration?
         /// A description for the fleet.
         public let description: String?
-        /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for EC2 and container  fleets. You can leave this parameter empty when creating the fleet, but you must call  UpdateFleetPortSettings to set it before players can connect to game sessions.  As a best practice, we recommend  opening ports for remote access only when you need them and closing them when you're finished.  For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges. To manage inbound access for a container fleet, set this parameter to the same port numbers that you set for the fleet's connection port range. During the life of the fleet, update this parameter to control which connection ports are open to inbound traffic.
+        /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2  fleets. You can leave this parameter empty when creating the fleet, but you must call  UpdateFleetPortSettings to set it before players can connect to game sessions.  As a best practice, we recommend  opening ports for remote access only when you need them and closing them when you're finished.  For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges.
         public let ec2InboundPermissions: [IpPermission]?
-        /// The Amazon GameLift-supported Amazon EC2 instance type to use with EC2 and container fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See Amazon Elastic Compute Cloud Instance Types for detailed descriptions of Amazon EC2 instance types.
+        /// The Amazon GameLift-supported Amazon EC2 instance type to use with managed EC2 fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See Amazon Elastic Compute Cloud Instance Types for detailed descriptions of Amazon EC2 instance types.
         public let ec2InstanceType: EC2InstanceType?
         /// Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to ON_DEMAND. Learn more about when to use  On-Demand versus Spot Instances. This fleet property can't be changed after the fleet is created.
         public let fleetType: FleetType?
-        /// A unique identifier for an IAM role with access permissions to other Amazon Web Services services.  Any application that runs on an instance in the fleet--including install scripts, server processes, and other  processes--can use these permissions to interact with Amazon Web Services resources that you own or have access to. For more information about using the role with your game server builds, see   Communicate with other Amazon Web Services resources from your fleets. This fleet property can't be changed after the fleet is created.
+        /// A unique identifier for an IAM role that manages access to your Amazon Web Services services.  With an instance role ARN set, any application that runs on an instance in this fleet can assume the role,  including install scripts, server processes, and daemons (background processes). Create a role or look up a role's  ARN by using the IAM dashboard in the Amazon Web Services Management Console. Learn more about using on-box credentials for your game servers at   Access external resources from a game server. This fleet property can't be changed after the fleet is created.
         public let instanceRoleArn: String?
         /// Prompts Amazon GameLift to generate a shared credentials file for the IAM role that's defined in InstanceRoleArn. The shared credentials file is stored on each fleet instance and refreshed as needed. Use shared credentials for applications that are deployed along with the game server executable, if the game server is integrated with server SDK version 5.x. For more information about using shared credentials, see  Communicate with other Amazon Web Services resources from your fleets.
         public let instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider?
@@ -1780,7 +1892,7 @@ extension GameLift {
         public let peerVpcId: String?
         /// A policy that limits the number of game sessions that an individual player can create on instances in this fleet within a specified span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
-        /// Instructions for how to launch and run server processes on the fleet. Set runtime configuration for EC2 fleets and container fleets. For an Anywhere fleets, set this parameter only if the fleet is running the Amazon GameLift Agent. The runtime configuration defines one or more server process configurations. Each server process identifies a game executable or Realtime script file and the number of processes to run concurrently.   This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
+        /// Instructions for how to launch and run server processes on the fleet. Set runtime configuration for managed EC2 fleets. For an Anywhere fleets, set this parameter only if the fleet is running the Amazon GameLift Agent. The runtime configuration defines one or more server process configurations. Each server process identifies a game executable or Realtime script file and the number of processes to run concurrently.   This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
         public let runtimeConfiguration: RuntimeConfiguration?
         /// The unique identifier for a Realtime configuration script to be deployed to a fleet with compute type EC2. You can use either the script ID or ARN. Scripts must be uploaded to Amazon GameLift prior to creating the fleet. This fleet property can't be changed after the fleet is created.
         public let scriptId: String?
@@ -1792,12 +1904,11 @@ extension GameLift {
         public let tags: [Tag]?
 
         @inlinable
-        public init(anywhereConfiguration: AnywhereConfiguration? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, computeType: ComputeType? = nil, containerGroupsConfiguration: ContainerGroupsConfiguration? = nil, description: String? = nil, ec2InboundPermissions: [IpPermission]? = nil, ec2InstanceType: EC2InstanceType? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider? = nil, locations: [LocationConfiguration]? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, tags: [Tag]? = nil) {
+        public init(anywhereConfiguration: AnywhereConfiguration? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, computeType: ComputeType? = nil, description: String? = nil, ec2InboundPermissions: [IpPermission]? = nil, ec2InstanceType: EC2InstanceType? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider? = nil, locations: [LocationConfiguration]? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, tags: [Tag]? = nil) {
             self.anywhereConfiguration = anywhereConfiguration
             self.buildId = buildId
             self.certificateConfiguration = certificateConfiguration
             self.computeType = computeType
-            self.containerGroupsConfiguration = containerGroupsConfiguration
             self.description = description
             self.ec2InboundPermissions = ec2InboundPermissions
             self.ec2InstanceType = ec2InstanceType
@@ -1822,7 +1933,6 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.anywhereConfiguration?.validate(name: "\(name).anywhereConfiguration")
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+$")
-            try self.containerGroupsConfiguration?.validate(name: "\(name).containerGroupsConfiguration")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.ec2InboundPermissions?.forEach {
@@ -1870,7 +1980,6 @@ extension GameLift {
             case buildId = "BuildId"
             case certificateConfiguration = "CertificateConfiguration"
             case computeType = "ComputeType"
-            case containerGroupsConfiguration = "ContainerGroupsConfiguration"
             case description = "Description"
             case ec2InboundPermissions = "EC2InboundPermissions"
             case ec2InstanceType = "EC2InstanceType"
@@ -1906,7 +2015,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.locations?.forEach {
                 try $0.validate(name: "\(name).locations[]")
             }
@@ -2066,7 +2177,7 @@ extension GameLift {
         public let fleetId: String?
         /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. For an example, see Create a game session with custom properties.
         public let gameProperties: [GameProperty]?
-        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see Start a Game Session).
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session.
         public let gameSessionData: String?
         ///  This parameter is deprecated. Use IdempotencyToken instead.  Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID.
         public let gameSessionId: String?
@@ -2097,7 +2208,9 @@ extension GameLift {
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
             try self.validate(self.creatorId, name: "creatorId", parent: name, max: 1024)
             try self.validate(self.creatorId, name: "creatorId", parent: name, min: 1)
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
@@ -2157,13 +2270,15 @@ extension GameLift {
         public let name: String?
         /// An SNS topic ARN that is set up to receive game session placement notifications. See Setting up notifications for game session placement.
         public let notificationTarget: String?
-        /// A set of policies that act as a sliding cap on player latency. FleetIQ works to deliver low latency for most players in a game session. These policies ensure that no individual player can be placed into a game with unreasonably high latency. Use multiple policies to gradually relax latency requirements a step at a time. Multiple policies are applied based on their maximum allowed latency, starting with the lowest value.
+        /// A set of policies that enforce a sliding cap on player latency when processing game sessions placement requests.
+        /// 	Use multiple policies to gradually relax the cap over time if Amazon GameLift can't make a placement.
+        /// 	    Policies are evaluated in order starting with the lowest maximum latency value.
         public let playerLatencyPolicies: [PlayerLatencyPolicy]?
         /// Custom settings to use when prioritizing destinations and locations for game session placements. This  configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly  named will be automatically applied at the end of the prioritization process.
         public let priorityConfiguration: PriorityConfiguration?
         /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
         public let tags: [Tag]?
-        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. By default, this property is set to 600.
+        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
         public let timeoutInSeconds: Int?
 
         @inlinable
@@ -2276,7 +2391,7 @@ extension GameLift {
         public let acceptanceRequired: Bool?
         /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required.
         public let acceptanceTimeoutSeconds: Int?
-        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies  a match for a single 10-person team, and the additional player count is set to 2, 10 players will be selected for the match and 2 more player slots will be open for future players. This parameter is not used if FlexMatchMode is set to STANDALONE.
+        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies  a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let additionalPlayerCount: Int?
         /// The method used to backfill game sessions that are created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have Amazon GameLift create a backfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in  Backfill Existing Games with FlexMatch. Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public let backfillMode: BackfillMode?
@@ -2288,7 +2403,7 @@ extension GameLift {
         public let flexMatchMode: FlexMatchMode?
         /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameProperties: [GameProperty]?
-        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
         /// The Amazon Resource Name (ARN) that is assigned to a Amazon GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new Amazon GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
         public let gameSessionQueueArns: [String]?
@@ -2336,7 +2451,7 @@ extension GameLift {
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 4096)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
             try self.gameSessionQueueArns?.forEach {
-                try validate($0, name: "gameSessionQueueArns[]", parent: name, max: 256)
+                try validate($0, name: "gameSessionQueueArns[]", parent: name, max: 512)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, min: 1)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
             }
@@ -2451,7 +2566,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 512)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
             try self.validate(self.playerData, name: "playerData", parent: name, max: 2048)
@@ -2497,7 +2612,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 512)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
             try self.playerDataMap?.forEach {
@@ -2536,13 +2651,13 @@ extension GameLift {
     }
 
     public struct CreateScriptInput: AWSEncodableShape {
-        /// A descriptive label that is associated with a script. Script names don't need to be unique. You can use UpdateScript to change this value later.
+        /// A descriptive label that is associated with a script. Script names do not need to be unique. You can use UpdateScript to change this value later.
         public let name: String?
         /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
         public let storageLocation: S3Location?
         /// A list of labels to assign to the new script resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
         public let tags: [Tag]?
-        /// Version information associated with a build or script. Version strings don't need to be unique. You can use UpdateScript to change this value later.
+        /// Version information that is associated with a build or script. Version strings do not need to be unique. You can use UpdateScript to change this value later.
         public let version: String?
         /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the Amazon Web Services CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
         public let zipFile: AWSBase64Data?
@@ -2647,7 +2762,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 128)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.peerVpcAwsAccountId, name: "peerVpcAwsAccountId", parent: name, max: 1024)
             try self.validate(self.peerVpcAwsAccountId, name: "peerVpcAwsAccountId", parent: name, min: 1)
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, max: 1024)
@@ -2701,24 +2818,62 @@ extension GameLift {
         }
     }
 
+    public struct DeleteContainerFleetInput: AWSEncodableShape {
+        /// A unique identifier for the container fleet to delete. You can use either the fleet ID or ARN value.
+        public let fleetId: String?
+
+        @inlinable
+        public init(fleetId: String? = nil) {
+            self.fleetId = fleetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct DeleteContainerFleetOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteContainerGroupDefinitionInput: AWSEncodableShape {
         /// The unique identifier for the container group definition to delete. You can use either the Name or ARN value.
         public let name: String?
+        /// The number of most recent versions to keep while deleting all older versions.
+        public let versionCountToRetain: Int?
+        /// The specific version to delete.
+        public let versionNumber: Int?
 
         @inlinable
-        public init(name: String? = nil) {
+        public init(name: String? = nil, versionCountToRetain: Int? = nil, versionNumber: Int? = nil) {
             self.name = name
+            self.versionCountToRetain = versionCountToRetain
+            self.versionNumber = versionNumber
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 512)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
+            try self.validate(self.versionCountToRetain, name: "versionCountToRetain", parent: name, min: 0)
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case versionCountToRetain = "VersionCountToRetain"
+            case versionNumber = "VersionNumber"
         }
+    }
+
+    public struct DeleteContainerGroupDefinitionOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteFleetInput: AWSEncodableShape {
@@ -2731,7 +2886,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2752,7 +2909,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.locations?.forEach {
                 try validate($0, name: "locations[]", parent: name, max: 64)
                 try validate($0, name: "locations[]", parent: name, min: 1)
@@ -2937,7 +3096,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -3008,7 +3169,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 128)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.vpcPeeringConnectionId, name: "vpcPeeringConnectionId", parent: name, max: 1024)
             try self.validate(self.vpcPeeringConnectionId, name: "vpcPeeringConnectionId", parent: name, min: 1)
         }
@@ -3023,8 +3186,49 @@ extension GameLift {
         public init() {}
     }
 
+    public struct DeploymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines what actions to take if a deployment fails. If the fleet is multi-location, this strategy applies across all fleet locations. With a rollback strategy, updated fleet instances are rolled back to the last successful deployment. Alternatively, you can maintain a few impaired containers for the purpose of debugging, while all other tasks return to the last successful deployment.
+        public let impairmentStrategy: DeploymentImpairmentStrategy?
+        /// Sets a minimum level of healthy tasks to maintain during deployment activity.
+        public let minimumHealthyPercentage: Int?
+        /// Determines how fleet deployment activity affects active game sessions on the fleet. With protection, a deployment honors game session protection, and delays actions that would interrupt a protected active game session until the game session ends. Without protection, deployment activity can shut down all running tasks, including active game sessions, regardless of game session protection.
+        public let protectionStrategy: DeploymentProtectionStrategy?
+
+        @inlinable
+        public init(impairmentStrategy: DeploymentImpairmentStrategy? = nil, minimumHealthyPercentage: Int? = nil, protectionStrategy: DeploymentProtectionStrategy? = nil) {
+            self.impairmentStrategy = impairmentStrategy
+            self.minimumHealthyPercentage = minimumHealthyPercentage
+            self.protectionStrategy = protectionStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.minimumHealthyPercentage, name: "minimumHealthyPercentage", parent: name, max: 75)
+            try self.validate(self.minimumHealthyPercentage, name: "minimumHealthyPercentage", parent: name, min: 30)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impairmentStrategy = "ImpairmentStrategy"
+            case minimumHealthyPercentage = "MinimumHealthyPercentage"
+            case protectionStrategy = "ProtectionStrategy"
+        }
+    }
+
+    public struct DeploymentDetails: AWSDecodableShape {
+        /// A unique identifier for a fleet deployment.
+        public let latestDeploymentId: String?
+
+        @inlinable
+        public init(latestDeploymentId: String? = nil) {
+            self.latestDeploymentId = latestDeploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestDeploymentId = "LatestDeploymentId"
+        }
+    }
+
     public struct DeregisterComputeInput: AWSEncodableShape {
-        /// The unique identifier of the compute resource to deregister. For an Anywhere fleet compute, use the registered compute name. For a container fleet, use the compute name (for example, a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9) or the compute ARN.
+        /// The unique identifier of the compute resource to deregister. For an Anywhere fleet compute, use the registered compute name.
         public let computeName: String?
         /// A unique identifier for the fleet the compute resource is currently registered to.
         public let fleetId: String?
@@ -3038,7 +3242,9 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.computeName, name: "computeName", parent: name, max: 1024)
             try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$|^arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$")
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3143,7 +3349,7 @@ extension GameLift {
     }
 
     public struct DescribeComputeInput: AWSEncodableShape {
-        /// The unique identifier of the compute resource to retrieve properties for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID. For a container fleet, use the compute name (for example, a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9) or the compute ARN.
+        /// The unique identifier of the compute resource to retrieve properties for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID.
         public let computeName: String?
         /// A unique identifier for the fleet that the compute belongs to. You can use either the fleet ID or ARN value.
         public let fleetId: String?
@@ -3157,7 +3363,9 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.computeName, name: "computeName", parent: name, max: 1024)
             try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$|^arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$")
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3180,23 +3388,62 @@ extension GameLift {
         }
     }
 
+    public struct DescribeContainerFleetInput: AWSEncodableShape {
+        /// A unique identifier for the container fleet to retrieve. You can use either the fleet ID or ARN value.
+        public let fleetId: String?
+
+        @inlinable
+        public init(fleetId: String? = nil) {
+            self.fleetId = fleetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct DescribeContainerFleetOutput: AWSDecodableShape {
+        /// The properties for the requested container fleet, including current status.
+        public let containerFleet: ContainerFleet?
+
+        @inlinable
+        public init(containerFleet: ContainerFleet? = nil) {
+            self.containerFleet = containerFleet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerFleet = "ContainerFleet"
+        }
+    }
+
     public struct DescribeContainerGroupDefinitionInput: AWSEncodableShape {
         /// The unique identifier for the container group definition to retrieve properties for. You can use either the Name or ARN value.
         public let name: String?
+        /// The specific version to retrieve.
+        public let versionNumber: Int?
 
         @inlinable
-        public init(name: String? = nil) {
+        public init(name: String? = nil, versionNumber: Int? = nil) {
             self.name = name
+            self.versionNumber = versionNumber
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 512)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case versionNumber = "VersionNumber"
         }
     }
 
@@ -3269,7 +3516,9 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.fleetIds?.forEach {
-                try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+                try validate($0, name: "fleetIds[]", parent: name, max: 512)
+                try validate($0, name: "fleetIds[]", parent: name, min: 1)
+                try validate($0, name: "fleetIds[]", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             }
             try self.validate(self.fleetIds, name: "fleetIds", parent: name, min: 1)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
@@ -3319,7 +3568,9 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.fleetIds?.forEach {
-                try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+                try validate($0, name: "fleetIds[]", parent: name, max: 512)
+                try validate($0, name: "fleetIds[]", parent: name, min: 1)
+                try validate($0, name: "fleetIds[]", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             }
             try self.validate(self.fleetIds, name: "fleetIds", parent: name, min: 1)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
@@ -3352,6 +3603,51 @@ extension GameLift {
         }
     }
 
+    public struct DescribeFleetDeploymentInput: AWSEncodableShape {
+        /// A unique identifier for the deployment to return information for.
+        public let deploymentId: String?
+        /// A unique identifier for the container fleet. You can use either the fleet ID or ARN value.
+        public let fleetId: String?
+
+        @inlinable
+        public init(deploymentId: String? = nil, fleetId: String? = nil) {
+            self.deploymentId = deploymentId
+            self.fleetId = fleetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deploymentId, name: "deploymentId", parent: name, max: 1024)
+            try self.validate(self.deploymentId, name: "deploymentId", parent: name, min: 1)
+            try self.validate(self.deploymentId, name: "deploymentId", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "DeploymentId"
+            case fleetId = "FleetId"
+        }
+    }
+
+    public struct DescribeFleetDeploymentOutput: AWSDecodableShape {
+        /// The requested deployment information.
+        public let fleetDeployment: FleetDeployment?
+        /// If the deployment is for a multi-location fleet, the requests returns the deployment status in each fleet location.
+        public let locationalDeployments: [String: LocationalDeployment]?
+
+        @inlinable
+        public init(fleetDeployment: FleetDeployment? = nil, locationalDeployments: [String: LocationalDeployment]? = nil) {
+            self.fleetDeployment = fleetDeployment
+            self.locationalDeployments = locationalDeployments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetDeployment = "FleetDeployment"
+            case locationalDeployments = "LocationalDeployments"
+        }
+    }
+
     public struct DescribeFleetEventsInput: AWSEncodableShape {
         /// The most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
         public let endTime: Date?
@@ -3374,7 +3670,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -3426,7 +3724,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.locations?.forEach {
                 try validate($0, name: "locations[]", parent: name, max: 64)
@@ -3486,7 +3786,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[A-Za-z0-9\\-]+$")
@@ -3525,7 +3827,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[A-Za-z0-9\\-]+$")
@@ -3564,7 +3868,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[A-Za-z0-9\\-]+$")
@@ -3623,7 +3929,9 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.fleetIds?.forEach {
-                try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+                try validate($0, name: "fleetIds[]", parent: name, max: 512)
+                try validate($0, name: "fleetIds[]", parent: name, min: 1)
+                try validate($0, name: "fleetIds[]", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             }
             try self.validate(self.fleetIds, name: "fleetIds", parent: name, min: 1)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
@@ -3820,8 +4128,10 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
-            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 512)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
@@ -3977,8 +4287,10 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
-            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 512)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
@@ -4042,7 +4354,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-zA-Z0-9\\.-]+$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, max: 64)
@@ -4251,7 +4565,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 512)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
@@ -4302,7 +4616,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4346,7 +4662,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
@@ -4442,7 +4760,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 128)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4556,7 +4876,7 @@ extension GameLift {
     public struct Event: AWSDecodableShape {
         /// The number of times that this event occurred.
         public let count: Int64?
-        /// The type of event being logged.   Fleet state transition events:    FLEET_CREATED -- A fleet resource was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. Amazon GameLift is downloading the compressed build and running install scripts.   FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING. Amazon GameLift has successfully installed build and is now validating the build files.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING. Amazon GameLift has successfully verified the build files and is now launching a fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING. Amazon GameLift is launching a game server process on the fleet instance and is testing its connectivity with the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.   FLEET_STATE_ERROR -- The Fleet's status changed to ERROR. Describe the fleet event message for more details.    Fleet creation events (ordered by fleet creation activity):    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD -- The game server build was successfully downloaded to an instance, and Amazon GameLiftis now extracting the build files from the uploaded build. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER -- The game server build files were successfully extracted, and Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_COMPLETED_INSTALLER -- The game server build files were successfully installed and validation of the installation will begin soon.   FLEET_CREATION_FAILED_INSTALLER -- The installed failed while attempting to install the build files. This event indicates that the failure occurred before Amazon GameLift could start validation.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.   FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the runtime configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the runtime configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_VALIDATION_TIMED_OUT -- Validation of the fleet at the end of creation timed out. Try fleet creation again.   FLEET_ACTIVATION_FAILED -- The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. For more information, see Debug Fleet Creation Issues.   FLEET_ACTIVATION_FAILED_NO_INSTANCES -- Fleet creation was not able to obtain any instances based on the input fleet attributes. Try again at a different time or choose a different combination of fleet attributes such as fleet type, instance type, etc.   FLEET_INITIALIZATION_FAILED -- A generic exception occurred during fleet creation. Describe the fleet event message for more details.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your Amazon Web Services account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your Amazon Web Services account. For more information on VPC peering failures, see https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:    INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.   INSTANCE_RECYCLED -- A spot instance was determined to have a high risk  of interruption and is scheduled to be recycled once it has no active  game sessions.    Server process events:    SERVER_PROCESS_INVALID_PATH -- The game server executable or script could not be found based on the Fleet runtime configuration. Check that the launch path is correct based on the operating system of the Fleet.   SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT -- The server process did not call InitSDK() within the time expected (5 minutes). Check your game session log to see why InitSDK() was not called in time.   SERVER_PROCESS_PROCESS_READY_TIMEOUT -- The server process did not call ProcessReady() within the time expected  (5 minutes) after calling InitSDK(). Check your game session log to see why ProcessReady() was not called in time.   SERVER_PROCESS_CRASHED -- The server process exited without calling ProcessEnding(). Check your game session log to see why ProcessEnding() was not called.   SERVER_PROCESS_TERMINATED_UNHEALTHY -- The server process did not report a valid health check for too long and was therefore terminated by GameLift. Check your game session log to see if the thread became stuck processing a synchronous task for too long.   SERVER_PROCESS_FORCE_TERMINATED -- The server process did not exit cleanly within the time expected after OnProcessTerminate() was sent. Check your game session log to see why termination took longer than expected.   SERVER_PROCESS_PROCESS_EXIT_TIMEOUT -- The server process did not exit cleanly within the time expected (30 seconds) after calling ProcessEnding(). Check your game session log to see why termination took longer than expected.    Game session events:    GAME_SESSION_ACTIVATION_TIMEOUT -- GameSession failed to activate within the expected time. Check your game session log to see why ActivateGameSession() took longer to complete than expected.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.   GENERIC_EVENT -- An unspecified event has occurred.
+        /// The type of event being logged.   Fleet state transition events:    FLEET_CREATED -- A fleet resource was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. Amazon GameLift is downloading the compressed build and running install scripts.   FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING. Amazon GameLift has successfully installed build and is now validating the build files.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING. Amazon GameLift has successfully verified the build files and is now launching a fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING. Amazon GameLift is launching a game server process on the fleet instance and is testing its connectivity with the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.   FLEET_STATE_ERROR -- The Fleet's status changed to ERROR. Describe the fleet event message for more details.    Fleet creation events (ordered by fleet creation activity):    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD -- The game server build was successfully downloaded to an instance, and Amazon GameLiftis now extracting the build files from the uploaded build. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER -- The game server build files were successfully extracted, and Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_COMPLETED_INSTALLER -- The game server build files were successfully installed and validation of the installation will begin soon.   FLEET_CREATION_FAILED_INSTALLER -- The installed failed while attempting to install the build files. This event indicates that the failure occurred before Amazon GameLift could start validation.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.   FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the runtime configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the runtime configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_VALIDATION_TIMED_OUT -- Validation of the fleet at the end of creation timed out. Try fleet creation again.   FLEET_ACTIVATION_FAILED -- The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. For more information, see Debug Fleet Creation Issues.   FLEET_ACTIVATION_FAILED_NO_INSTANCES -- Fleet creation was not able to obtain any instances based on the input fleet attributes. Try again at a different time or choose a different combination of fleet attributes such as fleet type, instance type, etc.   FLEET_INITIALIZATION_FAILED -- A generic exception occurred during fleet creation. Describe the fleet event message for more details.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your Amazon Web Services account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your Amazon Web Services account. For more information on VPC peering failures, see https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Container group events:    CONTAINER_GROUP_REGISTRATION_FAILED –  A game server container group started, but  timed out before calling RegisterCompute.    CONTAINER_GROUP_CRASHED A game server container group started and terminated without  calling RegisterCompute.    Spot instance events:    INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.   INSTANCE_RECYCLED -- A spot instance was determined to have a high risk  of interruption and is scheduled to be recycled once it has no active  game sessions.    Server process events:    SERVER_PROCESS_INVALID_PATH -- The game server executable or script could not be found based on the Fleet runtime configuration. Check that the launch path is correct based on the operating system of the Fleet.   SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT -- The server process did not call InitSDK() within the time expected (5 minutes). Check your game session log to see why InitSDK() was not called in time.   SERVER_PROCESS_PROCESS_READY_TIMEOUT -- The server process did not call ProcessReady() within the time expected  (5 minutes) after calling InitSDK(). Check your game session log to see why ProcessReady() was not called in time.   SERVER_PROCESS_CRASHED -- The server process exited without calling ProcessEnding(). Check your game session log to see why ProcessEnding() was not called.   SERVER_PROCESS_TERMINATED_UNHEALTHY -- The server process did not report a valid health check for too long and was therefore terminated by GameLift. Check your game session log to see if the thread became stuck processing a synchronous task for too long.   SERVER_PROCESS_FORCE_TERMINATED -- The server process did not exit cleanly within the time expected after OnProcessTerminate() was sent. Check your game session log to see why termination took longer than expected.   SERVER_PROCESS_PROCESS_EXIT_TIMEOUT -- The server process did not exit cleanly within the time expected (30 seconds) after calling ProcessEnding(). Check your game session log to see why termination took longer than expected.    Game session events:    GAME_SESSION_ACTIVATION_TIMEOUT -- GameSession failed to activate within the expected time. Check your game session log to see why ActivateGameSession() took longer to complete than expected.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.   GENERIC_EVENT -- An unspecified event has occurred.
         public let eventCode: EventCode?
         /// A unique identifier for a fleet event.
         public let eventId: String?
@@ -4616,7 +4936,7 @@ extension GameLift {
     }
 
     public struct FleetAttributes: AWSDecodableShape {
-        ///  This property is used with the Amazon GameLift containers feature, which is currently in public preview. A set of attributes that describe the container groups that are deployed on the fleet. These attributes are included for fleets with compute type CONTAINER only. This attribute is used with fleets where ComputeType is "Container".
+        /// Amazon GameLift Anywhere configuration options.
         public let anywhereConfiguration: AnywhereConfiguration?
         ///  The Amazon Resource Name (ARN) associated with the Amazon GameLift build resource that is deployed on instances in this fleet. In a GameLift build ARN, the resource ID matches the BuildId value. This attribute is used with fleets where ComputeType is "EC2".
         public let buildArn: String?
@@ -4626,8 +4946,6 @@ extension GameLift {
         public let certificateConfiguration: CertificateConfiguration?
         /// The type of compute resource used to host your game servers. You can use your own compute resources with Amazon GameLift Anywhere or use Amazon EC2 instances with managed Amazon GameLift.
         public let computeType: ComputeType?
-        /// A set of properties that describe the container groups that are deployed to the fleet. These attributes are included for fleets with compute type CONTAINER.
-        public let containerGroupsAttributes: ContainerGroupsAttributes?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
         /// A human-readable description of the fleet.
@@ -4638,21 +4956,21 @@ extension GameLift {
         public let fleetId: String?
         /// Indicates whether the fleet uses On-Demand or Spot instances. For more information, see  On-Demand versus Spot Instances. This fleet property can't be changed after the fleet is created.
         public let fleetType: FleetType?
-        /// A unique identifier for an IAM role with access permissions to other Amazon Web Services services.  Any application that runs on an instance in the fleet--including install scripts, server processes, and other  processes--can use these permissions to interact with Amazon Web Services resources that you own or have access to. For more information about using the role with your game server builds, see   Communicate with other Amazon Web Services resources from your fleets.  This attribute is used with fleets where ComputeType is "EC2" or "Container".
+        /// A unique identifier for an IAM role that manages access to your Amazon Web Services services.  With an instance role ARN set, any application that runs on an instance in this fleet can assume the role,  including install scripts, server processes, and daemons (background processes). Create a role or look up a role's  ARN by using the IAM dashboard in the Amazon Web Services Management Console. Learn more about using on-box credentials for your game servers at   Access external resources from a game server.  This attribute is used with fleets where ComputeType is "EC2".
         public let instanceRoleArn: String?
-        /// Indicates that fleet instances maintain a shared credentials file for the IAM role defined in InstanceRoleArn. Shared credentials allow applications that are deployed with the game server executable to communicate with other Amazon Web Services resources. This property is used  only when the game server is integrated with the server SDK version 5.x. For more information about using shared credentials, see  Communicate with other Amazon Web Services resources from your fleets. This attribute is used with fleets where ComputeType is "EC2" or "Container".
+        /// Indicates that fleet instances maintain a shared credentials file for the IAM role defined in InstanceRoleArn. Shared credentials allow applications that are deployed with the game server executable to communicate with other Amazon Web Services resources. This property is used  only when the game server is integrated with the server SDK version 5.x. For more information about using shared credentials, see  Communicate with other Amazon Web Services resources from your fleets. This attribute is used with fleets where ComputeType is "EC2".
         public let instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider?
-        /// The Amazon EC2 instance type that the fleet uses. Instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See Amazon Elastic Compute Cloud Instance Types for detailed descriptions. This attribute is used with fleets where ComputeType is "EC2" or "Container".
+        /// The Amazon EC2 instance type that the fleet uses. Instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See Amazon Elastic Compute Cloud Instance Types for detailed descriptions. This attribute is used with fleets where ComputeType is "EC2".
         public let instanceType: EC2InstanceType?
         ///  This parameter is no longer used. Game session log paths are now defined using the Amazon GameLift server API ProcessReady() logParameters. See more information in the Server API Reference.
         public let logPaths: [String]?
-        /// Name of a metric group that metrics for this fleet are added to. In Amazon CloudWatch, you can view aggregated metrics for fleets that are in a metric group. A fleet can be included in only one metric group at a time.  This attribute is used with fleets where ComputeType is "EC2" or "Container".
+        /// Name of a metric group that metrics for this fleet are added to. In Amazon CloudWatch, you can view aggregated metrics for fleets that are in a metric group. A fleet can be included in only one metric group at a time.  This attribute is used with fleets where ComputeType is "EC2".
         public let metricGroups: [String]?
         /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String?
-        /// The type of game session protection to set on all new instances that are started in the fleet.  This attribute is used with fleets where ComputeType is "EC2" or "Container".    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
+        /// The type of game session protection to set on all new instances that are started in the fleet.  This attribute is used with fleets where ComputeType is "EC2".    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is "EC2" or "Container".  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is "EC2".  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
         public let operatingSystem: OperatingSystem?
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         ///  The Amazon Resource Name (ARN) associated with the GameLift script resource that is deployed on instances in this fleet. In a GameLift script ARN, the resource ID matches the ScriptId value.
@@ -4665,19 +4983,18 @@ extension GameLift {
         public let serverLaunchPath: String?
         /// Current status of the fleet. Possible fleet statuses include the following:   NEW -- A new fleet resource has been defined and Amazon GameLift has started creating the fleet.  Desired instances is set to 1.    DOWNLOADING/VALIDATING/BUILDING -- Amazon GameLift is download the game server build, running install scripts, and then validating the build files. When complete, Amazon GameLift launches a fleet instance.    ACTIVATING -- Amazon GameLift is launching a game server process and testing its connectivity with the Amazon GameLift service.   ACTIVE -- The fleet is now ready to host game sessions.   ERROR -- An error occurred when downloading, validating, building, or activating the fleet.   DELETING -- Hosts are responding to a delete fleet request.   TERMINATED -- The fleet no longer exists.
         public let status: FleetStatus?
-        /// A list of fleet activity that has been suspended using StopFleetActions.  This includes fleet auto-scaling. This attribute is used with fleets where ComputeType is "EC2" or "Container".
+        /// A list of fleet activity that has been suspended using StopFleetActions.  This includes fleet auto-scaling. This attribute is used with fleets where ComputeType is "EC2".
         public let stoppedActions: [FleetAction]?
         /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
 
         @inlinable
-        public init(anywhereConfiguration: AnywhereConfiguration? = nil, buildArn: String? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, computeType: ComputeType? = nil, containerGroupsAttributes: ContainerGroupsAttributes? = nil, creationTime: Date? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, scriptArn: String? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: Date? = nil) {
+        public init(anywhereConfiguration: AnywhereConfiguration? = nil, buildArn: String? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, computeType: ComputeType? = nil, creationTime: Date? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, scriptArn: String? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: Date? = nil) {
             self.anywhereConfiguration = anywhereConfiguration
             self.buildArn = buildArn
             self.buildId = buildId
             self.certificateConfiguration = certificateConfiguration
             self.computeType = computeType
-            self.containerGroupsAttributes = containerGroupsAttributes
             self.creationTime = creationTime
             self.description = description
             self.fleetArn = fleetArn
@@ -4707,7 +5024,6 @@ extension GameLift {
             case buildId = "BuildId"
             case certificateConfiguration = "CertificateConfiguration"
             case computeType = "ComputeType"
-            case containerGroupsAttributes = "ContainerGroupsAttributes"
             case creationTime = "CreationTime"
             case description = "Description"
             case fleetArn = "FleetArn"
@@ -4737,32 +5053,78 @@ extension GameLift {
         public let fleetArn: String?
         /// A unique identifier for the fleet associated with the location.
         public let fleetId: String?
+        /// The number and status of game server container groups deployed in a container fleet.
+        public let gameServerContainerGroupCounts: GameServerContainerGroupCounts?
         /// The current number of instances in the fleet, listed by instance status. Counts for pending and terminating instances might be non-zero if the fleet is adjusting to a scaling event or if access to resources is temporarily affected.
         public let instanceCounts: EC2InstanceCounts?
         /// The Amazon EC2 instance type that is used for instances in a fleet. Instance type determines the computing resources in use, including CPU, memory, storage, and networking capacity. See Amazon Elastic Compute Cloud Instance Types for detailed descriptions.
         public let instanceType: EC2InstanceType?
         /// The fleet location for the instance count information, expressed as an Amazon Web Services Region code, such as us-west-2.
         public let location: String?
-        ///  This property is used with the Amazon GameLift containers feature, which is currently in public preview. The number and status of replica container groups in a container fleet.
-        public let replicaContainerGroupCounts: ReplicaContainerGroupCounts?
 
         @inlinable
-        public init(fleetArn: String? = nil, fleetId: String? = nil, instanceCounts: EC2InstanceCounts? = nil, instanceType: EC2InstanceType? = nil, location: String? = nil, replicaContainerGroupCounts: ReplicaContainerGroupCounts? = nil) {
+        public init(fleetArn: String? = nil, fleetId: String? = nil, gameServerContainerGroupCounts: GameServerContainerGroupCounts? = nil, instanceCounts: EC2InstanceCounts? = nil, instanceType: EC2InstanceType? = nil, location: String? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
+            self.gameServerContainerGroupCounts = gameServerContainerGroupCounts
             self.instanceCounts = instanceCounts
             self.instanceType = instanceType
             self.location = location
-            self.replicaContainerGroupCounts = replicaContainerGroupCounts
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleetArn = "FleetArn"
             case fleetId = "FleetId"
+            case gameServerContainerGroupCounts = "GameServerContainerGroupCounts"
             case instanceCounts = "InstanceCounts"
             case instanceType = "InstanceType"
             case location = "Location"
-            case replicaContainerGroupCounts = "ReplicaContainerGroupCounts"
+        }
+    }
+
+    public struct FleetDeployment: AWSDecodableShape {
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        public let creationTime: Date?
+        /// Instructions for how to deploy updates to a container fleet and what actions to take if the deployment fails.
+        public let deploymentConfiguration: DeploymentConfiguration?
+        /// A unique identifier for the deployment.
+        public let deploymentId: String?
+        /// The status of fleet deployment activity in the location.     IN_PROGRESS -- The deployment is in progress.    IMPAIRED -- The deployment failed and the fleet has some impaired containers.     COMPLETE -- The deployment has completed successfully.    ROLLBACK_IN_PROGRESS -- The deployment failed and rollback has been initiated.    ROLLBACK_IN_COMPLETE -- The deployment failed and rollback has been completed.    CANCELLED -- The deployment was cancelled.
+        public let deploymentStatus: DeploymentStatus?
+        /// A unique identifier for the container fleet.
+        public let fleetId: String?
+        /// The unique identifier for the version of the game server container group definition that is being deployed.
+        public let gameServerBinaryArn: String?
+        /// The unique identifier for the version of the per-instance container group definition that is being deployed.
+        public let perInstanceBinaryArn: String?
+        /// The unique identifier for the version of the game server container group definition to roll back to if deployment fails.
+        public let rollbackGameServerBinaryArn: String?
+        /// The unique identifier for the version of the per-instance container group definition to roll back to if deployment fails.
+        public let rollbackPerInstanceBinaryArn: String?
+
+        @inlinable
+        public init(creationTime: Date? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, fleetId: String? = nil, gameServerBinaryArn: String? = nil, perInstanceBinaryArn: String? = nil, rollbackGameServerBinaryArn: String? = nil, rollbackPerInstanceBinaryArn: String? = nil) {
+            self.creationTime = creationTime
+            self.deploymentConfiguration = deploymentConfiguration
+            self.deploymentId = deploymentId
+            self.deploymentStatus = deploymentStatus
+            self.fleetId = fleetId
+            self.gameServerBinaryArn = gameServerBinaryArn
+            self.perInstanceBinaryArn = perInstanceBinaryArn
+            self.rollbackGameServerBinaryArn = rollbackGameServerBinaryArn
+            self.rollbackPerInstanceBinaryArn = rollbackPerInstanceBinaryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case deploymentConfiguration = "DeploymentConfiguration"
+            case deploymentId = "DeploymentId"
+            case deploymentStatus = "DeploymentStatus"
+            case fleetId = "FleetId"
+            case gameServerBinaryArn = "GameServerBinaryArn"
+            case perInstanceBinaryArn = "PerInstanceBinaryArn"
+            case rollbackGameServerBinaryArn = "RollbackGameServerBinaryArn"
+            case rollbackPerInstanceBinaryArn = "RollbackPerInstanceBinaryArn"
         }
     }
 
@@ -4878,6 +5240,139 @@ extension GameLift {
             case lastHealthCheckTime = "LastHealthCheckTime"
             case registrationTime = "RegistrationTime"
             case utilizationStatus = "UtilizationStatus"
+        }
+    }
+
+    public struct GameServerContainerDefinition: AWSDecodableShape {
+        /// The container definition identifier. Container names are unique within a container group definition.
+        public let containerName: String?
+        /// Indicates that the container relies on the status of other containers in the same container group during startup and shutdown sequences. A container might have dependencies on multiple containers.
+        public let dependsOn: [ContainerDependency]?
+        /// A set of environment variables that's passed to the container on startup. See the ContainerDefinition::environment parameter in the Amazon Elastic Container Service API Reference.
+        public let environmentOverride: [ContainerEnvironment]?
+        /// The URI to the image that Amazon GameLift uses when deploying this container to a container fleet. For a more specific identifier, see ResolvedImageDigest.
+        public let imageUri: String?
+        /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
+        public let mountPoints: [ContainerMountPoint]?
+        /// The set of ports that are available to bind to processes in the container. For example, a game server process requires a container port to allow game clients to connect to it. Container ports aren't directly accessed by inbound traffic. Amazon GameLift maps these container ports to externally accessible connection ports, which are assigned as needed from the container fleet's ConnectionPortRange.
+        public let portConfiguration: ContainerPortConfiguration?
+        /// A unique and immutable identifier for the container image. The digest is a SHA 256 hash of the container image manifest.
+        public let resolvedImageDigest: String?
+        /// The Amazon GameLift server SDK version that the game server is integrated with. Only game servers using 5.2.0 or higher are compatible with container fleets.
+        public let serverSdkVersion: String?
+
+        @inlinable
+        public init(containerName: String? = nil, dependsOn: [ContainerDependency]? = nil, environmentOverride: [ContainerEnvironment]? = nil, imageUri: String? = nil, mountPoints: [ContainerMountPoint]? = nil, portConfiguration: ContainerPortConfiguration? = nil, resolvedImageDigest: String? = nil, serverSdkVersion: String? = nil) {
+            self.containerName = containerName
+            self.dependsOn = dependsOn
+            self.environmentOverride = environmentOverride
+            self.imageUri = imageUri
+            self.mountPoints = mountPoints
+            self.portConfiguration = portConfiguration
+            self.resolvedImageDigest = resolvedImageDigest
+            self.serverSdkVersion = serverSdkVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+            case dependsOn = "DependsOn"
+            case environmentOverride = "EnvironmentOverride"
+            case imageUri = "ImageUri"
+            case mountPoints = "MountPoints"
+            case portConfiguration = "PortConfiguration"
+            case resolvedImageDigest = "ResolvedImageDigest"
+            case serverSdkVersion = "ServerSdkVersion"
+        }
+    }
+
+    public struct GameServerContainerDefinitionInput: AWSEncodableShape {
+        /// A string that uniquely identifies the container definition within a container group.
+        public let containerName: String?
+        /// Establishes dependencies between this container and the status of other containers in the same container group. A container can have dependencies on multiple different containers.  You can use dependencies to establish a startup/shutdown sequence across the container group. For example, you might specify that ContainerB has a START dependency on ContainerA. This dependency means that ContainerB can't start until after ContainerA has started. This dependency is reversed on shutdown, which means that ContainerB must shut down before ContainerA can shut down.
+        public let dependsOn: [ContainerDependency]?
+        /// A set of environment variables to pass to the container on startup. See the ContainerDefinition::environment parameter in the Amazon Elastic Container Service API Reference.
+        public let environmentOverride: [ContainerEnvironment]?
+        /// The location of the container image to deploy to a container fleet. Provide an image in an Amazon Elastic Container Registry public or private repository. The repository must be in the same Amazon Web Services account and Amazon Web Services Region where you're creating the container group definition. For limits on image size, see Amazon GameLift endpoints and quotas. You can use any of the following image URI formats:    Image ID only: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]    Image ID and digest: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]@[digest]    Image ID and tag: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]:[tag]
+        public let imageUri: String?
+        /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
+        public let mountPoints: [ContainerMountPoint]?
+        /// A set of ports that Amazon GameLift can assign to processes in the container. Processes, must be assigned a container port to accept inbound traffic connections. For example, a game server process requires a container port to allow game clients to connect to it. Container ports aren't directly accessed by inbound traffic. Instead, Amazon GameLift maps container ports to externally accessible connection ports (see the container fleet property ConnectionPortRange).
+        public let portConfiguration: ContainerPortConfiguration?
+        /// The Amazon GameLift server SDK version that the game server is integrated with. Only game servers using 5.2.0 or higher are compatible with container fleets.
+        public let serverSdkVersion: String?
+
+        @inlinable
+        public init(containerName: String? = nil, dependsOn: [ContainerDependency]? = nil, environmentOverride: [ContainerEnvironment]? = nil, imageUri: String? = nil, mountPoints: [ContainerMountPoint]? = nil, portConfiguration: ContainerPortConfiguration? = nil, serverSdkVersion: String? = nil) {
+            self.containerName = containerName
+            self.dependsOn = dependsOn
+            self.environmentOverride = environmentOverride
+            self.imageUri = imageUri
+            self.mountPoints = mountPoints
+            self.portConfiguration = portConfiguration
+            self.serverSdkVersion = serverSdkVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerName, name: "containerName", parent: name, max: 128)
+            try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
+            try self.validate(self.containerName, name: "containerName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.dependsOn?.forEach {
+                try $0.validate(name: "\(name).dependsOn[]")
+            }
+            try self.validate(self.dependsOn, name: "dependsOn", parent: name, max: 10)
+            try self.validate(self.dependsOn, name: "dependsOn", parent: name, min: 1)
+            try self.environmentOverride?.forEach {
+                try $0.validate(name: "\(name).environmentOverride[]")
+            }
+            try self.validate(self.environmentOverride, name: "environmentOverride", parent: name, max: 20)
+            try self.validate(self.environmentOverride, name: "environmentOverride", parent: name, min: 1)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, max: 255)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, min: 1)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: "^[a-zA-Z0-9-_\\.@\\/:]+$")
+            try self.mountPoints?.forEach {
+                try $0.validate(name: "\(name).mountPoints[]")
+            }
+            try self.validate(self.mountPoints, name: "mountPoints", parent: name, max: 10)
+            try self.validate(self.mountPoints, name: "mountPoints", parent: name, min: 1)
+            try self.portConfiguration?.validate(name: "\(name).portConfiguration")
+            try self.validate(self.serverSdkVersion, name: "serverSdkVersion", parent: name, max: 128)
+            try self.validate(self.serverSdkVersion, name: "serverSdkVersion", parent: name, pattern: "^\\d+\\.\\d+\\.\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+            case dependsOn = "DependsOn"
+            case environmentOverride = "EnvironmentOverride"
+            case imageUri = "ImageUri"
+            case mountPoints = "MountPoints"
+            case portConfiguration = "PortConfiguration"
+            case serverSdkVersion = "ServerSdkVersion"
+        }
+    }
+
+    public struct GameServerContainerGroupCounts: AWSDecodableShape {
+        ///  The number of container groups that have active game sessions.
+        public let active: Int?
+        ///  The number of container groups that have no active game sessions.
+        public let idle: Int?
+        ///  The number of container groups that are starting up but haven't yet registered.
+        public let pending: Int?
+        ///  The number of container groups that are in the process of shutting down.
+        public let terminating: Int?
+
+        @inlinable
+        public init(active: Int? = nil, idle: Int? = nil, pending: Int? = nil, terminating: Int? = nil) {
+            self.active = active
+            self.idle = idle
+            self.pending = pending
+            self.terminating = terminating
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active = "ACTIVE"
+            case idle = "IDLE"
+            case pending = "PENDING"
+            case terminating = "TERMINATING"
         }
     }
 
@@ -5003,7 +5498,7 @@ extension GameLift {
         public let fleetId: String?
         /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
         public let gameProperties: [GameProperty]?
-        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see Start a Game Session).
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session.
         public let gameSessionData: String?
         /// A unique identifier for the game session. A game session ARN has the following format:  arn:aws:gamelift:::gamesession//.
         public let gameSessionId: String?
@@ -5104,6 +5599,29 @@ extension GameLift {
         }
     }
 
+    public struct GameSessionCreationLimitPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy evaluates when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
+        public let newGameSessionsPerCreator: Int?
+        /// The time span used in evaluating the resource creation limit policy.
+        public let policyPeriodInMinutes: Int?
+
+        @inlinable
+        public init(newGameSessionsPerCreator: Int? = nil, policyPeriodInMinutes: Int? = nil) {
+            self.newGameSessionsPerCreator = newGameSessionsPerCreator
+            self.policyPeriodInMinutes = policyPeriodInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.newGameSessionsPerCreator, name: "newGameSessionsPerCreator", parent: name, min: 0)
+            try self.validate(self.policyPeriodInMinutes, name: "policyPeriodInMinutes", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newGameSessionsPerCreator = "NewGameSessionsPerCreator"
+            case policyPeriodInMinutes = "PolicyPeriodInMinutes"
+        }
+    }
+
     public struct GameSessionDetail: AWSDecodableShape {
         /// Object that describes a game session.
         public let gameSession: GameSession?
@@ -5131,7 +5649,7 @@ extension GameLift {
         public let gameProperties: [GameProperty]?
         /// Identifier for the game session created by this placement request. This identifier is unique across all Regions. This value isn't final until placement status is FULFILLED.
         public let gameSessionArn: String?
-        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the  GameSession object with a request to start a new game session (see Start a Game Session).
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session.
         public let gameSessionData: String?
         /// A unique identifier for the game session. This value isn't final until placement status is FULFILLED.
         public let gameSessionId: String?
@@ -5151,13 +5669,13 @@ extension GameLift {
         public let placedPlayerSessions: [PlacedPlayerSession]?
         /// A unique identifier for a game session placement.
         public let placementId: String?
-        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions.
+        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to @aws; Regions.
         public let playerLatencies: [PlayerLatency]?
         /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value isn't final until placement status is FULFILLED.
         public let port: Int?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let startTime: Date?
-        /// Current status of the game session placement request.    PENDING -- The placement request is  in the queue waiting to be processed. Game session properties are not yet final.     FULFILLED -- A new game session has been  successfully placed. Game session properties are now final.    CANCELLED -- The placement request was canceled.    TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.    FAILED -- Amazon GameLift is not able to complete the process of placing the game session. Common reasons are the game session terminated before the placement process was completed, or an unexpected internal error.
+        /// Current status of the game session placement request.    PENDING -- The placement request is  in the queue waiting to be processed. Game session properties are not yet final.     FULFILLED -- A new game session has been  successfully placed. Game session properties are now final.    CANCELLED -- The placement request was canceled.    TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit as a new placement request as needed.    FAILED -- Amazon GameLift is not able to complete the process of placing the game session. Common reasons are the game session terminated before the placement process was completed, or an unexpected internal error.
         public let status: GameSessionPlacementState?
 
         @inlinable
@@ -5217,11 +5735,13 @@ extension GameLift {
         public let name: String?
         /// An SNS topic ARN that is set up to receive game session placement notifications. See Setting up notifications for game session placement.
         public let notificationTarget: String?
-        /// A set of policies that act as a sliding cap on player latency. FleetIQ works to deliver low latency for most players in a game session. These policies ensure that no individual player can be placed into a game with unreasonably high latency. Use multiple policies to gradually relax latency requirements a step at a time. Multiple policies are applied based on their maximum allowed latency, starting with the lowest value.
+        /// A set of policies that enforce a sliding cap on player latency when processing game sessions placement requests.
+        /// 	Use multiple policies to gradually relax the cap over time if Amazon GameLift can't make a placement.
+        /// 	    Policies are evaluated in order starting with the lowest maximum latency value.
         public let playerLatencyPolicies: [PlayerLatencyPolicy]?
         /// Custom settings to use when prioritizing destinations and locations for game session placements. This  configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly  named will be automatically applied at the end of the prioritization process.
         public let priorityConfiguration: PriorityConfiguration?
-        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. By default, this property is set to 600.
+        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
         public let timeoutInSeconds: Int?
 
         @inlinable
@@ -5260,7 +5780,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 256)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 512)
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, min: 1)
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
         }
@@ -5271,7 +5791,7 @@ extension GameLift {
     }
 
     public struct GetComputeAccessInput: AWSEncodableShape {
-        /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet compute, use the instance ID. For a container fleet, use the compute name (for example, a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9) or the compute ARN.
+        /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet compute, use the instance ID.  Use ListCompute to retrieve compute identifiers.
         public let computeName: String?
         /// A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value.
         public let fleetId: String?
@@ -5285,7 +5805,9 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.computeName, name: "computeName", parent: name, max: 1024)
             try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$|^arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$")
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5299,19 +5821,22 @@ extension GameLift {
         public let computeArn: String?
         /// The identifier of the compute resource to be accessed.  This value might be either a compute name or an instance ID.
         public let computeName: String?
+        /// For a managed container fleet, a list of containers on the compute. Use the container runtime ID with Docker commands to connect to a specific container.
+        public let containerIdentifiers: [ContainerIdentifier]?
         /// A set of temporary Amazon Web Services credentials for use when connecting to the compute resource with Amazon EC2 Systems Manager (SSM).
         public let credentials: AwsCredentials?
         /// The Amazon Resource Name (ARN) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public let fleetArn: String?
         /// The ID of the fleet that holds the compute resource to be accessed.
         public let fleetId: String?
-        /// (For container fleets only) The instance ID where the compute resource is running.
+        /// The instance ID where the compute resource is running.
         public let target: String?
 
         @inlinable
-        public init(computeArn: String? = nil, computeName: String? = nil, credentials: AwsCredentials? = nil, fleetArn: String? = nil, fleetId: String? = nil, target: String? = nil) {
+        public init(computeArn: String? = nil, computeName: String? = nil, containerIdentifiers: [ContainerIdentifier]? = nil, credentials: AwsCredentials? = nil, fleetArn: String? = nil, fleetId: String? = nil, target: String? = nil) {
             self.computeArn = computeArn
             self.computeName = computeName
+            self.containerIdentifiers = containerIdentifiers
             self.credentials = credentials
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -5321,6 +5846,7 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case computeArn = "ComputeArn"
             case computeName = "ComputeName"
+            case containerIdentifiers = "ContainerIdentifiers"
             case credentials = "Credentials"
             case fleetArn = "FleetArn"
             case fleetId = "FleetId"
@@ -5329,7 +5855,7 @@ extension GameLift {
     }
 
     public struct GetComputeAuthTokenInput: AWSEncodableShape {
-        /// The name of the compute resource you are requesting the authentication token for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID. For a container fleet, use the compute name (for example, a123b456c789012d3e4567f8a901b23c/1a234b56-7cd8-9e0f-a1b2-c34d567ef8a9) or the compute ARN.
+        /// The name of the compute resource you are requesting the authentication token for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID.
         public let computeName: String?
         /// A unique identifier for the fleet that the compute is registered to.
         public let fleetId: String?
@@ -5343,7 +5869,9 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.computeName, name: "computeName", parent: name, max: 1024)
             try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$|^arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$")
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5396,7 +5924,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 512)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
         }
@@ -5433,7 +5961,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-zA-Z0-9\\.-]+$")
         }
 
@@ -5460,7 +5990,7 @@ extension GameLift {
     public struct Instance: AWSDecodableShape {
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
-        /// The DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: ..amazongamelift.com.   Non-TLS-enabled fleets: ec2-.compute.amazonaws.com. (See Amazon Elastic Compute Cloud Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
+        /// The DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: ..amazongamelift.com.   Non-TLS-enabled fleets: ec2-.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
         public let dnsName: String?
         /// The Amazon Resource Name (ARN) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public let fleetArn: String?
@@ -5700,7 +6230,7 @@ extension GameLift {
     public struct ListBuildsInput: AWSEncodableShape {
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, don't specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:    INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY -- The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED -- The game build upload failed. You cannot create new fleets for this build.
         public let status: BuildStatus?
@@ -5743,17 +6273,23 @@ extension GameLift {
     }
 
     public struct ListComputeInput: AWSEncodableShape {
+        /// The status of computes in a managed container fleet, based on the success of the latest update deployment.    ACTIVE -- The compute is deployed with the correct container definitions. It is ready to process game servers and host game sessions.    IMPAIRED -- An update deployment to the compute failed, and the compute is deployed with incorrect container definitions.
+        public let computeStatus: ListComputeInputStatus?
+        /// For computes in a managed container fleet, the name of the deployed container group definition.
+        public let containerGroupDefinitionName: String?
         /// A unique identifier for the fleet to retrieve compute resources for.
         public let fleetId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// The name of a location to retrieve compute resources for. For an Amazon GameLift Anywhere fleet, use a custom location. For a multi-location EC2 or container fleet, provide a Amazon Web Services Region or Local Zone code (for example: us-west-2 or us-west-2-lax-1).
+        /// The name of a location to retrieve compute resources for. For an Amazon GameLift Anywhere fleet, use a custom location. For a managed fleet, provide a Amazon Web Services Region or Local Zone code (for example: us-west-2 or us-west-2-lax-1).
         public let location: String?
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
         @inlinable
-        public init(fleetId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil) {
+        public init(computeStatus: ListComputeInputStatus? = nil, containerGroupDefinitionName: String? = nil, fleetId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil) {
+            self.computeStatus = computeStatus
+            self.containerGroupDefinitionName = containerGroupDefinitionName
             self.fleetId = fleetId
             self.limit = limit
             self.location = location
@@ -5761,7 +6297,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.containerGroupDefinitionName, name: "containerGroupDefinitionName", parent: name, max: 512)
+            try self.validate(self.containerGroupDefinitionName, name: "containerGroupDefinitionName", parent: name, min: 1)
+            try self.validate(self.containerGroupDefinitionName, name: "containerGroupDefinitionName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
@@ -5771,6 +6312,8 @@ extension GameLift {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case computeStatus = "ComputeStatus"
+            case containerGroupDefinitionName = "ContainerGroupDefinitionName"
             case fleetId = "FleetId"
             case limit = "Limit"
             case location = "Location"
@@ -5796,31 +6339,131 @@ extension GameLift {
         }
     }
 
-    public struct ListContainerGroupDefinitionsInput: AWSEncodableShape {
+    public struct ListContainerFleetsInput: AWSEncodableShape {
+        /// The container group definition to filter the list on. Use this parameter to retrieve only those fleets that use the specified container group definition. You can specify the container group definition's name to get fleets with the latest versions. Alternatively, provide an ARN value to get fleets with a specific version number.
+        public let containerGroupDefinitionName: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
-        /// The type of container group definitions to retrieve.    DAEMON -- Daemon container groups run background processes and are deployed once per fleet instance.    REPLICA -- Replica container groups run your game server application and supporting software. Replica groups might be deployed multiple times per fleet instance.
-        public let schedulingStrategy: ContainerSchedulingStrategy?
 
         @inlinable
-        public init(limit: Int? = nil, nextToken: String? = nil, schedulingStrategy: ContainerSchedulingStrategy? = nil) {
+        public init(containerGroupDefinitionName: String? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.containerGroupDefinitionName = containerGroupDefinitionName
             self.limit = limit
             self.nextToken = nextToken
-            self.schedulingStrategy = schedulingStrategy
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.limit, name: "limit", parent: name, max: 10)
+            try self.validate(self.containerGroupDefinitionName, name: "containerGroupDefinitionName", parent: name, max: 512)
+            try self.validate(self.containerGroupDefinitionName, name: "containerGroupDefinitionName", parent: name, min: 1)
+            try self.validate(self.containerGroupDefinitionName, name: "containerGroupDefinitionName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerGroupDefinitionName = "ContainerGroupDefinitionName"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListContainerFleetsOutput: AWSDecodableShape {
+        /// A collection of container fleet objects for all fleets that match the request criteria.
+        public let containerFleets: [ContainerFleet]?
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        @inlinable
+        public init(containerFleets: [ContainerFleet]? = nil, nextToken: String? = nil) {
+            self.containerFleets = containerFleets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerFleets = "ContainerFleets"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListContainerGroupDefinitionVersionsInput: AWSEncodableShape {
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int?
+        /// The unique identifier for the container group definition to retrieve properties for. You can use either the Name or ARN value.
+        public let name: String?
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+
+        @inlinable
+        public init(limit: Int? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 512)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
+            case name = "Name"
             case nextToken = "NextToken"
-            case schedulingStrategy = "SchedulingStrategy"
+        }
+    }
+
+    public struct ListContainerGroupDefinitionVersionsOutput: AWSDecodableShape {
+        /// A result set of container group definitions that match the request.
+        public let containerGroupDefinitions: [ContainerGroupDefinition]?
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        @inlinable
+        public init(containerGroupDefinitions: [ContainerGroupDefinition]? = nil, nextToken: String? = nil) {
+            self.containerGroupDefinitions = containerGroupDefinitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerGroupDefinitions = "ContainerGroupDefinitions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListContainerGroupDefinitionsInput: AWSEncodableShape {
+        /// The type of container group to retrieve. Container group type determines how Amazon GameLift deploys the container group on each fleet instance.
+        public let containerGroupType: ContainerGroupType?
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int?
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+
+        @inlinable
+        public init(containerGroupType: ContainerGroupType? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.containerGroupType = containerGroupType
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerGroupType = "ContainerGroupType"
+            case limit = "Limit"
+            case nextToken = "NextToken"
         }
     }
 
@@ -5842,11 +6485,58 @@ extension GameLift {
         }
     }
 
+    public struct ListFleetDeploymentsInput: AWSEncodableShape {
+        /// A unique identifier for the container fleet. You can use either the fleet ID or ARN value.
+        public let fleetId: String?
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let limit: Int?
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
+
+        @inlinable
+        public init(fleetId: String? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.fleetId = fleetId
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFleetDeploymentsOutput: AWSDecodableShape {
+        /// The requested deployment information.
+        public let fleetDeployments: [FleetDeployment]?
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        @inlinable
+        public init(fleetDeployments: [FleetDeployment]? = nil, nextToken: String? = nil) {
+            self.fleetDeployments = fleetDeployments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetDeployments = "FleetDeployments"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListFleetsInput: AWSEncodableShape {
         /// A unique identifier for the build to request fleets for. Use this parameter to return only fleets using a specified build. Use either the build ID or ARN value.
         public let buildId: String?
-        /// The container group definition name to request fleets for. Use this parameter to return only fleets that are deployed with the specified container group definition.
-        public let containerGroupDefinitionName: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
@@ -5855,9 +6545,8 @@ extension GameLift {
         public let scriptId: String?
 
         @inlinable
-        public init(buildId: String? = nil, containerGroupDefinitionName: String? = nil, limit: Int? = nil, nextToken: String? = nil, scriptId: String? = nil) {
+        public init(buildId: String? = nil, limit: Int? = nil, nextToken: String? = nil, scriptId: String? = nil) {
             self.buildId = buildId
-            self.containerGroupDefinitionName = containerGroupDefinitionName
             self.limit = limit
             self.nextToken = nextToken
             self.scriptId = scriptId
@@ -5865,9 +6554,6 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+$")
-            try self.validate(self.containerGroupDefinitionName, name: "containerGroupDefinitionName", parent: name, max: 512)
-            try self.validate(self.containerGroupDefinitionName, name: "containerGroupDefinitionName", parent: name, min: 1)
-            try self.validate(self.containerGroupDefinitionName, name: "containerGroupDefinitionName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -5876,7 +6562,6 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case buildId = "BuildId"
-            case containerGroupDefinitionName = "ContainerGroupDefinitionName"
             case limit = "Limit"
             case nextToken = "NextToken"
             case scriptId = "ScriptId"
@@ -6048,7 +6733,7 @@ extension GameLift {
     public struct ListScriptsInput: AWSEncodableShape {
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, don't specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
         @inlinable
@@ -6197,6 +6882,49 @@ extension GameLift {
         }
     }
 
+    public struct LocationalDeployment: AWSDecodableShape {
+        /// The status of fleet deployment activity in the location.     IN_PROGRESS -- The deployment is in progress.    IMPAIRED -- The deployment failed and the fleet has some impaired containers.     COMPLETE -- The deployment has completed successfully.    ROLLBACK_IN_PROGRESS -- The deployment failed and rollback has been initiated.    ROLLBACK_IN_COMPLETE -- The deployment failed and rollback has been completed.    CANCELLED -- The deployment was cancelled.
+        public let deploymentStatus: DeploymentStatus?
+
+        @inlinable
+        public init(deploymentStatus: DeploymentStatus? = nil) {
+            self.deploymentStatus = deploymentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentStatus = "DeploymentStatus"
+        }
+    }
+
+    public struct LogConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The type of log collection to use for a fleet.    CLOUDWATCH -- (default value) Send logs to an Amazon CloudWatch log group that you define. Each container emits a log stream, which is organized in the log group.     S3 -- Store logs in an Amazon S3 bucket that you define.    NONE -- Don't collect container logs.
+        public let logDestination: LogDestination?
+        /// If log destination is CLOUDWATCH, logs are sent to the specified log group in Amazon CloudWatch.
+        public let logGroupArn: String?
+        /// If log destination is S3, logs are sent to the specified Amazon S3 bucket name.
+        public let s3BucketName: String?
+
+        @inlinable
+        public init(logDestination: LogDestination? = nil, logGroupArn: String? = nil, s3BucketName: String? = nil) {
+            self.logDestination = logDestination
+            self.logGroupArn = logGroupArn
+            self.s3BucketName = s3BucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, max: 512)
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, min: 1)
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^[a-zA-Z0-9:/\\-\\*]+$")
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logDestination = "LogDestination"
+            case logGroupArn = "LogGroupArn"
+            case s3BucketName = "S3BucketName"
+        }
+    }
+
     public struct MatchedPlayerSession: AWSDecodableShape {
         /// A unique identifier for a player
         public let playerId: String?
@@ -6220,7 +6948,7 @@ extension GameLift {
         public let acceptanceRequired: Bool?
         /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
         public let acceptanceTimeoutSeconds: Int?
-        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies  a match for a single 10-person team, and the additional player count is set to 2, 10 players will be selected for the match and 2 more player slots will be open for future players. This parameter is not used when FlexMatchMode is set to STANDALONE.
+        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies  a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let additionalPlayerCount: Int?
         /// The method used to backfill game sessions created with this matchmaking configuration. MANUAL indicates that the game makes backfill requests or does not use the match backfill feature. AUTOMATIC indicates that GameLift creates backfill requests whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill existing games with FlexMatch. Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public let backfillMode: BackfillMode?
@@ -6236,7 +6964,7 @@ extension GameLift {
         public let flexMatchMode: FlexMatchMode?
         /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let gameProperties: [GameProperty]?
-        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
         /// The Amazon Resource Name (ARN) that is assigned to a Amazon GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new Amazon GameLift-hosted game sessions for matches that are created with this matchmaking configuration. This property is not set when FlexMatchMode is set to STANDALONE.
         public let gameSessionQueueArns: [String]?
@@ -6611,7 +7339,9 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.validate(self.evaluationPeriods, name: "evaluationPeriods", parent: name, min: 1)
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -6677,7 +7407,9 @@ extension GameLift {
             try self.validate(self.dnsName, name: "dnsName", parent: name, max: 256)
             try self.validate(self.dnsName, name: "dnsName", parent: name, min: 1)
             try self.validate(self.dnsName, name: "dnsName", parent: name, pattern: "^[0-9a-zA-Z_\\-\\.]+$")
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 128)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, min: 1)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: "^[0-9A-Fa-f\\:\\.]+$")
@@ -6769,32 +7501,6 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case gameServer = "GameServer"
-        }
-    }
-
-    public struct ReplicaContainerGroupCounts: AWSDecodableShape {
-        ///  The number of container groups that have active game sessions.
-        public let active: Int?
-        ///  The number of container groups that have no active game sessions.
-        public let idle: Int?
-        ///  The number of container groups that are starting up but have not yet registered.
-        public let pending: Int?
-        ///  The number of container groups that are in the process of shutting down.
-        public let terminating: Int?
-
-        @inlinable
-        public init(active: Int? = nil, idle: Int? = nil, pending: Int? = nil, terminating: Int? = nil) {
-            self.active = active
-            self.idle = idle
-            self.pending = pending
-            self.terminating = terminating
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case active = "ACTIVE"
-            case idle = "IDLE"
-            case pending = "PENDING"
-            case terminating = "TERMINATING"
         }
     }
 
@@ -6949,7 +7655,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 128)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6962,7 +7670,7 @@ extension GameLift {
     public struct RuntimeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The maximum amount of time (in seconds) allowed to launch a new game session and have it report ready to host players. During this time, the game session is in status ACTIVATING. If the game session does not become active before the timeout, it is ended and the game session status is changed to TERMINATED.
         public let gameSessionActivationTimeoutSeconds: Int?
-        /// The number of game sessions in status ACTIVATING to allow on an instance or container. This setting limits the instance resources that can be used for new game activations at any one time.
+        /// The number of game sessions in status ACTIVATING to allow on an instance. This setting limits the instance resources that can be used for new game activations at any one time.
         public let maxConcurrentGameSessionActivations: Int?
         /// A collection of server process configurations that identify what server processes to run on fleet computes.
         public let serverProcesses: [ServerProcess]?
@@ -7095,7 +7803,7 @@ extension GameLift {
     public struct Script: AWSDecodableShape {
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
-        /// A descriptive label that is associated with a script. Script names don't need to be unique.
+        /// A descriptive label that is associated with a script. Script names do not need to be unique.
         public let name: String?
         /// The Amazon Resource Name (ARN) that is assigned to a Amazon GameLift script resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public let scriptArn: String?
@@ -7105,7 +7813,7 @@ extension GameLift {
         public let sizeOnDisk: Int64?
         /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
         public let storageLocation: S3Location?
-        /// Version information associated with a build or script. Version strings don't need to be unique.
+        /// Version information that is associated with a build or script. Version strings do not need to be unique.
         public let version: String?
 
         @inlinable
@@ -7161,7 +7869,9 @@ extension GameLift {
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
             try self.validate(self.filterExpression, name: "filterExpression", parent: name, max: 1024)
             try self.validate(self.filterExpression, name: "filterExpression", parent: name, min: 1)
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
@@ -7202,7 +7912,7 @@ extension GameLift {
     }
 
     public struct ServerProcess: AWSEncodableShape & AWSDecodableShape {
-        /// The number of server processes using this configuration that run concurrently on each instance or container..
+        /// The number of server processes using this configuration that run concurrently on each instance or compute.
         public let concurrentExecutions: Int?
         /// The location of a game build executable or Realtime script. Game builds and Realtime scripts are installed on instances at the root:    Windows (custom game builds only): C:\game. Example: "C:\game\MyGame\server.exe"    Linux: /local/game. Examples: "/local/game/MyGame/server.exe" or "/local/game/MyRealtimeScript.js"    Amazon GameLift doesn't support the use of setup scripts that launch the game executable. For custom game builds, this parameter must indicate the executable that calls the server SDK operations initSDK() and ProcessReady().
         public let launchPath: String?
@@ -7251,7 +7961,9 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.actions, name: "actions", parent: name, max: 1)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[A-Za-z0-9\\-]+$")
@@ -7287,7 +7999,7 @@ extension GameLift {
         public let desiredPlayerSessions: [DesiredPlayerSession]?
         /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
         public let gameProperties: [GameProperty]?
-        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the  GameSession object with a request to start a new game session (see Start a Game Session).
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session.
         public let gameSessionData: String?
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public let gameSessionName: String?
@@ -7297,7 +8009,7 @@ extension GameLift {
         public let maximumPlayerSessionCount: Int?
         /// A unique identifier to assign to the new game session placement. This value is developer-defined. The value must be unique across all Regions and cannot be reused.
         public let placementId: String?
-        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
+        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to @aws; Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
         public let playerLatencies: [PlayerLatency]?
 
         @inlinable
@@ -7384,7 +8096,7 @@ extension GameLift {
             try self.validate(self.configurationName, name: "configurationName", parent: name, max: 256)
             try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
             try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*$")
-            try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, max: 256)
+            try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, max: 512)
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, min: 1)
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
             try self.players?.forEach {
@@ -7481,7 +8193,9 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.actions, name: "actions", parent: name, max: 1)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[A-Za-z0-9\\-]+$")
@@ -7567,6 +8281,140 @@ extension GameLift {
 
     public struct StopMatchmakingOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct SupportContainerDefinition: AWSDecodableShape {
+        /// The container definition identifier. Container names are unique within a container group definition.
+        public let containerName: String?
+        /// Indicates that the container relies on the status of other containers in the same container group during its startup and shutdown sequences. A container might have dependencies on multiple containers.
+        public let dependsOn: [ContainerDependency]?
+        /// A set of environment variables that's passed to the container on startup. See the ContainerDefinition::environment parameter in the Amazon Elastic Container Service API Reference.
+        public let environmentOverride: [ContainerEnvironment]?
+        /// Indicates whether the container is vital to the container group. If an essential container fails, the entire container group restarts.
+        public let essential: Bool?
+        /// A configuration for a non-terminal health check. A support container automatically restarts if it stops functioning or if it fails this health check.
+        public let healthCheck: ContainerHealthCheck?
+        /// The URI to the image that Amazon GameLift deploys to a container fleet. For a more specific identifier, see ResolvedImageDigest.
+        public let imageUri: String?
+        /// The amount of memory that Amazon GameLift makes available to the container. If memory limits aren't set for an individual container, the container shares the container group's total memory allocation.  Related data type:  ContainerGroupDefinition$TotalMemoryLimitMebibytes
+        public let memoryHardLimitMebibytes: Int?
+        /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
+        public let mountPoints: [ContainerMountPoint]?
+        /// A set of ports that allow access to the container from external users. Processes running in the container can bind to a one of these ports. Container ports aren't directly accessed by inbound traffic. Amazon GameLift maps these container ports to externally accessible connection ports, which are assigned as needed from the container fleet's ConnectionPortRange.
+        public let portConfiguration: ContainerPortConfiguration?
+        /// A unique and immutable identifier for the container image. The digest is a SHA 256 hash of the container image manifest.
+        public let resolvedImageDigest: String?
+        /// The number of vCPU units that are reserved for the container. If no resources are reserved, the container shares the total vCPU limit for the container group.  Related data type:  ContainerGroupDefinition$TotalVcpuLimit
+        public let vcpu: Double?
+
+        @inlinable
+        public init(containerName: String? = nil, dependsOn: [ContainerDependency]? = nil, environmentOverride: [ContainerEnvironment]? = nil, essential: Bool? = nil, healthCheck: ContainerHealthCheck? = nil, imageUri: String? = nil, memoryHardLimitMebibytes: Int? = nil, mountPoints: [ContainerMountPoint]? = nil, portConfiguration: ContainerPortConfiguration? = nil, resolvedImageDigest: String? = nil, vcpu: Double? = nil) {
+            self.containerName = containerName
+            self.dependsOn = dependsOn
+            self.environmentOverride = environmentOverride
+            self.essential = essential
+            self.healthCheck = healthCheck
+            self.imageUri = imageUri
+            self.memoryHardLimitMebibytes = memoryHardLimitMebibytes
+            self.mountPoints = mountPoints
+            self.portConfiguration = portConfiguration
+            self.resolvedImageDigest = resolvedImageDigest
+            self.vcpu = vcpu
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+            case dependsOn = "DependsOn"
+            case environmentOverride = "EnvironmentOverride"
+            case essential = "Essential"
+            case healthCheck = "HealthCheck"
+            case imageUri = "ImageUri"
+            case memoryHardLimitMebibytes = "MemoryHardLimitMebibytes"
+            case mountPoints = "MountPoints"
+            case portConfiguration = "PortConfiguration"
+            case resolvedImageDigest = "ResolvedImageDigest"
+            case vcpu = "Vcpu"
+        }
+    }
+
+    public struct SupportContainerDefinitionInput: AWSEncodableShape {
+        /// A string that uniquely identifies the container definition within a container group.
+        public let containerName: String?
+        /// Establishes dependencies between this container and the status of other containers in the same container group. A container can have dependencies on multiple different containers.  . You can use dependencies to establish a startup/shutdown sequence across the container group. For example, you might specify that ContainerB has a START dependency on ContainerA. This dependency means that ContainerB can't start until after ContainerA has started. This dependency is reversed on shutdown, which means that ContainerB must shut down before ContainerA can shut down.
+        public let dependsOn: [ContainerDependency]?
+        /// A set of environment variables to pass to the container on startup. See the ContainerDefinition::environment parameter in the Amazon Elastic Container Service API Reference.
+        public let environmentOverride: [ContainerEnvironment]?
+        /// Flags the container as vital for the container group to function properly. If an essential container fails, the entire container group restarts. At least one support container in a per-instance container group must be essential. When flagging a container as essential, also configure a health check so that the container can signal that it's healthy.
+        public let essential: Bool?
+        /// Configuration for a non-terminal health check. A container automatically restarts if it stops functioning. With a health check, you can define additional reasons to flag a container as unhealthy and restart it. If an essential container fails a health check, the entire container group restarts.
+        public let healthCheck: ContainerHealthCheck?
+        /// The location of the container image to deploy to a container fleet. Provide an image in an Amazon Elastic Container Registry public or private repository. The repository must be in the same Amazon Web Services account and Amazon Web Services Region where you're creating the container group definition. For limits on image size, see Amazon GameLift endpoints and quotas. You can use any of the following image URI formats:    Image ID only: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]    Image ID and digest: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]@[digest]    Image ID and tag: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]:[tag]
+        public let imageUri: String?
+        /// A specified amount of memory (in MiB) to reserve for this container. If you don't specify a container-specific memory limit, the container shares the container group's total memory allocation.   Related data type:  ContainerGroupDefinition  TotalMemoryLimitMebibytes
+        public let memoryHardLimitMebibytes: Int?
+        /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
+        public let mountPoints: [ContainerMountPoint]?
+        /// A set of ports that Amazon GameLift can assign to processes in the container. Any processes that accept inbound traffic connections must be assigned a port from this set. The container port range must be large enough to assign one to each process in the container that needs one.  Container ports aren't directly accessed by inbound traffic. Amazon GameLift maps these container ports to externally accessible connection ports, which are assigned as needed from the container fleet's ConnectionPortRange.
+        public let portConfiguration: ContainerPortConfiguration?
+        /// The number of vCPU units to reserve for this container. The container can use more resources when needed, if available. If you don't reserve CPU units for this container, it shares the container group's total vCPU limit.   Related data type:  ContainerGroupDefinition TotalCpuLimit
+        public let vcpu: Double?
+
+        @inlinable
+        public init(containerName: String? = nil, dependsOn: [ContainerDependency]? = nil, environmentOverride: [ContainerEnvironment]? = nil, essential: Bool? = nil, healthCheck: ContainerHealthCheck? = nil, imageUri: String? = nil, memoryHardLimitMebibytes: Int? = nil, mountPoints: [ContainerMountPoint]? = nil, portConfiguration: ContainerPortConfiguration? = nil, vcpu: Double? = nil) {
+            self.containerName = containerName
+            self.dependsOn = dependsOn
+            self.environmentOverride = environmentOverride
+            self.essential = essential
+            self.healthCheck = healthCheck
+            self.imageUri = imageUri
+            self.memoryHardLimitMebibytes = memoryHardLimitMebibytes
+            self.mountPoints = mountPoints
+            self.portConfiguration = portConfiguration
+            self.vcpu = vcpu
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerName, name: "containerName", parent: name, max: 128)
+            try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
+            try self.validate(self.containerName, name: "containerName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.dependsOn?.forEach {
+                try $0.validate(name: "\(name).dependsOn[]")
+            }
+            try self.validate(self.dependsOn, name: "dependsOn", parent: name, max: 10)
+            try self.validate(self.dependsOn, name: "dependsOn", parent: name, min: 1)
+            try self.environmentOverride?.forEach {
+                try $0.validate(name: "\(name).environmentOverride[]")
+            }
+            try self.validate(self.environmentOverride, name: "environmentOverride", parent: name, max: 20)
+            try self.validate(self.environmentOverride, name: "environmentOverride", parent: name, min: 1)
+            try self.healthCheck?.validate(name: "\(name).healthCheck")
+            try self.validate(self.imageUri, name: "imageUri", parent: name, max: 255)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, min: 1)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: "^[a-zA-Z0-9-_\\.@\\/:]+$")
+            try self.validate(self.memoryHardLimitMebibytes, name: "memoryHardLimitMebibytes", parent: name, max: 1024000)
+            try self.validate(self.memoryHardLimitMebibytes, name: "memoryHardLimitMebibytes", parent: name, min: 4)
+            try self.mountPoints?.forEach {
+                try $0.validate(name: "\(name).mountPoints[]")
+            }
+            try self.validate(self.mountPoints, name: "mountPoints", parent: name, max: 10)
+            try self.validate(self.mountPoints, name: "mountPoints", parent: name, min: 1)
+            try self.portConfiguration?.validate(name: "\(name).portConfiguration")
+            try self.validate(self.vcpu, name: "vcpu", parent: name, max: 10.0)
+            try self.validate(self.vcpu, name: "vcpu", parent: name, min: 0.125)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+            case dependsOn = "DependsOn"
+            case environmentOverride = "EnvironmentOverride"
+            case essential = "Essential"
+            case healthCheck = "HealthCheck"
+            case imageUri = "ImageUri"
+            case memoryHardLimitMebibytes = "MemoryHardLimitMebibytes"
+            case mountPoints = "MountPoints"
+            case portConfiguration = "PortConfiguration"
+            case vcpu = "Vcpu"
+        }
     }
 
     public struct SuspendGameServerGroupInput: AWSEncodableShape {
@@ -7781,9 +8629,9 @@ extension GameLift {
     public struct UpdateBuildInput: AWSEncodableShape {
         /// A unique identifier for the build to update. You can use either the build ID or ARN value.
         public let buildId: String?
-        /// A descriptive label associated with a build. Build names don't need to be unique.
+        /// A descriptive label that is associated with a build. Build names do not need to be unique.
         public let name: String?
-        /// Version information associated with a build or script. Version strings don't need to be unique.
+        /// Version information that is associated with a build or script. Version strings do not need to be unique.
         public let version: String?
 
         @inlinable
@@ -7822,6 +8670,195 @@ extension GameLift {
         }
     }
 
+    public struct UpdateContainerFleetInput: AWSEncodableShape {
+        /// Instructions for how to deploy updates to a container fleet, if the fleet update initiates a deployment. The deployment configuration lets you determine how to replace fleet instances and what actions to take if the deployment fails.
+        public let deploymentConfiguration: DeploymentConfiguration?
+        /// A meaningful description of the container fleet.
+        public let description: String?
+        /// A unique identifier for the container fleet to update. You can use either the fleet ID or ARN value.
+        public let fleetId: String?
+        /// The name or ARN value of a new game server container group definition to deploy on the fleet. If you're updating the fleet to a specific version of a container group definition, use the ARN value and include the version number. If you're updating the fleet to the latest version of a container group definition, you can use the name value. You can't remove a fleet's game server container group definition, you can only update or replace it with another definition. Update a container group definition by calling UpdateContainerGroupDefinition. This operation creates a ContainerGroupDefinition resource with an incremented version.
+        public let gameServerContainerGroupDefinitionName: String?
+        /// The number of times to replicate the game server container group on each fleet instance. By default, Amazon GameLift calculates the maximum number of game server container groups that can fit on each instance. You can remove this property value to use the calculated value, or set it manually. If you set this number manually, Amazon GameLift uses your value as long as it's less than the calculated maximum.
+        public let gameServerContainerGroupsPerInstance: Int?
+        /// A policy that limits the number of game sessions that each individual player can create on instances in this fleet. The limit applies for a specified span of time.
+        public let gameSessionCreationLimitPolicy: GameSessionCreationLimitPolicy?
+        /// A revised set of port numbers to open on each fleet instance. By default, Amazon GameLift calculates an optimal port range based on your fleet configuration. If you previously set this parameter manually, you can't reset this to use the calculated settings.
+        public let instanceConnectionPortRange: ConnectionPortRange?
+        /// A set of ports to add to the container fleet's inbound permissions.
+        public let instanceInboundPermissionAuthorizations: [IpPermission]?
+        /// A set of ports to remove from the container fleet's inbound permissions.
+        public let instanceInboundPermissionRevocations: [IpPermission]?
+        /// The method for collecting container logs for the fleet.
+        public let logConfiguration: LogConfiguration?
+        /// The name of an Amazon Web Services CloudWatch metric group to add this fleet to.
+        public let metricGroups: [String]?
+        /// The game session protection policy to apply to all new game sessions that are started in this fleet. Game sessions that already exist are not affected.
+        public let newGameSessionProtectionPolicy: ProtectionPolicy?
+        /// The name or ARN value of a new per-instance container group definition to deploy on the fleet. If you're updating the fleet to a specific version of a container group definition, use the ARN value and include the version number. If you're updating the fleet to the latest version of a container group definition, you can use the name value. Update a container group definition by calling UpdateContainerGroupDefinition. This operation creates a ContainerGroupDefinition resource with an incremented version.  To remove a fleet's per-instance container group definition, leave this parameter empty and use the parameter RemoveAttributes.
+        public let perInstanceContainerGroupDefinitionName: String?
+        /// If set, this update removes a fleet's per-instance container group definition. You can't remove a fleet's game server container group definition.
+        public let removeAttributes: [ContainerFleetRemoveAttribute]?
+
+        @inlinable
+        public init(deploymentConfiguration: DeploymentConfiguration? = nil, description: String? = nil, fleetId: String? = nil, gameServerContainerGroupDefinitionName: String? = nil, gameServerContainerGroupsPerInstance: Int? = nil, gameSessionCreationLimitPolicy: GameSessionCreationLimitPolicy? = nil, instanceConnectionPortRange: ConnectionPortRange? = nil, instanceInboundPermissionAuthorizations: [IpPermission]? = nil, instanceInboundPermissionRevocations: [IpPermission]? = nil, logConfiguration: LogConfiguration? = nil, metricGroups: [String]? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, perInstanceContainerGroupDefinitionName: String? = nil, removeAttributes: [ContainerFleetRemoveAttribute]? = nil) {
+            self.deploymentConfiguration = deploymentConfiguration
+            self.description = description
+            self.fleetId = fleetId
+            self.gameServerContainerGroupDefinitionName = gameServerContainerGroupDefinitionName
+            self.gameServerContainerGroupsPerInstance = gameServerContainerGroupsPerInstance
+            self.gameSessionCreationLimitPolicy = gameSessionCreationLimitPolicy
+            self.instanceConnectionPortRange = instanceConnectionPortRange
+            self.instanceInboundPermissionAuthorizations = instanceInboundPermissionAuthorizations
+            self.instanceInboundPermissionRevocations = instanceInboundPermissionRevocations
+            self.logConfiguration = logConfiguration
+            self.metricGroups = metricGroups
+            self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
+            self.perInstanceContainerGroupDefinitionName = perInstanceContainerGroupDefinitionName
+            self.removeAttributes = removeAttributes
+        }
+
+        public func validate(name: String) throws {
+            try self.deploymentConfiguration?.validate(name: "\(name).deploymentConfiguration")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
+            try self.validate(self.gameServerContainerGroupDefinitionName, name: "gameServerContainerGroupDefinitionName", parent: name, max: 512)
+            try self.validate(self.gameServerContainerGroupDefinitionName, name: "gameServerContainerGroupDefinitionName", parent: name, min: 1)
+            try self.validate(self.gameServerContainerGroupDefinitionName, name: "gameServerContainerGroupDefinitionName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
+            try self.validate(self.gameServerContainerGroupsPerInstance, name: "gameServerContainerGroupsPerInstance", parent: name, max: 5000)
+            try self.validate(self.gameServerContainerGroupsPerInstance, name: "gameServerContainerGroupsPerInstance", parent: name, min: 1)
+            try self.gameSessionCreationLimitPolicy?.validate(name: "\(name).gameSessionCreationLimitPolicy")
+            try self.instanceConnectionPortRange?.validate(name: "\(name).instanceConnectionPortRange")
+            try self.instanceInboundPermissionAuthorizations?.forEach {
+                try $0.validate(name: "\(name).instanceInboundPermissionAuthorizations[]")
+            }
+            try self.validate(self.instanceInboundPermissionAuthorizations, name: "instanceInboundPermissionAuthorizations", parent: name, max: 50)
+            try self.instanceInboundPermissionRevocations?.forEach {
+                try $0.validate(name: "\(name).instanceInboundPermissionRevocations[]")
+            }
+            try self.validate(self.instanceInboundPermissionRevocations, name: "instanceInboundPermissionRevocations", parent: name, max: 50)
+            try self.logConfiguration?.validate(name: "\(name).logConfiguration")
+            try self.metricGroups?.forEach {
+                try validate($0, name: "metricGroups[]", parent: name, max: 255)
+                try validate($0, name: "metricGroups[]", parent: name, min: 1)
+            }
+            try self.validate(self.metricGroups, name: "metricGroups", parent: name, max: 1)
+            try self.validate(self.perInstanceContainerGroupDefinitionName, name: "perInstanceContainerGroupDefinitionName", parent: name, max: 512)
+            try self.validate(self.perInstanceContainerGroupDefinitionName, name: "perInstanceContainerGroupDefinitionName", parent: name, min: 1)
+            try self.validate(self.perInstanceContainerGroupDefinitionName, name: "perInstanceContainerGroupDefinitionName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
+            try self.validate(self.removeAttributes, name: "removeAttributes", parent: name, max: 1)
+            try self.validate(self.removeAttributes, name: "removeAttributes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfiguration = "DeploymentConfiguration"
+            case description = "Description"
+            case fleetId = "FleetId"
+            case gameServerContainerGroupDefinitionName = "GameServerContainerGroupDefinitionName"
+            case gameServerContainerGroupsPerInstance = "GameServerContainerGroupsPerInstance"
+            case gameSessionCreationLimitPolicy = "GameSessionCreationLimitPolicy"
+            case instanceConnectionPortRange = "InstanceConnectionPortRange"
+            case instanceInboundPermissionAuthorizations = "InstanceInboundPermissionAuthorizations"
+            case instanceInboundPermissionRevocations = "InstanceInboundPermissionRevocations"
+            case logConfiguration = "LogConfiguration"
+            case metricGroups = "MetricGroups"
+            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
+            case perInstanceContainerGroupDefinitionName = "PerInstanceContainerGroupDefinitionName"
+            case removeAttributes = "RemoveAttributes"
+        }
+    }
+
+    public struct UpdateContainerFleetOutput: AWSDecodableShape {
+        /// A collection of container fleet objects for all fleets that match the request criteria.
+        public let containerFleet: ContainerFleet?
+
+        @inlinable
+        public init(containerFleet: ContainerFleet? = nil) {
+            self.containerFleet = containerFleet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerFleet = "ContainerFleet"
+        }
+    }
+
+    public struct UpdateContainerGroupDefinitionInput: AWSEncodableShape {
+        /// An updated definition for the game server container in this group. Define a game server container only when the container group type is GAME_SERVER. You can pass in your container definitions as a JSON file.
+        public let gameServerContainerDefinition: GameServerContainerDefinitionInput?
+        /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
+        public let name: String?
+        /// The platform that all containers in the group use. Containers in a group must run on the same operating system.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        public let operatingSystem: ContainerOperatingSystem?
+        /// The container group definition version to update. The new version starts with values from the source version, and then updates values included in this request.
+        public let sourceVersionNumber: Int?
+        /// One or more definitions for support containers in this group. You can define a support container in any type of container group. You can pass in your container definitions as a JSON file.
+        public let supportContainerDefinitions: [SupportContainerDefinitionInput]?
+        /// The maximum amount of memory (in MiB) to allocate to the container group. All containers in the group share this memory. If you specify memory limits for an individual container, the total value must be greater than any individual container's memory limit.
+        public let totalMemoryLimitMebibytes: Int?
+        /// The maximum amount of vCPU units to allocate to the container group (1 vCPU is equal to 1024 CPU units). All containers in the group share this memory. If you specify vCPU limits for individual containers, the total value must be equal to or greater than the sum of the CPU limits for all containers in the group.
+        public let totalVcpuLimit: Double?
+        /// A description for this update to the container group definition.
+        public let versionDescription: String?
+
+        @inlinable
+        public init(gameServerContainerDefinition: GameServerContainerDefinitionInput? = nil, name: String? = nil, operatingSystem: ContainerOperatingSystem? = nil, sourceVersionNumber: Int? = nil, supportContainerDefinitions: [SupportContainerDefinitionInput]? = nil, totalMemoryLimitMebibytes: Int? = nil, totalVcpuLimit: Double? = nil, versionDescription: String? = nil) {
+            self.gameServerContainerDefinition = gameServerContainerDefinition
+            self.name = name
+            self.operatingSystem = operatingSystem
+            self.sourceVersionNumber = sourceVersionNumber
+            self.supportContainerDefinitions = supportContainerDefinitions
+            self.totalMemoryLimitMebibytes = totalMemoryLimitMebibytes
+            self.totalVcpuLimit = totalVcpuLimit
+            self.versionDescription = versionDescription
+        }
+
+        public func validate(name: String) throws {
+            try self.gameServerContainerDefinition?.validate(name: "\(name).gameServerContainerDefinition")
+            try self.validate(self.name, name: "name", parent: name, max: 512)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
+            try self.validate(self.sourceVersionNumber, name: "sourceVersionNumber", parent: name, min: 1)
+            try self.supportContainerDefinitions?.forEach {
+                try $0.validate(name: "\(name).supportContainerDefinitions[]")
+            }
+            try self.validate(self.supportContainerDefinitions, name: "supportContainerDefinitions", parent: name, max: 10)
+            try self.validate(self.totalMemoryLimitMebibytes, name: "totalMemoryLimitMebibytes", parent: name, max: 1024000)
+            try self.validate(self.totalMemoryLimitMebibytes, name: "totalMemoryLimitMebibytes", parent: name, min: 4)
+            try self.validate(self.totalVcpuLimit, name: "totalVcpuLimit", parent: name, max: 10.0)
+            try self.validate(self.totalVcpuLimit, name: "totalVcpuLimit", parent: name, min: 0.125)
+            try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 1024)
+            try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameServerContainerDefinition = "GameServerContainerDefinition"
+            case name = "Name"
+            case operatingSystem = "OperatingSystem"
+            case sourceVersionNumber = "SourceVersionNumber"
+            case supportContainerDefinitions = "SupportContainerDefinitions"
+            case totalMemoryLimitMebibytes = "TotalMemoryLimitMebibytes"
+            case totalVcpuLimit = "TotalVcpuLimit"
+            case versionDescription = "VersionDescription"
+        }
+    }
+
+    public struct UpdateContainerGroupDefinitionOutput: AWSDecodableShape {
+        /// The properties of the updated container group definition version.
+        public let containerGroupDefinition: ContainerGroupDefinition?
+
+        @inlinable
+        public init(containerGroupDefinition: ContainerGroupDefinition? = nil) {
+            self.containerGroupDefinition = containerGroupDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerGroupDefinition = "ContainerGroupDefinition"
+        }
+    }
+
     public struct UpdateFleetAttributesInput: AWSEncodableShape {
         /// Amazon GameLift Anywhere configuration options.
         public let anywhereConfiguration: AnywhereConfiguration?
@@ -7833,7 +8870,7 @@ extension GameLift {
         public let metricGroups: [String]?
         /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String?
-        /// The game session protection policy to apply to all new game sessions created in this fleet. Game sessions that already exist are not affected. You can set protection for individual game sessions using UpdateGameSession .    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
+        /// The game session protection policy to apply to all new game sessions created in this fleet. Game sessions that already exist are not affected. You can set protection for individual game sessions using UpdateGameSession.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
         /// Policy settings that limit the number of game sessions an individual player can create over a span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
@@ -7853,7 +8890,9 @@ extension GameLift {
             try self.anywhereConfiguration?.validate(name: "\(name).anywhereConfiguration")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.metricGroups?.forEach {
                 try validate($0, name: "metricGroups[]", parent: name, max: 255)
                 try validate($0, name: "metricGroups[]", parent: name, min: 1)
@@ -7916,7 +8955,9 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.validate(self.desiredInstances, name: "desiredInstances", parent: name, min: 0)
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[A-Za-z0-9\\-]+$")
@@ -7971,7 +9012,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.inboundPermissionAuthorizations?.forEach {
                 try $0.validate(name: "\(name).inboundPermissionAuthorizations[]")
             }
@@ -8150,7 +9193,7 @@ extension GameLift {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
-            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 512)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
             try self.validate(self.maximumPlayerSessionCount, name: "maximumPlayerSessionCount", parent: name, min: 0)
@@ -8193,11 +9236,13 @@ extension GameLift {
         public let name: String?
         /// An SNS topic ARN that is set up to receive game session placement notifications. See Setting up notifications for game session placement.
         public let notificationTarget: String?
-        /// A set of policies that act as a sliding cap on player latency. FleetIQ works to deliver low latency for most players in a game session. These policies ensure that no individual player can be placed into a game with unreasonably high latency. Use multiple policies to gradually relax latency requirements a step at a time. Multiple policies are applied based on their maximum allowed latency, starting with the lowest value. When updating policies, provide a complete collection of policies.
+        /// A set of policies that enforce a sliding cap on player latency when processing game sessions placement requests.
+        /// 	Use multiple policies to gradually relax the cap over time if Amazon GameLift can't make a placement.
+        /// 	    Policies are evaluated in order starting with the lowest maximum latency value. When updating policies, provide a complete collection of policies.
         public let playerLatencyPolicies: [PlayerLatencyPolicy]?
         /// Custom settings to use when prioritizing destinations and locations for game session placements. This  configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly  named will be automatically applied at the end of the prioritization process. To remove an existing priority configuration, pass in an empty set.
         public let priorityConfiguration: PriorityConfiguration?
-        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. By default, this property is set to 600.
+        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
         public let timeoutInSeconds: Int?
 
         @inlinable
@@ -8262,7 +9307,7 @@ extension GameLift {
         public let acceptanceRequired: Bool?
         /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required.
         public let acceptanceTimeoutSeconds: Int?
-        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies  a match for a single 10-person team, and the additional player count is set to 2, 10 players will be selected for the match and 2 more player slots will be open for future players. This parameter is not used if FlexMatchMode is set to STANDALONE.
+        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies  a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let additionalPlayerCount: Int?
         /// The method that is used to backfill game sessions created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a match backfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch. Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public let backfillMode: BackfillMode?
@@ -8274,7 +9319,7 @@ extension GameLift {
         public let flexMatchMode: FlexMatchMode?
         /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameProperties: [GameProperty]?
-        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see Start a Game Session). This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session. This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
         /// The Amazon Resource Name (ARN) that is assigned to a Amazon GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new Amazon GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
         public let gameSessionQueueArns: [String]?
@@ -8319,7 +9364,7 @@ extension GameLift {
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 4096)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
             try self.gameSessionQueueArns?.forEach {
-                try validate($0, name: "gameSessionQueueArns[]", parent: name, max: 256)
+                try validate($0, name: "gameSessionQueueArns[]", parent: name, max: 512)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, min: 1)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
             }
@@ -8380,7 +9425,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
             try self.runtimeConfiguration?.validate(name: "\(name).runtimeConfiguration")
         }
 
@@ -8405,13 +9452,13 @@ extension GameLift {
     }
 
     public struct UpdateScriptInput: AWSEncodableShape {
-        /// A descriptive label that is associated with a script. Script names don't need to be unique.
+        /// A descriptive label that is associated with a script. Script names do not need to be unique.
         public let name: String?
         /// A unique identifier for the Realtime script to update. You can use either the script ID or ARN value.
         public let scriptId: String?
         /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
         public let storageLocation: S3Location?
-        /// Version information associated with a build or script. Version strings don't need to be unique.
+        /// Version information that is associated with a build or script. Version strings do not need to be unique.
         public let version: String?
         /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the Amazon Web Services CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
         public let zipFile: AWSBase64Data?

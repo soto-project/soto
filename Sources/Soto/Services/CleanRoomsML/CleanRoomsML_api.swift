@@ -79,6 +79,70 @@ public struct CleanRoomsML: AWSService {
 
     // MARK: API Calls
 
+    /// Submits a request to cancel the trained model job.
+    @Sendable
+    @inlinable
+    public func cancelTrainedModel(_ input: CancelTrainedModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "CancelTrainedModel", 
+            path: "/memberships/{membershipIdentifier}/trained-models/{trainedModelArn}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Submits a request to cancel the trained model job.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier: The membership ID of the trained model job that you want to cancel.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model job that you want to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelTrainedModel(
+        membershipIdentifier: String,
+        trainedModelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = CancelTrainedModelRequest(
+            membershipIdentifier: membershipIdentifier, 
+            trainedModelArn: trainedModelArn
+        )
+        return try await self.cancelTrainedModel(input, logger: logger)
+    }
+
+    /// Submits a request to cancel a trained model inference job.
+    @Sendable
+    @inlinable
+    public func cancelTrainedModelInferenceJob(_ input: CancelTrainedModelInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "CancelTrainedModelInferenceJob", 
+            path: "/memberships/{membershipIdentifier}/trained-model-inference-jobs/{trainedModelInferenceJobArn}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Submits a request to cancel a trained model inference job.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier: The membership ID of the trained model inference job that you want to cancel.
+    ///   - trainedModelInferenceJobArn: The Amazon Resource Name (ARN) of the trained model inference job that you want to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelTrainedModelInferenceJob(
+        membershipIdentifier: String,
+        trainedModelInferenceJobArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = CancelTrainedModelInferenceJobRequest(
+            membershipIdentifier: membershipIdentifier, 
+            trainedModelInferenceJobArn: trainedModelInferenceJobArn
+        )
+        return try await self.cancelTrainedModelInferenceJob(input, logger: logger)
+    }
+
     /// Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API.
     @Sendable
     @inlinable
@@ -177,6 +241,206 @@ public struct CleanRoomsML: AWSService {
             tags: tags
         )
         return try await self.createConfiguredAudienceModel(input, logger: logger)
+    }
+
+    /// Creates a configured model algorithm using a container image stored in an ECR repository.
+    @Sendable
+    @inlinable
+    public func createConfiguredModelAlgorithm(_ input: CreateConfiguredModelAlgorithmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfiguredModelAlgorithmResponse {
+        try await self.client.execute(
+            operation: "CreateConfiguredModelAlgorithm", 
+            path: "/configured-model-algorithms", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a configured model algorithm using a container image stored in an ECR repository.
+    ///
+    /// Parameters:
+    ///   - description: The description of the configured model algorithm.
+    ///   - inferenceContainerConfig: Configuration information for the inference container that is used when you run an inference job on a configured model algorithm.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the configured ML model algorithm and associated data.
+    ///   - name: The name of the configured model algorithm.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the role that is used to access the repository.
+    ///   - tags: The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    ///   - trainingContainerConfig: Configuration information for the training container, including entrypoints and arguments.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConfiguredModelAlgorithm(
+        description: String? = nil,
+        inferenceContainerConfig: InferenceContainerConfig? = nil,
+        kmsKeyArn: String? = nil,
+        name: String,
+        roleArn: String,
+        tags: [String: String]? = nil,
+        trainingContainerConfig: ContainerConfig? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConfiguredModelAlgorithmResponse {
+        let input = CreateConfiguredModelAlgorithmRequest(
+            description: description, 
+            inferenceContainerConfig: inferenceContainerConfig, 
+            kmsKeyArn: kmsKeyArn, 
+            name: name, 
+            roleArn: roleArn, 
+            tags: tags, 
+            trainingContainerConfig: trainingContainerConfig
+        )
+        return try await self.createConfiguredModelAlgorithm(input, logger: logger)
+    }
+
+    /// Associates a configured model algorithm to a collaboration for use by any member of the collaboration.
+    @Sendable
+    @inlinable
+    public func createConfiguredModelAlgorithmAssociation(_ input: CreateConfiguredModelAlgorithmAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfiguredModelAlgorithmAssociationResponse {
+        try await self.client.execute(
+            operation: "CreateConfiguredModelAlgorithmAssociation", 
+            path: "/memberships/{membershipIdentifier}/configured-model-algorithm-associations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a configured model algorithm to a collaboration for use by any member of the collaboration.
+    ///
+    /// Parameters:
+    ///   - configuredModelAlgorithmArn: The Amazon Resource Name (ARN) of the configured model algorithm that you want to associate.
+    ///   - description: The description of the configured model algorithm association.
+    ///   - membershipIdentifier: The membership ID of the member who is associating this configured model algorithm.
+    ///   - name: The name of the configured model algorithm association.
+    ///   - privacyConfiguration: Specifies the privacy configuration information for the configured model algorithm association. This information includes the maximum data size that can be exported.
+    ///   - tags: The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConfiguredModelAlgorithmAssociation(
+        configuredModelAlgorithmArn: String,
+        description: String? = nil,
+        membershipIdentifier: String,
+        name: String,
+        privacyConfiguration: PrivacyConfiguration? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConfiguredModelAlgorithmAssociationResponse {
+        let input = CreateConfiguredModelAlgorithmAssociationRequest(
+            configuredModelAlgorithmArn: configuredModelAlgorithmArn, 
+            description: description, 
+            membershipIdentifier: membershipIdentifier, 
+            name: name, 
+            privacyConfiguration: privacyConfiguration, 
+            tags: tags
+        )
+        return try await self.createConfiguredModelAlgorithmAssociation(input, logger: logger)
+    }
+
+    /// Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling.
+    @Sendable
+    @inlinable
+    public func createMLInputChannel(_ input: CreateMLInputChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMLInputChannelResponse {
+        try await self.client.execute(
+            operation: "CreateMLInputChannel", 
+            path: "/memberships/{membershipIdentifier}/ml-input-channels", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling.
+    ///
+    /// Parameters:
+    ///   - configuredModelAlgorithmAssociations: The associated configured model algorithms that are necessary to create this ML input channel.
+    ///   - description: The description of the ML input channel.
+    ///   - inputChannel: The input data that is used to create this ML input channel.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key that is used to access the input channel.
+    ///   - membershipIdentifier: The membership ID of the member that is creating the ML input channel.
+    ///   - name: The name of the ML input channel.
+    ///   - retentionInDays: The number of days that the data in the ML input channel is retained.
+    ///   - tags: The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createMLInputChannel(
+        configuredModelAlgorithmAssociations: [String],
+        description: String? = nil,
+        inputChannel: InputChannel,
+        kmsKeyArn: String? = nil,
+        membershipIdentifier: String,
+        name: String,
+        retentionInDays: Int,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateMLInputChannelResponse {
+        let input = CreateMLInputChannelRequest(
+            configuredModelAlgorithmAssociations: configuredModelAlgorithmAssociations, 
+            description: description, 
+            inputChannel: inputChannel, 
+            kmsKeyArn: kmsKeyArn, 
+            membershipIdentifier: membershipIdentifier, 
+            name: name, 
+            retentionInDays: retentionInDays, 
+            tags: tags
+        )
+        return try await self.createMLInputChannel(input, logger: logger)
+    }
+
+    /// Creates a trained model from an associated configured model algorithm using data from any member of the collaboration.
+    @Sendable
+    @inlinable
+    public func createTrainedModel(_ input: CreateTrainedModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrainedModelResponse {
+        try await self.client.execute(
+            operation: "CreateTrainedModel", 
+            path: "/memberships/{membershipIdentifier}/trained-models", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a trained model from an associated configured model algorithm using data from any member of the collaboration.
+    ///
+    /// Parameters:
+    ///   - configuredModelAlgorithmAssociationArn: The associated configured model algorithm used to train this model.
+    ///   - dataChannels: Defines the data channels that are used as input for the trained model request.
+    ///   - description: The description of the trained model.
+    ///   - environment: The environment variables to set in the Docker container.
+    ///   - hyperparameters: Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and the associated data.
+    ///   - membershipIdentifier: The membership ID of the member that is creating the trained model.
+    ///   - name: The name of the trained model.
+    ///   - resourceConfig: Information about the EC2 resources that are used to train this model.
+    ///   - stoppingCondition: The criteria that is used to stop model training.
+    ///   - tags: The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTrainedModel(
+        configuredModelAlgorithmAssociationArn: String,
+        dataChannels: [ModelTrainingDataChannel],
+        description: String? = nil,
+        environment: [String: String]? = nil,
+        hyperparameters: [String: String]? = nil,
+        kmsKeyArn: String? = nil,
+        membershipIdentifier: String,
+        name: String,
+        resourceConfig: ResourceConfig,
+        stoppingCondition: StoppingCondition? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTrainedModelResponse {
+        let input = CreateTrainedModelRequest(
+            configuredModelAlgorithmAssociationArn: configuredModelAlgorithmAssociationArn, 
+            dataChannels: dataChannels, 
+            description: description, 
+            environment: environment, 
+            hyperparameters: hyperparameters, 
+            kmsKeyArn: kmsKeyArn, 
+            membershipIdentifier: membershipIdentifier, 
+            name: name, 
+            resourceConfig: resourceConfig, 
+            stoppingCondition: stoppingCondition, 
+            tags: tags
+        )
+        return try await self.createTrainedModel(input, logger: logger)
     }
 
     /// Defines the information necessary to create a training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation.
@@ -336,6 +600,160 @@ public struct CleanRoomsML: AWSService {
         return try await self.deleteConfiguredAudienceModelPolicy(input, logger: logger)
     }
 
+    /// Deletes a configured model algorithm.
+    @Sendable
+    @inlinable
+    public func deleteConfiguredModelAlgorithm(_ input: DeleteConfiguredModelAlgorithmRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteConfiguredModelAlgorithm", 
+            path: "/configured-model-algorithms/{configuredModelAlgorithmArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a configured model algorithm.
+    ///
+    /// Parameters:
+    ///   - configuredModelAlgorithmArn: The Amazon Resource Name (ARN) of the configured model algorithm that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConfiguredModelAlgorithm(
+        configuredModelAlgorithmArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteConfiguredModelAlgorithmRequest(
+            configuredModelAlgorithmArn: configuredModelAlgorithmArn
+        )
+        return try await self.deleteConfiguredModelAlgorithm(input, logger: logger)
+    }
+
+    /// Deletes a configured model algorithm association.
+    @Sendable
+    @inlinable
+    public func deleteConfiguredModelAlgorithmAssociation(_ input: DeleteConfiguredModelAlgorithmAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteConfiguredModelAlgorithmAssociation", 
+            path: "/memberships/{membershipIdentifier}/configured-model-algorithm-associations/{configuredModelAlgorithmAssociationArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a configured model algorithm association.
+    ///
+    /// Parameters:
+    ///   - configuredModelAlgorithmAssociationArn: The Amazon Resource Name (ARN) of the configured model algorithm association that you want to delete.
+    ///   - membershipIdentifier: The membership ID of the member that is deleting the configured model algorithm association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConfiguredModelAlgorithmAssociation(
+        configuredModelAlgorithmAssociationArn: String,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteConfiguredModelAlgorithmAssociationRequest(
+            configuredModelAlgorithmAssociationArn: configuredModelAlgorithmAssociationArn, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.deleteConfiguredModelAlgorithmAssociation(input, logger: logger)
+    }
+
+    /// Deletes a ML modeling configuration.
+    @Sendable
+    @inlinable
+    public func deleteMLConfiguration(_ input: DeleteMLConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteMLConfiguration", 
+            path: "/memberships/{membershipIdentifier}/ml-configurations", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a ML modeling configuration.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier: The membership ID of the of the member that is deleting the ML modeling configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteMLConfiguration(
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteMLConfigurationRequest(
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.deleteMLConfiguration(input, logger: logger)
+    }
+
+    /// Provides the information necessary to delete an ML input channel.
+    @Sendable
+    @inlinable
+    public func deleteMLInputChannelData(_ input: DeleteMLInputChannelDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteMLInputChannelData", 
+            path: "/memberships/{membershipIdentifier}/ml-input-channels/{mlInputChannelArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Provides the information necessary to delete an ML input channel.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier: The membership ID of the membership that contains the ML input channel you want to delete.
+    ///   - mlInputChannelArn: The Amazon Resource Name (ARN) of the ML input channel that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteMLInputChannelData(
+        membershipIdentifier: String,
+        mlInputChannelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteMLInputChannelDataRequest(
+            membershipIdentifier: membershipIdentifier, 
+            mlInputChannelArn: mlInputChannelArn
+        )
+        return try await self.deleteMLInputChannelData(input, logger: logger)
+    }
+
+    /// Deletes the output of a trained model.
+    @Sendable
+    @inlinable
+    public func deleteTrainedModelOutput(_ input: DeleteTrainedModelOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteTrainedModelOutput", 
+            path: "/memberships/{membershipIdentifier}/trained-models/{trainedModelArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the output of a trained model.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier: The membership ID of the member that is deleting the trained model output.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model whose output you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTrainedModelOutput(
+        membershipIdentifier: String,
+        trainedModelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteTrainedModelOutputRequest(
+            membershipIdentifier: membershipIdentifier, 
+            trainedModelArn: trainedModelArn
+        )
+        return try await self.deleteTrainedModelOutput(input, logger: logger)
+    }
+
     /// Specifies a training dataset that you want to delete. You can't delete a training dataset if there are any audience models that depend on the training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation. This action deletes the metadata.
     @Sendable
     @inlinable
@@ -423,6 +841,102 @@ public struct CleanRoomsML: AWSService {
         return try await self.getAudienceModel(input, logger: logger)
     }
 
+    /// Returns information about the configured model algorithm association in a collaboration.
+    @Sendable
+    @inlinable
+    public func getCollaborationConfiguredModelAlgorithmAssociation(_ input: GetCollaborationConfiguredModelAlgorithmAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCollaborationConfiguredModelAlgorithmAssociationResponse {
+        try await self.client.execute(
+            operation: "GetCollaborationConfiguredModelAlgorithmAssociation", 
+            path: "/collaborations/{collaborationIdentifier}/configured-model-algorithm-associations/{configuredModelAlgorithmAssociationArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the configured model algorithm association in a collaboration.
+    ///
+    /// Parameters:
+    ///   - collaborationIdentifier: The collaboration ID for the collaboration that contains the configured model algorithm association that you want to return information about.
+    ///   - configuredModelAlgorithmAssociationArn: The Amazon Resource Name (ARN) of the configured model algorithm association that you want to return information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCollaborationConfiguredModelAlgorithmAssociation(
+        collaborationIdentifier: String,
+        configuredModelAlgorithmAssociationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCollaborationConfiguredModelAlgorithmAssociationResponse {
+        let input = GetCollaborationConfiguredModelAlgorithmAssociationRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            configuredModelAlgorithmAssociationArn: configuredModelAlgorithmAssociationArn
+        )
+        return try await self.getCollaborationConfiguredModelAlgorithmAssociation(input, logger: logger)
+    }
+
+    /// Returns information about a specific ML input channel in a collaboration.
+    @Sendable
+    @inlinable
+    public func getCollaborationMLInputChannel(_ input: GetCollaborationMLInputChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCollaborationMLInputChannelResponse {
+        try await self.client.execute(
+            operation: "GetCollaborationMLInputChannel", 
+            path: "/collaborations/{collaborationIdentifier}/ml-input-channels/{mlInputChannelArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a specific ML input channel in a collaboration.
+    ///
+    /// Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the ML input channel that you want to get.
+    ///   - mlInputChannelArn: The Amazon Resource Name (ARN) of the ML input channel that you want to get.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCollaborationMLInputChannel(
+        collaborationIdentifier: String,
+        mlInputChannelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCollaborationMLInputChannelResponse {
+        let input = GetCollaborationMLInputChannelRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            mlInputChannelArn: mlInputChannelArn
+        )
+        return try await self.getCollaborationMLInputChannel(input, logger: logger)
+    }
+
+    /// Returns information about a trained model in a collaboration.
+    @Sendable
+    @inlinable
+    public func getCollaborationTrainedModel(_ input: GetCollaborationTrainedModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCollaborationTrainedModelResponse {
+        try await self.client.execute(
+            operation: "GetCollaborationTrainedModel", 
+            path: "/collaborations/{collaborationIdentifier}/trained-models/{trainedModelArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a trained model in a collaboration.
+    ///
+    /// Parameters:
+    ///   - collaborationIdentifier: The collaboration ID that contains the trained model that you want to return information about.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that you want to return information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCollaborationTrainedModel(
+        collaborationIdentifier: String,
+        trainedModelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCollaborationTrainedModelResponse {
+        let input = GetCollaborationTrainedModelRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            trainedModelArn: trainedModelArn
+        )
+        return try await self.getCollaborationTrainedModel(input, logger: logger)
+    }
+
     /// Returns information about a specified configured audience model.
     @Sendable
     @inlinable
@@ -479,6 +993,192 @@ public struct CleanRoomsML: AWSService {
             configuredAudienceModelArn: configuredAudienceModelArn
         )
         return try await self.getConfiguredAudienceModelPolicy(input, logger: logger)
+    }
+
+    /// Returns information about a configured model algorithm.
+    @Sendable
+    @inlinable
+    public func getConfiguredModelAlgorithm(_ input: GetConfiguredModelAlgorithmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfiguredModelAlgorithmResponse {
+        try await self.client.execute(
+            operation: "GetConfiguredModelAlgorithm", 
+            path: "/configured-model-algorithms/{configuredModelAlgorithmArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a configured model algorithm.
+    ///
+    /// Parameters:
+    ///   - configuredModelAlgorithmArn: The Amazon Resource Name (ARN) of the configured model algorithm that you want to return information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConfiguredModelAlgorithm(
+        configuredModelAlgorithmArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConfiguredModelAlgorithmResponse {
+        let input = GetConfiguredModelAlgorithmRequest(
+            configuredModelAlgorithmArn: configuredModelAlgorithmArn
+        )
+        return try await self.getConfiguredModelAlgorithm(input, logger: logger)
+    }
+
+    /// Returns information about a configured model algorithm association.
+    @Sendable
+    @inlinable
+    public func getConfiguredModelAlgorithmAssociation(_ input: GetConfiguredModelAlgorithmAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfiguredModelAlgorithmAssociationResponse {
+        try await self.client.execute(
+            operation: "GetConfiguredModelAlgorithmAssociation", 
+            path: "/memberships/{membershipIdentifier}/configured-model-algorithm-associations/{configuredModelAlgorithmAssociationArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a configured model algorithm association.
+    ///
+    /// Parameters:
+    ///   - configuredModelAlgorithmAssociationArn: The Amazon Resource Name (ARN) of the configured model algorithm association that you want to return information about.
+    ///   - membershipIdentifier: The membership ID of the member that created the configured model algorithm association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConfiguredModelAlgorithmAssociation(
+        configuredModelAlgorithmAssociationArn: String,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConfiguredModelAlgorithmAssociationResponse {
+        let input = GetConfiguredModelAlgorithmAssociationRequest(
+            configuredModelAlgorithmAssociationArn: configuredModelAlgorithmAssociationArn, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.getConfiguredModelAlgorithmAssociation(input, logger: logger)
+    }
+
+    /// Returns information about a specific ML configuration.
+    @Sendable
+    @inlinable
+    public func getMLConfiguration(_ input: GetMLConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMLConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetMLConfiguration", 
+            path: "/memberships/{membershipIdentifier}/ml-configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a specific ML configuration.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier: The membership ID of the member that owns the ML configuration you want to return information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMLConfiguration(
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMLConfigurationResponse {
+        let input = GetMLConfigurationRequest(
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.getMLConfiguration(input, logger: logger)
+    }
+
+    /// Returns information about an ML input channel.
+    @Sendable
+    @inlinable
+    public func getMLInputChannel(_ input: GetMLInputChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMLInputChannelResponse {
+        try await self.client.execute(
+            operation: "GetMLInputChannel", 
+            path: "/memberships/{membershipIdentifier}/ml-input-channels/{mlInputChannelArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about an ML input channel.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier: The membership ID of the membership that contains the ML input channel that you want to get.
+    ///   - mlInputChannelArn: The Amazon Resource Name (ARN) of the ML input channel that you want to get.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMLInputChannel(
+        membershipIdentifier: String,
+        mlInputChannelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMLInputChannelResponse {
+        let input = GetMLInputChannelRequest(
+            membershipIdentifier: membershipIdentifier, 
+            mlInputChannelArn: mlInputChannelArn
+        )
+        return try await self.getMLInputChannel(input, logger: logger)
+    }
+
+    /// Returns information about a trained model.
+    @Sendable
+    @inlinable
+    public func getTrainedModel(_ input: GetTrainedModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrainedModelResponse {
+        try await self.client.execute(
+            operation: "GetTrainedModel", 
+            path: "/memberships/{membershipIdentifier}/trained-models/{trainedModelArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a trained model.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier: The membership ID of the member that created the trained model that you are interested in.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that you are interested in.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTrainedModel(
+        membershipIdentifier: String,
+        trainedModelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTrainedModelResponse {
+        let input = GetTrainedModelRequest(
+            membershipIdentifier: membershipIdentifier, 
+            trainedModelArn: trainedModelArn
+        )
+        return try await self.getTrainedModel(input, logger: logger)
+    }
+
+    /// Returns information about a trained model inference job.
+    @Sendable
+    @inlinable
+    public func getTrainedModelInferenceJob(_ input: GetTrainedModelInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrainedModelInferenceJobResponse {
+        try await self.client.execute(
+            operation: "GetTrainedModelInferenceJob", 
+            path: "/memberships/{membershipIdentifier}/trained-model-inference-jobs/{trainedModelInferenceJobArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a trained model inference job.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier: Provides the membership ID of the membership that contains the trained model inference job that you are interested in.
+    ///   - trainedModelInferenceJobArn: Provides the Amazon Resource Name (ARN) of the trained model inference job that you are interested in.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTrainedModelInferenceJob(
+        membershipIdentifier: String,
+        trainedModelInferenceJobArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTrainedModelInferenceJobResponse {
+        let input = GetTrainedModelInferenceJobRequest(
+            membershipIdentifier: membershipIdentifier, 
+            trainedModelInferenceJobArn: trainedModelInferenceJobArn
+        )
+        return try await self.getTrainedModelInferenceJob(input, logger: logger)
     }
 
     /// Returns information about a training dataset.
@@ -615,6 +1315,187 @@ public struct CleanRoomsML: AWSService {
         return try await self.listAudienceModels(input, logger: logger)
     }
 
+    /// Returns a list of the configured model algorithm associations in a collaboration.
+    @Sendable
+    @inlinable
+    public func listCollaborationConfiguredModelAlgorithmAssociations(_ input: ListCollaborationConfiguredModelAlgorithmAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollaborationConfiguredModelAlgorithmAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListCollaborationConfiguredModelAlgorithmAssociations", 
+            path: "/collaborations/{collaborationIdentifier}/configured-model-algorithm-associations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of the configured model algorithm associations in a collaboration.
+    ///
+    /// Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the configured model algorithm associations that you are interested in.
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCollaborationConfiguredModelAlgorithmAssociations(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCollaborationConfiguredModelAlgorithmAssociationsResponse {
+        let input = ListCollaborationConfiguredModelAlgorithmAssociationsRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCollaborationConfiguredModelAlgorithmAssociations(input, logger: logger)
+    }
+
+    /// Returns a list of the ML input channels in a collaboration.
+    @Sendable
+    @inlinable
+    public func listCollaborationMLInputChannels(_ input: ListCollaborationMLInputChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollaborationMLInputChannelsResponse {
+        try await self.client.execute(
+            operation: "ListCollaborationMLInputChannels", 
+            path: "/collaborations/{collaborationIdentifier}/ml-input-channels", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of the ML input channels in a collaboration.
+    ///
+    /// Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the ML input channels that you want to list.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCollaborationMLInputChannels(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCollaborationMLInputChannelsResponse {
+        let input = ListCollaborationMLInputChannelsRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCollaborationMLInputChannels(input, logger: logger)
+    }
+
+    /// Returns a list of the export jobs for a trained model in a collaboration.
+    @Sendable
+    @inlinable
+    public func listCollaborationTrainedModelExportJobs(_ input: ListCollaborationTrainedModelExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollaborationTrainedModelExportJobsResponse {
+        try await self.client.execute(
+            operation: "ListCollaborationTrainedModelExportJobs", 
+            path: "/collaborations/{collaborationIdentifier}/trained-models/{trainedModelArn}/export-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of the export jobs for a trained model in a collaboration.
+    ///
+    /// Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the trained model export jobs that you are interested in.
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that was used to create the export jobs that you are interested in.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCollaborationTrainedModelExportJobs(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        trainedModelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCollaborationTrainedModelExportJobsResponse {
+        let input = ListCollaborationTrainedModelExportJobsRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            trainedModelArn: trainedModelArn
+        )
+        return try await self.listCollaborationTrainedModelExportJobs(input, logger: logger)
+    }
+
+    /// Returns a list of trained model inference jobs in a specified collaboration.
+    @Sendable
+    @inlinable
+    public func listCollaborationTrainedModelInferenceJobs(_ input: ListCollaborationTrainedModelInferenceJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollaborationTrainedModelInferenceJobsResponse {
+        try await self.client.execute(
+            operation: "ListCollaborationTrainedModelInferenceJobs", 
+            path: "/collaborations/{collaborationIdentifier}/trained-model-inference-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of trained model inference jobs in a specified collaboration.
+    ///
+    /// Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the trained model inference jobs that you are interested in.
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that was used to create the trained model inference jobs that you are interested in.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCollaborationTrainedModelInferenceJobs(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        trainedModelArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCollaborationTrainedModelInferenceJobsResponse {
+        let input = ListCollaborationTrainedModelInferenceJobsRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            trainedModelArn: trainedModelArn
+        )
+        return try await self.listCollaborationTrainedModelInferenceJobs(input, logger: logger)
+    }
+
+    /// Returns a list of the trained models in a collaboration.
+    @Sendable
+    @inlinable
+    public func listCollaborationTrainedModels(_ input: ListCollaborationTrainedModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollaborationTrainedModelsResponse {
+        try await self.client.execute(
+            operation: "ListCollaborationTrainedModels", 
+            path: "/collaborations/{collaborationIdentifier}/trained-models", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of the trained models in a collaboration.
+    ///
+    /// Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the trained models you are interested in.
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCollaborationTrainedModels(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCollaborationTrainedModelsResponse {
+        let input = ListCollaborationTrainedModelsRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCollaborationTrainedModels(input, logger: logger)
+    }
+
     /// Returns a list of the configured audience models.
     @Sendable
     @inlinable
@@ -647,6 +1528,108 @@ public struct CleanRoomsML: AWSService {
         return try await self.listConfiguredAudienceModels(input, logger: logger)
     }
 
+    /// Returns a list of configured model algorithm associations.
+    @Sendable
+    @inlinable
+    public func listConfiguredModelAlgorithmAssociations(_ input: ListConfiguredModelAlgorithmAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfiguredModelAlgorithmAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListConfiguredModelAlgorithmAssociations", 
+            path: "/memberships/{membershipIdentifier}/configured-model-algorithm-associations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of configured model algorithm associations.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - membershipIdentifier: The membership ID of the member that created the configured model algorithm associations you are interested in.
+    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConfiguredModelAlgorithmAssociations(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConfiguredModelAlgorithmAssociationsResponse {
+        let input = ListConfiguredModelAlgorithmAssociationsRequest(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            nextToken: nextToken
+        )
+        return try await self.listConfiguredModelAlgorithmAssociations(input, logger: logger)
+    }
+
+    /// Returns a list of configured model algorithms.
+    @Sendable
+    @inlinable
+    public func listConfiguredModelAlgorithms(_ input: ListConfiguredModelAlgorithmsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfiguredModelAlgorithmsResponse {
+        try await self.client.execute(
+            operation: "ListConfiguredModelAlgorithms", 
+            path: "/configured-model-algorithms", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of configured model algorithms.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConfiguredModelAlgorithms(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConfiguredModelAlgorithmsResponse {
+        let input = ListConfiguredModelAlgorithmsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConfiguredModelAlgorithms(input, logger: logger)
+    }
+
+    /// Returns a list of ML input channels.
+    @Sendable
+    @inlinable
+    public func listMLInputChannels(_ input: ListMLInputChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMLInputChannelsResponse {
+        try await self.client.execute(
+            operation: "ListMLInputChannels", 
+            path: "/memberships/{membershipIdentifier}/ml-input-channels", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of ML input channels.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of ML input channels to return.
+    ///   - membershipIdentifier: The membership ID of the membership that contains the ML input channels that you want to list.
+    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMLInputChannels(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMLInputChannelsResponse {
+        let input = ListMLInputChannelsRequest(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            nextToken: nextToken
+        )
+        return try await self.listMLInputChannels(input, logger: logger)
+    }
+
     /// Returns a list of tags for a provided resource.
     @Sendable
     @inlinable
@@ -674,6 +1657,79 @@ public struct CleanRoomsML: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Returns a list of trained model inference jobs that match the request parameters.
+    @Sendable
+    @inlinable
+    public func listTrainedModelInferenceJobs(_ input: ListTrainedModelInferenceJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrainedModelInferenceJobsResponse {
+        try await self.client.execute(
+            operation: "ListTrainedModelInferenceJobs", 
+            path: "/memberships/{membershipIdentifier}/trained-model-inference-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of trained model inference jobs that match the request parameters.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - membershipIdentifier: The membership
+    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of a trained model that was used to create the trained model inference jobs that you are interested in.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTrainedModelInferenceJobs(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        nextToken: String? = nil,
+        trainedModelArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTrainedModelInferenceJobsResponse {
+        let input = ListTrainedModelInferenceJobsRequest(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            nextToken: nextToken, 
+            trainedModelArn: trainedModelArn
+        )
+        return try await self.listTrainedModelInferenceJobs(input, logger: logger)
+    }
+
+    /// Returns a list of trained models.
+    @Sendable
+    @inlinable
+    public func listTrainedModels(_ input: ListTrainedModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrainedModelsResponse {
+        try await self.client.execute(
+            operation: "ListTrainedModels", 
+            path: "/memberships/{membershipIdentifier}/trained-models", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of trained models.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - membershipIdentifier: The membership ID of the member that created the trained models you are interested in.
+    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTrainedModels(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTrainedModelsResponse {
+        let input = ListTrainedModelsRequest(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            nextToken: nextToken
+        )
+        return try await self.listTrainedModels(input, logger: logger)
     }
 
     /// Returns a list of training datasets.
@@ -744,6 +1800,38 @@ public struct CleanRoomsML: AWSService {
             previousPolicyHash: previousPolicyHash
         )
         return try await self.putConfiguredAudienceModelPolicy(input, logger: logger)
+    }
+
+    /// Assigns information about an ML configuration.
+    @Sendable
+    @inlinable
+    public func putMLConfiguration(_ input: PutMLConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutMLConfiguration", 
+            path: "/memberships/{membershipIdentifier}/ml-configurations", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Assigns information about an ML configuration.
+    ///
+    /// Parameters:
+    ///   - defaultOutputLocation: The default Amazon S3 location where ML output is stored for the specified member.
+    ///   - membershipIdentifier: The membership ID of the member that is being configured.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putMLConfiguration(
+        defaultOutputLocation: MLOutputConfiguration,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutMLConfigurationRequest(
+            defaultOutputLocation: defaultOutputLocation, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.putMLConfiguration(input, logger: logger)
     }
 
     /// Export an audience of a specified size after you have generated an audience.
@@ -829,6 +1917,109 @@ public struct CleanRoomsML: AWSService {
             tags: tags
         )
         return try await self.startAudienceGenerationJob(input, logger: logger)
+    }
+
+    /// Provides the information necessary to start a trained model export job.
+    @Sendable
+    @inlinable
+    public func startTrainedModelExportJob(_ input: StartTrainedModelExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "StartTrainedModelExportJob", 
+            path: "/memberships/{membershipIdentifier}/trained-models/{trainedModelArn}/export-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Provides the information necessary to start a trained model export job.
+    ///
+    /// Parameters:
+    ///   - description: The description of the trained model export job.
+    ///   - membershipIdentifier: The membership ID of the member that is receiving the exported trained model artifacts.
+    ///   - name: The name of the trained model export job.
+    ///   - outputConfiguration: The output configuration information for the trained model export job.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that you want to export.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startTrainedModelExportJob(
+        description: String? = nil,
+        membershipIdentifier: String,
+        name: String,
+        outputConfiguration: TrainedModelExportOutputConfiguration,
+        trainedModelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = StartTrainedModelExportJobRequest(
+            description: description, 
+            membershipIdentifier: membershipIdentifier, 
+            name: name, 
+            outputConfiguration: outputConfiguration, 
+            trainedModelArn: trainedModelArn
+        )
+        return try await self.startTrainedModelExportJob(input, logger: logger)
+    }
+
+    /// Defines the information necessary to begin a trained model inference job.
+    @Sendable
+    @inlinable
+    public func startTrainedModelInferenceJob(_ input: StartTrainedModelInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTrainedModelInferenceJobResponse {
+        try await self.client.execute(
+            operation: "StartTrainedModelInferenceJob", 
+            path: "/memberships/{membershipIdentifier}/trained-model-inference-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Defines the information necessary to begin a trained model inference job.
+    ///
+    /// Parameters:
+    ///   - configuredModelAlgorithmAssociationArn: The Amazon Resource Name (ARN) of the configured model algorithm association that is used for this trained model inference job.
+    ///   - containerExecutionParameters: The execution parameters for the container.
+    ///   - dataSource: Defines he data source that is used for the trained model inference job.
+    ///   - description: The description of the trained model inference job.
+    ///   - environment: The environment variables to set in the Docker container.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the ML inference job and associated data.
+    ///   - membershipIdentifier: The membership ID of the membership that contains the trained model inference job.
+    ///   - name: The name of the trained model inference job.
+    ///   - outputConfiguration: Defines the output configuration information for the trained model inference job.
+    ///   - resourceConfig: Defines the resource configuration for the trained model inference job.
+    ///   - tags: The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that is used for this trained model inference job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startTrainedModelInferenceJob(
+        configuredModelAlgorithmAssociationArn: String? = nil,
+        containerExecutionParameters: InferenceContainerExecutionParameters? = nil,
+        dataSource: ModelInferenceDataSource,
+        description: String? = nil,
+        environment: [String: String]? = nil,
+        kmsKeyArn: String? = nil,
+        membershipIdentifier: String,
+        name: String,
+        outputConfiguration: InferenceOutputConfiguration,
+        resourceConfig: InferenceResourceConfig,
+        tags: [String: String]? = nil,
+        trainedModelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartTrainedModelInferenceJobResponse {
+        let input = StartTrainedModelInferenceJobRequest(
+            configuredModelAlgorithmAssociationArn: configuredModelAlgorithmAssociationArn, 
+            containerExecutionParameters: containerExecutionParameters, 
+            dataSource: dataSource, 
+            description: description, 
+            environment: environment, 
+            kmsKeyArn: kmsKeyArn, 
+            membershipIdentifier: membershipIdentifier, 
+            name: name, 
+            outputConfiguration: outputConfiguration, 
+            resourceConfig: resourceConfig, 
+            tags: tags, 
+            trainedModelArn: trainedModelArn
+        )
+        return try await self.startTrainedModelInferenceJob(input, logger: logger)
     }
 
     /// Adds metadata tags to a specified resource.
@@ -1067,6 +2258,197 @@ extension CleanRoomsML {
         return self.listAudienceModelsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCollaborationConfiguredModelAlgorithmAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationConfiguredModelAlgorithmAssociationsPaginator(
+        _ input: ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCollaborationConfiguredModelAlgorithmAssociationsRequest, ListCollaborationConfiguredModelAlgorithmAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listCollaborationConfiguredModelAlgorithmAssociations,
+            inputKey: \ListCollaborationConfiguredModelAlgorithmAssociationsRequest.nextToken,
+            outputKey: \ListCollaborationConfiguredModelAlgorithmAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCollaborationConfiguredModelAlgorithmAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the configured model algorithm associations that you are interested in.
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationConfiguredModelAlgorithmAssociationsPaginator(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCollaborationConfiguredModelAlgorithmAssociationsRequest, ListCollaborationConfiguredModelAlgorithmAssociationsResponse> {
+        let input = ListCollaborationConfiguredModelAlgorithmAssociationsRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults
+        )
+        return self.listCollaborationConfiguredModelAlgorithmAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCollaborationMLInputChannels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationMLInputChannelsPaginator(
+        _ input: ListCollaborationMLInputChannelsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCollaborationMLInputChannelsRequest, ListCollaborationMLInputChannelsResponse> {
+        return .init(
+            input: input,
+            command: self.listCollaborationMLInputChannels,
+            inputKey: \ListCollaborationMLInputChannelsRequest.nextToken,
+            outputKey: \ListCollaborationMLInputChannelsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCollaborationMLInputChannels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the ML input channels that you want to list.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationMLInputChannelsPaginator(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCollaborationMLInputChannelsRequest, ListCollaborationMLInputChannelsResponse> {
+        let input = ListCollaborationMLInputChannelsRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults
+        )
+        return self.listCollaborationMLInputChannelsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCollaborationTrainedModelExportJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationTrainedModelExportJobsPaginator(
+        _ input: ListCollaborationTrainedModelExportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCollaborationTrainedModelExportJobsRequest, ListCollaborationTrainedModelExportJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listCollaborationTrainedModelExportJobs,
+            inputKey: \ListCollaborationTrainedModelExportJobsRequest.nextToken,
+            outputKey: \ListCollaborationTrainedModelExportJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCollaborationTrainedModelExportJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the trained model export jobs that you are interested in.
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that was used to create the export jobs that you are interested in.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationTrainedModelExportJobsPaginator(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        trainedModelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCollaborationTrainedModelExportJobsRequest, ListCollaborationTrainedModelExportJobsResponse> {
+        let input = ListCollaborationTrainedModelExportJobsRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults, 
+            trainedModelArn: trainedModelArn
+        )
+        return self.listCollaborationTrainedModelExportJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCollaborationTrainedModelInferenceJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationTrainedModelInferenceJobsPaginator(
+        _ input: ListCollaborationTrainedModelInferenceJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCollaborationTrainedModelInferenceJobsRequest, ListCollaborationTrainedModelInferenceJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listCollaborationTrainedModelInferenceJobs,
+            inputKey: \ListCollaborationTrainedModelInferenceJobsRequest.nextToken,
+            outputKey: \ListCollaborationTrainedModelInferenceJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCollaborationTrainedModelInferenceJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the trained model inference jobs that you are interested in.
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of the trained model that was used to create the trained model inference jobs that you are interested in.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationTrainedModelInferenceJobsPaginator(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        trainedModelArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCollaborationTrainedModelInferenceJobsRequest, ListCollaborationTrainedModelInferenceJobsResponse> {
+        let input = ListCollaborationTrainedModelInferenceJobsRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults, 
+            trainedModelArn: trainedModelArn
+        )
+        return self.listCollaborationTrainedModelInferenceJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCollaborationTrainedModels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationTrainedModelsPaginator(
+        _ input: ListCollaborationTrainedModelsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCollaborationTrainedModelsRequest, ListCollaborationTrainedModelsResponse> {
+        return .init(
+            input: input,
+            command: self.listCollaborationTrainedModels,
+            inputKey: \ListCollaborationTrainedModelsRequest.nextToken,
+            outputKey: \ListCollaborationTrainedModelsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCollaborationTrainedModels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - collaborationIdentifier: The collaboration ID of the collaboration that contains the trained models you are interested in.
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollaborationTrainedModelsPaginator(
+        collaborationIdentifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCollaborationTrainedModelsRequest, ListCollaborationTrainedModelsResponse> {
+        let input = ListCollaborationTrainedModelsRequest(
+            collaborationIdentifier: collaborationIdentifier, 
+            maxResults: maxResults
+        )
+        return self.listCollaborationTrainedModelsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listConfiguredAudienceModels(_:logger:)``.
     ///
     /// - Parameters:
@@ -1099,6 +2481,191 @@ extension CleanRoomsML {
             maxResults: maxResults
         )
         return self.listConfiguredAudienceModelsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listConfiguredModelAlgorithmAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfiguredModelAlgorithmAssociationsPaginator(
+        _ input: ListConfiguredModelAlgorithmAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfiguredModelAlgorithmAssociationsRequest, ListConfiguredModelAlgorithmAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listConfiguredModelAlgorithmAssociations,
+            inputKey: \ListConfiguredModelAlgorithmAssociationsRequest.nextToken,
+            outputKey: \ListConfiguredModelAlgorithmAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConfiguredModelAlgorithmAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - membershipIdentifier: The membership ID of the member that created the configured model algorithm associations you are interested in.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfiguredModelAlgorithmAssociationsPaginator(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConfiguredModelAlgorithmAssociationsRequest, ListConfiguredModelAlgorithmAssociationsResponse> {
+        let input = ListConfiguredModelAlgorithmAssociationsRequest(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return self.listConfiguredModelAlgorithmAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listConfiguredModelAlgorithms(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfiguredModelAlgorithmsPaginator(
+        _ input: ListConfiguredModelAlgorithmsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfiguredModelAlgorithmsRequest, ListConfiguredModelAlgorithmsResponse> {
+        return .init(
+            input: input,
+            command: self.listConfiguredModelAlgorithms,
+            inputKey: \ListConfiguredModelAlgorithmsRequest.nextToken,
+            outputKey: \ListConfiguredModelAlgorithmsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConfiguredModelAlgorithms(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfiguredModelAlgorithmsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConfiguredModelAlgorithmsRequest, ListConfiguredModelAlgorithmsResponse> {
+        let input = ListConfiguredModelAlgorithmsRequest(
+            maxResults: maxResults
+        )
+        return self.listConfiguredModelAlgorithmsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listMLInputChannels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMLInputChannelsPaginator(
+        _ input: ListMLInputChannelsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMLInputChannelsRequest, ListMLInputChannelsResponse> {
+        return .init(
+            input: input,
+            command: self.listMLInputChannels,
+            inputKey: \ListMLInputChannelsRequest.nextToken,
+            outputKey: \ListMLInputChannelsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMLInputChannels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of ML input channels to return.
+    ///   - membershipIdentifier: The membership ID of the membership that contains the ML input channels that you want to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMLInputChannelsPaginator(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMLInputChannelsRequest, ListMLInputChannelsResponse> {
+        let input = ListMLInputChannelsRequest(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return self.listMLInputChannelsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTrainedModelInferenceJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainedModelInferenceJobsPaginator(
+        _ input: ListTrainedModelInferenceJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrainedModelInferenceJobsRequest, ListTrainedModelInferenceJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listTrainedModelInferenceJobs,
+            inputKey: \ListTrainedModelInferenceJobsRequest.nextToken,
+            outputKey: \ListTrainedModelInferenceJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTrainedModelInferenceJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - membershipIdentifier: The membership
+    ///   - trainedModelArn: The Amazon Resource Name (ARN) of a trained model that was used to create the trained model inference jobs that you are interested in.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainedModelInferenceJobsPaginator(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        trainedModelArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTrainedModelInferenceJobsRequest, ListTrainedModelInferenceJobsResponse> {
+        let input = ListTrainedModelInferenceJobsRequest(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            trainedModelArn: trainedModelArn
+        )
+        return self.listTrainedModelInferenceJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTrainedModels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainedModelsPaginator(
+        _ input: ListTrainedModelsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrainedModelsRequest, ListTrainedModelsResponse> {
+        return .init(
+            input: input,
+            command: self.listTrainedModels,
+            inputKey: \ListTrainedModelsRequest.nextToken,
+            outputKey: \ListTrainedModelsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTrainedModels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - membershipIdentifier: The membership ID of the member that created the trained models you are interested in.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainedModelsPaginator(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTrainedModelsRequest, ListTrainedModelsResponse> {
+        let input = ListTrainedModelsRequest(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return self.listTrainedModelsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listTrainingDatasets(_:logger:)``.
@@ -1169,11 +2736,123 @@ extension CleanRoomsML.ListAudienceModelsRequest: AWSPaginateToken {
     }
 }
 
+extension CleanRoomsML.ListCollaborationConfiguredModelAlgorithmAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListCollaborationConfiguredModelAlgorithmAssociationsRequest {
+        return .init(
+            collaborationIdentifier: self.collaborationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CleanRoomsML.ListCollaborationMLInputChannelsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListCollaborationMLInputChannelsRequest {
+        return .init(
+            collaborationIdentifier: self.collaborationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CleanRoomsML.ListCollaborationTrainedModelExportJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListCollaborationTrainedModelExportJobsRequest {
+        return .init(
+            collaborationIdentifier: self.collaborationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            trainedModelArn: self.trainedModelArn
+        )
+    }
+}
+
+extension CleanRoomsML.ListCollaborationTrainedModelInferenceJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListCollaborationTrainedModelInferenceJobsRequest {
+        return .init(
+            collaborationIdentifier: self.collaborationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            trainedModelArn: self.trainedModelArn
+        )
+    }
+}
+
+extension CleanRoomsML.ListCollaborationTrainedModelsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListCollaborationTrainedModelsRequest {
+        return .init(
+            collaborationIdentifier: self.collaborationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension CleanRoomsML.ListConfiguredAudienceModelsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListConfiguredAudienceModelsRequest {
         return .init(
             maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CleanRoomsML.ListConfiguredModelAlgorithmAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListConfiguredModelAlgorithmAssociationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
+            nextToken: token
+        )
+    }
+}
+
+extension CleanRoomsML.ListConfiguredModelAlgorithmsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListConfiguredModelAlgorithmsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CleanRoomsML.ListMLInputChannelsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListMLInputChannelsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
+            nextToken: token
+        )
+    }
+}
+
+extension CleanRoomsML.ListTrainedModelInferenceJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListTrainedModelInferenceJobsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
+            nextToken: token,
+            trainedModelArn: self.trainedModelArn
+        )
+    }
+}
+
+extension CleanRoomsML.ListTrainedModelsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRoomsML.ListTrainedModelsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
             nextToken: token
         )
     }

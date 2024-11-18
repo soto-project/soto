@@ -755,9 +755,9 @@ public struct FMS: AWSService {
     ///
     /// Parameters:
     ///   - memberAccount: The Amazon Web Services account ID that you want the details for.
-    ///   - policyId: The ID of the Firewall Manager policy that you want the details for. You can get violation details for the following policy types:   DNS Firewall   Imported Network Firewall   Network Firewall   Security group content audit   Network ACL   Third-party firewall
+    ///   - policyId: The ID of the Firewall Manager policy that you want the details for. You can get violation details for the following policy types:   WAF   DNS Firewall   Imported Network Firewall   Network Firewall   Security group content audit   Network ACL   Third-party firewall
     ///   - resourceId: The ID of the resource that has violations.
-    ///   - resourceType: The resource type. This is in the format shown in the Amazon Web Services Resource Types Reference. Supported resource types are: AWS::EC2::Instance, AWS::EC2::NetworkInterface, AWS::EC2::SecurityGroup, AWS::NetworkFirewall::FirewallPolicy, and AWS::EC2::Subnet.
+    ///   - resourceType: The resource type. This is in the format shown in the Amazon Web Services Resource Types Reference. Supported resource types are: AWS::WAFv2::WebACL, AWS::EC2::Instance, AWS::EC2::NetworkInterface, AWS::EC2::SecurityGroup, AWS::NetworkFirewall::FirewallPolicy, and AWS::EC2::Subnet.
     ///   - logger: Logger use during operation
     @inlinable
     public func getViolationDetails(

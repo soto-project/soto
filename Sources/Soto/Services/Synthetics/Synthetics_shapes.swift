@@ -74,6 +74,12 @@ extension Synthetics {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProvisionedResourceCleanupSetting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "AUTOMATIC"
+        case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceToTag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lambdaFunction = "lambda-function"
         public var description: String { return self.rawValue }
@@ -192,6 +198,8 @@ extension Synthetics {
         public let id: String?
         /// The name of the canary.
         public let name: String?
+        /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If it is AUTOMATIC, the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
+        public let provisionedResourceCleanup: ProvisionedResourceCleanupSetting?
         public let runConfig: CanaryRunConfigOutput?
         /// Specifies the runtime version to use for the canary. For more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String?
@@ -210,7 +218,7 @@ extension Synthetics {
         public let vpcConfig: VpcConfigOutput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigOutput? = nil, artifactS3Location: String? = nil, code: CanaryCodeOutput? = nil, engineArn: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, vpcConfig: VpcConfigOutput? = nil) {
+        public init(artifactConfig: ArtifactConfigOutput? = nil, artifactS3Location: String? = nil, code: CanaryCodeOutput? = nil, engineArn: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, vpcConfig: VpcConfigOutput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.code = code
@@ -219,6 +227,7 @@ extension Synthetics {
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
             self.id = id
             self.name = name
+            self.provisionedResourceCleanup = provisionedResourceCleanup
             self.runConfig = runConfig
             self.runtimeVersion = runtimeVersion
             self.schedule = schedule
@@ -239,6 +248,7 @@ extension Synthetics {
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
             case id = "Id"
             case name = "Name"
+            case provisionedResourceCleanup = "ProvisionedResourceCleanup"
             case runConfig = "RunConfig"
             case runtimeVersion = "RuntimeVersion"
             case schedule = "Schedule"
@@ -564,6 +574,8 @@ extension Synthetics {
         public let failureRetentionPeriodInDays: Int?
         /// The name for this canary. Be sure to give it a descriptive name  that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see Security Considerations for Synthetics Canaries.
         public let name: String
+        /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If you omit this parameter, the default of AUTOMATIC is used, which means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
+        public let provisionedResourceCleanup: ProvisionedResourceCleanupSetting?
         /// To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function. If you specify this parameter and don't specify any tags in the Tags parameter, the canary creation fails.
         public let resourcesToReplicateTags: [ResourceToTag]?
         /// A structure that contains the configuration for individual canary runs,  such as timeout value and environment variables.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
@@ -580,13 +592,14 @@ extension Synthetics {
         public let vpcConfig: VpcConfigInput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, name: String, resourcesToReplicateTags: [ResourceToTag]? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, resourcesToReplicateTags: [ResourceToTag]? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.code = code
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
             self.name = name
+            self.provisionedResourceCleanup = provisionedResourceCleanup
             self.resourcesToReplicateTags = resourcesToReplicateTags
             self.runConfig = runConfig
             self.runtimeVersion = runtimeVersion
@@ -635,6 +648,7 @@ extension Synthetics {
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
             case name = "Name"
+            case provisionedResourceCleanup = "ProvisionedResourceCleanup"
             case resourcesToReplicateTags = "ResourcesToReplicateTags"
             case runConfig = "RunConfig"
             case runtimeVersion = "RuntimeVersion"
@@ -705,7 +719,7 @@ extension Synthetics {
     }
 
     public struct DeleteCanaryRequest: AWSEncodableShape {
-        /// Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false. Type: Boolean
+        /// Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false. Your setting for this parameter is used only if the canary doesn't have AUTOMATIC for its  ProvisionedResourceCleanup field. If that field is set to AUTOMATIC, then the  Lambda functions and layers will be deleted when this canary is deleted.  Type: Boolean
         public let deleteLambda: Bool?
         /// The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries.
         public let name: String
@@ -1536,6 +1550,8 @@ extension Synthetics {
         public let failureRetentionPeriodInDays: Int?
         /// The name of the canary that you want to update. To find the names of your  canaries, use DescribeCanaries. You cannot change the name of a canary that has already been created.
         public let name: String
+        /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
+        public let provisionedResourceCleanup: ProvisionedResourceCleanupSetting?
         /// A structure that contains the timeout value that is used for each individual run of the  canary.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
         public let runConfig: CanaryRunConfigInput?
         /// Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
@@ -1550,13 +1566,14 @@ extension Synthetics {
         public let vpcConfig: VpcConfigInput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.code = code
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
             self.name = name
+            self.provisionedResourceCleanup = provisionedResourceCleanup
             self.runConfig = runConfig
             self.runtimeVersion = runtimeVersion
             self.schedule = schedule
@@ -1574,6 +1591,7 @@ extension Synthetics {
             try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
             try container.encodeIfPresent(self.failureRetentionPeriodInDays, forKey: .failureRetentionPeriodInDays)
             request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.provisionedResourceCleanup, forKey: .provisionedResourceCleanup)
             try container.encodeIfPresent(self.runConfig, forKey: .runConfig)
             try container.encodeIfPresent(self.runtimeVersion, forKey: .runtimeVersion)
             try container.encodeIfPresent(self.schedule, forKey: .schedule)
@@ -1611,6 +1629,7 @@ extension Synthetics {
             case code = "Code"
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
+            case provisionedResourceCleanup = "ProvisionedResourceCleanup"
             case runConfig = "RunConfig"
             case runtimeVersion = "RuntimeVersion"
             case schedule = "Schedule"

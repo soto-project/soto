@@ -195,6 +195,7 @@ extension AccessAnalyzer {
 
     public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case identityPolicy = "IDENTITY_POLICY"
+        case resourceControlPolicy = "RESOURCE_CONTROL_POLICY"
         case resourcePolicy = "RESOURCE_POLICY"
         case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
         public var description: String { return self.rawValue }
@@ -219,6 +220,13 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceControlPolicyRestriction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applicable = "APPLICABLE"
+        case failedToEvaluateRcp = "FAILED_TO_EVALUATE_RCP"
+        case notApplicable = "NOT_APPLICABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsDynamodbStream = "AWS::DynamoDB::Stream"
         case awsDynamodbTable = "AWS::DynamoDB::Table"
@@ -226,6 +234,7 @@ extension AccessAnalyzer {
         case awsECRRepository = "AWS::ECR::Repository"
         case awsEFSFilesystem = "AWS::EFS::FileSystem"
         case awsIAMRole = "AWS::IAM::Role"
+        case awsIAMUser = "AWS::IAM::User"
         case awsKMSKey = "AWS::KMS::Key"
         case awsLambdaFunction = "AWS::Lambda::Function"
         case awsLambdaLayerversion = "AWS::Lambda::LayerVersion"
@@ -607,7 +616,7 @@ extension AccessAnalyzer {
     public struct Access: AWSEncodableShape {
         /// A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check.
         public let actions: [String]?
-        /// A list of resources for the access permissions. Any strings that can be used as a resource in an IAM policy can be used in the list of resources to check.
+        /// A list of resources for the access permissions. Any strings that can be used as an Amazon Resource Name (ARN) in an IAM policy can be used in the list of resources to check. You can only use a wildcard in the portion of the ARN that specifies the resource ID.
         public let resources: [String]?
 
         @inlinable
@@ -687,6 +696,8 @@ extension AccessAnalyzer {
         public let principal: [String: String]?
         /// The resource that an external principal has access to. This is the resource associated with the access preview.
         public let resource: String?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public let resourceControlPolicyRestriction: ResourceControlPolicyRestriction?
         /// The Amazon Web Services account ID that owns the resource. For most Amazon Web Services resources, the owning account is the account in which the resource was created.
         public let resourceOwnerAccount: String
         /// The type of the resource that can be accessed in the finding.
@@ -697,7 +708,7 @@ extension AccessAnalyzer {
         public let status: FindingStatus
 
         @inlinable
-        public init(action: [String]? = nil, changeType: FindingChangeType, condition: [String: String]? = nil, createdAt: Date, error: String? = nil, existingFindingId: String? = nil, existingFindingStatus: FindingStatus? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus) {
+        public init(action: [String]? = nil, changeType: FindingChangeType, condition: [String: String]? = nil, createdAt: Date, error: String? = nil, existingFindingId: String? = nil, existingFindingStatus: FindingStatus? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceControlPolicyRestriction: ResourceControlPolicyRestriction? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus) {
             self.action = action
             self.changeType = changeType
             self.condition = condition
@@ -709,6 +720,7 @@ extension AccessAnalyzer {
             self.isPublic = isPublic
             self.principal = principal
             self.resource = resource
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
             self.sources = sources
@@ -727,6 +739,7 @@ extension AccessAnalyzer {
             case isPublic = "isPublic"
             case principal = "principal"
             case resource = "resource"
+            case resourceControlPolicyRestriction = "resourceControlPolicyRestriction"
             case resourceOwnerAccount = "resourceOwnerAccount"
             case resourceType = "resourceType"
             case sources = "sources"
@@ -775,6 +788,38 @@ extension AccessAnalyzer {
             case id = "id"
             case status = "status"
             case statusReason = "statusReason"
+        }
+    }
+
+    public struct AnalysisRule: AWSEncodableShape & AWSDecodableShape {
+        /// A list of rules for the analyzer containing criteria to exclude from analysis. Entities that meet the rule criteria will not generate findings.
+        public let exclusions: [AnalysisRuleCriteria]?
+
+        @inlinable
+        public init(exclusions: [AnalysisRuleCriteria]? = nil) {
+            self.exclusions = exclusions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusions = "exclusions"
+        }
+    }
+
+    public struct AnalysisRuleCriteria: AWSEncodableShape & AWSDecodableShape {
+        /// A list of Amazon Web Services account IDs to apply to the analysis rule criteria. The accounts cannot include the organization analyzer owner account. Account IDs can only be applied to the analysis rule criteria for organization-level analyzers. The list cannot include more than 2,000 account IDs.
+        public let accountIds: [String]?
+        /// An array of key-value pairs to match for your resources. You can use the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. For the tag key, you can specify a value that is 1 to 128 characters in length and cannot be prefixed with aws:. For the tag value, you can specify a value that is 0 to 256 characters in length. If the specified tag value is 0 characters, the rule is applied to all principals with the specified tag key.
+        public let resourceTags: [[String: String]]?
+
+        @inlinable
+        public init(accountIds: [String]? = nil, resourceTags: [[String: String]]? = nil) {
+            self.accountIds = accountIds
+            self.resourceTags = resourceTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case resourceTags = "resourceTags"
         }
     }
 
@@ -989,11 +1034,11 @@ extension AccessAnalyzer {
     }
 
     public struct CheckAccessNotGrantedRequest: AWSEncodableShape {
-        /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access of the actions on all resources in the policy. If only resources are specified, then IAM Access Analyzer checks which actions have access to the specified resources. If both actions and resources are specified, then IAM Access Analyzer checks which of the specified actions have access to the specified resources.
+        /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access to peform at least one of the actions on any resource in the policy. If only resources are specified, then IAM Access Analyzer checks for access to perform any action on at least one of the resources. If both actions and resources are specified, IAM Access Analyzer checks for access to perform at least one of the specified actions on at least one of the specified resources.
         public let access: [Access]
         /// The JSON policy document to use as the content for the policy.
         public let policyDocument: String
-        /// The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
+        /// The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets.
         public let policyType: AccessCheckPolicyType
 
         @inlinable
@@ -1231,9 +1276,9 @@ extension AccessAnalyzer {
         public let archiveRules: [InlineArchiveRule]?
         /// A client token.
         public let clientToken: String?
-        /// Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration. If the analyzer is an external access analyzer, this field is not used.
+        /// Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration.
         public let configuration: AnalyzerConfiguration?
-        /// An array of key-value pairs to apply to the analyzer.
+        /// An array of key-value pairs to apply to the analyzer. You can use the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. For the tag key, you can specify a value that is 1 to 128 characters in length and cannot be prefixed with aws:. For the tag value, you can specify a value that is 0 to 256 characters in length.
         public let tags: [String: String]?
         /// The type of analyzer to create. Only ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, and ORGANIZATION_UNUSED_ACCESS analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
         public let type: `Type`
@@ -1512,15 +1557,18 @@ extension AccessAnalyzer {
         public let isPublic: Bool?
         /// The external principal that has access to a resource within the zone of trust.
         public let principal: [String: String]?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public let resourceControlPolicyRestriction: ResourceControlPolicyRestriction?
         /// The sources of the external access finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
         public let sources: [FindingSource]?
 
         @inlinable
-        public init(action: [String]? = nil, condition: [String: String], isPublic: Bool? = nil, principal: [String: String]? = nil, sources: [FindingSource]? = nil) {
+        public init(action: [String]? = nil, condition: [String: String], isPublic: Bool? = nil, principal: [String: String]? = nil, resourceControlPolicyRestriction: ResourceControlPolicyRestriction? = nil, sources: [FindingSource]? = nil) {
             self.action = action
             self.condition = condition
             self.isPublic = isPublic
             self.principal = principal
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.sources = sources
         }
 
@@ -1529,6 +1577,7 @@ extension AccessAnalyzer {
             case condition = "condition"
             case isPublic = "isPublic"
             case principal = "principal"
+            case resourceControlPolicyRestriction = "resourceControlPolicyRestriction"
             case sources = "sources"
         }
     }
@@ -1554,6 +1603,8 @@ extension AccessAnalyzer {
         public let principal: [String: String]?
         /// The resource that an external principal has access to.
         public let resource: String?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public let resourceControlPolicyRestriction: ResourceControlPolicyRestriction?
         /// The Amazon Web Services account ID that owns the resource.
         public let resourceOwnerAccount: String
         /// The type of the resource identified in the finding.
@@ -1567,7 +1618,7 @@ extension AccessAnalyzer {
         public var updatedAt: Date
 
         @inlinable
-        public init(action: [String]? = nil, analyzedAt: Date, condition: [String: String], createdAt: Date, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: Date) {
+        public init(action: [String]? = nil, analyzedAt: Date, condition: [String: String], createdAt: Date, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceControlPolicyRestriction: ResourceControlPolicyRestriction? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: Date) {
             self.action = action
             self.analyzedAt = analyzedAt
             self.condition = condition
@@ -1577,6 +1628,7 @@ extension AccessAnalyzer {
             self.isPublic = isPublic
             self.principal = principal
             self.resource = resource
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
             self.sources = sources
@@ -1594,6 +1646,7 @@ extension AccessAnalyzer {
             case isPublic = "isPublic"
             case principal = "principal"
             case resource = "resource"
+            case resourceControlPolicyRestriction = "resourceControlPolicyRestriction"
             case resourceOwnerAccount = "resourceOwnerAccount"
             case resourceType = "resourceType"
             case sources = "sources"
@@ -1659,6 +1712,8 @@ extension AccessAnalyzer {
         public let principal: [String: String]?
         /// The resource that the external principal has access to.
         public let resource: String?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public let resourceControlPolicyRestriction: ResourceControlPolicyRestriction?
         /// The Amazon Web Services account ID that owns the resource.
         public let resourceOwnerAccount: String
         /// The type of the resource that the external principal has access to.
@@ -1672,7 +1727,7 @@ extension AccessAnalyzer {
         public var updatedAt: Date
 
         @inlinable
-        public init(action: [String]? = nil, analyzedAt: Date, condition: [String: String], createdAt: Date, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: Date) {
+        public init(action: [String]? = nil, analyzedAt: Date, condition: [String: String], createdAt: Date, error: String? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceControlPolicyRestriction: ResourceControlPolicyRestriction? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus, updatedAt: Date) {
             self.action = action
             self.analyzedAt = analyzedAt
             self.condition = condition
@@ -1682,6 +1737,7 @@ extension AccessAnalyzer {
             self.isPublic = isPublic
             self.principal = principal
             self.resource = resource
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
             self.sources = sources
@@ -1699,6 +1755,7 @@ extension AccessAnalyzer {
             case isPublic = "isPublic"
             case principal = "principal"
             case resource = "resource"
+            case resourceControlPolicyRestriction = "resourceControlPolicyRestriction"
             case resourceOwnerAccount = "resourceOwnerAccount"
             case resourceType = "resourceType"
             case sources = "sources"
@@ -3430,15 +3487,18 @@ extension AccessAnalyzer {
     }
 
     public struct UnusedAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The specified access age in days for which to generate findings for unused access. For example, if you specify 90 days, the analyzer will generate findings for IAM entities within the accounts of the selected organization for any access that hasn't been used in 90 or more days since the analyzer's last scan. You can choose a value between 1 and 180 days.
+        public let analysisRule: AnalysisRule?
+        /// The specified access age in days for which to generate findings for unused access. For example, if you specify 90 days, the analyzer will generate findings for IAM entities within the accounts of the selected organization for any access that hasn't been used in 90 or more days since the analyzer's last scan. You can choose a value between 1 and 365 days.
         public let unusedAccessAge: Int?
 
         @inlinable
-        public init(unusedAccessAge: Int? = nil) {
+        public init(analysisRule: AnalysisRule? = nil, unusedAccessAge: Int? = nil) {
+            self.analysisRule = analysisRule
             self.unusedAccessAge = unusedAccessAge
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analysisRule = "analysisRule"
             case unusedAccessAge = "unusedAccessAge"
         }
     }
@@ -3558,6 +3618,48 @@ extension AccessAnalyzer {
             case policyUpdatedAt = "policyUpdatedAt"
             case recommendedAction = "recommendedAction"
             case recommendedPolicy = "recommendedPolicy"
+        }
+    }
+
+    public struct UpdateAnalyzerRequest: AWSEncodableShape {
+        /// The name of the analyzer to modify.
+        public let analyzerName: String
+        public let configuration: AnalyzerConfiguration?
+
+        @inlinable
+        public init(analyzerName: String, configuration: AnalyzerConfiguration? = nil) {
+            self.analyzerName = analyzerName
+            self.configuration = configuration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analyzerName, key: "analyzerName")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+        }
+    }
+
+    public struct UpdateAnalyzerResponse: AWSDecodableShape {
+        public let configuration: AnalyzerConfiguration?
+
+        @inlinable
+        public init(configuration: AnalyzerConfiguration? = nil) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
         }
     }
 
@@ -3751,7 +3853,7 @@ extension AccessAnalyzer {
     }
 
     public struct AnalyzerConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the configuration of an unused access analyzer for an Amazon Web Services organization or account. External access analyzers do not support any configuration.
+        /// Specifies the configuration of an unused access analyzer for an Amazon Web Services organization or account.
         public let unusedAccess: UnusedAccessConfiguration?
 
         @inlinable

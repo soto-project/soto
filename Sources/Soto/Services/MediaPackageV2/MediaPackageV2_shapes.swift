@@ -94,6 +94,15 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum HarvestJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case queued = "QUEUED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InputType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmaf = "CMAF"
         case hls = "HLS"
@@ -143,6 +152,62 @@ extension MediaPackageV2 {
     }
 
     // MARK: Shapes
+
+    public struct CancelHarvestJobRequest: AWSEncodableShape {
+        /// The name of the channel group containing the channel from which the harvest job is running.
+        public let channelGroupName: String
+        /// The name of the channel from which the harvest job is running.
+        public let channelName: String
+        /// The current Entity Tag (ETag) associated with the harvest job. Used for concurrency control.
+        public let eTag: String?
+        /// The name of the harvest job to cancel. This name must be unique within the channel and cannot be changed after the harvest job is submitted.
+        public let harvestJobName: String
+        /// The name of the origin endpoint that the harvest job is harvesting from. This cannot be changed after the harvest job is submitted.
+        public let originEndpointName: String
+
+        @inlinable
+        public init(channelGroupName: String, channelName: String, eTag: String? = nil, harvestJobName: String, originEndpointName: String) {
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.eTag = eTag
+            self.harvestJobName = harvestJobName
+            self.originEndpointName = originEndpointName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodeHeader(self.eTag, key: "x-amzn-update-if-match")
+            request.encodePath(self.harvestJobName, key: "HarvestJobName")
+            request.encodePath(self.originEndpointName, key: "OriginEndpointName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, max: 256)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, min: 1)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.eTag, name: "eTag", parent: name, max: 256)
+            try self.validate(self.eTag, name: "eTag", parent: name, min: 1)
+            try self.validate(self.eTag, name: "eTag", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.harvestJobName, name: "harvestJobName", parent: name, max: 256)
+            try self.validate(self.harvestJobName, name: "harvestJobName", parent: name, min: 1)
+            try self.validate(self.harvestJobName, name: "harvestJobName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, max: 256)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, min: 1)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelHarvestJobResponse: AWSDecodableShape {
+        public init() {}
+    }
 
     public struct ChannelGroupListConfiguration: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) associated with the resource.
@@ -460,6 +525,158 @@ extension MediaPackageV2 {
             case segmentTemplateFormat = "SegmentTemplateFormat"
             case suggestedPresentationDelaySeconds = "SuggestedPresentationDelaySeconds"
             case utcTiming = "UtcTiming"
+        }
+    }
+
+    public struct CreateHarvestJobRequest: AWSEncodableShape {
+        /// The name of the channel group containing the channel from which to harvest content.
+        public let channelGroupName: String
+        /// The name of the channel from which to harvest content.
+        public let channelName: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// An optional description for the harvest job.
+        public let description: String?
+        /// The S3 destination where the harvested content will be placed.
+        public let destination: Destination
+        /// A list of manifests to be harvested.
+        public let harvestedManifests: HarvestedManifests
+        /// A name for the harvest job. This name must be unique within the channel.
+        public let harvestJobName: String?
+        /// The name of the origin endpoint from which to harvest content.
+        public let originEndpointName: String
+        /// The configuration for when the harvest job should run, including start and end times.
+        public let scheduleConfiguration: HarvesterScheduleConfiguration
+        /// A collection of tags associated with the harvest job.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateHarvestJobRequest.idempotencyToken(), description: String? = nil, destination: Destination, harvestedManifests: HarvestedManifests, harvestJobName: String? = nil, originEndpointName: String, scheduleConfiguration: HarvesterScheduleConfiguration, tags: [String: String]? = nil) {
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.clientToken = clientToken
+            self.description = description
+            self.destination = destination
+            self.harvestedManifests = harvestedManifests
+            self.harvestJobName = harvestJobName
+            self.originEndpointName = originEndpointName
+            self.scheduleConfiguration = scheduleConfiguration
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodeHeader(self.clientToken, key: "x-amzn-client-token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.destination, forKey: .destination)
+            try container.encode(self.harvestedManifests, forKey: .harvestedManifests)
+            try container.encodeIfPresent(self.harvestJobName, forKey: .harvestJobName)
+            request.encodePath(self.originEndpointName, key: "OriginEndpointName")
+            try container.encode(self.scheduleConfiguration, forKey: .scheduleConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, max: 256)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, min: 1)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.destination.validate(name: "\(name).destination")
+            try self.harvestedManifests.validate(name: "\(name).harvestedManifests")
+            try self.validate(self.harvestJobName, name: "harvestJobName", parent: name, max: 256)
+            try self.validate(self.harvestJobName, name: "harvestJobName", parent: name, min: 1)
+            try self.validate(self.harvestJobName, name: "harvestJobName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, max: 256)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, min: 1)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case destination = "Destination"
+            case harvestedManifests = "HarvestedManifests"
+            case harvestJobName = "HarvestJobName"
+            case scheduleConfiguration = "ScheduleConfiguration"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateHarvestJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created harvest job.
+        public let arn: String
+        /// The name of the channel group containing the channel from which content is being harvested.
+        public let channelGroupName: String
+        /// The name of the channel from which content is being harvested.
+        public let channelName: String
+        /// The date and time the harvest job was created.
+        public let createdAt: Date
+        /// The description of the harvest job, if provided.
+        public let description: String?
+        /// The S3 destination where the harvested content will be placed.
+        public let destination: Destination
+        /// An error message if the harvest job creation failed.
+        public let errorMessage: String?
+        /// The current version of the harvest job. Used for concurrency control.
+        public let eTag: String?
+        /// A list of manifests that will be harvested.
+        public let harvestedManifests: HarvestedManifests
+        /// The name of the created harvest job.
+        public let harvestJobName: String
+        /// The date and time the harvest job was last modified.
+        public let modifiedAt: Date
+        /// The name of the origin endpoint from which content is being harvested.
+        public let originEndpointName: String
+        /// The configuration for when the harvest job will run, including start and end times.
+        public let scheduleConfiguration: HarvesterScheduleConfiguration
+        /// The current status of the harvest job (e.g., CREATED, IN_PROGRESS, ABORTED, COMPLETED, FAILED).
+        public let status: HarvestJobStatus
+        /// A collection of tags associated with the harvest job.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, destination: Destination, errorMessage: String? = nil, eTag: String? = nil, harvestedManifests: HarvestedManifests, harvestJobName: String, modifiedAt: Date, originEndpointName: String, scheduleConfiguration: HarvesterScheduleConfiguration, status: HarvestJobStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.createdAt = createdAt
+            self.description = description
+            self.destination = destination
+            self.errorMessage = errorMessage
+            self.eTag = eTag
+            self.harvestedManifests = harvestedManifests
+            self.harvestJobName = harvestJobName
+            self.modifiedAt = modifiedAt
+            self.originEndpointName = originEndpointName
+            self.scheduleConfiguration = scheduleConfiguration
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case channelGroupName = "ChannelGroupName"
+            case channelName = "ChannelName"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case destination = "Destination"
+            case errorMessage = "ErrorMessage"
+            case eTag = "ETag"
+            case harvestedManifests = "HarvestedManifests"
+            case harvestJobName = "HarvestJobName"
+            case modifiedAt = "ModifiedAt"
+            case originEndpointName = "OriginEndpointName"
+            case scheduleConfiguration = "ScheduleConfiguration"
+            case status = "Status"
+            case tags = "Tags"
         }
     }
 
@@ -928,6 +1145,24 @@ extension MediaPackageV2 {
         public init() {}
     }
 
+    public struct Destination: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for exporting harvested content to an S3 bucket. This includes details such as the bucket name and destination path within the bucket.
+        public let s3Destination: S3DestinationConfig
+
+        @inlinable
+        public init(s3Destination: S3DestinationConfig) {
+            self.s3Destination = s3Destination
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Destination.validate(name: "\(name).s3Destination")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Destination = "S3Destination"
+        }
+    }
+
     public struct Encryption: AWSEncodableShape & AWSDecodableShape {
         /// A 128-bit, 16-byte hex value represented by a 32-character string, used in conjunction with the key for encrypting content. If you don't specify a value, then MediaPackage creates the constant initialization vector (IV).
         public let constantInitializationVector: String?
@@ -1290,6 +1525,121 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct GetHarvestJobRequest: AWSEncodableShape {
+        /// The name of the channel group containing the channel associated with the harvest job.
+        public let channelGroupName: String
+        /// The name of the channel associated with the harvest job.
+        public let channelName: String
+        /// The name of the harvest job to retrieve.
+        public let harvestJobName: String
+        /// The name of the origin endpoint associated with the harvest job.
+        public let originEndpointName: String
+
+        @inlinable
+        public init(channelGroupName: String, channelName: String, harvestJobName: String, originEndpointName: String) {
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.harvestJobName = harvestJobName
+            self.originEndpointName = originEndpointName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodePath(self.harvestJobName, key: "HarvestJobName")
+            request.encodePath(self.originEndpointName, key: "OriginEndpointName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, max: 256)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, min: 1)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.harvestJobName, name: "harvestJobName", parent: name, max: 256)
+            try self.validate(self.harvestJobName, name: "harvestJobName", parent: name, min: 1)
+            try self.validate(self.harvestJobName, name: "harvestJobName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, max: 256)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, min: 1)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetHarvestJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the harvest job.
+        public let arn: String
+        /// The name of the channel group containing the channel associated with the harvest job.
+        public let channelGroupName: String
+        /// The name of the channel associated with the harvest job.
+        public let channelName: String
+        /// The date and time when the harvest job was created.
+        public let createdAt: Date
+        /// The description of the harvest job, if provided.
+        public let description: String?
+        /// The S3 destination where the harvested content is being placed.
+        public let destination: Destination
+        /// An error message if the harvest job encountered any issues.
+        public let errorMessage: String?
+        /// The current version of the harvest job. Used for concurrency control.
+        public let eTag: String?
+        /// A list of manifests that are being or have been harvested.
+        public let harvestedManifests: HarvestedManifests
+        /// The name of the harvest job.
+        public let harvestJobName: String
+        /// The date and time when the harvest job was last modified.
+        public let modifiedAt: Date
+        /// The name of the origin endpoint associated with the harvest job.
+        public let originEndpointName: String
+        /// The configuration for when the harvest job is scheduled to run, including start and end times.
+        public let scheduleConfiguration: HarvesterScheduleConfiguration
+        /// The current status of the harvest job (e.g., QUEUED, IN_PROGRESS, CANCELLED, COMPLETED, FAILED).
+        public let status: HarvestJobStatus
+        /// A collection of tags associated with the harvest job.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, destination: Destination, errorMessage: String? = nil, eTag: String? = nil, harvestedManifests: HarvestedManifests, harvestJobName: String, modifiedAt: Date, originEndpointName: String, scheduleConfiguration: HarvesterScheduleConfiguration, status: HarvestJobStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.createdAt = createdAt
+            self.description = description
+            self.destination = destination
+            self.errorMessage = errorMessage
+            self.eTag = eTag
+            self.harvestedManifests = harvestedManifests
+            self.harvestJobName = harvestJobName
+            self.modifiedAt = modifiedAt
+            self.originEndpointName = originEndpointName
+            self.scheduleConfiguration = scheduleConfiguration
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case channelGroupName = "ChannelGroupName"
+            case channelName = "ChannelName"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case destination = "Destination"
+            case errorMessage = "ErrorMessage"
+            case eTag = "ETag"
+            case harvestedManifests = "HarvestedManifests"
+            case harvestJobName = "HarvestJobName"
+            case modifiedAt = "ModifiedAt"
+            case originEndpointName = "OriginEndpointName"
+            case scheduleConfiguration = "ScheduleConfiguration"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
     public struct GetHlsManifestConfiguration: AWSDecodableShape {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let childManifestName: String?
@@ -1543,6 +1893,184 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct HarvestJob: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the harvest job.
+        public let arn: String
+        /// The name of the channel group containing the channel associated with this harvest job.
+        public let channelGroupName: String
+        /// The name of the channel associated with this harvest job.
+        public let channelName: String
+        /// The date and time when the harvest job was created.
+        public let createdAt: Date
+        /// An optional description of the harvest job.
+        public let description: String?
+        /// The S3 destination where the harvested content will be placed.
+        public let destination: Destination
+        /// An error message if the harvest job encountered any issues.
+        public let errorMessage: String?
+        /// The current version of the harvest job. Used for concurrency control.
+        public let eTag: String?
+        /// A list of manifests that are being or have been harvested.
+        public let harvestedManifests: HarvestedManifests
+        /// The name of the harvest job.
+        public let harvestJobName: String
+        /// The date and time when the harvest job was last modified.
+        public let modifiedAt: Date
+        /// The name of the origin endpoint associated with this harvest job.
+        public let originEndpointName: String
+        /// The configuration for when the harvest job is scheduled to run.
+        public let scheduleConfiguration: HarvesterScheduleConfiguration
+        /// The current status of the harvest job (e.g., QUEUED, IN_PROGRESS, CANCELLED, COMPLETED, FAILED).
+        public let status: HarvestJobStatus
+
+        @inlinable
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, destination: Destination, errorMessage: String? = nil, eTag: String? = nil, harvestedManifests: HarvestedManifests, harvestJobName: String, modifiedAt: Date, originEndpointName: String, scheduleConfiguration: HarvesterScheduleConfiguration, status: HarvestJobStatus) {
+            self.arn = arn
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.createdAt = createdAt
+            self.description = description
+            self.destination = destination
+            self.errorMessage = errorMessage
+            self.eTag = eTag
+            self.harvestedManifests = harvestedManifests
+            self.harvestJobName = harvestJobName
+            self.modifiedAt = modifiedAt
+            self.originEndpointName = originEndpointName
+            self.scheduleConfiguration = scheduleConfiguration
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case channelGroupName = "ChannelGroupName"
+            case channelName = "ChannelName"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case destination = "Destination"
+            case errorMessage = "ErrorMessage"
+            case eTag = "ETag"
+            case harvestedManifests = "HarvestedManifests"
+            case harvestJobName = "HarvestJobName"
+            case modifiedAt = "ModifiedAt"
+            case originEndpointName = "OriginEndpointName"
+            case scheduleConfiguration = "ScheduleConfiguration"
+            case status = "Status"
+        }
+    }
+
+    public struct HarvestedDashManifest: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the harvested DASH manifest.
+        public let manifestName: String
+
+        @inlinable
+        public init(manifestName: String) {
+            self.manifestName = manifestName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.manifestName, name: "manifestName", parent: name, max: 256)
+            try self.validate(self.manifestName, name: "manifestName", parent: name, min: 1)
+            try self.validate(self.manifestName, name: "manifestName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestName = "ManifestName"
+        }
+    }
+
+    public struct HarvestedHlsManifest: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the harvested HLS manifest.
+        public let manifestName: String
+
+        @inlinable
+        public init(manifestName: String) {
+            self.manifestName = manifestName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.manifestName, name: "manifestName", parent: name, max: 256)
+            try self.validate(self.manifestName, name: "manifestName", parent: name, min: 1)
+            try self.validate(self.manifestName, name: "manifestName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestName = "ManifestName"
+        }
+    }
+
+    public struct HarvestedLowLatencyHlsManifest: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the harvested Low-Latency HLS manifest.
+        public let manifestName: String
+
+        @inlinable
+        public init(manifestName: String) {
+            self.manifestName = manifestName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.manifestName, name: "manifestName", parent: name, max: 256)
+            try self.validate(self.manifestName, name: "manifestName", parent: name, min: 1)
+            try self.validate(self.manifestName, name: "manifestName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestName = "ManifestName"
+        }
+    }
+
+    public struct HarvestedManifests: AWSEncodableShape & AWSDecodableShape {
+        /// A list of harvested DASH manifests.
+        public let dashManifests: [HarvestedDashManifest]?
+        /// A list of harvested HLS manifests.
+        public let hlsManifests: [HarvestedHlsManifest]?
+        /// A list of harvested Low-Latency HLS manifests.
+        public let lowLatencyHlsManifests: [HarvestedLowLatencyHlsManifest]?
+
+        @inlinable
+        public init(dashManifests: [HarvestedDashManifest]? = nil, hlsManifests: [HarvestedHlsManifest]? = nil, lowLatencyHlsManifests: [HarvestedLowLatencyHlsManifest]? = nil) {
+            self.dashManifests = dashManifests
+            self.hlsManifests = hlsManifests
+            self.lowLatencyHlsManifests = lowLatencyHlsManifests
+        }
+
+        public func validate(name: String) throws {
+            try self.dashManifests?.forEach {
+                try $0.validate(name: "\(name).dashManifests[]")
+            }
+            try self.hlsManifests?.forEach {
+                try $0.validate(name: "\(name).hlsManifests[]")
+            }
+            try self.lowLatencyHlsManifests?.forEach {
+                try $0.validate(name: "\(name).lowLatencyHlsManifests[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashManifests = "DashManifests"
+            case hlsManifests = "HlsManifests"
+            case lowLatencyHlsManifests = "LowLatencyHlsManifests"
+        }
+    }
+
+    public struct HarvesterScheduleConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The end time for the harvest job.
+        public let endTime: Date
+        /// The start time for the harvest job.
+        public let startTime: Date
+
+        @inlinable
+        public init(endTime: Date, startTime: Date) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
     public struct IngestEndpoint: AWSDecodableShape {
         /// The system-generated unique identifier for the IngestEndpoint.
         public let id: String?
@@ -1673,6 +2201,76 @@ extension MediaPackageV2 {
         private enum CodingKeys: String, CodingKey {
             case manifestName = "ManifestName"
             case url = "Url"
+        }
+    }
+
+    public struct ListHarvestJobsRequest: AWSEncodableShape {
+        /// The name of the channel group to filter the harvest jobs by. If specified, only harvest jobs associated with channels in this group will be returned.
+        public let channelGroupName: String
+        /// The name of the channel to filter the harvest jobs by. If specified, only harvest jobs associated with this channel will be returned.
+        public let channelName: String?
+        /// The maximum number of harvest jobs to return in a single request. If not specified, a default value will be used.
+        public let maxResults: Int?
+        /// A token used for pagination. Provide this value in subsequent requests to retrieve the next set of results.
+        public let nextToken: String?
+        /// The name of the origin endpoint to filter the harvest jobs by. If specified, only harvest jobs associated with this origin endpoint will be returned.
+        public let originEndpointName: String?
+        /// The status to filter the harvest jobs by. If specified, only harvest jobs with this status will be returned.
+        public let status: HarvestJobStatus?
+
+        @inlinable
+        public init(channelGroupName: String, channelName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, originEndpointName: String? = nil, status: HarvestJobStatus? = nil) {
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.originEndpointName = originEndpointName
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodeQuery(self.channelName, key: "channelName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.originEndpointName, key: "originEndpointName")
+            request.encodeQuery(self.status, key: "includeStatus")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, max: 256)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, min: 1)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, max: 256)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, min: 1)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListHarvestJobsResponse: AWSDecodableShape {
+        /// An array of harvest job objects that match the specified criteria.
+        public let items: [HarvestJob]?
+        /// A token used for pagination. Include this value in subsequent requests to retrieve the next set of results. If null, there are no more results to retrieve.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [HarvestJob]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1958,6 +2556,32 @@ extension MediaPackageV2 {
 
     public struct PutOriginEndpointPolicyResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct S3DestinationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of an S3 bucket within which harvested content will be exported.
+        public let bucketName: String
+        /// The path within the specified S3 bucket where the harvested content will be placed.
+        public let destinationPath: String
+
+        @inlinable
+        public init(bucketName: String, destinationPath: String) {
+            self.bucketName = bucketName
+            self.destinationPath = destinationPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.destinationPath, name: "destinationPath", parent: name, max: 1024)
+            try self.validate(self.destinationPath, name: "destinationPath", parent: name, min: 1)
+            try self.validate(self.destinationPath, name: "destinationPath", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case destinationPath = "DestinationPath"
+        }
     }
 
     public struct Scte: AWSEncodableShape & AWSDecodableShape {

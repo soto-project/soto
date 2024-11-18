@@ -317,6 +317,12 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum TaskMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basic = "BASIC"
+        case enhanced = "ENHANCED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TaskQueueing: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -528,17 +534,17 @@ extension DataSync {
     }
 
     public struct CreateAgentRequest: AWSEncodableShape {
-        /// Specifies your DataSync agent's activation key. If you don't have an activation key, see Activate your agent.
+        /// Specifies your DataSync agent's activation key. If you don't have an activation key, see Activating your agent.
         public let activationKey: String
-        /// Specifies a name for your agent. You can see this name in the DataSync console.
+        /// Specifies a name for your agent. We recommend specifying a name that you can remember.
         public let agentName: String?
-        /// Specifies the Amazon Resource Name (ARN) of the security group that protects your task's network interfaces when using a virtual private cloud (VPC) endpoint. You can only specify one ARN.
+        /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN.
         public let securityGroupArns: [String]?
-        /// Specifies the ARN of the subnet where you want to run your DataSync task when using a VPC endpoint. This is the subnet where DataSync creates and manages the network interfaces for your transfer. You can only specify one ARN.
+        /// Specifies the ARN of the subnet where your VPC service endpoint is located. You can only specify one ARN.
         public let subnetArns: [String]?
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least one tag for your agent.
         public let tags: [TagListEntry]?
-        /// Specifies the ID of the VPC endpoint that you want your agent to connect to. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1.  The VPC endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).
+        /// Specifies the ID of the VPC service endpoint that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1.  The VPC service endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).
         public let vpcEndpointId: String?
 
         @inlinable
@@ -674,17 +680,17 @@ extension DataSync {
     }
 
     public struct CreateLocationEfsRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to access the Amazon EFS file system.
+        /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to mount your Amazon EFS file system. For more information, see Accessing restricted file systems.
         public let accessPointArn: String?
-        /// Specifies the subnet and security groups DataSync uses to access your Amazon EFS file system.
+        /// Specifies the subnet and security groups DataSync uses to connect to one of your Amazon EFS file system's mount targets.
         public let ec2Config: Ec2Config
-        /// Specifies the ARN for the Amazon EFS file system.
+        /// Specifies the ARN for your Amazon EFS file system.
         public let efsFilesystemArn: String
-        /// Specifies an Identity and Access Management (IAM) role that DataSync assumes when mounting the Amazon EFS file system.
+        /// Specifies an Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For information on creating this role, see Creating a DataSync IAM role for file system access.
         public let fileSystemAccessRoleArn: String?
-        /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it copies data to or from the Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
+        /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
         public let inTransitEncryption: EfsInTransitEncryption?
-        /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data (depending on if this is a source or destination location). By default, DataSync uses the root directory, but you can also include subdirectories.  You must specify a value with forward slashes (for example, /path/to/folder).
+        /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data (depending on if this is a source or destination location) on your file system. By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
         public let subdirectory: String?
         /// Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
@@ -928,7 +934,7 @@ extension DataSync {
         public let fsxFilesystemArn: String
         /// Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system.
         public let password: String
-        /// Specifies the ARNs of the security groups that provide access to your file system's preferred subnet.  If you choose a security group that doesn't allow connections from within itself, do one of the following:   Configure the security group to allow it to communicate within itself.   Choose a different security group that can communicate with the mount target's security group.
+        /// Specifies the ARNs of the Amazon EC2 security groups that provide access to your file system's preferred subnet. The security groups that you specify must be able to communicate with your file system's security groups. For information about configuring security groups for file system access, see the  Amazon FSx for Windows File Server User Guide .  If you choose a security group that doesn't allow connections from within itself, do one of the following:   Configure the security group to allow it to communicate within itself.   Choose a different security group that can communicate with the mount target's security group.
         public let securityGroupArns: [String]
         /// Specifies a mount path for your file system using forward slashes. This is where DataSync reads or writes data (depending on if this is a source or destination location).
         public let subdirectory: String?
@@ -997,7 +1003,7 @@ extension DataSync {
     }
 
     public struct CreateLocationHdfsRequest: AWSEncodableShape {
-        /// The Amazon Resource Names (ARNs) of the agents that are used to connect to the HDFS cluster.
+        /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
         public let agentArns: [String]
         /// The type of authentication used to determine the identity of the user.
         public let authenticationType: HdfsAuthenticationType
@@ -1093,7 +1099,7 @@ extension DataSync {
     }
 
     public struct CreateLocationHdfsResponse: AWSDecodableShape {
-        /// The ARN of the source HDFS cluster location that's created.
+        /// The ARN of the source HDFS cluster location that you create.
         public let locationArn: String?
 
         @inlinable
@@ -1109,7 +1115,7 @@ extension DataSync {
     public struct CreateLocationNfsRequest: AWSEncodableShape {
         /// Specifies the options that DataSync can use to mount your NFS file server.
         public let mountOptions: NfsMountOptions?
-        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that want to connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple agents for transfers.
+        /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple DataSync agents.
         public let onPremConfig: OnPremConfig
         /// Specifies the Domain Name System (DNS) name or IP version 4 address of the NFS file server that your DataSync agent connects to.
         public let serverHostname: String
@@ -1165,7 +1171,7 @@ extension DataSync {
     public struct CreateLocationObjectStorageRequest: AWSEncodableShape {
         /// Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
         public let accessKey: String?
-        /// Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can securely connect with your location.
+        /// Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system.
         public let agentArns: [String]
         /// Specifies the name of the object storage bucket involved in the transfer.
         public let bucketName: String
@@ -1283,8 +1289,8 @@ extension DataSync {
             }
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
-            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 156)
-            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(s3|s3-outposts):[a-z\\-0-9]*:[0-9]*:.*$")
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 268)
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:[a-z\\-0-9]*:[0-9]{12}:accesspoint[/:][a-zA-Z0-9\\-.]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3-outposts:[a-z\\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\\-]{1,63}[/:]accesspoint[/:][a-zA-Z0-9\\-]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:::[a-zA-Z0-9.\\-_]{1,255}$")
             try self.s3Config.validate(name: "\(name).s3Config")
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
@@ -1319,7 +1325,7 @@ extension DataSync {
     }
 
     public struct CreateLocationSmbRequest: AWSEncodableShape {
-        /// Specifies the DataSync agent (or agents) which you want to connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
+        /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
         public let agentArns: [String]
         /// Specifies the name of the Active Directory domain that your SMB file server belongs to.  If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
         public let domain: String?
@@ -1398,13 +1404,13 @@ extension DataSync {
     }
 
     public struct CreateTaskRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task.
+        /// Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task. For Enhanced mode tasks, you don't need to specify anything. DataSync automatically sends logs to a CloudWatch log group named /aws/datasync.
         public let cloudWatchLogGroupArn: String?
         /// Specifies the ARN of your transfer's destination location.
         public let destinationLocationArn: String
         /// Specifies exclude filters that define the files, objects, and folders in your source location that you don't want DataSync to transfer. For more information and examples, see Specifying what DataSync transfers by using filters.
         public let excludes: [FilterRule]?
-        /// Specifies include filters define the files, objects, and folders in your source location that you want DataSync to transfer. For more information and examples, see Specifying what DataSync transfers by using filters.
+        /// Specifies include filters that define the files, objects, and folders in your source location that you want DataSync to transfer. For more information and examples, see Specifying what DataSync transfers by using filters.
         public let includes: [FilterRule]?
         /// Configures a manifest, which is a list of files or objects that you want DataSync to transfer. For more information and configuration examples, see Specifying what DataSync transfers by using a manifest. When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The AWSDataSyncFullAccess policy includes this permission.
         public let manifestConfig: ManifestConfig?
@@ -1418,11 +1424,13 @@ extension DataSync {
         public let sourceLocationArn: String
         /// Specifies the tags that you want to apply to your task.  Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
         public let tags: [TagListEntry]?
+        /// Specifies one of the following task modes for your data transfer:    ENHANCED - Transfer virtually unlimited numbers of objects with higher performance than Basic mode. Enhanced mode tasks optimize the data transfer process by listing, preparing, transferring, and verifying data in parallel. Enhanced mode is currently available for transfers between Amazon S3 locations.  To create an Enhanced mode task, the IAM role that you use to call the CreateTask operation must have the iam:CreateServiceLinkedRole permission.     BASIC (default) - Transfer files or objects between Amazon Web Services storage and all other supported DataSync locations. Basic mode tasks are subject to quotas on the number of files, objects, and directories in a dataset. Basic mode sequentially prepares, transfers, and verifies data, making it slower than Enhanced mode for most workloads.   For more information, see Understanding task mode differences.
+        public let taskMode: TaskMode?
         /// Specifies how you want to configure a task report, which provides detailed information about your DataSync transfer. For more information, see Monitoring your DataSync transfers with task reports. When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The AWSDataSyncFullAccess policy includes this permission.
         public let taskReportConfig: TaskReportConfig?
 
         @inlinable
-        public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil, taskReportConfig: TaskReportConfig? = nil) {
+        public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil, taskMode: TaskMode? = nil, taskReportConfig: TaskReportConfig? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.destinationLocationArn = destinationLocationArn
             self.excludes = excludes
@@ -1433,6 +1441,7 @@ extension DataSync {
             self.schedule = schedule
             self.sourceLocationArn = sourceLocationArn
             self.tags = tags
+            self.taskMode = taskMode
             self.taskReportConfig = taskReportConfig
         }
 
@@ -1474,6 +1483,7 @@ extension DataSync {
             case schedule = "Schedule"
             case sourceLocationArn = "SourceLocationArn"
             case tags = "Tags"
+            case taskMode = "TaskMode"
             case taskReportConfig = "TaskReportConfig"
         }
     }
@@ -1777,14 +1787,14 @@ extension DataSync {
     }
 
     public struct DescribeLocationEfsResponse: AWSDecodableShape {
-        /// The ARN of the access point that DataSync uses to access the Amazon EFS file system.
+        /// The ARN of the access point that DataSync uses to access the Amazon EFS file system. For more information, see Accessing restricted file systems.
         public let accessPointArn: String?
         /// The time that the location was created.
         public let creationTime: Date?
         public let ec2Config: Ec2Config?
-        /// The Identity and Access Management (IAM) role that DataSync assumes when mounting the Amazon EFS file system.
+        /// The Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For more information, see Creating a DataSync IAM role for file system access.
         public let fileSystemAccessRoleArn: String?
-        /// Describes whether DataSync uses Transport Layer Security (TLS) encryption when copying data to or from the Amazon EFS file system.
+        /// Indicates whether DataSync uses Transport Layer Security (TLS) encryption when transferring data to or from the Amazon EFS file system.
         public let inTransitEncryption: EfsInTransitEncryption?
         /// The ARN of the Amazon EFS file system location.
         public let locationArn: String?
@@ -1991,7 +2001,7 @@ extension DataSync {
         public let locationArn: String?
         /// The uniform resource identifier (URI) of the FSx for Windows File Server location.
         public let locationUri: String?
-        /// The ARNs of the security groups that are configured for the FSx for Windows File Server file system.
+        /// The ARNs of the Amazon EC2 security groups that provide access to your file system's preferred subnet. For information about configuring security groups for file system access, see the  Amazon FSx for Windows File Server User Guide .
         public let securityGroupArns: [String]?
         /// The user with the permissions to mount and access the FSx for Windows File Server file system.
         public let user: String?
@@ -2532,27 +2542,33 @@ extension DataSync {
     }
 
     public struct DescribeTaskExecutionResponse: AWSDecodableShape {
-        /// The physical number of bytes transferred over the network after compression was applied. In most cases, this number is less than BytesTransferred unless the data isn't compressible.
+        /// The number of physical bytes that DataSync transfers over the network after compression (if compression is possible). This number is typically less than BytesTransferred unless the data isn't compressible.
         public let bytesCompressed: Int64?
-        /// The total number of bytes that are involved in the transfer. For the number of bytes sent over the network, see BytesCompressed.
+        /// The number of bytes that DataSync sends to the network before compression (if compression is possible). For the number of bytes transferred over the network, see BytesCompressed.
         public let bytesTransferred: Int64?
-        /// The number of logical bytes written to the destination location.
+        /// The number of logical bytes that DataSync actually writes to the destination location.
         public let bytesWritten: Int64?
-        /// The estimated physical number of bytes that will transfer over the network.
+        /// The number of logical bytes that DataSync expects to write to the destination location.
         public let estimatedBytesToTransfer: Int64?
-        /// The expected number of files, objects, and directories that DataSync will delete in your destination location.  If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.
+        /// The number of files, objects, and directories that DataSync expects to delete in your destination location. If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.
         public let estimatedFilesToDelete: Int64?
-        /// The expected number of files, objects, and directories that DataSync will transfer over the network. This value is calculated during the task execution's PREPARING phase before the TRANSFERRING phase. The calculation is based on comparing the content of the source and destination locations and finding the difference that needs to be transferred.
+        /// The number of files, objects, and directories that DataSync expects to transfer over the network. This value is calculated while DataSync prepares the transfer. How this gets calculated depends primarily on your task’s transfer mode configuration:   If TranserMode is set to CHANGED - The calculation is based on comparing the content of the source and destination locations and determining the difference that needs to be transferred. The difference can include:   Anything that's added or modified at the source location.   Anything that's in both locations and modified at the destination after an initial transfer (unless OverwriteMode is set to NEVER).    (Basic task mode only) The number of items that DataSync expects to delete (if PreserveDeletedFiles is set to REMOVE).     If TranserMode is set to ALL - The calculation is based only on the items that DataSync finds at the source location.
         public let estimatedFilesToTransfer: Int64?
         /// A list of filter rules that exclude specific data during your transfer. For more information and examples, see Filtering data transferred by DataSync.
         public let excludes: [FilterRule]?
-        /// The number of files, objects, and directories that DataSync deleted in your destination location. If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.
+        /// The number of files, objects, and directories that DataSync actually deletes in your destination location. If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.
         public let filesDeleted: Int64?
-        /// The number of files, objects, and directories that DataSync skipped during your transfer.
+        /// The number of objects that DataSync fails to prepare, transfer, verify, and delete during your task execution.  Applies only to Enhanced mode tasks.
+        public let filesFailed: TaskExecutionFilesFailedDetail?
+        /// The number of objects that DataSync finds at your locations.  Applies only to Enhanced mode tasks.
+        public let filesListed: TaskExecutionFilesListedDetail?
+        /// The number of objects that DataSync will attempt to transfer after comparing your source and destination locations.  Applies only to Enhanced mode tasks.  This counter isn't applicable if you configure your task to transfer all data. In that scenario, DataSync copies everything from the source to the destination without comparing differences between the locations.
+        public let filesPrepared: Int64?
+        /// The number of files, objects, and directories that DataSync skips during your transfer.
         public let filesSkipped: Int64?
-        /// The actual number of files, objects, and directories that DataSync transferred over the network. This value is updated periodically during the task execution's TRANSFERRING phase when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what transferred or to monitor your task execution.
+        /// The number of files, objects, and directories that DataSync actually transfers over the network. This value is updated periodically during your task execution when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what's transferring or to monitor your task execution.
         public let filesTransferred: Int64?
-        /// The number of files, objects, and directories that DataSync verified during your transfer.  When you configure your task to verify only the data that's transferred, DataSync doesn't verify directories in some situations or files that fail to transfer.
+        /// The number of files, objects, and directories that DataSync verifies during your transfer.  When you configure your task to verify only the data that's transferred, DataSync doesn't verify directories in some situations or files that fail to transfer.
         public let filesVerified: Int64?
         /// A list of filter rules that include specific data during your transfer. For more information and examples, see Filtering data transferred by DataSync.
         public let includes: [FilterRule]?
@@ -2569,11 +2585,13 @@ extension DataSync {
         public let status: TaskExecutionStatus?
         /// The ARN of the task execution that you wanted information about. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed.  For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2.
         public let taskExecutionArn: String?
+        /// The task mode that you're using. For more information, see Choosing a task mode for your data transfer.
+        public let taskMode: TaskMode?
         /// The configuration of your task report, which provides detailed information about for your DataSync transfer. For more information, see Creating a task report.
         public let taskReportConfig: TaskReportConfig?
 
         @inlinable
-        public init(bytesCompressed: Int64? = nil, bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToDelete: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesDeleted: Int64? = nil, filesSkipped: Int64? = nil, filesTransferred: Int64? = nil, filesVerified: Int64? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, options: Options? = nil, reportResult: ReportResult? = nil, result: TaskExecutionResultDetail? = nil, startTime: Date? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil, taskReportConfig: TaskReportConfig? = nil) {
+        public init(bytesCompressed: Int64? = nil, bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToDelete: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesDeleted: Int64? = nil, filesFailed: TaskExecutionFilesFailedDetail? = nil, filesListed: TaskExecutionFilesListedDetail? = nil, filesPrepared: Int64? = nil, filesSkipped: Int64? = nil, filesTransferred: Int64? = nil, filesVerified: Int64? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, options: Options? = nil, reportResult: ReportResult? = nil, result: TaskExecutionResultDetail? = nil, startTime: Date? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil, taskMode: TaskMode? = nil, taskReportConfig: TaskReportConfig? = nil) {
             self.bytesCompressed = bytesCompressed
             self.bytesTransferred = bytesTransferred
             self.bytesWritten = bytesWritten
@@ -2582,6 +2600,9 @@ extension DataSync {
             self.estimatedFilesToTransfer = estimatedFilesToTransfer
             self.excludes = excludes
             self.filesDeleted = filesDeleted
+            self.filesFailed = filesFailed
+            self.filesListed = filesListed
+            self.filesPrepared = filesPrepared
             self.filesSkipped = filesSkipped
             self.filesTransferred = filesTransferred
             self.filesVerified = filesVerified
@@ -2593,6 +2614,7 @@ extension DataSync {
             self.startTime = startTime
             self.status = status
             self.taskExecutionArn = taskExecutionArn
+            self.taskMode = taskMode
             self.taskReportConfig = taskReportConfig
         }
 
@@ -2605,6 +2627,9 @@ extension DataSync {
             case estimatedFilesToTransfer = "EstimatedFilesToTransfer"
             case excludes = "Excludes"
             case filesDeleted = "FilesDeleted"
+            case filesFailed = "FilesFailed"
+            case filesListed = "FilesListed"
+            case filesPrepared = "FilesPrepared"
             case filesSkipped = "FilesSkipped"
             case filesTransferred = "FilesTransferred"
             case filesVerified = "FilesVerified"
@@ -2616,6 +2641,7 @@ extension DataSync {
             case startTime = "StartTime"
             case status = "Status"
             case taskExecutionArn = "TaskExecutionArn"
+            case taskMode = "TaskMode"
             case taskReportConfig = "TaskReportConfig"
         }
     }
@@ -2640,7 +2666,7 @@ extension DataSync {
     }
 
     public struct DescribeTaskResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task. For more information, see Monitoring DataSync with Amazon CloudWatch.
+        /// The Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task. For more information, see Monitoring data transfers with CloudWatch Logs.
         public let cloudWatchLogGroupArn: String?
         /// The time that the task was created.
         public let creationTime: Date?
@@ -2676,11 +2702,13 @@ extension DataSync {
         public let status: TaskStatus?
         /// The ARN of your task.
         public let taskArn: String?
+        /// The task mode that you're using. For more information, see Choosing a task mode for your data transfer.
+        public let taskMode: TaskMode?
         /// The configuration of your task report, which provides detailed information about your DataSync transfer. For more information, see Monitoring your DataSync transfers with task reports.
         public let taskReportConfig: TaskReportConfig?
 
         @inlinable
-        public init(cloudWatchLogGroupArn: String? = nil, creationTime: Date? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, scheduleDetails: TaskScheduleDetails? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil, taskReportConfig: TaskReportConfig? = nil) {
+        public init(cloudWatchLogGroupArn: String? = nil, creationTime: Date? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, scheduleDetails: TaskScheduleDetails? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil, taskMode: TaskMode? = nil, taskReportConfig: TaskReportConfig? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.creationTime = creationTime
             self.currentTaskExecutionArn = currentTaskExecutionArn
@@ -2699,6 +2727,7 @@ extension DataSync {
             self.sourceNetworkInterfaceArns = sourceNetworkInterfaceArns
             self.status = status
             self.taskArn = taskArn
+            self.taskMode = taskMode
             self.taskReportConfig = taskReportConfig
         }
 
@@ -2721,6 +2750,7 @@ extension DataSync {
             case sourceNetworkInterfaceArns = "SourceNetworkInterfaceArns"
             case status = "Status"
             case taskArn = "TaskArn"
+            case taskMode = "TaskMode"
             case taskReportConfig = "TaskReportConfig"
         }
     }
@@ -3669,7 +3699,7 @@ extension DataSync {
     }
 
     public struct OnPremConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Names (ARNs) of the agents connecting to a transfer location.
+        /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple DataSync agents.
         public let agentArns: [String]
 
         @inlinable
@@ -3692,35 +3722,35 @@ extension DataSync {
     }
 
     public struct Options: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether to preserve metadata indicating the last time a file was read or written to.  The behavior of Atime isn't fully standard across platforms, so DataSync can only do this on a best-effort basis.     BEST_EFFORT (default) - DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase of the task execution). This option is recommended.    NONE - Ignores Atime.    If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.
+        /// Specifies whether to preserve metadata indicating the last time a file was read or written to.  The behavior of Atime isn't fully standard across platforms, so DataSync can only do this on a best-effort basis.     BEST_EFFORT (default) - DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING steps of the task execution). This option is recommended.    NONE - Ignores Atime.    If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.
         public let atime: Atime?
-        /// Limits the bandwidth used by a DataSync task. For example, if you want DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).
+        /// Limits the bandwidth used by a DataSync task. For example, if you want DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).  Not applicable to Enhanced mode tasks.
         public let bytesPerSecond: Int64?
-        /// Specifies the POSIX group ID (GID) of the file's owners.    INT_VALUE (default) - Preserves the integer value of user ID (UID) and GID, which is recommended.    NONE - Ignores UID and GID.   For more information, see Metadata copied by DataSync.
+        /// Specifies the POSIX group ID (GID) of the file's owners.    INT_VALUE (default) - Preserves the integer value of user ID (UID) and GID, which is recommended.    NONE - Ignores UID and GID.   For more information, see Understanding how DataSync handles file and object metadata.
         public let gid: Gid?
         /// Specifies the type of logs that DataSync publishes to a Amazon CloudWatch Logs log group. To specify the log group, see CloudWatchLogGroupArn.    BASIC - Publishes logs with only basic information (such as transfer errors).    TRANSFER - Publishes logs for all files or objects that your DataSync task transfers and performs data-integrity checks on.    OFF - No logs are published.
         public let logLevel: LogLevel?
-        /// Specifies whether to preserve metadata indicating the last time that a file was written to before the PREPARING phase of your task execution. This option is required when you need to run the a task more than once.    PRESERVE (default) - Preserves original Mtime, which is recommended.    NONE - Ignores Mtime.    If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.
+        /// Specifies whether to preserve metadata indicating the last time that a file was written to before the PREPARING step of your task execution. This option is required when you need to run the a task more than once.    PRESERVE (default) - Preserves original Mtime, which is recommended.    NONE - Ignores Mtime.    If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.
         public let mtime: Mtime?
         /// Specifies whether you want DataSync to PRESERVE object tags (default behavior) when transferring between object storage systems. If you want your DataSync task to ignore object tags, specify the NONE value.
         public let objectTags: ObjectTags?
         /// Specifies whether DataSync should modify or preserve data at the destination location.    ALWAYS (default) - DataSync modifies data in the destination location when source data (including metadata) has changed. If DataSync overwrites objects, you might incur additional charges for certain Amazon S3 storage classes (for example, for retrieval or early deletion). For more information, see Storage class considerations with Amazon S3 transfers.    NEVER - DataSync doesn't overwrite data in the destination location even if the source data has changed. You can use this option to protect against overwriting changes made to files or objects in the destination.
         public let overwriteMode: OverwriteMode?
-        /// Specifies which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. For more information, see Metadata copied by DataSync.    PRESERVE (default) - Preserves POSIX-style permissions, which is recommended.    NONE - Ignores POSIX-style permissions.     DataSync can preserve extant permissions of a source location.
+        /// Specifies which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. For more information, see Understanding how DataSync handles file and object metadata.    PRESERVE (default) - Preserves POSIX-style permissions, which is recommended.    NONE - Ignores POSIX-style permissions.     DataSync can preserve extant permissions of a source location.
         public let posixPermissions: PosixPermissions?
         /// Specifies whether files in the destination location that don't exist in the source should be preserved. This option can affect your Amazon S3 storage cost. If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync.    PRESERVE (default) - Ignores such destination files, which is recommended.     REMOVE - Deletes destination files that aren’t present in the source.    If you set this parameter to REMOVE, you can't set TransferMode to ALL. When you transfer all data, DataSync doesn't scan your destination location and doesn't know what to delete.
         public let preserveDeletedFiles: PreserveDeletedFiles?
         /// Specifies whether DataSync should preserve the metadata of block and character devices in the source location and recreate the files with that device name and metadata on the destination. DataSync copies only the name and metadata of such devices.  DataSync can't copy the actual contents of these devices because they're nonterminal and don't return an end-of-file (EOF) marker.     NONE (default) - Ignores special devices (recommended).    PRESERVE - Preserves character and block device metadata. This option currently isn't supported for Amazon EFS.
         public let preserveDevices: PreserveDevices?
-        /// Specifies which components of the SMB security descriptor are copied from source to destination objects.  This value is only used for transfers between SMB and Amazon FSx for Windows File Server locations or between two FSx for Windows File Server locations. For more information, see how DataSync handles metadata.    OWNER_DACL (default) - For each copied object, DataSync copies the following metadata:   The object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object. DataSync won't copy NTFS system access control lists (SACLs) with this option.      OWNER_DACL_SACL - For each copied object, DataSync copies the following metadata:   The object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object.   SACLs, which are used by administrators to log attempts to access a secured object. Copying SACLs requires granting additional permissions to the Windows user that DataSync uses to access your SMB location. For information about choosing a user with the right permissions, see required permissions for SMB, FSx for Windows File Server, or FSx for ONTAP (depending on the type of location in your transfer).      NONE - None of the SMB security descriptor components are copied. Destination objects are owned by the user that was provided for accessing the destination location. DACLs and SACLs are set based on the destination server’s configuration.
+        /// Specifies which components of the SMB security descriptor are copied from source to destination objects.  This value is only used for transfers between SMB and Amazon FSx for Windows File Server locations or between two FSx for Windows File Server locations. For more information, see Understanding how DataSync handles file and object metadata.    OWNER_DACL (default) - For each copied object, DataSync copies the following metadata:   The object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object. DataSync won't copy NTFS system access control lists (SACLs) with this option.      OWNER_DACL_SACL - For each copied object, DataSync copies the following metadata:   The object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object.   SACLs, which are used by administrators to log attempts to access a secured object. Copying SACLs requires granting additional permissions to the Windows user that DataSync uses to access your SMB location. For information about choosing a user with the right permissions, see required permissions for SMB, FSx for Windows File Server, or FSx for ONTAP (depending on the type of location in your transfer).      NONE - None of the SMB security descriptor components are copied. Destination objects are owned by the user that was provided for accessing the destination location. DACLs and SACLs are set based on the destination server’s configuration.
         public let securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags?
         /// Specifies whether your transfer tasks should be put into a queue during certain scenarios when running multiple tasks. This is ENABLED by default.
         public let taskQueueing: TaskQueueing?
-        /// Determines whether DataSync transfers only the data and metadata that differ between the source and the destination location or transfers all the content from the source (without comparing what's in the destination).    CHANGED (default) - DataSync copies only data or metadata that is new or different content from the source location to the destination location.    ALL - DataSync copies everything in the source to the destination without comparing differences between the locations.
+        /// Specifies whether DataSync transfers only the data (including metadata) that differs between locations following an initial copy or transfers all data every time you run the task. If you're planning on recurring transfers, you might only want to transfer what's changed since your previous task execution.    CHANGED (default) - After your initial full transfer, DataSync copies only the data and metadata that differs between the source and destination location.    ALL - DataSync copies everything in the source to the destination without comparing differences between the locations.
         public let transferMode: TransferMode?
         /// Specifies the POSIX user ID (UID) of the file's owner.    INT_VALUE (default) - Preserves the integer value of UID and group ID (GID), which is recommended.    NONE - Ignores UID and GID.    For more information, see Metadata copied by DataSync.
         public let uid: Uid?
-        /// Specifies how and when DataSync checks the integrity of your data during a transfer.    ONLY_FILES_TRANSFERRED (recommended) - DataSync calculates the checksum of transferred files and metadata at the source location. At the end of the transfer, DataSync then compares this checksum to the checksum calculated on those files at the destination. We recommend this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see Storage class considerations with Amazon S3 locations.    POINT_IN_TIME_CONSISTENT (default) - At the end of the transfer, DataSync scans the entire source and destination to verify that both locations are fully synchronized. If you use a manifest, DataSync only scans and verifies what's listed in the manifest. You can't use this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see Storage class considerations with Amazon S3 locations.    NONE - DataSync doesn't run additional verification at the end of the transfer. All data transmissions are still integrity-checked with checksum verification during the transfer.
+        /// Specifies if and how DataSync checks the integrity of your data at the end of your transfer.    ONLY_FILES_TRANSFERRED (recommended) - DataSync calculates the checksum of transferred data (including metadata) at the source location. At the end of the transfer, DataSync then compares this checksum to the checksum calculated on that data at the destination.  This is the default option for Enhanced mode tasks.  We recommend this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see Storage class considerations with Amazon S3 locations.    POINT_IN_TIME_CONSISTENT - At the end of the transfer, DataSync checks the entire source and destination to verify that both locations are fully synchronized.  The is the default option for Basic mode tasks and isn't currently supported with Enhanced mode tasks.  If you use a manifest, DataSync only scans and verifies what's listed in the manifest. You can't use this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see Storage class considerations with Amazon S3 locations.    NONE - DataSync performs data integrity checks only during your transfer. Unlike other options, there's no additional verification at the end of your transfer.
         public let verifyMode: VerifyMode?
 
         @inlinable
@@ -3926,8 +3956,8 @@ extension DataSync {
         public func validate(name: String) throws {
             try self.validate(self.bucketAccessRoleArn, name: "bucketAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.bucketAccessRoleArn, name: "bucketAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$")
-            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 156)
-            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(s3|s3-outposts):[a-z\\-0-9]*:[0-9]*:.*$")
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 268)
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:[a-z\\-0-9]*:[0-9]{12}:accesspoint[/:][a-zA-Z0-9\\-.]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3-outposts:[a-z\\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\\-]{1,63}[/:]accesspoint[/:][a-zA-Z0-9\\-]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:::[a-zA-Z0-9.\\-_]{1,255}$")
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
         }
@@ -4098,8 +4128,8 @@ extension DataSync {
             try self.validate(self.manifestObjectVersionId, name: "manifestObjectVersionId", parent: name, max: 100)
             try self.validate(self.manifestObjectVersionId, name: "manifestObjectVersionId", parent: name, min: 1)
             try self.validate(self.manifestObjectVersionId, name: "manifestObjectVersionId", parent: name, pattern: "^.+$")
-            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 156)
-            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(s3|s3-outposts):[a-z\\-0-9]*:[0-9]*:.*$")
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 268)
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:[a-z\\-0-9]*:[0-9]{12}:accesspoint[/:][a-zA-Z0-9\\-.]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3-outposts:[a-z\\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\\-]{1,63}[/:]accesspoint[/:][a-zA-Z0-9\\-]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:::[a-zA-Z0-9.\\-_]{1,255}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4363,42 +4393,90 @@ extension DataSync {
         public init() {}
     }
 
+    public struct TaskExecutionFilesFailedDetail: AWSDecodableShape {
+        /// The number of objects that DataSync fails to delete during your task execution.
+        public let delete: Int64?
+        /// The number of objects that DataSync fails to prepare during your task execution.
+        public let prepare: Int64?
+        /// The number of objects that DataSync fails to transfer during your task execution.
+        public let transfer: Int64?
+        /// The number of objects that DataSync fails to verify during your task execution.
+        public let verify: Int64?
+
+        @inlinable
+        public init(delete: Int64? = nil, prepare: Int64? = nil, transfer: Int64? = nil, verify: Int64? = nil) {
+            self.delete = delete
+            self.prepare = prepare
+            self.transfer = transfer
+            self.verify = verify
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delete = "Delete"
+            case prepare = "Prepare"
+            case transfer = "Transfer"
+            case verify = "Verify"
+        }
+    }
+
+    public struct TaskExecutionFilesListedDetail: AWSDecodableShape {
+        /// The number of objects that DataSync finds at your destination location. This counter is only applicable if you configure your task to delete data in the destination that isn't in the source.
+        public let atDestinationForDelete: Int64?
+        /// The number of objects that DataSync finds at your source location.   With a manifest, DataSync lists only what's in your manifest (and not everything at your source location).   With an include filter, DataSync lists only what matches the filter at your source location.   With an exclude filter, DataSync lists everything at your source location before applying the filter.
+        public let atSource: Int64?
+
+        @inlinable
+        public init(atDestinationForDelete: Int64? = nil, atSource: Int64? = nil) {
+            self.atDestinationForDelete = atDestinationForDelete
+            self.atSource = atSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case atDestinationForDelete = "AtDestinationForDelete"
+            case atSource = "AtSource"
+        }
+    }
+
     public struct TaskExecutionListEntry: AWSDecodableShape {
         /// The status of a task execution. For more information, see Task execution statuses.
         public let status: TaskExecutionStatus?
         /// The Amazon Resource Name (ARN) of a task execution.
         public let taskExecutionArn: String?
+        /// The task mode that you're using. For more information, see Choosing a task mode for your data transfer.
+        public let taskMode: TaskMode?
 
         @inlinable
-        public init(status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
+        public init(status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil, taskMode: TaskMode? = nil) {
             self.status = status
             self.taskExecutionArn = taskExecutionArn
+            self.taskMode = taskMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
             case taskExecutionArn = "TaskExecutionArn"
+            case taskMode = "TaskMode"
         }
     }
 
     public struct TaskExecutionResultDetail: AWSDecodableShape {
-        /// Errors that DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
+        /// An error that DataSync encountered during your task execution. You can use this information to help troubleshoot issues.
         public let errorCode: String?
-        /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues.
+        /// The detailed description of an error that DataSync encountered during your task execution. You can use this information to help troubleshoot issues.
         public let errorDetail: String?
-        /// The total time in milliseconds that DataSync spent in the PREPARING phase.
+        /// The time in milliseconds that your task execution was in the PREPARING step. For more information, see Task execution statuses. For Enhanced mode tasks, the value is always 0. For more information, see How DataSync prepares your data transfer.
         public let prepareDuration: Int64?
-        /// The status of the PREPARING phase.
+        /// The status of the PREPARING step for your task execution. For more information, see Task execution statuses.
         public let prepareStatus: PhaseStatus?
-        /// The total time in milliseconds that DataSync took to transfer the file from the source to the destination location.
+        /// The time in milliseconds that your task execution ran.
         public let totalDuration: Int64?
-        /// The total time in milliseconds that DataSync spent in the TRANSFERRING phase.
+        /// The time in milliseconds that your task execution was in the TRANSFERRING step. For more information, see Task execution statuses. For Enhanced mode tasks, the value is always 0. For more information, see How DataSync transfers your data.
         public let transferDuration: Int64?
-        /// The status of the TRANSFERRING phase.
+        /// The status of the TRANSFERRING step for your task execution. For more information, see Task execution statuses.
         public let transferStatus: PhaseStatus?
-        /// The total time in milliseconds that DataSync spent in the VERIFYING phase.
+        /// The time in milliseconds that your task execution was in the VERIFYING step. For more information, see Task execution statuses. For Enhanced mode tasks, the value is always 0. For more information, see How DataSync verifies your data's integrity.
         public let verifyDuration: Int64?
-        /// The status of the VERIFYING phase.
+        /// The status of the VERIFYING step for your task execution. For more information, see Task execution statuses.
         public let verifyStatus: PhaseStatus?
 
         @inlinable
@@ -4464,18 +4542,22 @@ extension DataSync {
         public let status: TaskStatus?
         /// The Amazon Resource Name (ARN) of the task.
         public let taskArn: String?
+        /// The task mode that you're using. For more information, see Choosing a task mode for your data transfer.
+        public let taskMode: TaskMode?
 
         @inlinable
-        public init(name: String? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
+        public init(name: String? = nil, status: TaskStatus? = nil, taskArn: String? = nil, taskMode: TaskMode? = nil) {
             self.name = name
             self.status = status
             self.taskArn = taskArn
+            self.taskMode = taskMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case status = "Status"
             case taskArn = "TaskArn"
+            case taskMode = "TaskMode"
         }
     }
 
@@ -4514,7 +4596,7 @@ extension DataSync {
     }
 
     public struct TaskSchedule: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies your task schedule by using a cron expression in UTC time. For information about cron expression syntax, see the  Amazon EventBridge User Guide .
+        /// Specifies your task schedule by using a cron or rate expression. Use cron expressions for task schedules that run on a specific time and day. For example, the following cron expression creates a task schedule that runs at 8 AM on the first Wednesday of every month:  cron(0 8 * * 3#1)  Use rate expressions for task schedules that run on a regular interval. For example, the following rate expression creates a task schedule that runs every 12 hours:  rate(12 hours)  For information about cron and rate expression syntax, see the  Amazon EventBridge User Guide .
         public let scheduleExpression: String
         /// Specifies whether to enable or disable your task schedule. Your schedule is enabled by default, but there can be situations where you need to disable it. For example, you might need to pause a recurring transfer to fix an issue with your task or perform maintenance on your storage system. DataSync might disable your schedule automatically if your task fails repeatedly with the same error. For more information, see TaskScheduleDetails.
         public let status: ScheduleStatus?
@@ -4733,7 +4815,7 @@ extension DataSync {
     }
 
     public struct UpdateLocationHdfsRequest: AWSEncodableShape {
-        /// The ARNs of the agents that are used to connect to the HDFS cluster.
+        /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
         public let agentArns: [String]?
         /// The type of authentication used to determine the identity of the user.
         public let authenticationType: HdfsAuthenticationType?
@@ -4869,7 +4951,7 @@ extension DataSync {
     public struct UpdateLocationObjectStorageRequest: AWSEncodableShape {
         /// Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
         public let accessKey: String?
-        /// Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can securely connect with your location.
+        /// Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system.
         public let agentArns: [String]?
         /// Specifies the ARN of the object storage system location that you're updating.
         public let locationArn: String
@@ -4933,7 +5015,7 @@ extension DataSync {
     }
 
     public struct UpdateLocationSmbRequest: AWSEncodableShape {
-        /// Specifies the DataSync agent (or agents) which you want to connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
+        /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
         public let agentArns: [String]?
         /// Specifies the Windows domain name that your SMB file server belongs to.  If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. For more information, see required permissions for SMB locations.
         public let domain: String?
@@ -5076,7 +5158,7 @@ extension DataSync {
     }
 
     public struct UpdateTaskRequest: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task.
+        /// Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task. For Enhanced mode tasks, you must use /aws/datasync as your log group name. For example:  arn:aws:logs:us-east-1:111222333444:log-group:/aws/datasync:*  For more information, see Monitoring data transfers with CloudWatch Logs.
         public let cloudWatchLogGroupArn: String?
         /// Specifies exclude filters that define the files, objects, and folders in your source location that you don't want DataSync to transfer. For more information and examples, see Specifying what DataSync transfers by using filters.
         public let excludes: [FilterRule]?

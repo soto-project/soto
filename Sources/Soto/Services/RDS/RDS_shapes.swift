@@ -382,7 +382,7 @@ extension RDS {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
-        /// The pending maintenance action to apply to this resource. Valid Values: system-update, db-upgrade,  hardware-maintenance, ca-certificate-rotation
+        /// The pending maintenance action to apply to this resource. Valid Values:    ca-certificate-rotation     db-upgrade     hardware-maintenance     os-upgrade     system-update    For more information about these actions, see  Maintenance actions for Amazon Aurora or  Maintenance actions for Amazon RDS.
         public let applyAction: String?
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in  request of type immediate can't be undone. Valid Values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.
         public let optInType: String?
@@ -1352,9 +1352,9 @@ extension RDS {
         public let enableGlobalWriteForwarding: Bool?
         /// Specifies whether to enable the HTTP endpoint for the DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the DB cluster. You can also query your database from inside the RDS console with the RDS query editor. RDS Data API is supported with the following DB clusters:   Aurora PostgreSQL Serverless v2 and provisioned   Aurora PostgreSQL and Aurora MySQL Serverless v1   For more information, see Using RDS Data API in the  Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
         public let enableHttpEndpoint: Bool?
-        /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
+        /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let enableIAMDatabaseAuthentication: Bool?
-        /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only
+        /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only  This setting is no longer used. Instead use the ClusterScalabilityType setting.
         public let enableLimitlessDatabase: Bool?
         /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public let enableLocalWriteForwarding: Bool?
@@ -1362,7 +1362,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The database engine to use for this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:    aurora-mysql     aurora-postgresql     mysql     postgres     neptune - For information about using Amazon Neptune, see the  Amazon Neptune User Guide .
         public let engine: String?
-        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  creating the DB cluster will fail if the DB major version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora (PostgreSQL only) - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  creating the DB cluster will fail if the DB major version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The DB engine mode of the DB cluster, either provisioned or serverless. The serverless engine mode only applies for Aurora Serverless v1 DB clusters. Aurora Serverless v2 DB clusters use the  provisioned engine mode. For information about limitations and requirements for Serverless DB clusters, see the  following sections in the Amazon Aurora User Guide:    Limitations of Aurora Serverless v1     Requirements for Aurora Serverless v2    Valid for Cluster Type: Aurora DB clusters only
         public let engineMode: String?
@@ -5868,7 +5868,7 @@ extension RDS {
     }
 
     public struct DeleteDBShardGroupMessage: AWSEncodableShape {
-        /// Teh name of the DB shard group to delete.
+        /// The name of the DB shard group to delete.
         public let dbShardGroupIdentifier: String?
 
         @inlinable
@@ -7010,7 +7010,7 @@ extension RDS {
     public struct DescribeDBShardGroupsMessage: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The user-supplied DB shard group identifier or the Amazon Resource Name (ARN) of the DB shard group. If this parameter is specified,  information for only the specific DB shard group is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DB shard group identifier.
+        /// The user-supplied DB shard group identifier. If this parameter is specified, information for only the specific DB shard group is returned.  This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DB shard group identifier.
         public let dbShardGroupIdentifier: String?
         /// A filter that specifies one or more DB shard groups to describe.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -8530,6 +8530,8 @@ extension RDS {
         public let databaseName: String?
         /// The deletion protection setting for the new global database cluster.
         public let deletionProtection: Bool?
+        ///  The writer endpoint for the new global database cluster. This endpoint always  points to the writer DB instance in the current primary cluster.
+        public let endpoint: String?
         /// The Aurora database engine used by the global database cluster.
         public let engine: String?
         /// The life cycle type for the global cluster. For more information, see CreateGlobalCluster.
@@ -8555,9 +8557,10 @@ extension RDS {
         public var tagList: [Tag]?
 
         @inlinable
-        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, failoverState: FailoverState? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, tagList: [Tag]? = nil) {
+        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, endpoint: String? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, failoverState: FailoverState? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, tagList: [Tag]? = nil) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
+            self.endpoint = endpoint
             self.engine = engine
             self.engineLifecycleSupport = engineLifecycleSupport
             self.engineVersion = engineVersion
@@ -8574,6 +8577,7 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
             case deletionProtection = "DeletionProtection"
+            case endpoint = "Endpoint"
             case engine = "Engine"
             case engineLifecycleSupport = "EngineLifecycleSupport"
             case engineVersion = "EngineVersion"
@@ -9109,13 +9113,13 @@ extension RDS {
         public let enableGlobalWriteForwarding: Bool?
         /// Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora PostgreSQL  Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations.  Valid for Cluster Type: Aurora DB clusters only
         public let enableHttpEndpoint: Bool?
-        /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
+        /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let enableIAMDatabaseAuthentication: Bool?
-        /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only
+        /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only  This setting is no longer used. Instead use the ClusterScalabilityType setting when you create your Aurora Limitless Database DB cluster.
         public let enableLimitlessDatabase: Bool?
         /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public let enableLocalWriteForwarding: Bool?
-        /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see  Using Amazon Performance Insights in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters only
+        /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see  Using Amazon Performance Insights in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let enablePerformanceInsights: Bool?
         /// The DB engine mode of the DB cluster, either provisioned or serverless.  The DB engine mode can be modified only from serverless to provisioned.  For more information, see  CreateDBCluster. Valid for Cluster Type: Aurora DB clusters only
         public let engineMode: String?
@@ -10850,7 +10854,7 @@ extension RDS {
     }
 
     public struct PendingMaintenanceAction: AWSDecodableShape {
-        /// The type of pending maintenance action that is available for the resource.  For more information about maintenance actions, see Maintaining a DB instance. Valid Values: system-update | db-upgrade | hardware-maintenance | ca-certificate-rotation
+        /// The type of pending maintenance action that is available for the resource.  For more information about maintenance actions, see Maintaining a DB instance. Valid Values:    ca-certificate-rotation     db-upgrade     hardware-maintenance     os-upgrade     system-update    For more information about these actions, see  Maintenance actions for Amazon Aurora or  Maintenance actions for Amazon RDS.
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
         public let autoAppliedAfterDate: Date?
@@ -11880,7 +11884,7 @@ extension RDS {
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: aurora-mysql (for Aurora MySQL)
         public let engine: String?
-        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora (PostgreSQL only) - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (Aurora MySQL), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Examples: 5.7.mysql_aurora.2.12.0, 8.0.mysql_aurora.3.04.0
         public let engineVersion: String?
@@ -12051,11 +12055,13 @@ extension RDS {
         /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used.  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are audit, error, general, and slowquery.  Aurora PostgreSQL  Possible value is postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
-        /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
+        /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let enableIAMDatabaseAuthentication: Bool?
+        /// Specifies whether to turn on Performance Insights for the DB cluster.
+        public let enablePerformanceInsights: Bool?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let engine: String?
-        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora (PostgreSQL only) - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The DB engine mode of the DB cluster, either provisioned or serverless. For more information, see  CreateDBCluster. Valid for: Aurora DB clusters only
         public let engineMode: String?
@@ -12065,10 +12071,18 @@ extension RDS {
         public let iops: Int?
         /// The Amazon Web Services KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. When you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in  SnapshotIdentifier isn't encrypted, then the restored DB cluster isn't encrypted.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let kmsKeyId: String?
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off  collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60  Default: 0
+        public let monitoringInterval: Int?
+        /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.  An example is arn:aws:iam:123456789012:role/emaccess. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value.
+        public let monitoringRoleArn: String?
         /// The network type of the DB cluster. Valid Values:    IPV4     DUAL    The network type is determined by the DBSubnetGroup specified for the DB cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon Aurora User Guide.  Valid for: Aurora DB clusters only
         public let networkType: String?
         /// The name of the option group to use for the restored DB cluster. DB clusters are associated with a default option group that can't be modified.
         public let optionGroupName: String?
+        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key.  There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let performanceInsightsKMSKeyId: String?
+        /// The number of days to retain Performance Insights data. Valid Values:    7     month * 31, where month is a number of months from 1-23.  Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31)    731    Default: 7 days If you specify a retention period that isn't valid, such as 94,  Amazon RDS issues an error.
+        public let performanceInsightsRetentionPeriod: Int?
         /// The port number on which the new DB cluster accepts connections. Constraints: This value must be 1150-65535  Default: The same port as the original DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let port: Int?
         /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address  from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC.  Access to the DB cluster is ultimately controlled by the security group it uses.  That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:   If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.   If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public.   If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:   If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB cluster is private.   If the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster is public.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -12090,7 +12104,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, snapshotIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, snapshotIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backtrackWindow = backtrackWindow
             self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -12104,14 +12118,19 @@ extension RDS {
             self.domainIAMRoleName = domainIAMRoleName
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.enablePerformanceInsights = enablePerformanceInsights
             self.engine = engine
             self.engineLifecycleSupport = engineLifecycleSupport
             self.engineMode = engineMode
             self.engineVersion = engineVersion
             self.iops = iops
             self.kmsKeyId = kmsKeyId
+            self.monitoringInterval = monitoringInterval
+            self.monitoringRoleArn = monitoringRoleArn
             self.networkType = networkType
             self.optionGroupName = optionGroupName
+            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
+            self.performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriod
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
@@ -12137,14 +12156,19 @@ extension RDS {
             case domainIAMRoleName = "DomainIAMRoleName"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case enablePerformanceInsights = "EnablePerformanceInsights"
             case engine = "Engine"
             case engineLifecycleSupport = "EngineLifecycleSupport"
             case engineMode = "EngineMode"
             case engineVersion = "EngineVersion"
             case iops = "Iops"
             case kmsKeyId = "KmsKeyId"
+            case monitoringInterval = "MonitoringInterval"
+            case monitoringRoleArn = "MonitoringRoleArn"
             case networkType = "NetworkType"
             case optionGroupName = "OptionGroupName"
+            case performanceInsightsKMSKeyId = "PerformanceInsightsKMSKeyId"
+            case performanceInsightsRetentionPeriod = "PerformanceInsightsRetentionPeriod"
             case port = "Port"
             case publiclyAccessible = "PubliclyAccessible"
             case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
@@ -12195,9 +12219,11 @@ extension RDS {
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used.  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are audit, error, general, and slowquery.  Aurora PostgreSQL  Possible value is postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
-        /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
+        /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora (PostgreSQL only) - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
+        /// Specifies whether to turn on Performance Insights for the DB cluster.
+        public let enablePerformanceInsights: Bool?
+        /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
         /// The engine mode of the new cluster. Specify provisioned or serverless, depending on the type of the cluster you are creating. You can create an Aurora Serverless v1 clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless v1 cluster. To create a clone that is an Aurora Serverless v1 cluster, the original cluster must be an Aurora Serverless v1 cluster or an encrypted provisioned cluster. Valid for: Aurora DB clusters only
         public let engineMode: String?
@@ -12205,10 +12231,18 @@ extension RDS {
         public let iops: Int?
         /// The Amazon Web Services KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different from the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster isn't encrypted, then the restored DB cluster isn't encrypted.   If DBClusterIdentifier refers to a DB cluster that isn't encrypted, then the restore request is rejected. Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let kmsKeyId: String?
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off  collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60  Default: 0
+        public let monitoringInterval: Int?
+        /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.  An example is arn:aws:iam:123456789012:role/emaccess. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value.
+        public let monitoringRoleArn: String?
         /// The network type of the DB cluster. Valid Values:    IPV4     DUAL    The network type is determined by the DBSubnetGroup specified for the DB cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon Aurora User Guide.  Valid for: Aurora DB clusters only
         public let networkType: String?
         /// The name of the option group for the new DB cluster. DB clusters are associated with a default option group that can't be modified.
         public let optionGroupName: String?
+        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key.  There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let performanceInsightsKMSKeyId: String?
+        /// The number of days to retain Performance Insights data. Valid Values:    7     month * 31, where month is a number of months from 1-23.  Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31)    731    Default: 7 days If you specify a retention period that isn't valid, such as 94,  Amazon RDS issues an error.
+        public let performanceInsightsRetentionPeriod: Int?
         /// The port number on which the new DB cluster accepts connections. Constraints: A value from 1150-65535. Default: The default port for the engine. Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let port: Int?
         /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address  from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC.  Access to the DB cluster is ultimately controlled by the security group it uses.  That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:   If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.   If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public.   If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:   If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB cluster is private.   If the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster is public.   Valid for: Multi-AZ DB clusters only
@@ -12237,7 +12271,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String? = nil, sourceDbClusterResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(backtrackWindow: Int64? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String? = nil, sourceDbClusterResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.backtrackWindow = backtrackWindow
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -12249,12 +12283,17 @@ extension RDS {
             self.domainIAMRoleName = domainIAMRoleName
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.enablePerformanceInsights = enablePerformanceInsights
             self.engineLifecycleSupport = engineLifecycleSupport
             self.engineMode = engineMode
             self.iops = iops
             self.kmsKeyId = kmsKeyId
+            self.monitoringInterval = monitoringInterval
+            self.monitoringRoleArn = monitoringRoleArn
             self.networkType = networkType
             self.optionGroupName = optionGroupName
+            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
+            self.performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriod
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
@@ -12282,12 +12321,17 @@ extension RDS {
             case domainIAMRoleName = "DomainIAMRoleName"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case enablePerformanceInsights = "EnablePerformanceInsights"
             case engineLifecycleSupport = "EngineLifecycleSupport"
             case engineMode = "EngineMode"
             case iops = "Iops"
             case kmsKeyId = "KmsKeyId"
+            case monitoringInterval = "MonitoringInterval"
+            case monitoringRoleArn = "MonitoringRoleArn"
             case networkType = "NetworkType"
             case optionGroupName = "OptionGroupName"
+            case performanceInsightsKMSKeyId = "PerformanceInsightsKMSKeyId"
+            case performanceInsightsRetentionPeriod = "PerformanceInsightsRetentionPeriod"
             case port = "Port"
             case publiclyAccessible = "PubliclyAccessible"
             case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
@@ -13541,7 +13585,7 @@ extension RDS {
     }
 
     public struct SwitchoverBlueGreenDeploymentRequest: AWSEncodableShape {
-        /// The unique identifier of the blue/green deployment. Constraints:   Must match an existing blue/green deployment identifier.
+        /// The resource ID of the blue/green deployment. Constraints:   Must match an existing blue/green deployment resource ID.
         public let blueGreenDeploymentIdentifier: String?
         /// The amount of time, in seconds, for the switchover to complete. Default: 300 If the switchover takes longer than the specified duration, then any changes are rolled back,  and no changes are made to the environments.
         public let switchoverTimeout: Int?
@@ -14367,7 +14411,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var exportTaskAlreadyExistsFault: Self { .init(.exportTaskAlreadyExistsFault) }
     /// The export task doesn't exist.
     public static var exportTaskNotFoundFault: Self { .init(.exportTaskNotFoundFault) }
-    /// The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
+    /// The GlobalClusterIdentifier already exists. Specify a new global database identifier  (unique name) to create a new global database cluster or to rename an existing one.
     public static var globalClusterAlreadyExistsFault: Self { .init(.globalClusterAlreadyExistsFault) }
     /// The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     public static var globalClusterNotFoundFault: Self { .init(.globalClusterNotFoundFault) }

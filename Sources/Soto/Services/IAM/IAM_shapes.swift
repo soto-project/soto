@@ -78,6 +78,12 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum FeatureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rootCredentialsManagement = "RootCredentialsManagement"
+        case rootSessions = "RootSessions"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case v1Token = "v1Token"
         case v2Token = "v2Token"
@@ -171,6 +177,7 @@ extension IAM {
         case accessKeysPerUserQuota = "AccessKeysPerUserQuota"
         case accountAccessKeysPresent = "AccountAccessKeysPresent"
         case accountMFAEnabled = "AccountMFAEnabled"
+        case accountPasswordPresent = "AccountPasswordPresent"
         case accountSigningCertificatesPresent = "AccountSigningCertificatesPresent"
         case attachedPoliciesPerGroupQuota = "AttachedPoliciesPerGroupQuota"
         case attachedPoliciesPerRoleQuota = "AttachedPoliciesPerRoleQuota"
@@ -704,15 +711,15 @@ extension IAM {
     }
 
     public struct CreateLoginProfileRequest: AWSEncodableShape {
-        /// The new password for the user. The regex pattern  that is used to validate this parameter is a string of characters. That string can include almost any printable  ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF).  You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D)  characters. Any of these characters are valid in a password. However, many tools, such  as the Amazon Web Services Management Console, might restrict the ability to type certain characters because they have  special meaning within that tool.
-        public let password: String
+        /// The new password for the user. This parameter must be omitted when you make the request with an AssumeRoot session. It is required in all other cases. The regex pattern  that is used to validate this parameter is a string of characters. That string can include almost any printable  ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF).  You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D)  characters. Any of these characters are valid in a password. However, many tools, such  as the Amazon Web Services Management Console, might restrict the ability to type certain characters because they have  special meaning within that tool.
+        public let password: String?
         /// Specifies whether the user is required to set a new password on next sign-in.
         public let passwordResetRequired: Bool?
-        /// The name of the IAM user to create a password for. The user must already exist. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let userName: String
+        /// The name of the IAM user to create a password for. The user must already exist. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an AssumeRoot session to omit the user name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let userName: String?
 
         @inlinable
-        public init(password: String, passwordResetRequired: Bool? = nil, userName: String) {
+        public init(password: String? = nil, passwordResetRequired: Bool? = nil, userName: String? = nil) {
             self.password = password
             self.passwordResetRequired = passwordResetRequired
             self.userName = userName
@@ -1241,11 +1248,11 @@ extension IAM {
     public struct DeactivateMFADeviceRequest: AWSEncodableShape {
         /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (through its regex pattern) a string of characters consisting  of upper and lowercase alphanumeric characters with no spaces. You can also include any of the  following characters: =,.@:/-
         public let serialNumber: String
-        /// The name of the user whose MFA device you want to deactivate. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let userName: String
+        /// The name of the user whose MFA device you want to deactivate. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an AssumeRoot session to omit the user name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let userName: String?
 
         @inlinable
-        public init(serialNumber: String, userName: String) {
+        public init(serialNumber: String, userName: String? = nil) {
             self.serialNumber = serialNumber
             self.userName = userName
         }
@@ -1380,11 +1387,11 @@ extension IAM {
     }
 
     public struct DeleteLoginProfileRequest: AWSEncodableShape {
-        /// The name of the user whose password you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let userName: String
+        /// The name of the user whose password you want to delete. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an AssumeRoot session to omit the user name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let userName: String?
 
         @inlinable
-        public init(userName: String) {
+        public init(userName: String? = nil) {
             self.userName = userName
         }
 
@@ -1866,6 +1873,52 @@ extension IAM {
         }
     }
 
+    public struct DisableOrganizationsRootCredentialsManagementRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DisableOrganizationsRootCredentialsManagementResponse: AWSDecodableShape {
+        /// The features enabled for centralized root access for member accounts in your organization.
+        @OptionalCustomCoding<StandardArrayCoder<FeatureType>>
+        public var enabledFeatures: [FeatureType]?
+        /// The unique identifier (ID) of an organization.
+        public let organizationId: String?
+
+        @inlinable
+        public init(enabledFeatures: [FeatureType]? = nil, organizationId: String? = nil) {
+            self.enabledFeatures = enabledFeatures
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledFeatures = "EnabledFeatures"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DisableOrganizationsRootSessionsRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DisableOrganizationsRootSessionsResponse: AWSDecodableShape {
+        /// The features you have enabled for centralized root access of member accounts in your organization.
+        @OptionalCustomCoding<StandardArrayCoder<FeatureType>>
+        public var enabledFeatures: [FeatureType]?
+        /// The unique identifier (ID) of an organization.
+        public let organizationId: String?
+
+        @inlinable
+        public init(enabledFeatures: [FeatureType]? = nil, organizationId: String? = nil) {
+            self.enabledFeatures = enabledFeatures
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledFeatures = "EnabledFeatures"
+            case organizationId = "OrganizationId"
+        }
+    }
+
     public struct EnableMFADeviceRequest: AWSEncodableShape {
         /// An authentication code emitted by the device.  The format for this parameter is a string of six digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device.
         public let authenticationCode1: String
@@ -1904,6 +1957,52 @@ extension IAM {
             case authenticationCode2 = "AuthenticationCode2"
             case serialNumber = "SerialNumber"
             case userName = "UserName"
+        }
+    }
+
+    public struct EnableOrganizationsRootCredentialsManagementRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct EnableOrganizationsRootCredentialsManagementResponse: AWSDecodableShape {
+        /// The features you have enabled for centralized root access.
+        @OptionalCustomCoding<StandardArrayCoder<FeatureType>>
+        public var enabledFeatures: [FeatureType]?
+        /// The unique identifier (ID) of an organization.
+        public let organizationId: String?
+
+        @inlinable
+        public init(enabledFeatures: [FeatureType]? = nil, organizationId: String? = nil) {
+            self.enabledFeatures = enabledFeatures
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledFeatures = "EnabledFeatures"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct EnableOrganizationsRootSessionsRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct EnableOrganizationsRootSessionsResponse: AWSDecodableShape {
+        /// The features you have enabled for centralized root access.
+        @OptionalCustomCoding<StandardArrayCoder<FeatureType>>
+        public var enabledFeatures: [FeatureType]?
+        /// The unique identifier (ID) of an organization.
+        public let organizationId: String?
+
+        @inlinable
+        public init(enabledFeatures: [FeatureType]? = nil, organizationId: String? = nil) {
+            self.enabledFeatures = enabledFeatures
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledFeatures = "EnabledFeatures"
+            case organizationId = "OrganizationId"
         }
     }
 
@@ -2485,11 +2584,11 @@ extension IAM {
     }
 
     public struct GetLoginProfileRequest: AWSEncodableShape {
-        /// The name of the user whose login profile you want to retrieve. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let userName: String
+        /// The name of the user whose login profile you want to retrieve. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an AssumeRoot session to omit the user name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let userName: String?
 
         @inlinable
-        public init(userName: String) {
+        public init(userName: String? = nil) {
             self.userName = userName
         }
 
@@ -4260,6 +4359,29 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case openIDConnectProviderList = "OpenIDConnectProviderList"
+        }
+    }
+
+    public struct ListOrganizationsFeaturesRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct ListOrganizationsFeaturesResponse: AWSDecodableShape {
+        /// Specifies the features that are currently available in your organization.
+        @OptionalCustomCoding<StandardArrayCoder<FeatureType>>
+        public var enabledFeatures: [FeatureType]?
+        /// The unique identifier (ID) of an organization.
+        public let organizationId: String?
+
+        @inlinable
+        public init(enabledFeatures: [FeatureType]? = nil, organizationId: String? = nil) {
+            self.enabledFeatures = enabledFeatures
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledFeatures = "EnabledFeatures"
+            case organizationId = "OrganizationId"
         }
     }
 
@@ -8021,6 +8143,8 @@ extension IAM {
 /// Error enum for IAM
 public struct IAMErrorType: AWSErrorType {
     enum Code: String {
+        case accountNotManagementOrDelegatedAdministratorException = "AccountNotManagementOrDelegatedAdministratorException"
+        case callerIsNotManagementAccountException = "CallerIsNotManagementAccountException"
         case concurrentModificationException = "ConcurrentModification"
         case credentialReportExpiredException = "ReportExpired"
         case credentialReportNotPresentException = "ReportNotPresent"
@@ -8041,10 +8165,13 @@ public struct IAMErrorType: AWSErrorType {
         case malformedPolicyDocumentException = "MalformedPolicyDocument"
         case noSuchEntityException = "NoSuchEntity"
         case openIdIdpCommunicationErrorException = "OpenIdIdpCommunicationError"
+        case organizationNotFoundException = "OrganizationNotFoundException"
+        case organizationNotInAllFeaturesModeException = "OrganizationNotInAllFeaturesModeException"
         case passwordPolicyViolationException = "PasswordPolicyViolation"
         case policyEvaluationException = "PolicyEvaluation"
         case policyNotAttachableException = "PolicyNotAttachable"
         case reportGenerationLimitExceededException = "ReportGenerationLimitExceeded"
+        case serviceAccessNotEnabledException = "ServiceAccessNotEnabledException"
         case serviceFailureException = "ServiceFailure"
         case serviceNotSupportedException = "NotSupportedService"
         case unmodifiableEntityException = "UnmodifiableEntity"
@@ -8069,6 +8196,10 @@ public struct IAMErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The request was rejected because the account making the request is not the management account or delegated administrator account for centralized root access.
+    public static var accountNotManagementOrDelegatedAdministratorException: Self { .init(.accountNotManagementOrDelegatedAdministratorException) }
+    /// The request was rejected because the account making the request is not the management account for the organization.
+    public static var callerIsNotManagementAccountException: Self { .init(.callerIsNotManagementAccountException) }
     /// The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// The request was rejected because the most recent credential report has expired. To generate a new credential report, use GenerateCredentialReport. For more information about credential report expiration, see Getting credential reports in the IAM User Guide.
@@ -8109,6 +8240,10 @@ public struct IAMErrorType: AWSErrorType {
     public static var noSuchEntityException: Self { .init(.noSuchEntityException) }
     /// The request failed because IAM cannot connect to the OpenID Connect identity provider URL.
     public static var openIdIdpCommunicationErrorException: Self { .init(.openIdIdpCommunicationErrorException) }
+    /// The request was rejected because no organization is associated with your account.
+    public static var organizationNotFoundException: Self { .init(.organizationNotFoundException) }
+    /// The request was rejected because your organization does not have All features enabled. For more information, see Available feature sets in the Organizations User Guide.
+    public static var organizationNotInAllFeaturesModeException: Self { .init(.organizationNotInAllFeaturesModeException) }
     /// The request was rejected because the provided password did not meet the requirements imposed by the account password policy.
     public static var passwordPolicyViolationException: Self { .init(.passwordPolicyViolationException) }
     /// The request failed because a provided policy could not be successfully evaluated. An additional detailed message indicates the source of the failure.
@@ -8117,6 +8252,8 @@ public struct IAMErrorType: AWSErrorType {
     public static var policyNotAttachableException: Self { .init(.policyNotAttachableException) }
     /// The request failed because the maximum number of concurrent requests for this account are already running.
     public static var reportGenerationLimitExceededException: Self { .init(.reportGenerationLimitExceededException) }
+    /// The request was rejected because trusted access is not enabled for IAM in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    public static var serviceAccessNotEnabledException: Self { .init(.serviceAccessNotEnabledException) }
     /// The request processing has failed because of an unknown error, exception or failure.
     public static var serviceFailureException: Self { .init(.serviceFailureException) }
     /// The specified service does not support service-specific credentials.

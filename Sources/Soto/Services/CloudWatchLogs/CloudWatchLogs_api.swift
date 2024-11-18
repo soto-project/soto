@@ -191,7 +191,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.cancelExportTask(input, logger: logger)
     }
 
-    /// Creates a delivery. A delivery is a connection between a logical delivery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Supported [V2 Permissions] in the table at  Enabling  logging from Amazon Web Services services.  A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Firehose. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:   Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more  information, see PutDeliverySource.   Create a delivery destination, which is a logical object that represents the actual delivery destination.  For more  information, see PutDeliveryDestination.   If you are delivering logs cross-account, you must use  PutDeliveryDestinationPolicy in the destination account to assign an IAM policy to the  destination. This policy allows delivery to that destination.    Use CreateDelivery to create a delivery by pairing exactly one delivery source and one delivery destination.    You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You  can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. You can't update an existing delivery. You can only create and delete deliveries.
+    /// Creates a delivery. A delivery is a connection between a logical delivery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Supported [V2 Permissions] in the table at  Enabling  logging from Amazon Web Services services.  A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Firehose. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:   Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more  information, see PutDeliverySource.   Create a delivery destination, which is a logical object that represents the actual delivery destination.  For more  information, see PutDeliveryDestination.   If you are delivering logs cross-account, you must use  PutDeliveryDestinationPolicy in the destination account to assign an IAM policy to the  destination. This policy allows delivery to that destination.    Use CreateDelivery to create a delivery by pairing exactly one delivery source and one delivery destination.    You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You  can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. To update an existing delivery configuration, use UpdateDeliveryConfiguration.
     @Sendable
     @inlinable
     public func createDelivery(_ input: CreateDeliveryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeliveryResponse {
@@ -204,14 +204,14 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Creates a delivery. A delivery is a connection between a logical delivery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Supported [V2 Permissions] in the table at  Enabling  logging from Amazon Web Services services.  A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Firehose. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:   Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more  information, see PutDeliverySource.   Create a delivery destination, which is a logical object that represents the actual delivery destination.  For more  information, see PutDeliveryDestination.   If you are delivering logs cross-account, you must use  PutDeliveryDestinationPolicy in the destination account to assign an IAM policy to the  destination. This policy allows delivery to that destination.    Use CreateDelivery to create a delivery by pairing exactly one delivery source and one delivery destination.    You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You  can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. You can't update an existing delivery. You can only create and delete deliveries.
+    /// Creates a delivery. A delivery is a connection between a logical delivery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Supported [V2 Permissions] in the table at  Enabling  logging from Amazon Web Services services.  A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Firehose. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:   Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more  information, see PutDeliverySource.   Create a delivery destination, which is a logical object that represents the actual delivery destination.  For more  information, see PutDeliveryDestination.   If you are delivering logs cross-account, you must use  PutDeliveryDestinationPolicy in the destination account to assign an IAM policy to the  destination. This policy allows delivery to that destination.    Use CreateDelivery to create a delivery by pairing exactly one delivery source and one delivery destination.    You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You  can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. To update an existing delivery configuration, use UpdateDeliveryConfiguration.
     ///
     /// Parameters:
     ///   - deliveryDestinationArn: The ARN of the delivery destination to use for this delivery.
     ///   - deliverySourceName: The name of the delivery source to use for this delivery.
     ///   - fieldDelimiter: The field delimiter to use between record fields when the final output format of a delivery is in Plain, W3C, or Raw format.
-    ///   - recordFields: The list of record fields to be delivered to the destination, in order.  If the delivery’s log source has mandatory fields, they must be included in this list.
-    ///   - s3DeliveryConfiguration: This structure contains parameters that are valid only when the delivery’s delivery destination is an S3 bucket.
+    ///   - recordFields: The list of record fields to be delivered to the destination, in order.  If the delivery's log source has mandatory fields, they must be included in this list.
+    ///   - s3DeliveryConfiguration: This structure contains parameters that are valid only when the delivery's delivery destination is an S3 bucket.
     ///   - tags: An optional list of key-value pairs to associate with the resource. For more information about tagging, see  Tagging Amazon Web Services resources
     ///   - logger: Logger use during operation
     @inlinable
@@ -252,7 +252,7 @@ public struct CloudWatchLogs: AWSService {
     ///
     /// Parameters:
     ///   - destination: The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services Region.
-    ///   - destinationPrefix: The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
+    ///   - destinationPrefix: The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs. The length of this parameter must comply with the S3 object key name length limits. The object key name is a sequence of Unicode characters with UTF-8 encoding,  and can be up to 1,024 bytes.
     ///   - from: The start time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not exported.
     ///   - logGroupName: The name of the log group.
     ///   - logStreamNamePrefix: Export only log streams that match the provided prefix. If you don't specify a value, no prefix filter is applied.
@@ -1094,7 +1094,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.describeExportTasks(input, logger: logger)
     }
 
-    /// Lists the specified log groups. You can list all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn’t support IAM policies that control access to the DescribeLogGroups action by using the  aws:ResourceTag/key-name condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name condition key to control access. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and  view data from the linked source accounts. For more information, see  CloudWatch cross-account observability.
+    /// Lists the specified log groups. You can list all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the  aws:ResourceTag/key-name condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name condition key to control access. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and  view data from the linked source accounts. For more information, see  CloudWatch cross-account observability.
     @Sendable
     @inlinable
     public func describeLogGroups(_ input: DescribeLogGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLogGroupsResponse {
@@ -1107,7 +1107,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Lists the specified log groups. You can list all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn’t support IAM policies that control access to the DescribeLogGroups action by using the  aws:ResourceTag/key-name condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name condition key to control access. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and  view data from the linked source accounts. For more information, see  CloudWatch cross-account observability.
+    /// Lists the specified log groups. You can list all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the  aws:ResourceTag/key-name condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name condition key to control access. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and  view data from the linked source accounts. For more information, see  CloudWatch cross-account observability.
     ///
     /// Parameters:
     ///   - accountIdentifiers: When includeLinkedAccounts is set to True, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
@@ -2325,7 +2325,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.putResourcePolicy(input, logger: logger)
     }
 
-    /// Sets the retention of the specified log group. With a retention policy, you can configure the number of days for which to retain log events in the specified log group.  CloudWatch Logs doesn’t immediately delete log events when they reach their retention setting. It typically takes up to 72 hours after that before log events are deleted, but in rare situations might take longer. To illustrate, imagine that you change a log group to have a longer retention setting when it contains log events that are past the expiration date, but haven’t been deleted. Those log events will take up to 72 hours to be deleted after the new retention date is reached. To make sure that log data is deleted permanently, keep a log group at its lower retention setting until 72 hours after the previous retention period ends. Alternatively, wait to change the retention setting until you confirm that the earlier log events are deleted.  When log events reach their retention setting they are marked for deletion. After they are marked for deletion, they do not add to your archival storage costs anymore, even if  they are not actually deleted until later. These log events marked for deletion are also not  included when you use an API to retrieve the storedBytes value to see how many bytes a log group is storing.
+    /// Sets the retention of the specified log group. With a retention policy, you can configure the number of days for which to retain log events in the specified log group.  CloudWatch Logs doesn't immediately delete log events when they reach their retention setting. It typically takes up to 72 hours after that before log events are deleted, but in rare situations might take longer. To illustrate, imagine that you change a log group to have a longer retention setting when it contains log events that are past the expiration date, but haven't been deleted. Those log events will take up to 72 hours to be deleted after the new retention date is reached. To make sure that log data is deleted permanently, keep a log group at its lower retention setting until 72 hours after the previous retention period ends. Alternatively, wait to change the retention setting until you confirm that the earlier log events are deleted.  When log events reach their retention setting they are marked for deletion. After they are marked for deletion, they do not add to your archival storage costs anymore, even if  they are not actually deleted until later. These log events marked for deletion are also not  included when you use an API to retrieve the storedBytes value to see how many bytes a log group is storing.
     @Sendable
     @inlinable
     public func putRetentionPolicy(_ input: PutRetentionPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2338,7 +2338,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Sets the retention of the specified log group. With a retention policy, you can configure the number of days for which to retain log events in the specified log group.  CloudWatch Logs doesn’t immediately delete log events when they reach their retention setting. It typically takes up to 72 hours after that before log events are deleted, but in rare situations might take longer. To illustrate, imagine that you change a log group to have a longer retention setting when it contains log events that are past the expiration date, but haven’t been deleted. Those log events will take up to 72 hours to be deleted after the new retention date is reached. To make sure that log data is deleted permanently, keep a log group at its lower retention setting until 72 hours after the previous retention period ends. Alternatively, wait to change the retention setting until you confirm that the earlier log events are deleted.  When log events reach their retention setting they are marked for deletion. After they are marked for deletion, they do not add to your archival storage costs anymore, even if  they are not actually deleted until later. These log events marked for deletion are also not  included when you use an API to retrieve the storedBytes value to see how many bytes a log group is storing.
+    /// Sets the retention of the specified log group. With a retention policy, you can configure the number of days for which to retain log events in the specified log group.  CloudWatch Logs doesn't immediately delete log events when they reach their retention setting. It typically takes up to 72 hours after that before log events are deleted, but in rare situations might take longer. To illustrate, imagine that you change a log group to have a longer retention setting when it contains log events that are past the expiration date, but haven't been deleted. Those log events will take up to 72 hours to be deleted after the new retention date is reached. To make sure that log data is deleted permanently, keep a log group at its lower retention setting until 72 hours after the previous retention period ends. Alternatively, wait to change the retention setting until you confirm that the earlier log events are deleted.  When log events reach their retention setting they are marked for deletion. After they are marked for deletion, they do not add to your archival storage costs anymore, even if  they are not actually deleted until later. These log events marked for deletion are also not  included when you use an API to retrieve the storedBytes value to see how many bytes a log group is storing.
     ///
     /// Parameters:
     ///   - logGroupName: The name of the log group.
@@ -2457,7 +2457,7 @@ public struct CloudWatchLogs: AWSService {
     ///
     /// Parameters:
     ///   - endTime: The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
-    ///   - limit: The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 1000.
+    ///   - limit: The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 10,000.
     ///   - logGroupIdentifiers: The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
     ///   - logGroupName: The log group on which to perform the query.  A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
     ///   - logGroupNames: The list of log groups to be queried. You can include up to 50 log groups.  A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
@@ -2516,7 +2516,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.stopQuery(input, logger: logger)
     }
 
-    ///  The TagLogGroup operation is on the path to deprecation. We recommend that you use  TagResource instead.  Adds or updates the specified tags for the specified log group. To list the tags for a log group, use ListTagsForResource. To remove tags, use UntagResource. For more information about tags, see Tag Log Groups in Amazon CloudWatch Logs in the Amazon CloudWatch Logs User Guide. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.  For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
+    ///  The TagLogGroup operation is on the path to deprecation. We recommend that you use  TagResource instead.  Adds or updates the specified tags for the specified log group. To list the tags for a log group, use ListTagsForResource. To remove tags, use UntagResource. For more information about tags, see Tag Log Groups in Amazon CloudWatch Logs in the Amazon CloudWatch Logs User Guide. CloudWatch Logs doesn't support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.  For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
     @available(*, deprecated, message: "Please use the generic tagging API TagResource")
     @Sendable
     @inlinable
@@ -2530,7 +2530,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    ///  The TagLogGroup operation is on the path to deprecation. We recommend that you use  TagResource instead.  Adds or updates the specified tags for the specified log group. To list the tags for a log group, use ListTagsForResource. To remove tags, use UntagResource. For more information about tags, see Tag Log Groups in Amazon CloudWatch Logs in the Amazon CloudWatch Logs User Guide. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.  For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
+    ///  The TagLogGroup operation is on the path to deprecation. We recommend that you use  TagResource instead.  Adds or updates the specified tags for the specified log group. To list the tags for a log group, use ListTagsForResource. To remove tags, use UntagResource. For more information about tags, see Tag Log Groups in Amazon CloudWatch Logs in the Amazon CloudWatch Logs User Guide. CloudWatch Logs doesn't support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.  For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
     ///
     /// Parameters:
     ///   - logGroupName: The name of the log group.
@@ -2614,7 +2614,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.testMetricFilter(input, logger: logger)
     }
 
-    ///  The UntagLogGroup operation is on the path to deprecation. We recommend that you use  UntagResource instead.  Removes the specified tags from the specified log group. To list the tags for a log group, use ListTagsForResource. To add tags, use TagResource. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.
+    ///  The UntagLogGroup operation is on the path to deprecation. We recommend that you use  UntagResource instead.  Removes the specified tags from the specified log group. To list the tags for a log group, use ListTagsForResource. To add tags, use TagResource. CloudWatch Logs doesn't support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.
     @available(*, deprecated, message: "Please use the generic tagging API UntagResource")
     @Sendable
     @inlinable
@@ -2628,7 +2628,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    ///  The UntagLogGroup operation is on the path to deprecation. We recommend that you use  UntagResource instead.  Removes the specified tags from the specified log group. To list the tags for a log group, use ListTagsForResource. To add tags, use TagResource. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.
+    ///  The UntagLogGroup operation is on the path to deprecation. We recommend that you use  UntagResource instead.  Removes the specified tags from the specified log group. To list the tags for a log group, use ListTagsForResource. To add tags, use TagResource. CloudWatch Logs doesn't support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.
     ///
     /// Parameters:
     ///   - logGroupName: The name of the log group.
@@ -2680,7 +2680,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Use this operation to suppress anomaly detection for a specified anomaly or pattern. If you suppress  an anomaly, CloudWatch Logs won’t report new occurrences of that anomaly and won't update that anomaly  with new data. If you suppress a pattern, CloudWatch Logs won’t report any anomalies related to that pattern. You must specify either anomalyId or patternId, but you can't specify both parameters in the  same operation. If you have previously used this operation to suppress detection of a pattern or anomaly, you can use it again to cause CloudWatch Logs to end the suppression. To do this, use this operation and specify the anomaly or pattern to  stop suppressing, and omit the suppressionType and suppressionPeriod parameters.
+    /// Use this operation to suppress anomaly detection for a specified anomaly or pattern. If you suppress  an anomaly, CloudWatch Logs won't report new occurrences of that anomaly and won't update that anomaly  with new data. If you suppress a pattern, CloudWatch Logs won't report any anomalies related to that pattern. You must specify either anomalyId or patternId, but you can't specify both parameters in the  same operation. If you have previously used this operation to suppress detection of a pattern or anomaly, you can use it again to cause CloudWatch Logs to end the suppression. To do this, use this operation and specify the anomaly or pattern to  stop suppressing, and omit the suppressionType and suppressionPeriod parameters.
     @Sendable
     @inlinable
     public func updateAnomaly(_ input: UpdateAnomalyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2693,11 +2693,12 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Use this operation to suppress anomaly detection for a specified anomaly or pattern. If you suppress  an anomaly, CloudWatch Logs won’t report new occurrences of that anomaly and won't update that anomaly  with new data. If you suppress a pattern, CloudWatch Logs won’t report any anomalies related to that pattern. You must specify either anomalyId or patternId, but you can't specify both parameters in the  same operation. If you have previously used this operation to suppress detection of a pattern or anomaly, you can use it again to cause CloudWatch Logs to end the suppression. To do this, use this operation and specify the anomaly or pattern to  stop suppressing, and omit the suppressionType and suppressionPeriod parameters.
+    /// Use this operation to suppress anomaly detection for a specified anomaly or pattern. If you suppress  an anomaly, CloudWatch Logs won't report new occurrences of that anomaly and won't update that anomaly  with new data. If you suppress a pattern, CloudWatch Logs won't report any anomalies related to that pattern. You must specify either anomalyId or patternId, but you can't specify both parameters in the  same operation. If you have previously used this operation to suppress detection of a pattern or anomaly, you can use it again to cause CloudWatch Logs to end the suppression. To do this, use this operation and specify the anomaly or pattern to  stop suppressing, and omit the suppressionType and suppressionPeriod parameters.
     ///
     /// Parameters:
     ///   - anomalyDetectorArn: The ARN of the anomaly detector that this operation is to act on.
     ///   - anomalyId: If you are suppressing or unsuppressing an anomaly, specify its unique ID here. You can find anomaly IDs by using the ListAnomalies operation.
+    ///   - baseline: Set this to true to prevent CloudWatch Logs from displaying this behavior as an anomaly in the future. The behavior is then treated as  baseline behavior. However, if similar but  more severe occurrences of this behavior occur in the future, those will still be reported as anomalies.  The default is false
     ///   - patternId: If you are suppressing or unsuppressing an pattern, specify its unique ID here. You can find pattern IDs by using the ListAnomalies operation.
     ///   - suppressionPeriod: If you are temporarily suppressing an anomaly or pattern, use this structure to specify how long the suppression is to last.
     ///   - suppressionType: Use this to specify whether the suppression to be temporary or infinite. If you specify LIMITED, you must also specify a suppressionPeriod. If you specify INFINITE, any value for suppressionPeriod is ignored.
@@ -2706,6 +2707,7 @@ public struct CloudWatchLogs: AWSService {
     public func updateAnomaly(
         anomalyDetectorArn: String,
         anomalyId: String? = nil,
+        baseline: Bool? = nil,
         patternId: String? = nil,
         suppressionPeriod: SuppressionPeriod? = nil,
         suppressionType: SuppressionType? = nil,
@@ -2714,6 +2716,7 @@ public struct CloudWatchLogs: AWSService {
         let input = UpdateAnomalyRequest(
             anomalyDetectorArn: anomalyDetectorArn, 
             anomalyId: anomalyId, 
+            baseline: baseline, 
             patternId: patternId, 
             suppressionPeriod: suppressionPeriod, 
             suppressionType: suppressionType
@@ -2739,8 +2742,8 @@ public struct CloudWatchLogs: AWSService {
     /// Parameters:
     ///   - fieldDelimiter: The field delimiter to use between record fields when the final output format of a delivery is in Plain, W3C, or Raw format.
     ///   - id: The ID of the delivery to be updated by this request.
-    ///   - recordFields: The list of record fields to be delivered to the destination, in order.  If the delivery’s log source has mandatory fields, they must be included in this list.
-    ///   - s3DeliveryConfiguration: This structure contains parameters that are valid only when the delivery’s delivery destination is an S3 bucket.
+    ///   - recordFields: The list of record fields to be delivered to the destination, in order.  If the delivery's log source has mandatory fields, they must be included in this list.
+    ///   - s3DeliveryConfiguration: This structure contains parameters that are valid only when the delivery's delivery destination is an S3 bucket.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDeliveryConfiguration(

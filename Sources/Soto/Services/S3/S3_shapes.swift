@@ -5518,7 +5518,7 @@ extension S3 {
     public struct ListBucketsRequest: AWSEncodableShape {
         /// Limits the response to buckets that are located in the specified Amazon Web Services Region. The Amazon Web Services Region must be expressed according to the Amazon Web Services Region code, such as us-west-2 for the US West (Oregon) Region. For a list of the valid values for all of the Amazon Web Services Regions, see Regions and Endpoints.  Requests made to a Regional endpoint that is different from the bucket-region parameter are not supported. For example, if you want to limit the response to your buckets in Region us-west-2, the request must be made to an endpoint in Region us-west-2.
         public let bucketRegion: String?
-        ///  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.   Length Constraints: Minimum length of 0. Maximum length of 1024. Required: No.
+        ///  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.   Length Constraints: Minimum length of 0. Maximum length of 1024. Required: No.  If you specify the bucket-region, prefix, or continuation-token  query parameters without using max-buckets to set the maximum number of buckets returned in the response,  Amazon S3 applies a default page size of 10,000 and provides a continuation token if there are more buckets.
         public let continuationToken: String?
         /// Maximum number of buckets to be returned in response. When the number is more than the count of buckets that are owned by an Amazon Web Services account, return all the buckets in response.
         public let maxBuckets: Int?
@@ -5543,7 +5543,7 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxBuckets, name: "maxBuckets", parent: name, max: 1000)
+            try self.validate(self.maxBuckets, name: "maxBuckets", parent: name, max: 10000)
             try self.validate(self.maxBuckets, name: "maxBuckets", parent: name, min: 1)
         }
 

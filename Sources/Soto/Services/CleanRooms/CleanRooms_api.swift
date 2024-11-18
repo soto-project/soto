@@ -247,8 +247,10 @@ public struct CleanRooms: AWSService {
     /// Creates a new collaboration.
     ///
     /// Parameters:
+    ///   - analyticsEngine:  The analytics engine.
     ///   - creatorDisplayName: The display name of the collaboration creator.
     ///   - creatorMemberAbilities: The abilities granted to the collaboration creator.
+    ///   - creatorMLMemberAbilities: The ML abilities granted to the collaboration creator. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
     ///   - creatorPaymentConfiguration: The collaboration creator's payment responsibilities set by the collaboration creator.  If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer.
     ///   - dataEncryptionMetadata: The settings for client-side encryption with Cryptographic Computing for Clean Rooms.
     ///   - description: A description of the collaboration provided by the collaboration owner.
@@ -259,8 +261,10 @@ public struct CleanRooms: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createCollaboration(
+        analyticsEngine: AnalyticsEngine? = nil,
         creatorDisplayName: String,
         creatorMemberAbilities: [MemberAbility],
+        creatorMLMemberAbilities: MLMemberAbilities? = nil,
         creatorPaymentConfiguration: PaymentConfiguration? = nil,
         dataEncryptionMetadata: DataEncryptionMetadata? = nil,
         description: String,
@@ -271,8 +275,10 @@ public struct CleanRooms: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCollaborationOutput {
         let input = CreateCollaborationInput(
+            analyticsEngine: analyticsEngine, 
             creatorDisplayName: creatorDisplayName, 
             creatorMemberAbilities: creatorMemberAbilities, 
+            creatorMLMemberAbilities: creatorMLMemberAbilities, 
             creatorPaymentConfiguration: creatorPaymentConfiguration, 
             dataEncryptionMetadata: dataEncryptionMetadata, 
             description: description, 
@@ -1626,9 +1632,9 @@ public struct CleanRooms: AWSService {
     /// Lists analysis templates that the caller owns.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - membershipIdentifier: The identifier for a membership resource.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listAnalysisTemplates(
@@ -1662,8 +1668,8 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
-    ///   - maxResults: The maximum size of the results that is returned per call.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCollaborationAnalysisTemplates(
@@ -1697,8 +1703,8 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
-    ///   - maxResults: The maximum size of the results that is returned per call.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCollaborationConfiguredAudienceModelAssociations(
@@ -1767,8 +1773,8 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: A unique identifier for one of your collaborations.
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCollaborationPrivacyBudgetTemplates(
@@ -1802,8 +1808,8 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: A unique identifier for one of your collaborations.
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - privacyBudgetType: Specifies the type of the privacy budget.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1839,9 +1845,9 @@ public struct CleanRooms: AWSService {
     /// Lists collaborations the caller owns, is active in, or has been invited to.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - memberStatus: The caller's status in a collaboration.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCollaborations(
@@ -1874,9 +1880,9 @@ public struct CleanRooms: AWSService {
     /// Lists information about requested configured audience model associations.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - membershipIdentifier: A unique identifier for a membership that contains the configured audience model associations that you want to retrieve.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listConfiguredAudienceModelAssociations(
@@ -1909,9 +1915,9 @@ public struct CleanRooms: AWSService {
     /// Lists configured table associations for a membership.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - membershipIdentifier: A unique identifier for the membership to list configured table associations for. Currently accepts the membership ID.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listConfiguredTableAssociations(
@@ -1944,8 +1950,8 @@ public struct CleanRooms: AWSService {
     /// Lists configured tables.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listConfiguredTables(
@@ -2047,8 +2053,8 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: The identifier of the collaboration in which the members are listed.
-    ///   - maxResults: The maximum size of the results that is returned per call.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listMembers(
@@ -2081,8 +2087,8 @@ public struct CleanRooms: AWSService {
     /// Lists all memberships resources within the caller's account.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - status: A filter which will return only memberships in the specified status.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2116,9 +2122,9 @@ public struct CleanRooms: AWSService {
     /// Returns detailed information about the privacy budget templates in a specified membership.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget templates are retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPrivacyBudgetTemplates(
@@ -2151,9 +2157,9 @@ public struct CleanRooms: AWSService {
     /// Returns detailed information about the privacy budgets in a specified membership.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - privacyBudgetType: The privacy budget type.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2189,9 +2195,9 @@ public struct CleanRooms: AWSService {
     /// Lists protected queries, sorted by the most recent query.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service can return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the  `maxResults` value has not been met.
     ///   - membershipIdentifier: The identifier for the membership in the collaboration.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - status: A filter on the status of the protected query.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2228,9 +2234,9 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
-    ///   - maxResults: The maximum size of the results that is returned per call.
-    ///   - nextToken: The token value retrieved from a previous call to access the next page of results.
-    ///   - schemaType: If present, filter schemas by schema type. The only valid schema type is currently `TABLE`.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
+    ///   - schemaType: If present, filter schemas by schema type.
     ///   - logger: Logger use during operation
     @inlinable
     public func listSchemas(
@@ -2358,6 +2364,7 @@ public struct CleanRooms: AWSService {
     /// Creates a protected query that is started by Clean Rooms.
     ///
     /// Parameters:
+    ///   - computeConfiguration:  The compute configuration for the protected query.
     ///   - membershipIdentifier: A unique identifier for the membership to run this query against. Currently accepts a membership ID.
     ///   - resultConfiguration: The details needed to write the query results.
     ///   - sqlParameters: The protected SQL query parameters.
@@ -2365,6 +2372,7 @@ public struct CleanRooms: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func startProtectedQuery(
+        computeConfiguration: ComputeConfiguration? = nil,
         membershipIdentifier: String,
         resultConfiguration: ProtectedQueryResultConfiguration? = nil,
         sqlParameters: ProtectedQuerySQLParameters,
@@ -2372,6 +2380,7 @@ public struct CleanRooms: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartProtectedQueryOutput {
         let input = StartProtectedQueryInput(
+            computeConfiguration: computeConfiguration, 
             membershipIdentifier: membershipIdentifier, 
             resultConfiguration: resultConfiguration, 
             sqlParameters: sqlParameters, 
@@ -2921,7 +2930,7 @@ extension CleanRooms {
     ///
     /// - Parameters:
     ///   - collaborationIdentifier: A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
-    ///   - maxResults: The maximum size of the results that is returned per call.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - logger: Logger used for logging
     @inlinable
     public func listCollaborationConfiguredAudienceModelAssociationsPaginator(
@@ -2995,7 +3004,7 @@ extension CleanRooms {
     ///
     /// - Parameters:
     ///   - collaborationIdentifier: A unique identifier for one of your collaborations.
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - logger: Logger used for logging
     @inlinable
     public func listCollaborationPrivacyBudgetTemplatesPaginator(
@@ -3032,7 +3041,7 @@ extension CleanRooms {
     ///
     /// - Parameters:
     ///   - collaborationIdentifier: A unique identifier for one of your collaborations.
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - privacyBudgetType: Specifies the type of the privacy budget.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3071,7 +3080,7 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listConfiguredAudienceModelAssociations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - membershipIdentifier: A unique identifier for a membership that contains the configured audience model associations that you want to retrieve.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3182,7 +3191,7 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listPrivacyBudgetTemplates(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget templates are retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3219,7 +3228,7 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listPrivacyBudgets(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     ///   - privacyBudgetType: The privacy budget type.
     ///   - logger: Logger used for logging
@@ -3259,7 +3268,7 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listProtectedQueries(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service can return a nextToken even if the maximum results has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the  `maxResults` value has not been met.
     ///   - membershipIdentifier: The identifier for the membership in the collaboration.
     ///   - status: A filter on the status of the protected query.
     ///   - logger: Logger used for logging

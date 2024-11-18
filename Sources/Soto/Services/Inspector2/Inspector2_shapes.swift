@@ -499,6 +499,7 @@ extension Inspector2 {
         case bundler = "BUNDLER"
         case cargo = "CARGO"
         case composer = "COMPOSER"
+        case dotnetCore = "DOTNET_CORE"
         case gemspec = "GEMSPEC"
         case gobinary = "GOBINARY"
         case gomod = "GOMOD"
@@ -597,6 +598,9 @@ extension Inspector2 {
     }
 
     public enum Runtime: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dotnetcore31 = "DOTNETCORE_3_1"
+        case dotnet6 = "DOTNET_6"
+        case dotnet7 = "DOTNET_7"
         case go1X = "GO_1_X"
         case java11 = "JAVA_11"
         case java17 = "JAVA_17"
@@ -608,9 +612,12 @@ extension Inspector2 {
         case nodejs16X = "NODEJS_16_X"
         case nodejs18X = "NODEJS_18_X"
         case python310 = "PYTHON_3_10"
+        case python311 = "PYTHON_3_11"
         case python37 = "PYTHON_3_7"
         case python38 = "PYTHON_3_8"
         case python39 = "PYTHON_3_9"
+        case ruby27 = "RUBY_2_7"
+        case ruby32 = "RUBY_3_2"
         case unsupported = "UNSUPPORTED"
         public var description: String { return self.rawValue }
     }
@@ -2650,7 +2657,7 @@ extension Inspector2 {
         public let resourceId: [CoverageStringFilter]?
         /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE,  AWS_ECR_REPOSITORY or AWS_ACCOUNT.
         public let resourceType: [CoverageStringFilter]?
-        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED and EC2_HYBRID.
+        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED and EC2_AGENTLESS.
         public let scanMode: [CoverageStringFilter]?
         /// The scan status code to filter on. Valid values are: ValidationException, InternalServerException, ResourceNotFoundException, BadRequestException, and ThrottlingException.
         public let scanStatusCode: [CoverageStringFilter]?
@@ -3060,6 +3067,7 @@ extension Inspector2 {
         public let reportFormat: SbomReportFormat
         /// The resource filter criteria for the software bill of materials (SBOM) report.
         public let resourceFilterCriteria: ResourceFilterCriteria?
+        /// Contains details of the Amazon S3 bucket and KMS key used to export findings.
         public let s3Destination: Destination
 
         @inlinable
@@ -4502,6 +4510,7 @@ extension Inspector2 {
     }
 
     public struct FindingDetail: AWSDecodableShape {
+        /// The Cybersecurity and Infrastructure Security Agency (CISA) details for a specific vulnerability.
         public let cisaData: CisaData?
         /// The Common Weakness Enumerations (CWEs) associated with the vulnerability.
         public let cwes: [String]?
@@ -4509,6 +4518,7 @@ extension Inspector2 {
         public let epssScore: Double?
         /// Information on the evidence of the vulnerability.
         public let evidences: [Evidence]?
+        /// Contains information on when this exploit was observed.
         public let exploitObserved: ExploitObserved?
         /// The finding ARN that the vulnerability details are associated with.
         public let findingArn: String?
@@ -5034,6 +5044,7 @@ extension Inspector2 {
         public let format: SbomReportFormat?
         /// The report ID of the software bill of materials (SBOM) report.
         public let reportId: String?
+        /// Contains details of the Amazon S3 bucket and KMS key used to export findings
         public let s3Destination: Destination?
         /// The status of the software bill of materials (SBOM) report.
         public let status: ExternalReportStatus?
@@ -5222,6 +5233,7 @@ extension Inspector2 {
         public let resourceId: String
         /// The runtimes included in the aggregation results.
         public let runtime: String?
+        /// An object that contains the counts of aggregated finding per severity.
         public let severityCounts: SeverityCounts?
 
         @inlinable
@@ -5329,6 +5341,7 @@ extension Inspector2 {
         public let layerArn: String
         /// The Resource ID of the Amazon Web Services Lambda function layer.
         public let resourceId: String
+        /// An object that contains the counts of aggregated finding per severity.
         public let severityCounts: SeverityCounts?
 
         @inlinable
@@ -6439,10 +6452,13 @@ extension Inspector2 {
         public let architecture: StringFilter?
         /// An object that contains details on the package epoch to filter on.
         public let epoch: NumberFilter?
+        /// An object that contains details on the package file path to filter on.
+        public let filePath: StringFilter?
         /// An object that contains details on the name of the package to filter on.
         public let name: StringFilter?
         /// An object that contains details on the package release to filter on.
         public let release: StringFilter?
+        /// An object that describes the details of a string filter.
         public let sourceLambdaLayerArn: StringFilter?
         /// An object that contains details on the source layer hash to filter on.
         public let sourceLayerHash: StringFilter?
@@ -6450,9 +6466,10 @@ extension Inspector2 {
         public let version: StringFilter?
 
         @inlinable
-        public init(architecture: StringFilter? = nil, epoch: NumberFilter? = nil, name: StringFilter? = nil, release: StringFilter? = nil, sourceLambdaLayerArn: StringFilter? = nil, sourceLayerHash: StringFilter? = nil, version: StringFilter? = nil) {
+        public init(architecture: StringFilter? = nil, epoch: NumberFilter? = nil, filePath: StringFilter? = nil, name: StringFilter? = nil, release: StringFilter? = nil, sourceLambdaLayerArn: StringFilter? = nil, sourceLayerHash: StringFilter? = nil, version: StringFilter? = nil) {
             self.architecture = architecture
             self.epoch = epoch
+            self.filePath = filePath
             self.name = name
             self.release = release
             self.sourceLambdaLayerArn = sourceLambdaLayerArn
@@ -6462,6 +6479,7 @@ extension Inspector2 {
 
         public func validate(name: String) throws {
             try self.architecture?.validate(name: "\(name).architecture")
+            try self.filePath?.validate(name: "\(name).filePath")
             try self.name?.validate(name: "\(name).name")
             try self.release?.validate(name: "\(name).release")
             try self.sourceLambdaLayerArn?.validate(name: "\(name).sourceLambdaLayerArn")
@@ -6472,6 +6490,7 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case architecture = "architecture"
             case epoch = "epoch"
+            case filePath = "filePath"
             case name = "name"
             case release = "release"
             case sourceLambdaLayerArn = "sourceLambdaLayerArn"
@@ -6900,7 +6919,9 @@ extension Inspector2 {
         public let ec2: State
         /// An object detailing the state of Amazon Inspector scanning for Amazon ECR resources.
         public let ecr: State
+        /// An object that described the state of Amazon Inspector scans for an account.
         public let lambda: State?
+        /// An object that described the state of Amazon Inspector scans for an account.
         public let lambdaCode: State?
 
         @inlinable
@@ -8179,7 +8200,7 @@ public struct Inspector2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have sufficient access to perform this action.  For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// One or more tags submitted as part of the request is not valid.
     public static var badRequestException: Self { .init(.badRequestException) }

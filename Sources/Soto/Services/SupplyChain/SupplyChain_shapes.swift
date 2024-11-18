@@ -1120,6 +1120,8 @@ extension SupplyChain {
         public let awsAccountId: String
         /// The instance creation timestamp.
         public let createdTime: Date?
+        /// The Amazon Web Services Supply Chain instance error message. If the instance results in an unhealthy state, customers need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
+        public let errorMessage: String?
         /// The Amazon Web Services Supply Chain instance description.
         public let instanceDescription: String?
         /// The Amazon Web Services Supply Chain instance identifier.
@@ -1138,9 +1140,10 @@ extension SupplyChain {
         public let webAppDnsDomain: String?
 
         @inlinable
-        public init(awsAccountId: String, createdTime: Date? = nil, instanceDescription: String? = nil, instanceId: String, instanceName: String? = nil, kmsKeyArn: String? = nil, lastModifiedTime: Date? = nil, state: InstanceState, versionNumber: Double? = nil, webAppDnsDomain: String? = nil) {
+        public init(awsAccountId: String, createdTime: Date? = nil, errorMessage: String? = nil, instanceDescription: String? = nil, instanceId: String, instanceName: String? = nil, kmsKeyArn: String? = nil, lastModifiedTime: Date? = nil, state: InstanceState, versionNumber: Double? = nil, webAppDnsDomain: String? = nil) {
             self.awsAccountId = awsAccountId
             self.createdTime = createdTime
+            self.errorMessage = errorMessage
             self.instanceDescription = instanceDescription
             self.instanceId = instanceId
             self.instanceName = instanceName
@@ -1154,6 +1157,7 @@ extension SupplyChain {
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "awsAccountId"
             case createdTime = "createdTime"
+            case errorMessage = "errorMessage"
             case instanceDescription = "instanceDescription"
             case instanceId = "instanceId"
             case instanceName = "instanceName"

@@ -142,7 +142,7 @@ public struct BedrockAgent: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
     ///   - customerEncryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
     ///   - description: A description of the agent.
-    ///   - foundationModel: The Amazon Resource Name (ARN) of the foundation model to be used for orchestration by the agent you create.
+    ///   - foundationModel: The identifier for the model that you want to be used for orchestration by the agent you create. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
     ///   - guardrailConfiguration: The unique Guardrail configuration assigned to the agent when it is created.
     ///   - idleSessionTTLInSeconds: The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
     ///   - instruction: Instructions that tell the agent what it should do and how it should interact with users.
@@ -1243,7 +1243,7 @@ public struct BedrockAgent: AWSService {
         return try await self.getFlowVersion(input, logger: logger)
     }
 
-    /// Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Lanaguage Models (LLMs) can use your data.
+    /// Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
     @Sendable
     @inlinable
     public func getIngestionJob(_ input: GetIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIngestionJobResponse {
@@ -1256,7 +1256,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Lanaguage Models (LLMs) can use your data.
+    /// Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
     ///
     /// Parameters:
     ///   - dataSourceId: The unique identifier of the data source for the data ingestion job you want to get information on.
@@ -2010,7 +2010,7 @@ public struct BedrockAgent: AWSService {
     ///   - agentResourceRoleArn: The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.
     ///   - customerEncryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
     ///   - description: Specifies a new description of the agent.
-    ///   - foundationModel: Specifies a new foundation model to be used for orchestration by the agent.
+    ///   - foundationModel: The identifier for the model that you want to be used for orchestration by the agent you create. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
     ///   - guardrailConfiguration: The unique Guardrail configuration assigned to the agent when it is updated.
     ///   - idleSessionTTLInSeconds: The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
     ///   - instruction: Specifies new instructions that tell the agent what it should do and how it should interact with users.
@@ -2407,6 +2407,35 @@ public struct BedrockAgent: AWSService {
             variants: variants
         )
         return try await self.updatePrompt(input, logger: logger)
+    }
+
+    /// Validates the definition of a flow.
+    @Sendable
+    @inlinable
+    public func validateFlowDefinition(_ input: ValidateFlowDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidateFlowDefinitionResponse {
+        try await self.client.execute(
+            operation: "ValidateFlowDefinition", 
+            path: "/flows/validate-definition", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Validates the definition of a flow.
+    ///
+    /// Parameters:
+    ///   - definition: The definition of a flow to validate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func validateFlowDefinition(
+        definition: FlowDefinition,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ValidateFlowDefinitionResponse {
+        let input = ValidateFlowDefinitionRequest(
+            definition: definition
+        )
+        return try await self.validateFlowDefinition(input, logger: logger)
     }
 }
 

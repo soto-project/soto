@@ -453,6 +453,7 @@ public struct IoTWireless: AWSService {
     /// Parameters:
     ///   - clientRequestToken: 
     ///   - description: 
+    ///   - descriptor: 
     ///   - firmwareUpdateImage: 
     ///   - firmwareUpdateRole: 
     ///   - fragmentIntervalMS: 
@@ -466,6 +467,7 @@ public struct IoTWireless: AWSService {
     public func createFuotaTask(
         clientRequestToken: String? = CreateFuotaTaskRequest.idempotencyToken(),
         description: String? = nil,
+        descriptor: String? = nil,
         firmwareUpdateImage: String,
         firmwareUpdateRole: String,
         fragmentIntervalMS: Int? = nil,
@@ -479,6 +481,7 @@ public struct IoTWireless: AWSService {
         let input = CreateFuotaTaskRequest(
             clientRequestToken: clientRequestToken, 
             description: description, 
+            descriptor: descriptor, 
             firmwareUpdateImage: firmwareUpdateImage, 
             firmwareUpdateRole: firmwareUpdateRole, 
             fragmentIntervalMS: fragmentIntervalMS, 
@@ -1845,7 +1848,7 @@ public struct IoTWireless: AWSService {
         return try await self.getResourceEventConfiguration(input, logger: logger)
     }
 
-    /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
+    /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device, wireless gateway or fuota task.
     @Sendable
     @inlinable
     public func getResourceLogLevel(_ input: GetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceLogLevelResponse {
@@ -1858,11 +1861,11 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
+    /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device, wireless gateway or fuota task.
     ///
     /// Parameters:
     ///   - resourceIdentifier: 
-    ///   - resourceType: The type of the resource, which can be WirelessDevice or WirelessGateway.
+    ///   - resourceType: The type of the resource, which can be WirelessDevice, WirelessGateway or FuotaTask.
     ///   - logger: Logger use during operation
     @inlinable
     public func getResourceLogLevel(
@@ -2880,7 +2883,7 @@ public struct IoTWireless: AWSService {
     /// Parameters:
     ///   - logLevel: 
     ///   - resourceIdentifier: 
-    ///   - resourceType: The type of the resource, which can be WirelessDevice or WirelessGateway.
+    ///   - resourceType: The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     ///   - logger: Logger use during operation
     @inlinable
     public func putResourceLogLevel(
@@ -2897,7 +2900,7 @@ public struct IoTWireless: AWSService {
         return try await self.putResourceLogLevel(input, logger: logger)
     }
 
-    /// Removes the log-level overrides for all resources; both wireless devices and wireless gateways.
+    /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and fuota tasks.
     @Sendable
     @inlinable
     public func resetAllResourceLogLevels(_ input: ResetAllResourceLogLevelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetAllResourceLogLevelsResponse {
@@ -2910,7 +2913,7 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Removes the log-level overrides for all resources; both wireless devices and wireless gateways.
+    /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and fuota tasks.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -2923,7 +2926,7 @@ public struct IoTWireless: AWSService {
         return try await self.resetAllResourceLogLevels(input, logger: logger)
     }
 
-    /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
+    /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device, a wireless gateway, or a fuota task.
     @Sendable
     @inlinable
     public func resetResourceLogLevel(_ input: ResetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetResourceLogLevelResponse {
@@ -2936,11 +2939,11 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
+    /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device, a wireless gateway, or a fuota task.
     ///
     /// Parameters:
     ///   - resourceIdentifier: 
-    ///   - resourceType: The type of the resource, which can be WirelessDevice or WirelessGateway.
+    ///   - resourceType: The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     ///   - logger: Logger use during operation
     @inlinable
     public func resetResourceLogLevel(
@@ -3433,6 +3436,7 @@ public struct IoTWireless: AWSService {
     ///
     /// Parameters:
     ///   - description: 
+    ///   - descriptor: 
     ///   - firmwareUpdateImage: 
     ///   - firmwareUpdateRole: 
     ///   - fragmentIntervalMS: 
@@ -3445,6 +3449,7 @@ public struct IoTWireless: AWSService {
     @inlinable
     public func updateFuotaTask(
         description: String? = nil,
+        descriptor: String? = nil,
         firmwareUpdateImage: String? = nil,
         firmwareUpdateRole: String? = nil,
         fragmentIntervalMS: Int? = nil,
@@ -3457,6 +3462,7 @@ public struct IoTWireless: AWSService {
     ) async throws -> UpdateFuotaTaskResponse {
         let input = UpdateFuotaTaskRequest(
             description: description, 
+            descriptor: descriptor, 
             firmwareUpdateImage: firmwareUpdateImage, 
             firmwareUpdateRole: firmwareUpdateRole, 
             fragmentIntervalMS: fragmentIntervalMS, 
@@ -3486,18 +3492,21 @@ public struct IoTWireless: AWSService {
     ///
     /// Parameters:
     ///   - defaultLogLevel: 
+    ///   - fuotaTaskLogOptions: 
     ///   - wirelessDeviceLogOptions: 
     ///   - wirelessGatewayLogOptions: 
     ///   - logger: Logger use during operation
     @inlinable
     public func updateLogLevelsByResourceTypes(
         defaultLogLevel: LogLevel? = nil,
+        fuotaTaskLogOptions: [FuotaTaskLogOption]? = nil,
         wirelessDeviceLogOptions: [WirelessDeviceLogOption]? = nil,
         wirelessGatewayLogOptions: [WirelessGatewayLogOption]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateLogLevelsByResourceTypesResponse {
         let input = UpdateLogLevelsByResourceTypesRequest(
             defaultLogLevel: defaultLogLevel, 
+            fuotaTaskLogOptions: fuotaTaskLogOptions, 
             wirelessDeviceLogOptions: wirelessDeviceLogOptions, 
             wirelessGatewayLogOptions: wirelessGatewayLogOptions
         )

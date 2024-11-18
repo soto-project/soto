@@ -67,6 +67,7 @@ public struct CloudHSMV2: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-04-28",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: CloudHSMV2ErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -78,6 +79,39 @@ public struct CloudHSMV2: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "cloudhsmv2.af-south-1.api.aws",
+            "ap-east-1": "cloudhsmv2.ap-east-1.api.aws",
+            "ap-northeast-1": "cloudhsmv2.ap-northeast-1.api.aws",
+            "ap-northeast-2": "cloudhsmv2.ap-northeast-2.api.aws",
+            "ap-northeast-3": "cloudhsmv2.ap-northeast-3.api.aws",
+            "ap-south-1": "cloudhsmv2.ap-south-1.api.aws",
+            "ap-south-2": "cloudhsmv2.ap-south-2.api.aws",
+            "ap-southeast-1": "cloudhsmv2.ap-southeast-1.api.aws",
+            "ap-southeast-2": "cloudhsmv2.ap-southeast-2.api.aws",
+            "ap-southeast-3": "cloudhsmv2.ap-southeast-3.api.aws",
+            "ca-central-1": "cloudhsmv2.ca-central-1.api.aws",
+            "eu-central-1": "cloudhsmv2.eu-central-1.api.aws",
+            "eu-central-2": "cloudhsmv2.eu-central-2.api.aws",
+            "eu-north-1": "cloudhsmv2.eu-north-1.api.aws",
+            "eu-south-1": "cloudhsmv2.eu-south-1.api.aws",
+            "eu-west-1": "cloudhsmv2.eu-west-1.api.aws",
+            "eu-west-2": "cloudhsmv2.eu-west-2.api.aws",
+            "eu-west-3": "cloudhsmv2.eu-west-3.api.aws",
+            "il-central-1": "cloudhsmv2.il-central-1.api.aws",
+            "me-central-1": "cloudhsmv2.me-central-1.api.aws",
+            "me-south-1": "cloudhsmv2.me-south-1.api.aws",
+            "sa-east-1": "cloudhsmv2.sa-east-1.api.aws",
+            "us-east-1": "cloudhsmv2.us-east-1.api.aws",
+            "us-east-2": "cloudhsmv2.us-east-2.api.aws",
+            "us-gov-east-1": "cloudhsmv2.us-gov-east-1.api.aws",
+            "us-gov-west-1": "cloudhsmv2.us-gov-west-1.api.aws",
+            "us-west-1": "cloudhsmv2.us-west-1.api.aws",
+            "us-west-2": "cloudhsmv2.us-west-2.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 

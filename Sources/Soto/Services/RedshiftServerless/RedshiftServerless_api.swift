@@ -84,6 +84,8 @@ public struct RedshiftServerless: AWSService {
             "ca-central-1": "redshift-serverless-fips.ca-central-1.amazonaws.com",
             "us-east-1": "redshift-serverless-fips.us-east-1.amazonaws.com",
             "us-east-2": "redshift-serverless-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "redshift-serverless-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "redshift-serverless-fips.us-gov-west-1.amazonaws.com",
             "us-west-1": "redshift-serverless-fips.us-west-1.amazonaws.com",
             "us-west-2": "redshift-serverless-fips.us-west-2.amazonaws.com"
         ])
@@ -460,6 +462,7 @@ public struct RedshiftServerless: AWSService {
     ///   - maxCapacity: The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
     ///   - namespaceName: The name of the namespace to associate with the workgroup.
     ///   - port: The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
+    ///   - pricePerformanceTarget: An object that represents the price performance target settings for the workgroup.
     ///   - publiclyAccessible: A value that specifies whether the workgroup can be accessed from a public network.
     ///   - securityGroupIds: An array of security group IDs to associate with the workgroup.
     ///   - subnetIds: An array of VPC subnet IDs to associate with the workgroup.
@@ -475,6 +478,7 @@ public struct RedshiftServerless: AWSService {
         maxCapacity: Int? = nil,
         namespaceName: String,
         port: Int? = nil,
+        pricePerformanceTarget: PerformanceTarget? = nil,
         publiclyAccessible: Bool? = nil,
         securityGroupIds: [String]? = nil,
         subnetIds: [String]? = nil,
@@ -490,6 +494,7 @@ public struct RedshiftServerless: AWSService {
             maxCapacity: maxCapacity, 
             namespaceName: namespaceName, 
             port: port, 
+            pricePerformanceTarget: pricePerformanceTarget, 
             publiclyAccessible: publiclyAccessible, 
             securityGroupIds: securityGroupIds, 
             subnetIds: subnetIds, 
@@ -2099,6 +2104,7 @@ public struct RedshiftServerless: AWSService {
     ///   - ipAddressType: The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
     ///   - maxCapacity: The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
     ///   - port: The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
+    ///   - pricePerformanceTarget: An object that represents the price performance target settings for the workgroup.
     ///   - publiclyAccessible: A value that specifies whether the workgroup can be accessible from a public network.
     ///   - securityGroupIds: An array of security group IDs to associate with the workgroup.
     ///   - subnetIds: An array of VPC subnet IDs to associate with the workgroup.
@@ -2112,6 +2118,7 @@ public struct RedshiftServerless: AWSService {
         ipAddressType: String? = nil,
         maxCapacity: Int? = nil,
         port: Int? = nil,
+        pricePerformanceTarget: PerformanceTarget? = nil,
         publiclyAccessible: Bool? = nil,
         securityGroupIds: [String]? = nil,
         subnetIds: [String]? = nil,
@@ -2125,6 +2132,7 @@ public struct RedshiftServerless: AWSService {
             ipAddressType: ipAddressType, 
             maxCapacity: maxCapacity, 
             port: port, 
+            pricePerformanceTarget: pricePerformanceTarget, 
             publiclyAccessible: publiclyAccessible, 
             securityGroupIds: securityGroupIds, 
             subnetIds: subnetIds, 

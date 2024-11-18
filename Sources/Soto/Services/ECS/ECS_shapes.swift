@@ -337,6 +337,26 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceDeploymentRollbackMonitorsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case monitoring = "MONITORING"
+        case monitoringComplete = "MONITORING_COMPLETE"
+        case triggered = "TRIGGERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceDeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        case rollbackFailed = "ROLLBACK_FAILED"
+        case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
+        case rollbackSuccessful = "ROLLBACK_SUCCESSFUL"
+        case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
+        case successful = "SUCCESSFUL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tags = "TAGS"
         public var description: String { return self.rawValue }
@@ -410,6 +430,7 @@ extension ECS {
     public enum TaskFilesystemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ext3 = "ext3"
         case ext4 = "ext4"
+        case ntfs = "ntfs"
         case xfs = "xfs"
         public var description: String { return self.rawValue }
     }
@@ -1474,6 +1495,28 @@ extension ECS {
         }
     }
 
+    public struct ContainerImage: AWSDecodableShape {
+        /// The name of the container.
+        public let containerName: String?
+        /// The container image.
+        public let image: String?
+        /// The container image digest.
+        public let imageDigest: String?
+
+        @inlinable
+        public init(containerName: String? = nil, image: String? = nil, imageDigest: String? = nil) {
+            self.containerName = containerName
+            self.image = image
+            self.imageDigest = imageDigest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "containerName"
+            case image = "image"
+            case imageDigest = "imageDigest"
+        }
+    }
+
     public struct ContainerInstance: AWSDecodableShape {
         /// This parameter returns true if the agent is connected to Amazon ECS. An
         /// 			instance with an agent that may be unhealthy or stopped return false. Only
@@ -1891,8 +1934,8 @@ extension ECS {
         /// The short name or full Amazon Resource Name (ARN) of the cluster that you run your service on.
         /// 			If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
-        /// Optional deployment parameters that control how many tasks run during the deployment
-        /// 			and the ordering of stopping and starting tasks.
+        /// Optional deployment parameters that control how many tasks run during the deployment and the
+        /// 			failure detection methods.
         public let deploymentConfiguration: DeploymentConfiguration?
         /// The deployment controller to use for the service. If no deployment controller is
         /// 			specified, the default value of ECS is used.
@@ -1917,8 +1960,8 @@ extension ECS {
         /// 			defined and you don't specify a health check grace period value, the default value of
         /// 				0 is used. If you do not use an Elastic Load Balancing, we recommend that you use the startPeriod in
         /// 			the task definition health check parameters. For more information, see Health
-        /// 				check. If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you
-        /// 			can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years).
+        /// 				check. If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can
+        /// 			specify a health check grace period of up to 2,147,483,647 seconds (about 69 years).
         /// 			During that time, the Amazon ECS service scheduler ignores health check status. This grace
         /// 			period can prevent the service scheduler from marking tasks as unhealthy and stopping
         /// 			them before they have time to come up.
@@ -2258,6 +2301,26 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case taskSet = "taskSet"
+        }
+    }
+
+    public struct CreatedAt: AWSEncodableShape {
+        /// Include service deployments in the result that were created after this time. The format is yyyy-MM-dd
+        /// 			HH:mm:ss.SSSSSS.
+        public let after: Date?
+        /// Include service deployments in the result that were created before this time. The format is yyyy-MM-dd
+        /// 			HH:mm:ss.SSSSSS.
+        public let before: Date?
+
+        @inlinable
+        public init(after: Date? = nil, before: Date? = nil) {
+            self.after = after
+            self.before = before
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case after = "after"
+            case before = "before"
         }
     }
 
@@ -2792,7 +2855,7 @@ extension ECS {
     }
 
     public struct DeploymentEphemeralStorage: AWSDecodableShape {
-        /// Specify an Key Management Service key ID to encrypt the ephemeral storage for
+        /// Specify an Amazon Web Services Key Management Service key ID to encrypt the ephemeral storage for
         /// 			deployment.
         public let kmsKeyId: String?
 
@@ -3037,6 +3100,73 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case containerInstances = "containerInstances"
             case failures = "failures"
+        }
+    }
+
+    public struct DescribeServiceDeploymentsRequest: AWSEncodableShape {
+        /// The ARN of the service deployment. You can specify a maximum of 20 ARNs.
+        public let serviceDeploymentArns: [String]
+
+        @inlinable
+        public init(serviceDeploymentArns: [String]) {
+            self.serviceDeploymentArns = serviceDeploymentArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceDeploymentArns = "serviceDeploymentArns"
+        }
+    }
+
+    public struct DescribeServiceDeploymentsResponse: AWSDecodableShape {
+        /// Any failures associated with the call. If you decsribe a deployment with a service revision created before October 25, 2024, the
+        /// 			call fails. The failure includes the service revision ARN and the reason set to
+        /// 				MISSING.
+        public let failures: [Failure]?
+        /// The list of service deployments described.
+        public let serviceDeployments: [ServiceDeployment]?
+
+        @inlinable
+        public init(failures: [Failure]? = nil, serviceDeployments: [ServiceDeployment]? = nil) {
+            self.failures = failures
+            self.serviceDeployments = serviceDeployments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "failures"
+            case serviceDeployments = "serviceDeployments"
+        }
+    }
+
+    public struct DescribeServiceRevisionsRequest: AWSEncodableShape {
+        /// The ARN of the service revision.  You can specify a maximum of 20 ARNs. You can call ListServiceDeployments to
+        /// 			get the ARNs.
+        public let serviceRevisionArns: [String]
+
+        @inlinable
+        public init(serviceRevisionArns: [String]) {
+            self.serviceRevisionArns = serviceRevisionArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceRevisionArns = "serviceRevisionArns"
+        }
+    }
+
+    public struct DescribeServiceRevisionsResponse: AWSDecodableShape {
+        /// Any failures associated with the call.
+        public let failures: [Failure]?
+        /// The list of service revisions described.
+        public let serviceRevisions: [ServiceRevision]?
+
+        @inlinable
+        public init(failures: [Failure]? = nil, serviceRevisions: [ServiceRevision]? = nil) {
+            self.failures = failures
+            self.serviceRevisions = serviceRevisions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "failures"
+            case serviceRevisions = "serviceRevisions"
         }
     }
 
@@ -3738,7 +3868,7 @@ extension ECS {
         /// 			directly, or CMD-SHELL to run the command with the container's default
         /// 			shell.  When you use the Amazon Web Services Management Console JSON panel, the Command Line Interface, or the APIs, enclose the list
         /// 			of commands in double quotes and brackets.  [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]  You don't include the double quotes and brackets when you use the Amazon Web Services Management Console.  CMD-SHELL, curl -f http://localhost/ || exit 1  An exit code of 0 indicates success, and non-zero exit code indicates failure. For
-        /// 			more information, see HealthCheck in the docker container create command
+        /// 			more information, see HealthCheck in the docker container create command.
         public let command: [String]
         /// The time period in seconds between each health check execution. You may specify
         /// 			between 5 and 300 seconds. The default value is 30 seconds.
@@ -4271,6 +4401,72 @@ extension ECS {
         }
     }
 
+    public struct ListServiceDeploymentsRequest: AWSEncodableShape {
+        /// The cluster that hosts the service. This can either be the cluster name or ARN. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performanceIf you don't
+        /// 			specify a cluster, deault is used.
+        public let cluster: String?
+        /// An optional filter you can use to narrow the results by the service creation date. If you do
+        /// 			not specify a value, the result includes all services created before the current
+        /// 			time. The
+        /// 			format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public let createdAt: CreatedAt?
+        /// The maximum number of service deployment results that ListServiceDeployments
+        /// 			returned in paginated output. When this parameter is used,
+        /// 				ListServiceDeployments only returns maxResults results in
+        /// 			a single page along with a nextToken response element. The remaining
+        /// 			results of the initial request can be seen by sending another
+        /// 				ListServiceDeployments request with the returned nextToken
+        /// 			value. This value can be between 1 and 100. If this parameter isn't used, then
+        /// 				ListServiceDeployments returns up to 20 results and a
+        /// 				nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a ListServiceDeployments request indicating that more results are available to fulfill the request and further calls are needed. If you provided maxResults, it's possible the number of results is fewer than maxResults.
+        public let nextToken: String?
+        /// The ARN or name of the service
+        public let service: String
+        /// An optional filter you can use to narrow the results. If you do not specify a status, then
+        /// 			all status values are included in the result.
+        public let status: [ServiceDeploymentStatus]?
+
+        @inlinable
+        public init(cluster: String? = nil, createdAt: CreatedAt? = nil, maxResults: Int? = nil, nextToken: String? = nil, service: String, status: [ServiceDeploymentStatus]? = nil) {
+            self.cluster = cluster
+            self.createdAt = createdAt
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.service = service
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case createdAt = "createdAt"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case service = "service"
+            case status = "status"
+        }
+    }
+
+    public struct ListServiceDeploymentsResponse: AWSDecodableShape {
+        /// The nextToken value to include in a future ListServiceDeployments request. When the results of a ListServiceDeployments request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// An overview of the service deployment, including the following
+        /// 			properties:   The ARN of the service deployment.   The ARN of the service being deployed.   The ARN  of the cluster that hosts the service in the service deployment.   The time that the service deployment started.   The time that the service deployment completed.   The service deployment status.   Information about why the service deployment is in the current state.   The ARN of the service revision that is being deployed.
+        public let serviceDeployments: [ServiceDeploymentBrief]?
+
+        @inlinable
+        public init(nextToken: String? = nil, serviceDeployments: [ServiceDeploymentBrief]? = nil) {
+            self.nextToken = nextToken
+            self.serviceDeployments = serviceDeployments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case serviceDeployments = "serviceDeployments"
+        }
+    }
+
     public struct ListServicesByNamespaceRequest: AWSEncodableShape {
         /// The maximum number of service results that ListServicesByNamespace
         /// 			returns in paginated output. When this parameter is used,
@@ -4688,7 +4884,7 @@ extension ECS {
         /// 			instance they're launched on must allow ingress traffic on the hostPort of
         /// 			the port mapping.
         public let containerPort: Int?
-        /// The name of the load balancer to associate with the Amazon ECS service or task set. If you are using an Application Load Balancer or a Network Load Balancer the load balancer name parameter should be
+        /// The name of the load balancer to associate with the service or task set. If you are using an Application Load Balancer or a Network Load Balancer the load balancer name parameter should be
         /// 			omitted.
         public let loadBalancerName: String?
         /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group or groups associated with a service or
@@ -4936,8 +5132,7 @@ extension ECS {
         /// The maximum number of Amazon EC2 instances that Amazon ECS will scale out at one time. If this parameter is omitted, the default
         /// 			value of 10000 is used.
         public let maximumScalingStepSize: Int?
-        /// The minimum number of Amazon EC2 instances that Amazon ECS will scale out at one time. The scale
-        /// 			in process is not affected by this parameter If this parameter is omitted, the default
+        /// The minimum number of Amazon EC2 instances that Amazon ECS will scale out at one time. If this parameter is omitted, the default
         /// 			value of 1 is used. When additional capacity is required, Amazon ECS will scale up the minimum scaling step
         /// 			size even if the actual demand is less than the minimum scaling step size. If you use a capacity provider with an Auto Scaling group configured with more than
         /// 			one Amazon EC2 instance type or Availability Zone, Amazon ECS will scale up by the exact minimum
@@ -4987,7 +5182,7 @@ extension ECS {
     public struct ManagedStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specify the Key Management Service key ID for the Fargate ephemeral storage.
         public let fargateEphemeralStorageKmsKeyId: String?
-        /// Specify a Key Management Service key ID to encrypt the managed storage.
+        /// Specify a Amazon Web Services Key Management Service key ID to encrypt the managed storage.
         public let kmsKeyId: String?
 
         @inlinable
@@ -5196,12 +5391,14 @@ extension ECS {
         /// 	For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide.
         public let appProtocol: ApplicationProtocol?
         /// The port number on the container that's bound to the user-specified or automatically
-        /// 			assigned host port. If you use containers in a task with the awsvpc or host
-        /// 			network mode, specify the exposed ports using containerPort. If you use containers in a task with the bridge network mode and you
-        /// 			specify a container port and not a host port, your container automatically receives a
-        /// 			host port in the ephemeral port range. For more information, see hostPort.
-        /// 			Port mappings that are automatically assigned in this way do not count toward the 100
-        /// 			reserved ports limit of a container instance.
+        /// 			assigned host port. For tasks that use the Fargate launch type or EC2 tasks that use the
+        /// 				awsvpc network mode, you use containerPort to specify the
+        /// 			exposed ports. For Windows containers on Fargate, you can't use port 3150 for the
+        /// 				containerPort. This is because it's reserved. Suppose that you're using containers in a task with the EC2 launch type
+        /// 			and you specify a container port and not a host port. Then, your container automatically
+        /// 			receives a host port in the ephemeral port range. For more information, see
+        /// 				hostPort. Port mappings that are automatically assigned in this way
+        /// 			don't count toward the 100 reserved ports quota of a container instance.
         public let containerPort: Int?
         /// The port number range on the container that's bound to the dynamically mapped host
         /// 			port range.  The following rules apply when you specify a containerPortRange:   You must use either the bridge network mode or the awsvpc
@@ -5709,7 +5906,7 @@ extension ECS {
         public let family: String
         /// The Elastic Inference accelerators to use for the containers in the task.
         public let inferenceAccelerators: [InferenceAccelerator]?
-        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see System Controls in the Amazon Elastic Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.   For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.    This parameter is not supported for Windows containers or tasks run on Fargate.
+        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see IPC settings in the Docker run reference. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. For more information, see Docker security. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see System Controls in the Amazon Elastic Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.   For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.    This parameter is not supported for Windows containers or tasks run on Fargate.
         public let ipcMode: IpcMode?
         /// The amount of memory (in MiB) used by the task. It can be expressed as an integer
         /// 			using MiB (for example ,1024) or as a string using GB (for example,
@@ -5721,9 +5918,9 @@ extension ECS {
         /// 				cpu parameter. The CPU units cannot be less than 1 vCPU when you use Windows containers on
         /// 			Fargate.   512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)   Between 16 GB and 60 GB in 4 GB increments - Available cpu values: 8192 (8 vCPU) This option requires Linux platform 1.4.0 or later.   Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
         public let memory: String?
-        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required.  For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used.  For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
+        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required.  For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used.  For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. For more information, see Network settings in the Docker run reference.
         public let networkMode: NetworkMode?
-        /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure.  This parameter is not supported for Windows containers.   This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+        /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. For more information, see PID settings in the Docker run reference. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. For more information, see Docker security.  This parameter is not supported for Windows containers.   This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
         public let pidMode: PidMode?
         /// An array of placement constraint objects to use for the task. You can specify a
         /// 			maximum of 10 constraints for each task. This limit includes constraints in the task
@@ -5884,11 +6081,11 @@ extension ECS {
     public struct ResourceRequirement: AWSEncodableShape & AWSDecodableShape {
         /// The type of resource to assign to a container.
         public let type: ResourceType
-        /// The value for the specified resource type. When the type is GPU, the value is the number of physical
-        /// 				GPUs the Amazon ECS container agent reserves for the container. The number
-        /// 			of GPUs that's reserved for all containers in a task can't exceed the number of
-        /// 			available GPUs on the container instance that the task is launched on. When the type is InferenceAccelerator, the value matches the
-        /// 				deviceName for an InferenceAccelerator specified in a task definition.
+        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the
+        /// 			Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for
+        /// 			all containers in a task can't exceed the number of available GPUs on the container
+        /// 			instance that the task is launched on. When the type is InferenceAccelerator, the value matches
+        /// 			the deviceName for an InferenceAccelerator specified in a task definition.
         public let value: String
 
         @inlinable
@@ -5900,6 +6097,32 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case type = "type"
             case value = "value"
+        }
+    }
+
+    public struct Rollback: AWSDecodableShape {
+        /// The reason the rollback happened. For example, the circuit breaker initiated the rollback operation.
+        public let reason: String?
+        /// The ARN of the service revision deployed as part of the rollback. When the type is GPU, the value is the number of physical
+        /// 				GPUs the Amazon ECS container agent reserves for the container. The number
+        /// 			of GPUs that's reserved for all containers in a task can't exceed the number of
+        /// 			available GPUs on the container instance that the task is launched on. When the type is InferenceAccelerator, the value matches the
+        /// 				deviceName for an InferenceAccelerator specified in a task definition.
+        public let serviceRevisionArn: String?
+        /// Time time that the rollback started. The format is  yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public let startedAt: Date?
+
+        @inlinable
+        public init(reason: String? = nil, serviceRevisionArn: String? = nil, startedAt: Date? = nil) {
+            self.reason = reason
+            self.serviceRevisionArn = serviceRevisionArn
+            self.startedAt = startedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case serviceRevisionArn = "serviceRevisionArn"
+            case startedAt = "startedAt"
         }
     }
 
@@ -5974,8 +6197,7 @@ extension ECS {
         /// 			during task creation. To add tags to a task after task creation, use theTagResource API action.  An error will be received if you specify the SERVICE option when
         /// 				running a task.
         public let propagateTags: PropagateTags?
-        /// The reference ID to use for the task. The reference ID can have a maximum length of
-        /// 			1024 characters.
+        /// This parameter is only used by Amazon ECS. It is not intended for use by customers.
         public let referenceId: String?
         /// An optional tag specified when a task is started. For example, if you automatically
         /// 			trigger a task to run a batch process job, you could apply a unique identifier for that
@@ -6085,9 +6307,9 @@ extension ECS {
     public struct RuntimePlatform: AWSEncodableShape & AWSDecodableShape {
         /// The CPU architecture. You can run your Linux tasks on an ARM-based platform by setting the value to
         /// 				ARM64. This option is available for tasks that run on Linux Amazon EC2
-        /// 			instance or Linux containers on Fargate.
+        /// 			instance or Linux containers on Fargate. The default is X86_64.
         public let cpuArchitecture: CPUArchitecture?
-        /// The operating system.
+        /// The operating system. The default is Linux.
         public let operatingSystemFamily: OSFamily?
 
         @inlinable
@@ -6147,7 +6369,7 @@ extension ECS {
     }
 
     public struct Service: AWSDecodableShape {
-        /// The capacity provider strategy the service uses. When using the DescribeServices API,
+        /// The capacity provider strategy the service uses. When using DescribeServices,
         /// 			this field is omitted if the service was created using a launch type.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
@@ -6238,9 +6460,8 @@ extension ECS {
         /// The status of the service. The valid values are ACTIVE,
         /// 				DRAINING, or INACTIVE.
         public let status: String?
-        /// The metadata that you apply to the service to help you categorize and organize them.
-        /// 			Each tag consists of a key and an optional value. You define bot the key and
-        /// 			value. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+        /// The metadata that you apply to the service to help you categorize and organize them. Each
+        /// 			tag consists of a key and an optional value. You define both the key and value. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [Tag]?
         /// The task definition to use for tasks in the service. This value is specified when the
         /// 			service is created with CreateService, and it can be modified with
@@ -6510,6 +6731,178 @@ extension ECS {
         }
     }
 
+    public struct ServiceDeployment: AWSDecodableShape {
+        /// The CloudWatch alarms that determine when a service deployment fails.
+        public let alarms: ServiceDeploymentAlarms?
+        /// The ARN of the cluster that hosts the service.
+        public let clusterArn: String?
+        /// The time the service deployment was created. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public let createdAt: Date?
+        /// The circuit breaker configuration that determines a service deployment failed.
+        public let deploymentCircuitBreaker: ServiceDeploymentCircuitBreaker?
+        public let deploymentConfiguration: DeploymentConfiguration?
+        /// The time the service deployment finished. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public let finishedAt: Date?
+        /// The rollback options the service deployment uses when the deployment fails.
+        public let rollback: Rollback?
+        /// The ARN of the service for this service deployment.
+        public let serviceArn: String?
+        /// The ARN of the service deployment.
+        public let serviceDeploymentArn: String?
+        /// The currently deployed workload configuration.
+        public let sourceServiceRevisions: [ServiceRevisionSummary]?
+        /// The time the service deployment statred. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public let startedAt: Date?
+        /// The service deployment state.
+        public let status: ServiceDeploymentStatus?
+        /// Information about why the service deployment is in the current status. For example, the circuit breaker detected a failure.
+        public let statusReason: String?
+        /// The time the service deployment stopped. The format is yyyy-MM-dd HH:mm:ss.SSSSSS. The service deployment stops when any of the following actions happen:   A user manually stops the deployment   The rollback option is not in use for the failure detection mechanism (the
+        /// 					circuit breaker or alarm-based) and the service fails.
+        public let stoppedAt: Date?
+        /// The workload configuration being deployed.
+        public let targetServiceRevision: ServiceRevisionSummary?
+        /// The time that the service deployment was last updated. The format is yyyy-MM-dd
+        /// 			HH:mm:ss.SSSSSS.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(alarms: ServiceDeploymentAlarms? = nil, clusterArn: String? = nil, createdAt: Date? = nil, deploymentCircuitBreaker: ServiceDeploymentCircuitBreaker? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, finishedAt: Date? = nil, rollback: Rollback? = nil, serviceArn: String? = nil, serviceDeploymentArn: String? = nil, sourceServiceRevisions: [ServiceRevisionSummary]? = nil, startedAt: Date? = nil, status: ServiceDeploymentStatus? = nil, statusReason: String? = nil, stoppedAt: Date? = nil, targetServiceRevision: ServiceRevisionSummary? = nil, updatedAt: Date? = nil) {
+            self.alarms = alarms
+            self.clusterArn = clusterArn
+            self.createdAt = createdAt
+            self.deploymentCircuitBreaker = deploymentCircuitBreaker
+            self.deploymentConfiguration = deploymentConfiguration
+            self.finishedAt = finishedAt
+            self.rollback = rollback
+            self.serviceArn = serviceArn
+            self.serviceDeploymentArn = serviceDeploymentArn
+            self.sourceServiceRevisions = sourceServiceRevisions
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+            self.targetServiceRevision = targetServiceRevision
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarms = "alarms"
+            case clusterArn = "clusterArn"
+            case createdAt = "createdAt"
+            case deploymentCircuitBreaker = "deploymentCircuitBreaker"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case finishedAt = "finishedAt"
+            case rollback = "rollback"
+            case serviceArn = "serviceArn"
+            case serviceDeploymentArn = "serviceDeploymentArn"
+            case sourceServiceRevisions = "sourceServiceRevisions"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
+            case targetServiceRevision = "targetServiceRevision"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct ServiceDeploymentAlarms: AWSDecodableShape {
+        /// The name of the CloudWatch alarms that determine when a service deployment failed. A "," separates the alarms.
+        public let alarmNames: [String]?
+        /// The status of the alarms check. Amazon ECS is not using alarms for service deployment failures when the status is DISABLED.
+        public let status: ServiceDeploymentRollbackMonitorsStatus?
+        /// One or more CloudWatch alarm names that have been triggered during the service deployment. A ","
+        /// 			separates the alarm names.
+        public let triggeredAlarmNames: [String]?
+
+        @inlinable
+        public init(alarmNames: [String]? = nil, status: ServiceDeploymentRollbackMonitorsStatus? = nil, triggeredAlarmNames: [String]? = nil) {
+            self.alarmNames = alarmNames
+            self.status = status
+            self.triggeredAlarmNames = triggeredAlarmNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmNames = "alarmNames"
+            case status = "status"
+            case triggeredAlarmNames = "triggeredAlarmNames"
+        }
+    }
+
+    public struct ServiceDeploymentBrief: AWSDecodableShape {
+        /// The ARN of the cluster that hosts the service.
+        public let clusterArn: String?
+        /// The time that the service deployment was created. The format is yyyy-MM-dd
+        /// 			HH:mm:ss.SSSSSS.
+        public let createdAt: Date?
+        /// The time that the service deployment completed. The format is yyyy-MM-dd
+        /// 			HH:mm:ss.SSSSSS.
+        public let finishedAt: Date?
+        /// The ARN of the service for this service deployment.
+        public let serviceArn: String?
+        /// The ARN of the service deployment.
+        public let serviceDeploymentArn: String?
+        /// The time that the service deployment statred. The format is yyyy-MM-dd
+        /// 			HH:mm:ss.SSSSSS.
+        public let startedAt: Date?
+        /// The status of the service deployment
+        public let status: ServiceDeploymentStatus?
+        /// Information about why the service deployment is in the current status. For example, the circuit breaker detected a deployment failure.
+        public let statusReason: String?
+        /// The ARN of the service revision being deplyed.
+        public let targetServiceRevisionArn: String?
+
+        @inlinable
+        public init(clusterArn: String? = nil, createdAt: Date? = nil, finishedAt: Date? = nil, serviceArn: String? = nil, serviceDeploymentArn: String? = nil, startedAt: Date? = nil, status: ServiceDeploymentStatus? = nil, statusReason: String? = nil, targetServiceRevisionArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.createdAt = createdAt
+            self.finishedAt = finishedAt
+            self.serviceArn = serviceArn
+            self.serviceDeploymentArn = serviceDeploymentArn
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.targetServiceRevisionArn = targetServiceRevisionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case createdAt = "createdAt"
+            case finishedAt = "finishedAt"
+            case serviceArn = "serviceArn"
+            case serviceDeploymentArn = "serviceDeploymentArn"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case targetServiceRevisionArn = "targetServiceRevisionArn"
+        }
+    }
+
+    public struct ServiceDeploymentCircuitBreaker: AWSDecodableShape {
+        /// The number of times the circuit breaker detected a service deploymeny failure.
+        public let failureCount: Int?
+        /// The circuit breaker status.  Amazon ECS is not using the circuit breaker for service deployment failures when the status is DISABLED.
+        public let status: ServiceDeploymentRollbackMonitorsStatus?
+        /// The threshhold which determines that the service deployment failed. The deployment circuit breaker calculates the threshold value, and then uses the value to
+        /// 			determine when to move the deployment to a FAILED state. The deployment circuit breaker
+        /// 			has a minimum threshold of 3 and a maximum threshold of 200. and uses the values in the
+        /// 			following formula to determine the deployment failure.  0.5 * desired task count
+        public let threshold: Int?
+
+        @inlinable
+        public init(failureCount: Int? = nil, status: ServiceDeploymentRollbackMonitorsStatus? = nil, threshold: Int? = nil) {
+            self.failureCount = failureCount
+            self.status = status
+            self.threshold = threshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCount = "failureCount"
+            case status = "status"
+            case threshold = "threshold"
+        }
+    }
+
     public struct ServiceEvent: AWSDecodableShape {
         /// The Unix timestamp for the time when the event was triggered.
         public let createdAt: Date?
@@ -6538,11 +6931,11 @@ extension ECS {
         /// 			parameter of the CreateVolume API in
         /// 			the Amazon EC2 API Reference.
         public let encrypted: Bool?
-        /// The Linux filesystem type for the volume. For volumes created from a snapshot, you
-        /// 			must specify the same filesystem type that the volume was using when the snapshot was
-        /// 			created. If there is a filesystem type mismatch, the task will fail to start. The available filesystem types are  ext3, ext4, and
+        /// The filesystem type for the volume. For volumes created from a snapshot, you must specify
+        /// 			the same filesystem type that the volume was using when the snapshot was created. If
+        /// 			there is a filesystem type mismatch, the task will fail to start. The available Linux filesystem types are  ext3, ext4, and
         /// 				xfs. If no value is specified, the xfs filesystem type is
-        /// 			used by default.
+        /// 			used by default. The available Windows filesystem types are NTFS.
         public let filesystemType: TaskFilesystemType?
         /// The number of I/O operations per second (IOPS). For gp3,
         /// 			io1, and io2 volumes, this represents the number of IOPS that
@@ -6667,6 +7060,107 @@ extension ECS {
         }
     }
 
+    public struct ServiceRevision: AWSDecodableShape {
+        /// The capacity provider strategy the service revision uses.
+        public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
+        /// The ARN of the cluster that hosts the service.
+        public let clusterArn: String?
+        /// The container images the service revision uses.
+        public let containerImages: [ContainerImage]?
+        /// The time that the service revision was created. The format is yyyy-mm-dd HH:mm:ss.SSSSS.
+        public let createdAt: Date?
+        public let fargateEphemeralStorage: DeploymentEphemeralStorage?
+        /// Indicates whether Runtime Monitoring is turned on.
+        public let guardDutyEnabled: Bool?
+        /// The launch type the service revision uses.
+        public let launchType: LaunchType?
+        /// The load balancers the service revision uses.
+        public let loadBalancers: [LoadBalancer]?
+        public let networkConfiguration: NetworkConfiguration?
+        /// The platform family the service revision uses.
+        public let platformFamily: String?
+        /// For the Fargate launch type, the platform version the service revision uses.
+        public let platformVersion: String?
+        /// The ARN of the service for the service revision.
+        public let serviceArn: String?
+        public let serviceConnectConfiguration: ServiceConnectConfiguration?
+        /// The service registries (for Service Discovery) the service revision uses.
+        public let serviceRegistries: [ServiceRegistry]?
+        /// The ARN of the service revision.
+        public let serviceRevisionArn: String?
+        /// The task definition the service revision uses.
+        public let taskDefinition: String?
+        /// The volumes that are configured at deployment that the service revision uses.
+        public let volumeConfigurations: [ServiceVolumeConfiguration]?
+
+        @inlinable
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, containerImages: [ContainerImage]? = nil, createdAt: Date? = nil, fargateEphemeralStorage: DeploymentEphemeralStorage? = nil, guardDutyEnabled: Bool? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, platformFamily: String? = nil, platformVersion: String? = nil, serviceArn: String? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, serviceRevisionArn: String? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil) {
+            self.capacityProviderStrategy = capacityProviderStrategy
+            self.clusterArn = clusterArn
+            self.containerImages = containerImages
+            self.createdAt = createdAt
+            self.fargateEphemeralStorage = fargateEphemeralStorage
+            self.guardDutyEnabled = guardDutyEnabled
+            self.launchType = launchType
+            self.loadBalancers = loadBalancers
+            self.networkConfiguration = networkConfiguration
+            self.platformFamily = platformFamily
+            self.platformVersion = platformVersion
+            self.serviceArn = serviceArn
+            self.serviceConnectConfiguration = serviceConnectConfiguration
+            self.serviceRegistries = serviceRegistries
+            self.serviceRevisionArn = serviceRevisionArn
+            self.taskDefinition = taskDefinition
+            self.volumeConfigurations = volumeConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case clusterArn = "clusterArn"
+            case containerImages = "containerImages"
+            case createdAt = "createdAt"
+            case fargateEphemeralStorage = "fargateEphemeralStorage"
+            case guardDutyEnabled = "guardDutyEnabled"
+            case launchType = "launchType"
+            case loadBalancers = "loadBalancers"
+            case networkConfiguration = "networkConfiguration"
+            case platformFamily = "platformFamily"
+            case platformVersion = "platformVersion"
+            case serviceArn = "serviceArn"
+            case serviceConnectConfiguration = "serviceConnectConfiguration"
+            case serviceRegistries = "serviceRegistries"
+            case serviceRevisionArn = "serviceRevisionArn"
+            case taskDefinition = "taskDefinition"
+            case volumeConfigurations = "volumeConfigurations"
+        }
+    }
+
+    public struct ServiceRevisionSummary: AWSDecodableShape {
+        /// The ARN of the service revision.
+        public let arn: String?
+        /// The number of pending tasks for the service revision.
+        public let pendingTaskCount: Int?
+        /// The number of requested tasks for the service revision.
+        public let requestedTaskCount: Int?
+        /// The number of running tasks for the service revision.
+        public let runningTaskCount: Int?
+
+        @inlinable
+        public init(arn: String? = nil, pendingTaskCount: Int? = nil, requestedTaskCount: Int? = nil, runningTaskCount: Int? = nil) {
+            self.arn = arn
+            self.pendingTaskCount = pendingTaskCount
+            self.requestedTaskCount = requestedTaskCount
+            self.runningTaskCount = runningTaskCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case pendingTaskCount = "pendingTaskCount"
+            case requestedTaskCount = "requestedTaskCount"
+            case runningTaskCount = "runningTaskCount"
+        }
+    }
+
     public struct ServiceVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf.
         /// 			These settings are used to create each Amazon EBS volume, with one volume created for each
@@ -6777,12 +7271,12 @@ extension ECS {
         /// Specifies whether to propagate the tags from the task definition or the service to the
         /// 			task. If no value is specified, the tags aren't propagated.
         public let propagateTags: PropagateTags?
-        /// The reference ID to use for the task.
+        /// This parameter is only used by Amazon ECS. It is not intended for use by customers.
         public let referenceId: String?
-        /// An optional tag specified when a task is started. For example, if you automatically
-        /// 			trigger a task to run a batch process job, you could apply a unique identifier for that
-        /// 			job to your task with the startedBy parameter. You can then identify which
-        /// 			tasks belong to that job by filtering the results of a ListTasks call with
+        /// An optional tag specified when a task is started. For example, if you automatically trigger
+        /// 			a task to run a batch process job, you could apply a unique identifier for that job to
+        /// 			your task with the startedBy parameter. You can then identify which tasks
+        /// 			belong to that job by filtering the results of a ListTasks call with
         /// 			the startedBy value. Up to 36 letters (uppercase and lowercase), numbers,
         /// 			hyphens (-), forward slash (/), and underscores (_) are allowed. If a task is started by an Amazon ECS service, the startedBy parameter
         /// 			contains the deployment ID of the service that starts it.
@@ -7379,7 +7873,7 @@ extension ECS {
         public let family: String?
         /// The Elastic Inference accelerator that's associated with the task.
         public let inferenceAccelerators: [InferenceAccelerator]?
-        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see System Controls in the Amazon Elastic Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.   For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.    This parameter is not supported for Windows containers or tasks run on Fargate.
+        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see IPC settings in the Docker run reference. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. For more information, see Docker security. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see System Controls in the Amazon Elastic Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.   For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.    This parameter is not supported for Windows containers or tasks run on Fargate.
         public let ipcMode: IpcMode?
         /// The amount (in MiB) of memory used by the task. If your tasks runs on Amazon EC2 instances, you must specify either a task-level memory
         /// 			value or a container-level memory value. This field is optional and any value can be
@@ -7389,9 +7883,9 @@ extension ECS {
         /// 			following values. The value you choose determines your range of valid values for the
         /// 				cpu parameter.   512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)   Between 16 GB and 60 GB in 4 GB increments - Available cpu values: 8192 (8 vCPU) This option requires Linux platform 1.4.0 or later.   Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
         public let memory: String?
-        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required.  For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used.  For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
+        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required.  For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used.  For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. For more information, see Network settings in the Docker run reference.
         public let networkMode: NetworkMode?
-        /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure.  This parameter is not supported for Windows containers.   This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+        /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. For more information, see PID settings in the Docker run reference. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. For more information, see Docker security.  This parameter is not supported for Windows containers.   This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
         public let pidMode: PidMode?
         /// An array of placement constraint objects to use for tasks.  This parameter isn't supported for tasks run on Fargate.
         public let placementConstraints: [TaskDefinitionPlacementConstraint]?
@@ -7517,7 +8011,7 @@ extension ECS {
     }
 
     public struct TaskEphemeralStorage: AWSDecodableShape {
-        /// Specify an Key Management Service key ID to encrypt the ephemeral storage for the
+        /// Specify an Amazon Web Services Key Management Service key ID to encrypt the ephemeral storage for the
         /// 			task.
         public let kmsKeyId: String?
         /// The total amount, in GiB, of the ephemeral storage to set for the task. The minimum
@@ -8238,8 +8732,8 @@ extension ECS {
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on.
         /// 			If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
-        /// Optional deployment parameters that control how many tasks run during the deployment
-        /// 			and the ordering of stopping and starting tasks.
+        /// Optional deployment parameters that control how many tasks run during the deployment and the
+        /// 			failure detection methods.
         public let deploymentConfiguration: DeploymentConfiguration?
         /// The number of instantiations of the task to place and keep running in your
         /// 			service.
@@ -8672,7 +9166,7 @@ public struct ECSErrorType: AWSErrorType {
     /// 			an action or resource on behalf of a user that doesn't have permissions to use the
     /// 			action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:   The RunTask could not be processed because you use managed
     /// 					scaling and there is a capacity error because the quota of tasks in the
-    /// 						PROVISIONING per cluster has been reached. For information
+    /// 					PROVISIONING per cluster has been reached. For information
     /// 					about the service quotas, see Amazon ECS
     /// 						service quotas.
     public static var clientException: Self { .init(.clientException) }

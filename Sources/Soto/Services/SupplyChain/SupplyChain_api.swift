@@ -114,7 +114,7 @@ public struct SupplyChain: AWSService {
         return try await self.createBillOfMaterialsImportJob(input, logger: logger)
     }
 
-    /// Create DataIntegrationFlow to map one or more different sources to one target using the SQL transformation query.
+    /// Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
     @Sendable
     @inlinable
     public func createDataIntegrationFlow(_ input: CreateDataIntegrationFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataIntegrationFlowResponse {
@@ -127,7 +127,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Create DataIntegrationFlow to map one or more different sources to one target using the SQL transformation query.
+    /// Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
     ///
     /// Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
@@ -158,7 +158,7 @@ public struct SupplyChain: AWSService {
         return try await self.createDataIntegrationFlow(input, logger: logger)
     }
 
-    /// Create a data lake dataset.
+    /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name.
     @Sendable
     @inlinable
     public func createDataLakeDataset(_ input: CreateDataLakeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataLakeDatasetResponse {
@@ -171,7 +171,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Create a data lake dataset.
+    /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name.
     ///
     /// Parameters:
     ///   - description: The description of the dataset.
@@ -202,7 +202,7 @@ public struct SupplyChain: AWSService {
         return try await self.createDataLakeDataset(input, logger: logger)
     }
 
-    /// Create a new instance for AWS Supply Chain. This is an asynchronous operation. Upon receiving a CreateInstance request, AWS Supply Chain immediately returns the instance resource, with instance ID,  and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance.
+    /// Enables you to programmatically create an Amazon Web Services Supply Chain instance by applying KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web Services Supply Chain immediately returns the instance resource, instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance. If the instance results in an unhealthy state, you need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
     @Sendable
     @inlinable
     public func createInstance(_ input: CreateInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInstanceResponse {
@@ -215,7 +215,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Create a new instance for AWS Supply Chain. This is an asynchronous operation. Upon receiving a CreateInstance request, AWS Supply Chain immediately returns the instance resource, with instance ID,  and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance.
+    /// Enables you to programmatically create an Amazon Web Services Supply Chain instance by applying KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web Services Supply Chain immediately returns the instance resource, instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance. If the instance results in an unhealthy state, you need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
     ///
     /// Parameters:
     ///   - clientToken: The client token for idempotency.
@@ -243,7 +243,7 @@ public struct SupplyChain: AWSService {
         return try await self.createInstance(input, logger: logger)
     }
 
-    /// Delete the DataIntegrationFlow.
+    /// Enable you to programmatically delete an existing data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     @Sendable
     @inlinable
     public func deleteDataIntegrationFlow(_ input: DeleteDataIntegrationFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataIntegrationFlowResponse {
@@ -256,7 +256,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Delete the DataIntegrationFlow.
+    /// Enable you to programmatically delete an existing data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     ///
     /// Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
@@ -275,7 +275,7 @@ public struct SupplyChain: AWSService {
         return try await self.deleteDataIntegrationFlow(input, logger: logger)
     }
 
-    /// Delete a data lake dataset.
+    /// Enables you to programmatically delete an Amazon Web Services Supply Chain data lake dataset. Developers can delete the existing datasets for a given instance ID, namespace, and instance name.
     @Sendable
     @inlinable
     public func deleteDataLakeDataset(_ input: DeleteDataLakeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataLakeDatasetResponse {
@@ -288,7 +288,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Delete a data lake dataset.
+    /// Enables you to programmatically delete an Amazon Web Services Supply Chain data lake dataset. Developers can delete the existing datasets for a given instance ID, namespace, and instance name.
     ///
     /// Parameters:
     ///   - instanceId: The AWS Supply Chain instance identifier.
@@ -310,7 +310,7 @@ public struct SupplyChain: AWSService {
         return try await self.deleteDataLakeDataset(input, logger: logger)
     }
 
-    /// Delete the instance. This is an asynchronous operation. Upon receiving a DeleteInstance request, AWS Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
+    /// Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during  the instance creation process. You can use the GetInstance action to check the instance status.
     @Sendable
     @inlinable
     public func deleteInstance(_ input: DeleteInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInstanceResponse {
@@ -323,7 +323,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Delete the instance. This is an asynchronous operation. Upon receiving a DeleteInstance request, AWS Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
+    /// Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during  the instance creation process. You can use the GetInstance action to check the instance status.
     ///
     /// Parameters:
     ///   - instanceId: The AWS Supply Chain instance identifier.
@@ -371,7 +371,7 @@ public struct SupplyChain: AWSService {
         return try await self.getBillOfMaterialsImportJob(input, logger: logger)
     }
 
-    /// View the DataIntegrationFlow details.
+    /// Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     @Sendable
     @inlinable
     public func getDataIntegrationFlow(_ input: GetDataIntegrationFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataIntegrationFlowResponse {
@@ -384,7 +384,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// View the DataIntegrationFlow details.
+    /// Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     ///
     /// Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
@@ -403,7 +403,7 @@ public struct SupplyChain: AWSService {
         return try await self.getDataIntegrationFlow(input, logger: logger)
     }
 
-    /// Get a data lake dataset.
+    /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
     @Sendable
     @inlinable
     public func getDataLakeDataset(_ input: GetDataLakeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeDatasetResponse {
@@ -416,7 +416,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Get a data lake dataset.
+    /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
     ///
     /// Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
@@ -438,7 +438,7 @@ public struct SupplyChain: AWSService {
         return try await self.getDataLakeDataset(input, logger: logger)
     }
 
-    /// Get the AWS Supply Chain instance details.
+    /// Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
     @Sendable
     @inlinable
     public func getInstance(_ input: GetInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstanceResponse {
@@ -451,7 +451,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Get the AWS Supply Chain instance details.
+    /// Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
     ///
     /// Parameters:
     ///   - instanceId: The AWS Supply Chain instance identifier
@@ -467,7 +467,7 @@ public struct SupplyChain: AWSService {
         return try await self.getInstance(input, logger: logger)
     }
 
-    /// Lists all the DataIntegrationFlows in a paginated way.
+    /// Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
     @Sendable
     @inlinable
     public func listDataIntegrationFlows(_ input: ListDataIntegrationFlowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataIntegrationFlowsResponse {
@@ -480,7 +480,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Lists all the DataIntegrationFlows in a paginated way.
+    /// Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
     ///
     /// Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
@@ -502,7 +502,7 @@ public struct SupplyChain: AWSService {
         return try await self.listDataIntegrationFlows(input, logger: logger)
     }
 
-    /// List the data lake datasets for a specific instance and name space.
+    /// Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake datasets. Developers can view the datasets and the corresponding information such as namespace, schema, and so on for a given instance ID and namespace.
     @Sendable
     @inlinable
     public func listDataLakeDatasets(_ input: ListDataLakeDatasetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataLakeDatasetsResponse {
@@ -515,7 +515,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// List the data lake datasets for a specific instance and name space.
+    /// Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake datasets. Developers can view the datasets and the corresponding information such as namespace, schema, and so on for a given instance ID and namespace.
     ///
     /// Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
@@ -540,7 +540,7 @@ public struct SupplyChain: AWSService {
         return try await self.listDataLakeDatasets(input, logger: logger)
     }
 
-    /// List all the AWS Supply Chain instances in a paginated way.
+    /// List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
     @Sendable
     @inlinable
     public func listInstances(_ input: ListInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstancesResponse {
@@ -553,7 +553,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// List all the AWS Supply Chain instances in a paginated way.
+    /// List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
     ///
     /// Parameters:
     ///   - instanceNameFilter: The filter to ListInstances based on their names.
@@ -578,7 +578,7 @@ public struct SupplyChain: AWSService {
         return try await self.listInstances(input, logger: logger)
     }
 
-    /// List all the tags for an Amazon Web ServicesSupply Chain resource.
+    /// List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags added to a resource. By listing the tags, developers can view the tag level information on a resource and perform actions such as, deleting a resource associated with a particular tag.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -591,7 +591,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// List all the tags for an Amazon Web ServicesSupply Chain resource.
+    /// List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags added to a resource. By listing the tags, developers can view the tag level information on a resource and perform actions such as, deleting a resource associated with a particular tag.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Web Services Supply chain resource ARN that needs tags to be listed.
@@ -651,7 +651,7 @@ public struct SupplyChain: AWSService {
         return try await self.sendDataIntegrationEvent(input, logger: logger)
     }
 
-    /// Create tags for an Amazon Web Services Supply chain resource.
+    /// You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows   created during the data ingestion process in the AWS Supply Chain datasets.  You can use these tags to identify a group of resources or a single resource used by the developer.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -664,7 +664,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Create tags for an Amazon Web Services Supply chain resource.
+    /// You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows   created during the data ingestion process in the AWS Supply Chain datasets.  You can use these tags to identify a group of resources or a single resource used by the developer.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Web Services Supply chain resource ARN that needs to be tagged.
@@ -683,7 +683,7 @@ public struct SupplyChain: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Delete tags for an Amazon Web Services Supply chain resource.
+    /// You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows   created during the data ingestion process in the AWS Supply Chain datasets.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -696,7 +696,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Delete tags for an Amazon Web Services Supply chain resource.
+    /// You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows   created during the data ingestion process in the AWS Supply Chain datasets.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Web Services Supply chain resource ARN that needs to be untagged.
@@ -715,7 +715,7 @@ public struct SupplyChain: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Update the DataIntegrationFlow.
+    /// Enables you to programmatically update an existing data pipeline to ingest data from the source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
     @Sendable
     @inlinable
     public func updateDataIntegrationFlow(_ input: UpdateDataIntegrationFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataIntegrationFlowResponse {
@@ -728,7 +728,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Update the DataIntegrationFlow.
+    /// Enables you to programmatically update an existing data pipeline to ingest data from the source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
     ///
     /// Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
@@ -756,7 +756,7 @@ public struct SupplyChain: AWSService {
         return try await self.updateDataIntegrationFlow(input, logger: logger)
     }
 
-    /// Update a data lake dataset.
+    /// Enables you to programmatically update an Amazon Web Services Supply Chain data lake dataset. Developers can update the description of a data lake dataset for a given instance ID, namespace, and dataset name.
     @Sendable
     @inlinable
     public func updateDataLakeDataset(_ input: UpdateDataLakeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataLakeDatasetResponse {
@@ -769,7 +769,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Update a data lake dataset.
+    /// Enables you to programmatically update an Amazon Web Services Supply Chain data lake dataset. Developers can update the description of a data lake dataset for a given instance ID, namespace, and dataset name.
     ///
     /// Parameters:
     ///   - description: The updated description of the data lake dataset.
@@ -794,7 +794,7 @@ public struct SupplyChain: AWSService {
         return try await self.updateDataLakeDataset(input, logger: logger)
     }
 
-    /// Update the instance.
+    /// Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
     @Sendable
     @inlinable
     public func updateInstance(_ input: UpdateInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInstanceResponse {
@@ -807,7 +807,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Update the instance.
+    /// Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
     ///
     /// Parameters:
     ///   - instanceDescription: The AWS Supply Chain instance description.

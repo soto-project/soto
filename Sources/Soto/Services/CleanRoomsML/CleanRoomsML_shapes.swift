@@ -81,6 +81,229 @@ extension CleanRoomsML {
         public var description: String { return self.rawValue }
     }
 
+    public enum InferenceInstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC6I12Xlarge = "ml.c6i.12xlarge"
+        case mlC6I16Xlarge = "ml.c6i.16xlarge"
+        case mlC6I24Xlarge = "ml.c6i.24xlarge"
+        case mlC6I2Xlarge = "ml.c6i.2xlarge"
+        case mlC6I32Xlarge = "ml.c6i.32xlarge"
+        case mlC6I4Xlarge = "ml.c6i.4xlarge"
+        case mlC6I8Xlarge = "ml.c6i.8xlarge"
+        case mlC6ILarge = "ml.c6i.large"
+        case mlC6IXlarge = "ml.c6i.xlarge"
+        case mlC7I12Xlarge = "ml.c7i.12xlarge"
+        case mlC7I16Xlarge = "ml.c7i.16xlarge"
+        case mlC7I24Xlarge = "ml.c7i.24xlarge"
+        case mlC7I2Xlarge = "ml.c7i.2xlarge"
+        case mlC7I48Xlarge = "ml.c7i.48xlarge"
+        case mlC7I4Xlarge = "ml.c7i.4xlarge"
+        case mlC7I8Xlarge = "ml.c7i.8xlarge"
+        case mlC7ILarge = "ml.c7i.large"
+        case mlC7IXlarge = "ml.c7i.xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG512Xlarge = "ml.g5.12xlarge"
+        case mlG516Xlarge = "ml.g5.16xlarge"
+        case mlG524Xlarge = "ml.g5.24xlarge"
+        case mlG52Xlarge = "ml.g5.2xlarge"
+        case mlG548Xlarge = "ml.g5.48xlarge"
+        case mlG54Xlarge = "ml.g5.4xlarge"
+        case mlG58Xlarge = "ml.g5.8xlarge"
+        case mlG5Xlarge = "ml.g5.xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM6I12Xlarge = "ml.m6i.12xlarge"
+        case mlM6I16Xlarge = "ml.m6i.16xlarge"
+        case mlM6I24Xlarge = "ml.m6i.24xlarge"
+        case mlM6I2Xlarge = "ml.m6i.2xlarge"
+        case mlM6I32Xlarge = "ml.m6i.32xlarge"
+        case mlM6I4Xlarge = "ml.m6i.4xlarge"
+        case mlM6I8Xlarge = "ml.m6i.8xlarge"
+        case mlM6ILarge = "ml.m6i.large"
+        case mlM6IXlarge = "ml.m6i.xlarge"
+        case mlM7I12Xlarge = "ml.m7i.12xlarge"
+        case mlM7I16Xlarge = "ml.m7i.16xlarge"
+        case mlM7I24Xlarge = "ml.m7i.24xlarge"
+        case mlM7I2Xlarge = "ml.m7i.2xlarge"
+        case mlM7I48Xlarge = "ml.m7i.48xlarge"
+        case mlM7I4Xlarge = "ml.m7i.4xlarge"
+        case mlM7I8Xlarge = "ml.m7i.8xlarge"
+        case mlM7ILarge = "ml.m7i.large"
+        case mlM7IXlarge = "ml.m7i.xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlR6I12Xlarge = "ml.r6i.12xlarge"
+        case mlR6I16Xlarge = "ml.r6i.16xlarge"
+        case mlR6I24Xlarge = "ml.r6i.24xlarge"
+        case mlR6I2Xlarge = "ml.r6i.2xlarge"
+        case mlR6I32Xlarge = "ml.r6i.32xlarge"
+        case mlR6I4Xlarge = "ml.r6i.4xlarge"
+        case mlR6I8Xlarge = "ml.r6i.8xlarge"
+        case mlR6ILarge = "ml.r6i.large"
+        case mlR6IXlarge = "ml.r6i.xlarge"
+        case mlR7I12Xlarge = "ml.r7i.12xlarge"
+        case mlR7I16Xlarge = "ml.r7i.16xlarge"
+        case mlR7I24Xlarge = "ml.r7i.24xlarge"
+        case mlR7I2Xlarge = "ml.r7i.2xlarge"
+        case mlR7I48Xlarge = "ml.r7i.48xlarge"
+        case mlR7I4Xlarge = "ml.r7i.4xlarge"
+        case mlR7I8Xlarge = "ml.r7i.8xlarge"
+        case mlR7ILarge = "ml.r7i.large"
+        case mlR7IXlarge = "ml.r7i.xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC5N18Xlarge = "ml.c5n.18xlarge"
+        case mlC5N2Xlarge = "ml.c5n.2xlarge"
+        case mlC5N4Xlarge = "ml.c5n.4xlarge"
+        case mlC5N9Xlarge = "ml.c5n.9xlarge"
+        case mlC5NXlarge = "ml.c5n.xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC6I12Xlarge = "ml.c6i.12xlarge"
+        case mlC6I16Xlarge = "ml.c6i.16xlarge"
+        case mlC6I24Xlarge = "ml.c6i.24xlarge"
+        case mlC6I2Xlarge = "ml.c6i.2xlarge"
+        case mlC6I32Xlarge = "ml.c6i.32xlarge"
+        case mlC6I4Xlarge = "ml.c6i.4xlarge"
+        case mlC6I8Xlarge = "ml.c6i.8xlarge"
+        case mlC6IXlarge = "ml.c6i.xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG512Xlarge = "ml.g5.12xlarge"
+        case mlG516Xlarge = "ml.g5.16xlarge"
+        case mlG524Xlarge = "ml.g5.24xlarge"
+        case mlG52Xlarge = "ml.g5.2xlarge"
+        case mlG548Xlarge = "ml.g5.48xlarge"
+        case mlG54Xlarge = "ml.g5.4xlarge"
+        case mlG58Xlarge = "ml.g5.8xlarge"
+        case mlG5Xlarge = "ml.g5.xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM6I12Xlarge = "ml.m6i.12xlarge"
+        case mlM6I16Xlarge = "ml.m6i.16xlarge"
+        case mlM6I24Xlarge = "ml.m6i.24xlarge"
+        case mlM6I2Xlarge = "ml.m6i.2xlarge"
+        case mlM6I32Xlarge = "ml.m6i.32xlarge"
+        case mlM6I4Xlarge = "ml.m6i.4xlarge"
+        case mlM6I8Xlarge = "ml.m6i.8xlarge"
+        case mlM6ILarge = "ml.m6i.large"
+        case mlM6IXlarge = "ml.m6i.xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
+        case mlP4D24Xlarge = "ml.p4d.24xlarge"
+        case mlP4De24Xlarge = "ml.p4de.24xlarge"
+        case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlR512Xlarge = "ml.r5.12xlarge"
+        case mlR516Xlarge = "ml.r5.16xlarge"
+        case mlR524Xlarge = "ml.r5.24xlarge"
+        case mlR52Xlarge = "ml.r5.2xlarge"
+        case mlR54Xlarge = "ml.r5.4xlarge"
+        case mlR58Xlarge = "ml.r5.8xlarge"
+        case mlR5D12Xlarge = "ml.r5d.12xlarge"
+        case mlR5D16Xlarge = "ml.r5d.16xlarge"
+        case mlR5D24Xlarge = "ml.r5d.24xlarge"
+        case mlR5D2Xlarge = "ml.r5d.2xlarge"
+        case mlR5D4Xlarge = "ml.r5d.4xlarge"
+        case mlR5D8Xlarge = "ml.r5d.8xlarge"
+        case mlR5DLarge = "ml.r5d.large"
+        case mlR5DXlarge = "ml.r5d.xlarge"
+        case mlR5Large = "ml.r5.large"
+        case mlR5Xlarge = "ml.r5.xlarge"
+        case mlT32Xlarge = "ml.t3.2xlarge"
+        case mlT3Large = "ml.t3.large"
+        case mlT3Medium = "ml.t3.medium"
+        case mlT3Xlarge = "ml.t3.xlarge"
+        case mlTrn12Xlarge = "ml.trn1.2xlarge"
+        case mlTrn132Xlarge = "ml.trn1.32xlarge"
+        case mlTrn1N32Xlarge = "ml.trn1n.32xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case publishFailed = "PUBLISH_FAILED"
+        case publishSucceeded = "PUBLISH_SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MLInputChannelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createPending = "CREATE_PENDING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deletePending = "DELETE_PENDING"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case publishFailed = "PUBLISH_FAILED"
+        case publishSucceeded = "PUBLISH_SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NoiseLevelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PolicyExistenceCondition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case policyMustExist = "POLICY_MUST_EXIST"
         case policyMustNotExist = "POLICY_MUST_NOT_EXIST"
@@ -99,8 +322,65 @@ extension CleanRoomsML {
         public var description: String { return self.rawValue }
     }
 
+    public enum TrainedModelExportFileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case model = "MODEL"
+        case output = "OUTPUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainedModelExportJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createPending = "CREATE_PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainedModelExportsMaxSizeUnitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gb = "GB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainedModelInferenceJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case cancelFailed = "CANCEL_FAILED"
+        case cancelInProgress = "CANCEL_IN_PROGRESS"
+        case cancelPending = "CANCEL_PENDING"
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createPending = "CREATE_PENDING"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainedModelInferenceMaxOutputSizeUnitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gb = "GB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainedModelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case cancelFailed = "CANCEL_FAILED"
+        case cancelInProgress = "CANCEL_IN_PROGRESS"
+        case cancelPending = "CANCEL_PENDING"
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createPending = "CREATE_PENDING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deletePending = "DELETE_PENDING"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TrainingDatasetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkerComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cr1x = "CR.1X"
+        case cr4x = "CR.4X"
         public var description: String { return self.rawValue }
     }
 
@@ -350,6 +630,340 @@ extension CleanRoomsML {
         }
     }
 
+    public struct CancelTrainedModelInferenceJobRequest: AWSEncodableShape {
+        /// The membership ID of the trained model inference job that you want to cancel.
+        public let membershipIdentifier: String
+        /// The Amazon Resource Name (ARN) of the trained model inference job that you want to cancel.
+        public let trainedModelInferenceJobArn: String
+
+        @inlinable
+        public init(membershipIdentifier: String, trainedModelInferenceJobArn: String) {
+            self.membershipIdentifier = membershipIdentifier
+            self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.trainedModelInferenceJobArn, key: "trainedModelInferenceJobArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, min: 20)
+            try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model-inference-job/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelTrainedModelRequest: AWSEncodableShape {
+        /// The membership ID of the trained model job that you want to cancel.
+        public let membershipIdentifier: String
+        /// The Amazon Resource Name (ARN) of the trained model job that you want to cancel.
+        public let trainedModelArn: String
+
+        @inlinable
+        public init(membershipIdentifier: String, trainedModelArn: String) {
+            self.membershipIdentifier = membershipIdentifier
+            self.trainedModelArn = trainedModelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CollaborationConfiguredModelAlgorithmAssociationSummary: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the configured model algorithm association.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm that is associated to the collaboration.
+        public let configuredModelAlgorithmArn: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// The time at which the configured model algorithm association was created.
+        public let createTime: Date
+        /// The account ID of the member that created the configured model algorithm association.
+        public let creatorAccountId: String
+        /// The description of the configured model algorithm association.
+        public let description: String?
+        /// The membership ID of the member that created the configured model algorithm association.
+        public let membershipIdentifier: String
+        /// The name of the configured model algorithm association.
+        public let name: String
+        /// The most recent time at which the configured model algorithm association was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmArn: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, name: String, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmArn = "configuredModelAlgorithmArn"
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case createTime = "createTime"
+            case creatorAccountId = "creatorAccountId"
+            case description = "description"
+            case membershipIdentifier = "membershipIdentifier"
+            case name = "name"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct CollaborationMLInputChannelSummary: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the ML input channel.
+        public let collaborationIdentifier: String
+        /// The associated configured model algorithms used to create the ML input channel.
+        public let configuredModelAlgorithmAssociations: [String]
+        /// The time at which the ML input channel was created.
+        public let createTime: Date
+        /// The account ID of the member who created the ML input channel.
+        public let creatorAccountId: String
+        /// The description of the ML input channel.
+        public let description: String?
+        /// The membership ID of the membership that contains the ML input channel.
+        public let membershipIdentifier: String
+        /// The Amazon Resource Name (ARN) of the ML input channel.
+        public let mlInputChannelArn: String
+        /// The name of the ML input channel.
+        public let name: String
+        /// The status of the ML input channel.
+        public let status: MLInputChannelStatus
+        /// The most recent time at which the ML input channel was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, status: MLInputChannelStatus, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.mlInputChannelArn = mlInputChannelArn
+            self.name = name
+            self.status = status
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmAssociations = "configuredModelAlgorithmAssociations"
+            case createTime = "createTime"
+            case creatorAccountId = "creatorAccountId"
+            case description = "description"
+            case membershipIdentifier = "membershipIdentifier"
+            case mlInputChannelArn = "mlInputChannelArn"
+            case name = "name"
+            case status = "status"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct CollaborationTrainedModelExportJobSummary: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the trained model export job.
+        public let collaborationIdentifier: String
+        /// The time at which the trained model export job was created.
+        public let createTime: Date
+        /// The account ID of the member that created the trained model.
+        public let creatorAccountId: String
+        /// The description of the trained model.
+        public let description: String?
+        /// The membership ID of the member that created the trained model export job.
+        public let membershipIdentifier: String
+        /// The name of the trained model export job.
+        public let name: String
+        public let outputConfiguration: TrainedModelExportOutputConfiguration
+        /// The status of the trained model.
+        public let status: TrainedModelExportJobStatus
+        public let statusDetails: StatusDetails?
+        /// The Amazon Resource Name (ARN) of the trained model that is being exported.
+        public let trainedModelArn: String
+        /// The most recent time at which the trained model export job was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, name: String, outputConfiguration: TrainedModelExportOutputConfiguration, status: TrainedModelExportJobStatus, statusDetails: StatusDetails? = nil, trainedModelArn: String, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.outputConfiguration = outputConfiguration
+            self.status = status
+            self.statusDetails = statusDetails
+            self.trainedModelArn = trainedModelArn
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case createTime = "createTime"
+            case creatorAccountId = "creatorAccountId"
+            case description = "description"
+            case membershipIdentifier = "membershipIdentifier"
+            case name = "name"
+            case outputConfiguration = "outputConfiguration"
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case trainedModelArn = "trainedModelArn"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct CollaborationTrainedModelInferenceJobSummary: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the trained model inference job.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that is used for the trained model inference job.
+        public let configuredModelAlgorithmAssociationArn: String?
+        /// The time at which the trained model inference job was created.
+        public let createTime: Date
+        /// The account ID that created the trained model inference job.
+        public let creatorAccountId: String
+        /// The description of the trained model inference job.
+        public let description: String?
+        /// The trained model inference job logs status.
+        public let logsStatus: LogsStatus?
+        /// Details about the logs status for the trained model inference job.
+        public let logsStatusDetails: String?
+        /// The membership ID of the membership that contains the trained model inference job.
+        public let membershipIdentifier: String
+        /// the trained model inference job metrics status.
+        public let metricsStatus: MetricsStatus?
+        /// Details about the metrics status for trained model inference job.
+        public let metricsStatusDetails: String?
+        /// The name of the trained model inference job.
+        public let name: String
+        /// Returns output configuration information for the trained model inference job.
+        public let outputConfiguration: InferenceOutputConfiguration
+        /// The status of the trained model inference job.
+        public let status: TrainedModelInferenceJobStatus
+        /// The Amazon Resource Name (ARN) of the trained model that is used for the trained model inference job.
+        public let trainedModelArn: String
+        /// The Amazon Resource Name (ARN) of the trained model inference job.
+        public let trainedModelInferenceJobArn: String
+        /// The most recent time at which the trained model inference job was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String? = nil, createTime: Date, creatorAccountId: String, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, status: TrainedModelInferenceJobStatus, trainedModelArn: String, trainedModelInferenceJobArn: String, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.logsStatus = logsStatus
+            self.logsStatusDetails = logsStatusDetails
+            self.membershipIdentifier = membershipIdentifier
+            self.metricsStatus = metricsStatus
+            self.metricsStatusDetails = metricsStatusDetails
+            self.name = name
+            self.outputConfiguration = outputConfiguration
+            self.status = status
+            self.trainedModelArn = trainedModelArn
+            self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case createTime = "createTime"
+            case creatorAccountId = "creatorAccountId"
+            case description = "description"
+            case logsStatus = "logsStatus"
+            case logsStatusDetails = "logsStatusDetails"
+            case membershipIdentifier = "membershipIdentifier"
+            case metricsStatus = "metricsStatus"
+            case metricsStatusDetails = "metricsStatusDetails"
+            case name = "name"
+            case outputConfiguration = "outputConfiguration"
+            case status = "status"
+            case trainedModelArn = "trainedModelArn"
+            case trainedModelInferenceJobArn = "trainedModelInferenceJobArn"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct CollaborationTrainedModelSummary: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the trained model.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that is used for this trained model.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// The time at which the trained model was created.
+        public let createTime: Date
+        /// The account ID of the member that created the trained model.
+        public let creatorAccountId: String
+        /// The description of the trained model.
+        public let description: String?
+        /// The membership ID of the member that created the trained model.
+        public let membershipIdentifier: String
+        /// The name of the trained model.
+        public let name: String
+        /// The status of the trained model.
+        public let status: TrainedModelStatus
+        /// The Amazon Resource Name (ARN) of the trained model.
+        public let trainedModelArn: String
+        /// The most recent time at which the trained model was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, name: String, status: TrainedModelStatus, trainedModelArn: String, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.status = status
+            self.trainedModelArn = trainedModelArn
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case createTime = "createTime"
+            case creatorAccountId = "creatorAccountId"
+            case description = "description"
+            case membershipIdentifier = "membershipIdentifier"
+            case name = "name"
+            case status = "status"
+            case trainedModelArn = "trainedModelArn"
+            case updateTime = "updateTime"
+        }
+    }
+
     public struct ColumnSchema: AWSEncodableShape & AWSDecodableShape {
         /// The name of a column.
         public let columnName: String
@@ -439,6 +1053,128 @@ extension CleanRoomsML {
             case outputConfig = "outputConfig"
             case status = "status"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct ConfiguredModelAlgorithmAssociationSummary: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the configured model algorithm association.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm that is being associated.
+        public let configuredModelAlgorithmArn: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// The time at which the configured model algorithm association was created.
+        public let createTime: Date
+        /// The description of the configured model algorithm association.
+        public let description: String?
+        /// The membership ID of the member that created the configured model algorithm association.
+        public let membershipIdentifier: String
+        /// The name of the configured model algorithm association.
+        public let name: String
+        /// The most recent time at which the configured model algorithm association was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmArn: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, description: String? = nil, membershipIdentifier: String, name: String, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.createTime = createTime
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmArn = "configuredModelAlgorithmArn"
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case createTime = "createTime"
+            case description = "description"
+            case membershipIdentifier = "membershipIdentifier"
+            case name = "name"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct ConfiguredModelAlgorithmSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm.
+        public let configuredModelAlgorithmArn: String
+        /// The time at which the configured model algorithm was created.
+        public let createTime: Date
+        /// The description of the configured model algorithm.
+        public let description: String?
+        /// The name of the configured model algorithm.
+        public let name: String
+        /// The most recent time at which the configured model algorithm was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(configuredModelAlgorithmArn: String, createTime: Date, description: String? = nil, name: String, updateTime: Date) {
+            self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
+            self.createTime = createTime
+            self.description = description
+            self.name = name
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithmArn = "configuredModelAlgorithmArn"
+            case createTime = "createTime"
+            case description = "description"
+            case name = "name"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct ContainerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The arguments for a container used to run a training job. See How Amazon SageMaker Runs Your Training Image for additional information. For more information, see How Sagemaker runs your training image.
+        public let arguments: [String]?
+        /// The entrypoint script for a Docker container used to run a training job. This script takes precedence over the default train processing instructions. See How Amazon SageMaker Runs Your Training Image for additional information. For more information, see How Sagemaker runs your training image.
+        public let entrypoint: [String]?
+        /// The registry path of the docker image that contains the algorithm. Clean Rooms ML supports both registry/repository[:tag] and registry/repositry[@digest] image path formats. For more information about using images in Clean Rooms ML, see the Sagemaker API reference.
+        public let imageUri: String
+        /// A list of metric definition objects. Each object specifies the metric name and regular expressions used to parse algorithm logs. Amazon Web Services Clean Rooms ML publishes each metric to all members' Amazon CloudWatch using IAM role configured in PutMLConfiguration.
+        public let metricDefinitions: [MetricDefinition]?
+
+        @inlinable
+        public init(arguments: [String]? = nil, entrypoint: [String]? = nil, imageUri: String, metricDefinitions: [MetricDefinition]? = nil) {
+            self.arguments = arguments
+            self.entrypoint = entrypoint
+            self.imageUri = imageUri
+            self.metricDefinitions = metricDefinitions
+        }
+
+        public func validate(name: String) throws {
+            try self.arguments?.forEach {
+                try validate($0, name: "arguments[]", parent: name, max: 256)
+                try validate($0, name: "arguments[]", parent: name, min: 1)
+                try validate($0, name: "arguments[]", parent: name, pattern: "^.*$")
+            }
+            try self.validate(self.arguments, name: "arguments", parent: name, max: 100)
+            try self.validate(self.arguments, name: "arguments", parent: name, min: 1)
+            try self.entrypoint?.forEach {
+                try validate($0, name: "entrypoint[]", parent: name, max: 256)
+                try validate($0, name: "entrypoint[]", parent: name, min: 1)
+                try validate($0, name: "entrypoint[]", parent: name, pattern: "^.*$")
+            }
+            try self.validate(self.entrypoint, name: "entrypoint", parent: name, max: 100)
+            try self.validate(self.entrypoint, name: "entrypoint", parent: name, min: 1)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, max: 255)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, min: 1)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: "^.*$")
+            try self.metricDefinitions?.forEach {
+                try $0.validate(name: "\(name).metricDefinitions[]")
+            }
+            try self.validate(self.metricDefinitions, name: "metricDefinitions", parent: name, max: 40)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arguments = "arguments"
+            case entrypoint = "entrypoint"
+            case imageUri = "imageUri"
+            case metricDefinitions = "metricDefinitions"
         }
     }
 
@@ -594,6 +1330,366 @@ extension CleanRoomsML {
 
         private enum CodingKeys: String, CodingKey {
             case configuredAudienceModelArn = "configuredAudienceModelArn"
+        }
+    }
+
+    public struct CreateConfiguredModelAlgorithmAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm that you want to associate.
+        public let configuredModelAlgorithmArn: String
+        /// The description of the configured model algorithm association.
+        public let description: String?
+        /// The membership ID of the member who is associating this configured model algorithm.
+        public let membershipIdentifier: String
+        /// The name of the configured model algorithm association.
+        public let name: String
+        /// Specifies the privacy configuration information for the configured model algorithm association. This information includes the maximum data size that can be exported.
+        public let privacyConfiguration: PrivacyConfiguration?
+        /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(configuredModelAlgorithmArn: String, description: String? = nil, membershipIdentifier: String, name: String, privacyConfiguration: PrivacyConfiguration? = nil, tags: [String: String]? = nil) {
+            self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.privacyConfiguration = privacyConfiguration
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.configuredModelAlgorithmArn, forKey: .configuredModelAlgorithmArn)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.privacyConfiguration, forKey: .privacyConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuredModelAlgorithmArn, name: "configuredModelAlgorithmArn", parent: name, max: 2048)
+            try self.validate(self.configuredModelAlgorithmArn, name: "configuredModelAlgorithmArn", parent: name, min: 20)
+            try self.validate(self.configuredModelAlgorithmArn, name: "configuredModelAlgorithmArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-model-algorithm/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.privacyConfiguration?.validate(name: "\(name).privacyConfiguration")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithmArn = "configuredModelAlgorithmArn"
+            case description = "description"
+            case name = "name"
+            case privacyConfiguration = "privacyConfiguration"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateConfiguredModelAlgorithmAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association.
+        public let configuredModelAlgorithmAssociationArn: String
+
+        @inlinable
+        public init(configuredModelAlgorithmAssociationArn: String) {
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+        }
+    }
+
+    public struct CreateConfiguredModelAlgorithmRequest: AWSEncodableShape {
+        /// The description of the configured model algorithm.
+        public let description: String?
+        /// Configuration information for the inference container that is used when you run an inference job on a configured model algorithm.
+        public let inferenceContainerConfig: InferenceContainerConfig?
+        /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the configured ML model algorithm and associated data.
+        public let kmsKeyArn: String?
+        /// The name of the configured model algorithm.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the role that is used to access the repository.
+        public let roleArn: String
+        /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+        public let tags: [String: String]?
+        /// Configuration information for the training container, including entrypoints and arguments.
+        public let trainingContainerConfig: ContainerConfig?
+
+        @inlinable
+        public init(description: String? = nil, inferenceContainerConfig: InferenceContainerConfig? = nil, kmsKeyArn: String? = nil, name: String, roleArn: String, tags: [String: String]? = nil, trainingContainerConfig: ContainerConfig? = nil) {
+            self.description = description
+            self.inferenceContainerConfig = inferenceContainerConfig
+            self.kmsKeyArn = kmsKeyArn
+            self.name = name
+            self.roleArn = roleArn
+            self.tags = tags
+            self.trainingContainerConfig = trainingContainerConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
+            try self.inferenceContainerConfig?.validate(name: "\(name).inferenceContainerConfig")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[-a-z]*:kms:[-a-z0-9]+:[0-9]{12}:key/.+$")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[-a-z]*:iam::[0-9]{12}:role/.+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.trainingContainerConfig?.validate(name: "\(name).trainingContainerConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case inferenceContainerConfig = "inferenceContainerConfig"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case trainingContainerConfig = "trainingContainerConfig"
+        }
+    }
+
+    public struct CreateConfiguredModelAlgorithmResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm.
+        public let configuredModelAlgorithmArn: String
+
+        @inlinable
+        public init(configuredModelAlgorithmArn: String) {
+            self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithmArn = "configuredModelAlgorithmArn"
+        }
+    }
+
+    public struct CreateMLInputChannelRequest: AWSEncodableShape {
+        /// The associated configured model algorithms that are necessary to create this ML input channel.
+        public let configuredModelAlgorithmAssociations: [String]
+        /// The description of the ML input channel.
+        public let description: String?
+        /// The input data that is used to create this ML input channel.
+        public let inputChannel: InputChannel
+        /// The Amazon Resource Name (ARN) of the KMS key that is used to access the input channel.
+        public let kmsKeyArn: String?
+        /// The membership ID of the member that is creating the ML input channel.
+        public let membershipIdentifier: String
+        /// The name of the ML input channel.
+        public let name: String
+        /// The number of days that the data in the ML input channel is retained.
+        public let retentionInDays: Int
+        /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(configuredModelAlgorithmAssociations: [String], description: String? = nil, inputChannel: InputChannel, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, retentionInDays: Int, tags: [String: String]? = nil) {
+            self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
+            self.description = description
+            self.inputChannel = inputChannel
+            self.kmsKeyArn = kmsKeyArn
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.retentionInDays = retentionInDays
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.configuredModelAlgorithmAssociations, forKey: .configuredModelAlgorithmAssociations)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.inputChannel, forKey: .inputChannel)
+            try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.retentionInDays, forKey: .retentionInDays)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.configuredModelAlgorithmAssociations.forEach {
+                try validate($0, name: "configuredModelAlgorithmAssociations[]", parent: name, max: 2048)
+                try validate($0, name: "configuredModelAlgorithmAssociations[]", parent: name, min: 20)
+                try validate($0, name: "configuredModelAlgorithmAssociations[]", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+            }
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
+            try self.inputChannel.validate(name: "\(name).inputChannel")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[-a-z]*:kms:[-a-z0-9]+:[0-9]{12}:key/.+$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithmAssociations = "configuredModelAlgorithmAssociations"
+            case description = "description"
+            case inputChannel = "inputChannel"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case retentionInDays = "retentionInDays"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateMLInputChannelResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ML input channel.
+        public let mlInputChannelArn: String
+
+        @inlinable
+        public init(mlInputChannelArn: String) {
+            self.mlInputChannelArn = mlInputChannelArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mlInputChannelArn = "mlInputChannelArn"
+        }
+    }
+
+    public struct CreateTrainedModelRequest: AWSEncodableShape {
+        /// The associated configured model algorithm used to train this model.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// Defines the data channels that are used as input for the trained model request.
+        public let dataChannels: [ModelTrainingDataChannel]
+        /// The description of the trained model.
+        public let description: String?
+        /// The environment variables to set in the Docker container.
+        public let environment: [String: String]?
+        /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process.
+        public let hyperparameters: [String: String]?
+        /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and the associated data.
+        public let kmsKeyArn: String?
+        /// The membership ID of the member that is creating the trained model.
+        public let membershipIdentifier: String
+        /// The name of the trained model.
+        public let name: String
+        /// Information about the EC2 resources that are used to train this model.
+        public let resourceConfig: ResourceConfig
+        /// The criteria that is used to stop model training.
+        public let stoppingCondition: StoppingCondition?
+        /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(configuredModelAlgorithmAssociationArn: String, dataChannels: [ModelTrainingDataChannel], description: String? = nil, environment: [String: String]? = nil, hyperparameters: [String: String]? = nil, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, resourceConfig: ResourceConfig, stoppingCondition: StoppingCondition? = nil, tags: [String: String]? = nil) {
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.dataChannels = dataChannels
+            self.description = description
+            self.environment = environment
+            self.hyperparameters = hyperparameters
+            self.kmsKeyArn = kmsKeyArn
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.resourceConfig = resourceConfig
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.configuredModelAlgorithmAssociationArn, forKey: .configuredModelAlgorithmAssociationArn)
+            try container.encode(self.dataChannels, forKey: .dataChannels)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.environment, forKey: .environment)
+            try container.encodeIfPresent(self.hyperparameters, forKey: .hyperparameters)
+            try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.resourceConfig, forKey: .resourceConfig)
+            try container.encodeIfPresent(self.stoppingCondition, forKey: .stoppingCondition)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, max: 2048)
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, min: 20)
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+            try self.dataChannels.forEach {
+                try $0.validate(name: "\(name).dataChannels[]")
+            }
+            try self.validate(self.dataChannels, name: "dataChannels", parent: name, max: 20)
+            try self.validate(self.dataChannels, name: "dataChannels", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
+            try self.validate(self.environment, name: "environment", parent: name, max: 100)
+            try self.validate(self.hyperparameters, name: "hyperparameters", parent: name, max: 100)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[-a-z]*:kms:[-a-z0-9]+:[0-9]{12}:key/.+$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case dataChannels = "dataChannels"
+            case description = "description"
+            case environment = "environment"
+            case hyperparameters = "hyperparameters"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case resourceConfig = "resourceConfig"
+            case stoppingCondition = "stoppingCondition"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateTrainedModelResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the trained model.
+        public let trainedModelArn: String
+
+        @inlinable
+        public init(trainedModelArn: String) {
+            self.trainedModelArn = trainedModelArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainedModelArn = "trainedModelArn"
         }
     }
 
@@ -822,6 +1918,147 @@ extension CleanRoomsML {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteConfiguredModelAlgorithmAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that you want to delete.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// The membership ID of the member that is deleting the configured model algorithm association.
+        public let membershipIdentifier: String
+
+        @inlinable
+        public init(configuredModelAlgorithmAssociationArn: String, membershipIdentifier: String) {
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configuredModelAlgorithmAssociationArn, key: "configuredModelAlgorithmAssociationArn")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, max: 2048)
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, min: 20)
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConfiguredModelAlgorithmRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm that you want to delete.
+        public let configuredModelAlgorithmArn: String
+
+        @inlinable
+        public init(configuredModelAlgorithmArn: String) {
+            self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configuredModelAlgorithmArn, key: "configuredModelAlgorithmArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuredModelAlgorithmArn, name: "configuredModelAlgorithmArn", parent: name, max: 2048)
+            try self.validate(self.configuredModelAlgorithmArn, name: "configuredModelAlgorithmArn", parent: name, min: 20)
+            try self.validate(self.configuredModelAlgorithmArn, name: "configuredModelAlgorithmArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-model-algorithm/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteMLConfigurationRequest: AWSEncodableShape {
+        /// The membership ID of the of the member that is deleting the ML modeling configuration.
+        public let membershipIdentifier: String
+
+        @inlinable
+        public init(membershipIdentifier: String) {
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteMLInputChannelDataRequest: AWSEncodableShape {
+        /// The membership ID of the membership that contains the ML input channel you want to delete.
+        public let membershipIdentifier: String
+        /// The Amazon Resource Name (ARN) of the ML input channel that you want to delete.
+        public let mlInputChannelArn: String
+
+        @inlinable
+        public init(membershipIdentifier: String, mlInputChannelArn: String) {
+            self.membershipIdentifier = membershipIdentifier
+            self.mlInputChannelArn = mlInputChannelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.mlInputChannelArn, key: "mlInputChannelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, max: 2048)
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, min: 20)
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/ml-input-channel/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTrainedModelOutputRequest: AWSEncodableShape {
+        /// The membership ID of the member that is deleting the trained model output.
+        public let membershipIdentifier: String
+        /// The Amazon Resource Name (ARN) of the trained model whose output you want to delete.
+        public let trainedModelArn: String
+
+        @inlinable
+        public init(membershipIdentifier: String, trainedModelArn: String) {
+            self.membershipIdentifier = membershipIdentifier
+            self.trainedModelArn = trainedModelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteTrainingDatasetRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the training dataset that you want to delete.
         public let trainingDatasetArn: String
@@ -844,6 +2081,23 @@ extension CleanRoomsML {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct Destination: AWSEncodableShape & AWSDecodableShape {
+        public let s3Destination: S3ConfigMap
+
+        @inlinable
+        public init(s3Destination: S3ConfigMap) {
+            self.s3Destination = s3Destination
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Destination.validate(name: "\(name).s3Destination")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Destination = "s3Destination"
+        }
     }
 
     public struct GetAudienceGenerationJobRequest: AWSEncodableShape {
@@ -1022,6 +2276,290 @@ extension CleanRoomsML {
         }
     }
 
+    public struct GetCollaborationConfiguredModelAlgorithmAssociationRequest: AWSEncodableShape {
+        /// The collaboration ID for the collaboration that contains the configured model algorithm association that you want to return information about.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that you want to return information about.
+        public let configuredModelAlgorithmAssociationArn: String
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodePath(self.configuredModelAlgorithmAssociationArn, key: "configuredModelAlgorithmAssociationArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, max: 2048)
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, min: 20)
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCollaborationConfiguredModelAlgorithmAssociationResponse: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the configured model algorithm association.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association.
+        public let configuredModelAlgorithmArn: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// The time at which the configured model algorithm association was created.
+        public let createTime: Date
+        /// The account ID of the member that created the configured model algorithm association.
+        public let creatorAccountId: String
+        /// The description of the configured model algorithm association.
+        public let description: String?
+        /// The membership ID of the member that created the configured model algorithm association.
+        public let membershipIdentifier: String
+        /// The name of the configured model algorithm association.
+        public let name: String
+        public let privacyConfiguration: PrivacyConfiguration?
+        /// The most recent time at which the configured model algorithm association was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmArn: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, name: String, privacyConfiguration: PrivacyConfiguration? = nil, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.privacyConfiguration = privacyConfiguration
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmArn = "configuredModelAlgorithmArn"
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case createTime = "createTime"
+            case creatorAccountId = "creatorAccountId"
+            case description = "description"
+            case membershipIdentifier = "membershipIdentifier"
+            case name = "name"
+            case privacyConfiguration = "privacyConfiguration"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct GetCollaborationMLInputChannelRequest: AWSEncodableShape {
+        /// The collaboration ID of the collaboration that contains the ML input channel that you want to get.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the ML input channel that you want to get.
+        public let mlInputChannelArn: String
+
+        @inlinable
+        public init(collaborationIdentifier: String, mlInputChannelArn: String) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.mlInputChannelArn = mlInputChannelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodePath(self.mlInputChannelArn, key: "mlInputChannelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, max: 2048)
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, min: 20)
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/ml-input-channel/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCollaborationMLInputChannelResponse: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the ML input channel.
+        public let collaborationIdentifier: String
+        /// The configured model algorithm associations that were used to create the ML input channel.
+        public let configuredModelAlgorithmAssociations: [String]
+        /// The time at which the ML input channel was created.
+        public let createTime: Date
+        /// The account ID of the member who created the ML input channel.
+        public let creatorAccountId: String
+        /// The description of the ML input channel.
+        public let description: String?
+        /// The membership ID of the membership that contains the ML input channel.
+        public let membershipIdentifier: String
+        /// The Amazon Resource Name (ARN) of the ML input channel.
+        public let mlInputChannelArn: String
+        /// The name of the ML input channel.
+        public let name: String
+        /// The number of records in the ML input channel.
+        public let numberOfRecords: Int64?
+        /// The number of days to retain the data for the ML input channel.
+        public let retentionInDays: Int
+        /// The status of the ML input channel.
+        public let status: MLInputChannelStatus
+        public let statusDetails: StatusDetails?
+        /// The most recent time at which the ML input channel was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfRecords: Int64? = nil, retentionInDays: Int, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.mlInputChannelArn = mlInputChannelArn
+            self.name = name
+            self.numberOfRecords = numberOfRecords
+            self.retentionInDays = retentionInDays
+            self.status = status
+            self.statusDetails = statusDetails
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmAssociations = "configuredModelAlgorithmAssociations"
+            case createTime = "createTime"
+            case creatorAccountId = "creatorAccountId"
+            case description = "description"
+            case membershipIdentifier = "membershipIdentifier"
+            case mlInputChannelArn = "mlInputChannelArn"
+            case name = "name"
+            case numberOfRecords = "numberOfRecords"
+            case retentionInDays = "retentionInDays"
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct GetCollaborationTrainedModelRequest: AWSEncodableShape {
+        /// The collaboration ID that contains the trained model that you want to return information about.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the trained model that you want to return information about.
+        public let trainedModelArn: String
+
+        @inlinable
+        public init(collaborationIdentifier: String, trainedModelArn: String) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.trainedModelArn = trainedModelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCollaborationTrainedModelResponse: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the trained model.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that was used to create this trained model.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// The time at which the trained model was created.
+        public let createTime: Date
+        /// The account ID of the member that created the trained model.
+        public let creatorAccountId: String
+        /// The description of the trained model.
+        public let description: String?
+        /// Status information for the logs.
+        public let logsStatus: LogsStatus?
+        /// Details about the status information for the logs.
+        public let logsStatusDetails: String?
+        /// The membership ID of the member that created the trained model.
+        public let membershipIdentifier: String
+        /// The status of the model metrics.
+        public let metricsStatus: MetricsStatus?
+        /// Details about the status information for the model metrics.
+        public let metricsStatusDetails: String?
+        /// The name of the trained model.
+        public let name: String
+        /// The EC2 resource configuration that was used to train this model.
+        public let resourceConfig: ResourceConfig?
+        /// The status of the trained model.
+        public let status: TrainedModelStatus
+        public let statusDetails: StatusDetails?
+        /// The stopping condition that determined when model training ended.
+        public let stoppingCondition: StoppingCondition?
+        /// The Amazon Resource Name (ARN) of the trained model.
+        public let trainedModelArn: String
+        /// Information about the training container image.
+        public let trainingContainerImageDigest: String?
+        /// The most recent time at which the trained model was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, resourceConfig: ResourceConfig? = nil, status: TrainedModelStatus, statusDetails: StatusDetails? = nil, stoppingCondition: StoppingCondition? = nil, trainedModelArn: String, trainingContainerImageDigest: String? = nil, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.logsStatus = logsStatus
+            self.logsStatusDetails = logsStatusDetails
+            self.membershipIdentifier = membershipIdentifier
+            self.metricsStatus = metricsStatus
+            self.metricsStatusDetails = metricsStatusDetails
+            self.name = name
+            self.resourceConfig = resourceConfig
+            self.status = status
+            self.statusDetails = statusDetails
+            self.stoppingCondition = stoppingCondition
+            self.trainedModelArn = trainedModelArn
+            self.trainingContainerImageDigest = trainingContainerImageDigest
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case createTime = "createTime"
+            case creatorAccountId = "creatorAccountId"
+            case description = "description"
+            case logsStatus = "logsStatus"
+            case logsStatusDetails = "logsStatusDetails"
+            case membershipIdentifier = "membershipIdentifier"
+            case metricsStatus = "metricsStatus"
+            case metricsStatusDetails = "metricsStatusDetails"
+            case name = "name"
+            case resourceConfig = "resourceConfig"
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case stoppingCondition = "stoppingCondition"
+            case trainedModelArn = "trainedModelArn"
+            case trainingContainerImageDigest = "trainingContainerImageDigest"
+            case updateTime = "updateTime"
+        }
+    }
+
     public struct GetConfiguredAudienceModelPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the configured audience model that you are interested in.
         public let configuredAudienceModelArn: String
@@ -1154,6 +2692,579 @@ extension CleanRoomsML {
         }
     }
 
+    public struct GetConfiguredModelAlgorithmAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that you want to return information about.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// The membership ID of the member that created the configured model algorithm association.
+        public let membershipIdentifier: String
+
+        @inlinable
+        public init(configuredModelAlgorithmAssociationArn: String, membershipIdentifier: String) {
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configuredModelAlgorithmAssociationArn, key: "configuredModelAlgorithmAssociationArn")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, max: 2048)
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, min: 20)
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConfiguredModelAlgorithmAssociationResponse: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the configured model algorithm association.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm that was associated to the collaboration.
+        public let configuredModelAlgorithmArn: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// The time at which the configured model algorithm association was created.
+        public let createTime: Date
+        /// The description of the configured model algorithm association.
+        public let description: String?
+        /// The membership ID of the member that created the configured model algorithm association.
+        public let membershipIdentifier: String
+        /// The name of the configured model algorithm association.
+        public let name: String
+        /// The privacy configuration information for the configured model algorithm association.
+        public let privacyConfiguration: PrivacyConfiguration?
+        /// The optional metadata that you applied to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+        public let tags: [String: String]?
+        /// The most recent time at which the configured model algorithm association was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmArn: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, description: String? = nil, membershipIdentifier: String, name: String, privacyConfiguration: PrivacyConfiguration? = nil, tags: [String: String]? = nil, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.createTime = createTime
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.privacyConfiguration = privacyConfiguration
+            self.tags = tags
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmArn = "configuredModelAlgorithmArn"
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case createTime = "createTime"
+            case description = "description"
+            case membershipIdentifier = "membershipIdentifier"
+            case name = "name"
+            case privacyConfiguration = "privacyConfiguration"
+            case tags = "tags"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct GetConfiguredModelAlgorithmRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm that you want to return information about.
+        public let configuredModelAlgorithmArn: String
+
+        @inlinable
+        public init(configuredModelAlgorithmArn: String) {
+            self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configuredModelAlgorithmArn, key: "configuredModelAlgorithmArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuredModelAlgorithmArn, name: "configuredModelAlgorithmArn", parent: name, max: 2048)
+            try self.validate(self.configuredModelAlgorithmArn, name: "configuredModelAlgorithmArn", parent: name, min: 20)
+            try self.validate(self.configuredModelAlgorithmArn, name: "configuredModelAlgorithmArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-model-algorithm/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConfiguredModelAlgorithmResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm.
+        public let configuredModelAlgorithmArn: String
+        /// The time at which the configured model algorithm was created.
+        public let createTime: Date
+        /// The description of the configured model algorithm.
+        public let description: String?
+        /// Configuration information for the inference container.
+        public let inferenceContainerConfig: InferenceContainerConfig?
+        /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the configured ML model and associated data.
+        public let kmsKeyArn: String?
+        /// The name of the configured model algorithm.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the service role that was used to create the configured model algorithm.
+        public let roleArn: String
+        /// The optional metadata that you applied to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+        public let tags: [String: String]?
+        /// The configuration information of the training container for the configured model algorithm.
+        public let trainingContainerConfig: ContainerConfig?
+        /// The most recent time at which the configured model algorithm was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(configuredModelAlgorithmArn: String, createTime: Date, description: String? = nil, inferenceContainerConfig: InferenceContainerConfig? = nil, kmsKeyArn: String? = nil, name: String, roleArn: String, tags: [String: String]? = nil, trainingContainerConfig: ContainerConfig? = nil, updateTime: Date) {
+            self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
+            self.createTime = createTime
+            self.description = description
+            self.inferenceContainerConfig = inferenceContainerConfig
+            self.kmsKeyArn = kmsKeyArn
+            self.name = name
+            self.roleArn = roleArn
+            self.tags = tags
+            self.trainingContainerConfig = trainingContainerConfig
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithmArn = "configuredModelAlgorithmArn"
+            case createTime = "createTime"
+            case description = "description"
+            case inferenceContainerConfig = "inferenceContainerConfig"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case trainingContainerConfig = "trainingContainerConfig"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct GetMLConfigurationRequest: AWSEncodableShape {
+        /// The membership ID of the member that owns the ML configuration you want to return information about.
+        public let membershipIdentifier: String
+
+        @inlinable
+        public init(membershipIdentifier: String) {
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMLConfigurationResponse: AWSDecodableShape {
+        /// The time at which the ML configuration was created.
+        public let createTime: Date
+        /// The Amazon S3 location where ML model output is stored.
+        public let defaultOutputLocation: MLOutputConfiguration
+        /// The membership ID of the member that owns the ML configuration you requested.
+        public let membershipIdentifier: String
+        /// The most recent time at which the ML configuration was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(createTime: Date, defaultOutputLocation: MLOutputConfiguration, membershipIdentifier: String, updateTime: Date) {
+            self.createTime = createTime
+            self.defaultOutputLocation = defaultOutputLocation
+            self.membershipIdentifier = membershipIdentifier
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "createTime"
+            case defaultOutputLocation = "defaultOutputLocation"
+            case membershipIdentifier = "membershipIdentifier"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct GetMLInputChannelRequest: AWSEncodableShape {
+        /// The membership ID of the membership that contains the ML input channel that you want to get.
+        public let membershipIdentifier: String
+        /// The Amazon Resource Name (ARN) of the ML input channel that you want to get.
+        public let mlInputChannelArn: String
+
+        @inlinable
+        public init(membershipIdentifier: String, mlInputChannelArn: String) {
+            self.membershipIdentifier = membershipIdentifier
+            self.mlInputChannelArn = mlInputChannelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.mlInputChannelArn, key: "mlInputChannelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, max: 2048)
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, min: 20)
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/ml-input-channel/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMLInputChannelResponse: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the ML input channel.
+        public let collaborationIdentifier: String
+        /// The configured model algorithm associations that were used to create the ML input channel.
+        public let configuredModelAlgorithmAssociations: [String]
+        /// The time at which the ML input channel was created.
+        public let createTime: Date
+        /// The description of the ML input channel.
+        public let description: String?
+        /// The input channel that was used to create the ML input channel.
+        public let inputChannel: InputChannel
+        /// The Amazon Resource Name (ARN) of the KMS key that was used to create the ML input channel.
+        public let kmsKeyArn: String?
+        /// The membership ID of the membership that contains the ML input channel.
+        public let membershipIdentifier: String
+        /// The Amazon Resource Name (ARN) of the ML input channel.
+        public let mlInputChannelArn: String
+        /// The name of the ML input channel.
+        public let name: String
+        /// The number of files in the ML input channel.
+        public let numberOfFiles: Double?
+        /// The number of records in the ML input channel.
+        public let numberOfRecords: Int64?
+        /// The ID of the protected query that was used to create the ML input channel.
+        public let protectedQueryIdentifier: String?
+        /// The number of days to keep the data in the ML input channel.
+        public let retentionInDays: Int
+        /// The size, in GB, of the ML input channel.
+        public let sizeInGb: Double?
+        /// The status of the ML input channel.
+        public let status: MLInputChannelStatus
+        public let statusDetails: StatusDetails?
+        /// The optional metadata that you applied to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+        public let tags: [String: String]?
+        /// The most recent time at which the ML input channel was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, description: String? = nil, inputChannel: InputChannel, kmsKeyArn: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfFiles: Double? = nil, numberOfRecords: Int64? = nil, protectedQueryIdentifier: String? = nil, retentionInDays: Int, sizeInGb: Double? = nil, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
+            self.createTime = createTime
+            self.description = description
+            self.inputChannel = inputChannel
+            self.kmsKeyArn = kmsKeyArn
+            self.membershipIdentifier = membershipIdentifier
+            self.mlInputChannelArn = mlInputChannelArn
+            self.name = name
+            self.numberOfFiles = numberOfFiles
+            self.numberOfRecords = numberOfRecords
+            self.protectedQueryIdentifier = protectedQueryIdentifier
+            self.retentionInDays = retentionInDays
+            self.sizeInGb = sizeInGb
+            self.status = status
+            self.statusDetails = statusDetails
+            self.tags = tags
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmAssociations = "configuredModelAlgorithmAssociations"
+            case createTime = "createTime"
+            case description = "description"
+            case inputChannel = "inputChannel"
+            case kmsKeyArn = "kmsKeyArn"
+            case membershipIdentifier = "membershipIdentifier"
+            case mlInputChannelArn = "mlInputChannelArn"
+            case name = "name"
+            case numberOfFiles = "numberOfFiles"
+            case numberOfRecords = "numberOfRecords"
+            case protectedQueryIdentifier = "protectedQueryIdentifier"
+            case retentionInDays = "retentionInDays"
+            case sizeInGb = "sizeInGb"
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case tags = "tags"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct GetTrainedModelInferenceJobRequest: AWSEncodableShape {
+        /// Provides the membership ID of the membership that contains the trained model inference job that you are interested in.
+        public let membershipIdentifier: String
+        /// Provides the Amazon Resource Name (ARN) of the trained model inference job that you are interested in.
+        public let trainedModelInferenceJobArn: String
+
+        @inlinable
+        public init(membershipIdentifier: String, trainedModelInferenceJobArn: String) {
+            self.membershipIdentifier = membershipIdentifier
+            self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.trainedModelInferenceJobArn, key: "trainedModelInferenceJobArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, min: 20)
+            try self.validate(self.trainedModelInferenceJobArn, name: "trainedModelInferenceJobArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model-inference-job/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTrainedModelInferenceJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that was used for the trained model inference job.
+        public let configuredModelAlgorithmAssociationArn: String?
+        /// The execution parameters for the model inference job container.
+        public let containerExecutionParameters: InferenceContainerExecutionParameters?
+        /// The time at which the trained model inference job was created.
+        public let createTime: Date
+        /// The data source that was used for the trained model inference job.
+        public let dataSource: ModelInferenceDataSource
+        /// The description of the trained model inference job.
+        public let description: String?
+        /// The environment variables to set in the Docker container.
+        public let environment: [String: String]?
+        /// Information about the training container image.
+        public let inferenceContainerImageDigest: String?
+        /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the ML inference job and associated data.
+        public let kmsKeyArn: String?
+        /// The logs status for the trained model inference job.
+        public let logsStatus: LogsStatus?
+        /// Details about the logs status for the trained model inference job.
+        public let logsStatusDetails: String?
+        /// The membership ID of the membership that contains the trained model inference job.
+        public let membershipIdentifier: String
+        /// The metrics status for the trained model inference job.
+        public let metricsStatus: MetricsStatus?
+        /// Details about the metrics status for the trained model inference job.
+        public let metricsStatusDetails: String?
+        /// The name of the trained model inference job.
+        public let name: String
+        /// The output configuration information for the trained model inference job.
+        public let outputConfiguration: InferenceOutputConfiguration
+        /// The resource configuration information for the trained model inference job.
+        public let resourceConfig: InferenceResourceConfig
+        /// The status of the trained model inference job.
+        public let status: TrainedModelInferenceJobStatus
+        public let statusDetails: StatusDetails?
+        /// The optional metadata that you applied to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+        public let tags: [String: String]?
+        /// The Amazon Resource Name (ARN) for the trained model that was used for the trained model inference job.
+        public let trainedModelArn: String
+        /// The Amazon Resource Name (ARN) of the trained model inference job.
+        public let trainedModelInferenceJobArn: String
+        /// The most recent time at which the trained model inference job was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(configuredModelAlgorithmAssociationArn: String? = nil, containerExecutionParameters: InferenceContainerExecutionParameters? = nil, createTime: Date, dataSource: ModelInferenceDataSource, description: String? = nil, environment: [String: String]? = nil, inferenceContainerImageDigest: String? = nil, kmsKeyArn: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, resourceConfig: InferenceResourceConfig, status: TrainedModelInferenceJobStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, trainedModelArn: String, trainedModelInferenceJobArn: String, updateTime: Date) {
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.containerExecutionParameters = containerExecutionParameters
+            self.createTime = createTime
+            self.dataSource = dataSource
+            self.description = description
+            self.environment = environment
+            self.inferenceContainerImageDigest = inferenceContainerImageDigest
+            self.kmsKeyArn = kmsKeyArn
+            self.logsStatus = logsStatus
+            self.logsStatusDetails = logsStatusDetails
+            self.membershipIdentifier = membershipIdentifier
+            self.metricsStatus = metricsStatus
+            self.metricsStatusDetails = metricsStatusDetails
+            self.name = name
+            self.outputConfiguration = outputConfiguration
+            self.resourceConfig = resourceConfig
+            self.status = status
+            self.statusDetails = statusDetails
+            self.tags = tags
+            self.trainedModelArn = trainedModelArn
+            self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case containerExecutionParameters = "containerExecutionParameters"
+            case createTime = "createTime"
+            case dataSource = "dataSource"
+            case description = "description"
+            case environment = "environment"
+            case inferenceContainerImageDigest = "inferenceContainerImageDigest"
+            case kmsKeyArn = "kmsKeyArn"
+            case logsStatus = "logsStatus"
+            case logsStatusDetails = "logsStatusDetails"
+            case membershipIdentifier = "membershipIdentifier"
+            case metricsStatus = "metricsStatus"
+            case metricsStatusDetails = "metricsStatusDetails"
+            case name = "name"
+            case outputConfiguration = "outputConfiguration"
+            case resourceConfig = "resourceConfig"
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case tags = "tags"
+            case trainedModelArn = "trainedModelArn"
+            case trainedModelInferenceJobArn = "trainedModelInferenceJobArn"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct GetTrainedModelRequest: AWSEncodableShape {
+        /// The membership ID of the member that created the trained model that you are interested in.
+        public let membershipIdentifier: String
+        /// The Amazon Resource Name (ARN) of the trained model that you are interested in.
+        public let trainedModelArn: String
+
+        @inlinable
+        public init(membershipIdentifier: String, trainedModelArn: String) {
+            self.membershipIdentifier = membershipIdentifier
+            self.trainedModelArn = trainedModelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTrainedModelResponse: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the trained model.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that was used to create the trained model.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// The time at which the trained model was created.
+        public let createTime: Date
+        /// The data channels that were used for the trained model.
+        public let dataChannels: [ModelTrainingDataChannel]
+        /// The description of the trained model.
+        public let description: String?
+        /// The EC2 environment that was used to create the trained model.
+        public let environment: [String: String]?
+        /// The hyperparameters that were used to create the trained model.
+        public let hyperparameters: [String: String]?
+        /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and associated data.
+        public let kmsKeyArn: String?
+        /// The logs status for the trained model.
+        public let logsStatus: LogsStatus?
+        /// Details about the logs status for the trained model.
+        public let logsStatusDetails: String?
+        /// The membership ID of the member that created the trained model.
+        public let membershipIdentifier: String
+        /// The status of the model metrics.
+        public let metricsStatus: MetricsStatus?
+        /// Details about the metrics status for the trained model.
+        public let metricsStatusDetails: String?
+        /// The name of the trained model.
+        public let name: String
+        /// The EC2 resource configuration that was used to create the trained model.
+        public let resourceConfig: ResourceConfig?
+        /// The status of the trained model.
+        public let status: TrainedModelStatus
+        public let statusDetails: StatusDetails?
+        /// The stopping condition that was used to terminate model training.
+        public let stoppingCondition: StoppingCondition?
+        /// The optional metadata that you applied to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+        public let tags: [String: String]?
+        /// The Amazon Resource Name (ARN) of the trained model.
+        public let trainedModelArn: String
+        /// Information about the training image container.
+        public let trainingContainerImageDigest: String?
+        /// The most recent time at which the trained model was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, dataChannels: [ModelTrainingDataChannel], description: String? = nil, environment: [String: String]? = nil, hyperparameters: [String: String]? = nil, kmsKeyArn: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, resourceConfig: ResourceConfig? = nil, status: TrainedModelStatus, statusDetails: StatusDetails? = nil, stoppingCondition: StoppingCondition? = nil, tags: [String: String]? = nil, trainedModelArn: String, trainingContainerImageDigest: String? = nil, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.createTime = createTime
+            self.dataChannels = dataChannels
+            self.description = description
+            self.environment = environment
+            self.hyperparameters = hyperparameters
+            self.kmsKeyArn = kmsKeyArn
+            self.logsStatus = logsStatus
+            self.logsStatusDetails = logsStatusDetails
+            self.membershipIdentifier = membershipIdentifier
+            self.metricsStatus = metricsStatus
+            self.metricsStatusDetails = metricsStatusDetails
+            self.name = name
+            self.resourceConfig = resourceConfig
+            self.status = status
+            self.statusDetails = statusDetails
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+            self.trainedModelArn = trainedModelArn
+            self.trainingContainerImageDigest = trainingContainerImageDigest
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case createTime = "createTime"
+            case dataChannels = "dataChannels"
+            case description = "description"
+            case environment = "environment"
+            case hyperparameters = "hyperparameters"
+            case kmsKeyArn = "kmsKeyArn"
+            case logsStatus = "logsStatus"
+            case logsStatusDetails = "logsStatusDetails"
+            case membershipIdentifier = "membershipIdentifier"
+            case metricsStatus = "metricsStatus"
+            case metricsStatusDetails = "metricsStatusDetails"
+            case name = "name"
+            case resourceConfig = "resourceConfig"
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case stoppingCondition = "stoppingCondition"
+            case tags = "tags"
+            case trainedModelArn = "trainedModelArn"
+            case trainingContainerImageDigest = "trainingContainerImageDigest"
+            case updateTime = "updateTime"
+        }
+    }
+
     public struct GetTrainingDatasetRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the training dataset that you are interested in.
         public let trainingDatasetArn: String
@@ -1258,6 +3369,129 @@ extension CleanRoomsML {
         }
     }
 
+    public struct InferenceContainerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The registry path of the docker image that contains the inference algorithm. Clean Rooms ML supports both registry/repository[:tag] and registry/repositry[@digest] image path formats. For more information about using images in Clean Rooms ML, see the Sagemaker API reference.
+        public let imageUri: String
+
+        @inlinable
+        public init(imageUri: String) {
+            self.imageUri = imageUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageUri, name: "imageUri", parent: name, max: 255)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, min: 1)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageUri = "imageUri"
+        }
+    }
+
+    public struct InferenceContainerExecutionParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum size of the inference container payload, specified in MB.
+        public let maxPayloadInMB: Int?
+
+        @inlinable
+        public init(maxPayloadInMB: Int? = nil) {
+            self.maxPayloadInMB = maxPayloadInMB
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxPayloadInMB = "maxPayloadInMB"
+        }
+    }
+
+    public struct InferenceOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The MIME type used to specify the output data.
+        public let accept: String?
+        /// Defines the members that can receive inference output.
+        public let members: [InferenceReceiverMember]
+
+        @inlinable
+        public init(accept: String? = nil, members: [InferenceReceiverMember]) {
+            self.accept = accept
+            self.members = members
+        }
+
+        public func validate(name: String) throws {
+            try self.members.forEach {
+                try $0.validate(name: "\(name).members[]")
+            }
+            try self.validate(self.members, name: "members", parent: name, max: 1)
+            try self.validate(self.members, name: "members", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accept = "accept"
+            case members = "members"
+        }
+    }
+
+    public struct InferenceReceiverMember: AWSEncodableShape & AWSDecodableShape {
+        /// The account ID of the member that can receive inference results.
+        public let accountId: String
+
+        @inlinable
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+        }
+    }
+
+    public struct InferenceResourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The number of instances to use.
+        public let instanceCount: Int?
+        /// The type of instance that is used to perform model inference.
+        public let instanceType: InferenceInstanceType
+
+        @inlinable
+        public init(instanceCount: Int? = nil, instanceType: InferenceInstanceType) {
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceCount = "instanceCount"
+            case instanceType = "instanceType"
+        }
+    }
+
+    public struct InputChannel: AWSEncodableShape & AWSDecodableShape {
+        /// The data source that is used to create the ML input channel.
+        public let dataSource: InputChannelDataSource
+        /// The ARN of the IAM role that Clean Rooms ML can assume to read the data referred to in the dataSource field the input channel. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an AccessDeniedException error.
+        public let roleArn: String
+
+        @inlinable
+        public init(dataSource: InputChannelDataSource, roleArn: String) {
+            self.dataSource = dataSource
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSource.validate(name: "\(name).dataSource")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[-a-z]*:iam::[0-9]{12}:role/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "dataSource"
+            case roleArn = "roleArn"
+        }
+    }
+
     public struct ListAudienceExportJobsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the audience generation job that you are interested in.
         public let audienceGenerationJobArn: String?
@@ -1297,7 +3531,7 @@ extension CleanRoomsML {
     public struct ListAudienceExportJobsResponse: AWSDecodableShape {
         /// The audience export jobs that match the request.
         public let audienceExportJobs: [AudienceExportJobSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The token value used to access the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1358,7 +3592,7 @@ extension CleanRoomsML {
     public struct ListAudienceGenerationJobsResponse: AWSDecodableShape {
         /// The audience generation jobs that match the request.
         public let audienceGenerationJobs: [AudienceGenerationJobSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The token value used to access the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1405,7 +3639,7 @@ extension CleanRoomsML {
     public struct ListAudienceModelsResponse: AWSDecodableShape {
         /// The audience models that match the request.
         public let audienceModels: [AudienceModelSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The token value used to access the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1416,6 +3650,290 @@ extension CleanRoomsML {
 
         private enum CodingKeys: String, CodingKey {
             case audienceModels = "audienceModels"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCollaborationConfiguredModelAlgorithmAssociationsRequest: AWSEncodableShape {
+        /// The collaboration ID of the collaboration that contains the configured model algorithm associations that you are interested in.
+        public let collaborationIdentifier: String
+        /// The maximum size of the results that is returned per call.
+        public let maxResults: Int?
+        /// The token value retrieved from a previous call to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCollaborationConfiguredModelAlgorithmAssociationsResponse: AWSDecodableShape {
+        /// The configured model algorithm associations that belong to this collaboration.
+        public let collaborationConfiguredModelAlgorithmAssociations: [CollaborationConfiguredModelAlgorithmAssociationSummary]
+        /// The token value used to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collaborationConfiguredModelAlgorithmAssociations: [CollaborationConfiguredModelAlgorithmAssociationSummary], nextToken: String? = nil) {
+            self.collaborationConfiguredModelAlgorithmAssociations = collaborationConfiguredModelAlgorithmAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationConfiguredModelAlgorithmAssociations = "collaborationConfiguredModelAlgorithmAssociations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCollaborationMLInputChannelsRequest: AWSEncodableShape {
+        /// The collaboration ID of the collaboration that contains the ML input channels that you want to list.
+        public let collaborationIdentifier: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token value retrieved from a previous call to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCollaborationMLInputChannelsResponse: AWSDecodableShape {
+        /// The list of ML input channels that you wanted.
+        public let collaborationMLInputChannelsList: [CollaborationMLInputChannelSummary]
+        /// The token value used to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collaborationMLInputChannelsList: [CollaborationMLInputChannelSummary], nextToken: String? = nil) {
+            self.collaborationMLInputChannelsList = collaborationMLInputChannelsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationMLInputChannelsList = "collaborationMLInputChannelsList"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCollaborationTrainedModelExportJobsRequest: AWSEncodableShape {
+        /// The collaboration ID of the collaboration that contains the trained model export jobs that you are interested in.
+        public let collaborationIdentifier: String
+        /// The maximum size of the results that is returned per call.
+        public let maxResults: Int?
+        /// The token value retrieved from a previous call to access the next page of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the trained model that was used to create the export jobs that you are interested in.
+        public let trainedModelArn: String
+
+        @inlinable
+        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, trainedModelArn: String) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.trainedModelArn = trainedModelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCollaborationTrainedModelExportJobsResponse: AWSDecodableShape {
+        /// The exports jobs that exist for the requested trained model in the requested collaboration.
+        public let collaborationTrainedModelExportJobs: [CollaborationTrainedModelExportJobSummary]
+        /// The token value used to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collaborationTrainedModelExportJobs: [CollaborationTrainedModelExportJobSummary], nextToken: String? = nil) {
+            self.collaborationTrainedModelExportJobs = collaborationTrainedModelExportJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationTrainedModelExportJobs = "collaborationTrainedModelExportJobs"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCollaborationTrainedModelInferenceJobsRequest: AWSEncodableShape {
+        /// The collaboration ID of the collaboration that contains the trained model inference jobs that you are interested in.
+        public let collaborationIdentifier: String
+        /// The maximum size of the results that is returned per call.
+        public let maxResults: Int?
+        /// The token value retrieved from a previous call to access the next page of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the trained model that was used to create the trained model inference jobs that you are interested in.
+        public let trainedModelArn: String?
+
+        @inlinable
+        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, trainedModelArn: String? = nil) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.trainedModelArn = trainedModelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.trainedModelArn, key: "trainedModelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCollaborationTrainedModelInferenceJobsResponse: AWSDecodableShape {
+        /// The trained model inference jobs that you are interested in.
+        public let collaborationTrainedModelInferenceJobs: [CollaborationTrainedModelInferenceJobSummary]
+        /// The token value used to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collaborationTrainedModelInferenceJobs: [CollaborationTrainedModelInferenceJobSummary], nextToken: String? = nil) {
+            self.collaborationTrainedModelInferenceJobs = collaborationTrainedModelInferenceJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationTrainedModelInferenceJobs = "collaborationTrainedModelInferenceJobs"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCollaborationTrainedModelsRequest: AWSEncodableShape {
+        /// The collaboration ID of the collaboration that contains the trained models you are interested in.
+        public let collaborationIdentifier: String
+        /// The maximum size of the results that is returned per call.
+        public let maxResults: Int?
+        /// The token value retrieved from a previous call to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCollaborationTrainedModelsResponse: AWSDecodableShape {
+        /// The trained models in the collaboration that you requested.
+        public let collaborationTrainedModels: [CollaborationTrainedModelSummary]
+        /// The token value used to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collaborationTrainedModels: [CollaborationTrainedModelSummary], nextToken: String? = nil) {
+            self.collaborationTrainedModels = collaborationTrainedModels
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationTrainedModels = "collaborationTrainedModels"
             case nextToken = "nextToken"
         }
     }
@@ -1452,7 +3970,7 @@ extension CleanRoomsML {
     public struct ListConfiguredAudienceModelsResponse: AWSDecodableShape {
         /// The configured audience models.
         public let configuredAudienceModels: [ConfiguredAudienceModelSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The token value used to access the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1463,6 +3981,161 @@ extension CleanRoomsML {
 
         private enum CodingKeys: String, CodingKey {
             case configuredAudienceModels = "configuredAudienceModels"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConfiguredModelAlgorithmAssociationsRequest: AWSEncodableShape {
+        /// The maximum size of the results that is returned per call.
+        public let maxResults: Int?
+        /// The membership ID of the member that created the configured model algorithm associations you are interested in.
+        public let membershipIdentifier: String
+        /// The token value retrieved from a previous call to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.membershipIdentifier = membershipIdentifier
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListConfiguredModelAlgorithmAssociationsResponse: AWSDecodableShape {
+        /// The list of configured model algorithm associations.
+        public let configuredModelAlgorithmAssociations: [ConfiguredModelAlgorithmAssociationSummary]
+        /// The token value used to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(configuredModelAlgorithmAssociations: [ConfiguredModelAlgorithmAssociationSummary], nextToken: String? = nil) {
+            self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithmAssociations = "configuredModelAlgorithmAssociations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConfiguredModelAlgorithmsRequest: AWSEncodableShape {
+        /// The maximum size of the results that is returned per call.
+        public let maxResults: Int?
+        /// The token value retrieved from a previous call to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListConfiguredModelAlgorithmsResponse: AWSDecodableShape {
+        /// The list of configured model algorithms.
+        public let configuredModelAlgorithms: [ConfiguredModelAlgorithmSummary]
+        /// The token value used to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(configuredModelAlgorithms: [ConfiguredModelAlgorithmSummary], nextToken: String? = nil) {
+            self.configuredModelAlgorithms = configuredModelAlgorithms
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithms = "configuredModelAlgorithms"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListMLInputChannelsRequest: AWSEncodableShape {
+        /// The maximum number of ML input channels to return.
+        public let maxResults: Int?
+        /// The membership ID of the membership that contains the ML input channels that you want to list.
+        public let membershipIdentifier: String
+        /// The token value retrieved from a previous call to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.membershipIdentifier = membershipIdentifier
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMLInputChannelsResponse: AWSDecodableShape {
+        /// The list of ML input channels that you wanted.
+        public let mlInputChannelsList: [MLInputChannelSummary]
+        /// The token value used to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(mlInputChannelsList: [MLInputChannelSummary], nextToken: String? = nil) {
+            self.mlInputChannelsList = mlInputChannelsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mlInputChannelsList = "mlInputChannelsList"
             case nextToken = "nextToken"
         }
     }
@@ -1485,7 +4158,7 @@ extension CleanRoomsML {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(training-dataset|audience-model|configured-audience-model|audience-generation-job)/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/(configured-model-algorithm-association|trained-model|trained-model-inference-job|ml-input-channel)|training-dataset|audience-model|configured-audience-model|audience-generation-job|configured-model-algorithm|configured-model-algorithm-association|trained-model|trained-model-inference-job)/[-a-zA-Z0-9_/.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1502,6 +4175,121 @@ extension CleanRoomsML {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct ListTrainedModelInferenceJobsRequest: AWSEncodableShape {
+        /// The maximum size of the results that is returned per call.
+        public let maxResults: Int?
+        /// The membership
+        public let membershipIdentifier: String
+        /// The token value retrieved from a previous call to access the next page of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of a trained model that was used to create the trained model inference jobs that you are interested in.
+        public let trainedModelArn: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil, trainedModelArn: String? = nil) {
+            self.maxResults = maxResults
+            self.membershipIdentifier = membershipIdentifier
+            self.nextToken = nextToken
+            self.trainedModelArn = trainedModelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.trainedModelArn, key: "trainedModelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTrainedModelInferenceJobsResponse: AWSDecodableShape {
+        /// The token value used to access the next page of results.
+        public let nextToken: String?
+        /// Returns the requested trained model inference jobs.
+        public let trainedModelInferenceJobs: [TrainedModelInferenceJobSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, trainedModelInferenceJobs: [TrainedModelInferenceJobSummary]) {
+            self.nextToken = nextToken
+            self.trainedModelInferenceJobs = trainedModelInferenceJobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case trainedModelInferenceJobs = "trainedModelInferenceJobs"
+        }
+    }
+
+    public struct ListTrainedModelsRequest: AWSEncodableShape {
+        /// The maximum size of the results that is returned per call.
+        public let maxResults: Int?
+        /// The membership ID of the member that created the trained models you are interested in.
+        public let membershipIdentifier: String
+        /// The token value retrieved from a previous call to access the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.membershipIdentifier = membershipIdentifier
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTrainedModelsResponse: AWSDecodableShape {
+        /// The token value used to access the next page of results.
+        public let nextToken: String?
+        /// The list of trained models.
+        public let trainedModels: [TrainedModelSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, trainedModels: [TrainedModelSummary]) {
+            self.nextToken = nextToken
+            self.trainedModels = trainedModels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case trainedModels = "trainedModels"
         }
     }
 
@@ -1535,7 +4323,7 @@ extension CleanRoomsML {
     }
 
     public struct ListTrainingDatasetsResponse: AWSDecodableShape {
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The token value used to access the next page of results.
         public let nextToken: String?
         /// The training datasets that match the request.
         public let trainingDatasets: [TrainingDatasetSummary]
@@ -1549,6 +4337,259 @@ extension CleanRoomsML {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case trainingDatasets = "trainingDatasets"
+        }
+    }
+
+    public struct LogsConfigurationPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// A list of account IDs that are allowed to access the logs.
+        public let allowedAccountIds: [String]
+        /// A regular expression pattern that is used to parse the logs and return information that matches the pattern.
+        public let filterPattern: String?
+
+        @inlinable
+        public init(allowedAccountIds: [String], filterPattern: String? = nil) {
+            self.allowedAccountIds = allowedAccountIds
+            self.filterPattern = filterPattern
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.allowedAccountIds, name: "allowedAccountIds", parent: name, max: 5)
+            try self.validate(self.allowedAccountIds, name: "allowedAccountIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedAccountIds = "allowedAccountIds"
+            case filterPattern = "filterPattern"
+        }
+    }
+
+    public struct MLInputChannelSummary: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the ML input channel.
+        public let collaborationIdentifier: String
+        /// The associated configured model algorithms used to create the ML input channel.
+        public let configuredModelAlgorithmAssociations: [String]
+        /// The time at which the ML input channel was created.
+        public let createTime: Date
+        /// The description of the ML input channel.
+        public let description: String?
+        /// The membership ID of the membership that contains the ML input channel.
+        public let membershipIdentifier: String
+        /// The Amazon Resource Name (ARN) of the ML input channel.
+        public let mlInputChannelArn: String
+        /// The name of the ML input channel.
+        public let name: String
+        /// The ID of the protected query that was used to create the ML input channel.
+        public let protectedQueryIdentifier: String?
+        /// The status of the ML input channel.
+        public let status: MLInputChannelStatus
+        /// The most recent time at which the ML input channel was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, protectedQueryIdentifier: String? = nil, status: MLInputChannelStatus, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
+            self.createTime = createTime
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.mlInputChannelArn = mlInputChannelArn
+            self.name = name
+            self.protectedQueryIdentifier = protectedQueryIdentifier
+            self.status = status
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmAssociations = "configuredModelAlgorithmAssociations"
+            case createTime = "createTime"
+            case description = "description"
+            case membershipIdentifier = "membershipIdentifier"
+            case mlInputChannelArn = "mlInputChannelArn"
+            case name = "name"
+            case protectedQueryIdentifier = "protectedQueryIdentifier"
+            case status = "status"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct MLOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 location where exported model artifacts are stored.
+        public let destination: Destination?
+        /// The Amazon Resource Name (ARN) of the service access role that is used to store the model artifacts.
+        public let roleArn: String
+
+        @inlinable
+        public init(destination: Destination? = nil, roleArn: String) {
+            self.destination = destination
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.destination?.validate(name: "\(name).destination")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[-a-z]*:iam::[0-9]{12}:role/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct MetricDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the model metric.
+        public let name: String
+        /// The regular expression statement that defines how the model metric is reported.
+        public let regex: String
+
+        @inlinable
+        public init(name: String, regex: String) {
+            self.name = name
+            self.regex = regex
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.+$")
+            try self.validate(self.regex, name: "regex", parent: name, max: 500)
+            try self.validate(self.regex, name: "regex", parent: name, min: 1)
+            try self.validate(self.regex, name: "regex", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case regex = "regex"
+        }
+    }
+
+    public struct MetricsConfigurationPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// The noise level for the generated metrics.
+        public let noiseLevel: NoiseLevelType
+
+        @inlinable
+        public init(noiseLevel: NoiseLevelType) {
+            self.noiseLevel = noiseLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noiseLevel = "noiseLevel"
+        }
+    }
+
+    public struct ModelInferenceDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ML input channel for this model inference data source.
+        public let mlInputChannelArn: String
+
+        @inlinable
+        public init(mlInputChannelArn: String) {
+            self.mlInputChannelArn = mlInputChannelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, max: 2048)
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, min: 20)
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/ml-input-channel/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mlInputChannelArn = "mlInputChannelArn"
+        }
+    }
+
+    public struct ModelTrainingDataChannel: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the training data channel.
+        public let channelName: String
+        /// The Amazon Resource Name (ARN) of the ML input channel for this model training data channel.
+        public let mlInputChannelArn: String
+
+        @inlinable
+        public init(channelName: String, mlInputChannelArn: String) {
+            self.channelName = channelName
+            self.mlInputChannelArn = mlInputChannelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 64)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[A-Za-z0-9\\.\\-_]+$")
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, max: 2048)
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, min: 20)
+            try self.validate(self.mlInputChannelArn, name: "mlInputChannelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/ml-input-channel/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "channelName"
+            case mlInputChannelArn = "mlInputChannelArn"
+        }
+    }
+
+    public struct PrivacyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The privacy configuration policies for a configured model algorithm association.
+        public let policies: PrivacyConfigurationPolicies
+
+        @inlinable
+        public init(policies: PrivacyConfigurationPolicies) {
+            self.policies = policies
+        }
+
+        public func validate(name: String) throws {
+            try self.policies.validate(name: "\(name).policies")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policies = "policies"
+        }
+    }
+
+    public struct PrivacyConfigurationPolicies: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies who will receive the trained model export.
+        public let trainedModelExports: TrainedModelExportsConfigurationPolicy?
+        /// Specifies who will receive the trained model inference jobs.
+        public let trainedModelInferenceJobs: TrainedModelInferenceJobsConfigurationPolicy?
+        /// Specifies who will receive the trained models.
+        public let trainedModels: TrainedModelsConfigurationPolicy?
+
+        @inlinable
+        public init(trainedModelExports: TrainedModelExportsConfigurationPolicy? = nil, trainedModelInferenceJobs: TrainedModelInferenceJobsConfigurationPolicy? = nil, trainedModels: TrainedModelsConfigurationPolicy? = nil) {
+            self.trainedModelExports = trainedModelExports
+            self.trainedModelInferenceJobs = trainedModelInferenceJobs
+            self.trainedModels = trainedModels
+        }
+
+        public func validate(name: String) throws {
+            try self.trainedModelExports?.validate(name: "\(name).trainedModelExports")
+            try self.trainedModelInferenceJobs?.validate(name: "\(name).trainedModelInferenceJobs")
+            try self.trainedModels?.validate(name: "\(name).trainedModels")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainedModelExports = "trainedModelExports"
+            case trainedModelInferenceJobs = "trainedModelInferenceJobs"
+            case trainedModels = "trainedModels"
+        }
+    }
+
+    public struct ProtectedQueryInputParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Provides configuration information for the workers that will perform the protected query.
+        public let computeConfiguration: ComputeConfiguration?
+        public let sqlParameters: ProtectedQuerySQLParameters
+
+        @inlinable
+        public init(computeConfiguration: ComputeConfiguration? = nil, sqlParameters: ProtectedQuerySQLParameters) {
+            self.computeConfiguration = computeConfiguration
+            self.sqlParameters = sqlParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.sqlParameters.validate(name: "\(name).sqlParameters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeConfiguration = "computeConfiguration"
+            case sqlParameters = "sqlParameters"
         }
     }
 
@@ -1648,6 +4689,37 @@ extension CleanRoomsML {
         }
     }
 
+    public struct PutMLConfigurationRequest: AWSEncodableShape {
+        /// The default Amazon S3 location where ML output is stored for the specified member.
+        public let defaultOutputLocation: MLOutputConfiguration
+        /// The membership ID of the member that is being configured.
+        public let membershipIdentifier: String
+
+        @inlinable
+        public init(defaultOutputLocation: MLOutputConfiguration, membershipIdentifier: String) {
+            self.defaultOutputLocation = defaultOutputLocation
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.defaultOutputLocation, forKey: .defaultOutputLocation)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultOutputLocation.validate(name: "\(name).defaultOutputLocation")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultOutputLocation = "defaultOutputLocation"
+        }
+    }
+
     public struct RelevanceMetric: AWSDecodableShape {
         public let audienceSize: AudienceSize
         /// The relevance score of the generated audience.
@@ -1662,6 +4734,28 @@ extension CleanRoomsML {
         private enum CodingKeys: String, CodingKey {
             case audienceSize = "audienceSize"
             case score = "score"
+        }
+    }
+
+    public struct ResourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The number of resources that are used to train the model.
+        public let instanceCount: Int?
+        /// The instance type that is used to train the model.
+        public let instanceType: InstanceType
+        /// The maximum size of the instance that is used to train the model.
+        public let volumeSizeInGB: Int
+
+        @inlinable
+        public init(instanceCount: Int? = nil, instanceType: InstanceType, volumeSizeInGB: Int) {
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+            self.volumeSizeInGB = volumeSizeInGB
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceCount = "instanceCount"
+            case instanceType = "instanceType"
+            case volumeSizeInGB = "volumeSizeInGB"
         }
     }
 
@@ -1795,6 +4889,176 @@ extension CleanRoomsML {
         }
     }
 
+    public struct StartTrainedModelExportJobRequest: AWSEncodableShape {
+        /// The description of the trained model export job.
+        public let description: String?
+        /// The membership ID of the member that is receiving the exported trained model artifacts.
+        public let membershipIdentifier: String
+        /// The name of the trained model export job.
+        public let name: String
+        /// The output configuration information for the trained model export job.
+        public let outputConfiguration: TrainedModelExportOutputConfiguration
+        /// The Amazon Resource Name (ARN) of the trained model that you want to export.
+        public let trainedModelArn: String
+
+        @inlinable
+        public init(description: String? = nil, membershipIdentifier: String, name: String, outputConfiguration: TrainedModelExportOutputConfiguration, trainedModelArn: String) {
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.outputConfiguration = outputConfiguration
+            self.trainedModelArn = trainedModelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.outputConfiguration, forKey: .outputConfiguration)
+            request.encodePath(self.trainedModelArn, key: "trainedModelArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.outputConfiguration.validate(name: "\(name).outputConfiguration")
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case outputConfiguration = "outputConfiguration"
+        }
+    }
+
+    public struct StartTrainedModelInferenceJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that is used for this trained model inference job.
+        public let configuredModelAlgorithmAssociationArn: String?
+        /// The execution parameters for the container.
+        public let containerExecutionParameters: InferenceContainerExecutionParameters?
+        /// Defines he data source that is used for the trained model inference job.
+        public let dataSource: ModelInferenceDataSource
+        /// The description of the trained model inference job.
+        public let description: String?
+        /// The environment variables to set in the Docker container.
+        public let environment: [String: String]?
+        /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the ML inference job and associated data.
+        public let kmsKeyArn: String?
+        /// The membership ID of the membership that contains the trained model inference job.
+        public let membershipIdentifier: String
+        /// The name of the trained model inference job.
+        public let name: String
+        /// Defines the output configuration information for the trained model inference job.
+        public let outputConfiguration: InferenceOutputConfiguration
+        /// Defines the resource configuration for the trained model inference job.
+        public let resourceConfig: InferenceResourceConfig
+        /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+        public let tags: [String: String]?
+        /// The Amazon Resource Name (ARN) of the trained model that is used for this trained model inference job.
+        public let trainedModelArn: String
+
+        @inlinable
+        public init(configuredModelAlgorithmAssociationArn: String? = nil, containerExecutionParameters: InferenceContainerExecutionParameters? = nil, dataSource: ModelInferenceDataSource, description: String? = nil, environment: [String: String]? = nil, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, outputConfiguration: InferenceOutputConfiguration, resourceConfig: InferenceResourceConfig, tags: [String: String]? = nil, trainedModelArn: String) {
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.containerExecutionParameters = containerExecutionParameters
+            self.dataSource = dataSource
+            self.description = description
+            self.environment = environment
+            self.kmsKeyArn = kmsKeyArn
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.outputConfiguration = outputConfiguration
+            self.resourceConfig = resourceConfig
+            self.tags = tags
+            self.trainedModelArn = trainedModelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.configuredModelAlgorithmAssociationArn, forKey: .configuredModelAlgorithmAssociationArn)
+            try container.encodeIfPresent(self.containerExecutionParameters, forKey: .containerExecutionParameters)
+            try container.encode(self.dataSource, forKey: .dataSource)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.environment, forKey: .environment)
+            try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.outputConfiguration, forKey: .outputConfiguration)
+            try container.encode(self.resourceConfig, forKey: .resourceConfig)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.trainedModelArn, forKey: .trainedModelArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, max: 2048)
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, min: 20)
+            try self.validate(self.configuredModelAlgorithmAssociationArn, name: "configuredModelAlgorithmAssociationArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?configured-model-algorithm-association/[-a-zA-Z0-9_/.]+$")
+            try self.dataSource.validate(name: "\(name).dataSource")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
+            try self.validate(self.environment, name: "environment", parent: name, max: 16)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[-a-z]*:kms:[-a-z0-9]+:[0-9]{12}:key/.+$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.outputConfiguration.validate(name: "\(name).outputConfiguration")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, max: 2048)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, min: 20)
+            try self.validate(self.trainedModelArn, name: "trainedModelArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)?trained-model/[-a-zA-Z0-9_/.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case containerExecutionParameters = "containerExecutionParameters"
+            case dataSource = "dataSource"
+            case description = "description"
+            case environment = "environment"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case outputConfiguration = "outputConfiguration"
+            case resourceConfig = "resourceConfig"
+            case tags = "tags"
+            case trainedModelArn = "trainedModelArn"
+        }
+    }
+
+    public struct StartTrainedModelInferenceJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the trained model inference job.
+        public let trainedModelInferenceJobArn: String
+
+        @inlinable
+        public init(trainedModelInferenceJobArn: String) {
+            self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainedModelInferenceJobArn = "trainedModelInferenceJobArn"
+        }
+    }
+
     public struct StatusDetails: AWSDecodableShape {
         /// The error message that was returned. The message is intended for human consumption and can change at any time. Use the statusCode for programmatic error handling.
         public let message: String?
@@ -1810,6 +5074,20 @@ extension CleanRoomsML {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case statusCode = "statusCode"
+        }
+    }
+
+    public struct StoppingCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of time, in seconds, that model training can run before it is terminated.
+        public let maxRuntimeInSeconds: Int?
+
+        @inlinable
+        public init(maxRuntimeInSeconds: Int? = nil) {
+            self.maxRuntimeInSeconds = maxRuntimeInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRuntimeInSeconds = "maxRuntimeInSeconds"
         }
     }
 
@@ -1835,7 +5113,7 @@ extension CleanRoomsML {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(training-dataset|audience-model|configured-audience-model|audience-generation-job)/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/(configured-model-algorithm-association|trained-model|trained-model-inference-job|ml-input-channel)|training-dataset|audience-model|configured-audience-model|audience-generation-job|configured-model-algorithm|configured-model-algorithm-association|trained-model|trained-model-inference-job)/[-a-zA-Z0-9_/.]+$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1851,6 +5129,287 @@ extension CleanRoomsML {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TrainedModelExportOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The members that will received the exported trained model output.
+        public let members: [TrainedModelExportReceiverMember]
+
+        @inlinable
+        public init(members: [TrainedModelExportReceiverMember]) {
+            self.members = members
+        }
+
+        public func validate(name: String) throws {
+            try self.members.forEach {
+                try $0.validate(name: "\(name).members[]")
+            }
+            try self.validate(self.members, name: "members", parent: name, max: 1)
+            try self.validate(self.members, name: "members", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case members = "members"
+        }
+    }
+
+    public struct TrainedModelExportReceiverMember: AWSEncodableShape & AWSDecodableShape {
+        /// The account ID of the member who will receive trained model exports.
+        public let accountId: String
+
+        @inlinable
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+        }
+    }
+
+    public struct TrainedModelExportsConfigurationPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// The files that are exported during the trained model export job.
+        public let filesToExport: [TrainedModelExportFileType]
+        /// The maximum size of the data that can be exported.
+        public let maxSize: TrainedModelExportsMaxSize
+
+        @inlinable
+        public init(filesToExport: [TrainedModelExportFileType], maxSize: TrainedModelExportsMaxSize) {
+            self.filesToExport = filesToExport
+            self.maxSize = maxSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filesToExport, name: "filesToExport", parent: name, max: 2)
+            try self.validate(self.filesToExport, name: "filesToExport", parent: name, min: 1)
+            try self.maxSize.validate(name: "\(name).maxSize")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filesToExport = "filesToExport"
+            case maxSize = "maxSize"
+        }
+    }
+
+    public struct TrainedModelExportsMaxSize: AWSEncodableShape & AWSDecodableShape {
+        /// The unit of measurement for the data size.
+        public let unit: TrainedModelExportsMaxSizeUnitType
+        /// The maximum size of the dataset to export.
+        public let value: Double
+
+        @inlinable
+        public init(unit: TrainedModelExportsMaxSizeUnitType, value: Double) {
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 10.0)
+            try self.validate(self.value, name: "value", parent: name, min: 0.01)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "unit"
+            case value = "value"
+        }
+    }
+
+    public struct TrainedModelInferenceJobSummary: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the trained model inference job.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that is used for the trained model inference job.
+        public let configuredModelAlgorithmAssociationArn: String?
+        /// The time at which the trained model inference job was created.
+        public let createTime: Date
+        /// The description of the trained model inference job.
+        public let description: String?
+        /// The log status of the trained model inference job.
+        public let logsStatus: LogsStatus?
+        /// Details about the log status for the trained model inference job.
+        public let logsStatusDetails: String?
+        /// The membership ID of the membership that contains the trained model inference job.
+        public let membershipIdentifier: String
+        /// The metric status of the trained model inference job.
+        public let metricsStatus: MetricsStatus?
+        /// Details about the metrics status for the trained model inference job.
+        public let metricsStatusDetails: String?
+        /// The name of the trained model inference job.
+        public let name: String
+        /// The output configuration information of the trained model job.
+        public let outputConfiguration: InferenceOutputConfiguration
+        /// The status of the trained model inference job.
+        public let status: TrainedModelInferenceJobStatus
+        /// The Amazon Resource Name (ARN) of the trained model that is used for the trained model inference job.
+        public let trainedModelArn: String
+        /// The Amazon Resource Name (ARN) of the trained model inference job.
+        public let trainedModelInferenceJobArn: String
+        /// The most recent time at which the trained model inference job was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String? = nil, createTime: Date, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, status: TrainedModelInferenceJobStatus, trainedModelArn: String, trainedModelInferenceJobArn: String, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.createTime = createTime
+            self.description = description
+            self.logsStatus = logsStatus
+            self.logsStatusDetails = logsStatusDetails
+            self.membershipIdentifier = membershipIdentifier
+            self.metricsStatus = metricsStatus
+            self.metricsStatusDetails = metricsStatusDetails
+            self.name = name
+            self.outputConfiguration = outputConfiguration
+            self.status = status
+            self.trainedModelArn = trainedModelArn
+            self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case createTime = "createTime"
+            case description = "description"
+            case logsStatus = "logsStatus"
+            case logsStatusDetails = "logsStatusDetails"
+            case membershipIdentifier = "membershipIdentifier"
+            case metricsStatus = "metricsStatus"
+            case metricsStatusDetails = "metricsStatusDetails"
+            case name = "name"
+            case outputConfiguration = "outputConfiguration"
+            case status = "status"
+            case trainedModelArn = "trainedModelArn"
+            case trainedModelInferenceJobArn = "trainedModelInferenceJobArn"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct TrainedModelInferenceJobsConfigurationPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// The logs container for the trained model inference job.
+        public let containerLogs: [LogsConfigurationPolicy]?
+        /// The maximum allowed size of the output of the trained model inference job.
+        public let maxOutputSize: TrainedModelInferenceMaxOutputSize?
+
+        @inlinable
+        public init(containerLogs: [LogsConfigurationPolicy]? = nil, maxOutputSize: TrainedModelInferenceMaxOutputSize? = nil) {
+            self.containerLogs = containerLogs
+            self.maxOutputSize = maxOutputSize
+        }
+
+        public func validate(name: String) throws {
+            try self.containerLogs?.forEach {
+                try $0.validate(name: "\(name).containerLogs[]")
+            }
+            try self.validate(self.containerLogs, name: "containerLogs", parent: name, max: 5)
+            try self.validate(self.containerLogs, name: "containerLogs", parent: name, min: 1)
+            try self.maxOutputSize?.validate(name: "\(name).maxOutputSize")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerLogs = "containerLogs"
+            case maxOutputSize = "maxOutputSize"
+        }
+    }
+
+    public struct TrainedModelInferenceMaxOutputSize: AWSEncodableShape & AWSDecodableShape {
+        /// The measurement unit to use.
+        public let unit: TrainedModelInferenceMaxOutputSizeUnitType
+        /// The maximum output size value.
+        public let value: Double
+
+        @inlinable
+        public init(unit: TrainedModelInferenceMaxOutputSizeUnitType, value: Double) {
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 10.0)
+            try self.validate(self.value, name: "value", parent: name, min: 0.01)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "unit"
+            case value = "value"
+        }
+    }
+
+    public struct TrainedModelSummary: AWSDecodableShape {
+        /// The collaboration ID of the collaboration that contains the trained model.
+        public let collaborationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the configured model algorithm association that was used to create this trained model.
+        public let configuredModelAlgorithmAssociationArn: String
+        /// The time at which the trained model was created.
+        public let createTime: Date
+        /// The description of the trained model.
+        public let description: String?
+        /// The membership ID of the member that created the trained model.
+        public let membershipIdentifier: String
+        /// The name of the trained model.
+        public let name: String
+        /// The status of the trained model.
+        public let status: TrainedModelStatus
+        /// The Amazon Resource Name (ARN) of the trained model.
+        public let trainedModelArn: String
+        /// The most recent time at which the trained model was updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, description: String? = nil, membershipIdentifier: String, name: String, status: TrainedModelStatus, trainedModelArn: String, updateTime: Date) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
+            self.createTime = createTime
+            self.description = description
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.status = status
+            self.trainedModelArn = trainedModelArn
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdentifier = "collaborationIdentifier"
+            case configuredModelAlgorithmAssociationArn = "configuredModelAlgorithmAssociationArn"
+            case createTime = "createTime"
+            case description = "description"
+            case membershipIdentifier = "membershipIdentifier"
+            case name = "name"
+            case status = "status"
+            case trainedModelArn = "trainedModelArn"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct TrainedModelsConfigurationPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// The container for the logs of the trained model.
+        public let containerLogs: [LogsConfigurationPolicy]?
+        /// The container for the metrics of the trained model.
+        public let containerMetrics: MetricsConfigurationPolicy?
+
+        @inlinable
+        public init(containerLogs: [LogsConfigurationPolicy]? = nil, containerMetrics: MetricsConfigurationPolicy? = nil) {
+            self.containerLogs = containerLogs
+            self.containerMetrics = containerMetrics
+        }
+
+        public func validate(name: String) throws {
+            try self.containerLogs?.forEach {
+                try $0.validate(name: "\(name).containerLogs[]")
+            }
+            try self.validate(self.containerLogs, name: "containerLogs", parent: name, max: 5)
+            try self.validate(self.containerLogs, name: "containerLogs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerLogs = "containerLogs"
+            case containerMetrics = "containerMetrics"
+        }
     }
 
     public struct TrainingDatasetSummary: AWSDecodableShape {
@@ -1909,7 +5468,7 @@ extension CleanRoomsML {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(training-dataset|audience-model|configured-audience-model|audience-generation-job)/[-a-zA-Z0-9_/.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:(membership/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/(configured-model-algorithm-association|trained-model|trained-model-inference-job|ml-input-channel)|training-dataset|audience-model|configured-audience-model|audience-generation-job|configured-model-algorithm|configured-model-algorithm-association|trained-model|trained-model-inference-job)/[-a-zA-Z0-9_/.]+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -2001,6 +5560,55 @@ extension CleanRoomsML {
 
         private enum CodingKeys: String, CodingKey {
             case configuredAudienceModelArn = "configuredAudienceModelArn"
+        }
+    }
+
+    public struct WorkerComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of compute workers that are used.
+        public let number: Int?
+        /// The instance type of the compute workers that are used.
+        public let type: WorkerComputeType?
+
+        @inlinable
+        public init(number: Int? = nil, type: WorkerComputeType? = nil) {
+            self.number = number
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case number = "number"
+            case type = "type"
+        }
+    }
+
+    public struct ComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The worker instances that will perform the compute work.
+        public let worker: WorkerComputeConfiguration?
+
+        @inlinable
+        public init(worker: WorkerComputeConfiguration? = nil) {
+            self.worker = worker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case worker = "worker"
+        }
+    }
+
+    public struct InputChannelDataSource: AWSEncodableShape & AWSDecodableShape {
+        public let protectedQueryInputParameters: ProtectedQueryInputParameters?
+
+        @inlinable
+        public init(protectedQueryInputParameters: ProtectedQueryInputParameters? = nil) {
+            self.protectedQueryInputParameters = protectedQueryInputParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.protectedQueryInputParameters?.validate(name: "\(name).protectedQueryInputParameters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectedQueryInputParameters = "protectedQueryInputParameters"
         }
     }
 }

@@ -32,6 +32,14 @@ extension Repostspace {
         public var description: String { return self.rawValue }
     }
 
+    public enum Role: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case administrator = "ADMINISTRATOR"
+        case expert = "EXPERT"
+        case moderator = "MODERATOR"
+        case supportrequestor = "SUPPORTREQUESTOR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TierLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case standard = "STANDARD"
@@ -46,6 +54,130 @@ extension Repostspace {
     }
 
     // MARK: Shapes
+
+    public struct BatchAddRoleInput: AWSEncodableShape {
+        /// The user or group accessor identifiers to add the role to.
+        public let accessorIds: [String]
+        /// The role to add to the users or groups.
+        public let role: Role
+        /// The unique ID of the private re:Post.
+        public let spaceId: String
+
+        @inlinable
+        public init(accessorIds: [String], role: Role, spaceId: String) {
+            self.accessorIds = accessorIds
+            self.role = role
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accessorIds, forKey: .accessorIds)
+            try container.encode(self.role, forKey: .role)
+            request.encodePath(self.spaceId, key: "spaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessorIds, name: "accessorIds", parent: name, max: 1000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessorIds = "accessorIds"
+            case role = "role"
+        }
+    }
+
+    public struct BatchAddRoleOutput: AWSDecodableShape {
+        /// An array of successfully updated accessor identifiers.
+        public let addedAccessorIds: [String]
+        /// An array of errors that occurred when roles were added.
+        public let errors: [BatchError]
+
+        @inlinable
+        public init(addedAccessorIds: [String], errors: [BatchError]) {
+            self.addedAccessorIds = addedAccessorIds
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addedAccessorIds = "addedAccessorIds"
+            case errors = "errors"
+        }
+    }
+
+    public struct BatchError: AWSDecodableShape {
+        /// The accessor identifier that's related to the error.
+        public let accessorId: String
+        /// The error code.
+        public let error: Int
+        /// Description of the error.
+        public let message: String
+
+        @inlinable
+        public init(accessorId: String, error: Int, message: String) {
+            self.accessorId = accessorId
+            self.error = error
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessorId = "accessorId"
+            case error = "error"
+            case message = "message"
+        }
+    }
+
+    public struct BatchRemoveRoleInput: AWSEncodableShape {
+        /// The user or group accessor identifiers to remove the role from.
+        public let accessorIds: [String]
+        /// The role to remove from the users or groups.
+        public let role: Role
+        /// The unique ID of the private re:Post.
+        public let spaceId: String
+
+        @inlinable
+        public init(accessorIds: [String], role: Role, spaceId: String) {
+            self.accessorIds = accessorIds
+            self.role = role
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.accessorIds, forKey: .accessorIds)
+            try container.encode(self.role, forKey: .role)
+            request.encodePath(self.spaceId, key: "spaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessorIds, name: "accessorIds", parent: name, max: 1000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessorIds = "accessorIds"
+            case role = "role"
+        }
+    }
+
+    public struct BatchRemoveRoleOutput: AWSDecodableShape {
+        /// An array of errors that occurred when roles were removed.
+        public let errors: [BatchError]
+        /// An array of successfully updated accessor identifiers.
+        public let removedAccessorIds: [String]
+
+        @inlinable
+        public init(errors: [BatchError], removedAccessorIds: [String]) {
+            self.errors = errors
+            self.removedAccessorIds = removedAccessorIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case removedAccessorIds = "removedAccessorIds"
+        }
+    }
 
     public struct CreateSpaceInput: AWSEncodableShape {
         /// A description for the private re:Post. This is used only to help you identify this private re:Post.
@@ -198,6 +330,8 @@ extension Repostspace {
         public let name: String
         /// The AWS generated subdomain of the private re:Post
         public let randomDomain: String
+        /// A map of accessor identifiers and their roles.
+        public let roles: [String: [Role]]?
         /// The unique ID of the private re:Post.
         public let spaceId: String
         /// The creation or deletion status of the private re:Post.
@@ -218,7 +352,33 @@ extension Repostspace {
         public let vanityDomainStatus: VanityDomainStatus
 
         @inlinable
-        public init(arn: String, clientId: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, customerRoleArn: String? = nil, deleteDateTime: Date? = nil, description: String? = nil, groupAdmins: [String]? = nil, name: String, randomDomain: String, spaceId: String, status: String, storageLimit: Int64, tier: TierLevel, userAdmins: [String]? = nil, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
+        public init(arn: String, clientId: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, customerRoleArn: String? = nil, deleteDateTime: Date? = nil, description: String? = nil, name: String, randomDomain: String, roles: [String: [Role]]? = nil, spaceId: String, status: String, storageLimit: Int64, tier: TierLevel, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
+            self.arn = arn
+            self.clientId = clientId
+            self.configurationStatus = configurationStatus
+            self.contentSize = contentSize
+            self.createDateTime = createDateTime
+            self.customerRoleArn = customerRoleArn
+            self.deleteDateTime = deleteDateTime
+            self.description = description
+            self.groupAdmins = nil
+            self.name = name
+            self.randomDomain = randomDomain
+            self.roles = roles
+            self.spaceId = spaceId
+            self.status = status
+            self.storageLimit = storageLimit
+            self.tier = tier
+            self.userAdmins = nil
+            self.userCount = userCount
+            self.userKMSKey = userKMSKey
+            self.vanityDomain = vanityDomain
+            self.vanityDomainStatus = vanityDomainStatus
+        }
+
+        @available(*, deprecated, message: "Members groupAdmins, userAdmins have been deprecated")
+        @inlinable
+        public init(arn: String, clientId: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, customerRoleArn: String? = nil, deleteDateTime: Date? = nil, description: String? = nil, groupAdmins: [String]? = nil, name: String, randomDomain: String, roles: [String: [Role]]? = nil, spaceId: String, status: String, storageLimit: Int64, tier: TierLevel, userAdmins: [String]? = nil, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
             self.arn = arn
             self.clientId = clientId
             self.configurationStatus = configurationStatus
@@ -230,6 +390,7 @@ extension Repostspace {
             self.groupAdmins = groupAdmins
             self.name = name
             self.randomDomain = randomDomain
+            self.roles = roles
             self.spaceId = spaceId
             self.status = status
             self.storageLimit = storageLimit
@@ -253,6 +414,7 @@ extension Repostspace {
             case groupAdmins = "groupAdmins"
             case name = "name"
             case randomDomain = "randomDomain"
+            case roles = "roles"
             case spaceId = "spaceId"
             case status = "status"
             case storageLimit = "storageLimit"

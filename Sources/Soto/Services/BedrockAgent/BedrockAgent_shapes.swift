@@ -78,6 +78,12 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConversationRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assistant = "assistant"
+        case user = "user"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CrawlFilterConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pattern = "PATTERN"
         public var description: String { return self.rawValue }
@@ -161,6 +167,35 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum FlowValidationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cyclicConnection = "CyclicConnection"
+        case duplicateConditionExpression = "DuplicateConditionExpression"
+        case duplicateConnections = "DuplicateConnections"
+        case incompatibleConnectionDataType = "IncompatibleConnectionDataType"
+        case malformedConditionExpression = "MalformedConditionExpression"
+        case malformedNodeInputExpression = "MalformedNodeInputExpression"
+        case mismatchedNodeInputType = "MismatchedNodeInputType"
+        case mismatchedNodeOutputType = "MismatchedNodeOutputType"
+        case missingConnectionConfiguration = "MissingConnectionConfiguration"
+        case missingDefaultCondition = "MissingDefaultCondition"
+        case missingEndingNodes = "MissingEndingNodes"
+        case missingNodeConfiguration = "MissingNodeConfiguration"
+        case missingNodeInput = "MissingNodeInput"
+        case missingNodeOutput = "MissingNodeOutput"
+        case missingStartingNodes = "MissingStartingNodes"
+        case multipleNodeInputConnections = "MultipleNodeInputConnections"
+        case unfulfilledNodeInput = "UnfulfilledNodeInput"
+        case unknownConnectionCondition = "UnknownConnectionCondition"
+        case unknownConnectionSource = "UnknownConnectionSource"
+        case unknownConnectionSourceOutput = "UnknownConnectionSourceOutput"
+        case unknownConnectionTarget = "UnknownConnectionTarget"
+        case unknownConnectionTargetInput = "UnknownConnectionTargetInput"
+        case unreachableNode = "UnreachableNode"
+        case unsatisfiedConnectionConditions = "UnsatisfiedConnectionConditions"
+        case unspecified = "Unspecified"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IngestionJobFilterAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case status = "STATUS"
         public var description: String { return self.rawValue }
@@ -234,6 +269,7 @@ extension BedrockAgent {
     }
 
     public enum PromptTemplateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case chat = "CHAT"
         case text = "TEXT"
         public var description: String { return self.rawValue }
     }
@@ -588,6 +624,175 @@ extension BedrockAgent {
         }
     }
 
+    public enum FlowValidationDetails: AWSDecodableShape, Sendable {
+        /// Details about a cyclic connection in the flow.
+        case cyclicConnection(CyclicConnectionFlowValidationDetails)
+        /// Details about duplicate condition expressions in a node.
+        case duplicateConditionExpression(DuplicateConditionExpressionFlowValidationDetails)
+        /// Details about duplicate connections between nodes.
+        case duplicateConnections(DuplicateConnectionsFlowValidationDetails)
+        /// Details about incompatible data types in a connection.
+        case incompatibleConnectionDataType(IncompatibleConnectionDataTypeFlowValidationDetails)
+        /// Details about a malformed condition expression in a node.
+        case malformedConditionExpression(MalformedConditionExpressionFlowValidationDetails)
+        /// Details about a malformed input expression in a node.
+        case malformedNodeInputExpression(MalformedNodeInputExpressionFlowValidationDetails)
+        /// Details about mismatched input data types in a node.
+        case mismatchedNodeInputType(MismatchedNodeInputTypeFlowValidationDetails)
+        /// Details about mismatched output data types in a node.
+        case mismatchedNodeOutputType(MismatchedNodeOutputTypeFlowValidationDetails)
+        /// Details about missing configuration for a connection.
+        case missingConnectionConfiguration(MissingConnectionConfigurationFlowValidationDetails)
+        /// Details about a missing default condition in a conditional node.
+        case missingDefaultCondition(MissingDefaultConditionFlowValidationDetails)
+        /// Details about missing ending nodes in the flow.
+        case missingEndingNodes(MissingEndingNodesFlowValidationDetails)
+        /// Details about missing configuration for a node.
+        case missingNodeConfiguration(MissingNodeConfigurationFlowValidationDetails)
+        /// Details about a missing required input in a node.
+        case missingNodeInput(MissingNodeInputFlowValidationDetails)
+        /// Details about a missing required output in a node.
+        case missingNodeOutput(MissingNodeOutputFlowValidationDetails)
+        /// Details about missing starting nodes in the flow.
+        case missingStartingNodes(MissingStartingNodesFlowValidationDetails)
+        /// Details about multiple connections to a single node input.
+        case multipleNodeInputConnections(MultipleNodeInputConnectionsFlowValidationDetails)
+        /// Details about an unfulfilled node input with no valid connections.
+        case unfulfilledNodeInput(UnfulfilledNodeInputFlowValidationDetails)
+        /// Details about an unknown condition for a connection.
+        case unknownConnectionCondition(UnknownConnectionConditionFlowValidationDetails)
+        /// Details about an unknown source node for a connection.
+        case unknownConnectionSource(UnknownConnectionSourceFlowValidationDetails)
+        /// Details about an unknown source output for a connection.
+        case unknownConnectionSourceOutput(UnknownConnectionSourceOutputFlowValidationDetails)
+        /// Details about an unknown target node for a connection.
+        case unknownConnectionTarget(UnknownConnectionTargetFlowValidationDetails)
+        /// Details about an unknown target input for a connection.
+        case unknownConnectionTargetInput(UnknownConnectionTargetInputFlowValidationDetails)
+        /// Details about an unreachable node in the flow.
+        case unreachableNode(UnreachableNodeFlowValidationDetails)
+        /// Details about unsatisfied conditions for a connection.
+        case unsatisfiedConnectionConditions(UnsatisfiedConnectionConditionsFlowValidationDetails)
+        /// Details about an unspecified validation.
+        case unspecified(UnspecifiedFlowValidationDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cyclicConnection:
+                let value = try container.decode(CyclicConnectionFlowValidationDetails.self, forKey: .cyclicConnection)
+                self = .cyclicConnection(value)
+            case .duplicateConditionExpression:
+                let value = try container.decode(DuplicateConditionExpressionFlowValidationDetails.self, forKey: .duplicateConditionExpression)
+                self = .duplicateConditionExpression(value)
+            case .duplicateConnections:
+                let value = try container.decode(DuplicateConnectionsFlowValidationDetails.self, forKey: .duplicateConnections)
+                self = .duplicateConnections(value)
+            case .incompatibleConnectionDataType:
+                let value = try container.decode(IncompatibleConnectionDataTypeFlowValidationDetails.self, forKey: .incompatibleConnectionDataType)
+                self = .incompatibleConnectionDataType(value)
+            case .malformedConditionExpression:
+                let value = try container.decode(MalformedConditionExpressionFlowValidationDetails.self, forKey: .malformedConditionExpression)
+                self = .malformedConditionExpression(value)
+            case .malformedNodeInputExpression:
+                let value = try container.decode(MalformedNodeInputExpressionFlowValidationDetails.self, forKey: .malformedNodeInputExpression)
+                self = .malformedNodeInputExpression(value)
+            case .mismatchedNodeInputType:
+                let value = try container.decode(MismatchedNodeInputTypeFlowValidationDetails.self, forKey: .mismatchedNodeInputType)
+                self = .mismatchedNodeInputType(value)
+            case .mismatchedNodeOutputType:
+                let value = try container.decode(MismatchedNodeOutputTypeFlowValidationDetails.self, forKey: .mismatchedNodeOutputType)
+                self = .mismatchedNodeOutputType(value)
+            case .missingConnectionConfiguration:
+                let value = try container.decode(MissingConnectionConfigurationFlowValidationDetails.self, forKey: .missingConnectionConfiguration)
+                self = .missingConnectionConfiguration(value)
+            case .missingDefaultCondition:
+                let value = try container.decode(MissingDefaultConditionFlowValidationDetails.self, forKey: .missingDefaultCondition)
+                self = .missingDefaultCondition(value)
+            case .missingEndingNodes:
+                let value = try container.decode(MissingEndingNodesFlowValidationDetails.self, forKey: .missingEndingNodes)
+                self = .missingEndingNodes(value)
+            case .missingNodeConfiguration:
+                let value = try container.decode(MissingNodeConfigurationFlowValidationDetails.self, forKey: .missingNodeConfiguration)
+                self = .missingNodeConfiguration(value)
+            case .missingNodeInput:
+                let value = try container.decode(MissingNodeInputFlowValidationDetails.self, forKey: .missingNodeInput)
+                self = .missingNodeInput(value)
+            case .missingNodeOutput:
+                let value = try container.decode(MissingNodeOutputFlowValidationDetails.self, forKey: .missingNodeOutput)
+                self = .missingNodeOutput(value)
+            case .missingStartingNodes:
+                let value = try container.decode(MissingStartingNodesFlowValidationDetails.self, forKey: .missingStartingNodes)
+                self = .missingStartingNodes(value)
+            case .multipleNodeInputConnections:
+                let value = try container.decode(MultipleNodeInputConnectionsFlowValidationDetails.self, forKey: .multipleNodeInputConnections)
+                self = .multipleNodeInputConnections(value)
+            case .unfulfilledNodeInput:
+                let value = try container.decode(UnfulfilledNodeInputFlowValidationDetails.self, forKey: .unfulfilledNodeInput)
+                self = .unfulfilledNodeInput(value)
+            case .unknownConnectionCondition:
+                let value = try container.decode(UnknownConnectionConditionFlowValidationDetails.self, forKey: .unknownConnectionCondition)
+                self = .unknownConnectionCondition(value)
+            case .unknownConnectionSource:
+                let value = try container.decode(UnknownConnectionSourceFlowValidationDetails.self, forKey: .unknownConnectionSource)
+                self = .unknownConnectionSource(value)
+            case .unknownConnectionSourceOutput:
+                let value = try container.decode(UnknownConnectionSourceOutputFlowValidationDetails.self, forKey: .unknownConnectionSourceOutput)
+                self = .unknownConnectionSourceOutput(value)
+            case .unknownConnectionTarget:
+                let value = try container.decode(UnknownConnectionTargetFlowValidationDetails.self, forKey: .unknownConnectionTarget)
+                self = .unknownConnectionTarget(value)
+            case .unknownConnectionTargetInput:
+                let value = try container.decode(UnknownConnectionTargetInputFlowValidationDetails.self, forKey: .unknownConnectionTargetInput)
+                self = .unknownConnectionTargetInput(value)
+            case .unreachableNode:
+                let value = try container.decode(UnreachableNodeFlowValidationDetails.self, forKey: .unreachableNode)
+                self = .unreachableNode(value)
+            case .unsatisfiedConnectionConditions:
+                let value = try container.decode(UnsatisfiedConnectionConditionsFlowValidationDetails.self, forKey: .unsatisfiedConnectionConditions)
+                self = .unsatisfiedConnectionConditions(value)
+            case .unspecified:
+                let value = try container.decode(UnspecifiedFlowValidationDetails.self, forKey: .unspecified)
+                self = .unspecified(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cyclicConnection = "cyclicConnection"
+            case duplicateConditionExpression = "duplicateConditionExpression"
+            case duplicateConnections = "duplicateConnections"
+            case incompatibleConnectionDataType = "incompatibleConnectionDataType"
+            case malformedConditionExpression = "malformedConditionExpression"
+            case malformedNodeInputExpression = "malformedNodeInputExpression"
+            case mismatchedNodeInputType = "mismatchedNodeInputType"
+            case mismatchedNodeOutputType = "mismatchedNodeOutputType"
+            case missingConnectionConfiguration = "missingConnectionConfiguration"
+            case missingDefaultCondition = "missingDefaultCondition"
+            case missingEndingNodes = "missingEndingNodes"
+            case missingNodeConfiguration = "missingNodeConfiguration"
+            case missingNodeInput = "missingNodeInput"
+            case missingNodeOutput = "missingNodeOutput"
+            case missingStartingNodes = "missingStartingNodes"
+            case multipleNodeInputConnections = "multipleNodeInputConnections"
+            case unfulfilledNodeInput = "unfulfilledNodeInput"
+            case unknownConnectionCondition = "unknownConnectionCondition"
+            case unknownConnectionSource = "unknownConnectionSource"
+            case unknownConnectionSourceOutput = "unknownConnectionSourceOutput"
+            case unknownConnectionTarget = "unknownConnectionTarget"
+            case unknownConnectionTargetInput = "unknownConnectionTargetInput"
+            case unreachableNode = "unreachableNode"
+            case unsatisfiedConnectionConditions = "unsatisfiedConnectionConditions"
+            case unspecified = "unspecified"
+        }
+    }
+
     public enum PromptFlowNodeSourceConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Contains configurations for a prompt that is defined inline
         case inline(PromptFlowNodeInlineConfiguration)
@@ -635,6 +840,114 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case inline = "inline"
             case resource = "resource"
+        }
+    }
+
+    public enum PromptTemplateConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Contains configurations to use the prompt in a conversational format.
+        case chat(ChatPromptTemplateConfiguration)
+        /// Contains configurations for the text in a message for a prompt.
+        case text(TextPromptTemplateConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .chat:
+                let value = try container.decode(ChatPromptTemplateConfiguration.self, forKey: .chat)
+                self = .chat(value)
+            case .text:
+                let value = try container.decode(TextPromptTemplateConfiguration.self, forKey: .text)
+                self = .text(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .chat(let value):
+                try container.encode(value, forKey: .chat)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .chat(let value):
+                try value.validate(name: "\(name).chat")
+            case .text(let value):
+                try value.validate(name: "\(name).text")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chat = "chat"
+            case text = "text"
+        }
+    }
+
+    public enum ToolChoice: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Defines tools, at least one of which must be requested by the model. No text is generated but the results of tool use are sent back to the model to help generate a response.
+        case any(AnyToolChoice)
+        /// Defines tools. The model automatically decides whether to call a tool or to generate text instead.
+        case auto(AutoToolChoice)
+        /// Defines a specific tool that the model must request. No text is generated but the results of tool use are sent back to the model to help generate a response.
+        case tool(SpecificToolChoice)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .any:
+                let value = try container.decode(AnyToolChoice.self, forKey: .any)
+                self = .any(value)
+            case .auto:
+                let value = try container.decode(AutoToolChoice.self, forKey: .auto)
+                self = .auto(value)
+            case .tool:
+                let value = try container.decode(SpecificToolChoice.self, forKey: .tool)
+                self = .tool(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .any(let value):
+                try container.encode(value, forKey: .any)
+            case .auto(let value):
+                try container.encode(value, forKey: .auto)
+            case .tool(let value):
+                try container.encode(value, forKey: .tool)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .tool(let value):
+                try value.validate(name: "\(name).tool")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case any = "any"
+            case auto = "auto"
+            case tool = "tool"
         }
     }
 
@@ -1228,6 +1541,10 @@ extension BedrockAgent {
         }
     }
 
+    public struct AnyToolChoice: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct AssociateAgentKnowledgeBaseRequest: AWSEncodableShape {
         /// The unique identifier of the agent with which you want to associate the knowledge base.
         public let agentId: String
@@ -1290,6 +1607,10 @@ extension BedrockAgent {
         }
     }
 
+    public struct AutoToolChoice: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct BedrockEmbeddingModelConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
         public let dimensions: Int?
@@ -1324,13 +1645,50 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
             try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)$")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.parsingPrompt?.validate(name: "\(name).parsingPrompt")
         }
 
         private enum CodingKeys: String, CodingKey {
             case modelArn = "modelArn"
             case parsingPrompt = "parsingPrompt"
+        }
+    }
+
+    public struct ChatPromptTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An array of the variables in the prompt template.
+        public let inputVariables: [PromptInputVariable]?
+        /// Contains messages in the chat for the prompt.
+        public let messages: [Message]
+        /// Contains system prompts to provide context to the model or to describe how it should behave.
+        public let system: [SystemContentBlock]?
+        /// Configuration information for the tools that the model can use when generating a response.
+        public let toolConfiguration: ToolConfiguration?
+
+        @inlinable
+        public init(inputVariables: [PromptInputVariable]? = nil, messages: [Message], system: [SystemContentBlock]? = nil, toolConfiguration: ToolConfiguration? = nil) {
+            self.inputVariables = inputVariables
+            self.messages = messages
+            self.system = system
+            self.toolConfiguration = toolConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.inputVariables?.forEach {
+                try $0.validate(name: "\(name).inputVariables[]")
+            }
+            try self.validate(self.inputVariables, name: "inputVariables", parent: name, max: 5)
+            try self.system?.forEach {
+                try $0.validate(name: "\(name).system[]")
+            }
+            try self.toolConfiguration?.validate(name: "\(name).toolConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputVariables = "inputVariables"
+            case messages = "messages"
+            case system = "system"
+            case toolConfiguration = "toolConfiguration"
         }
     }
 
@@ -1667,7 +2025,7 @@ extension BedrockAgent {
         public let customerEncryptionKeyArn: String?
         /// A description of the agent.
         public let description: String?
-        /// The Amazon Resource Name (ARN) of the foundation model to be used for orchestration by the agent you create.
+        /// The identifier for the model that you want to be used for orchestration by the agent you create. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
         public let foundationModel: String?
         /// The unique Guardrail configuration assigned to the agent when it is created.
         public let guardrailConfiguration: GuardrailConfiguration?
@@ -1712,7 +2070,7 @@ extension BedrockAgent {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, max: 2048)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
-            try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 3600)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
@@ -2275,7 +2633,7 @@ extension BedrockAgent {
             try self.variants?.forEach {
                 try $0.validate(name: "\(name).variants[]")
             }
-            try self.validate(self.variants, name: "variants", parent: name, max: 3)
+            try self.validate(self.variants, name: "variants", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2467,6 +2825,20 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case intermediateStorage = "intermediateStorage"
             case transformations = "transformations"
+        }
+    }
+
+    public struct CyclicConnectionFlowValidationDetails: AWSDecodableShape {
+        /// The name of the connection that causes the cycle in the flow.
+        public let connection: String
+
+        @inlinable
+        public init(connection: String) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
         }
     }
 
@@ -3103,6 +3475,42 @@ extension BedrockAgent {
         public init() {}
     }
 
+    public struct DuplicateConditionExpressionFlowValidationDetails: AWSDecodableShape {
+        /// The duplicated condition expression.
+        public let expression: String
+        /// The name of the node containing the duplicate condition expressions.
+        public let node: String
+
+        @inlinable
+        public init(expression: String, node: String) {
+            self.expression = expression
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "expression"
+            case node = "node"
+        }
+    }
+
+    public struct DuplicateConnectionsFlowValidationDetails: AWSDecodableShape {
+        /// The name of the source node where the duplicate connection starts.
+        public let source: String
+        /// The name of the target node where the duplicate connection ends.
+        public let target: String
+
+        @inlinable
+        public init(source: String, target: String) {
+            self.source = source
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+            case target = "target"
+        }
+    }
+
     public struct EmbeddingModelConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The vector configuration details on the Bedrock embeddings model.
         public let bedrockEmbeddingModelConfiguration: BedrockEmbeddingModelConfiguration?
@@ -3472,20 +3880,28 @@ extension BedrockAgent {
     }
 
     public struct FlowValidation: AWSDecodableShape {
+        /// Specific details about the validation issue encountered in the flow.
+        public let details: FlowValidationDetails?
         /// A message describing the validation error.
         public let message: String
         /// The severity of the issue described in the message.
         public let severity: FlowValidationSeverity
+        /// The type of validation issue encountered in the flow.
+        public let type: FlowValidationType?
 
         @inlinable
-        public init(message: String, severity: FlowValidationSeverity) {
+        public init(details: FlowValidationDetails? = nil, message: String, severity: FlowValidationSeverity, type: FlowValidationType? = nil) {
+            self.details = details
             self.message = message
             self.severity = severity
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case details = "details"
             case message = "message"
             case severity = "severity"
+            case type = "type"
         }
     }
 
@@ -4268,6 +4684,20 @@ extension BedrockAgent {
         }
     }
 
+    public struct IncompatibleConnectionDataTypeFlowValidationDetails: AWSDecodableShape {
+        /// The name of the connection with incompatible data types.
+        public let connection: String
+
+        @inlinable
+        public init(connection: String) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
+        }
+    }
+
     public struct InferenceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The maximum number of tokens to allow in the generated response.
         public let maximumLength: Int?
@@ -4593,26 +5023,31 @@ extension BedrockAgent {
     }
 
     public struct KnowledgeBaseFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains configurations for a guardrail to apply during query and response generation for the knowledge base in this configuration.
+        public let guardrailConfiguration: GuardrailConfiguration?
         /// The unique identifier of the knowledge base to query.
         public let knowledgeBaseId: String
         /// The unique identifier of the model or inference profile to use to generate a response from the query results. Omit this field if you want to return the retrieved results as an array.
         public let modelId: String?
 
         @inlinable
-        public init(knowledgeBaseId: String, modelId: String? = nil) {
+        public init(guardrailConfiguration: GuardrailConfiguration? = nil, knowledgeBaseId: String, modelId: String? = nil) {
+            self.guardrailConfiguration = guardrailConfiguration
             self.knowledgeBaseId = knowledgeBaseId
             self.modelId = modelId
         }
 
         public func validate(name: String) throws {
+            try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 10)
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):(model-gateway|inference-profile)/[a-zA-Z0-9-:.]+)|([a-zA-Z0-9-:.]+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case guardrailConfiguration = "guardrailConfiguration"
             case knowledgeBaseId = "knowledgeBaseId"
             case modelId = "modelId"
         }
@@ -5396,6 +5831,50 @@ extension BedrockAgent {
         }
     }
 
+    public struct MalformedConditionExpressionFlowValidationDetails: AWSDecodableShape {
+        /// The error message describing why the condition expression is malformed.
+        public let cause: String
+        /// The name of the malformed condition.
+        public let condition: String
+        /// The name of the node containing the malformed condition expression.
+        public let node: String
+
+        @inlinable
+        public init(cause: String, condition: String, node: String) {
+            self.cause = cause
+            self.condition = condition
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case condition = "condition"
+            case node = "node"
+        }
+    }
+
+    public struct MalformedNodeInputExpressionFlowValidationDetails: AWSDecodableShape {
+        /// The error message describing why the input expression is malformed.
+        public let cause: String
+        /// The name of the input with the malformed expression.
+        public let input: String
+        /// The name of the node containing the malformed input expression.
+        public let node: String
+
+        @inlinable
+        public init(cause: String, input: String, node: String) {
+            self.cause = cause
+            self.input = input
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case input = "input"
+            case node = "node"
+        }
+    }
+
     public struct MemoryConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The type of memory that is stored.
         public let enabledMemoryTypes: [MemoryType]
@@ -5419,6 +5898,154 @@ extension BedrockAgent {
             case enabledMemoryTypes = "enabledMemoryTypes"
             case storageDays = "storageDays"
         }
+    }
+
+    public struct Message: AWSEncodableShape & AWSDecodableShape {
+        /// The content in the message.
+        public let content: [ContentBlock]
+        /// The role that the message belongs to.
+        public let role: ConversationRole
+
+        @inlinable
+        public init(content: [ContentBlock], role: ConversationRole) {
+            self.content = content
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case role = "role"
+        }
+    }
+
+    public struct MismatchedNodeInputTypeFlowValidationDetails: AWSDecodableShape {
+        /// The expected data type for the node input.
+        public let expectedType: FlowNodeIODataType
+        /// The name of the input with the mismatched data type.
+        public let input: String
+        /// The name of the node containing the input with the mismatched data type.
+        public let node: String
+
+        @inlinable
+        public init(expectedType: FlowNodeIODataType, input: String, node: String) {
+            self.expectedType = expectedType
+            self.input = input
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expectedType = "expectedType"
+            case input = "input"
+            case node = "node"
+        }
+    }
+
+    public struct MismatchedNodeOutputTypeFlowValidationDetails: AWSDecodableShape {
+        /// The expected data type for the node output.
+        public let expectedType: FlowNodeIODataType
+        /// The name of the node containing the output with the mismatched data type.
+        public let node: String
+        /// The name of the output with the mismatched data type.
+        public let output: String
+
+        @inlinable
+        public init(expectedType: FlowNodeIODataType, node: String, output: String) {
+            self.expectedType = expectedType
+            self.node = node
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expectedType = "expectedType"
+            case node = "node"
+            case output = "output"
+        }
+    }
+
+    public struct MissingConnectionConfigurationFlowValidationDetails: AWSDecodableShape {
+        /// The name of the connection missing configuration.
+        public let connection: String
+
+        @inlinable
+        public init(connection: String) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
+        }
+    }
+
+    public struct MissingDefaultConditionFlowValidationDetails: AWSDecodableShape {
+        /// The name of the node missing the default condition.
+        public let node: String
+
+        @inlinable
+        public init(node: String) {
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case node = "node"
+        }
+    }
+
+    public struct MissingEndingNodesFlowValidationDetails: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct MissingNodeConfigurationFlowValidationDetails: AWSDecodableShape {
+        /// The name of the node missing configuration.
+        public let node: String
+
+        @inlinable
+        public init(node: String) {
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case node = "node"
+        }
+    }
+
+    public struct MissingNodeInputFlowValidationDetails: AWSDecodableShape {
+        /// The name of the missing input.
+        public let input: String
+        /// The name of the node missing the required input.
+        public let node: String
+
+        @inlinable
+        public init(input: String, node: String) {
+            self.input = input
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+            case node = "node"
+        }
+    }
+
+    public struct MissingNodeOutputFlowValidationDetails: AWSDecodableShape {
+        /// The name of the node missing the required output.
+        public let node: String
+        /// The name of the missing output.
+        public let output: String
+
+        @inlinable
+        public init(node: String, output: String) {
+            self.node = node
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case node = "node"
+            case output = "output"
+        }
+    }
+
+    public struct MissingStartingNodesFlowValidationDetails: AWSDecodableShape {
+        public init() {}
     }
 
     public struct MongoDbAtlasConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -5503,6 +6130,24 @@ extension BedrockAgent {
             case metadataField = "metadataField"
             case textField = "textField"
             case vectorField = "vectorField"
+        }
+    }
+
+    public struct MultipleNodeInputConnectionsFlowValidationDetails: AWSDecodableShape {
+        /// The name of the input with multiple connections to it.
+        public let input: String
+        /// The name of the node containing the input with multiple connections.
+        public let node: String
+
+        @inlinable
+        public init(input: String, node: String) {
+            self.input = input
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+            case node = "node"
         }
     }
 
@@ -5849,6 +6494,25 @@ extension BedrockAgent {
         }
     }
 
+    public struct PromptAgentResource: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the agent with which to use the prompt.
+        public let agentIdentifier: String
+
+        @inlinable
+        public init(agentIdentifier: String) {
+            self.agentIdentifier = agentIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentIdentifier, name: "agentIdentifier", parent: name, max: 2048)
+            try self.validate(self.agentIdentifier, name: "agentIdentifier", parent: name, pattern: "^arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentIdentifier = "agentIdentifier"
+        }
+    }
+
     public struct PromptConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables. For more information, see Configure the prompt templates.
         public let basePromptTemplate: String?
@@ -5890,24 +6554,31 @@ extension BedrockAgent {
     }
 
     public struct PromptFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains configurations for a guardrail to apply to the prompt in this node and the response generated from it.
+        public let guardrailConfiguration: GuardrailConfiguration?
         /// Specifies whether the prompt is from Prompt management or defined inline.
         public let sourceConfiguration: PromptFlowNodeSourceConfiguration
 
         @inlinable
-        public init(sourceConfiguration: PromptFlowNodeSourceConfiguration) {
+        public init(guardrailConfiguration: GuardrailConfiguration? = nil, sourceConfiguration: PromptFlowNodeSourceConfiguration) {
+            self.guardrailConfiguration = guardrailConfiguration
             self.sourceConfiguration = sourceConfiguration
         }
 
         public func validate(name: String) throws {
+            try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
             try self.sourceConfiguration.validate(name: "\(name).sourceConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case guardrailConfiguration = "guardrailConfiguration"
             case sourceConfiguration = "sourceConfiguration"
         }
     }
 
     public struct PromptFlowNodeInlineConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Additional fields to be included in the model request for the Prompt node.
+        public let additionalModelRequestFields: String?
         /// Contains inference configurations for the prompt.
         public let inferenceConfiguration: PromptInferenceConfiguration?
         /// The unique identifier of the model or inference profile to run inference with.
@@ -5918,7 +6589,8 @@ extension BedrockAgent {
         public let templateType: PromptTemplateType
 
         @inlinable
-        public init(inferenceConfiguration: PromptInferenceConfiguration? = nil, modelId: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
+        public init(additionalModelRequestFields: String? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, modelId: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
+            self.additionalModelRequestFields = additionalModelRequestFields
             self.inferenceConfiguration = inferenceConfiguration
             self.modelId = modelId
             self.templateConfiguration = templateConfiguration
@@ -5929,11 +6601,12 @@ extension BedrockAgent {
             try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):(model-gateway|inference-profile)/[a-zA-Z0-9-:.]+)|([a-zA-Z0-9-:.]+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.templateConfiguration.validate(name: "\(name).templateConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
             case inferenceConfiguration = "inferenceConfiguration"
             case modelId = "modelId"
             case templateConfiguration = "templateConfiguration"
@@ -6010,17 +6683,14 @@ extension BedrockAgent {
         public let stopSequences: [String]?
         /// Controls the randomness of the response. Choose a lower value for more predictable outputs and a higher value for more surprising outputs.
         public let temperature: Float?
-        /// The number of most-likely candidates that the model considers for the next token during generation.
-        public let topK: Int?
         /// The percentage of most-likely candidates that the model considers for the next token.
         public let topP: Float?
 
         @inlinable
-        public init(maxTokens: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topK: Int? = nil, topP: Float? = nil) {
+        public init(maxTokens: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topP: Float? = nil) {
             self.maxTokens = maxTokens
             self.stopSequences = stopSequences
             self.temperature = temperature
-            self.topK = topK
             self.topP = topP
         }
 
@@ -6030,8 +6700,6 @@ extension BedrockAgent {
             try self.validate(self.stopSequences, name: "stopSequences", parent: name, max: 4)
             try self.validate(self.temperature, name: "temperature", parent: name, max: 1.0)
             try self.validate(self.temperature, name: "temperature", parent: name, min: 0.0)
-            try self.validate(self.topK, name: "topK", parent: name, max: 500)
-            try self.validate(self.topK, name: "topK", parent: name, min: 0)
             try self.validate(self.topP, name: "topP", parent: name, max: 1.0)
             try self.validate(self.topP, name: "topP", parent: name, min: 0.0)
         }
@@ -6040,7 +6708,6 @@ extension BedrockAgent {
             case maxTokens = "maxTokens"
             case stopSequences = "stopSequences"
             case temperature = "temperature"
-            case topK = "topK"
             case topP = "topP"
         }
     }
@@ -6113,21 +6780,27 @@ extension BedrockAgent {
     }
 
     public struct PromptVariant: AWSEncodableShape & AWSDecodableShape {
+        /// Contains model-specific inference configurations that aren't in the inferenceConfiguration field. To see model-specific inference parameters, see Inference request parameters and response fields for foundation models.
+        public let additionalModelRequestFields: String?
+        /// Specifies a generative AI resource with which to use the prompt.
+        public let genAiResource: PromptGenAiResource?
         /// Contains inference configurations for the prompt variant.
         public let inferenceConfiguration: PromptInferenceConfiguration?
-        /// An array of objects, each containing a key-value pair that defines a metadata tag and value to attach to a prompt variant. For more information, see Create a prompt using Prompt management.
+        /// An array of objects, each containing a key-value pair that defines a metadata tag and value to attach to a prompt variant.
         public let metadata: [PromptMetadataEntry]?
         /// The unique identifier of the model or inference profile with which to run inference on the prompt.
         public let modelId: String?
         /// The name of the prompt variant.
         public let name: String
         /// Contains configurations for the prompt template.
-        public let templateConfiguration: PromptTemplateConfiguration?
+        public let templateConfiguration: PromptTemplateConfiguration
         /// The type of prompt template to use.
         public let templateType: PromptTemplateType
 
         @inlinable
-        public init(inferenceConfiguration: PromptInferenceConfiguration? = nil, metadata: [PromptMetadataEntry]? = nil, modelId: String? = nil, name: String, templateConfiguration: PromptTemplateConfiguration? = nil, templateType: PromptTemplateType) {
+        public init(additionalModelRequestFields: String? = nil, genAiResource: PromptGenAiResource? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, metadata: [PromptMetadataEntry]? = nil, modelId: String? = nil, name: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.genAiResource = genAiResource
             self.inferenceConfiguration = inferenceConfiguration
             self.metadata = metadata
             self.modelId = modelId
@@ -6137,6 +6810,7 @@ extension BedrockAgent {
         }
 
         public func validate(name: String) throws {
+            try self.genAiResource?.validate(name: "\(name).genAiResource")
             try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
             try self.metadata?.forEach {
                 try $0.validate(name: "\(name).metadata[]")
@@ -6144,12 +6818,14 @@ extension BedrockAgent {
             try self.validate(self.metadata, name: "metadata", parent: name, max: 50)
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):(model-gateway|inference-profile)/[a-zA-Z0-9-:.]+)|([a-zA-Z0-9-:.]+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
-            try self.templateConfiguration?.validate(name: "\(name).templateConfiguration")
+            try self.templateConfiguration.validate(name: "\(name).templateConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case genAiResource = "genAiResource"
             case inferenceConfiguration = "inferenceConfiguration"
             case metadata = "metadata"
             case modelId = "modelId"
@@ -6641,6 +7317,26 @@ extension BedrockAgent {
         }
     }
 
+    public struct SpecificToolChoice: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the tool.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
     public struct StartIngestionJobRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
@@ -6892,6 +7588,60 @@ extension BedrockAgent {
         }
     }
 
+    public struct ToolConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Defines which tools the model should request when invoked.
+        public let toolChoice: ToolChoice?
+        /// An array of tools to pass to a model.
+        public let tools: [Tool]
+
+        @inlinable
+        public init(toolChoice: ToolChoice? = nil, tools: [Tool]) {
+            self.toolChoice = toolChoice
+            self.tools = tools
+        }
+
+        public func validate(name: String) throws {
+            try self.toolChoice?.validate(name: "\(name).toolChoice")
+            try self.tools.forEach {
+                try $0.validate(name: "\(name).tools[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case toolChoice = "toolChoice"
+            case tools = "tools"
+        }
+    }
+
+    public struct ToolSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The description of the tool.
+        public let description: String?
+        /// The input schema for the tool.
+        public let inputSchema: ToolInputSchema
+        /// The name of the tool.
+        public let name: String
+
+        @inlinable
+        public init(description: String? = nil, inputSchema: ToolInputSchema, name: String) {
+            self.description = description
+            self.inputSchema = inputSchema
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case inputSchema = "inputSchema"
+            case name = "name"
+        }
+    }
+
     public struct Transformation: AWSEncodableShape & AWSDecodableShape {
         /// When the service applies the transformation.
         public let stepToApply: StepType
@@ -6949,6 +7699,126 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case lambdaArn = "lambdaArn"
         }
+    }
+
+    public struct UnfulfilledNodeInputFlowValidationDetails: AWSDecodableShape {
+        /// The name of the unfulfilled input. An input is unfulfilled if there are no data connections to it.
+        public let input: String
+        /// The name of the node containing the unfulfilled input.
+        public let node: String
+
+        @inlinable
+        public init(input: String, node: String) {
+            self.input = input
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+            case node = "node"
+        }
+    }
+
+    public struct UnknownConnectionConditionFlowValidationDetails: AWSDecodableShape {
+        /// The name of the connection with the unknown condition.
+        public let connection: String
+
+        @inlinable
+        public init(connection: String) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
+        }
+    }
+
+    public struct UnknownConnectionSourceFlowValidationDetails: AWSDecodableShape {
+        /// The name of the connection with the unknown source.
+        public let connection: String
+
+        @inlinable
+        public init(connection: String) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
+        }
+    }
+
+    public struct UnknownConnectionSourceOutputFlowValidationDetails: AWSDecodableShape {
+        /// The name of the connection with the unknown source output.
+        public let connection: String
+
+        @inlinable
+        public init(connection: String) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
+        }
+    }
+
+    public struct UnknownConnectionTargetFlowValidationDetails: AWSDecodableShape {
+        /// The name of the connection with the unknown target.
+        public let connection: String
+
+        @inlinable
+        public init(connection: String) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
+        }
+    }
+
+    public struct UnknownConnectionTargetInputFlowValidationDetails: AWSDecodableShape {
+        /// The name of the connection with the unknown target input.
+        public let connection: String
+
+        @inlinable
+        public init(connection: String) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
+        }
+    }
+
+    public struct UnreachableNodeFlowValidationDetails: AWSDecodableShape {
+        /// The name of the unreachable node.
+        public let node: String
+
+        @inlinable
+        public init(node: String) {
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case node = "node"
+        }
+    }
+
+    public struct UnsatisfiedConnectionConditionsFlowValidationDetails: AWSDecodableShape {
+        /// The name of the connection with unsatisfied conditions.
+        public let connection: String
+
+        @inlinable
+        public init(connection: String) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
+        }
+    }
+
+    public struct UnspecifiedFlowValidationDetails: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -7217,7 +8087,7 @@ extension BedrockAgent {
         public let customerEncryptionKeyArn: String?
         /// Specifies a new description of the agent.
         public let description: String?
-        /// Specifies a new foundation model to be used for orchestration by the agent.
+        /// The identifier for the model that you want to be used for orchestration by the agent you create. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
         public let foundationModel: String?
         /// The unique Guardrail configuration assigned to the agent when it is updated.
         public let guardrailConfiguration: GuardrailConfiguration?
@@ -7273,7 +8143,7 @@ extension BedrockAgent {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, max: 2048)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
-            try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 3600)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
@@ -7713,7 +8583,7 @@ extension BedrockAgent {
             try self.variants?.forEach {
                 try $0.validate(name: "\(name).variants[]")
             }
-            try self.validate(self.variants, name: "variants", parent: name, max: 3)
+            try self.validate(self.variants, name: "variants", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7799,6 +8669,38 @@ extension BedrockAgent {
         }
     }
 
+    public struct ValidateFlowDefinitionRequest: AWSEncodableShape {
+        /// The definition of a flow to validate.
+        public let definition: FlowDefinition
+
+        @inlinable
+        public init(definition: FlowDefinition) {
+            self.definition = definition
+        }
+
+        public func validate(name: String) throws {
+            try self.definition.validate(name: "\(name).definition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "definition"
+        }
+    }
+
+    public struct ValidateFlowDefinitionResponse: AWSDecodableShape {
+        /// Contains an array of objects, each of which contains an error identified by validation.
+        public let validations: [FlowValidation]
+
+        @inlinable
+        public init(validations: [FlowValidation]) {
+            self.validations = validations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validations = "validations"
+        }
+    }
+
     public struct VectorIngestionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
         public let chunkingConfiguration: ChunkingConfiguration?
@@ -7828,7 +8730,7 @@ extension BedrockAgent {
     }
 
     public struct VectorKnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
+        /// The Amazon Resource Name (ARN) of the model or inference profile used to create vector embeddings for the knowledge base.
         public let embeddingModelArn: String
         /// The embeddings model configuration details for the vector model used in Knowledge Base.
         public let embeddingModelConfiguration: EmbeddingModelConfiguration?
@@ -7842,7 +8744,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, max: 2048)
             try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, min: 20)
-            try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.embeddingModelConfiguration?.validate(name: "\(name).embeddingModelConfiguration")
         }
 
@@ -7948,6 +8850,20 @@ extension BedrockAgent {
         }
     }
 
+    public struct ContentBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The text in the message.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
     public struct FunctionSchema: AWSEncodableShape & AWSDecodableShape {
         /// A list of functions that each define an action in the action group.
         public let functions: [Function]?
@@ -7968,30 +8884,30 @@ extension BedrockAgent {
         }
     }
 
+    public struct PromptGenAiResource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies an Amazon Bedrock agent with which to use the prompt.
+        public let agent: PromptAgentResource?
+
+        @inlinable
+        public init(agent: PromptAgentResource? = nil) {
+            self.agent = agent
+        }
+
+        public func validate(name: String) throws {
+            try self.agent?.validate(name: "\(name).agent")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agent = "agent"
+        }
+    }
+
     public struct PromptInferenceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains inference configurations for a text prompt.
         public let text: PromptModelInferenceConfiguration?
 
         @inlinable
         public init(text: PromptModelInferenceConfiguration? = nil) {
-            self.text = text
-        }
-
-        public func validate(name: String) throws {
-            try self.text?.validate(name: "\(name).text")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case text = "text"
-        }
-    }
-
-    public struct PromptTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Contains configurations for the text in a message for a prompt.
-        public let text: TextPromptTemplateConfiguration?
-
-        @inlinable
-        public init(text: TextPromptTemplateConfiguration? = nil) {
             self.text = text
         }
 
@@ -8037,6 +8953,56 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case s3 = "s3"
+        }
+    }
+
+    public struct SystemContentBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The text in the system prompt.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct Tool: AWSEncodableShape & AWSDecodableShape {
+        /// The specification for the tool.
+        public let toolSpec: ToolSpecification?
+
+        @inlinable
+        public init(toolSpec: ToolSpecification? = nil) {
+            self.toolSpec = toolSpec
+        }
+
+        public func validate(name: String) throws {
+            try self.toolSpec?.validate(name: "\(name).toolSpec")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case toolSpec = "toolSpec"
+        }
+    }
+
+    public struct ToolInputSchema: AWSEncodableShape & AWSDecodableShape {
+        /// A JSON object defining the input schema for the tool.
+        public let json: String?
+
+        @inlinable
+        public init(json: String? = nil) {
+            self.json = json
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case json = "json"
         }
     }
 }

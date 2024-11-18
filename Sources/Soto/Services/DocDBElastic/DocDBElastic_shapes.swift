@@ -32,6 +32,14 @@ extension DocDBElastic {
         public var description: String { return self.rawValue }
     }
 
+    public enum OptInType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applyOn = "APPLY_ON"
+        case immediate = "IMMEDIATE"
+        case nextMaintenance = "NEXT_MAINTENANCE"
+        case undoOptIn = "UNDO_OPT_IN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SnapshotType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automated = "AUTOMATED"
         case manual = "MANUAL"
@@ -43,6 +51,7 @@ extension DocDBElastic {
         case copying = "COPYING"
         case creating = "CREATING"
         case deleting = "DELETING"
+        case inaccessibleEncryptionCredentialsRecoverable = "INACCESSIBLE_ENCRYPTION_CREDENTIALS_RECOVERABLE"
         case inaccessibleEncryptionCreds = "INACCESSIBLE_ENCRYPTION_CREDS"
         case inaccessibleSecretArn = "INACCESSIBLE_SECRET_ARN"
         case inaccessibleVpcEndpoint = "INACCESSIBLE_VPC_ENDPOINT"
@@ -50,6 +59,7 @@ extension DocDBElastic {
         case invalidSecurityGroupId = "INVALID_SECURITY_GROUP_ID"
         case invalidSubnetId = "INVALID_SUBNET_ID"
         case ipAddressLimitExceeded = "IP_ADDRESS_LIMIT_EXCEEDED"
+        case maintenance = "MAINTENANCE"
         case merging = "MERGING"
         case modifying = "MODIFYING"
         case splitting = "SPLITTING"
@@ -62,6 +72,55 @@ extension DocDBElastic {
     }
 
     // MARK: Shapes
+
+    public struct ApplyPendingMaintenanceActionInput: AWSEncodableShape {
+        /// The pending maintenance action to apply to the resource. Valid actions are:    ENGINE_UPDATE      ENGINE_UPGRADE     SECURITY_UPDATE     OS_UPDATE     MASTER_USER_PASSWORD_UPDATE
+        public let applyAction: String
+        /// A specific date to apply the pending maintenance action. Required if opt-in-type is APPLY_ON. Format: yyyy/MM/dd HH:mm-yyyy/MM/dd HH:mm
+        public let applyOn: String?
+        /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type IMMEDIATE can't be undone.
+        public let optInType: OptInType
+        /// The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which the pending maintenance action applies.
+        public let resourceArn: String
+
+        @inlinable
+        public init(applyAction: String, applyOn: String? = nil, optInType: OptInType, resourceArn: String) {
+            self.applyAction = applyAction
+            self.applyOn = applyOn
+            self.optInType = optInType
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applyAction, name: "applyAction", parent: name, max: 256)
+            try self.validate(self.applyAction, name: "applyAction", parent: name, min: 1)
+            try self.validate(self.applyOn, name: "applyOn", parent: name, max: 256)
+            try self.validate(self.applyOn, name: "applyOn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyAction = "applyAction"
+            case applyOn = "applyOn"
+            case optInType = "optInType"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ApplyPendingMaintenanceActionOutput: AWSDecodableShape {
+        /// The output of the pending maintenance action being applied.
+        public let resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction
+
+        @inlinable
+        public init(resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction) {
+            self.resourcePendingMaintenanceAction = resourcePendingMaintenanceAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePendingMaintenanceAction = "resourcePendingMaintenanceAction"
+        }
+    }
 
     public struct Cluster: AWSDecodableShape {
         /// The name of the elastic cluster administrator.
@@ -574,6 +633,43 @@ extension DocDBElastic {
         }
     }
 
+    public struct GetPendingMaintenanceActionInput: AWSEncodableShape {
+        /// Retrieves pending maintenance actions for a specific Amazon Resource Name (ARN).
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPendingMaintenanceActionOutput: AWSDecodableShape {
+        /// Provides information about a pending maintenance action for a resource.
+        public let resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction
+
+        @inlinable
+        public init(resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction) {
+            self.resourcePendingMaintenanceAction = resourcePendingMaintenanceAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePendingMaintenanceAction = "resourcePendingMaintenanceAction"
+        }
+    }
+
     public struct ListClusterSnapshotsInput: AWSEncodableShape {
         /// The ARN identifier of the elastic cluster.
         public let clusterArn: String?
@@ -662,6 +758,46 @@ extension DocDBElastic {
         }
     }
 
+    public struct ListPendingMaintenanceActionsInput: AWSEncodableShape {
+        /// The maximum number of results to include in the response.  If more records exist than the specified maxResults value, a pagination token (marker) is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by maxResults.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPendingMaintenanceActionsOutput: AWSDecodableShape {
+        /// An optional pagination token provided by a previous request. If this parameter is displayed, the responses will include only records beyond the marker, up to the value specified by maxResults.
+        public let nextToken: String?
+        /// Provides information about a pending maintenance action for a resource.
+        public let resourcePendingMaintenanceActions: [ResourcePendingMaintenanceAction]
+
+        @inlinable
+        public init(nextToken: String? = nil, resourcePendingMaintenanceActions: [ResourcePendingMaintenanceAction]) {
+            self.nextToken = nextToken
+            self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resourcePendingMaintenanceActions = "resourcePendingMaintenanceActions"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The ARN identifier of the elastic cluster resource.
         public let resourceArn: String
@@ -696,6 +832,58 @@ extension DocDBElastic {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct PendingMaintenanceActionDetails: AWSDecodableShape {
+        /// Displays the specific action of a pending maintenance action.
+        public let action: String
+        /// Displays the date of the maintenance window when the action is applied.  The maintenance action is applied to the resource during its first maintenance window after this date.  If this date is specified, any NEXT_MAINTENANCE optInType requests are ignored.
+        public let autoAppliedAfterDate: String?
+        /// Displays the effective date when the pending maintenance action is applied to the resource.
+        public let currentApplyDate: String?
+        /// Displays a description providing more detail about the maintenance action.
+        public let description: String?
+        /// Displays the date when the maintenance action is automatically applied.  The maintenance action is applied to the resource on this date regardless of the maintenance window for the resource.  If this date is specified, any IMMEDIATE optInType requests are ignored.
+        public let forcedApplyDate: String?
+        /// Displays the type of optInType request that has been received for the resource.
+        public let optInStatus: String?
+
+        @inlinable
+        public init(action: String, autoAppliedAfterDate: String? = nil, currentApplyDate: String? = nil, description: String? = nil, forcedApplyDate: String? = nil, optInStatus: String? = nil) {
+            self.action = action
+            self.autoAppliedAfterDate = autoAppliedAfterDate
+            self.currentApplyDate = currentApplyDate
+            self.description = description
+            self.forcedApplyDate = forcedApplyDate
+            self.optInStatus = optInStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case autoAppliedAfterDate = "autoAppliedAfterDate"
+            case currentApplyDate = "currentApplyDate"
+            case description = "description"
+            case forcedApplyDate = "forcedApplyDate"
+            case optInStatus = "optInStatus"
+        }
+    }
+
+    public struct ResourcePendingMaintenanceAction: AWSDecodableShape {
+        /// Provides information about a pending maintenance action for a resource.
+        public let pendingMaintenanceActionDetails: [PendingMaintenanceActionDetails]?
+        /// The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which the pending maintenance action applies.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(pendingMaintenanceActionDetails: [PendingMaintenanceActionDetails]? = nil, resourceArn: String? = nil) {
+            self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pendingMaintenanceActionDetails = "pendingMaintenanceActionDetails"
+            case resourceArn = "resourceArn"
         }
     }
 

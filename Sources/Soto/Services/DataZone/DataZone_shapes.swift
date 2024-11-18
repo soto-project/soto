@@ -296,6 +296,7 @@ extension DataZone {
     public enum ProjectDesignation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contributor = "CONTRIBUTOR"
         case owner = "OWNER"
+        case projectCatalogSteward = "PROJECT_CATALOG_STEWARD"
         public var description: String { return self.rawValue }
     }
 
@@ -484,6 +485,9 @@ extension DataZone {
     }
 
     public enum UserDesignation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case projectCatalogConsumer = "PROJECT_CATALOG_CONSUMER"
+        case projectCatalogSteward = "PROJECT_CATALOG_STEWARD"
+        case projectCatalogViewer = "PROJECT_CATALOG_VIEWER"
         case projectContributor = "PROJECT_CONTRIBUTOR"
         case projectOwner = "PROJECT_OWNER"
         public var description: String { return self.rawValue }

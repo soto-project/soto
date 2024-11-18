@@ -26,6 +26,12 @@ import Foundation
 extension VerifiedPermissions {
     // MARK: Enums
 
+    public enum BatchGetPolicyErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case policyNotFound = "POLICY_NOT_FOUND"
+        case policyStoreNotFound = "POLICY_STORE_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Decision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
@@ -58,8 +64,12 @@ extension VerifiedPermissions {
     public enum AttributeValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An attribute value of Boolean type. Example: {"boolean": true}
         case boolean(Bool)
+        /// An attribute value of decimal type. Example: {"decimal": "1.1"}
+        case decimal(String)
         /// An attribute value of type EntityIdentifier. Example: "entityIdentifier": { "entityId": "&lt;id&gt;", "entityType": "&lt;entity type&gt;"}
         case entityIdentifier(EntityIdentifier)
+        /// An attribute value of ipaddr type. Example: {"ip": "192.168.1.100"}
+        case ipaddr(String)
         /// An attribute value of Long type. Example: {"long": 0}
         case long(Int64)
         /// An attribute value of Record type. Example: {"record": { "keyName": {} } }
@@ -82,9 +92,15 @@ extension VerifiedPermissions {
             case .boolean:
                 let value = try container.decode(Bool.self, forKey: .boolean)
                 self = .boolean(value)
+            case .decimal:
+                let value = try container.decode(String.self, forKey: .decimal)
+                self = .decimal(value)
             case .entityIdentifier:
                 let value = try container.decode(EntityIdentifier.self, forKey: .entityIdentifier)
                 self = .entityIdentifier(value)
+            case .ipaddr:
+                let value = try container.decode(String.self, forKey: .ipaddr)
+                self = .ipaddr(value)
             case .long:
                 let value = try container.decode(Int64.self, forKey: .long)
                 self = .long(value)
@@ -105,8 +121,12 @@ extension VerifiedPermissions {
             switch self {
             case .boolean(let value):
                 try container.encode(value, forKey: .boolean)
+            case .decimal(let value):
+                try container.encode(value, forKey: .decimal)
             case .entityIdentifier(let value):
                 try container.encode(value, forKey: .entityIdentifier)
+            case .ipaddr(let value):
+                try container.encode(value, forKey: .ipaddr)
             case .long(let value):
                 try container.encode(value, forKey: .long)
             case .record(let value):
@@ -120,8 +140,16 @@ extension VerifiedPermissions {
 
         public func validate(name: String) throws {
             switch self {
+            case .decimal(let value):
+                try self.validate(value, name: "decimal", parent: name, max: 23)
+                try self.validate(value, name: "decimal", parent: name, min: 3)
+                try self.validate(value, name: "decimal", parent: name, pattern: "^-?\\d{1,15}\\.\\d{1,4}$")
             case .entityIdentifier(let value):
                 try value.validate(name: "\(name).entityIdentifier")
+            case .ipaddr(let value):
+                try self.validate(value, name: "ipaddr", parent: name, max: 44)
+                try self.validate(value, name: "ipaddr", parent: name, min: 1)
+                try self.validate(value, name: "ipaddr", parent: name, pattern: "^[0-9a-fA-F\\.:\\/]*$")
             case .record(let value):
                 try value.forEach {
                     try $0.value.validate(name: "\(name).record[\"\($0.key)\"]")
@@ -137,7 +165,9 @@ extension VerifiedPermissions {
 
         private enum CodingKeys: String, CodingKey {
             case boolean = "boolean"
+            case decimal = "decimal"
             case entityIdentifier = "entityIdentifier"
+            case ipaddr = "ipaddr"
             case long = "long"
             case record = "record"
             case set = "set"
@@ -546,6 +576,135 @@ extension VerifiedPermissions {
         }
     }
 
+    public struct BatchGetPolicyErrorItem: AWSDecodableShape {
+        /// The error code that was returned.
+        public let code: BatchGetPolicyErrorCode
+        /// A detailed error message.
+        public let message: String
+        /// The identifier of the policy associated with the failed request.
+        public let policyId: String
+        /// The identifier of the policy store associated with the failed request.
+        public let policyStoreId: String
+
+        @inlinable
+        public init(code: BatchGetPolicyErrorCode, message: String, policyId: String, policyStoreId: String) {
+            self.code = code
+            self.message = message
+            self.policyId = policyId
+            self.policyStoreId = policyStoreId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case policyId = "policyId"
+            case policyStoreId = "policyStoreId"
+        }
+    }
+
+    public struct BatchGetPolicyInput: AWSEncodableShape {
+        /// An array of up to 100 policies you want information about.
+        public let requests: [BatchGetPolicyInputItem]
+
+        @inlinable
+        public init(requests: [BatchGetPolicyInputItem]) {
+            self.requests = requests
+        }
+
+        public func validate(name: String) throws {
+            try self.requests.forEach {
+                try $0.validate(name: "\(name).requests[]")
+            }
+            try self.validate(self.requests, name: "requests", parent: name, max: 100)
+            try self.validate(self.requests, name: "requests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requests = "requests"
+        }
+    }
+
+    public struct BatchGetPolicyInputItem: AWSEncodableShape {
+        /// The identifier of the policy you want information about.
+        public let policyId: String
+        /// The identifier of the policy store where the policy you want information about is stored.
+        public let policyStoreId: String
+
+        @inlinable
+        public init(policyId: String, policyStoreId: String) {
+            self.policyId = policyId
+            self.policyStoreId = policyStoreId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyId, name: "policyId", parent: name, max: 200)
+            try self.validate(self.policyId, name: "policyId", parent: name, min: 1)
+            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyId = "policyId"
+            case policyStoreId = "policyStoreId"
+        }
+    }
+
+    public struct BatchGetPolicyOutput: AWSDecodableShape {
+        /// Information about the policies from the request that resulted in an error. These results are returned in the order they were requested.
+        public let errors: [BatchGetPolicyErrorItem]
+        /// Information about the policies listed in the request that were successfully returned. These results are returned in the order they were requested.
+        public let results: [BatchGetPolicyOutputItem]
+
+        @inlinable
+        public init(errors: [BatchGetPolicyErrorItem], results: [BatchGetPolicyOutputItem]) {
+            self.errors = errors
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case results = "results"
+        }
+    }
+
+    public struct BatchGetPolicyOutputItem: AWSDecodableShape {
+        /// The date and time the policy was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdDate: Date
+        /// The policy definition of an item in the list of policies returned.
+        public let definition: PolicyDefinitionDetail
+        /// The date and time the policy was most recently updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedDate: Date
+        /// The identifier of the policy you want information about.
+        public let policyId: String
+        /// The identifier of the policy store where the policy you want information about is stored.
+        public let policyStoreId: String
+        /// The type of the policy. This is one of the following values:    STATIC     TEMPLATE_LINKED
+        public let policyType: PolicyType
+
+        @inlinable
+        public init(createdDate: Date, definition: PolicyDefinitionDetail, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType) {
+            self.createdDate = createdDate
+            self.definition = definition
+            self.lastUpdatedDate = lastUpdatedDate
+            self.policyId = policyId
+            self.policyStoreId = policyStoreId
+            self.policyType = policyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "createdDate"
+            case definition = "definition"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case policyId = "policyId"
+            case policyStoreId = "policyStoreId"
+            case policyType = "policyType"
+        }
+    }
+
     public struct BatchIsAuthorizedInput: AWSEncodableShape {
         /// Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
         public let entities: EntitiesDefinition?
@@ -613,7 +772,7 @@ extension VerifiedPermissions {
     }
 
     public struct BatchIsAuthorizedOutput: AWSDecodableShape {
-        /// A series of Allow or Deny decisions for each request, and the policies that produced them.
+        /// A series of Allow or Deny decisions for each request, and the policies that produced them. These results are returned in the order they were requested.
         public let results: [BatchIsAuthorizedOutputItem]
 
         @inlinable
@@ -730,7 +889,7 @@ extension VerifiedPermissions {
     public struct BatchIsAuthorizedWithTokenOutput: AWSDecodableShape {
         /// The identifier of the principal in the ID or access token.
         public let principal: EntityIdentifier?
-        /// A series of Allow or Deny decisions for each request, and the policies that produced them.
+        /// A series of Allow or Deny decisions for each request, and the policies that produced them.  These results are returned in the order they were requested.
         public let results: [BatchIsAuthorizedWithTokenOutputItem]
 
         @inlinable
@@ -2539,7 +2698,7 @@ extension VerifiedPermissions {
         public var lastUpdatedDate: Date
         /// The identifier of the policy you want information about.
         public let policyId: String
-        /// The identifier of the PolicyStore where the policy you want information about is stored.
+        /// The identifier of the policy store where the policy you want information about is stored.
         public let policyStoreId: String
         /// The type of the policy. This is one of the following values:    STATIC     TEMPLATE_LINKED
         public let policyType: PolicyType
@@ -3356,7 +3515,6 @@ extension VerifiedPermissions {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.cedarJson, name: "cedarJson", parent: name, max: 100000)
             try self.validate(self.cedarJson, name: "cedarJson", parent: name, min: 1)
         }
 

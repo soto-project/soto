@@ -108,6 +108,7 @@ extension CodeBuild {
     }
 
     public enum ComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attributeBasedCompute = "ATTRIBUTE_BASED_COMPUTE"
         case buildGeneral12Xlarge = "BUILD_GENERAL1_2XLARGE"
         case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
         case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
@@ -128,12 +129,15 @@ extension CodeBuild {
 
     public enum EnvironmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case armContainer = "ARM_CONTAINER"
+        case armEc2 = "ARM_EC2"
         case armLambdaContainer = "ARM_LAMBDA_CONTAINER"
         case linuxContainer = "LINUX_CONTAINER"
+        case linuxEc2 = "LINUX_EC2"
         case linuxGpuContainer = "LINUX_GPU_CONTAINER"
         case linuxLambdaContainer = "LINUX_LAMBDA_CONTAINER"
         case macArm = "MAC_ARM"
         case windowsContainer = "WINDOWS_CONTAINER"
+        case windowsEc2 = "WINDOWS_EC2"
         case windowsServer2019Container = "WINDOWS_SERVER_2019_CONTAINER"
         public var description: String { return self.rawValue }
     }
@@ -235,6 +239,12 @@ extension CodeBuild {
     public enum LogsConfigStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MachineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case general = "GENERAL"
+        case nvme = "NVME"
         public var description: String { return self.rawValue }
     }
 
@@ -403,6 +413,32 @@ extension CodeBuild {
     }
 
     // MARK: Shapes
+
+    public struct AutoRetryConfig: AWSDecodableShape {
+        /// The maximum number of additional automatic retries after a failed build. For example, if the  auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically  retry your build for up to 2 additional times.
+        public let autoRetryLimit: Int?
+        /// The number of times that the build has been retried. The initial build will have an auto-retry number of 0.
+        public let autoRetryNumber: Int?
+        /// The build ARN of the auto-retried build triggered by the current build. The next auto-retry  will be null for builds that don't trigger an auto-retry.
+        public let nextAutoRetry: String?
+        /// The build ARN of the build that triggered the current auto-retry build. The previous auto-retry will be  null for the initial build.
+        public let previousAutoRetry: String?
+
+        @inlinable
+        public init(autoRetryLimit: Int? = nil, autoRetryNumber: Int? = nil, nextAutoRetry: String? = nil, previousAutoRetry: String? = nil) {
+            self.autoRetryLimit = autoRetryLimit
+            self.autoRetryNumber = autoRetryNumber
+            self.nextAutoRetry = nextAutoRetry
+            self.previousAutoRetry = previousAutoRetry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRetryLimit = "autoRetryLimit"
+            case autoRetryNumber = "autoRetryNumber"
+            case nextAutoRetry = "nextAutoRetry"
+            case previousAutoRetry = "previousAutoRetry"
+        }
+    }
 
     public struct BatchDeleteBuildsInput: AWSEncodableShape {
         /// The IDs of the builds to delete.
@@ -712,6 +748,8 @@ extension CodeBuild {
         public let arn: String?
         /// Information about the output artifacts for the build.
         public let artifacts: BuildArtifacts?
+        /// Information about the auto-retry configuration for the build.
+        public let autoRetryConfig: AutoRetryConfig?
         /// The ARN of the batch build that this build is a member of, if applicable.
         public let buildBatchArn: String?
         /// Whether the build is complete. True if complete; otherwise, false.
@@ -774,9 +812,10 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildBatchArn: String? = nil, buildComplete: Bool? = nil, buildNumber: Int64? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, debugSession: DebugSession? = nil, encryptionKey: String? = nil, endTime: Date? = nil, environment: ProjectEnvironment? = nil, exportedEnvironmentVariables: [ExportedEnvironmentVariable]? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, reportArns: [String]? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: Date? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, autoRetryConfig: AutoRetryConfig? = nil, buildBatchArn: String? = nil, buildComplete: Bool? = nil, buildNumber: Int64? = nil, buildStatus: StatusType? = nil, cache: ProjectCache? = nil, currentPhase: String? = nil, debugSession: DebugSession? = nil, encryptionKey: String? = nil, endTime: Date? = nil, environment: ProjectEnvironment? = nil, exportedEnvironmentVariables: [ExportedEnvironmentVariable]? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [BuildPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, reportArns: [String]? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: Date? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.artifacts = artifacts
+            self.autoRetryConfig = autoRetryConfig
             self.buildBatchArn = buildBatchArn
             self.buildComplete = buildComplete
             self.buildNumber = buildNumber
@@ -812,6 +851,7 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case artifacts = "artifacts"
+            case autoRetryConfig = "autoRetryConfig"
             case buildBatchArn = "buildBatchArn"
             case buildComplete = "buildComplete"
             case buildNumber = "buildNumber"
@@ -1290,12 +1330,40 @@ extension CodeBuild {
         }
     }
 
+    public struct ComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The amount of disk space of the instance type included in your fleet.
+        public let disk: Int64?
+        /// The machine type of the instance type included in your fleet.
+        public let machineType: MachineType?
+        /// The amount of memory of the instance type included in your fleet.
+        public let memory: Int64?
+        /// The number of vCPUs of the instance type included in your fleet.
+        public let vCpu: Int64?
+
+        @inlinable
+        public init(disk: Int64? = nil, machineType: MachineType? = nil, memory: Int64? = nil, vCpu: Int64? = nil) {
+            self.disk = disk
+            self.machineType = machineType
+            self.memory = memory
+            self.vCpu = vCpu
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disk = "disk"
+            case machineType = "machineType"
+            case memory = "memory"
+            case vCpu = "vCpu"
+        }
+    }
+
     public struct CreateFleetInput: AWSEncodableShape {
         /// The initial number of machines allocated to the ﬂeet, which deﬁnes the number of builds that can run in parallel.
         public let baseCapacity: Int
-        /// Information about the compute resources the compute fleet uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see Build environment compute types in the CodeBuild User Guide.
+        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE.
+        public let computeConfiguration: ComputeConfiguration?
+        /// Information about the compute resources the compute fleet uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
         public let computeType: ComputeType
-        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
+        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type ARM_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType
         /// The service role associated with the compute fleet. For more information, see  Allow a user to add a permission policy for a fleet service role in the CodeBuild User Guide.
         public let fleetServiceRole: String?
@@ -1314,8 +1382,9 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(baseCapacity: Int, computeType: ComputeType, environmentType: EnvironmentType, fleetServiceRole: String? = nil, imageId: String? = nil, name: String, overflowBehavior: FleetOverflowBehavior? = nil, proxyConfiguration: ProxyConfiguration? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(baseCapacity: Int, computeConfiguration: ComputeConfiguration? = nil, computeType: ComputeType, environmentType: EnvironmentType, fleetServiceRole: String? = nil, imageId: String? = nil, name: String, overflowBehavior: FleetOverflowBehavior? = nil, proxyConfiguration: ProxyConfiguration? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.baseCapacity = baseCapacity
+            self.computeConfiguration = computeConfiguration
             self.computeType = computeType
             self.environmentType = environmentType
             self.fleetServiceRole = fleetServiceRole
@@ -1346,6 +1415,7 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case baseCapacity = "baseCapacity"
+            case computeConfiguration = "computeConfiguration"
             case computeType = "computeType"
             case environmentType = "environmentType"
             case fleetServiceRole = "fleetServiceRole"
@@ -1376,6 +1446,8 @@ extension CodeBuild {
     public struct CreateProjectInput: AWSEncodableShape {
         /// Information about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts
+        /// The maximum number of additional automatic retries after a failed build. For example, if the  auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically  retry your build for up to 2 additional times.
+        public let autoRetryLimit: Int?
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
         public let badgeEnabled: Bool?
         /// A ProjectBuildBatchConfig object that defines the batch build options for the project.
@@ -1418,8 +1490,9 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, fileSystemLocations: [ProjectFileSystemLocation]? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String, source: ProjectSource, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(artifacts: ProjectArtifacts, autoRetryLimit: Int? = nil, badgeEnabled: Bool? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, fileSystemLocations: [ProjectFileSystemLocation]? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String, source: ProjectSource, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
+            self.autoRetryLimit = autoRetryLimit
             self.badgeEnabled = badgeEnabled
             self.buildBatchConfig = buildBatchConfig
             self.cache = cache
@@ -1471,6 +1544,7 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case artifacts = "artifacts"
+            case autoRetryLimit = "autoRetryLimit"
             case badgeEnabled = "badgeEnabled"
             case buildBatchConfig = "buildBatchConfig"
             case cache = "cache"
@@ -2062,11 +2136,13 @@ extension CodeBuild {
         public let arn: String?
         /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes the number of builds that can run in parallel.
         public let baseCapacity: Int?
-        /// Information about the compute resources the compute fleet uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see Build environment compute types in the CodeBuild User Guide.
+        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE.
+        public let computeConfiguration: ComputeConfiguration?
+        /// Information about the compute resources the compute fleet uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
         public let computeType: ComputeType?
         /// The time at which the compute fleet was created.
         public let created: Date?
-        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
+        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type ARM_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType?
         /// The service role associated with the compute fleet. For more information, see  Allow a user to add a permission policy for a fleet service role in the CodeBuild User Guide.
         public let fleetServiceRole: String?
@@ -2091,9 +2167,10 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String? = nil, baseCapacity: Int? = nil, computeType: ComputeType? = nil, created: Date? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, id: String? = nil, imageId: String? = nil, lastModified: Date? = nil, name: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, proxyConfiguration: ProxyConfiguration? = nil, scalingConfiguration: ScalingConfigurationOutput? = nil, status: FleetStatus? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, baseCapacity: Int? = nil, computeConfiguration: ComputeConfiguration? = nil, computeType: ComputeType? = nil, created: Date? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, id: String? = nil, imageId: String? = nil, lastModified: Date? = nil, name: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, proxyConfiguration: ProxyConfiguration? = nil, scalingConfiguration: ScalingConfigurationOutput? = nil, status: FleetStatus? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.baseCapacity = baseCapacity
+            self.computeConfiguration = computeConfiguration
             self.computeType = computeType
             self.created = created
             self.environmentType = environmentType
@@ -2113,6 +2190,7 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case baseCapacity = "baseCapacity"
+            case computeConfiguration = "computeConfiguration"
             case computeType = "computeType"
             case created = "created"
             case environmentType = "environmentType"
@@ -3005,6 +3083,8 @@ extension CodeBuild {
         public let arn: String?
         /// Information about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts?
+        /// The maximum number of additional automatic retries after a failed build. For example, if the  auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically  retry your build for up to 2 additional times.
+        public let autoRetryLimit: Int?
         /// Information about the build badge for the build project.
         public let badge: ProjectBadge?
         /// A ProjectBuildBatchConfig object that defines the batch build options for the project.
@@ -3058,9 +3138,10 @@ extension CodeBuild {
         public let webhook: Webhook?
 
         @inlinable
-        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, badge: ProjectBadge? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, created: Date? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, lastModified: Date? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, projectVisibility: ProjectVisibilityType? = nil, publicProjectAlias: String? = nil, queuedTimeoutInMinutes: Int? = nil, resourceAccessRole: String? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
+        public init(arn: String? = nil, artifacts: ProjectArtifacts? = nil, autoRetryLimit: Int? = nil, badge: ProjectBadge? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, created: Date? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, lastModified: Date? = nil, logsConfig: LogsConfig? = nil, name: String? = nil, projectVisibility: ProjectVisibilityType? = nil, publicProjectAlias: String? = nil, queuedTimeoutInMinutes: Int? = nil, resourceAccessRole: String? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil, webhook: Webhook? = nil) {
             self.arn = arn
             self.artifacts = artifacts
+            self.autoRetryLimit = autoRetryLimit
             self.badge = badge
             self.buildBatchConfig = buildBatchConfig
             self.cache = cache
@@ -3092,6 +3173,7 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case artifacts = "artifacts"
+            case autoRetryLimit = "autoRetryLimit"
             case badge = "badge"
             case buildBatchConfig = "buildBatchConfig"
             case cache = "cache"
@@ -3248,7 +3330,9 @@ extension CodeBuild {
     public struct ProjectEnvironment: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the Amazon S3 bucket, path prefix, and object key that contains the PEM-encoded certificate for the build project. For more information, see certificate in the CodeBuild User Guide.
         public let certificate: String?
-        /// Information about the compute resources the build project uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.    If you're using compute fleets during project creation, computeType will be ignored.  For more information, see Build Environment Compute Types in the CodeBuild User Guide.
+        /// The compute configuration of the build project. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE.
+        public let computeConfiguration: ComputeConfiguration?
+        /// Information about the compute resources the build project uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
         public let computeType: ComputeType
         /// A set of environment variables to make available to builds for this build project.
         public let environmentVariables: [EnvironmentVariable]?
@@ -3266,8 +3350,9 @@ extension CodeBuild {
         public let type: EnvironmentType
 
         @inlinable
-        public init(certificate: String? = nil, computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, fleet: ProjectFleet? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {
+        public init(certificate: String? = nil, computeConfiguration: ComputeConfiguration? = nil, computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, fleet: ProjectFleet? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {
             self.certificate = certificate
+            self.computeConfiguration = computeConfiguration
             self.computeType = computeType
             self.environmentVariables = environmentVariables
             self.fleet = fleet
@@ -3288,6 +3373,7 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case certificate = "certificate"
+            case computeConfiguration = "computeConfiguration"
             case computeType = "computeType"
             case environmentVariables = "environmentVariables"
             case fleet = "fleet"
@@ -4128,6 +4214,8 @@ extension CodeBuild {
     public struct StartBuildInput: AWSEncodableShape {
         /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
         public let artifactsOverride: ProjectArtifacts?
+        /// The maximum number of additional automatic retries after a failed build. For example, if the  auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically  retry your build for up to 2 additional times.
+        public let autoRetryLimitOverride: Int?
         /// A buildspec file declaration that overrides the latest one defined  in the build project, for this build only. The buildspec defined on the project is not changed. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.  Since this property allows you to change the build commands that will run in the container,  you should note that an IAM principal with the ability to call this API and set this parameter  can override the default settings. Moreover, we encourage that you use a trustworthy buildspec location  like a file in your source repository or a Amazon S3 bucket.
         public let buildspecOverride: String?
         /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
@@ -4193,8 +4281,9 @@ extension CodeBuild {
         public let timeoutInMinutesOverride: Int?
 
         @inlinable
-        public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, buildStatusConfigOverride: BuildStatusConfig? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, debugSessionEnabled: Bool? = nil, encryptionKeyOverride: String? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, fleetOverride: ProjectFleet? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
+        public init(artifactsOverride: ProjectArtifacts? = nil, autoRetryLimitOverride: Int? = nil, buildspecOverride: String? = nil, buildStatusConfigOverride: BuildStatusConfig? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, debugSessionEnabled: Bool? = nil, encryptionKeyOverride: String? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, fleetOverride: ProjectFleet? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
             self.artifactsOverride = artifactsOverride
+            self.autoRetryLimitOverride = autoRetryLimitOverride
             self.buildspecOverride = buildspecOverride
             self.buildStatusConfigOverride = buildStatusConfigOverride
             self.cacheOverride = cacheOverride
@@ -4252,6 +4341,7 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case artifactsOverride = "artifactsOverride"
+            case autoRetryLimitOverride = "autoRetryLimitOverride"
             case buildspecOverride = "buildspecOverride"
             case buildStatusConfigOverride = "buildStatusConfigOverride"
             case cacheOverride = "cacheOverride"
@@ -4494,9 +4584,11 @@ extension CodeBuild {
         public let arn: String
         /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes the number of builds that can run in parallel.
         public let baseCapacity: Int?
-        /// Information about the compute resources the compute fleet uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see Build environment compute types in the CodeBuild User Guide.
+        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE.
+        public let computeConfiguration: ComputeConfiguration?
+        /// Information about the compute resources the compute fleet uses. Available values include:    ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine.  If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild  will select the cheapest instance that satisfies your specified attributes. For more information, see Reserved capacity environment  types in the CodeBuild User Guide.     BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 72 GiB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 144 GiB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    BUILD_LAMBDA_1GB: Use up to 1 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_2GB: Use up to 2 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_4GB: Use up to 4 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_8GB: Use up to 8 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.    BUILD_LAMBDA_10GB: Use up to 10 GiB memory for builds. Only available for environment type LINUX_LAMBDA_CONTAINER and ARM_LAMBDA_CONTAINER.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GiB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GiB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GiB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GiB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see On-demand environment types  in the CodeBuild User Guide.
         public let computeType: ComputeType?
-        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
+        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type ARM_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_EC2 is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType?
         /// The service role associated with the compute fleet. For more information, see  Allow a user to add a permission policy for a fleet service role in the CodeBuild User Guide.
         public let fleetServiceRole: String?
@@ -4513,9 +4605,10 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String, baseCapacity: Int? = nil, computeType: ComputeType? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, imageId: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, proxyConfiguration: ProxyConfiguration? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String, baseCapacity: Int? = nil, computeConfiguration: ComputeConfiguration? = nil, computeType: ComputeType? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, imageId: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, proxyConfiguration: ProxyConfiguration? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.baseCapacity = baseCapacity
+            self.computeConfiguration = computeConfiguration
             self.computeType = computeType
             self.environmentType = environmentType
             self.fleetServiceRole = fleetServiceRole
@@ -4544,6 +4637,7 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case baseCapacity = "baseCapacity"
+            case computeConfiguration = "computeConfiguration"
             case computeType = "computeType"
             case environmentType = "environmentType"
             case fleetServiceRole = "fleetServiceRole"
@@ -4573,6 +4667,8 @@ extension CodeBuild {
     public struct UpdateProjectInput: AWSEncodableShape {
         /// Information to be changed about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts?
+        /// The maximum number of additional automatic retries after a failed build. For example, if the  auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically  retry your build for up to 2 additional times.
+        public let autoRetryLimit: Int?
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
         public let badgeEnabled: Bool?
         public let buildBatchConfig: ProjectBuildBatchConfig?
@@ -4614,8 +4710,9 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(artifacts: ProjectArtifacts? = nil, badgeEnabled: Bool? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(artifacts: ProjectArtifacts? = nil, autoRetryLimit: Int? = nil, badgeEnabled: Bool? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
             self.artifacts = artifacts
+            self.autoRetryLimit = autoRetryLimit
             self.badgeEnabled = badgeEnabled
             self.buildBatchConfig = buildBatchConfig
             self.cache = cache
@@ -4665,6 +4762,7 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case artifacts = "artifacts"
+            case autoRetryLimit = "autoRetryLimit"
             case badgeEnabled = "badgeEnabled"
             case buildBatchConfig = "buildBatchConfig"
             case cache = "cache"

@@ -68,6 +68,12 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
+    public enum DatabaseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mySQL = "MySQL"
+        case postgreSQL = "PostgreSQL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DefaultDocumentIdFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case firehoseDefault = "FIREHOSE_DEFAULT"
         case noDocumentId = "NO_DOCUMENT_ID"
@@ -100,6 +106,8 @@ extension Firehose {
         case subnetAccessDenied = "SUBNET_ACCESS_DENIED"
         case subnetNotFound = "SUBNET_NOT_FOUND"
         case unknownError = "UNKNOWN_ERROR"
+        case vpcEndpointServiceNameNotFound = "VPC_ENDPOINT_SERVICE_NAME_NOT_FOUND"
+        case vpcInterfaceEndpointServiceAccessDenied = "VPC_INTERFACE_ENDPOINT_SERVICE_ACCESS_DENIED"
         public var description: String { return self.rawValue }
     }
 
@@ -113,6 +121,7 @@ extension Firehose {
     }
 
     public enum DeliveryStreamType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case databaseAsSource = "DatabaseAsSource"
         case directPut = "DirectPut"
         case kinesisStreamAsSource = "KinesisStreamAsSource"
         case mskAsSource = "MSKAsSource"
@@ -226,6 +235,25 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
+    public enum SSLMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotRequestedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case firehose = "FIREHOSE"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case inProgress = "IN_PROGRESS"
+        case suspended = "SUSPENDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SnowflakeDataLoadingOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jsonMapping = "JSON_MAPPING"
         case variantContentAndMetadataMapping = "VARIANT_CONTENT_AND_METADATA_MAPPING"
@@ -250,7 +278,7 @@ extension Firehose {
     public struct AmazonOpenSearchServerlessBufferingHints: AWSEncodableShape & AWSDecodableShape {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public let intervalInSeconds: Int?
-        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5.  We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5.  We recommend setting this parameter to a value greater than the amount of data you typically ingest into the Firehose stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public let sizeInMBs: Int?
 
         @inlinable
@@ -317,7 +345,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
@@ -422,7 +450,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Update?.validate(name: "\(name).s3Update")
         }
 
@@ -460,7 +488,7 @@ extension Firehose {
     public struct AmazonopensearchserviceBufferingHints: AWSEncodableShape & AWSDecodableShape {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public let intervalInSeconds: Int?
-        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the Firehose stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public let sizeInMBs: Int?
 
         @inlinable
@@ -534,7 +562,7 @@ extension Firehose {
             try self.validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, pattern: "^https:")
             try self.validate(self.domainARN, name: "domainARN", parent: name, max: 512)
             try self.validate(self.domainARN, name: "domainARN", parent: name, min: 1)
-            try self.validate(self.domainARN, name: "domainARN", parent: name, pattern: "^arn:")
+            try self.validate(self.domainARN, name: "domainARN", parent: name, pattern: "^arn:.*:es:[a-zA-Z0-9\\-]+:\\d{12}:domain/[a-z][-0-9a-z]{2,27}$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 80)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: ".*")
@@ -542,7 +570,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: ".*")
@@ -649,7 +677,7 @@ extension Firehose {
         /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for calling the Amazon OpenSearch Service Configuration API and for indexing documents.
         public let roleARN: String?
         public let s3Update: S3DestinationUpdate?
-        /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Firehose returns an error during runtime.  If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery stream, Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your delivery stream with a new index name, provide an empty string for TypeName.
+        /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Firehose returns an error during runtime.  If you upgrade Elasticsearch from 6.x to 7.x and don’t update your Firehose stream, Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your Firehose stream with a new index name, provide an empty string for TypeName.
         public let typeName: String?
 
         @inlinable
@@ -676,7 +704,7 @@ extension Firehose {
             try self.validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, pattern: "^https:")
             try self.validate(self.domainARN, name: "domainARN", parent: name, max: 512)
             try self.validate(self.domainARN, name: "domainARN", parent: name, min: 1)
-            try self.validate(self.domainARN, name: "domainARN", parent: name, pattern: "^arn:")
+            try self.validate(self.domainARN, name: "domainARN", parent: name, pattern: "^arn:.*:es:[a-zA-Z0-9\\-]+:\\d{12}:domain/[a-z][-0-9a-z]{2,27}$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 80)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: ".*")
@@ -684,7 +712,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Update?.validate(name: "\(name).s3Update")
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: ".*")
@@ -740,7 +768,7 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -752,7 +780,7 @@ extension Firehose {
     public struct BufferingHints: AWSEncodableShape & AWSDecodableShape {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300. This parameter is optional but if you specify a value for it, you must also specify a value for SizeInMBs, and vice versa.
         public let intervalInSeconds: Int?
-        /// Buffer incoming data to the specified size, in MiBs, before delivering it to the destination. The default value is 5. This parameter is optional but if you specify a value for it, you must also specify a value for IntervalInSeconds, and vice versa. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MiB/sec, the value should be 10 MiB or higher.
+        /// Buffer incoming data to the specified size, in MiBs, before delivering it to the destination. The default value is 5. This parameter is optional but if you specify a value for it, you must also specify a value for IntervalInSeconds, and vice versa. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the Firehose stream in 10 seconds. For example, if you typically ingest data at 1 MiB/sec, the value should be 10 MiB or higher.
         public let sizeInMBs: Int?
 
         @inlinable
@@ -775,22 +803,29 @@ extension Firehose {
     }
 
     public struct CatalogConfiguration: AWSEncodableShape & AWSDecodableShape {
-        ///  Specifies the Glue catalog ARN indentifier of the destination Apache Iceberg Tables. You must specify the ARN in the format arn:aws:glue:region:account-id:catalog.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Specifies the Glue catalog ARN identifier of the destination Apache Iceberg Tables. You must specify the ARN in the format arn:aws:glue:region:account-id:catalog.
         public let catalogARN: String?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let warehouseLocation: String?
 
         @inlinable
-        public init(catalogARN: String? = nil) {
+        public init(catalogARN: String? = nil, warehouseLocation: String? = nil) {
             self.catalogARN = catalogARN
+            self.warehouseLocation = warehouseLocation
         }
 
         public func validate(name: String) throws {
             try self.validate(self.catalogARN, name: "catalogARN", parent: name, max: 512)
             try self.validate(self.catalogARN, name: "catalogARN", parent: name, min: 1)
-            try self.validate(self.catalogARN, name: "catalogARN", parent: name, pattern: "^arn:")
+            try self.validate(self.catalogARN, name: "catalogARN", parent: name, pattern: "^arn:.*:glue:.*:\\d{12}:catalog$")
+            try self.validate(self.warehouseLocation, name: "warehouseLocation", parent: name, max: 2048)
+            try self.validate(self.warehouseLocation, name: "warehouseLocation", parent: name, min: 1)
+            try self.validate(self.warehouseLocation, name: "warehouseLocation", parent: name, pattern: "^s3:\\/\\/")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogARN = "CatalogARN"
+            case warehouseLocation = "WarehouseLocation"
         }
     }
 
@@ -839,9 +874,9 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.copyOptions, name: "copyOptions", parent: name, max: 204800)
+            try self.validate(self.copyOptions, name: "copyOptions", parent: name, max: 10240)
             try self.validate(self.copyOptions, name: "copyOptions", parent: name, pattern: ".*")
-            try self.validate(self.dataTableColumns, name: "dataTableColumns", parent: name, max: 204800)
+            try self.validate(self.dataTableColumns, name: "dataTableColumns", parent: name, max: 10240)
             try self.validate(self.dataTableColumns, name: "dataTableColumns", parent: name, pattern: ".*")
             try self.validate(self.dataTableName, name: "dataTableName", parent: name, max: 512)
             try self.validate(self.dataTableName, name: "dataTableName", parent: name, min: 1)
@@ -860,11 +895,13 @@ extension Firehose {
         public let amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration?
         /// The destination in Amazon OpenSearch Service. You can specify only one destination.
         public let amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let databaseSourceConfiguration: DatabaseSourceConfiguration?
         /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
         public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
-        /// The name of the delivery stream. This name must be unique per Amazon Web Services account in the same Amazon Web Services Region. If the delivery streams are in different accounts or different Regions, you can have multiple delivery streams with the same name.
+        /// The name of the Firehose stream. This name must be unique per Amazon Web Services account in the same Amazon Web Services Region. If the Firehose streams are in different accounts or different Regions, you can have multiple Firehose streams with the same name.
         public let deliveryStreamName: String
-        /// The delivery stream type. This parameter can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.
+        /// The Firehose stream type. This parameter can be one of the following values:    DirectPut: Provider applications access the Firehose stream directly.    KinesisStreamAsSource: The Firehose stream uses a Kinesis data stream as a source.
         public let deliveryStreamType: DeliveryStreamType?
         /// The destination in Amazon ES. You can specify only one destination.
         public let elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration?
@@ -872,9 +909,9 @@ extension Firehose {
         public let extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration?
         /// Enables configuring Kinesis Firehose to deliver data to any HTTP endpoint destination. You can specify only one destination.
         public let httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration?
-        ///  Configure Apache Iceberg Tables destination.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Configure Apache Iceberg Tables destination.
         public let icebergDestinationConfiguration: IcebergDestinationConfiguration?
-        /// When a Kinesis data stream is used as the source for the delivery stream, a KinesisStreamSourceConfiguration containing the Kinesis data stream Amazon Resource Name (ARN) and the role ARN for the source stream.
+        /// When a Kinesis data stream is used as the source for the Firehose stream, a KinesisStreamSourceConfiguration containing the Kinesis data stream Amazon Resource Name (ARN) and the role ARN for the source stream.
         public let kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration?
         public let mskSourceConfiguration: MSKSourceConfiguration?
         /// The destination in Amazon Redshift. You can specify only one destination.
@@ -885,13 +922,14 @@ extension Firehose {
         public let snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration?
         /// The destination in Splunk. You can specify only one destination.
         public let splunkDestinationConfiguration: SplunkDestinationConfiguration?
-        /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream. If you specify tags in the CreateDeliveryStream action, Amazon Data Firehose performs an additional authorization on the firehose:TagDeliveryStream action to verify if users have permissions to create tags. If you do not provide this permission, requests to create new Firehose delivery streams with IAM resource tags will fail with an AccessDeniedException such as following.  AccessDeniedException  User: arn:aws:sts::x:assumed-role/x/x is not authorized to perform: firehose:TagDeliveryStream on resource: arn:aws:firehose:us-east-1:x:deliverystream/x with an explicit deny in an identity-based policy. For an example IAM policy, see Tag example.
+        /// A set of tags to assign to the Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a Firehose stream. If you specify tags in the CreateDeliveryStream action, Amazon Data Firehose performs an additional authorization on the firehose:TagDeliveryStream action to verify if users have permissions to create tags. If you do not provide this permission, requests to create new Firehose Firehose streams with IAM resource tags will fail with an AccessDeniedException such as following.  AccessDeniedException  User: arn:aws:sts::x:assumed-role/x/x is not authorized to perform: firehose:TagDeliveryStream on resource: arn:aws:firehose:us-east-1:x:deliverystream/x with an explicit deny in an identity-based policy. For an example IAM policy, see Tag example.
         public let tags: [Tag]?
 
         @inlinable
-        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, databaseSourceConfiguration: DatabaseSourceConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
+            self.databaseSourceConfiguration = databaseSourceConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
             self.deliveryStreamName = deliveryStreamName
             self.deliveryStreamType = deliveryStreamType
@@ -910,9 +948,10 @@ extension Firehose {
 
         @available(*, deprecated, message: "Members s3DestinationConfiguration have been deprecated")
         @inlinable
-        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, databaseSourceConfiguration: DatabaseSourceConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
+            self.databaseSourceConfiguration = databaseSourceConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
             self.deliveryStreamName = deliveryStreamName
             self.deliveryStreamType = deliveryStreamType
@@ -932,6 +971,7 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.amazonOpenSearchServerlessDestinationConfiguration?.validate(name: "\(name).amazonOpenSearchServerlessDestinationConfiguration")
             try self.amazonopensearchserviceDestinationConfiguration?.validate(name: "\(name).amazonopensearchserviceDestinationConfiguration")
+            try self.databaseSourceConfiguration?.validate(name: "\(name).databaseSourceConfiguration")
             try self.deliveryStreamEncryptionConfigurationInput?.validate(name: "\(name).deliveryStreamEncryptionConfigurationInput")
             try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, max: 64)
             try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, min: 1)
@@ -956,6 +996,7 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case amazonOpenSearchServerlessDestinationConfiguration = "AmazonOpenSearchServerlessDestinationConfiguration"
             case amazonopensearchserviceDestinationConfiguration = "AmazonopensearchserviceDestinationConfiguration"
+            case databaseSourceConfiguration = "DatabaseSourceConfiguration"
             case deliveryStreamEncryptionConfigurationInput = "DeliveryStreamEncryptionConfigurationInput"
             case deliveryStreamName = "DeliveryStreamName"
             case deliveryStreamType = "DeliveryStreamType"
@@ -974,7 +1015,7 @@ extension Firehose {
     }
 
     public struct CreateDeliveryStreamOutput: AWSDecodableShape {
-        /// The ARN of the delivery stream.
+        /// The ARN of the Firehose stream.
         public let deliveryStreamARN: String?
 
         @inlinable
@@ -1019,10 +1060,306 @@ extension Firehose {
         }
     }
 
+    public struct DatabaseColumnList: AWSEncodableShape & AWSDecodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let exclude: [String]?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let include: [String]?
+
+        @inlinable
+        public init(exclude: [String]? = nil, include: [String]? = nil) {
+            self.exclude = exclude
+            self.include = include
+        }
+
+        public func validate(name: String) throws {
+            try self.exclude?.forEach {
+                try validate($0, name: "exclude[]", parent: name, max: 194)
+                try validate($0, name: "exclude[]", parent: name, min: 1)
+                try validate($0, name: "exclude[]", parent: name, pattern: "^[\\u0001-\\uFFFF]*$")
+            }
+            try self.include?.forEach {
+                try validate($0, name: "include[]", parent: name, max: 194)
+                try validate($0, name: "include[]", parent: name, min: 1)
+                try validate($0, name: "include[]", parent: name, pattern: "^[\\u0001-\\uFFFF]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclude = "Exclude"
+            case include = "Include"
+        }
+    }
+
+    public struct DatabaseList: AWSEncodableShape & AWSDecodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let exclude: [String]?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let include: [String]?
+
+        @inlinable
+        public init(exclude: [String]? = nil, include: [String]? = nil) {
+            self.exclude = exclude
+            self.include = include
+        }
+
+        public func validate(name: String) throws {
+            try self.exclude?.forEach {
+                try validate($0, name: "exclude[]", parent: name, max: 64)
+                try validate($0, name: "exclude[]", parent: name, min: 1)
+                try validate($0, name: "exclude[]", parent: name, pattern: "^[\\u0001-\\uFFFF]*$")
+            }
+            try self.include?.forEach {
+                try validate($0, name: "include[]", parent: name, max: 64)
+                try validate($0, name: "include[]", parent: name, min: 1)
+                try validate($0, name: "include[]", parent: name, pattern: "^[\\u0001-\\uFFFF]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclude = "Exclude"
+            case include = "Include"
+        }
+    }
+
+    public struct DatabaseSnapshotInfo: AWSDecodableShape {
+        public let failureDescription: FailureDescription?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let id: String
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let requestedBy: SnapshotRequestedBy
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let requestTimestamp: Date
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let status: SnapshotStatus
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let table: String
+
+        @inlinable
+        public init(failureDescription: FailureDescription? = nil, id: String, requestedBy: SnapshotRequestedBy, requestTimestamp: Date, status: SnapshotStatus, table: String) {
+            self.failureDescription = failureDescription
+            self.id = id
+            self.requestedBy = requestedBy
+            self.requestTimestamp = requestTimestamp
+            self.status = status
+            self.table = table
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureDescription = "FailureDescription"
+            case id = "Id"
+            case requestedBy = "RequestedBy"
+            case requestTimestamp = "RequestTimestamp"
+            case status = "Status"
+            case table = "Table"
+        }
+    }
+
+    public struct DatabaseSourceAuthenticationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let secretsManagerConfiguration: SecretsManagerConfiguration
+
+        @inlinable
+        public init(secretsManagerConfiguration: SecretsManagerConfiguration) {
+            self.secretsManagerConfiguration = secretsManagerConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.secretsManagerConfiguration.validate(name: "\(name).secretsManagerConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
+        }
+    }
+
+    public struct DatabaseSourceConfiguration: AWSEncodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let columns: DatabaseColumnList?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let databases: DatabaseList
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let databaseSourceAuthenticationConfiguration: DatabaseSourceAuthenticationConfiguration
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let databaseSourceVPCConfiguration: DatabaseSourceVPCConfiguration
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let endpoint: String
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let port: Int
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let snapshotWatermarkTable: String
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let sslMode: SSLMode?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let surrogateKeys: [String]?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let tables: DatabaseTableList
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let type: DatabaseType
+
+        @inlinable
+        public init(columns: DatabaseColumnList? = nil, databases: DatabaseList, databaseSourceAuthenticationConfiguration: DatabaseSourceAuthenticationConfiguration, databaseSourceVPCConfiguration: DatabaseSourceVPCConfiguration, endpoint: String, port: Int, snapshotWatermarkTable: String, sslMode: SSLMode? = nil, surrogateKeys: [String]? = nil, tables: DatabaseTableList, type: DatabaseType) {
+            self.columns = columns
+            self.databases = databases
+            self.databaseSourceAuthenticationConfiguration = databaseSourceAuthenticationConfiguration
+            self.databaseSourceVPCConfiguration = databaseSourceVPCConfiguration
+            self.endpoint = endpoint
+            self.port = port
+            self.snapshotWatermarkTable = snapshotWatermarkTable
+            self.sslMode = sslMode
+            self.surrogateKeys = surrogateKeys
+            self.tables = tables
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.columns?.validate(name: "\(name).columns")
+            try self.databases.validate(name: "\(name).databases")
+            try self.databaseSourceAuthenticationConfiguration.validate(name: "\(name).databaseSourceAuthenticationConfiguration")
+            try self.databaseSourceVPCConfiguration.validate(name: "\(name).databaseSourceVPCConfiguration")
+            try self.validate(self.endpoint, name: "endpoint", parent: name, max: 255)
+            try self.validate(self.endpoint, name: "endpoint", parent: name, min: 1)
+            try self.validate(self.endpoint, name: "endpoint", parent: name, pattern: "^(?!\\s*$).+$")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 0)
+            try self.validate(self.snapshotWatermarkTable, name: "snapshotWatermarkTable", parent: name, max: 129)
+            try self.validate(self.snapshotWatermarkTable, name: "snapshotWatermarkTable", parent: name, min: 1)
+            try self.validate(self.snapshotWatermarkTable, name: "snapshotWatermarkTable", parent: name, pattern: "^[\\u0001-\\uFFFF]*$")
+            try self.surrogateKeys?.forEach {
+                try validate($0, name: "surrogateKeys[]", parent: name, max: 1024)
+                try validate($0, name: "surrogateKeys[]", parent: name, min: 1)
+                try validate($0, name: "surrogateKeys[]", parent: name, pattern: "^\\S+$")
+            }
+            try self.tables.validate(name: "\(name).tables")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case databases = "Databases"
+            case databaseSourceAuthenticationConfiguration = "DatabaseSourceAuthenticationConfiguration"
+            case databaseSourceVPCConfiguration = "DatabaseSourceVPCConfiguration"
+            case endpoint = "Endpoint"
+            case port = "Port"
+            case snapshotWatermarkTable = "SnapshotWatermarkTable"
+            case sslMode = "SSLMode"
+            case surrogateKeys = "SurrogateKeys"
+            case tables = "Tables"
+            case type = "Type"
+        }
+    }
+
+    public struct DatabaseSourceDescription: AWSDecodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let columns: DatabaseColumnList?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let databases: DatabaseList?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let databaseSourceAuthenticationConfiguration: DatabaseSourceAuthenticationConfiguration?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let databaseSourceVPCConfiguration: DatabaseSourceVPCConfiguration?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let endpoint: String?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let port: Int?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let snapshotInfo: [DatabaseSnapshotInfo]?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let snapshotWatermarkTable: String?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let sslMode: SSLMode?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let surrogateKeys: [String]?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let tables: DatabaseTableList?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let type: DatabaseType?
+
+        @inlinable
+        public init(columns: DatabaseColumnList? = nil, databases: DatabaseList? = nil, databaseSourceAuthenticationConfiguration: DatabaseSourceAuthenticationConfiguration? = nil, databaseSourceVPCConfiguration: DatabaseSourceVPCConfiguration? = nil, endpoint: String? = nil, port: Int? = nil, snapshotInfo: [DatabaseSnapshotInfo]? = nil, snapshotWatermarkTable: String? = nil, sslMode: SSLMode? = nil, surrogateKeys: [String]? = nil, tables: DatabaseTableList? = nil, type: DatabaseType? = nil) {
+            self.columns = columns
+            self.databases = databases
+            self.databaseSourceAuthenticationConfiguration = databaseSourceAuthenticationConfiguration
+            self.databaseSourceVPCConfiguration = databaseSourceVPCConfiguration
+            self.endpoint = endpoint
+            self.port = port
+            self.snapshotInfo = snapshotInfo
+            self.snapshotWatermarkTable = snapshotWatermarkTable
+            self.sslMode = sslMode
+            self.surrogateKeys = surrogateKeys
+            self.tables = tables
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case databases = "Databases"
+            case databaseSourceAuthenticationConfiguration = "DatabaseSourceAuthenticationConfiguration"
+            case databaseSourceVPCConfiguration = "DatabaseSourceVPCConfiguration"
+            case endpoint = "Endpoint"
+            case port = "Port"
+            case snapshotInfo = "SnapshotInfo"
+            case snapshotWatermarkTable = "SnapshotWatermarkTable"
+            case sslMode = "SSLMode"
+            case surrogateKeys = "SurrogateKeys"
+            case tables = "Tables"
+            case type = "Type"
+        }
+    }
+
+    public struct DatabaseSourceVPCConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let vpcEndpointServiceName: String
+
+        @inlinable
+        public init(vpcEndpointServiceName: String) {
+            self.vpcEndpointServiceName = vpcEndpointServiceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcEndpointServiceName, name: "vpcEndpointServiceName", parent: name, max: 255)
+            try self.validate(self.vpcEndpointServiceName, name: "vpcEndpointServiceName", parent: name, min: 47)
+            try self.validate(self.vpcEndpointServiceName, name: "vpcEndpointServiceName", parent: name, pattern: "^([a-zA-Z0-9\\-\\_]+\\.){2,3}vpce\\.[a-zA-Z0-9\\-]*\\.vpce-svc\\-[a-zA-Z0-9\\-]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointServiceName = "VpcEndpointServiceName"
+        }
+    }
+
+    public struct DatabaseTableList: AWSEncodableShape & AWSDecodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let exclude: [String]?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let include: [String]?
+
+        @inlinable
+        public init(exclude: [String]? = nil, include: [String]? = nil) {
+            self.exclude = exclude
+            self.include = include
+        }
+
+        public func validate(name: String) throws {
+            try self.exclude?.forEach {
+                try validate($0, name: "exclude[]", parent: name, max: 129)
+                try validate($0, name: "exclude[]", parent: name, min: 1)
+                try validate($0, name: "exclude[]", parent: name, pattern: "^[\\u0001-\\uFFFF]*$")
+            }
+            try self.include?.forEach {
+                try validate($0, name: "include[]", parent: name, max: 129)
+                try validate($0, name: "include[]", parent: name, min: 1)
+                try validate($0, name: "include[]", parent: name, pattern: "^[\\u0001-\\uFFFF]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclude = "Exclude"
+            case include = "Include"
+        }
+    }
+
     public struct DeleteDeliveryStreamInput: AWSEncodableShape {
-        /// Set this to true if you want to delete the delivery stream even if Firehose is unable to retire the grant for the CMK. Firehose might be unable to retire the grant due to a customer error, such as when the CMK or the grant are in an invalid state. If you force deletion, you can then use the RevokeGrant operation to revoke the grant you gave to Firehose. If a failure to retire the grant happens due to an Amazon Web Services KMS issue, Firehose keeps retrying the delete operation. The default value is false.
+        /// Set this to true if you want to delete the Firehose stream even if Firehose is unable to retire the grant for the CMK. Firehose might be unable to retire the grant due to a customer error, such as when the CMK or the grant are in an invalid state. If you force deletion, you can then use the RevokeGrant operation to revoke the grant you gave to Firehose. If a failure to retire the grant happens due to an Amazon Web Services KMS issue, Firehose keeps retrying the delete operation. The default value is false.
         public let allowForceDelete: Bool?
-        /// The name of the delivery stream.
+        /// The name of the Firehose stream.
         public let deliveryStreamName: String
 
         @inlinable
@@ -1048,17 +1385,17 @@ extension Firehose {
     }
 
     public struct DeliveryStreamDescription: AWSDecodableShape {
-        /// The date and time that the delivery stream was created.
+        /// The date and time that the Firehose stream was created.
         public let createTimestamp: Date?
-        /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Firehose stream. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let deliveryStreamARN: String
-        /// Indicates the server-side encryption (SSE) status for the delivery stream.
+        /// Indicates the server-side encryption (SSE) status for the Firehose stream.
         public let deliveryStreamEncryptionConfiguration: DeliveryStreamEncryptionConfiguration?
-        /// The name of the delivery stream.
+        /// The name of the Firehose stream.
         public let deliveryStreamName: String
-        /// The status of the delivery stream. If the status of a delivery stream is CREATING_FAILED, this status doesn't change, and you can't invoke CreateDeliveryStream again on it. However, you can invoke the DeleteDeliveryStream operation to delete it.
+        /// The status of the Firehose stream. If the status of a Firehose stream is CREATING_FAILED, this status doesn't change, and you can't invoke CreateDeliveryStream again on it. However, you can invoke the DeleteDeliveryStream operation to delete it.
         public let deliveryStreamStatus: DeliveryStreamStatus
-        /// The delivery stream type. This can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.
+        /// The Firehose stream type. This can be one of the following values:    DirectPut: Provider applications access the Firehose stream directly.    KinesisStreamAsSource: The Firehose stream uses a Kinesis data stream as a source.
         public let deliveryStreamType: DeliveryStreamType
         /// The destinations.
         public let destinations: [DestinationDescription]
@@ -1066,11 +1403,11 @@ extension Firehose {
         public let failureDescription: FailureDescription?
         /// Indicates whether there are more destinations available to list.
         public let hasMoreDestinations: Bool
-        /// The date and time that the delivery stream was last updated.
+        /// The date and time that the Firehose stream was last updated.
         public let lastUpdateTimestamp: Date?
         /// If the DeliveryStreamType parameter is KinesisStreamAsSource, a SourceDescription object describing the source Kinesis data stream.
         public let source: SourceDescription?
-        /// Each time the destination is updated for a delivery stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
+        /// Each time the destination is updated for a Firehose stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
         public let versionId: String
 
         @inlinable
@@ -1112,7 +1449,7 @@ extension Firehose {
         public let keyARN: String?
         /// Indicates the type of customer master key (CMK) that is used for encryption. The default setting is Amazon Web Services_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs).
         public let keyType: KeyType?
-        /// This is the server-side encryption (SSE) status for the delivery stream. For a full description of the different values of this status, see StartDeliveryStreamEncryption and StopDeliveryStreamEncryption. If this status is ENABLING_FAILED or DISABLING_FAILED, it is the status of the most recent attempt to enable or disable SSE, respectively.
+        /// This is the server-side encryption (SSE) status for the Firehose stream. For a full description of the different values of this status, see StartDeliveryStreamEncryption and StopDeliveryStreamEncryption. If this status is ENABLING_FAILED or DISABLING_FAILED, it is the status of the most recent attempt to enable or disable SSE, respectively.
         public let status: DeliveryStreamEncryptionStatus?
 
         @inlinable
@@ -1134,7 +1471,7 @@ extension Firehose {
     public struct DeliveryStreamEncryptionConfigurationInput: AWSEncodableShape {
         /// If you set KeyType to CUSTOMER_MANAGED_CMK, you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to Amazon Web Services_OWNED_CMK, Firehose uses a service-account CMK.
         public let keyARN: String?
-        /// Indicates the type of customer master key (CMK) to use for encryption. The default setting is Amazon Web Services_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs). When you invoke CreateDeliveryStream or StartDeliveryStreamEncryption with KeyType set to CUSTOMER_MANAGED_CMK, Firehose invokes the Amazon KMS operation CreateGrant to create a grant that allows the Firehose service to use the customer managed CMK to perform encryption and decryption. Firehose manages that grant.  When you invoke StartDeliveryStreamEncryption to change the CMK for a delivery stream that is encrypted with a customer managed CMK, Firehose schedules the grant it had on the old CMK for retirement. You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 delivery streams. If a CreateDeliveryStream or StartDeliveryStreamEncryption operation exceeds this limit, Firehose throws a LimitExceededException.   To encrypt your delivery stream, use symmetric CMKs. Firehose doesn't support asymmetric CMKs. For information about symmetric and asymmetric CMKs, see About Symmetric and Asymmetric CMKs in the Amazon Web Services Key Management Service developer guide.
+        /// Indicates the type of customer master key (CMK) to use for encryption. The default setting is Amazon Web Services_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs). When you invoke CreateDeliveryStream or StartDeliveryStreamEncryption with KeyType set to CUSTOMER_MANAGED_CMK, Firehose invokes the Amazon KMS operation CreateGrant to create a grant that allows the Firehose service to use the customer managed CMK to perform encryption and decryption. Firehose manages that grant.  When you invoke StartDeliveryStreamEncryption to change the CMK for a Firehose stream that is encrypted with a customer managed CMK, Firehose schedules the grant it had on the old CMK for retirement. You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 Firehose streams. If a CreateDeliveryStream or StartDeliveryStreamEncryption operation exceeds this limit, Firehose throws a LimitExceededException.   To encrypt your Firehose stream, use symmetric CMKs. Firehose doesn't support asymmetric CMKs. For information about symmetric and asymmetric CMKs, see About Symmetric and Asymmetric CMKs in the Amazon Web Services Key Management Service developer guide.
         public let keyType: KeyType
 
         @inlinable
@@ -1146,7 +1483,7 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.keyARN, name: "keyARN", parent: name, max: 512)
             try self.validate(self.keyARN, name: "keyARN", parent: name, min: 1)
-            try self.validate(self.keyARN, name: "keyARN", parent: name, pattern: "^arn:")
+            try self.validate(self.keyARN, name: "keyARN", parent: name, pattern: "^arn:.*:kms:[a-zA-Z0-9\\-]+:\\d{12}:(key|alias)/[a-zA-Z_0-9+=,.@\\-_/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1156,11 +1493,11 @@ extension Firehose {
     }
 
     public struct DescribeDeliveryStreamInput: AWSEncodableShape {
-        /// The name of the delivery stream.
+        /// The name of the Firehose stream.
         public let deliveryStreamName: String
-        /// The ID of the destination to start returning the destination information. Firehose supports one destination per delivery stream.
+        /// The ID of the destination to start returning the destination information. Firehose supports one destination per Firehose stream.
         public let exclusiveStartDestinationId: String?
-        /// The limit on the number of destinations to return. You can have one destination per delivery stream.
+        /// The limit on the number of destinations to return. You can have one destination per Firehose stream.
         public let limit: Int?
 
         @inlinable
@@ -1189,7 +1526,7 @@ extension Firehose {
     }
 
     public struct DescribeDeliveryStreamOutput: AWSDecodableShape {
-        /// Information about the delivery stream.
+        /// Information about the Firehose stream.
         public let deliveryStreamDescription: DeliveryStreamDescription
 
         @inlinable
@@ -1238,7 +1575,7 @@ extension Firehose {
         public let extendedS3DestinationDescription: ExtendedS3DestinationDescription?
         /// Describes the specified HTTP endpoint destination.
         public let httpEndpointDestinationDescription: HttpEndpointDestinationDescription?
-        ///  Describes a destination in Apache Iceberg Tables.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Describes a destination in Apache Iceberg Tables.
         public let icebergDestinationDescription: IcebergDestinationDescription?
         /// The destination in Amazon Redshift.
         public let redshiftDestinationDescription: RedshiftDestinationDescription?
@@ -1280,30 +1617,34 @@ extension Firehose {
     }
 
     public struct DestinationTableConfiguration: AWSEncodableShape & AWSDecodableShape {
-        ///  The name of the Apache Iceberg database.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  The name of the Apache Iceberg database.
         public let destinationDatabaseName: String
-        ///  Specifies the name of the Apache Iceberg Table.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Specifies the name of the Apache Iceberg Table.
         public let destinationTableName: String
-        ///  The table specific S3 error output prefix. All the errors that occurred while delivering to this table will be prefixed with this value in S3 destination.   Amazon Data Firehose is in preview release and is subject to change.
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let partitionSpec: PartitionSpec?
+        ///  The table specific S3 error output prefix. All the errors that occurred while delivering to this table will be prefixed with this value in S3 destination.
         public let s3ErrorOutputPrefix: String?
-        ///  A list of unique keys for a given Apache Iceberg table. Firehose will use these for running Create/Update/Delete operations on the given Iceberg table.    Amazon Data Firehose is in preview release and is subject to change.
+        ///  A list of unique keys for a given Apache Iceberg table. Firehose will use these for running Create, Update, or Delete operations on the given Iceberg table.
         public let uniqueKeys: [String]?
 
         @inlinable
-        public init(destinationDatabaseName: String, destinationTableName: String, s3ErrorOutputPrefix: String? = nil, uniqueKeys: [String]? = nil) {
+        public init(destinationDatabaseName: String, destinationTableName: String, partitionSpec: PartitionSpec? = nil, s3ErrorOutputPrefix: String? = nil, uniqueKeys: [String]? = nil) {
             self.destinationDatabaseName = destinationDatabaseName
             self.destinationTableName = destinationTableName
+            self.partitionSpec = partitionSpec
             self.s3ErrorOutputPrefix = s3ErrorOutputPrefix
             self.uniqueKeys = uniqueKeys
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.destinationDatabaseName, name: "destinationDatabaseName", parent: name, max: 1024)
+            try self.validate(self.destinationDatabaseName, name: "destinationDatabaseName", parent: name, max: 255)
             try self.validate(self.destinationDatabaseName, name: "destinationDatabaseName", parent: name, min: 1)
-            try self.validate(self.destinationDatabaseName, name: "destinationDatabaseName", parent: name, pattern: "^\\S+$")
-            try self.validate(self.destinationTableName, name: "destinationTableName", parent: name, max: 1024)
+            try self.validate(self.destinationDatabaseName, name: "destinationDatabaseName", parent: name, pattern: "^[a-zA-Z0-9\\.\\_]+$")
+            try self.validate(self.destinationTableName, name: "destinationTableName", parent: name, max: 255)
             try self.validate(self.destinationTableName, name: "destinationTableName", parent: name, min: 1)
-            try self.validate(self.destinationTableName, name: "destinationTableName", parent: name, pattern: "^\\S+$")
+            try self.validate(self.destinationTableName, name: "destinationTableName", parent: name, pattern: "^[a-zA-Z0-9\\.\\_]+$")
+            try self.partitionSpec?.validate(name: "\(name).partitionSpec")
             try self.validate(self.s3ErrorOutputPrefix, name: "s3ErrorOutputPrefix", parent: name, max: 1024)
             try self.validate(self.s3ErrorOutputPrefix, name: "s3ErrorOutputPrefix", parent: name, pattern: ".*")
             try self.uniqueKeys?.forEach {
@@ -1316,6 +1657,7 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case destinationDatabaseName = "DestinationDatabaseName"
             case destinationTableName = "DestinationTableName"
+            case partitionSpec = "PartitionSpec"
             case s3ErrorOutputPrefix = "S3ErrorOutputPrefix"
             case uniqueKeys = "UniqueKeys"
         }
@@ -1336,7 +1678,7 @@ extension Firehose {
     }
 
     public struct DynamicPartitioningConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies that the dynamic partitioning is enabled for this Firehose delivery stream.
+        /// Specifies that the dynamic partitioning is enabled for this Firehose Firehose stream.
         public let enabled: Bool?
         /// The retry behavior in case Firehose is unable to deliver data to an Amazon S3 prefix.
         public let retryOptions: RetryOptions?
@@ -1360,7 +1702,7 @@ extension Firehose {
     public struct ElasticsearchBufferingHints: AWSEncodableShape & AWSDecodableShape {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public let intervalInSeconds: Int?
-        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the Firehose stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public let sizeInMBs: Int?
 
         @inlinable
@@ -1385,7 +1727,7 @@ extension Firehose {
     public struct ElasticsearchDestinationConfiguration: AWSEncodableShape {
         /// The buffering options. If no value is specified, the default values for ElasticsearchBufferingHints are used.
         public let bufferingHints: ElasticsearchBufferingHints?
-        /// The Amazon CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public let clusterEndpoint: String?
@@ -1403,7 +1745,7 @@ extension Firehose {
         public let retryOptions: ElasticsearchRetryOptions?
         /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Grant Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String
-        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with AmazonOpenSearchService-failed/ appended to the key prefix. When set to AllDocuments, Firehose delivers all incoming records to Amazon S3, and also writes failed documents with AmazonOpenSearchService-failed/ appended to the prefix. For more information, see Amazon S3 Backup for the Amazon ES Destination. Default value is FailedDocumentsOnly. You can't change this backup mode after you create the delivery stream.
+        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with AmazonOpenSearchService-failed/ appended to the key prefix. When set to AllDocuments, Firehose delivers all incoming records to Amazon S3, and also writes failed documents with AmazonOpenSearchService-failed/ appended to the prefix. For more information, see Amazon S3 Backup for the Amazon ES Destination. Default value is FailedDocumentsOnly. You can't change this backup mode after you create the Firehose stream.
         public let s3BackupMode: ElasticsearchS3BackupMode?
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
@@ -1438,7 +1780,7 @@ extension Firehose {
             try self.validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, pattern: "^https:")
             try self.validate(self.domainARN, name: "domainARN", parent: name, max: 512)
             try self.validate(self.domainARN, name: "domainARN", parent: name, min: 1)
-            try self.validate(self.domainARN, name: "domainARN", parent: name, pattern: "^arn:")
+            try self.validate(self.domainARN, name: "domainARN", parent: name, pattern: "^arn:.*:es:[a-zA-Z0-9\\-]+:\\d{12}:domain/[a-z][-0-9a-z]{2,27}$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 80)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: ".*")
@@ -1446,7 +1788,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: ".*")
@@ -1540,7 +1882,7 @@ extension Firehose {
     public struct ElasticsearchDestinationUpdate: AWSEncodableShape {
         /// The buffering options. If no value is specified, ElasticsearchBufferingHints object default values are used.
         public let bufferingHints: ElasticsearchBufferingHints?
-        /// The CloudWatch logging options for your delivery stream.
+        /// The CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public let clusterEndpoint: String?
@@ -1560,7 +1902,7 @@ extension Firehose {
         public let roleARN: String?
         /// The Amazon S3 destination.
         public let s3Update: S3DestinationUpdate?
-        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Firehose returns an error during runtime. If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery stream, Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your delivery stream with a new index name, provide an empty string for TypeName.
+        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Firehose returns an error during runtime. If you upgrade Elasticsearch from 6.x to 7.x and don’t update your Firehose stream, Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your Firehose stream with a new index name, provide an empty string for TypeName.
         public let typeName: String?
 
         @inlinable
@@ -1587,7 +1929,7 @@ extension Firehose {
             try self.validate(self.clusterEndpoint, name: "clusterEndpoint", parent: name, pattern: "^https:")
             try self.validate(self.domainARN, name: "domainARN", parent: name, max: 512)
             try self.validate(self.domainARN, name: "domainARN", parent: name, min: 1)
-            try self.validate(self.domainARN, name: "domainARN", parent: name, pattern: "^arn:")
+            try self.validate(self.domainARN, name: "domainARN", parent: name, pattern: "^arn:.*:es:[a-zA-Z0-9\\-]+:\\d{12}:domain/[a-z][-0-9a-z]{2,27}$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 80)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: ".*")
@@ -1595,7 +1937,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Update?.validate(name: "\(name).s3Update")
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: ".*")
@@ -1663,7 +2005,7 @@ extension Firehose {
         public let bucketARN: String
         /// The buffering option.
         public let bufferingHints: BufferingHints?
-        /// The Amazon CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
         public let compressionFormat: CompressionFormat?
@@ -1687,7 +2029,7 @@ extension Firehose {
         public let roleARN: String
         /// The configuration for backup in Amazon S3.
         public let s3BackupConfiguration: S3DestinationConfiguration?
-        /// The Amazon S3 backup mode. After you create a delivery stream, you can update it to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it.
+        /// The Amazon S3 backup mode. After you create a Firehose stream, you can update it to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the Firehose stream to disable it.
         public let s3BackupMode: S3BackupMode?
 
         @inlinable
@@ -1712,10 +2054,11 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.bucketARN, name: "bucketARN", parent: name, max: 2048)
             try self.validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
-            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:")
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:.*:s3:::[\\w\\.\\-]{1,255}$")
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.validate(self.customTimeZone, name: "customTimeZone", parent: name, max: 50)
+            try self.validate(self.customTimeZone, name: "customTimeZone", parent: name, pattern: "^$|[a-zA-Z/_]+$")
             try self.dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
             try self.dynamicPartitioningConfiguration?.validate(name: "\(name).dynamicPartitioningConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
@@ -1728,7 +2071,7 @@ extension Firehose {
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3BackupConfiguration?.validate(name: "\(name).s3BackupConfiguration")
         }
 
@@ -1756,7 +2099,7 @@ extension Firehose {
         public let bucketARN: String
         /// The buffering option.
         public let bufferingHints: BufferingHints
-        /// The Amazon CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
         public let compressionFormat: CompressionFormat
@@ -1826,7 +2169,7 @@ extension Firehose {
         public let bucketARN: String?
         /// The buffering option.
         public let bufferingHints: BufferingHints?
-        /// The Amazon CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
         public let compressionFormat: CompressionFormat?
@@ -1848,7 +2191,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String?
-        /// You can update a delivery stream to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it.
+        /// You can update a Firehose stream to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the Firehose stream to disable it.
         public let s3BackupMode: S3BackupMode?
         /// The Amazon S3 destination for backup.
         public let s3BackupUpdate: S3DestinationUpdate?
@@ -1875,10 +2218,11 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.bucketARN, name: "bucketARN", parent: name, max: 2048)
             try self.validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
-            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:")
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:.*:s3:::[\\w\\.\\-]{1,255}$")
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.validate(self.customTimeZone, name: "customTimeZone", parent: name, max: 50)
+            try self.validate(self.customTimeZone, name: "customTimeZone", parent: name, pattern: "^$|[a-zA-Z/_]+$")
             try self.dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
             try self.dynamicPartitioningConfiguration?.validate(name: "\(name).dynamicPartitioningConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
@@ -1891,7 +2235,7 @@ extension Firehose {
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3BackupUpdate?.validate(name: "\(name).s3BackupUpdate")
         }
 
@@ -1957,7 +2301,7 @@ extension Firehose {
     public struct HttpEndpointBufferingHints: AWSEncodableShape & AWSDecodableShape {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public let intervalInSeconds: Int?
-        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5.  We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5.  We recommend setting this parameter to a value greater than the amount of data you typically ingest into the Firehose stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public let sizeInMBs: Int?
 
         @inlinable
@@ -2098,7 +2442,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
             try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
         }
@@ -2206,7 +2550,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Update?.validate(name: "\(name).s3Update")
             try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
         }
@@ -2271,21 +2615,25 @@ extension Firehose {
 
     public struct IcebergDestinationConfiguration: AWSEncodableShape {
         public let bufferingHints: BufferingHints?
-        ///  Configuration describing where the destination Apache Iceberg Tables are persisted.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Configuration describing where the destination Apache Iceberg Tables are persisted.
         public let catalogConfiguration: CatalogConfiguration
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        ///  Provides a list of DestinationTableConfigurations which Firehose uses to deliver data to Apache Iceberg tables.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Provides a list of DestinationTableConfigurations which Firehose uses to deliver data to Apache Iceberg Tables. Firehose will write data with insert if table specific configuration is not provided here.
         public let destinationTableConfigurationList: [DestinationTableConfiguration]?
         public let processingConfiguration: ProcessingConfiguration?
         public let retryOptions: RetryOptions?
-        ///  The Amazon Resource Name (ARN) of the Apache Iceberg tables role.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for calling Apache Iceberg Tables.
         public let roleARN: String
-        ///  Describes how Firehose will backup records. Currently,Firehose only supports FailedDataOnly for preview.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Describes how Firehose will backup records. Currently,S3 backup only supports FailedDataOnly.
         public let s3BackupMode: IcebergS3BackupMode?
         public let s3Configuration: S3DestinationConfiguration
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let schemaEvolutionConfiguration: SchemaEvolutionConfiguration?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let tableCreationConfiguration: TableCreationConfiguration?
 
         @inlinable
-        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String, s3BackupMode: IcebergS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
+        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String, s3BackupMode: IcebergS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, schemaEvolutionConfiguration: SchemaEvolutionConfiguration? = nil, tableCreationConfiguration: TableCreationConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.catalogConfiguration = catalogConfiguration
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -2295,6 +2643,8 @@ extension Firehose {
             self.roleARN = roleARN
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
+            self.schemaEvolutionConfiguration = schemaEvolutionConfiguration
+            self.tableCreationConfiguration = tableCreationConfiguration
         }
 
         public func validate(name: String) throws {
@@ -2308,7 +2658,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
         }
 
@@ -2322,26 +2672,32 @@ extension Firehose {
             case roleARN = "RoleARN"
             case s3BackupMode = "S3BackupMode"
             case s3Configuration = "S3Configuration"
+            case schemaEvolutionConfiguration = "SchemaEvolutionConfiguration"
+            case tableCreationConfiguration = "TableCreationConfiguration"
         }
     }
 
     public struct IcebergDestinationDescription: AWSDecodableShape {
         public let bufferingHints: BufferingHints?
-        ///  Configuration describing where the destination Iceberg tables are persisted.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Configuration describing where the destination Iceberg tables are persisted.
         public let catalogConfiguration: CatalogConfiguration?
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        ///  Provides a list of DestinationTableConfigurations which Firehose uses to deliver data to Apache Iceberg tables.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Provides a list of DestinationTableConfigurations which Firehose uses to deliver data to Apache Iceberg Tables. Firehose will write data with insert if table specific configuration is not provided here.
         public let destinationTableConfigurationList: [DestinationTableConfiguration]?
         public let processingConfiguration: ProcessingConfiguration?
         public let retryOptions: RetryOptions?
-        ///  The Amazon Resource Name (ARN) of the Apache Iceberg Tables role.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for calling Apache Iceberg Tables.
         public let roleARN: String?
-        ///  Describes how Firehose will backup records. Currently,Firehose only supports FailedDataOnly for preview.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Describes how Firehose will backup records. Currently,Firehose only supports FailedDataOnly.
         public let s3BackupMode: IcebergS3BackupMode?
         public let s3DestinationDescription: S3DestinationDescription?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let schemaEvolutionConfiguration: SchemaEvolutionConfiguration?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let tableCreationConfiguration: TableCreationConfiguration?
 
         @inlinable
-        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String? = nil, s3BackupMode: IcebergS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
+        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String? = nil, s3BackupMode: IcebergS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, schemaEvolutionConfiguration: SchemaEvolutionConfiguration? = nil, tableCreationConfiguration: TableCreationConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.catalogConfiguration = catalogConfiguration
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -2351,6 +2707,8 @@ extension Firehose {
             self.roleARN = roleARN
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
+            self.schemaEvolutionConfiguration = schemaEvolutionConfiguration
+            self.tableCreationConfiguration = tableCreationConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2363,26 +2721,32 @@ extension Firehose {
             case roleARN = "RoleARN"
             case s3BackupMode = "S3BackupMode"
             case s3DestinationDescription = "S3DestinationDescription"
+            case schemaEvolutionConfiguration = "SchemaEvolutionConfiguration"
+            case tableCreationConfiguration = "TableCreationConfiguration"
         }
     }
 
     public struct IcebergDestinationUpdate: AWSEncodableShape {
         public let bufferingHints: BufferingHints?
-        ///  Configuration describing where the destination Iceberg tables are persisted.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Configuration describing where the destination Iceberg tables are persisted.
         public let catalogConfiguration: CatalogConfiguration?
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        ///  Provides a list of DestinationTableConfigurations which Firehose uses to deliver data to Apache Iceberg tables.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Provides a list of DestinationTableConfigurations which Firehose uses to deliver data to Apache Iceberg Tables. Firehose will write data with insert if table specific configuration is not provided here.
         public let destinationTableConfigurationList: [DestinationTableConfiguration]?
         public let processingConfiguration: ProcessingConfiguration?
         public let retryOptions: RetryOptions?
-        ///  The Amazon Resource Name (ARN) of the Apache Iceberg Tables role.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for calling Apache Iceberg Tables.
         public let roleARN: String?
-        ///  Describes how Firehose will backup records. Currently,Firehose only supports FailedDataOnly for preview.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Describes how Firehose will backup records. Currently,Firehose only supports FailedDataOnly.
         public let s3BackupMode: IcebergS3BackupMode?
         public let s3Configuration: S3DestinationConfiguration?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let schemaEvolutionConfiguration: SchemaEvolutionConfiguration?
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let tableCreationConfiguration: TableCreationConfiguration?
 
         @inlinable
-        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String? = nil, s3BackupMode: IcebergS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration? = nil) {
+        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String? = nil, s3BackupMode: IcebergS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration? = nil, schemaEvolutionConfiguration: SchemaEvolutionConfiguration? = nil, tableCreationConfiguration: TableCreationConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.catalogConfiguration = catalogConfiguration
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -2392,6 +2756,8 @@ extension Firehose {
             self.roleARN = roleARN
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
+            self.schemaEvolutionConfiguration = schemaEvolutionConfiguration
+            self.tableCreationConfiguration = tableCreationConfiguration
         }
 
         public func validate(name: String) throws {
@@ -2405,7 +2771,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
         }
 
@@ -2419,6 +2785,8 @@ extension Firehose {
             case roleARN = "RoleARN"
             case s3BackupMode = "S3BackupMode"
             case s3Configuration = "S3Configuration"
+            case schemaEvolutionConfiguration = "SchemaEvolutionConfiguration"
+            case tableCreationConfiguration = "TableCreationConfiguration"
         }
     }
 
@@ -2452,7 +2820,7 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.awskmsKeyARN, name: "awskmsKeyARN", parent: name, max: 512)
             try self.validate(self.awskmsKeyARN, name: "awskmsKeyARN", parent: name, min: 1)
-            try self.validate(self.awskmsKeyARN, name: "awskmsKeyARN", parent: name, pattern: "^arn:")
+            try self.validate(self.awskmsKeyARN, name: "awskmsKeyARN", parent: name, pattern: "^arn:.*:kms:[a-zA-Z0-9\\-]+:\\d{12}:(key|alias)/[a-zA-Z_0-9+=,.@\\-_/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2475,10 +2843,10 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.kinesisStreamARN, name: "kinesisStreamARN", parent: name, max: 512)
             try self.validate(self.kinesisStreamARN, name: "kinesisStreamARN", parent: name, min: 1)
-            try self.validate(self.kinesisStreamARN, name: "kinesisStreamARN", parent: name, pattern: "^arn:")
+            try self.validate(self.kinesisStreamARN, name: "kinesisStreamARN", parent: name, pattern: "^arn:.*:kinesis:[a-zA-Z0-9\\-]+:\\d{12}:stream/[a-zA-Z0-9_.-]+$")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2510,11 +2878,11 @@ extension Firehose {
     }
 
     public struct ListDeliveryStreamsInput: AWSEncodableShape {
-        /// The delivery stream type. This can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.   This parameter is optional. If this parameter is omitted, delivery streams of all types are returned.
+        /// The Firehose stream type. This can be one of the following values:    DirectPut: Provider applications access the Firehose stream directly.    KinesisStreamAsSource: The Firehose stream uses a Kinesis data stream as a source.   This parameter is optional. If this parameter is omitted, Firehose streams of all types are returned.
         public let deliveryStreamType: DeliveryStreamType?
-        /// The list of delivery streams returned by this call to ListDeliveryStreams will start with the delivery stream whose name comes alphabetically immediately after the name you specify in ExclusiveStartDeliveryStreamName.
+        /// The list of Firehose streams returned by this call to ListDeliveryStreams will start with the Firehose stream whose name comes alphabetically immediately after the name you specify in ExclusiveStartDeliveryStreamName.
         public let exclusiveStartDeliveryStreamName: String?
-        /// The maximum number of delivery streams to list. The default value is 10.
+        /// The maximum number of Firehose streams to list. The default value is 10.
         public let limit: Int?
 
         @inlinable
@@ -2540,9 +2908,9 @@ extension Firehose {
     }
 
     public struct ListDeliveryStreamsOutput: AWSDecodableShape {
-        /// The names of the delivery streams.
+        /// The names of the Firehose streams.
         public let deliveryStreamNames: [String]
-        /// Indicates whether there are more delivery streams available to list.
+        /// Indicates whether there are more Firehose streams available to list.
         public let hasMoreDeliveryStreams: Bool
 
         @inlinable
@@ -2558,11 +2926,11 @@ extension Firehose {
     }
 
     public struct ListTagsForDeliveryStreamInput: AWSEncodableShape {
-        /// The name of the delivery stream whose tags you want to list.
+        /// The name of the Firehose stream whose tags you want to list.
         public let deliveryStreamName: String
         /// The key to use as the starting point for the list of tags. If you set this parameter, ListTagsForDeliveryStream gets all tags that occur after ExclusiveStartTagKey.
         public let exclusiveStartTagKey: String?
-        /// The number of tags to return. If this number is less than the total number of tags associated with the delivery stream, HasMoreTags is set to true in the response. To list additional tags, set ExclusiveStartTagKey to the last key in the response.
+        /// The number of tags to return. If this number is less than the total number of tags associated with the Firehose stream, HasMoreTags is set to true in the response. To list additional tags, set ExclusiveStartTagKey to the last key in the response.
         public let limit: Int?
 
         @inlinable
@@ -2832,6 +3200,46 @@ extension Firehose {
         }
     }
 
+    public struct PartitionField: AWSEncodableShape & AWSDecodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let sourceName: String
+
+        @inlinable
+        public init(sourceName: String) {
+            self.sourceName = sourceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceName, name: "sourceName", parent: name, max: 1024)
+            try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
+            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceName = "SourceName"
+        }
+    }
+
+    public struct PartitionSpec: AWSEncodableShape & AWSDecodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let identity: [PartitionField]?
+
+        @inlinable
+        public init(identity: [PartitionField]? = nil) {
+            self.identity = identity
+        }
+
+        public func validate(name: String) throws {
+            try self.identity?.forEach {
+                try $0.validate(name: "\(name).identity[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identity = "Identity"
+        }
+    }
+
     public struct ProcessingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Enables or disables data processing.
         public let enabled: Bool?
@@ -2905,7 +3313,7 @@ extension Firehose {
     }
 
     public struct PutRecordBatchInput: AWSEncodableShape {
-        /// The name of the delivery stream.
+        /// The name of the Firehose stream.
         public let deliveryStreamName: String
         /// One or more records.
         public let records: [Record]
@@ -2978,7 +3386,7 @@ extension Firehose {
     }
 
     public struct PutRecordInput: AWSEncodableShape {
-        /// The name of the delivery stream.
+        /// The name of the Firehose stream.
         public let deliveryStreamName: String
         /// The record.
         public let record: Record
@@ -3039,7 +3447,7 @@ extension Firehose {
     }
 
     public struct RedshiftDestinationConfiguration: AWSEncodableShape {
-        /// The CloudWatch logging options for your delivery stream.
+        /// The CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The database connection string.
         public let clusterJDBCURL: String
@@ -3055,7 +3463,7 @@ extension Firehose {
         public let roleARN: String
         /// The configuration for backup in Amazon S3.
         public let s3BackupConfiguration: S3DestinationConfiguration?
-        /// The Amazon S3 backup mode. After you create a delivery stream, you can update it to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it.
+        /// The Amazon S3 backup mode. After you create a Firehose stream, you can update it to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the Firehose stream to disable it.
         public let s3BackupMode: RedshiftS3BackupMode?
         /// The configuration for the intermediate Amazon S3 location from which Amazon Redshift obtains data. Restrictions are described in the topic for CreateDeliveryStream. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationConfiguration.S3Configuration because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
         public let s3Configuration: S3DestinationConfiguration
@@ -3084,7 +3492,7 @@ extension Firehose {
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, max: 512)
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, min: 1)
-            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "^jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+(redshift(-serverless)?)\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$-]+$")
+            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "^jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+(redshift(-serverless)?)\\.([a-zA-Z0-9\\.\\-]+):\\d{1,5}/[a-zA-Z0-9_$-]+$")
             try self.copyCommand.validate(name: "\(name).copyCommand")
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, min: 6)
@@ -3093,7 +3501,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3BackupConfiguration?.validate(name: "\(name).s3BackupConfiguration")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
             try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
@@ -3119,7 +3527,7 @@ extension Firehose {
     }
 
     public struct RedshiftDestinationDescription: AWSDecodableShape {
-        /// The Amazon CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The database connection string.
         public let clusterJDBCURL: String
@@ -3173,7 +3581,7 @@ extension Firehose {
     }
 
     public struct RedshiftDestinationUpdate: AWSEncodableShape {
-        /// The Amazon CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The database connection string.
         public let clusterJDBCURL: String?
@@ -3187,7 +3595,7 @@ extension Firehose {
         public let retryOptions: RedshiftRetryOptions?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String?
-        /// You can update a delivery stream to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it.
+        /// You can update a Firehose stream to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the Firehose stream to disable it.
         public let s3BackupMode: RedshiftS3BackupMode?
         /// The Amazon S3 destination for backup.
         public let s3BackupUpdate: S3DestinationUpdate?
@@ -3218,7 +3626,7 @@ extension Firehose {
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, max: 512)
             try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, min: 1)
-            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "^jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+(redshift(-serverless)?)\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$-]+$")
+            try self.validate(self.clusterJDBCURL, name: "clusterJDBCURL", parent: name, pattern: "^jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+(redshift(-serverless)?)\\.([a-zA-Z0-9\\.\\-]+):\\d{1,5}/[a-zA-Z0-9_$-]+$")
             try self.copyCommand?.validate(name: "\(name).copyCommand")
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, min: 6)
@@ -3227,7 +3635,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3BackupUpdate?.validate(name: "\(name).s3BackupUpdate")
             try self.s3Update?.validate(name: "\(name).s3Update")
             try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
@@ -3272,7 +3680,7 @@ extension Firehose {
     }
 
     public struct RetryOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The period of time during which Firehose retries to deliver data to the specified Amazon S3 prefix.
+        /// The period of time during which Firehose retries to deliver data to the specified destination.
         public let durationInSeconds: Int?
 
         @inlinable
@@ -3295,7 +3703,7 @@ extension Firehose {
         public let bucketARN: String
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
         public let bufferingHints: BufferingHints?
-        /// The CloudWatch logging options for your delivery stream.
+        /// The CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED. The compression formats SNAPPY or ZIP cannot be specified for Amazon Redshift destinations because they are not supported by the Amazon Redshift COPY operation that reads from the S3 bucket.
         public let compressionFormat: CompressionFormat?
@@ -3323,7 +3731,7 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.bucketARN, name: "bucketARN", parent: name, max: 2048)
             try self.validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
-            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:")
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:.*:s3:::[\\w\\.\\-]{1,255}$")
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
@@ -3333,7 +3741,7 @@ extension Firehose {
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3353,7 +3761,7 @@ extension Firehose {
         public let bucketARN: String
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
         public let bufferingHints: BufferingHints
-        /// The Amazon CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
         public let compressionFormat: CompressionFormat
@@ -3395,7 +3803,7 @@ extension Firehose {
         public let bucketARN: String?
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
         public let bufferingHints: BufferingHints?
-        /// The CloudWatch logging options for your delivery stream.
+        /// The CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED. The compression formats SNAPPY or ZIP cannot be specified for Amazon Redshift destinations because they are not supported by the Amazon Redshift COPY operation that reads from the S3 bucket.
         public let compressionFormat: CompressionFormat?
@@ -3423,7 +3831,7 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.bucketARN, name: "bucketARN", parent: name, max: 2048)
             try self.validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
-            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:")
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:.*:s3:::[\\w\\.\\-]{1,255}$")
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
@@ -3433,7 +3841,7 @@ extension Firehose {
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3503,12 +3911,26 @@ extension Firehose {
         }
     }
 
+    public struct SchemaEvolutionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
     public struct SecretsManagerConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether you want to use the the secrets manager feature. When set as True the secrets manager configuration overwrites the existing secrets in the destination configuration. When it's set to False Firehose falls back to the credentials in the destination configuration.
+        /// Specifies whether you want to use the secrets manager feature. When set as True the secrets manager configuration overwrites the existing secrets in the destination configuration. When it's set to False Firehose falls back to the credentials in the destination configuration.
         public let enabled: Bool
         ///  Specifies the role that Firehose assumes when calling the Secrets Manager API operation. When you provide the role, it overrides any destination specific role defined in the destination configuration. If you do not provide the then we use the destination specific role. This parameter is required for Splunk.
         public let roleARN: String?
-        /// The ARN of the secret that stores your credentials. It must be in the same region as the Firehose stream and the role. The secret ARN can reside in a different account than the delivery stream and role as Firehose supports cross-account secret access. This parameter is required when Enabled is set to True.
+        /// The ARN of the secret that stores your credentials. It must be in the same region as the Firehose stream and the role. The secret ARN can reside in a different account than the Firehose stream and role as Firehose supports cross-account secret access. This parameter is required when Enabled is set to True.
         public let secretARN: String?
 
         @inlinable
@@ -3521,10 +3943,10 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.secretARN, name: "secretARN", parent: name, max: 2048)
             try self.validate(self.secretARN, name: "secretARN", parent: name, min: 1)
-            try self.validate(self.secretARN, name: "secretARN", parent: name, pattern: "^arn:")
+            try self.validate(self.secretARN, name: "secretARN", parent: name, pattern: "^arn:.*:secretsmanager:[a-zA-Z0-9\\-]+:\\d{12}:secret:[a-zA-Z0-9\\-/_+=.@]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3560,7 +3982,7 @@ extension Firehose {
     public struct SnowflakeBufferingHints: AWSEncodableShape & AWSDecodableShape {
         ///  Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 0.
         public let intervalInSeconds: Int?
-        ///  Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 1.
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 128.
         public let sizeInMBs: Int?
 
         @inlinable
@@ -3666,7 +4088,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
             try self.validate(self.schema, name: "schema", parent: name, max: 255)
             try self.validate(self.schema, name: "schema", parent: name, min: 1)
@@ -3805,7 +4227,7 @@ extension Firehose {
         public let retryOptions: SnowflakeRetryOptions?
         /// The Amazon Resource Name (ARN) of the Snowflake role
         public let roleARN: String?
-        /// Choose an S3 backup mode
+        /// Choose an S3 backup mode. Once you set the mode as AllData, you can not change it to FailedDataOnly.
         public let s3BackupMode: SnowflakeS3BackupMode?
         public let s3Update: S3DestinationUpdate?
         /// Each database consists of one or more schemas, which are logical groupings of database objects, such as tables and views
@@ -3863,7 +4285,7 @@ extension Firehose {
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.s3Update?.validate(name: "\(name).s3Update")
             try self.validate(self.schema, name: "schema", parent: name, max: 255)
             try self.validate(self.schema, name: "schema", parent: name, min: 1)
@@ -3961,18 +4383,22 @@ extension Firehose {
     }
 
     public struct SourceDescription: AWSDecodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let databaseSourceDescription: DatabaseSourceDescription?
         /// The KinesisStreamSourceDescription value for the source Kinesis data stream.
         public let kinesisStreamSourceDescription: KinesisStreamSourceDescription?
         /// The configuration description for the Amazon MSK cluster to be used as the source for a delivery stream.
         public let mskSourceDescription: MSKSourceDescription?
 
         @inlinable
-        public init(kinesisStreamSourceDescription: KinesisStreamSourceDescription? = nil, mskSourceDescription: MSKSourceDescription? = nil) {
+        public init(databaseSourceDescription: DatabaseSourceDescription? = nil, kinesisStreamSourceDescription: KinesisStreamSourceDescription? = nil, mskSourceDescription: MSKSourceDescription? = nil) {
+            self.databaseSourceDescription = databaseSourceDescription
             self.kinesisStreamSourceDescription = kinesisStreamSourceDescription
             self.mskSourceDescription = mskSourceDescription
         }
 
         private enum CodingKeys: String, CodingKey {
+            case databaseSourceDescription = "DatabaseSourceDescription"
             case kinesisStreamSourceDescription = "KinesisStreamSourceDescription"
             case mskSourceDescription = "MSKSourceDescription"
         }
@@ -4006,7 +4432,7 @@ extension Firehose {
     public struct SplunkDestinationConfiguration: AWSEncodableShape {
         /// The buffering options. If no value is specified, the default values for Splunk are used.
         public let bufferingHints: SplunkBufferingHints?
-        /// The Amazon CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Firehose either tries to send the data again or considers it an error, based on your retry settings.
         public let hecAcknowledgmentTimeoutInSeconds: Int?
@@ -4075,7 +4501,7 @@ extension Firehose {
     public struct SplunkDestinationDescription: AWSDecodableShape {
         /// The buffering options. If no value is specified, the default values for Splunk are used.
         public let bufferingHints: SplunkBufferingHints?
-        /// The Amazon CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Firehose either tries to send the data again or considers it an error, based on your retry settings.
         public let hecAcknowledgmentTimeoutInSeconds: Int?
@@ -4129,7 +4555,7 @@ extension Firehose {
     public struct SplunkDestinationUpdate: AWSEncodableShape {
         /// The buffering options. If no value is specified, the default values for Splunk are used.
         public let bufferingHints: SplunkBufferingHints?
-        /// The Amazon CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your Firehose stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Firehose waits to receive an acknowledgment from Splunk after it sends data. At the end of the timeout period, Firehose either tries to send the data again or considers it an error, based on your retry settings.
         public let hecAcknowledgmentTimeoutInSeconds: Int?
@@ -4217,7 +4643,7 @@ extension Firehose {
     public struct StartDeliveryStreamEncryptionInput: AWSEncodableShape {
         /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
         public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
-        /// The name of the delivery stream for which you want to enable server-side encryption (SSE).
+        /// The name of the Firehose stream for which you want to enable server-side encryption (SSE).
         public let deliveryStreamName: String
 
         @inlinable
@@ -4244,7 +4670,7 @@ extension Firehose {
     }
 
     public struct StopDeliveryStreamEncryptionInput: AWSEncodableShape {
-        /// The name of the delivery stream for which you want to disable server-side encryption (SSE).
+        /// The name of the Firehose stream for which you want to disable server-side encryption (SSE).
         public let deliveryStreamName: String
 
         @inlinable
@@ -4265,6 +4691,20 @@ extension Firehose {
 
     public struct StopDeliveryStreamEncryptionOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TableCreationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///   Amazon Data Firehose is in preview release and is subject to change.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
@@ -4294,7 +4734,7 @@ extension Firehose {
     }
 
     public struct TagDeliveryStreamInput: AWSEncodableShape {
-        /// The name of the delivery stream to which you want to add the tags.
+        /// The name of the Firehose stream to which you want to add the tags.
         public let deliveryStreamName: String
         /// A set of key-value pairs to use to create the tags.
         public let tags: [Tag]
@@ -4327,7 +4767,7 @@ extension Firehose {
     }
 
     public struct UntagDeliveryStreamInput: AWSEncodableShape {
-        /// The name of the delivery stream.
+        /// The name of the Firehose stream.
         public let deliveryStreamName: String
         /// A list of tag keys. Each corresponding tag is removed from the delivery stream.
         public let tagKeys: [String]
@@ -4368,7 +4808,7 @@ extension Firehose {
         public let amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate?
         /// Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service perform conditional operations. For example, if there is an interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
         public let currentDeliveryStreamVersionId: String
-        /// The name of the delivery stream.
+        /// The name of the Firehose stream.
         public let deliveryStreamName: String
         /// The ID of the destination.
         public let destinationId: String
@@ -4378,7 +4818,7 @@ extension Firehose {
         public let extendedS3DestinationUpdate: ExtendedS3DestinationUpdate?
         /// Describes an update to the specified HTTP endpoint destination.
         public let httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate?
-        ///  Describes an update for a destination in Apache Iceberg Tables.  Amazon Data Firehose is in preview release and is subject to change.
+        ///  Describes an update for a destination in Apache Iceberg Tables.
         public let icebergDestinationUpdate: IcebergDestinationUpdate?
         /// Describes an update for a destination in Amazon Redshift.
         public let redshiftDestinationUpdate: RedshiftDestinationUpdate?
@@ -4468,11 +4908,11 @@ extension Firehose {
     }
 
     public struct VpcConfiguration: AWSEncodableShape {
-        /// The ARN of the IAM role that you want the delivery stream to use to create endpoints in the destination VPC. You can use your existing Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Firehose service principal and that it grants the following permissions:    ec2:DescribeVpcs     ec2:DescribeVpcAttribute     ec2:DescribeSubnets     ec2:DescribeSecurityGroups     ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface     ec2:CreateNetworkInterfacePermission     ec2:DeleteNetworkInterface     When you specify subnets for delivering data to the destination in a private VPC, make sure you have enough number of free IP addresses in chosen subnets. If there is no available free IP address in a specified subnet, Firehose cannot create or add ENIs for the data delivery in the private VPC, and the delivery will be degraded or fail.
+        /// The ARN of the IAM role that you want the Firehose stream to use to create endpoints in the destination VPC. You can use your existing Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Firehose service principal and that it grants the following permissions:    ec2:DescribeVpcs     ec2:DescribeVpcAttribute     ec2:DescribeSubnets     ec2:DescribeSecurityGroups     ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface     ec2:CreateNetworkInterfacePermission     ec2:DeleteNetworkInterface     When you specify subnets for delivering data to the destination in a private VPC, make sure you have enough number of free IP addresses in chosen subnets. If there is no available free IP address in a specified subnet, Firehose cannot create or add ENIs for the data delivery in the private VPC, and the delivery will be degraded or fail.
         public let roleARN: String
         /// The IDs of the security groups that you want Firehose to use when it creates ENIs in the VPC of the Amazon ES destination. You can use the same security group that the Amazon ES domain uses or different ones. If you specify different security groups here, ensure that they allow outbound HTTPS traffic to the Amazon ES domain's security group. Also ensure that the Amazon ES domain's security group allows HTTPS traffic from the security groups specified here. If you use the same security group for both your delivery stream and the Amazon ES domain, make sure the security group inbound rule allows HTTPS traffic. For more information about security group rules, see Security group rules in the Amazon VPC documentation.
         public let securityGroupIds: [String]
-        /// The IDs of the subnets that you want Firehose to use to create ENIs in the VPC of the Amazon ES destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon ES endpoints. Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Firehose can create up to three ENIs for this delivery stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces in the Amazon VPC Quotas topic.
+        /// The IDs of the subnets that you want Firehose to use to create ENIs in the VPC of the Amazon ES destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon ES endpoints. Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Firehose can create up to three ENIs for this Firehose stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces in the Amazon VPC Quotas topic.
         public let subnetIds: [String]
 
         @inlinable
@@ -4485,7 +4925,7 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
-            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:.*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
@@ -4510,11 +4950,11 @@ extension Firehose {
     }
 
     public struct VpcConfigurationDescription: AWSDecodableShape {
-        /// The ARN of the IAM role that the delivery stream uses to create endpoints in the destination VPC. You can use your existing Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Firehose service principal and that it grants the following permissions:    ec2:DescribeVpcs     ec2:DescribeVpcAttribute     ec2:DescribeSubnets     ec2:DescribeSecurityGroups     ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface     ec2:CreateNetworkInterfacePermission     ec2:DeleteNetworkInterface    If you revoke these permissions after you create the delivery stream, Firehose can't scale out by creating more ENIs when necessary. You might therefore see a degradation in performance.
+        /// The ARN of the IAM role that the Firehose stream uses to create endpoints in the destination VPC. You can use your existing Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Firehose service principal and that it grants the following permissions:    ec2:DescribeVpcs     ec2:DescribeVpcAttribute     ec2:DescribeSubnets     ec2:DescribeSecurityGroups     ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface     ec2:CreateNetworkInterfacePermission     ec2:DeleteNetworkInterface    If you revoke these permissions after you create the Firehose stream, Firehose can't scale out by creating more ENIs when necessary. You might therefore see a degradation in performance.
         public let roleARN: String
-        /// The IDs of the security groups that Firehose uses when it creates ENIs in the VPC of the Amazon ES destination. You can use the same security group that the Amazon ES domain uses or different ones. If you specify different security groups, ensure that they allow outbound HTTPS traffic to the Amazon ES domain's security group. Also ensure that the Amazon ES domain's security group allows HTTPS traffic from the security groups specified here. If you use the same security group for both your delivery stream and the Amazon ES domain, make sure the security group inbound rule allows HTTPS traffic. For more information about security group rules, see Security group rules in the Amazon VPC documentation.
+        /// The IDs of the security groups that Firehose uses when it creates ENIs in the VPC of the Amazon ES destination. You can use the same security group that the Amazon ES domain uses or different ones. If you specify different security groups, ensure that they allow outbound HTTPS traffic to the Amazon ES domain's security group. Also ensure that the Amazon ES domain's security group allows HTTPS traffic from the security groups specified here. If you use the same security group for both your Firehose stream and the Amazon ES domain, make sure the security group inbound rule allows HTTPS traffic. For more information about security group rules, see Security group rules in the Amazon VPC documentation.
         public let securityGroupIds: [String]
-        /// The IDs of the subnets that Firehose uses to create ENIs in the VPC of the Amazon ES destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon ES endpoints. Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Firehose can create up to three ENIs for this delivery stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces in the Amazon VPC Quotas topic.
+        /// The IDs of the subnets that Firehose uses to create ENIs in the VPC of the Amazon ES destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon ES endpoints. Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Firehose can create up to three ENIs for this Firehose stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces in the Amazon VPC Quotas topic.
         public let subnetIds: [String]
         /// The ID of the Amazon ES destination's VPC.
         public let vpcId: String
@@ -4573,7 +5013,7 @@ public struct FirehoseErrorType: AWSErrorType {
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// The specified input parameter has a value that is not valid.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
-    /// Firehose throws this exception when an attempt to put records or to start or stop delivery stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
+    /// Firehose throws this exception when an attempt to put records or to start or stop Firehose stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
     public static var invalidKMSResourceException: Self { .init(.invalidKMSResourceException) }
     /// Only requests from CloudWatch Logs are supported when CloudWatch Logs decompression is enabled.
     public static var invalidSourceException: Self { .init(.invalidSourceException) }
@@ -4583,7 +5023,7 @@ public struct FirehoseErrorType: AWSErrorType {
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The specified resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the delivery stream may have been exceeded. For more information about limits and how to request an increase, see Amazon Firehose Limits.
+    /// The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the Firehose stream may have been exceeded. For more information about limits and how to request an increase, see Amazon Firehose Limits.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
 }
 

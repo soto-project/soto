@@ -179,9 +179,9 @@ public struct AccessAnalyzer: AWSService {
     /// Checks whether the specified access isn't allowed by a policy.
     ///
     /// Parameters:
-    ///   - access: An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access of the actions on all resources in the policy. If only resources are specified, then IAM Access Analyzer checks which actions have access to the specified resources. If both actions and resources are specified, then IAM Access Analyzer checks which of the specified actions have access to the specified resources.
+    ///   - access: An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access to peform at least one of the actions on any resource in the policy. If only resources are specified, then IAM Access Analyzer checks for access to perform any action on at least one of the resources. If both actions and resources are specified, IAM Access Analyzer checks for access to perform at least one of the specified actions on at least one of the specified resources.
     ///   - policyDocument: The JSON policy document to use as the content for the policy.
-    ///   - policyType: The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
+    ///   - policyType: The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets.
     ///   - logger: Logger use during operation
     @inlinable
     public func checkAccessNotGranted(
@@ -319,8 +319,8 @@ public struct AccessAnalyzer: AWSService {
     ///   - analyzerName: The name of the analyzer to create.
     ///   - archiveRules: Specifies the archive rules to add for the analyzer. Archive rules automatically archive findings that meet the criteria you define for the rule.
     ///   - clientToken: A client token.
-    ///   - configuration: Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration. If the analyzer is an external access analyzer, this field is not used.
-    ///   - tags: An array of key-value pairs to apply to the analyzer.
+    ///   - configuration: Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration.
+    ///   - tags: An array of key-value pairs to apply to the analyzer. You can use the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. For the tag key, you can specify a value that is 1 to 128 characters in length and cannot be prefixed with aws:. For the tag value, you can specify a value that is 0 to 256 characters in length.
     ///   - type: The type of analyzer to create. Only ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, and ORGANIZATION_UNUSED_ACCESS analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
     ///   - logger: Logger use during operation
     @inlinable
@@ -825,7 +825,7 @@ public struct AccessAnalyzer: AWSService {
         return try await self.listAccessPreviews(input, logger: logger)
     }
 
-    /// Retrieves a list of resources of the specified type that have been analyzed by the specified external access analyzer. This action is not supported for unused access analyzers.
+    /// Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer.
     @Sendable
     @inlinable
     public func listAnalyzedResources(_ input: ListAnalyzedResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalyzedResourcesResponse {
@@ -838,7 +838,7 @@ public struct AccessAnalyzer: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of resources of the specified type that have been analyzed by the specified external access analyzer. This action is not supported for unused access analyzers.
+    /// Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer.
     ///
     /// Parameters:
     ///   - analyzerArn: The ARN of the analyzer to retrieve a list of analyzed resources from.
@@ -1211,6 +1211,38 @@ public struct AccessAnalyzer: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Modifies the configuration of an existing analyzer.
+    @Sendable
+    @inlinable
+    public func updateAnalyzer(_ input: UpdateAnalyzerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnalyzerResponse {
+        try await self.client.execute(
+            operation: "UpdateAnalyzer", 
+            path: "/analyzer/{analyzerName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the configuration of an existing analyzer.
+    ///
+    /// Parameters:
+    ///   - analyzerName: The name of the analyzer to modify.
+    ///   - configuration: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAnalyzer(
+        analyzerName: String,
+        configuration: AnalyzerConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAnalyzerResponse {
+        let input = UpdateAnalyzerRequest(
+            analyzerName: analyzerName, 
+            configuration: configuration
+        )
+        return try await self.updateAnalyzer(input, logger: logger)
     }
 
     /// Updates the criteria and values for the specified archive rule.

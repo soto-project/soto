@@ -85,6 +85,10 @@ extension Amp {
         case deleting = "DELETING"
         /// Scraper deletion failed.
         case deletionFailed = "DELETION_FAILED"
+        /// Scraper update failed.
+        case updateFailed = "UPDATE_FAILED"
+        /// Scraper is being updated. Deletion is disallowed until status is ACTIVE.
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -221,7 +225,7 @@ extension Amp {
     public struct CreateLoggingConfigurationRequest: AWSEncodableShape {
         /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
         public let clientToken: String?
-        /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this API.
+        /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation.
         public let logGroupArn: String
         /// The ID of the workspace to create the logging configuration for.
         public let workspaceId: String
@@ -357,7 +361,7 @@ extension Amp {
     }
 
     public struct CreateScraperRequest: AWSEncodableShape {
-        /// (optional) a name to associate with the scraper. This is for your use, and does not need to be unique.
+        /// (optional) An alias to associate with the scraper. This is for your use, and does not need to be unique.
         public let alias: String?
         /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -1058,7 +1062,7 @@ extension Amp {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The ARN of the resource to list tages for. Must be a workspace or rule groups namespace resource.
+        /// The ARN of the resource to list tages for. Must be a workspace, scraper, or rule groups namespace resource.
         public let resourceArn: String
 
         @inlinable
@@ -1311,7 +1315,7 @@ extension Amp {
     }
 
     public struct RuleGroupsNamespaceDescription: AWSDecodableShape {
-        /// The ARN of the rule groups namespace.
+        /// The ARN of the rule groups namespace. For example,  arn:aws:aps:&lt;region&gt;:123456789012:rulegroupsnamespace/ws-example1-1234-abcd-5678-ef90abcd1234/rulesfile1.
         public let arn: String
         /// The date and time that the rule groups namespace was created.
         public let createdAt: Date
@@ -1403,7 +1407,7 @@ extension Amp {
     public struct ScraperDescription: AWSDecodableShape {
         /// (Optional) A name associated with the scraper.
         public let alias: String?
-        /// The Amazon Resource Name (ARN) of the scraper.
+        /// The Amazon Resource Name (ARN) of the scraper. For example,  arn:aws:aps:&lt;region&gt;:123456798012:scraper/s-example1-1234-abcd-5678-ef9012abcd34.
         public let arn: String
         /// The date and time that the scraper was created.
         public let createdAt: Date
@@ -1411,11 +1415,11 @@ extension Amp {
         public let destination: Destination
         /// The date and time that the scraper was last modified.
         public let lastModifiedAt: Date
-        /// The Amazon Resource Name (ARN) of the IAM role that provides  permissions for the scraper to discover and collect metrics on your behalf.
+        /// The Amazon Resource Name (ARN) of the IAM role that provides  permissions for the scraper to discover and collect metrics on your behalf. For example, arn:aws:iam::123456789012:role/service-role/AmazonGrafanaServiceRole-12example.
         public let roleArn: String
-        /// The configuration file in use by the scraper.
+        /// The configuration in use by the scraper.
         public let scrapeConfiguration: ScrapeConfiguration
-        /// The ID of the scraper.
+        /// The ID of the scraper. For example, s-example1-1234-abcd-5678-ef9012abcd34.
         public let scraperId: String
         /// The Amazon EKS cluster from which the scraper collects metrics.
         public let source: Source
@@ -1527,9 +1531,9 @@ extension Amp {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The ARN of the workspace or rule groups namespace to apply tags to.
+        /// The ARN of the resource to apply tags to.
         public let resourceArn: String
-        /// The list of tag keys and values to associate with the resource. Keys may not begin with aws:.
+        /// The list of tag keys and values to associate with the resource. Keys must not begin with aws:.
         public let tags: [String: String]
 
         @inlinable
@@ -1566,7 +1570,7 @@ extension Amp {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The ARN of the workspace or rule groups namespace.
+        /// The ARN of the resource from which to remove a tag.
         public let resourceArn: String
         /// The keys of the tags to remove.
         public let tagKeys: [String]
@@ -1652,6 +1656,84 @@ extension Amp {
         }
     }
 
+    public struct UpdateScraperRequest: AWSEncodableShape {
+        /// The new alias of the scraper.
+        public let alias: String?
+        /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
+        public let clientToken: String?
+        /// The new Amazon Managed Service for Prometheus workspace to send metrics to.
+        public let destination: Destination?
+        /// Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus  User Guide.
+        public let scrapeConfiguration: ScrapeConfiguration?
+        /// The ID of the scraper to update.
+        public let scraperId: String
+
+        @inlinable
+        public init(alias: String? = nil, clientToken: String? = UpdateScraperRequest.idempotencyToken(), destination: Destination? = nil, scrapeConfiguration: ScrapeConfiguration? = nil, scraperId: String) {
+            self.alias = alias
+            self.clientToken = clientToken
+            self.destination = destination
+            self.scrapeConfiguration = scrapeConfiguration
+            self.scraperId = scraperId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.alias, forKey: .alias)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.destination, forKey: .destination)
+            try container.encodeIfPresent(self.scrapeConfiguration, forKey: .scrapeConfiguration)
+            request.encodePath(self.scraperId, key: "scraperId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 100)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.destination?.validate(name: "\(name).destination")
+            try self.validate(self.scraperId, name: "scraperId", parent: name, max: 64)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, min: 1)
+            try self.validate(self.scraperId, name: "scraperId", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "alias"
+            case clientToken = "clientToken"
+            case destination = "destination"
+            case scrapeConfiguration = "scrapeConfiguration"
+        }
+    }
+
+    public struct UpdateScraperResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated scraper.
+        public let arn: String
+        /// The ID of the updated scraper.
+        public let scraperId: String
+        /// A structure that displays the current status of the scraper.
+        public let status: ScraperStatus
+        /// The list of tag keys and values that are associated with the scraper.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String, scraperId: String, status: ScraperStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.scraperId = scraperId
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case scraperId = "scraperId"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct UpdateWorkspaceAliasRequest: AWSEncodableShape {
         /// The new alias for the workspace. It does not need to be unique. Amazon Managed Service for Prometheus will automatically strip any blank spaces from the beginning and end of the alias that you specify.
         public let alias: String?
@@ -1693,21 +1775,21 @@ extension Amp {
     }
 
     public struct WorkspaceDescription: AWSDecodableShape {
-        /// The alias that is assigned to this workspace to help identify it. It may not be unique.
+        /// The alias that is assigned to this workspace to help identify it. It does not need to be unique.
         public let alias: String?
-        /// The ARN of the workspace.
+        /// The ARN of the workspace. For example,  arn:aws:aps:&lt;region&gt;:123456789012:workspace/ws-example1-1234-abcd-5678-ef90abcd1234.
         public let arn: String
         /// The date and time that the workspace was created.
         public let createdAt: Date
         /// (optional) If the workspace was created with a customer managed KMS  key, the ARN for the key used.
         public let kmsKeyArn: String?
-        /// The Prometheus endpoint available for this workspace.
+        /// The Prometheus endpoint available for this workspace. For example, https://aps-workspaces.&lt;region&gt;.amazonaws.com/workspaces/ws-example1-1234-abcd-5678-ef90abcd1234/api/v1/.
         public let prometheusEndpoint: String?
         /// The current status of the workspace.
         public let status: WorkspaceStatus
         /// The list of tag keys and values that are associated with the workspace.
         public let tags: [String: String]?
-        /// The unique ID for the workspace.
+        /// The unique ID for the workspace. For example,  ws-example1-1234-abcd-5678-ef90abcd1234.
         public let workspaceId: String
 
         @inlinable
@@ -1749,7 +1831,7 @@ extension Amp {
     }
 
     public struct WorkspaceSummary: AWSDecodableShape {
-        /// The alias that is assigned to this workspace to help identify it. It may not be unique.
+        /// The alias that is assigned to this workspace to help identify it. It does not  need to be unique.
         public let alias: String?
         /// The ARN of the workspace.
         public let arn: String
@@ -1787,7 +1869,7 @@ extension Amp {
     }
 
     public struct Destination: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Managed Service for Prometheusworkspace to send metrics to.
+        /// The Amazon Managed Service for Prometheus workspace to send metrics to.
         public let ampConfiguration: AmpConfiguration?
 
         @inlinable

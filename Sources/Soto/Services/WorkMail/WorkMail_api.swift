@@ -328,6 +328,41 @@ public struct WorkMail: AWSService {
         return try await self.createGroup(input, logger: logger)
     }
 
+    ///  Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the authentication settings for any WorkMail organizations.
+    @Sendable
+    @inlinable
+    public func createIdentityCenterApplication(_ input: CreateIdentityCenterApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIdentityCenterApplicationResponse {
+        try await self.client.execute(
+            operation: "CreateIdentityCenterApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the authentication settings for any WorkMail organizations.
+    ///
+    /// Parameters:
+    ///   - clientToken:  The idempotency token associated with the request.
+    ///   - instanceArn:  The Amazon Resource Name (ARN) of the instance.
+    ///   - name:  The name of the IAM Identity Center application.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIdentityCenterApplication(
+        clientToken: String? = CreateIdentityCenterApplicationRequest.idempotencyToken(),
+        instanceArn: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIdentityCenterApplicationResponse {
+        let input = CreateIdentityCenterApplicationRequest(
+            clientToken: clientToken, 
+            instanceArn: instanceArn, 
+            name: name
+        )
+        return try await self.createIdentityCenterApplication(input, logger: logger)
+    }
+
     /// Creates an impersonation role for the given WorkMail organization.  Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries also complete successfully without performing any further actions.
     @Sendable
     @inlinable
@@ -541,6 +576,7 @@ public struct WorkMail: AWSService {
     ///   - displayName: The display name for the new user.
     ///   - firstName: The first name of the new user.
     ///   - hiddenFromGlobalAddressList: If this parameter is enabled, the user will be hidden from the address book.
+    ///   - identityProviderUserId: User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
     ///   - lastName: The last name of the new user.
     ///   - name: The name for the new user. WorkMail directory user names have a maximum length of 64. All others have a maximum length of 20.
     ///   - organizationId: The identifier of the organization for which the user is created.
@@ -552,6 +588,7 @@ public struct WorkMail: AWSService {
         displayName: String,
         firstName: String? = nil,
         hiddenFromGlobalAddressList: Bool? = nil,
+        identityProviderUserId: String? = nil,
         lastName: String? = nil,
         name: String,
         organizationId: String,
@@ -563,6 +600,7 @@ public struct WorkMail: AWSService {
             displayName: displayName, 
             firstName: firstName, 
             hiddenFromGlobalAddressList: hiddenFromGlobalAddressList, 
+            identityProviderUserId: identityProviderUserId, 
             lastName: lastName, 
             name: name, 
             organizationId: organizationId, 
@@ -732,6 +770,64 @@ public struct WorkMail: AWSService {
         return try await self.deleteGroup(input, logger: logger)
     }
 
+    ///  Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations.
+    @Sendable
+    @inlinable
+    public func deleteIdentityCenterApplication(_ input: DeleteIdentityCenterApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdentityCenterApplicationResponse {
+        try await self.client.execute(
+            operation: "DeleteIdentityCenterApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations.
+    ///
+    /// Parameters:
+    ///   - applicationArn:  The Amazon Resource Name (ARN) of the application.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIdentityCenterApplication(
+        applicationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIdentityCenterApplicationResponse {
+        let input = DeleteIdentityCenterApplicationRequest(
+            applicationArn: applicationArn
+        )
+        return try await self.deleteIdentityCenterApplication(input, logger: logger)
+    }
+
+    ///  Disables the integration between IdC and WorkMail. Authentication will continue with the directory as it was before the IdC integration. You might have to reset your directory passwords and reconfigure your desktop and mobile email clients.
+    @Sendable
+    @inlinable
+    public func deleteIdentityProviderConfiguration(_ input: DeleteIdentityProviderConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdentityProviderConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteIdentityProviderConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Disables the integration between IdC and WorkMail. Authentication will continue with the directory as it was before the IdC integration. You might have to reset your directory passwords and reconfigure your desktop and mobile email clients.
+    ///
+    /// Parameters:
+    ///   - organizationId: The Organization ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIdentityProviderConfiguration(
+        organizationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIdentityProviderConfigurationResponse {
+        let input = DeleteIdentityProviderConfigurationRequest(
+            organizationId: organizationId
+        )
+        return try await self.deleteIdentityProviderConfiguration(input, logger: logger)
+    }
+
     /// Deletes an impersonation role for the given WorkMail organization.
     @Sendable
     @inlinable
@@ -884,6 +980,7 @@ public struct WorkMail: AWSService {
     /// Parameters:
     ///   - clientToken: The idempotency token associated with the request.
     ///   - deleteDirectory: If true, deletes the AWS Directory Service directory associated with the organization.
+    ///   - deleteIdentityCenterApplication: Deletes IAM Identity Center application for WorkMail. This action does not affect authentication settings for any organization.
     ///   - forceDelete: Deletes a WorkMail organization even if the organization has enabled users.
     ///   - organizationId: The organization ID.
     ///   - logger: Logger use during operation
@@ -891,6 +988,7 @@ public struct WorkMail: AWSService {
     public func deleteOrganization(
         clientToken: String? = DeleteOrganizationRequest.idempotencyToken(),
         deleteDirectory: Bool = false,
+        deleteIdentityCenterApplication: Bool? = nil,
         forceDelete: Bool? = nil,
         organizationId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -898,10 +996,43 @@ public struct WorkMail: AWSService {
         let input = DeleteOrganizationRequest(
             clientToken: clientToken, 
             deleteDirectory: deleteDirectory, 
+            deleteIdentityCenterApplication: deleteIdentityCenterApplication, 
             forceDelete: forceDelete, 
             organizationId: organizationId
         )
         return try await self.deleteOrganization(input, logger: logger)
+    }
+
+    ///  Deletes the Personal Access Token from the provided WorkMail Organization.
+    @Sendable
+    @inlinable
+    public func deletePersonalAccessToken(_ input: DeletePersonalAccessTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePersonalAccessTokenResponse {
+        try await self.client.execute(
+            operation: "DeletePersonalAccessToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes the Personal Access Token from the provided WorkMail Organization.
+    ///
+    /// Parameters:
+    ///   - organizationId:  The Organization ID.
+    ///   - personalAccessTokenId:  The Personal Access Token ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePersonalAccessToken(
+        organizationId: String,
+        personalAccessTokenId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePersonalAccessTokenResponse {
+        let input = DeletePersonalAccessTokenRequest(
+            organizationId: organizationId, 
+            personalAccessTokenId: personalAccessTokenId
+        )
+        return try await self.deletePersonalAccessToken(input, logger: logger)
     }
 
     /// Deletes the specified resource.
@@ -1155,6 +1286,35 @@ public struct WorkMail: AWSService {
             organizationId: organizationId
         )
         return try await self.describeGroup(input, logger: logger)
+    }
+
+    ///  Returns detailed information on the current IdC setup for the WorkMail organization.
+    @Sendable
+    @inlinable
+    public func describeIdentityProviderConfiguration(_ input: DescribeIdentityProviderConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIdentityProviderConfigurationResponse {
+        try await self.client.execute(
+            operation: "DescribeIdentityProviderConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Returns detailed information on the current IdC setup for the WorkMail organization.
+    ///
+    /// Parameters:
+    ///   - organizationId:  The Organization ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeIdentityProviderConfiguration(
+        organizationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeIdentityProviderConfigurationResponse {
+        let input = DescribeIdentityProviderConfigurationRequest(
+            organizationId: organizationId
+        )
+        return try await self.describeIdentityProviderConfiguration(input, logger: logger)
     }
 
     /// Lists the settings in a DMARC policy for a specified organization.
@@ -1658,6 +1818,38 @@ public struct WorkMail: AWSService {
         return try await self.getMobileDeviceAccessOverride(input, logger: logger)
     }
 
+    ///  Requests details of a specific Personal Access Token within the WorkMail organization.
+    @Sendable
+    @inlinable
+    public func getPersonalAccessTokenMetadata(_ input: GetPersonalAccessTokenMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPersonalAccessTokenMetadataResponse {
+        try await self.client.execute(
+            operation: "GetPersonalAccessTokenMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Requests details of a specific Personal Access Token within the WorkMail organization.
+    ///
+    /// Parameters:
+    ///   - organizationId:  The Organization ID.
+    ///   - personalAccessTokenId:  The Personal Access Token ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPersonalAccessTokenMetadata(
+        organizationId: String,
+        personalAccessTokenId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPersonalAccessTokenMetadataResponse {
+        let input = GetPersonalAccessTokenMetadataRequest(
+            organizationId: organizationId, 
+            personalAccessTokenId: personalAccessTokenId
+        )
+        return try await self.getPersonalAccessTokenMetadata(input, logger: logger)
+    }
+
     /// Lists the access control rules for the specified organization.
     @Sendable
     @inlinable
@@ -2122,6 +2314,44 @@ public struct WorkMail: AWSService {
         return try await self.listOrganizations(input, logger: logger)
     }
 
+    ///  Returns a summary of your Personal Access Tokens.
+    @Sendable
+    @inlinable
+    public func listPersonalAccessTokens(_ input: ListPersonalAccessTokensRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPersonalAccessTokensResponse {
+        try await self.client.execute(
+            operation: "ListPersonalAccessTokens", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Returns a summary of your Personal Access Tokens.
+    ///
+    /// Parameters:
+    ///   - maxResults:  The maximum amount of items that should be returned in a response.
+    ///   - nextToken:  The token from the previous response to query the next page.
+    ///   - organizationId:  The Organization ID.
+    ///   - userId:  The WorkMail User ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPersonalAccessTokens(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        organizationId: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPersonalAccessTokensResponse {
+        let input = ListPersonalAccessTokensRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            organizationId: organizationId, 
+            userId: userId
+        )
+        return try await self.listPersonalAccessTokens(input, logger: logger)
+    }
+
     /// Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
     @Sendable
     @inlinable
@@ -2360,6 +2590,44 @@ public struct WorkMail: AWSService {
             roleArn: roleArn
         )
         return try await self.putEmailMonitoringConfiguration(input, logger: logger)
+    }
+
+    ///  Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through  IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens.
+    @Sendable
+    @inlinable
+    public func putIdentityProviderConfiguration(_ input: PutIdentityProviderConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutIdentityProviderConfigurationResponse {
+        try await self.client.execute(
+            operation: "PutIdentityProviderConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through  IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens.
+    ///
+    /// Parameters:
+    ///   - authenticationMode:  The authentication mode used in WorkMail.
+    ///   - identityCenterConfiguration:  The details of the IAM Identity Center configuration.
+    ///   - organizationId:  The ID of the WorkMail Organization.
+    ///   - personalAccessTokenConfiguration:  The details of the Personal Access Token configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putIdentityProviderConfiguration(
+        authenticationMode: IdentityProviderAuthenticationMode,
+        identityCenterConfiguration: IdentityCenterConfiguration,
+        organizationId: String,
+        personalAccessTokenConfiguration: PersonalAccessTokenConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutIdentityProviderConfigurationResponse {
+        let input = PutIdentityProviderConfigurationRequest(
+            authenticationMode: authenticationMode, 
+            identityCenterConfiguration: identityCenterConfiguration, 
+            organizationId: organizationId, 
+            personalAccessTokenConfiguration: personalAccessTokenConfiguration
+        )
+        return try await self.putIdentityProviderConfiguration(input, logger: logger)
     }
 
     /// Enables or disables a DMARC policy for a given organization.
@@ -2841,7 +3109,7 @@ public struct WorkMail: AWSService {
         return try await self.updateDefaultMailDomain(input, logger: logger)
     }
 
-    /// Updates attibutes in a group.
+    /// Updates attributes in a group.
     @Sendable
     @inlinable
     public func updateGroup(_ input: UpdateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGroupResponse {
@@ -2854,7 +3122,7 @@ public struct WorkMail: AWSService {
             logger: logger
         )
     }
-    /// Updates attibutes in a group.
+    /// Updates attributes in a group.
     ///
     /// Parameters:
     ///   - groupId: The identifier for the group to be updated. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:   Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group name: group
@@ -3125,6 +3393,7 @@ public struct WorkMail: AWSService {
     ///   - displayName: Updates the display name of the user.
     ///   - firstName: Updates the user's first name.
     ///   - hiddenFromGlobalAddressList: If enabled, the user is hidden from the global address list.
+    ///   - identityProviderUserId: User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
     ///   - initials: Updates the user's initials.
     ///   - jobTitle: Updates the user's job title.
     ///   - lastName: Updates the user's last name.
@@ -3134,7 +3403,7 @@ public struct WorkMail: AWSService {
     ///   - street: Updates the user's street address.
     ///   - telephone: Updates the user's contact details.
     ///   - userId: The identifier for the user to be updated. The identifier can be the UserId, Username, or email. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name: user
-    ///   - zipCode: Updates the user's zipcode.
+    ///   - zipCode: Updates the user's zip code.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateUser(
@@ -3145,6 +3414,7 @@ public struct WorkMail: AWSService {
         displayName: String? = nil,
         firstName: String? = nil,
         hiddenFromGlobalAddressList: Bool? = nil,
+        identityProviderUserId: String? = nil,
         initials: String? = nil,
         jobTitle: String? = nil,
         lastName: String? = nil,
@@ -3165,6 +3435,7 @@ public struct WorkMail: AWSService {
             displayName: displayName, 
             firstName: firstName, 
             hiddenFromGlobalAddressList: hiddenFromGlobalAddressList, 
+            identityProviderUserId: identityProviderUserId, 
             initials: initials, 
             jobTitle: jobTitle, 
             lastName: lastName, 
@@ -3621,6 +3892,46 @@ extension WorkMail {
         return self.listOrganizationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listPersonalAccessTokens(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPersonalAccessTokensPaginator(
+        _ input: ListPersonalAccessTokensRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPersonalAccessTokensRequest, ListPersonalAccessTokensResponse> {
+        return .init(
+            input: input,
+            command: self.listPersonalAccessTokens,
+            inputKey: \ListPersonalAccessTokensRequest.nextToken,
+            outputKey: \ListPersonalAccessTokensResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPersonalAccessTokens(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults:  The maximum amount of items that should be returned in a response.
+    ///   - organizationId:  The Organization ID.
+    ///   - userId:  The WorkMail User ID.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPersonalAccessTokensPaginator(
+        maxResults: Int? = nil,
+        organizationId: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPersonalAccessTokensRequest, ListPersonalAccessTokensResponse> {
+        let input = ListPersonalAccessTokensRequest(
+            maxResults: maxResults, 
+            organizationId: organizationId, 
+            userId: userId
+        )
+        return self.listPersonalAccessTokensPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listResourceDelegates(_:logger:)``.
     ///
     /// - Parameters:
@@ -3866,6 +4177,18 @@ extension WorkMail.ListOrganizationsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension WorkMail.ListPersonalAccessTokensRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> WorkMail.ListPersonalAccessTokensRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationId: self.organizationId,
+            userId: self.userId
         )
     }
 }

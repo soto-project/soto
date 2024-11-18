@@ -2081,7 +2081,7 @@
                     "target": "com.amazonaws.rds#String",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The pending maintenance action to apply to this resource.</p>\n         <p>Valid Values: <code>system-update</code>, <code>db-upgrade</code>, \n          <code>hardware-maintenance</code>, <code>ca-certificate-rotation</code>\n         </p>",
+                        "smithy.api#documentation": "<p>The pending maintenance action to apply to this resource.</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ca-certificate-rotation</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>db-upgrade</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>hardware-maintenance</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>os-upgrade</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>system-update</code>\n               </p>\n            </li>\n         </ul>\n         <p>For more information about these actions, see \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora\">Maintenance actions for Amazon Aurora</a> or \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds\">Maintenance actions for Amazon RDS</a>.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -4324,7 +4324,7 @@
                 "EnableIAMDatabaseAuthentication": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access\n            Management (IAM) accounts to database accounts. By default, mapping isn't\n            enabled.</p>\n         <p>For more information, see \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html\">\n                IAM Database Authentication</a> in the <i>Amazon Aurora User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access\n            Management (IAM) accounts to database accounts. By default, mapping isn't\n            enabled.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html\"> IAM Database\n                Authentication</a> in the <i>Amazon Aurora User Guide</i> or\n                <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html\">IAM database\n                authentication for MariaDB, MySQL, and PostgreSQL</a> in the <i>Amazon\n                RDS User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>"
                     }
                 },
                 "BacktrackWindow": {
@@ -4468,7 +4468,7 @@
                 "EnableLimitlessDatabase": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group.</p>\n         <p>Valid for: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group.</p>\n         <p>Valid for: Aurora DB clusters only</p>\n         <note>\n            <p>This setting is no longer used. Instead use the <code>ClusterScalabilityType</code> setting.</p>\n         </note>"
                     }
                 },
                 "ServerlessV2ScalingConfiguration": {
@@ -4519,7 +4519,7 @@
                 "EngineLifecycleSupport": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The life cycle type for this DB cluster.</p>\n         <note>\n            <p>By default, this value is set to <code>open-source-rds-extended-support</code>, which enrolls your DB cluster into Amazon RDS Extended Support. \n              At the end of standard support, you can avoid charges for Extended Support by setting the value to <code>open-source-rds-extended-support-disabled</code>. In this case, \n             creating the DB cluster will fail if the DB major version is past its end of standard support date.</p>\n         </note>\n         <p>You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, \n        you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:</p>\n         <ul>\n            <li>\n               <p>Amazon Aurora (PostgreSQL only) - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon Aurora User Guide</i>\n               </p>\n            </li>\n            <li>\n               <p>Amazon RDS - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon RDS User Guide</i>\n               </p>\n            </li>\n         </ul>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values: <code>open-source-rds-extended-support | open-source-rds-extended-support-disabled</code>\n         </p>\n         <p>Default: <code>open-source-rds-extended-support</code>\n         </p>"
+                        "smithy.api#documentation": "<p>The life cycle type for this DB cluster.</p>\n         <note>\n            <p>By default, this value is set to <code>open-source-rds-extended-support</code>, which enrolls your DB cluster into Amazon RDS Extended Support. \n              At the end of standard support, you can avoid charges for Extended Support by setting the value to <code>open-source-rds-extended-support-disabled</code>. In this case, \n             creating the DB cluster will fail if the DB major version is past its end of standard support date.</p>\n         </note>\n         <p>You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, \n        you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:</p>\n         <ul>\n            <li>\n               <p>Amazon Aurora - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon Aurora User Guide</i>\n               </p>\n            </li>\n            <li>\n               <p>Amazon RDS - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon RDS User Guide</i>\n               </p>\n            </li>\n         </ul>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values: <code>open-source-rds-extended-support | open-source-rds-extended-support-disabled</code>\n         </p>\n         <p>Default: <code>open-source-rds-extended-support</code>\n         </p>"
                     }
                 }
             },
@@ -12761,7 +12761,7 @@
                     "target": "com.amazonaws.rds#DBShardGroupIdentifier",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>Teh name of the DB shard group to delete.</p>",
+                        "smithy.api#documentation": "<p>The name of the DB shard group to delete.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -15945,7 +15945,7 @@
                 "DBShardGroupIdentifier": {
                     "target": "com.amazonaws.rds#DBShardGroupIdentifier",
                     "traits": {
-                        "smithy.api#documentation": "<p>The user-supplied DB shard group identifier or the Amazon Resource Name (ARN) of the DB shard group. If this parameter is specified, \n            information for only the specific DB shard group is returned. This parameter isn't case-sensitive.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>If supplied, must match an existing DB shard group identifier.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The user-supplied DB shard group identifier. If this parameter is specified, information for only the specific DB shard group is returned. \n            This parameter isn't case-sensitive.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>If supplied, must match an existing DB shard group identifier.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "Filters": {
@@ -19527,6 +19527,12 @@
                         "smithy.api#documentation": "<p>The list of primary and secondary clusters within the global database cluster.</p>"
                     }
                 },
+                "Endpoint": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The writer endpoint for the new global database cluster. This endpoint always \n         points to the writer DB instance in the current primary cluster.\n       </p>"
+                    }
+                },
                 "FailoverState": {
                     "target": "com.amazonaws.rds#FailoverState",
                     "traits": {
@@ -19553,7 +19559,7 @@
                     "code": "GlobalClusterAlreadyExistsFault",
                     "httpResponseCode": 400
                 },
-                "smithy.api#documentation": "<p>The <code>GlobalClusterIdentifier</code> already exists. Choose a new global database identifier (unique name) to create a new global database cluster.</p>",
+                "smithy.api#documentation": "<p>The <code>GlobalClusterIdentifier</code> already exists. Specify a new global database identifier \n        (unique name) to create a new global database cluster or to rename an existing one.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
             }
@@ -21654,7 +21660,7 @@
                 "EnableIAMDatabaseAuthentication": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access\n            Management (IAM) accounts to database accounts. By default, mapping isn't\n            enabled.</p>\n         <p>For more information, see \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html\">\n                IAM Database Authentication</a> in the <i>Amazon Aurora User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access\n            Management (IAM) accounts to database accounts. By default, mapping isn't\n            enabled.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html\"> IAM Database\n                Authentication</a> in the <i>Amazon Aurora User Guide</i> or\n                <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html\">IAM database\n                authentication for MariaDB, MySQL, and PostgreSQL</a> in the <i>Amazon\n                RDS User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>"
                     }
                 },
                 "BacktrackWindow": {
@@ -21774,7 +21780,7 @@
                 "EnablePerformanceInsights": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to turn on Performance Insights for the DB cluster.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html\">\n            Using Amazon Performance Insights</a> in the <i>Amazon RDS User Guide</i>.</p>\n         <p>Valid for Cluster Type: Multi-AZ DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to turn on Performance Insights for the DB cluster.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html\">\n            Using Amazon Performance Insights</a> in the <i>Amazon RDS User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>"
                     }
                 },
                 "PerformanceInsightsKMSKeyId": {
@@ -21843,7 +21849,7 @@
                 "EnableLimitlessDatabase": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group.</p>\n         <p>Valid for: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group.</p>\n         <p>Valid for: Aurora DB clusters only</p>\n         <note>\n            <p>This setting is no longer used. Instead use the <code>ClusterScalabilityType</code> setting when you create your Aurora Limitless Database DB cluster.</p>\n         </note>"
                     }
                 },
                 "CACertificateIdentifier": {
@@ -23403,6 +23409,9 @@
             },
             "errors": [
                 {
+                    "target": "com.amazonaws.rds#GlobalClusterAlreadyExistsFault"
+                },
+                {
                     "target": "com.amazonaws.rds#GlobalClusterNotFoundFault"
                 },
                 {
@@ -24770,7 +24779,7 @@
                 "Action": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of pending maintenance action that is available for the resource. </p>\n         <p>For more information about maintenance actions, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html\">Maintaining a DB instance</a>.</p>\n         <p>Valid Values:<code> system-update | db-upgrade | hardware-maintenance | ca-certificate-rotation</code>\n         </p>"
+                        "smithy.api#documentation": "<p>The type of pending maintenance action that is available for the resource. </p>\n         <p>For more information about maintenance actions, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html\">Maintaining a DB instance</a>.</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ca-certificate-rotation</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>db-upgrade</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>hardware-maintenance</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>os-upgrade</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>system-update</code>\n               </p>\n            </li>\n         </ul>\n         <p>For more information about these actions, see \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora\">Maintenance actions for Amazon Aurora</a> or \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds\">Maintenance actions for Amazon RDS</a>.</p>"
                     }
                 },
                 "AutoAppliedAfterDate": {
@@ -27065,7 +27074,7 @@
                 "EngineLifecycleSupport": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The life cycle type for this DB cluster.</p>\n         <note>\n            <p>By default, this value is set to <code>open-source-rds-extended-support</code>, which enrolls your DB cluster into Amazon RDS Extended Support. \n              At the end of standard support, you can avoid charges for Extended Support by setting the value to <code>open-source-rds-extended-support-disabled</code>. In this case, \n              RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.</p>\n         </note>\n         <p>You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, \n        you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:</p>\n         <ul>\n            <li>\n               <p>Amazon Aurora (PostgreSQL only) - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon Aurora User Guide</i>\n               </p>\n            </li>\n            <li>\n               <p>Amazon RDS - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon RDS User Guide</i>\n               </p>\n            </li>\n         </ul>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values: <code>open-source-rds-extended-support | open-source-rds-extended-support-disabled</code>\n         </p>\n         <p>Default: <code>open-source-rds-extended-support</code>\n         </p>"
+                        "smithy.api#documentation": "<p>The life cycle type for this DB cluster.</p>\n         <note>\n            <p>By default, this value is set to <code>open-source-rds-extended-support</code>, which enrolls your DB cluster into Amazon RDS Extended Support. \n              At the end of standard support, you can avoid charges for Extended Support by setting the value to <code>open-source-rds-extended-support-disabled</code>. In this case, \n              RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.</p>\n         </note>\n         <p>You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, \n        you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:</p>\n         <ul>\n            <li>\n               <p>Amazon Aurora - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon Aurora User Guide</i>\n               </p>\n            </li>\n            <li>\n               <p>Amazon RDS - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon RDS User Guide</i>\n               </p>\n            </li>\n         </ul>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values: <code>open-source-rds-extended-support | open-source-rds-extended-support-disabled</code>\n         </p>\n         <p>Default: <code>open-source-rds-extended-support</code>\n         </p>"
                     }
                 }
             },
@@ -27301,7 +27310,7 @@
                 "EnableIAMDatabaseAuthentication": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access\n            Management (IAM) accounts to database accounts. By default, mapping isn't\n            enabled.</p>\n         <p>For more information, see \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html\">\n                IAM Database Authentication</a> in the <i>Amazon Aurora User Guide</i>.</p>\n         <p>Valid for: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access\n            Management (IAM) accounts to database accounts. By default, mapping isn't\n            enabled.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html\"> IAM Database\n                Authentication</a> in the <i>Amazon Aurora User Guide</i> or\n                <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html\"> IAM database\n                authentication for MariaDB, MySQL, and PostgreSQL</a> in the <i>Amazon\n                RDS User Guide</i>.</p>\n         <p>Valid for: Aurora DB clusters and Multi-AZ DB clusters</p>"
                     }
                 },
                 "BacktrackWindow": {
@@ -27397,10 +27406,40 @@
                         "smithy.api#documentation": "<p>Reserved for future use.</p>"
                     }
                 },
+                "MonitoringInterval": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off \n            collecting Enhanced Monitoring metrics, specify <code>0</code>.</p>\n         <p>If <code>MonitoringRoleArn</code> is specified, also set <code>MonitoringInterval</code> to a value other than <code>0</code>.</p>\n         <p>Valid Values: <code>0 | 1 | 5 | 10 | 15 | 30 | 60</code>\n         </p>\n         <p>Default: <code>0</code>\n         </p>"
+                    }
+                },
+                "MonitoringRoleArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. \n            An example is <code>arn:aws:iam:123456789012:role/emaccess</code>.</p>\n         <p>If <code>MonitoringInterval</code> is set to a value other than <code>0</code>, supply a <code>MonitoringRoleArn</code> value.</p>"
+                    }
+                },
+                "EnablePerformanceInsights": {
+                    "target": "com.amazonaws.rds#BooleanOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether to turn on Performance Insights for the DB cluster.</p>"
+                    }
+                },
+                "PerformanceInsightsKMSKeyId": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services KMS key identifier for encryption of Performance Insights data.</p>\n         <p>The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.</p>\n         <p>If you don't specify a value for <code>PerformanceInsightsKMSKeyId</code>, then Amazon RDS uses your default KMS key. \n            There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.</p>"
+                    }
+                },
+                "PerformanceInsightsRetentionPeriod": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of days to retain Performance Insights data.</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>7</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <i>month</i> * 31, where <i>month</i> is a number of months from 1-23. \n                    Examples: <code>93</code> (3 months * 31), <code>341</code> (11 months * 31), <code>589</code> (19 months * 31)</p>\n            </li>\n            <li>\n               <p>\n                  <code>731</code>\n               </p>\n            </li>\n         </ul>\n         <p>Default: <code>7</code> days</p>\n         <p>If you specify a retention period that isn't valid, such as <code>94</code>,  Amazon RDS issues an error.</p>"
+                    }
+                },
                 "EngineLifecycleSupport": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The life cycle type for this DB cluster.</p>\n         <note>\n            <p>By default, this value is set to <code>open-source-rds-extended-support</code>, which enrolls your DB cluster into Amazon RDS Extended Support. \n              At the end of standard support, you can avoid charges for Extended Support by setting the value to <code>open-source-rds-extended-support-disabled</code>. In this case, \n              RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.</p>\n         </note>\n         <p>You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, \n        you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:</p>\n         <ul>\n            <li>\n               <p>Amazon Aurora (PostgreSQL only) - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon Aurora User Guide</i>\n               </p>\n            </li>\n            <li>\n               <p>Amazon RDS - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon RDS User Guide</i>\n               </p>\n            </li>\n         </ul>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values: <code>open-source-rds-extended-support | open-source-rds-extended-support-disabled</code>\n         </p>\n         <p>Default: <code>open-source-rds-extended-support</code>\n         </p>"
+                        "smithy.api#documentation": "<p>The life cycle type for this DB cluster.</p>\n         <note>\n            <p>By default, this value is set to <code>open-source-rds-extended-support</code>, which enrolls your DB cluster into Amazon RDS Extended Support. \n              At the end of standard support, you can avoid charges for Extended Support by setting the value to <code>open-source-rds-extended-support-disabled</code>. In this case, \n              RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.</p>\n         </note>\n         <p>You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, \n        you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:</p>\n         <ul>\n            <li>\n               <p>Amazon Aurora - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon Aurora User Guide</i>\n               </p>\n            </li>\n            <li>\n               <p>Amazon RDS - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon RDS User Guide</i>\n               </p>\n            </li>\n         </ul>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values: <code>open-source-rds-extended-support | open-source-rds-extended-support-disabled</code>\n         </p>\n         <p>Default: <code>open-source-rds-extended-support</code>\n         </p>"
                     }
                 }
             },
@@ -27624,7 +27663,7 @@
                 "EnableIAMDatabaseAuthentication": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access\n            Management (IAM) accounts to database accounts. By default, mapping isn't\n            enabled.</p>\n         <p>For more information, see \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html\">\n                IAM Database Authentication</a> in the <i>Amazon Aurora User Guide</i>.</p>\n         <p>Valid for: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access\n            Management (IAM) accounts to database accounts. By default, mapping isn't\n            enabled.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html\"> IAM Database\n                Authentication</a> in the <i>Amazon Aurora User Guide</i> or\n                <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html\"> IAM database\n                authentication for MariaDB, MySQL, and PostgreSQL</a> in the <i>Amazon\n                RDS User Guide</i>.</p>\n         <p>Valid for: Aurora DB clusters and Multi-AZ DB clusters</p>"
                     }
                 },
                 "BacktrackWindow": {
@@ -27726,10 +27765,40 @@
                         "smithy.api#documentation": "<p>Reserved for future use.</p>"
                     }
                 },
+                "MonitoringInterval": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off \n            collecting Enhanced Monitoring metrics, specify <code>0</code>.</p>\n         <p>If <code>MonitoringRoleArn</code> is specified, also set <code>MonitoringInterval</code> to a value other than <code>0</code>.</p>\n         <p>Valid Values: <code>0 | 1 | 5 | 10 | 15 | 30 | 60</code>\n         </p>\n         <p>Default: <code>0</code>\n         </p>"
+                    }
+                },
+                "MonitoringRoleArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. \n            An example is <code>arn:aws:iam:123456789012:role/emaccess</code>.</p>\n         <p>If <code>MonitoringInterval</code> is set to a value other than <code>0</code>, supply a <code>MonitoringRoleArn</code> value.</p>"
+                    }
+                },
+                "EnablePerformanceInsights": {
+                    "target": "com.amazonaws.rds#BooleanOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether to turn on Performance Insights for the DB cluster.</p>"
+                    }
+                },
+                "PerformanceInsightsKMSKeyId": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services KMS key identifier for encryption of Performance Insights data.</p>\n         <p>The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.</p>\n         <p>If you don't specify a value for <code>PerformanceInsightsKMSKeyId</code>, then Amazon RDS uses your default KMS key. \n            There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.</p>"
+                    }
+                },
+                "PerformanceInsightsRetentionPeriod": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of days to retain Performance Insights data.</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>7</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <i>month</i> * 31, where <i>month</i> is a number of months from 1-23. \n                    Examples: <code>93</code> (3 months * 31), <code>341</code> (11 months * 31), <code>589</code> (19 months * 31)</p>\n            </li>\n            <li>\n               <p>\n                  <code>731</code>\n               </p>\n            </li>\n         </ul>\n         <p>Default: <code>7</code> days</p>\n         <p>If you specify a retention period that isn't valid, such as <code>94</code>,  Amazon RDS issues an error.</p>"
+                    }
+                },
                 "EngineLifecycleSupport": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The life cycle type for this DB cluster.</p>\n         <note>\n            <p>By default, this value is set to <code>open-source-rds-extended-support</code>, which enrolls your DB cluster into Amazon RDS Extended Support. \n              At the end of standard support, you can avoid charges for Extended Support by setting the value to <code>open-source-rds-extended-support-disabled</code>. In this case, \n              RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.</p>\n         </note>\n         <p>You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, \n        you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:</p>\n         <ul>\n            <li>\n               <p>Amazon Aurora (PostgreSQL only) - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon Aurora User Guide</i>\n               </p>\n            </li>\n            <li>\n               <p>Amazon RDS - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon RDS User Guide</i>\n               </p>\n            </li>\n         </ul>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values: <code>open-source-rds-extended-support | open-source-rds-extended-support-disabled</code>\n         </p>\n         <p>Default: <code>open-source-rds-extended-support</code>\n         </p>"
+                        "smithy.api#documentation": "<p>The life cycle type for this DB cluster.</p>\n         <note>\n            <p>By default, this value is set to <code>open-source-rds-extended-support</code>, which enrolls your DB cluster into Amazon RDS Extended Support. \n              At the end of standard support, you can avoid charges for Extended Support by setting the value to <code>open-source-rds-extended-support-disabled</code>. In this case, \n              RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.</p>\n         </note>\n         <p>You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, \n        you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:</p>\n         <ul>\n            <li>\n               <p>Amazon Aurora - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon Aurora User Guide</i>\n               </p>\n            </li>\n            <li>\n               <p>Amazon RDS - <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html\">Using Amazon RDS Extended Support</a> in the <i>Amazon RDS User Guide</i>\n               </p>\n            </li>\n         </ul>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values: <code>open-source-rds-extended-support | open-source-rds-extended-support-disabled</code>\n         </p>\n         <p>Default: <code>open-source-rds-extended-support</code>\n         </p>"
                     }
                 }
             },
@@ -30639,7 +30708,7 @@
                     "target": "com.amazonaws.rds#BlueGreenDeploymentIdentifier",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The unique identifier of the blue/green deployment.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must match an existing blue/green deployment identifier.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The resource ID of the blue/green deployment.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must match an existing blue/green deployment resource ID.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },

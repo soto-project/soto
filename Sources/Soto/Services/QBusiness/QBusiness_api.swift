@@ -348,7 +348,7 @@ public struct QBusiness: AWSService {
         return try await self.chatSync(input, logger: logger)
     }
 
-    /// Creates an Amazon Q Business application.  There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see Amazon Q Business tiers. You must use the Amazon Q Business console to assign subscription tiers to users.
+    /// Creates an Amazon Q Business application.  There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see Amazon Q Business tiers. You must use the Amazon Q Business console to assign subscription tiers to users.   A Amazon Q Apps service linked role will be created if it's absent in the  Amazon Web Services account when the QAppsConfiguration is enabled in the request.  For more information, see   Using service-linked roles for Q Apps
     @Sendable
     @inlinable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
@@ -361,7 +361,7 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Q Business application.  There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see Amazon Q Business tiers. You must use the Amazon Q Business console to assign subscription tiers to users.
+    /// Creates an Amazon Q Business application.  There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see Amazon Q Business tiers. You must use the Amazon Q Business console to assign subscription tiers to users.   A Amazon Q Apps service linked role will be created if it's absent in the  Amazon Web Services account when the QAppsConfiguration is enabled in the request.  For more information, see   Using service-linked roles for Q Apps
     ///
     /// Parameters:
     ///   - attachmentsConfiguration: An option to allow end users to upload files directly during chat.
@@ -1851,6 +1851,7 @@ public struct QBusiness: AWSService {
     ///   - groupMembers: 
     ///   - groupName: The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing".
     ///   - indexId: The identifier of the index in which you want to map users to their groups.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file that contains  your list of users that belong to a group.The Amazon Resource Name (ARN) of an IAM role that  has access to the S3 file that contains your list of users that belong to a group.
     ///   - type: The type of the group.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1860,6 +1861,7 @@ public struct QBusiness: AWSService {
         groupMembers: GroupMembers,
         groupName: String,
         indexId: String,
+        roleArn: String? = nil,
         type: MembershipType,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutGroupResponse {
@@ -1869,6 +1871,7 @@ public struct QBusiness: AWSService {
             groupMembers: groupMembers, 
             groupName: groupName, 
             indexId: indexId, 
+            roleArn: roleArn, 
             type: type
         )
         return try await self.putGroup(input, logger: logger)
@@ -2008,7 +2011,7 @@ public struct QBusiness: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates an existing Amazon Q Business application.
+    /// Updates an existing Amazon Q Business application.   A Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when the QAppsConfiguration is enabled in the request. For more information, see  Using service-linked roles for Q Apps
     @Sendable
     @inlinable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResponse {
@@ -2021,7 +2024,7 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing Amazon Q Business application.
+    /// Updates an existing Amazon Q Business application.   A Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when the QAppsConfiguration is enabled in the request. For more information, see  Using service-linked roles for Q Apps
     ///
     /// Parameters:
     ///   - applicationId: The identifier of the Amazon Q Business application.

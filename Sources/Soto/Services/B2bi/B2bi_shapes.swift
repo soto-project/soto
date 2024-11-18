@@ -925,6 +925,51 @@ extension B2bi {
         }
     }
 
+    public struct GenerateMappingRequest: AWSEncodableShape {
+        /// Provide the contents of a sample X12 EDI file (for inbound EDI) or JSON/XML file (for outbound EDI) to use as a starting point for the mapping.
+        public let inputFileContent: String
+        /// Specify the mapping type: either JSONATA or XSLT.
+        public let mappingType: MappingType
+        /// Provide the contents of a sample X12 EDI file (for outbound EDI) or JSON/XML file (for inbound EDI) to use as a target for the mapping.
+        public let outputFileContent: String
+
+        @inlinable
+        public init(inputFileContent: String, mappingType: MappingType, outputFileContent: String) {
+            self.inputFileContent = inputFileContent
+            self.mappingType = mappingType
+            self.outputFileContent = outputFileContent
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inputFileContent, name: "inputFileContent", parent: name, max: 5000000)
+            try self.validate(self.outputFileContent, name: "outputFileContent", parent: name, max: 5000000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputFileContent = "inputFileContent"
+            case mappingType = "mappingType"
+            case outputFileContent = "outputFileContent"
+        }
+    }
+
+    public struct GenerateMappingResponse: AWSDecodableShape {
+        /// Returns a percentage that estimates the accuracy of the generated mapping.
+        public let mappingAccuracy: Float?
+        /// Returns a mapping template based on your inputs.
+        public let mappingTemplate: String
+
+        @inlinable
+        public init(mappingAccuracy: Float? = nil, mappingTemplate: String) {
+            self.mappingAccuracy = mappingAccuracy
+            self.mappingTemplate = mappingTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mappingAccuracy = "mappingAccuracy"
+            case mappingTemplate = "mappingTemplate"
+        }
+    }
+
     public struct GetCapabilityRequest: AWSEncodableShape {
         /// Specifies a system-assigned unique identifier for the capability.
         public let capabilityId: String
@@ -2419,7 +2464,7 @@ extension B2bi {
         public let sampleDocument: String?
         /// Specify a structure that contains the Amazon S3 bucket and an array of the corresponding keys used to identify the location for your sample documents.
         public let sampleDocuments: SampleDocuments?
-        /// Specifies the transformer's status. You can update the state of the transformer, from active to inactive, or inactive to active.
+        /// Specifies the transformer's status. You can update the state of the transformer from inactive to active.
         public let status: TransformerStatus?
         /// Specifies the system-assigned unique identifier for the transformer.
         public let transformerId: String

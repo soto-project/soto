@@ -490,7 +490,7 @@ public struct Inspector2: AWSService {
     /// Parameters:
     ///   - reportFormat: The output format for the software bill of materials (SBOM) report.
     ///   - resourceFilterCriteria: The resource filter criteria for the software bill of materials (SBOM) report.
-    ///   - s3Destination: 
+    ///   - s3Destination: Contains details of the Amazon S3 bucket and KMS key used to export findings.
     ///   - logger: Logger use during operation
     @inlinable
     public func createSbomExport(
@@ -1238,7 +1238,7 @@ public struct Inspector2: AWSService {
         return try await self.listCisScans(input, logger: logger)
     }
 
-    /// Lists coverage details for you environment.
+    /// Lists coverage details for your environment.
     @Sendable
     @inlinable
     public func listCoverage(_ input: ListCoverageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCoverageResponse {
@@ -1251,7 +1251,7 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    /// Lists coverage details for you environment.
+    /// Lists coverage details for your environment.
     ///
     /// Parameters:
     ///   - filterCriteria: An object that contains details on the filters to apply to the coverage data for your environment.
@@ -1719,7 +1719,7 @@ public struct Inspector2: AWSService {
         return try await self.startCisSession(input, logger: logger)
     }
 
-    ///  Stops a CIS session.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    ///  Stops a CIS session.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service.
     @Sendable
     @inlinable
     public func stopCisSession(_ input: StopCisSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopCisSessionResponse {
@@ -1732,7 +1732,7 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    ///  Stops a CIS session.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    ///  Stops a CIS session.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service.
     ///
     /// Parameters:
     ///   - message: The stop CIS session message.

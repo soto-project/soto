@@ -138,6 +138,15 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventLogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case debug = "DEBUG"
+        case error = "ERROR"
+        case info = "INFO"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FieldLogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case debug = "DEBUG"
@@ -274,6 +283,55 @@ extension AppSync {
             case lambdaAuthorizerConfig = "lambdaAuthorizerConfig"
             case openIDConnectConfig = "openIDConnectConfig"
             case userPoolConfig = "userPoolConfig"
+        }
+    }
+
+    public struct Api: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the Api.
+        public let apiArn: String?
+        /// The Api ID.
+        public let apiId: String?
+        /// The date and time that the Api was created.
+        public let created: Date?
+        /// The DNS records for the API. This will include an HTTP and a real-time endpoint.
+        public let dns: [String: String]?
+        /// The Event API configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
+        public let eventConfig: EventConfig?
+        /// The name of the Api.
+        public let name: String?
+        /// The owner contact information for the Api
+        public let ownerContact: String?
+        public let tags: [String: String]?
+        /// The Amazon Resource Name (ARN) of the WAF web access control list (web ACL) associated with this Api, if one exists.
+        public let wafWebAclArn: String?
+        /// A flag indicating whether to use X-Ray tracing for this Api.
+        public let xrayEnabled: Bool?
+
+        @inlinable
+        public init(apiArn: String? = nil, apiId: String? = nil, created: Date? = nil, dns: [String: String]? = nil, eventConfig: EventConfig? = nil, name: String? = nil, ownerContact: String? = nil, tags: [String: String]? = nil, wafWebAclArn: String? = nil, xrayEnabled: Bool? = nil) {
+            self.apiArn = apiArn
+            self.apiId = apiId
+            self.created = created
+            self.dns = dns
+            self.eventConfig = eventConfig
+            self.name = name
+            self.ownerContact = ownerContact
+            self.tags = tags
+            self.wafWebAclArn = wafWebAclArn
+            self.xrayEnabled = xrayEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiArn = "apiArn"
+            case apiId = "apiId"
+            case created = "created"
+            case dns = "dns"
+            case eventConfig = "eventConfig"
+            case name = "name"
+            case ownerContact = "ownerContact"
+            case tags = "tags"
+            case wafWebAclArn = "wafWebAclArn"
+            case xrayEnabled = "xrayEnabled"
         }
     }
 
@@ -525,6 +583,48 @@ extension AppSync {
         }
     }
 
+    public struct AuthMode: AWSEncodableShape & AWSDecodableShape {
+        /// The authorization type.
+        public let authType: AuthenticationType
+
+        @inlinable
+        public init(authType: AuthenticationType) {
+            self.authType = authType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "authType"
+        }
+    }
+
+    public struct AuthProvider: AWSEncodableShape & AWSDecodableShape {
+        /// The authorization type.
+        public let authType: AuthenticationType
+        /// Describes an Amazon Cognito user pool configuration.
+        public let cognitoConfig: CognitoConfig?
+        public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
+        public let openIDConnectConfig: OpenIDConnectConfig?
+
+        @inlinable
+        public init(authType: AuthenticationType, cognitoConfig: CognitoConfig? = nil, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil) {
+            self.authType = authType
+            self.cognitoConfig = cognitoConfig
+            self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
+            self.openIDConnectConfig = openIDConnectConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.lambdaAuthorizerConfig?.validate(name: "\(name).lambdaAuthorizerConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "authType"
+            case cognitoConfig = "cognitoConfig"
+            case lambdaAuthorizerConfig = "lambdaAuthorizerConfig"
+            case openIDConnectConfig = "openIDConnectConfig"
+        }
+    }
+
     public struct AuthorizationConfig: AWSEncodableShape & AWSDecodableShape {
         /// The authorization type that the HTTP endpoint requires.    AWS_IAM: The authorization type is Signature Version 4 (SigV4).
         public let authorizationType: AuthorizationType
@@ -579,6 +679,51 @@ extension AppSync {
         }
     }
 
+    public struct ChannelNamespace: AWSDecodableShape {
+        /// The Api ID.
+        public let apiId: String?
+        /// The Amazon Resource Name (ARN) for the ChannelNamespace.
+        public let channelNamespaceArn: String?
+        /// The event handler functions that run custom business logic to process published events and subscribe requests.
+        public let codeHandlers: String?
+        /// The date and time that the ChannelNamespace was created.
+        public let created: Date?
+        /// The date and time that the ChannelNamespace was last changed.
+        public let lastModified: Date?
+        /// The name of the channel namespace. This name must be unique within the Api.
+        public let name: String?
+        /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Apiauthorization configuration.
+        public let publishAuthModes: [AuthMode]?
+        /// The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Apiauthorization configuration.
+        public let subscribeAuthModes: [AuthMode]?
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(apiId: String? = nil, channelNamespaceArn: String? = nil, codeHandlers: String? = nil, created: Date? = nil, lastModified: Date? = nil, name: String? = nil, publishAuthModes: [AuthMode]? = nil, subscribeAuthModes: [AuthMode]? = nil, tags: [String: String]? = nil) {
+            self.apiId = apiId
+            self.channelNamespaceArn = channelNamespaceArn
+            self.codeHandlers = codeHandlers
+            self.created = created
+            self.lastModified = lastModified
+            self.name = name
+            self.publishAuthModes = publishAuthModes
+            self.subscribeAuthModes = subscribeAuthModes
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId = "apiId"
+            case channelNamespaceArn = "channelNamespaceArn"
+            case codeHandlers = "codeHandlers"
+            case created = "created"
+            case lastModified = "lastModified"
+            case name = "name"
+            case publishAuthModes = "publishAuthModes"
+            case subscribeAuthModes = "subscribeAuthModes"
+            case tags = "tags"
+        }
+    }
+
     public struct CodeError: AWSDecodableShape {
         /// The type of code error.  Examples include, but aren't limited to: LINT_ERROR, PARSER_ERROR.
         public let errorType: String?
@@ -620,6 +765,28 @@ extension AppSync {
             case column = "column"
             case line = "line"
             case span = "span"
+        }
+    }
+
+    public struct CognitoConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A regular expression for validating the incoming Amazon Cognito user pool app client ID. If this value isn't set, no filtering is applied.
+        public let appIdClientRegex: String?
+        /// The Amazon Web Services Region in which the user pool was created.
+        public let awsRegion: String
+        /// The user pool ID.
+        public let userPoolId: String
+
+        @inlinable
+        public init(appIdClientRegex: String? = nil, awsRegion: String, userPoolId: String) {
+            self.appIdClientRegex = appIdClientRegex
+            self.awsRegion = awsRegion
+            self.userPoolId = userPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appIdClientRegex = "appIdClientRegex"
+            case awsRegion = "awsRegion"
+            case userPoolId = "userPoolId"
         }
     }
 
@@ -748,6 +915,135 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case apiKey = "apiKey"
+        }
+    }
+
+    public struct CreateApiRequest: AWSEncodableShape {
+        /// The Event API configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
+        public let eventConfig: EventConfig?
+        /// The name for the Api.
+        public let name: String
+        /// The owner contact information for the Api.
+        public let ownerContact: String?
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(eventConfig: EventConfig? = nil, name: String, ownerContact: String? = nil, tags: [String: String]? = nil) {
+            self.eventConfig = eventConfig
+            self.name = name
+            self.ownerContact = ownerContact
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.eventConfig?.validate(name: "\(name).eventConfig")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_\\-\\ ]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[ a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\w+-=\\.:/@]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventConfig = "eventConfig"
+            case name = "name"
+            case ownerContact = "ownerContact"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateApiResponse: AWSDecodableShape {
+        /// The Api object.
+        public let api: Api?
+
+        @inlinable
+        public init(api: Api? = nil) {
+            self.api = api
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case api = "api"
+        }
+    }
+
+    public struct CreateChannelNamespaceRequest: AWSEncodableShape {
+        /// The Api ID.
+        public let apiId: String
+        /// The event handler functions that run custom business logic to process published events and subscribe requests.
+        public let codeHandlers: String?
+        /// The name of the ChannelNamespace. This name must be unique within the Api
+        public let name: String
+        /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+        public let publishAuthModes: [AuthMode]?
+        /// The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+        public let subscribeAuthModes: [AuthMode]?
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(apiId: String, codeHandlers: String? = nil, name: String, publishAuthModes: [AuthMode]? = nil, subscribeAuthModes: [AuthMode]? = nil, tags: [String: String]? = nil) {
+            self.apiId = apiId
+            self.codeHandlers = codeHandlers
+            self.name = name
+            self.publishAuthModes = publishAuthModes
+            self.subscribeAuthModes = subscribeAuthModes
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "apiId")
+            try container.encodeIfPresent(self.codeHandlers, forKey: .codeHandlers)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.publishAuthModes, forKey: .publishAuthModes)
+            try container.encodeIfPresent(self.subscribeAuthModes, forKey: .subscribeAuthModes)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.codeHandlers, name: "codeHandlers", parent: name, max: 32768)
+            try self.validate(self.codeHandlers, name: "codeHandlers", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,48}[A-Za-z0-9])?)$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[ a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\w+-=\\.:/@]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeHandlers = "codeHandlers"
+            case name = "name"
+            case publishAuthModes = "publishAuthModes"
+            case subscribeAuthModes = "subscribeAuthModes"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateChannelNamespaceResponse: AWSDecodableShape {
+        /// The ChannelNamespace object.
+        public let channelNamespace: ChannelNamespace?
+
+        @inlinable
+        public init(channelNamespace: ChannelNamespace? = nil) {
+            self.channelNamespace = channelNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelNamespace = "channelNamespace"
         }
     }
 
@@ -1494,6 +1790,60 @@ extension AppSync {
         public init() {}
     }
 
+    public struct DeleteApiRequest: AWSEncodableShape {
+        /// The Api ID.
+        public let apiId: String
+
+        @inlinable
+        public init(apiId: String) {
+            self.apiId = apiId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "apiId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteApiResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteChannelNamespaceRequest: AWSEncodableShape {
+        /// The ID of the Api associated with the ChannelNamespace.
+        public let apiId: String
+        /// The name of the ChannelNamespace.
+        public let name: String
+
+        @inlinable
+        public init(apiId: String, name: String) {
+            self.apiId = apiId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "apiId")
+            request.encodePath(self.name, key: "name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,48}[A-Za-z0-9])?)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteChannelNamespaceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteDataSourceRequest: AWSEncodableShape {
         /// The API ID.
         public let apiId: String
@@ -1880,7 +2230,7 @@ extension AppSync {
     }
 
     public struct EnhancedMetricsConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Controls how data source metrics will be emitted to CloudWatch. Data source metrics include:   Requests: The number of invocations that occured during a request.   Latency: The time to complete a data source invocation.   Errors:  The number of errors that occurred during a data source invocation.   These metrics can be emitted to CloudWatch per data source or for all data sources in the request. Metrics will be recorded by API ID and data source name. dataSourceLevelMetricsBehavior accepts one of these values at a time:    FULL_REQUEST_DATA_SOURCE_METRICS: Records and emits metric data for all data sources in the request.    PER_DATA_SOURCE_METRICS: Records and emits metric data for data sources that have the metricsConfig value set to ENABLED.
+        /// Controls how data source metrics will be emitted to CloudWatch. Data source metrics include:   Requests: The number of invocations that occured during a request.   Latency: The time to complete a data source invocation.   Errors: The number of errors that occurred during a data source invocation.   These metrics can be emitted to CloudWatch per data source or for all data sources in the request. Metrics will be recorded by API ID and data source name. dataSourceLevelMetricsBehavior accepts one of these values at a time:    FULL_REQUEST_DATA_SOURCE_METRICS: Records and emits metric data for all data sources in the request.    PER_DATA_SOURCE_METRICS: Records and emits metric data for data sources that have the metricsConfig value set to ENABLED.
         public let dataSourceLevelMetricsBehavior: DataSourceLevelMetricsBehavior
         ///  Controls how operation metrics will be emitted to CloudWatch. Operation metrics include:   Requests: The number of times a specified GraphQL operation was called.   GraphQL errors: The number of GraphQL errors that occurred during a specified GraphQL operation.   Metrics will be recorded by API ID and operation name. You can set the value to ENABLED or DISABLED.
         public let operationLevelMetricsConfig: OperationLevelMetricsConfig
@@ -2052,6 +2402,60 @@ extension AppSync {
         }
     }
 
+    public struct EventConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A list of authorization providers.
+        public let authProviders: [AuthProvider]
+        /// A list of valid authorization modes for the Event API connections.
+        public let connectionAuthModes: [AuthMode]
+        /// A list of valid authorization modes for the Event API publishing.
+        public let defaultPublishAuthModes: [AuthMode]
+        /// A list of valid authorization modes for the Event API subscriptions.
+        public let defaultSubscribeAuthModes: [AuthMode]
+        /// The CloudWatch Logs configuration for the Event API.
+        public let logConfig: EventLogConfig?
+
+        @inlinable
+        public init(authProviders: [AuthProvider], connectionAuthModes: [AuthMode], defaultPublishAuthModes: [AuthMode], defaultSubscribeAuthModes: [AuthMode], logConfig: EventLogConfig? = nil) {
+            self.authProviders = authProviders
+            self.connectionAuthModes = connectionAuthModes
+            self.defaultPublishAuthModes = defaultPublishAuthModes
+            self.defaultSubscribeAuthModes = defaultSubscribeAuthModes
+            self.logConfig = logConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.authProviders.forEach {
+                try $0.validate(name: "\(name).authProviders[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authProviders = "authProviders"
+            case connectionAuthModes = "connectionAuthModes"
+            case defaultPublishAuthModes = "defaultPublishAuthModes"
+            case defaultSubscribeAuthModes = "defaultSubscribeAuthModes"
+            case logConfig = "logConfig"
+        }
+    }
+
+    public struct EventLogConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The IAM service role that AppSync assumes to publish CloudWatch Logs in your account.
+        public let cloudWatchLogsRoleArn: String
+        /// The type of information to log for the Event API.
+        public let logLevel: EventLogLevel
+
+        @inlinable
+        public init(cloudWatchLogsRoleArn: String, logLevel: EventLogLevel) {
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.logLevel = logLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogsRoleArn = "cloudWatchLogsRoleArn"
+            case logLevel = "logLevel"
+        }
+    }
+
     public struct FlushApiCacheRequest: AWSEncodableShape {
         /// The API ID.
         public let apiId: String
@@ -2200,8 +2604,82 @@ extension AppSync {
         }
     }
 
+    public struct GetApiRequest: AWSEncodableShape {
+        /// The Api ID.
+        public let apiId: String
+
+        @inlinable
+        public init(apiId: String) {
+            self.apiId = apiId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "apiId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetApiResponse: AWSDecodableShape {
+        /// The Api object.
+        public let api: Api?
+
+        @inlinable
+        public init(api: Api? = nil) {
+            self.api = api
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case api = "api"
+        }
+    }
+
+    public struct GetChannelNamespaceRequest: AWSEncodableShape {
+        /// The Api ID.
+        public let apiId: String
+        /// The name of the ChannelNamespace.
+        public let name: String
+
+        @inlinable
+        public init(apiId: String, name: String) {
+            self.apiId = apiId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "apiId")
+            request.encodePath(self.name, key: "name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,48}[A-Za-z0-9])?)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetChannelNamespaceResponse: AWSDecodableShape {
+        /// The ChannelNamespace object.
+        public let channelNamespace: ChannelNamespace?
+
+        @inlinable
+        public init(channelNamespace: ChannelNamespace? = nil) {
+            self.channelNamespace = channelNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelNamespace = "channelNamespace"
+        }
+    }
+
     public struct GetDataSourceIntrospectionRequest: AWSEncodableShape {
-        /// A boolean flag that determines whether SDL should be generated for introspected types or not. If set to true, each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
+        /// A boolean flag that determines whether SDL should be generated for introspected types. If set to true, each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
         public let includeModelsSDL: Bool?
         /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
         public let introspectionId: String
@@ -2232,7 +2710,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2864,7 +3342,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2884,6 +3362,106 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case apiKeys = "apiKeys"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListApisRequest: AWSEncodableShape {
+        /// The maximum number of results that you want the request to return.
+        public let maxResults: Int?
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListApisResponse: AWSDecodableShape {
+        /// The Api objects.
+        public let apis: [Api]?
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+        public let nextToken: String?
+
+        @inlinable
+        public init(apis: [Api]? = nil, nextToken: String? = nil) {
+            self.apis = apis
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apis = "apis"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListChannelNamespacesRequest: AWSEncodableShape {
+        /// The Api ID.
+        public let apiId: String
+        /// The maximum number of results that you want the request to return.
+        public let maxResults: Int?
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+        public let nextToken: String?
+
+        @inlinable
+        public init(apiId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.apiId = apiId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "apiId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListChannelNamespacesResponse: AWSDecodableShape {
+        /// The ChannelNamespace objects.
+        public let channelNamespaces: [ChannelNamespace]?
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+        public let nextToken: String?
+
+        @inlinable
+        public init(channelNamespaces: [ChannelNamespace]? = nil, nextToken: String? = nil) {
+            self.channelNamespaces = channelNamespaces
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelNamespaces = "channelNamespaces"
             case nextToken = "nextToken"
         }
     }
@@ -2916,7 +3494,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2964,7 +3542,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3016,7 +3594,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3072,7 +3650,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3128,7 +3706,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3184,7 +3762,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3236,7 +3814,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3334,7 +3912,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3390,7 +3968,7 @@ extension AppSync {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3419,7 +3997,7 @@ extension AppSync {
         public let cloudWatchLogsRoleArn: String
         /// Set to TRUE to exclude sections that contain information such as headers, context, and evaluated mapping templates, regardless of logging level.
         public let excludeVerboseContent: Bool?
-        /// The field logging level. Values can be NONE, ERROR, INFO, DEBUG, or ALL.    NONE: No field-level logs are captured.    ERROR: Logs the following information only for the fields that are in the error category:   The error section in the server response.   Field-level errors.   The generated request/response functions that got resolved for error fields.      INFO: Logs the following information only for the fields that are in the info and error categories:   Info-level messages.   The user messages sent through $util.log.info and console.log.   Field-level tracing and mapping logs are not shown.      DEBUG: Logs the following information only for the fields that are in the debug, info, and error categories:   Debug-level messages.   The user messages sent through $util.log.info, $util.log.debug, console.log, and console.debug.   Field-level tracing and mapping logs are not shown.      ALL: The following information is logged for all fields in the query:   Field-level tracing information.   The generated request/response functions that were resolved for each field.
+        /// The field logging level. Values can be NONE, ERROR, or ALL.    NONE: No field-level logs are captured.    ERROR: Logs the following information only for the fields that are in error:   The error section in the server response.   Field-level errors.   The generated request/response functions that got resolved for error fields.      ALL: The following information is logged for all fields in the query:   Field-level tracing information.   The generated request/response functions that got resolved for each field.
         public let fieldLogLevel: FieldLogLevel
 
         @inlinable
@@ -4142,6 +4720,121 @@ extension AppSync {
         }
     }
 
+    public struct UpdateApiRequest: AWSEncodableShape {
+        /// The Api ID.
+        public let apiId: String
+        /// The new event configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
+        public let eventConfig: EventConfig?
+        /// The name of the Api.
+        public let name: String
+        /// The owner contact information for the Api.
+        public let ownerContact: String?
+
+        @inlinable
+        public init(apiId: String, eventConfig: EventConfig? = nil, name: String, ownerContact: String? = nil) {
+            self.apiId = apiId
+            self.eventConfig = eventConfig
+            self.name = name
+            self.ownerContact = ownerContact
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "apiId")
+            try container.encodeIfPresent(self.eventConfig, forKey: .eventConfig)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.ownerContact, forKey: .ownerContact)
+        }
+
+        public func validate(name: String) throws {
+            try self.eventConfig?.validate(name: "\(name).eventConfig")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_\\-\\ ]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventConfig = "eventConfig"
+            case name = "name"
+            case ownerContact = "ownerContact"
+        }
+    }
+
+    public struct UpdateApiResponse: AWSDecodableShape {
+        /// The Api object.
+        public let api: Api?
+
+        @inlinable
+        public init(api: Api? = nil) {
+            self.api = api
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case api = "api"
+        }
+    }
+
+    public struct UpdateChannelNamespaceRequest: AWSEncodableShape {
+        /// The Api ID.
+        public let apiId: String
+        /// The event handler functions that run custom business logic to process published events and subscribe requests.
+        public let codeHandlers: String?
+        /// The name of the ChannelNamespace.
+        public let name: String
+        /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+        public let publishAuthModes: [AuthMode]?
+        /// The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+        public let subscribeAuthModes: [AuthMode]?
+
+        @inlinable
+        public init(apiId: String, codeHandlers: String? = nil, name: String, publishAuthModes: [AuthMode]? = nil, subscribeAuthModes: [AuthMode]? = nil) {
+            self.apiId = apiId
+            self.codeHandlers = codeHandlers
+            self.name = name
+            self.publishAuthModes = publishAuthModes
+            self.subscribeAuthModes = subscribeAuthModes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "apiId")
+            try container.encodeIfPresent(self.codeHandlers, forKey: .codeHandlers)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.publishAuthModes, forKey: .publishAuthModes)
+            try container.encodeIfPresent(self.subscribeAuthModes, forKey: .subscribeAuthModes)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.codeHandlers, name: "codeHandlers", parent: name, max: 32768)
+            try self.validate(self.codeHandlers, name: "codeHandlers", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9](?:[A-Za-z0-9\\-]{0,48}[A-Za-z0-9])?)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeHandlers = "codeHandlers"
+            case publishAuthModes = "publishAuthModes"
+            case subscribeAuthModes = "subscribeAuthModes"
+        }
+    }
+
+    public struct UpdateChannelNamespaceResponse: AWSDecodableShape {
+        /// The ChannelNamespace object.
+        public let channelNamespace: ChannelNamespace?
+
+        @inlinable
+        public init(channelNamespace: ChannelNamespace? = nil) {
+            self.channelNamespace = channelNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelNamespace = "channelNamespace"
+        }
+    }
+
     public struct UpdateDataSourceRequest: AWSEncodableShape {
         /// The API ID.
         public let apiId: String
@@ -4399,7 +5092,7 @@ extension AppSync {
         /// The API ID.
         public let apiId: String
         /// The new authentication type for the GraphqlApi object.
-        public let authenticationType: AuthenticationType
+        public let authenticationType: AuthenticationType?
         /// The enhancedMetricsConfig object.
         public let enhancedMetricsConfig: EnhancedMetricsConfig?
         /// Sets the value of the GraphQL API to enable (ENABLED) or disable (DISABLED) introspection. If no value is provided, the introspection configuration will be set to ENABLED by default. This field will produce an error if the operation attempts to use the introspection feature while this field is disabled. For more information about introspection, see GraphQL introspection.
@@ -4426,7 +5119,7 @@ extension AppSync {
         public let xrayEnabled: Bool?
 
         @inlinable
-        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType, enhancedMetricsConfig: EnhancedMetricsConfig? = nil, introspectionConfig: GraphQLApiIntrospectionConfig? = nil, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, logConfig: LogConfig? = nil, mergedApiExecutionRoleArn: String? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, ownerContact: String? = nil, queryDepthLimit: Int? = nil, resolverCountLimit: Int? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType? = nil, enhancedMetricsConfig: EnhancedMetricsConfig? = nil, introspectionConfig: GraphQLApiIntrospectionConfig? = nil, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, logConfig: LogConfig? = nil, mergedApiExecutionRoleArn: String? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, ownerContact: String? = nil, queryDepthLimit: Int? = nil, resolverCountLimit: Int? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.authenticationType = authenticationType
@@ -4449,7 +5142,7 @@ extension AppSync {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.additionalAuthenticationProviders, forKey: .additionalAuthenticationProviders)
             request.encodePath(self.apiId, key: "apiId")
-            try container.encode(self.authenticationType, forKey: .authenticationType)
+            try container.encodeIfPresent(self.authenticationType, forKey: .authenticationType)
             try container.encodeIfPresent(self.enhancedMetricsConfig, forKey: .enhancedMetricsConfig)
             try container.encodeIfPresent(self.introspectionConfig, forKey: .introspectionConfig)
             try container.encodeIfPresent(self.lambdaAuthorizerConfig, forKey: .lambdaAuthorizerConfig)
@@ -4762,10 +5455,12 @@ public struct AppSyncErrorType: AWSErrorType {
         case apiLimitExceededException = "ApiLimitExceededException"
         case badRequestException = "BadRequestException"
         case concurrentModificationException = "ConcurrentModificationException"
+        case conflictException = "ConflictException"
         case graphQLSchemaException = "GraphQLSchemaException"
         case internalFailureException = "InternalFailureException"
         case limitExceededException = "LimitExceededException"
         case notFoundException = "NotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case unauthorizedException = "UnauthorizedException"
     }
 
@@ -4799,6 +5494,8 @@ public struct AppSyncErrorType: AWSErrorType {
     public static var badRequestException: Self { .init(.badRequestException) }
     /// Another modification is in progress at this time and it must complete before you can make your change.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// A conflict with a previous successful update is detected. This typically occurs when the previous update did not have time to propagate before the next update was made. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The GraphQL schema is not valid.
     public static var graphQLSchemaException: Self { .init(.graphQLSchemaException) }
     /// An internal AppSync error occurred. Try your request again.
@@ -4807,6 +5504,8 @@ public struct AppSyncErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The resource specified in the request was not found. Check the resource, and then try again.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The operation exceeded the service quota for this resource.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// You aren't authorized to perform this operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }

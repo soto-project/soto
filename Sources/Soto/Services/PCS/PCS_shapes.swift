@@ -152,7 +152,7 @@ extension PCS {
     public struct ClusterSlurmConfiguration: AWSDecodableShape {
         /// The shared Slurm key for authentication, also known as the cluster secret.
         public let authKey: SlurmAuthKey?
-        /// The time before an idle node is scaled down.
+        /// The time (in seconds) before an idle node is scaled down. Default: 600
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
@@ -172,7 +172,7 @@ extension PCS {
     }
 
     public struct ClusterSlurmConfigurationRequest: AWSEncodableShape {
-        /// The time before an idle node is scaled down.
+        /// The time (in seconds) before an idle node is scaled down. Default: 600
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?

@@ -42,6 +42,7 @@ extension CloudControl {
         case serviceLimitExceeded = "ServiceLimitExceeded"
         case serviceTimeout = "ServiceTimeout"
         case throttling = "Throttling"
+        case unauthorizedTaggingOperation = "UnauthorizedTaggingOperation"
         public var description: String { return self.rawValue }
     }
 
@@ -122,7 +123,7 @@ extension CloudControl {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[-A-Za-z0-9+/=]+$")
-            try self.validate(self.desiredState, name: "desiredState", parent: name, max: 65536)
+            try self.validate(self.desiredState, name: "desiredState", parent: name, max: 262144)
             try self.validate(self.desiredState, name: "desiredState", parent: name, min: 1)
             try self.validate(self.desiredState, name: "desiredState", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
@@ -300,16 +301,62 @@ extension CloudControl {
     }
 
     public struct GetResourceRequestStatusOutput: AWSDecodableShape {
+        /// Lists Hook invocations for the specified target in the request. This is a list since the same target can invoke multiple Hooks.
+        public let hooksProgressEvent: [HookProgressEvent]?
         /// Represents the current status of the resource operation request.
         public let progressEvent: ProgressEvent?
 
         @inlinable
-        public init(progressEvent: ProgressEvent? = nil) {
+        public init(hooksProgressEvent: [HookProgressEvent]? = nil, progressEvent: ProgressEvent? = nil) {
+            self.hooksProgressEvent = hooksProgressEvent
             self.progressEvent = progressEvent
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hooksProgressEvent = "HooksProgressEvent"
             case progressEvent = "ProgressEvent"
+        }
+    }
+
+    public struct HookProgressEvent: AWSDecodableShape {
+        /// The failure mode of the invocation. The following are the potential statuses:    FAIL: This will fail the Hook invocation and the request associated with it.    WARN: This will fail the Hook invocation, but not the request associated with it.
+        public let failureMode: String?
+        /// The time that the Hook invocation request initiated.
+        public let hookEventTime: Date?
+        /// The status of the Hook invocation. The following are potential statuses:    HOOK_PENDING: The Hook was added to the invocation plan, but not yet invoked.    HOOK_IN_PROGRESS: The Hook was invoked, but hasn't completed.    HOOK_COMPLETE_SUCCEEDED: The Hook invocation is complete with a successful result.    HOOK_COMPLETE_FAILED: The Hook invocation is complete with a failed result.    HOOK_FAILED: The Hook invocation didn't complete successfully.
+        public let hookStatus: String?
+        /// The message explaining the current Hook status.
+        public let hookStatusMessage: String?
+        /// The ARN of the Hook being invoked.
+        public let hookTypeArn: String?
+        /// The type name of the Hook being invoked.
+        public let hookTypeName: String?
+        /// The type version of the Hook being invoked.
+        public let hookTypeVersionId: String?
+        /// States whether the Hook is invoked before or after resource provisioning.
+        public let invocationPoint: String?
+
+        @inlinable
+        public init(failureMode: String? = nil, hookEventTime: Date? = nil, hookStatus: String? = nil, hookStatusMessage: String? = nil, hookTypeArn: String? = nil, hookTypeName: String? = nil, hookTypeVersionId: String? = nil, invocationPoint: String? = nil) {
+            self.failureMode = failureMode
+            self.hookEventTime = hookEventTime
+            self.hookStatus = hookStatus
+            self.hookStatusMessage = hookStatusMessage
+            self.hookTypeArn = hookTypeArn
+            self.hookTypeName = hookTypeName
+            self.hookTypeVersionId = hookTypeVersionId
+            self.invocationPoint = invocationPoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureMode = "FailureMode"
+            case hookEventTime = "HookEventTime"
+            case hookStatus = "HookStatus"
+            case hookStatusMessage = "HookStatusMessage"
+            case hookTypeArn = "HookTypeArn"
+            case hookTypeName = "HookTypeName"
+            case hookTypeVersionId = "HookTypeVersionId"
+            case invocationPoint = "InvocationPoint"
         }
     }
 
@@ -388,10 +435,10 @@ extension CloudControl {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
-            try self.validate(self.resourceModel, name: "resourceModel", parent: name, max: 65536)
+            try self.validate(self.resourceModel, name: "resourceModel", parent: name, max: 262144)
             try self.validate(self.resourceModel, name: "resourceModel", parent: name, min: 1)
             try self.validate(self.resourceModel, name: "resourceModel", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
@@ -442,6 +489,8 @@ extension CloudControl {
         public let errorCode: HandlerErrorCode?
         /// When the resource operation request was initiated.
         public let eventTime: Date?
+        /// The unique token representing the Hooks operation for the request.
+        public let hooksRequestToken: String?
         /// The primary identifier for the resource.  In some cases, the resource identifier may be available before the resource operation has reached a status of SUCCESS.
         public let identifier: String?
         /// The resource operation type.
@@ -460,9 +509,10 @@ extension CloudControl {
         public let typeName: String?
 
         @inlinable
-        public init(errorCode: HandlerErrorCode? = nil, eventTime: Date? = nil, identifier: String? = nil, operation: Operation? = nil, operationStatus: OperationStatus? = nil, requestToken: String? = nil, resourceModel: String? = nil, retryAfter: Date? = nil, statusMessage: String? = nil, typeName: String? = nil) {
+        public init(errorCode: HandlerErrorCode? = nil, eventTime: Date? = nil, hooksRequestToken: String? = nil, identifier: String? = nil, operation: Operation? = nil, operationStatus: OperationStatus? = nil, requestToken: String? = nil, resourceModel: String? = nil, retryAfter: Date? = nil, statusMessage: String? = nil, typeName: String? = nil) {
             self.errorCode = errorCode
             self.eventTime = eventTime
+            self.hooksRequestToken = hooksRequestToken
             self.identifier = identifier
             self.operation = operation
             self.operationStatus = operationStatus
@@ -476,6 +526,7 @@ extension CloudControl {
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case eventTime = "EventTime"
+            case hooksRequestToken = "HooksRequestToken"
             case identifier = "Identifier"
             case operation = "Operation"
             case operationStatus = "OperationStatus"
@@ -554,7 +605,7 @@ extension CloudControl {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^.+$")
-            try self.validate(self.patchDocument, name: "patchDocument", parent: name, max: 65536)
+            try self.validate(self.patchDocument, name: "patchDocument", parent: name, max: 262144)
             try self.validate(self.patchDocument, name: "patchDocument", parent: name, min: 1)
             try self.validate(self.patchDocument, name: "patchDocument", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)

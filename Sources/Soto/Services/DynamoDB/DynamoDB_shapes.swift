@@ -1302,14 +1302,17 @@ extension DynamoDB {
         public let projection: Projection
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
+        /// Represents the warm throughput value (in read units per second and write units per second) when creating a secondary index.
+        public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(indexName: String, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil) {
+        public init(indexName: String, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil, warmThroughput: WarmThroughput? = nil) {
             self.indexName = indexName
             self.keySchema = keySchema
             self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
+            self.warmThroughput = warmThroughput
         }
 
         public func validate(name: String) throws {
@@ -1331,6 +1334,7 @@ extension DynamoDB {
             case onDemandThroughput = "OnDemandThroughput"
             case projection = "Projection"
             case provisionedThroughput = "ProvisionedThroughput"
+            case warmThroughput = "WarmThroughput"
         }
     }
 
@@ -1457,9 +1461,11 @@ extension DynamoDB {
         public let tableName: String
         /// A list of key-value pairs to label the table. For more information, see Tagging for DynamoDB.
         public let tags: [Tag]?
+        /// Represents the warm throughput (in read units per second and write units per second) for creating a table.
+        public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], localSecondaryIndexes: [LocalSecondaryIndex]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, resourcePolicy: String? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, tags: [Tag]? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], localSecondaryIndexes: [LocalSecondaryIndex]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, resourcePolicy: String? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, tags: [Tag]? = nil, warmThroughput: WarmThroughput? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -1474,6 +1480,7 @@ extension DynamoDB {
             self.tableClass = tableClass
             self.tableName = tableName
             self.tags = tags
+            self.warmThroughput = warmThroughput
         }
 
         public func validate(name: String) throws {
@@ -1514,6 +1521,7 @@ extension DynamoDB {
             case tableClass = "TableClass"
             case tableName = "TableName"
             case tags = "Tags"
+            case warmThroughput = "WarmThroughput"
         }
     }
 
@@ -2886,14 +2894,17 @@ extension DynamoDB {
         public let projection: Projection
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
+        /// Represents the warm throughput value (in read units per second and write units per second) for the specified secondary index. If you use this parameter, you must specify ReadUnitsPerSecond, WriteUnitsPerSecond, or both.
+        public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(indexName: String, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil) {
+        public init(indexName: String, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil, warmThroughput: WarmThroughput? = nil) {
             self.indexName = indexName
             self.keySchema = keySchema
             self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
+            self.warmThroughput = warmThroughput
         }
 
         public func validate(name: String) throws {
@@ -2915,6 +2926,7 @@ extension DynamoDB {
             case onDemandThroughput = "OnDemandThroughput"
             case projection = "Projection"
             case provisionedThroughput = "ProvisionedThroughput"
+            case warmThroughput = "WarmThroughput"
         }
     }
 
@@ -2963,9 +2975,11 @@ extension DynamoDB {
         public let projection: Projection?
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughputDescription?
+        /// Represents the warm throughput value (in read units per second and write units per second) for the specified secondary index.
+        public let warmThroughput: GlobalSecondaryIndexWarmThroughputDescription?
 
         @inlinable
-        public init(backfilling: Bool? = nil, indexArn: String? = nil, indexName: String? = nil, indexSizeBytes: Int64? = nil, indexStatus: IndexStatus? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, onDemandThroughput: OnDemandThroughput? = nil, projection: Projection? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil) {
+        public init(backfilling: Bool? = nil, indexArn: String? = nil, indexName: String? = nil, indexSizeBytes: Int64? = nil, indexStatus: IndexStatus? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, onDemandThroughput: OnDemandThroughput? = nil, projection: Projection? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, warmThroughput: GlobalSecondaryIndexWarmThroughputDescription? = nil) {
             self.backfilling = backfilling
             self.indexArn = indexArn
             self.indexName = indexName
@@ -2976,6 +2990,7 @@ extension DynamoDB {
             self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
+            self.warmThroughput = warmThroughput
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2989,6 +3004,7 @@ extension DynamoDB {
             case onDemandThroughput = "OnDemandThroughput"
             case projection = "Projection"
             case provisionedThroughput = "ProvisionedThroughput"
+            case warmThroughput = "WarmThroughput"
         }
     }
 
@@ -3046,6 +3062,28 @@ extension DynamoDB {
             case create = "Create"
             case delete = "Delete"
             case update = "Update"
+        }
+    }
+
+    public struct GlobalSecondaryIndexWarmThroughputDescription: AWSDecodableShape {
+        /// Represents warm throughput read units per second value for a global secondary index.
+        public let readUnitsPerSecond: Int64?
+        /// Represents the warm throughput status being created or updated on a global secondary index. The status can only be UPDATING or ACTIVE.
+        public let status: IndexStatus?
+        /// Represents warm throughput write units per second value for a global secondary index.
+        public let writeUnitsPerSecond: Int64?
+
+        @inlinable
+        public init(readUnitsPerSecond: Int64? = nil, status: IndexStatus? = nil, writeUnitsPerSecond: Int64? = nil) {
+            self.readUnitsPerSecond = readUnitsPerSecond
+            self.status = status
+            self.writeUnitsPerSecond = writeUnitsPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readUnitsPerSecond = "ReadUnitsPerSecond"
+            case status = "Status"
+            case writeUnitsPerSecond = "WriteUnitsPerSecond"
         }
     }
 
@@ -4598,9 +4636,11 @@ extension DynamoDB {
         /// Specifies the progress of a Create, Update, or Delete action on the replica as a percentage.
         public let replicaStatusPercentProgress: String?
         public let replicaTableClassSummary: TableClassSummary?
+        /// Represents the warm throughput value for this replica.
+        public let warmThroughput: TableWarmThroughputDescription?
 
         @inlinable
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kmsMasterKeyId: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil, replicaTableClassSummary: TableClassSummary? = nil) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kmsMasterKeyId: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil, replicaTableClassSummary: TableClassSummary? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
             self.onDemandThroughputOverride = onDemandThroughputOverride
@@ -4611,6 +4651,7 @@ extension DynamoDB {
             self.replicaStatusDescription = replicaStatusDescription
             self.replicaStatusPercentProgress = replicaStatusPercentProgress
             self.replicaTableClassSummary = replicaTableClassSummary
+            self.warmThroughput = warmThroughput
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4624,6 +4665,7 @@ extension DynamoDB {
             case replicaStatusDescription = "ReplicaStatusDescription"
             case replicaStatusPercentProgress = "ReplicaStatusPercentProgress"
             case replicaTableClassSummary = "ReplicaTableClassSummary"
+            case warmThroughput = "WarmThroughput"
         }
     }
 
@@ -4711,18 +4753,22 @@ extension DynamoDB {
         public let onDemandThroughputOverride: OnDemandThroughputOverride?
         /// If not described, uses the source table GSI's read capacity settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
+        /// Represents the warm throughput of the global secondary index for this replica.
+        public let warmThroughput: GlobalSecondaryIndexWarmThroughputDescription?
 
         @inlinable
-        public init(indexName: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil) {
+        public init(indexName: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, warmThroughput: GlobalSecondaryIndexWarmThroughputDescription? = nil) {
             self.indexName = indexName
             self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
+            self.warmThroughput = warmThroughput
         }
 
         private enum CodingKeys: String, CodingKey {
             case indexName = "IndexName"
             case onDemandThroughputOverride = "OnDemandThroughputOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
+            case warmThroughput = "WarmThroughput"
         }
     }
 
@@ -5555,9 +5601,11 @@ extension DynamoDB {
         public let tableSizeBytes: Int64?
         /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table/index configuration is being updated. The table/index remains available for data operations when UPDATING.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the KMS key. DynamoDB will initiate the table archival process when a table's KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public let tableStatus: TableStatus?
+        /// Describes the warm throughput value of the base table.
+        public let warmThroughput: TableWarmThroughputDescription?
 
         @inlinable
-        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
@@ -5582,6 +5630,7 @@ extension DynamoDB {
             self.tableName = tableName
             self.tableSizeBytes = tableSizeBytes
             self.tableStatus = tableStatus
+            self.warmThroughput = warmThroughput
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5609,6 +5658,29 @@ extension DynamoDB {
             case tableName = "TableName"
             case tableSizeBytes = "TableSizeBytes"
             case tableStatus = "TableStatus"
+            case warmThroughput = "WarmThroughput"
+        }
+    }
+
+    public struct TableWarmThroughputDescription: AWSDecodableShape {
+        /// Represents the base table's warm throughput value in read units per second.
+        public let readUnitsPerSecond: Int64?
+        /// Represents warm throughput value of the base table..
+        public let status: TableStatus?
+        /// Represents the base table's warm throughput value in write units per second.
+        public let writeUnitsPerSecond: Int64?
+
+        @inlinable
+        public init(readUnitsPerSecond: Int64? = nil, status: TableStatus? = nil, writeUnitsPerSecond: Int64? = nil) {
+            self.readUnitsPerSecond = readUnitsPerSecond
+            self.status = status
+            self.writeUnitsPerSecond = writeUnitsPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readUnitsPerSecond = "ReadUnitsPerSecond"
+            case status = "Status"
+            case writeUnitsPerSecond = "WriteUnitsPerSecond"
         }
     }
 
@@ -5994,12 +6066,15 @@ extension DynamoDB {
         public let onDemandThroughput: OnDemandThroughput?
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
+        /// Represents the warm throughput value of the new provisioned throughput settings to be applied to a global secondary index.
+        public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(indexName: String, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil) {
+        public init(indexName: String, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, warmThroughput: WarmThroughput? = nil) {
             self.indexName = indexName
             self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
+            self.warmThroughput = warmThroughput
         }
 
         public func validate(name: String) throws {
@@ -6013,6 +6088,7 @@ extension DynamoDB {
             case indexName = "IndexName"
             case onDemandThroughput = "OnDemandThroughput"
             case provisionedThroughput = "ProvisionedThroughput"
+            case warmThroughput = "WarmThroughput"
         }
     }
 
@@ -6364,9 +6440,11 @@ extension DynamoDB {
         public let tableClass: TableClass?
         /// The name of the table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
+        /// Represents the warm throughput (in read units per second and write units per second) for updating a table.
+        public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, warmThroughput: WarmThroughput? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -6378,6 +6456,7 @@ extension DynamoDB {
             self.streamSpecification = streamSpecification
             self.tableClass = tableClass
             self.tableName = tableName
+            self.warmThroughput = warmThroughput
         }
 
         public func validate(name: String) throws {
@@ -6408,6 +6487,7 @@ extension DynamoDB {
             case streamSpecification = "StreamSpecification"
             case tableClass = "TableClass"
             case tableName = "TableName"
+            case warmThroughput = "WarmThroughput"
         }
     }
 
@@ -6513,6 +6593,24 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case timeToLiveSpecification = "TimeToLiveSpecification"
+        }
+    }
+
+    public struct WarmThroughput: AWSEncodableShape & AWSDecodableShape {
+        /// Represents the number of read operations your base table can instantaneously support.
+        public let readUnitsPerSecond: Int64?
+        /// Represents the number of write operations your base table can instantaneously support.
+        public let writeUnitsPerSecond: Int64?
+
+        @inlinable
+        public init(readUnitsPerSecond: Int64? = nil, writeUnitsPerSecond: Int64? = nil) {
+            self.readUnitsPerSecond = readUnitsPerSecond
+            self.writeUnitsPerSecond = writeUnitsPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readUnitsPerSecond = "ReadUnitsPerSecond"
+            case writeUnitsPerSecond = "WriteUnitsPerSecond"
         }
     }
 

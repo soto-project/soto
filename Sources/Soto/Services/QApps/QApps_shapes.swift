@@ -365,7 +365,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -393,7 +393,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -468,6 +468,125 @@ extension QApps {
         }
     }
 
+    public struct BatchCreateCategoryInput: AWSEncodableShape {
+        /// The list of category objects to be created
+        public let categories: [BatchCreateCategoryInputCategory]
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(categories: [BatchCreateCategoryInputCategory], instanceId: String) {
+            self.categories = categories
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.categories, forKey: .categories)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+        }
+
+        public func validate(name: String) throws {
+            try self.categories.forEach {
+                try $0.validate(name: "\(name).categories[]")
+            }
+            try self.validate(self.categories, name: "categories", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "categories"
+        }
+    }
+
+    public struct BatchCreateCategoryInputCategory: AWSEncodableShape {
+        /// The color to be associated with a category. The color must be a hexadecimal value of either 3 or 6 digits.
+        public let color: String?
+        /// The unique identifier to be associated with a category. If you don't include a value, the category is automatically assigned a unique identifier.
+        public let id: String?
+        /// The name of the category.
+        public let title: String
+
+        @inlinable
+        public init(color: String? = nil, id: String? = nil, title: String) {
+            self.color = color
+            self.id = id
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "color"
+            case id = "id"
+            case title = "title"
+        }
+    }
+
+    public struct BatchDeleteCategoryInput: AWSEncodableShape {
+        /// The list of IDs of the categories to be deleted.
+        public let categories: [String]
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(categories: [String], instanceId: String) {
+            self.categories = categories
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.categories, forKey: .categories)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+        }
+
+        public func validate(name: String) throws {
+            try self.categories.forEach {
+                try validate($0, name: "categories[]", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            }
+            try self.validate(self.categories, name: "categories", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "categories"
+        }
+    }
+
+    public struct BatchUpdateCategoryInput: AWSEncodableShape {
+        /// The list of categories to be updated with their new values.
+        public let categories: [CategoryInput]
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(categories: [CategoryInput], instanceId: String) {
+            self.categories = categories
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.categories, forKey: .categories)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+        }
+
+        public func validate(name: String) throws {
+            try self.categories.forEach {
+                try $0.validate(name: "\(name).categories[]")
+            }
+            try self.validate(self.categories, name: "categories", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "categories"
+        }
+    }
+
     public struct CardStatus: AWSDecodableShape {
         /// The current state of the card.
         public let currentState: ExecutionStatus
@@ -499,7 +618,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.cardId, name: "cardId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.cardId, name: "cardId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -509,18 +628,52 @@ extension QApps {
     }
 
     public struct Category: AWSDecodableShape {
+        /// The number of published Amazon Q Apps associated with a category
+        public let appCount: Int?
+        /// The color of the category
+        public let color: String?
         /// The unique identifier of the category.
         public let id: String
         /// The title or name of the category.
         public let title: String
 
         @inlinable
-        public init(id: String, title: String) {
+        public init(appCount: Int? = nil, color: String? = nil, id: String, title: String) {
+            self.appCount = appCount
+            self.color = color
             self.id = id
             self.title = title
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appCount = "appCount"
+            case color = "color"
+            case id = "id"
+            case title = "title"
+        }
+    }
+
+    public struct CategoryInput: AWSEncodableShape {
+        /// The color of the category, represented as a hexadecimal value of either 3 or 6 digits.
+        public let color: String?
+        /// The unique identifier of the category.
+        public let id: String
+        /// The name of the category.
+        public let title: String
+
+        @inlinable
+        public init(color: String? = nil, id: String, title: String) {
+            self.color = color
+            self.id = id
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "color"
             case id = "id"
             case title = "title"
         }
@@ -572,11 +725,11 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.appVersion, name: "appVersion", parent: name, max: 2147483647)
             try self.validate(self.appVersion, name: "appVersion", parent: name, min: 0)
             try self.categories.forEach {
-                try validate($0, name: "categories[]", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+                try validate($0, name: "categories[]", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             }
             try self.validate(self.categories, name: "categories", parent: name, max: 3)
         }
@@ -758,7 +911,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -786,7 +939,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -814,7 +967,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -842,7 +995,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -938,9 +1091,9 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fileId, name: "fileId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.fileId, name: "fileId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.filename, name: "filename", parent: name, max: 100)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.title, name: "title", parent: name, max: 100)
             try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
         }
@@ -979,8 +1132,8 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
-            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1070,7 +1223,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1160,7 +1313,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1232,10 +1385,10 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
-            try self.validate(self.cardId, name: "cardId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.cardId, name: "cardId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.fileName, name: "fileName", parent: name, max: 100)
-            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1326,6 +1479,38 @@ extension QApps {
         }
     }
 
+    public struct ListCategoriesInput: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(instanceId: String) {
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCategoriesOutput: AWSDecodableShape {
+        /// The categories of a Amazon Q Business application environment instance.
+        public let categories: [Category]?
+
+        @inlinable
+        public init(categories: [Category]? = nil) {
+            self.categories = categories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "categories"
+        }
+    }
+
     public struct ListLibraryItemsInput: AWSEncodableShape {
         /// Optional category to filter the library items by.
         public let categoryId: String?
@@ -1354,7 +1539,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.categoryId, name: "categoryId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.categoryId, name: "categoryId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
@@ -1592,7 +1777,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.pluginId, name: "pluginId", parent: name, max: 36)
             try self.validate(self.pluginId, name: "pluginId", parent: name, min: 36)
             try self.validate(self.prompt, name: "prompt", parent: name, max: 7000)
@@ -1673,7 +1858,7 @@ extension QApps {
 
         public func validate(name: String) throws {
             try self.attributeFilter?.validate(name: "\(name).attributeFilter")
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.prompt, name: "prompt", parent: name, max: 7000)
             try self.validate(self.title, name: "title", parent: name, max: 100)
             try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
@@ -1721,7 +1906,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.appVersion, name: "appVersion", parent: name, max: 2147483647)
             try self.validate(self.appVersion, name: "appVersion", parent: name, min: 0)
             try self.initialValues?.forEach {
@@ -1776,7 +1961,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1879,7 +2064,7 @@ extension QApps {
 
         public func validate(name: String) throws {
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 500)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.placeholder, name: "placeholder", parent: name, max: 500)
             try self.validate(self.title, name: "title", parent: name, max: 100)
             try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
@@ -1959,10 +2144,10 @@ extension QApps {
 
         public func validate(name: String) throws {
             try self.categories?.forEach {
-                try validate($0, name: "categories[]", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+                try validate($0, name: "categories[]", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             }
             try self.validate(self.categories, name: "categories", parent: name, max: 3)
-            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1996,7 +2181,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2102,7 +2287,7 @@ extension QApps {
 
         public func validate(name: String) throws {
             try self.appDefinition?.validate(name: "\(name).appDefinition")
-            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.title, name: "title", parent: name, max: 100)
             try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
@@ -2200,7 +2385,7 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.values?.forEach {
                 try $0.validate(name: "\(name).values[]")
             }
@@ -2311,17 +2496,17 @@ public struct QAppsErrorType: AWSErrorType {
 
     /// The client is not authorized to perform the requested operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The requested operation could not be completed due to a  conflict with the current state of the resource.
+    /// The requested operation could not be completed due to a conflict with the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The requested operation could not be completed because  the content exceeds the maximum allowed size.
+    /// The requested operation could not be completed because the content exceeds the maximum allowed size.
     public static var contentTooLargeException: Self { .init(.contentTooLargeException) }
     /// An internal service error occurred while processing the request.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The requested resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The requested operation could not be completed because  it would exceed the service's quota or limit.
+    /// The requested operation could not be completed because it would exceed the service's quota or limit.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// The requested operation could not be completed because too many  requests were sent at once. Wait a bit and try again later.
+    /// The requested operation could not be completed because too many requests were sent at once. Wait a bit and try again later.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The client is not authenticated or authorized to perform the requested operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }

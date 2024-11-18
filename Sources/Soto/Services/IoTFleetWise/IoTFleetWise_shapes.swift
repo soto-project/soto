@@ -699,6 +699,7 @@ extension IoTFleetWise {
             try self.vehicles.forEach {
                 try $0.validate(name: "\(name).vehicles[]")
             }
+            try self.validate(self.vehicles, name: "vehicles", parent: name, max: 10)
             try self.validate(self.vehicles, name: "vehicles", parent: name, min: 1)
         }
 
@@ -738,6 +739,7 @@ extension IoTFleetWise {
             try self.vehicles.forEach {
                 try $0.validate(name: "\(name).vehicles[]")
             }
+            try self.validate(self.vehicles, name: "vehicles", parent: name, max: 10)
             try self.validate(self.vehicles, name: "vehicles", parent: name, min: 1)
         }
 

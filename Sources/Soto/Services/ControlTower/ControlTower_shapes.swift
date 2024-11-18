@@ -51,6 +51,7 @@ extension ControlTower {
     public enum ControlOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disableControl = "DISABLE_CONTROL"
         case enableControl = "ENABLE_CONTROL"
+        case resetEnabledControl = "RESET_ENABLED_CONTROL"
         case updateEnabledControl = "UPDATE_ENABLED_CONTROL"
         public var description: String { return self.rawValue }
     }
@@ -1629,6 +1630,40 @@ extension ControlTower {
 
     public struct ResetEnabledBaselineOutput: AWSDecodableShape {
         /// The ID (in UUID format) of the asynchronous ResetEnabledBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
+        public let operationIdentifier: String
+
+        @inlinable
+        public init(operationIdentifier: String) {
+            self.operationIdentifier = operationIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationIdentifier = "operationIdentifier"
+        }
+    }
+
+    public struct ResetEnabledControlInput: AWSEncodableShape {
+        /// The ARN of the enabled control to be reset.
+        public let enabledControlIdentifier: String
+
+        @inlinable
+        public init(enabledControlIdentifier: String) {
+            self.enabledControlIdentifier = enabledControlIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, max: 2048)
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, min: 20)
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledControlIdentifier = "enabledControlIdentifier"
+        }
+    }
+
+    public struct ResetEnabledControlOutput: AWSDecodableShape {
+        ///  The operation identifier for this ResetEnabledControl operation.
         public let operationIdentifier: String
 
         @inlinable

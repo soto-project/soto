@@ -1706,6 +1706,20 @@ extension NetworkFirewall {
         }
     }
 
+    public struct FlowTimeouts: AWSEncodableShape & AWSDecodableShape {
+        /// The number of seconds that can pass without any TCP traffic sent through the firewall before the firewall determines that the connection is idle. After the idle timeout passes, data packets are dropped, however, the next TCP SYN packet is considered a new flow and is processed by the firewall.  Clients or targets can use TCP keepalive packets to reset the idle timeout.  You can define the TcpIdleTimeoutSeconds value to be between 60 and 6000 seconds. If no value is provided, it defaults to 350 seconds.
+        public let tcpIdleTimeoutSeconds: Int?
+
+        @inlinable
+        public init(tcpIdleTimeoutSeconds: Int? = nil) {
+            self.tcpIdleTimeoutSeconds = tcpIdleTimeoutSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tcpIdleTimeoutSeconds = "TcpIdleTimeoutSeconds"
+        }
+    }
+
     public struct Header: AWSEncodableShape & AWSDecodableShape {
         /// The destination IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.  Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure Network Firewall to inspect for the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure Network Firewall to inspect for IP addresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let destination: String
@@ -2728,18 +2742,22 @@ extension NetworkFirewall {
     }
 
     public struct StatefulEngineOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Configures the amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle.
+        public let flowTimeouts: FlowTimeouts?
         /// Indicates how to manage the order of stateful rule evaluation for the policy. STRICT_ORDER is the default and recommended option. With STRICT_ORDER, provide your rules in the order that you want them to be evaluated. You can then choose one or more default actions for packets that don't match any rules. Choose STRICT_ORDER to have the stateful rules engine determine the evaluation order of your rules. The default action for this rule order is PASS, followed by DROP, REJECT, and ALERT actions. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on your settings. For more information, see Evaluation order for stateful rules in the Network Firewall Developer Guide.
         public let ruleOrder: RuleOrder?
         /// Configures how Network Firewall processes traffic when a network connection breaks midstream. Network connections can break due to disruptions in external networks or within the firewall itself.    DROP - Network Firewall fails closed and drops all subsequent traffic going to the firewall. This is the default behavior.    CONTINUE - Network Firewall continues to apply rules to the subsequent traffic without context from traffic before the break. This impacts the behavior of rules that depend on this context. For example, if you have a stateful rule to drop http traffic, Network Firewall won't match the traffic for this rule because the service won't have the context from session initialization defining the application layer protocol as HTTP. However, this behavior is rule dependent—a TCP-layer rule using a flow:stateless rule would still match, as would the aws:drop_strict default action.    REJECT - Network Firewall fails closed and drops all subsequent traffic going to the firewall. Network Firewall also sends a TCP reject packet back to your client so that the client can immediately establish a new session. Network Firewall will have context about the new session and will apply rules to the subsequent traffic.
         public let streamExceptionPolicy: StreamExceptionPolicy?
 
         @inlinable
-        public init(ruleOrder: RuleOrder? = nil, streamExceptionPolicy: StreamExceptionPolicy? = nil) {
+        public init(flowTimeouts: FlowTimeouts? = nil, ruleOrder: RuleOrder? = nil, streamExceptionPolicy: StreamExceptionPolicy? = nil) {
+            self.flowTimeouts = flowTimeouts
             self.ruleOrder = ruleOrder
             self.streamExceptionPolicy = streamExceptionPolicy
         }
 
         private enum CodingKeys: String, CodingKey {
+            case flowTimeouts = "FlowTimeouts"
             case ruleOrder = "RuleOrder"
             case streamExceptionPolicy = "StreamExceptionPolicy"
         }

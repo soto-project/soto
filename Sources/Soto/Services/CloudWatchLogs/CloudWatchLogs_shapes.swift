@@ -473,7 +473,7 @@ extension CloudWatchLogs {
         public let allowedOutputFormats: [OutputFormat]?
         /// The list of variable fields that can be used in the suffix path of a delivery that delivers to an S3 bucket.
         public let allowedSuffixPathFields: [String]?
-        /// A mapping that displays the default value of each property within a delivery’s configuration, if it is not specified in the request.
+        /// A mapping that displays the default value of each property within a delivery's configuration, if it is not specified in the request.
         public let defaultDeliveryConfigValues: ConfigurationTemplateDeliveryConfigValues?
         /// A string specifying which destination type this configuration template applies to.
         public let deliveryDestinationType: DeliveryDestinationType?
@@ -541,9 +541,9 @@ extension CloudWatchLogs {
         public let deliverySourceName: String
         /// The field delimiter to use between record fields when the final output format of a delivery is in Plain, W3C, or Raw format.
         public let fieldDelimiter: String?
-        /// The list of record fields to be delivered to the destination, in order.  If the delivery’s log source has mandatory fields, they must be included in this list.
+        /// The list of record fields to be delivered to the destination, in order.  If the delivery's log source has mandatory fields, they must be included in this list.
         public let recordFields: [String]?
-        /// This structure contains parameters that are valid only when the delivery’s delivery destination is an S3 bucket.
+        /// This structure contains parameters that are valid only when the delivery's delivery destination is an S3 bucket.
         public let s3DeliveryConfiguration: S3DeliveryConfiguration?
         /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see  Tagging Amazon Web Services resources
         public let tags: [String: String]?
@@ -607,7 +607,7 @@ extension CloudWatchLogs {
     public struct CreateExportTaskRequest: AWSEncodableShape {
         /// The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services Region.
         public let destination: String
-        /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
+        /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs. The length of this parameter must comply with the S3 object key name length limits. The object key name is a sequence of Unicode characters with UTF-8 encoding,  and can be up to 1,024 bytes.
         public let destinationPrefix: String?
         /// The start time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not exported.
         public let from: Int64
@@ -2097,7 +2097,7 @@ extension CloudWatchLogs {
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, max: 512)
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 3)
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 4)
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 2)
         }
 
@@ -3337,15 +3337,18 @@ extension CloudWatchLogs {
         public let dynamicTokenPosition: Int?
         /// Contains the values found for a dynamic token, and the number of times each value was found.
         public let enumerations: [String: Int64]?
+        /// A name that CloudWatch Logs assigned to this dynamic token to make the pattern more readable. The string part of  the inferredTokenName gives you a clearer idea of the content of this token. The number part of  the inferredTokenName shows where in the pattern this token appears, compared to other dynamic tokens. CloudWatch Logs assigns the string part of the name based on analyzing the content of the log events that contain it. For example, an inferred token name of IPAddress-3 means that the token represents an IP address, and this  token is the third dynamic token in the pattern.
+        public let inferredTokenName: String?
         /// Specifies whether this is a dynamic token.
         public let isDynamic: Bool?
         /// The string represented by this token. If this is a dynamic token, the value will be
         public let tokenString: String?
 
         @inlinable
-        public init(dynamicTokenPosition: Int? = nil, enumerations: [String: Int64]? = nil, isDynamic: Bool? = nil, tokenString: String? = nil) {
+        public init(dynamicTokenPosition: Int? = nil, enumerations: [String: Int64]? = nil, inferredTokenName: String? = nil, isDynamic: Bool? = nil, tokenString: String? = nil) {
             self.dynamicTokenPosition = dynamicTokenPosition
             self.enumerations = enumerations
+            self.inferredTokenName = inferredTokenName
             self.isDynamic = isDynamic
             self.tokenString = tokenString
         }
@@ -3353,6 +3356,7 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case dynamicTokenPosition = "dynamicTokenPosition"
             case enumerations = "enumerations"
+            case inferredTokenName = "inferredTokenName"
             case isDynamic = "isDynamic"
             case tokenString = "tokenString"
         }
@@ -4293,7 +4297,7 @@ extension CloudWatchLogs {
     public struct StartQueryRequest: AWSEncodableShape {
         /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let endTime: Int64
-        /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 1000.
+        /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 10,000.
         public let limit: Int?
         /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
         public let logGroupIdentifiers: [String]?
@@ -4619,6 +4623,8 @@ extension CloudWatchLogs {
         public let anomalyDetectorArn: String
         /// If you are suppressing or unsuppressing an anomaly, specify its unique ID here. You can find anomaly IDs by using the ListAnomalies operation.
         public let anomalyId: String?
+        /// Set this to true to prevent CloudWatch Logs from displaying this behavior as an anomaly in the future. The behavior is then treated as  baseline behavior. However, if similar but  more severe occurrences of this behavior occur in the future, those will still be reported as anomalies.  The default is false
+        public let baseline: Bool?
         /// If you are suppressing or unsuppressing an pattern, specify its unique ID here. You can find pattern IDs by using the ListAnomalies operation.
         public let patternId: String?
         /// If you are temporarily suppressing an anomaly or pattern, use this structure to specify how long the suppression is to last.
@@ -4627,9 +4633,10 @@ extension CloudWatchLogs {
         public let suppressionType: SuppressionType?
 
         @inlinable
-        public init(anomalyDetectorArn: String, anomalyId: String? = nil, patternId: String? = nil, suppressionPeriod: SuppressionPeriod? = nil, suppressionType: SuppressionType? = nil) {
+        public init(anomalyDetectorArn: String, anomalyId: String? = nil, baseline: Bool? = nil, patternId: String? = nil, suppressionPeriod: SuppressionPeriod? = nil, suppressionType: SuppressionType? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyId = anomalyId
+            self.baseline = baseline
             self.patternId = patternId
             self.suppressionPeriod = suppressionPeriod
             self.suppressionType = suppressionType
@@ -4647,6 +4654,7 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case anomalyDetectorArn = "anomalyDetectorArn"
             case anomalyId = "anomalyId"
+            case baseline = "baseline"
             case patternId = "patternId"
             case suppressionPeriod = "suppressionPeriod"
             case suppressionType = "suppressionType"
@@ -4658,9 +4666,9 @@ extension CloudWatchLogs {
         public let fieldDelimiter: String?
         /// The ID of the delivery to be updated by this request.
         public let id: String
-        /// The list of record fields to be delivered to the destination, in order.  If the delivery’s log source has mandatory fields, they must be included in this list.
+        /// The list of record fields to be delivered to the destination, in order.  If the delivery's log source has mandatory fields, they must be included in this list.
         public let recordFields: [String]?
-        /// This structure contains parameters that are valid only when the delivery’s delivery destination is an S3 bucket.
+        /// This structure contains parameters that are valid only when the delivery's delivery destination is an S3 bucket.
         public let s3DeliveryConfiguration: S3DeliveryConfiguration?
 
         @inlinable

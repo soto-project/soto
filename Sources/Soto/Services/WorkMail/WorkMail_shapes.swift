@@ -74,6 +74,12 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
+    public enum IdentityProviderAuthenticationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case identityProviderAndDirectory = "IDENTITY_PROVIDER_AND_DIRECTORY"
+        case identityProviderOnly = "IDENTITY_PROVIDER_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImpersonationRoleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullAccess = "FULL_ACCESS"
         case readOnly = "READ_ONLY"
@@ -104,6 +110,12 @@ extension WorkMail {
         case fullAccess = "FULL_ACCESS"
         case sendAs = "SEND_AS"
         case sendOnBehalf = "SEND_ON_BEHALF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PersonalAccessTokenConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -537,6 +549,53 @@ extension WorkMail {
         }
     }
 
+    public struct CreateIdentityCenterApplicationRequest: AWSEncodableShape {
+        ///  The idempotency token associated with the request.
+        public let clientToken: String?
+        ///  The Amazon Resource Name (ARN) of the instance.
+        public let instanceArn: String
+        ///  The name of the IAM Identity Center application.
+        public let name: String
+
+        @inlinable
+        public init(clientToken: String? = CreateIdentityCenterApplicationRequest.idempotencyToken(), instanceArn: String, name: String) {
+            self.clientToken = clientToken
+            self.instanceArn = instanceArn
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7e]+$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1124)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case instanceArn = "InstanceArn"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateIdentityCenterApplicationResponse: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the application.
+        public let applicationArn: String?
+
+        @inlinable
+        public init(applicationArn: String? = nil) {
+            self.applicationArn = applicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
     public struct CreateImpersonationRoleRequest: AWSEncodableShape {
         /// The idempotency token for the client request.
         public let clientToken: String?
@@ -880,6 +939,8 @@ extension WorkMail {
         public let firstName: String?
         /// If this parameter is enabled, the user will be hidden from the address book.
         public let hiddenFromGlobalAddressList: Bool?
+        /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+        public let identityProviderUserId: String?
         /// The last name of the new user.
         public let lastName: String?
         /// The name for the new user. WorkMail directory user names have a maximum length of 64. All others have a maximum length of 20.
@@ -892,10 +953,11 @@ extension WorkMail {
         public let role: UserRole?
 
         @inlinable
-        public init(displayName: String, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, lastName: String? = nil, name: String, organizationId: String, password: String? = nil, role: UserRole? = nil) {
+        public init(displayName: String, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, identityProviderUserId: String? = nil, lastName: String? = nil, name: String, organizationId: String, password: String? = nil, role: UserRole? = nil) {
             self.displayName = displayName
             self.firstName = firstName
             self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+            self.identityProviderUserId = identityProviderUserId
             self.lastName = lastName
             self.name = name
             self.organizationId = organizationId
@@ -906,6 +968,9 @@ extension WorkMail {
         public func validate(name: String) throws {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 256)
             try self.validate(self.firstName, name: "firstName", parent: name, max: 256)
+            try self.validate(self.identityProviderUserId, name: "identityProviderUserId", parent: name, max: 47)
+            try self.validate(self.identityProviderUserId, name: "identityProviderUserId", parent: name, min: 1)
+            try self.validate(self.identityProviderUserId, name: "identityProviderUserId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.lastName, name: "lastName", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -921,6 +986,7 @@ extension WorkMail {
             case displayName = "DisplayName"
             case firstName = "FirstName"
             case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+            case identityProviderUserId = "IdentityProviderUserId"
             case lastName = "LastName"
             case name = "Name"
             case organizationId = "OrganizationId"
@@ -1115,6 +1181,54 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct DeleteIdentityCenterApplicationRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the application.
+        public let applicationArn: String
+
+        @inlinable
+        public init(applicationArn: String) {
+            self.applicationArn = applicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+        }
+    }
+
+    public struct DeleteIdentityCenterApplicationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteIdentityProviderConfigurationRequest: AWSEncodableShape {
+        /// The Organization ID.
+        public let organizationId: String
+
+        @inlinable
+        public init(organizationId: String) {
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DeleteIdentityProviderConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteImpersonationRoleRequest: AWSEncodableShape {
         /// The ID of the impersonation role to delete.
         public let impersonationRoleId: String
@@ -1258,15 +1372,18 @@ extension WorkMail {
         public let clientToken: String?
         /// If true, deletes the AWS Directory Service directory associated with the organization.
         public let deleteDirectory: Bool
+        /// Deletes IAM Identity Center application for WorkMail. This action does not affect authentication settings for any organization.
+        public let deleteIdentityCenterApplication: Bool?
         /// Deletes a WorkMail organization even if the organization has enabled users.
         public let forceDelete: Bool?
         /// The organization ID.
         public let organizationId: String
 
         @inlinable
-        public init(clientToken: String? = DeleteOrganizationRequest.idempotencyToken(), deleteDirectory: Bool = false, forceDelete: Bool? = nil, organizationId: String) {
+        public init(clientToken: String? = DeleteOrganizationRequest.idempotencyToken(), deleteDirectory: Bool = false, deleteIdentityCenterApplication: Bool? = nil, forceDelete: Bool? = nil, organizationId: String) {
             self.clientToken = clientToken
             self.deleteDirectory = deleteDirectory
+            self.deleteIdentityCenterApplication = deleteIdentityCenterApplication
             self.forceDelete = forceDelete
             self.organizationId = organizationId
         }
@@ -1283,6 +1400,7 @@ extension WorkMail {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case deleteDirectory = "DeleteDirectory"
+            case deleteIdentityCenterApplication = "DeleteIdentityCenterApplication"
             case forceDelete = "ForceDelete"
             case organizationId = "OrganizationId"
         }
@@ -1304,6 +1422,37 @@ extension WorkMail {
             case organizationId = "OrganizationId"
             case state = "State"
         }
+    }
+
+    public struct DeletePersonalAccessTokenRequest: AWSEncodableShape {
+        ///  The Organization ID.
+        public let organizationId: String
+        ///  The Personal Access Token ID.
+        public let personalAccessTokenId: String
+
+        @inlinable
+        public init(organizationId: String, personalAccessTokenId: String) {
+            self.organizationId = organizationId
+            self.personalAccessTokenId = personalAccessTokenId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.personalAccessTokenId, name: "personalAccessTokenId", parent: name, max: 64)
+            try self.validate(self.personalAccessTokenId, name: "personalAccessTokenId", parent: name, min: 1)
+            try self.validate(self.personalAccessTokenId, name: "personalAccessTokenId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case personalAccessTokenId = "PersonalAccessTokenId"
+        }
+    }
+
+    public struct DeletePersonalAccessTokenResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteResourceRequest: AWSEncodableShape {
@@ -1610,6 +1759,48 @@ extension WorkMail {
             case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
             case name = "Name"
             case state = "State"
+        }
+    }
+
+    public struct DescribeIdentityProviderConfigurationRequest: AWSEncodableShape {
+        ///  The Organization ID.
+        public let organizationId: String
+
+        @inlinable
+        public init(organizationId: String) {
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DescribeIdentityProviderConfigurationResponse: AWSDecodableShape {
+        /// The authentication mode used in WorkMail.
+        public let authenticationMode: IdentityProviderAuthenticationMode?
+        ///  The details of the IAM Identity Center configuration.
+        public let identityCenterConfiguration: IdentityCenterConfiguration?
+        ///  The details of the Personal Access Token configuration.
+        public let personalAccessTokenConfiguration: PersonalAccessTokenConfiguration?
+
+        @inlinable
+        public init(authenticationMode: IdentityProviderAuthenticationMode? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, personalAccessTokenConfiguration: PersonalAccessTokenConfiguration? = nil) {
+            self.authenticationMode = authenticationMode
+            self.identityCenterConfiguration = identityCenterConfiguration
+            self.personalAccessTokenConfiguration = personalAccessTokenConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationMode = "AuthenticationMode"
+            case identityCenterConfiguration = "IdentityCenterConfiguration"
+            case personalAccessTokenConfiguration = "PersonalAccessTokenConfiguration"
         }
     }
 
@@ -1931,6 +2122,10 @@ extension WorkMail {
         public let firstName: String?
         /// If enabled, the user is hidden from the global address list.
         public let hiddenFromGlobalAddressList: Bool?
+        ///  Identity Store ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+        public let identityProviderIdentityStoreId: String?
+        /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+        public let identityProviderUserId: String?
         /// Initials of the user.
         public let initials: String?
         /// Job title of the user.
@@ -1959,7 +2154,7 @@ extension WorkMail {
         public let zipCode: String?
 
         @inlinable
-        public init(city: String? = nil, company: String? = nil, country: String? = nil, department: String? = nil, disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, initials: String? = nil, jobTitle: String? = nil, lastName: String? = nil, mailboxDeprovisionedDate: Date? = nil, mailboxProvisionedDate: Date? = nil, name: String? = nil, office: String? = nil, state: EntityState? = nil, street: String? = nil, telephone: String? = nil, userId: String? = nil, userRole: UserRole? = nil, zipCode: String? = nil) {
+        public init(city: String? = nil, company: String? = nil, country: String? = nil, department: String? = nil, disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, identityProviderIdentityStoreId: String? = nil, identityProviderUserId: String? = nil, initials: String? = nil, jobTitle: String? = nil, lastName: String? = nil, mailboxDeprovisionedDate: Date? = nil, mailboxProvisionedDate: Date? = nil, name: String? = nil, office: String? = nil, state: EntityState? = nil, street: String? = nil, telephone: String? = nil, userId: String? = nil, userRole: UserRole? = nil, zipCode: String? = nil) {
             self.city = city
             self.company = company
             self.country = country
@@ -1970,6 +2165,8 @@ extension WorkMail {
             self.enabledDate = enabledDate
             self.firstName = firstName
             self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+            self.identityProviderIdentityStoreId = identityProviderIdentityStoreId
+            self.identityProviderUserId = identityProviderUserId
             self.initials = initials
             self.jobTitle = jobTitle
             self.lastName = lastName
@@ -1996,6 +2193,8 @@ extension WorkMail {
             case enabledDate = "EnabledDate"
             case firstName = "FirstName"
             case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+            case identityProviderIdentityStoreId = "IdentityProviderIdentityStoreId"
+            case identityProviderUserId = "IdentityProviderUserId"
             case initials = "Initials"
             case jobTitle = "JobTitle"
             case lastName = "LastName"
@@ -2663,6 +2862,71 @@ extension WorkMail {
         }
     }
 
+    public struct GetPersonalAccessTokenMetadataRequest: AWSEncodableShape {
+        ///  The Organization ID.
+        public let organizationId: String
+        ///  The Personal Access Token ID.
+        public let personalAccessTokenId: String
+
+        @inlinable
+        public init(organizationId: String, personalAccessTokenId: String) {
+            self.organizationId = organizationId
+            self.personalAccessTokenId = personalAccessTokenId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.personalAccessTokenId, name: "personalAccessTokenId", parent: name, max: 64)
+            try self.validate(self.personalAccessTokenId, name: "personalAccessTokenId", parent: name, min: 1)
+            try self.validate(self.personalAccessTokenId, name: "personalAccessTokenId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case personalAccessTokenId = "PersonalAccessTokenId"
+        }
+    }
+
+    public struct GetPersonalAccessTokenMetadataResponse: AWSDecodableShape {
+        ///  The date when the Personal Access Token ID was created.
+        public let dateCreated: Date?
+        ///  The date when the Personal Access Token ID was last used.
+        public let dateLastUsed: Date?
+        ///  The time when the Personal Access Token ID will expire.
+        public let expiresTime: Date?
+        ///  The Personal Access Token name.
+        public let name: String?
+        ///  The Personal Access Token ID.
+        public let personalAccessTokenId: String?
+        ///  Lists all the Personal Access Token permissions for a mailbox.
+        public let scopes: [String]?
+        ///  The WorkMail User ID.
+        public let userId: String?
+
+        @inlinable
+        public init(dateCreated: Date? = nil, dateLastUsed: Date? = nil, expiresTime: Date? = nil, name: String? = nil, personalAccessTokenId: String? = nil, scopes: [String]? = nil, userId: String? = nil) {
+            self.dateCreated = dateCreated
+            self.dateLastUsed = dateLastUsed
+            self.expiresTime = expiresTime
+            self.name = name
+            self.personalAccessTokenId = personalAccessTokenId
+            self.scopes = scopes
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateCreated = "DateCreated"
+            case dateLastUsed = "DateLastUsed"
+            case expiresTime = "ExpiresTime"
+            case name = "Name"
+            case personalAccessTokenId = "PersonalAccessTokenId"
+            case scopes = "Scopes"
+            case userId = "UserId"
+        }
+    }
+
     public struct Group: AWSDecodableShape {
         /// The date indicating when the group was disabled from WorkMail use.
         public let disabledDate: Date?
@@ -2712,6 +2976,33 @@ extension WorkMail {
         private enum CodingKeys: String, CodingKey {
             case groupId = "GroupId"
             case groupName = "GroupName"
+        }
+    }
+
+    public struct IdentityCenterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of IAMIdentity Center Application for WorkMail. Must be created by the WorkMail API, see CreateIdentityCenterApplication.
+        public let applicationArn: String
+        ///  The Amazon Resource Name (ARN) of the  of IAM Identity Center instance. Must be in the same AWS account and region as WorkMail organization.
+        public let instanceArn: String
+
+        @inlinable
+        public init(applicationArn: String, instanceArn: String) {
+            self.applicationArn = applicationArn
+            self.instanceArn = instanceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1124)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case instanceArn = "InstanceArn"
         }
     }
 
@@ -3561,6 +3852,64 @@ extension WorkMail {
         }
     }
 
+    public struct ListPersonalAccessTokensRequest: AWSEncodableShape {
+        ///  The maximum amount of items that should be returned in a response.
+        public let maxResults: Int?
+        ///  The token from the previous response to query the next page.
+        public let nextToken: String?
+        ///  The Organization ID.
+        public let organizationId: String
+        ///  The WorkMail User ID.
+        public let userId: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String, userId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationId = organizationId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9._%+@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct ListPersonalAccessTokensResponse: AWSDecodableShape {
+        ///  The token from the previous response to query the next page.
+        public let nextToken: String?
+        ///  Lists all the personal tokens in an organization or user, if user ID is provided.
+        public let personalAccessTokenSummaries: [PersonalAccessTokenSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, personalAccessTokenSummaries: [PersonalAccessTokenSummary]? = nil) {
+            self.nextToken = nextToken
+            self.personalAccessTokenSummaries = personalAccessTokenSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case personalAccessTokenSummaries = "PersonalAccessTokenSummaries"
+        }
+    }
+
     public struct ListResourceDelegatesRequest: AWSEncodableShape {
         /// The number of maximum results in a page.
         public let maxResults: Int?
@@ -3739,6 +4088,8 @@ extension WorkMail {
     public struct ListUsersFilters: AWSEncodableShape {
         /// Filters only users with the provided display name prefix.
         public let displayNamePrefix: String?
+        /// Filters only users with the ID from the IAM Identity Center.
+        public let identityProviderUserIdPrefix: String?
         /// Filters only users with the provided email prefix.
         public let primaryEmailPrefix: String?
         /// Filters only users with the provided state.
@@ -3747,8 +4098,9 @@ extension WorkMail {
         public let usernamePrefix: String?
 
         @inlinable
-        public init(displayNamePrefix: String? = nil, primaryEmailPrefix: String? = nil, state: EntityState? = nil, usernamePrefix: String? = nil) {
+        public init(displayNamePrefix: String? = nil, identityProviderUserIdPrefix: String? = nil, primaryEmailPrefix: String? = nil, state: EntityState? = nil, usernamePrefix: String? = nil) {
             self.displayNamePrefix = displayNamePrefix
+            self.identityProviderUserIdPrefix = identityProviderUserIdPrefix
             self.primaryEmailPrefix = primaryEmailPrefix
             self.state = state
             self.usernamePrefix = usernamePrefix
@@ -3756,12 +4108,16 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try self.validate(self.displayNamePrefix, name: "displayNamePrefix", parent: name, max: 256)
+            try self.validate(self.identityProviderUserIdPrefix, name: "identityProviderUserIdPrefix", parent: name, max: 47)
+            try self.validate(self.identityProviderUserIdPrefix, name: "identityProviderUserIdPrefix", parent: name, min: 1)
+            try self.validate(self.identityProviderUserIdPrefix, name: "identityProviderUserIdPrefix", parent: name, pattern: "^[A-Fa-f0-9-]+$")
             try self.validate(self.primaryEmailPrefix, name: "primaryEmailPrefix", parent: name, max: 256)
             try self.validate(self.usernamePrefix, name: "usernamePrefix", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
             case displayNamePrefix = "DisplayNamePrefix"
+            case identityProviderUserIdPrefix = "IdentityProviderUserIdPrefix"
             case primaryEmailPrefix = "PrimaryEmailPrefix"
             case state = "State"
             case usernamePrefix = "UsernamePrefix"
@@ -4092,6 +4448,67 @@ extension WorkMail {
         }
     }
 
+    public struct PersonalAccessTokenConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The validity of the Personal Access Token status in days.
+        public let lifetimeInDays: Int?
+        ///  The status of the Personal Access Token allowed for the organization.     Active - Mailbox users can login to the web application and choose Settings to see the new Personal Access Tokens page to  create and delete the Personal Access Tokens. Mailbox users can use the Personal Access Tokens to set up mailbox connection from desktop or mobile email clients.    Inactive - Personal Access Tokens are disabled for your organization. Mailbox users can’t create, list, or delete Personal Access Tokens and can’t use them to connect to  their mailboxes from desktop or mobile email clients.
+        public let status: PersonalAccessTokenConfigurationStatus
+
+        @inlinable
+        public init(lifetimeInDays: Int? = nil, status: PersonalAccessTokenConfigurationStatus) {
+            self.lifetimeInDays = lifetimeInDays
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lifetimeInDays, name: "lifetimeInDays", parent: name, max: 3653)
+            try self.validate(self.lifetimeInDays, name: "lifetimeInDays", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifetimeInDays = "LifetimeInDays"
+            case status = "Status"
+        }
+    }
+
+    public struct PersonalAccessTokenSummary: AWSDecodableShape {
+        ///  The date when the Personal Access Token was created.
+        public let dateCreated: Date?
+        ///  The date when the Personal Access Token was last used.
+        public let dateLastUsed: Date?
+        ///  The date when the Personal Access Token will expire.
+        public let expiresTime: Date?
+        ///  The name of the Personal Access Token.
+        public let name: String?
+        ///  The ID of the Personal Access Token.
+        public let personalAccessTokenId: String?
+        ///  Lists all the Personal Access Token permissions for a mailbox.
+        public let scopes: [String]?
+        ///  The user ID of the WorkMail user associated with the Personal Access Token.
+        public let userId: String?
+
+        @inlinable
+        public init(dateCreated: Date? = nil, dateLastUsed: Date? = nil, expiresTime: Date? = nil, name: String? = nil, personalAccessTokenId: String? = nil, scopes: [String]? = nil, userId: String? = nil) {
+            self.dateCreated = dateCreated
+            self.dateLastUsed = dateLastUsed
+            self.expiresTime = expiresTime
+            self.name = name
+            self.personalAccessTokenId = personalAccessTokenId
+            self.scopes = scopes
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateCreated = "DateCreated"
+            case dateLastUsed = "DateLastUsed"
+            case expiresTime = "ExpiresTime"
+            case name = "Name"
+            case personalAccessTokenId = "PersonalAccessTokenId"
+            case scopes = "Scopes"
+            case userId = "UserId"
+        }
+    }
+
     public struct PutAccessControlRuleRequest: AWSEncodableShape {
         /// Access protocol actions to include in the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
         public let actions: [String]?
@@ -4246,6 +4663,44 @@ extension WorkMail {
     }
 
     public struct PutEmailMonitoringConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutIdentityProviderConfigurationRequest: AWSEncodableShape {
+        ///  The authentication mode used in WorkMail.
+        public let authenticationMode: IdentityProviderAuthenticationMode
+        ///  The details of the IAM Identity Center configuration.
+        public let identityCenterConfiguration: IdentityCenterConfiguration
+        ///  The ID of the WorkMail Organization.
+        public let organizationId: String
+        ///  The details of the Personal Access Token configuration.
+        public let personalAccessTokenConfiguration: PersonalAccessTokenConfiguration
+
+        @inlinable
+        public init(authenticationMode: IdentityProviderAuthenticationMode, identityCenterConfiguration: IdentityCenterConfiguration, organizationId: String, personalAccessTokenConfiguration: PersonalAccessTokenConfiguration) {
+            self.authenticationMode = authenticationMode
+            self.identityCenterConfiguration = identityCenterConfiguration
+            self.organizationId = organizationId
+            self.personalAccessTokenConfiguration = personalAccessTokenConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.identityCenterConfiguration.validate(name: "\(name).identityCenterConfiguration")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.personalAccessTokenConfiguration.validate(name: "\(name).personalAccessTokenConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationMode = "AuthenticationMode"
+            case identityCenterConfiguration = "IdentityCenterConfiguration"
+            case organizationId = "OrganizationId"
+            case personalAccessTokenConfiguration = "PersonalAccessTokenConfiguration"
+        }
+    }
+
+    public struct PutIdentityProviderConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -5260,6 +5715,8 @@ extension WorkMail {
         public let firstName: String?
         /// If enabled, the user is hidden from the global address list.
         public let hiddenFromGlobalAddressList: Bool?
+        /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+        public let identityProviderUserId: String?
         /// Updates the user's initials.
         public let initials: String?
         /// Updates the user's job title.
@@ -5278,11 +5735,11 @@ extension WorkMail {
         public let telephone: String?
         /// The identifier for the user to be updated. The identifier can be the UserId, Username, or email. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name: user
         public let userId: String
-        /// Updates the user's zipcode.
+        /// Updates the user's zip code.
         public let zipCode: String?
 
         @inlinable
-        public init(city: String? = nil, company: String? = nil, country: String? = nil, department: String? = nil, displayName: String? = nil, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, initials: String? = nil, jobTitle: String? = nil, lastName: String? = nil, office: String? = nil, organizationId: String, role: UserRole? = nil, street: String? = nil, telephone: String? = nil, userId: String, zipCode: String? = nil) {
+        public init(city: String? = nil, company: String? = nil, country: String? = nil, department: String? = nil, displayName: String? = nil, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, identityProviderUserId: String? = nil, initials: String? = nil, jobTitle: String? = nil, lastName: String? = nil, office: String? = nil, organizationId: String, role: UserRole? = nil, street: String? = nil, telephone: String? = nil, userId: String, zipCode: String? = nil) {
             self.city = city
             self.company = company
             self.country = country
@@ -5290,6 +5747,7 @@ extension WorkMail {
             self.displayName = displayName
             self.firstName = firstName
             self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+            self.identityProviderUserId = identityProviderUserId
             self.initials = initials
             self.jobTitle = jobTitle
             self.lastName = lastName
@@ -5309,6 +5767,8 @@ extension WorkMail {
             try self.validate(self.department, name: "department", parent: name, max: 256)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 256)
             try self.validate(self.firstName, name: "firstName", parent: name, max: 256)
+            try self.validate(self.identityProviderUserId, name: "identityProviderUserId", parent: name, max: 47)
+            try self.validate(self.identityProviderUserId, name: "identityProviderUserId", parent: name, pattern: "^$|^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.initials, name: "initials", parent: name, max: 256)
             try self.validate(self.jobTitle, name: "jobTitle", parent: name, max: 256)
             try self.validate(self.lastName, name: "lastName", parent: name, max: 256)
@@ -5332,6 +5792,7 @@ extension WorkMail {
             case displayName = "DisplayName"
             case firstName = "FirstName"
             case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+            case identityProviderUserId = "IdentityProviderUserId"
             case initials = "Initials"
             case jobTitle = "JobTitle"
             case lastName = "LastName"
@@ -5360,6 +5821,10 @@ extension WorkMail {
         public let enabledDate: Date?
         /// The identifier of the user.
         public let id: String?
+        /// Identity store ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+        public let identityProviderIdentityStoreId: String?
+        /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+        public let identityProviderUserId: String?
         /// The name of the user.
         public let name: String?
         /// The state of the user, which can be ENABLED, DISABLED, or DELETED.
@@ -5368,12 +5833,14 @@ extension WorkMail {
         public let userRole: UserRole?
 
         @inlinable
-        public init(disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, userRole: UserRole? = nil) {
+        public init(disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, identityProviderIdentityStoreId: String? = nil, identityProviderUserId: String? = nil, name: String? = nil, state: EntityState? = nil, userRole: UserRole? = nil) {
             self.disabledDate = disabledDate
             self.displayName = displayName
             self.email = email
             self.enabledDate = enabledDate
             self.id = id
+            self.identityProviderIdentityStoreId = identityProviderIdentityStoreId
+            self.identityProviderUserId = identityProviderUserId
             self.name = name
             self.state = state
             self.userRole = userRole
@@ -5385,6 +5852,8 @@ extension WorkMail {
             case email = "Email"
             case enabledDate = "EnabledDate"
             case id = "Id"
+            case identityProviderIdentityStoreId = "IdentityProviderIdentityStoreId"
+            case identityProviderUserId = "IdentityProviderUserId"
             case name = "Name"
             case state = "State"
             case userRole = "UserRole"

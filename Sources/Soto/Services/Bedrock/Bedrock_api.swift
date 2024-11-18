@@ -84,12 +84,14 @@ public struct Bedrock: AWSService {
         "bedrock-ap-southeast-2": "bedrock.ap-southeast-2.amazonaws.com",
         "bedrock-ca-central-1": "bedrock.ca-central-1.amazonaws.com",
         "bedrock-eu-central-1": "bedrock.eu-central-1.amazonaws.com",
+        "bedrock-eu-central-2": "bedrock.eu-central-2.amazonaws.com",
         "bedrock-eu-west-1": "bedrock.eu-west-1.amazonaws.com",
         "bedrock-eu-west-2": "bedrock.eu-west-2.amazonaws.com",
         "bedrock-eu-west-3": "bedrock.eu-west-3.amazonaws.com",
         "bedrock-fips-ca-central-1": "bedrock-fips.ca-central-1.amazonaws.com",
         "bedrock-fips-us-east-1": "bedrock-fips.us-east-1.amazonaws.com",
         "bedrock-fips-us-east-2": "bedrock-fips.us-east-2.amazonaws.com",
+        "bedrock-fips-us-gov-east-1": "bedrock-fips.us-gov-east-1.amazonaws.com",
         "bedrock-fips-us-gov-west-1": "bedrock-fips.us-gov-west-1.amazonaws.com",
         "bedrock-fips-us-west-2": "bedrock-fips.us-west-2.amazonaws.com",
         "bedrock-runtime-ap-northeast-1": "bedrock-runtime.ap-northeast-1.amazonaws.com",
@@ -99,22 +101,26 @@ public struct Bedrock: AWSService {
         "bedrock-runtime-ap-southeast-2": "bedrock-runtime.ap-southeast-2.amazonaws.com",
         "bedrock-runtime-ca-central-1": "bedrock-runtime.ca-central-1.amazonaws.com",
         "bedrock-runtime-eu-central-1": "bedrock-runtime.eu-central-1.amazonaws.com",
+        "bedrock-runtime-eu-central-2": "bedrock-runtime.eu-central-2.amazonaws.com",
         "bedrock-runtime-eu-west-1": "bedrock-runtime.eu-west-1.amazonaws.com",
         "bedrock-runtime-eu-west-2": "bedrock-runtime.eu-west-2.amazonaws.com",
         "bedrock-runtime-eu-west-3": "bedrock-runtime.eu-west-3.amazonaws.com",
         "bedrock-runtime-fips-ca-central-1": "bedrock-runtime-fips.ca-central-1.amazonaws.com",
         "bedrock-runtime-fips-us-east-1": "bedrock-runtime-fips.us-east-1.amazonaws.com",
         "bedrock-runtime-fips-us-east-2": "bedrock-runtime-fips.us-east-2.amazonaws.com",
+        "bedrock-runtime-fips-us-gov-east-1": "bedrock-runtime-fips.us-gov-east-1.amazonaws.com",
         "bedrock-runtime-fips-us-gov-west-1": "bedrock-runtime-fips.us-gov-west-1.amazonaws.com",
         "bedrock-runtime-fips-us-west-2": "bedrock-runtime-fips.us-west-2.amazonaws.com",
         "bedrock-runtime-sa-east-1": "bedrock-runtime.sa-east-1.amazonaws.com",
         "bedrock-runtime-us-east-1": "bedrock-runtime.us-east-1.amazonaws.com",
         "bedrock-runtime-us-east-2": "bedrock-runtime.us-east-2.amazonaws.com",
+        "bedrock-runtime-us-gov-east-1": "bedrock-runtime.us-gov-east-1.amazonaws.com",
         "bedrock-runtime-us-gov-west-1": "bedrock-runtime.us-gov-west-1.amazonaws.com",
         "bedrock-runtime-us-west-2": "bedrock-runtime.us-west-2.amazonaws.com",
         "bedrock-sa-east-1": "bedrock.sa-east-1.amazonaws.com",
         "bedrock-us-east-1": "bedrock.us-east-1.amazonaws.com",
         "bedrock-us-east-2": "bedrock.us-east-2.amazonaws.com",
+        "bedrock-us-gov-east-1": "bedrock.us-gov-east-1.amazonaws.com",
         "bedrock-us-gov-west-1": "bedrock.us-gov-west-1.amazonaws.com",
         "bedrock-us-west-2": "bedrock.us-west-2.amazonaws.com"
     ]}
@@ -300,6 +306,47 @@ public struct Bedrock: AWSService {
             guardrailIdentifier: guardrailIdentifier
         )
         return try await self.createGuardrailVersion(input, logger: logger)
+    }
+
+    /// Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
+    @Sendable
+    @inlinable
+    public func createInferenceProfile(_ input: CreateInferenceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInferenceProfileResponse {
+        try await self.client.execute(
+            operation: "CreateInferenceProfile", 
+            path: "/inference-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+    ///   - description: A description for the inference profile.
+    ///   - inferenceProfileName: A name for the inference profile.
+    ///   - modelSource: The foundation model or system-defined inference profile that the inference profile will track metrics and costs for.
+    ///   - tags: An array of objects, each of which contains a tag and its value. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createInferenceProfile(
+        clientRequestToken: String? = CreateInferenceProfileRequest.idempotencyToken(),
+        description: String? = nil,
+        inferenceProfileName: String,
+        modelSource: InferenceProfileModelSource,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateInferenceProfileResponse {
+        let input = CreateInferenceProfileRequest(
+            clientRequestToken: clientRequestToken, 
+            description: description, 
+            inferenceProfileName: inferenceProfileName, 
+            modelSource: modelSource, 
+            tags: tags
+        )
+        return try await self.createInferenceProfile(input, logger: logger)
     }
 
     /// Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
@@ -651,6 +698,35 @@ public struct Bedrock: AWSService {
         return try await self.deleteImportedModel(input, logger: logger)
     }
 
+    /// Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
+    @Sendable
+    @inlinable
+    public func deleteInferenceProfile(_ input: DeleteInferenceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInferenceProfileResponse {
+        try await self.client.execute(
+            operation: "DeleteInferenceProfile", 
+            path: "/inference-profiles/{inferenceProfileIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
+    ///
+    /// Parameters:
+    ///   - inferenceProfileIdentifier: The Amazon Resource Name (ARN) or ID of the application inference profile to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteInferenceProfile(
+        inferenceProfileIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteInferenceProfileResponse {
+        let input = DeleteInferenceProfileRequest(
+            inferenceProfileIdentifier: inferenceProfileIdentifier
+        )
+        return try await self.deleteInferenceProfile(input, logger: logger)
+    }
+
     /// Delete the invocation logging.
     @Sendable
     @inlinable
@@ -854,7 +930,7 @@ public struct Bedrock: AWSService {
         return try await self.getImportedModel(input, logger: logger)
     }
 
-    /// Gets information about an inference profile. For more information, see the Amazon Bedrock User Guide.
+    /// Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func getInferenceProfile(_ input: GetInferenceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInferenceProfileResponse {
@@ -867,10 +943,10 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Gets information about an inference profile. For more information, see the Amazon Bedrock User Guide.
+    /// Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
-    ///   - inferenceProfileIdentifier: The unique identifier of the inference profile.
+    ///   - inferenceProfileIdentifier: The ID or Amazon Resource Name (ARN) of the inference profile.
     ///   - logger: Logger use during operation
     @inlinable
     public func getInferenceProfile(
@@ -1280,7 +1356,7 @@ public struct Bedrock: AWSService {
         return try await self.listImportedModels(input, logger: logger)
     }
 
-    /// Returns a list of inference profiles that you can use.
+    /// Returns a list of inference profiles that you can use. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func listInferenceProfiles(_ input: ListInferenceProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInferenceProfilesResponse {
@@ -1293,21 +1369,24 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of inference profiles that you can use.
+    /// Returns a list of inference profiles that you can use. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - typeEquals: Filters for inference profiles that match the type you specify.    SYSTEM_DEFINED – The inference profile is defined by Amazon Bedrock. You can route inference requests across regions with these inference profiles.    APPLICATION – The inference profile was created by a user. This type of inference profile can track metrics and costs when invoking the model in it. The inference profile may route requests to one or multiple regions.
     ///   - logger: Logger use during operation
     @inlinable
     public func listInferenceProfiles(
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        typeEquals: InferenceProfileType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListInferenceProfilesResponse {
         let input = ListInferenceProfilesRequest(
             maxResults: maxResults, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            typeEquals: typeEquals
         )
         return try await self.listInferenceProfiles(input, logger: logger)
     }
@@ -2106,14 +2185,17 @@ extension Bedrock {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - typeEquals: Filters for inference profiles that match the type you specify.    SYSTEM_DEFINED – The inference profile is defined by Amazon Bedrock. You can route inference requests across regions with these inference profiles.    APPLICATION – The inference profile was created by a user. This type of inference profile can track metrics and costs when invoking the model in it. The inference profile may route requests to one or multiple regions.
     ///   - logger: Logger used for logging
     @inlinable
     public func listInferenceProfilesPaginator(
         maxResults: Int? = nil,
+        typeEquals: InferenceProfileType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListInferenceProfilesRequest, ListInferenceProfilesResponse> {
         let input = ListInferenceProfilesRequest(
-            maxResults: maxResults
+            maxResults: maxResults, 
+            typeEquals: typeEquals
         )
         return self.listInferenceProfilesPaginator(input, logger: logger)
     }
@@ -2453,7 +2535,8 @@ extension Bedrock.ListInferenceProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Bedrock.ListInferenceProfilesRequest {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            typeEquals: self.typeEquals
         )
     }
 }

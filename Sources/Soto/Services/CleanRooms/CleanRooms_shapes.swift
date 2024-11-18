@@ -83,6 +83,12 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnalyticsEngine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cleanRoomsSql = "CLEAN_ROOMS_SQL"
+        case spark = "SPARK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CollaborationQueryLogStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -100,6 +106,12 @@ extension CleanRooms {
         case aggregation = "AGGREGATION"
         case custom = "CUSTOM"
         case list = "LIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomMLMemberAbility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canReceiveInferenceOutput = "CAN_RECEIVE_INFERENCE_OUTPUT"
+        case canReceiveModelOutput = "CAN_RECEIVE_MODEL_OUTPUT"
         public var description: String { return self.rawValue }
     }
 
@@ -164,18 +176,31 @@ extension CleanRooms {
 
     public enum ParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bigint = "BIGINT"
+        case binary = "BINARY"
         case boolean = "BOOLEAN"
+        case byte = "BYTE"
         case char = "CHAR"
+        case character = "CHARACTER"
         case date = "DATE"
         case decimal = "DECIMAL"
+        case double = "DOUBLE"
         case doublePrecision = "DOUBLE_PRECISION"
+        case float = "FLOAT"
+        case int = "INT"
         case integer = "INTEGER"
+        case long = "LONG"
+        case numeric = "NUMERIC"
         case real = "REAL"
+        case short = "SHORT"
         case smallint = "SMALLINT"
+        case string = "STRING"
         case time = "TIME"
         case timestamp = "TIMESTAMP"
+        case timestampLtz = "TIMESTAMP_LTZ"
+        case timestampNtz = "TIMESTAMP_NTZ"
         case timestamptz = "TIMESTAMPTZ"
         case timetz = "TIMETZ"
+        case tinyint = "TINYINT"
         case varbyte = "VARBYTE"
         case varchar = "VARCHAR"
         public var description: String { return self.rawValue }
@@ -276,6 +301,12 @@ extension CleanRooms {
 
     public enum TargetProtectedQueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkerComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cr1x = "CR.1X"
+        case cr4x = "CR.4X"
         public var description: String { return self.rawValue }
     }
 
@@ -728,7 +759,7 @@ extension CleanRooms {
         public func validate(name: String) throws {
             try self.allowedAnalyses.forEach {
                 try validate($0, name: "allowedAnalyses[]", parent: name, max: 200)
-                try validate($0, name: "allowedAnalyses[]", parent: name, pattern: "^(ANY_QUERY|arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+)$")
+                try validate($0, name: "allowedAnalyses[]", parent: name, pattern: "^(ANY_QUERY|ANY_JOB|arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+)$")
             }
             try self.allowedAnalysisProviders?.forEach {
                 try validate($0, name: "allowedAnalysisProviders[]", parent: name, max: 12)
@@ -1215,7 +1246,23 @@ extension CleanRooms {
         }
     }
 
+    public struct BilledResourceUtilization: AWSDecodableShape {
+        ///  The number of Clean Rooms Processing Unit (CRPU) hours that have been billed.
+        public let units: Double
+
+        @inlinable
+        public init(units: Double) {
+            self.units = units
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case units = "units"
+        }
+    }
+
     public struct Collaboration: AWSDecodableShape {
+        ///  The analytics engine for the collaboration.
+        public let analyticsEngine: AnalyticsEngine?
         /// The unique ARN for the collaboration.
         public let arn: String
         /// The time when the collaboration was created.
@@ -1244,7 +1291,8 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(arn: String, createTime: Date, creatorAccountId: String, creatorDisplayName: String, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String? = nil, id: String, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, queryLogStatus: CollaborationQueryLogStatus, updateTime: Date) {
+        public init(analyticsEngine: AnalyticsEngine? = nil, arn: String, createTime: Date, creatorAccountId: String, creatorDisplayName: String, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String? = nil, id: String, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, queryLogStatus: CollaborationQueryLogStatus, updateTime: Date) {
+            self.analyticsEngine = analyticsEngine
             self.arn = arn
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
@@ -1261,6 +1309,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyticsEngine = "analyticsEngine"
             case arn = "arn"
             case createTime = "createTime"
             case creatorAccountId = "creatorAccountId"
@@ -1400,7 +1449,7 @@ extension CleanRooms {
         public let configuredAudienceModelArn: String
         /// The time at which the configured audience model association was created.
         public let createTime: Date
-        /// The identifier used to reference members of the collaboration. Only supports AWS account ID.
+        /// The identifier used to reference members of the collaboration. Only supports Amazon Web Services account ID.
         public let creatorAccountId: String
         /// The description of the configured audience model association.
         public let description: String?
@@ -1448,7 +1497,7 @@ extension CleanRooms {
         public let collaborationId: String
         /// The time at which the configured audience model association was created.
         public let createTime: Date
-        /// The identifier used to reference members of the collaboration. Only supports AWS account ID.
+        /// The identifier used to reference members of the collaboration. Only supports Amazon Web Services account ID.
         public let creatorAccountId: String
         /// The description of the configured audience model association.
         public let description: String?
@@ -1739,6 +1788,8 @@ extension CleanRooms {
     }
 
     public struct CollaborationSummary: AWSDecodableShape {
+        ///  The analytics engine.
+        public let analyticsEngine: AnalyticsEngine?
         /// The ARN of the collaboration.
         public let arn: String
         /// The time when the collaboration was created.
@@ -1761,7 +1812,8 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(arn: String, createTime: Date, creatorAccountId: String, creatorDisplayName: String, id: String, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, updateTime: Date) {
+        public init(analyticsEngine: AnalyticsEngine? = nil, arn: String, createTime: Date, creatorAccountId: String, creatorDisplayName: String, id: String, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, updateTime: Date) {
+            self.analyticsEngine = analyticsEngine
             self.arn = arn
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
@@ -1775,6 +1827,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyticsEngine = "analyticsEngine"
             case arn = "arn"
             case createTime = "createTime"
             case creatorAccountId = "creatorAccountId"
@@ -2113,7 +2166,7 @@ extension CleanRooms {
         public func validate(name: String) throws {
             try self.allowedAdditionalAnalyses?.forEach {
                 try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, max: 256)
-                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership/[\\*\\d\\w-]+/configuredaudiencemodelassociation/[\\*\\d\\w-]+$")
+                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configuredaudiencemodelassociation\\/[\\*\\d\\w-]+$|^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:([0-9]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configured-model-algorithm-association\\/([-a-zA-Z0-9_\\/.]+|\\*)$")
             }
             try self.validate(self.allowedAdditionalAnalyses, name: "allowedAdditionalAnalyses", parent: name, max: 25)
             try self.allowedResultReceivers?.forEach {
@@ -2144,7 +2197,7 @@ extension CleanRooms {
         public func validate(name: String) throws {
             try self.allowedAdditionalAnalyses?.forEach {
                 try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, max: 256)
-                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership/[\\*\\d\\w-]+/configuredaudiencemodelassociation/[\\*\\d\\w-]+$")
+                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configuredaudiencemodelassociation\\/[\\*\\d\\w-]+$|^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:([0-9]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configured-model-algorithm-association\\/([-a-zA-Z0-9_\\/.]+|\\*)$")
             }
             try self.validate(self.allowedAdditionalAnalyses, name: "allowedAdditionalAnalyses", parent: name, max: 25)
             try self.allowedResultReceivers?.forEach {
@@ -2175,7 +2228,7 @@ extension CleanRooms {
         public func validate(name: String) throws {
             try self.allowedAdditionalAnalyses?.forEach {
                 try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, max: 256)
-                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership/[\\*\\d\\w-]+/configuredaudiencemodelassociation/[\\*\\d\\w-]+$")
+                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configuredaudiencemodelassociation\\/[\\*\\d\\w-]+$|^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:([0-9]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configured-model-algorithm-association\\/([-a-zA-Z0-9_\\/.]+|\\*)$")
             }
             try self.validate(self.allowedAdditionalAnalyses, name: "allowedAdditionalAnalyses", parent: name, max: 25)
             try self.allowedResultReceivers?.forEach {
@@ -2356,10 +2409,14 @@ extension CleanRooms {
     }
 
     public struct CreateCollaborationInput: AWSEncodableShape {
+        ///  The analytics engine.
+        public let analyticsEngine: AnalyticsEngine?
         /// The display name of the collaboration creator.
         public let creatorDisplayName: String
         /// The abilities granted to the collaboration creator.
         public let creatorMemberAbilities: [MemberAbility]
+        /// The ML abilities granted to the collaboration creator. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        public let creatorMLMemberAbilities: MLMemberAbilities?
         /// The collaboration creator's payment responsibilities set by the collaboration creator.  If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer.
         public let creatorPaymentConfiguration: PaymentConfiguration?
         /// The settings for client-side encryption with Cryptographic Computing for Clean Rooms.
@@ -2376,9 +2433,11 @@ extension CleanRooms {
         public let tags: [String: String]?
 
         @inlinable
-        public init(creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], creatorPaymentConfiguration: PaymentConfiguration? = nil, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus, tags: [String: String]? = nil) {
+        public init(analyticsEngine: AnalyticsEngine? = nil, creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], creatorMLMemberAbilities: MLMemberAbilities? = nil, creatorPaymentConfiguration: PaymentConfiguration? = nil, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus, tags: [String: String]? = nil) {
+            self.analyticsEngine = analyticsEngine
             self.creatorDisplayName = creatorDisplayName
             self.creatorMemberAbilities = creatorMemberAbilities
+            self.creatorMLMemberAbilities = creatorMLMemberAbilities
             self.creatorPaymentConfiguration = creatorPaymentConfiguration
             self.dataEncryptionMetadata = dataEncryptionMetadata
             self.description = description
@@ -2392,6 +2451,7 @@ extension CleanRooms {
             try self.validate(self.creatorDisplayName, name: "creatorDisplayName", parent: name, max: 100)
             try self.validate(self.creatorDisplayName, name: "creatorDisplayName", parent: name, min: 1)
             try self.validate(self.creatorDisplayName, name: "creatorDisplayName", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.creatorMLMemberAbilities?.validate(name: "\(name).creatorMLMemberAbilities")
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
@@ -2411,8 +2471,10 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyticsEngine = "analyticsEngine"
             case creatorDisplayName = "creatorDisplayName"
             case creatorMemberAbilities = "creatorMemberAbilities"
+            case creatorMLMemberAbilities = "creatorMLMemberAbilities"
             case creatorPaymentConfiguration = "creatorPaymentConfiguration"
             case dataEncryptionMetadata = "dataEncryptionMetadata"
             case description = "description"
@@ -4922,11 +4984,12 @@ extension CleanRooms {
     }
 
     public struct ListAnalysisTemplatesInput: AWSEncodableShape {
-        /// The maximum size of the results that is returned per call.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
         /// The identifier for a membership resource.
         public let membershipIdentifier: String
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -4959,7 +5022,7 @@ extension CleanRooms {
     public struct ListAnalysisTemplatesOutput: AWSDecodableShape {
         /// Lists analysis template metadata.
         public let analysisTemplateSummaries: [AnalysisTemplateSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -4977,9 +5040,10 @@ extension CleanRooms {
     public struct ListCollaborationAnalysisTemplatesInput: AWSEncodableShape {
         /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
         public let collaborationIdentifier: String
-        /// The maximum size of the results that is returned per call.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5012,7 +5076,7 @@ extension CleanRooms {
     public struct ListCollaborationAnalysisTemplatesOutput: AWSDecodableShape {
         /// The metadata of the analysis template within a collaboration.
         public let collaborationAnalysisTemplateSummaries: [CollaborationAnalysisTemplateSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5030,9 +5094,10 @@ extension CleanRooms {
     public struct ListCollaborationConfiguredAudienceModelAssociationsInput: AWSEncodableShape {
         /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
         public let collaborationIdentifier: String
-        /// The maximum size of the results that is returned per call.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5065,7 +5130,7 @@ extension CleanRooms {
     public struct ListCollaborationConfiguredAudienceModelAssociationsOutput: AWSDecodableShape {
         /// The metadata of the configured audience model association within a collaboration.
         public let collaborationConfiguredAudienceModelAssociationSummaries: [CollaborationConfiguredAudienceModelAssociationSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5136,9 +5201,10 @@ extension CleanRooms {
     public struct ListCollaborationPrivacyBudgetTemplatesInput: AWSEncodableShape {
         /// A unique identifier for one of your collaborations.
         public let collaborationIdentifier: String
-        /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5171,7 +5237,7 @@ extension CleanRooms {
     public struct ListCollaborationPrivacyBudgetTemplatesOutput: AWSDecodableShape {
         /// An array that summarizes the collaboration privacy budget templates. The summary includes collaboration information, creation information, the privacy budget type.
         public let collaborationPrivacyBudgetTemplateSummaries: [CollaborationPrivacyBudgetTemplateSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5189,9 +5255,10 @@ extension CleanRooms {
     public struct ListCollaborationPrivacyBudgetsInput: AWSEncodableShape {
         /// A unique identifier for one of your collaborations.
         public let collaborationIdentifier: String
-        /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
         /// Specifies the type of the privacy budget.
         public let privacyBudgetType: PrivacyBudgetType
@@ -5228,7 +5295,7 @@ extension CleanRooms {
     public struct ListCollaborationPrivacyBudgetsOutput: AWSDecodableShape {
         /// Summaries of the collaboration privacy budgets.
         public let collaborationPrivacyBudgetSummaries: [CollaborationPrivacyBudgetSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5244,11 +5311,12 @@ extension CleanRooms {
     }
 
     public struct ListCollaborationsInput: AWSEncodableShape {
-        /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
         /// The caller's status in a collaboration.
         public let memberStatus: FilterableMemberStatus?
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5278,7 +5346,7 @@ extension CleanRooms {
     public struct ListCollaborationsOutput: AWSDecodableShape {
         /// The list of collaborations.
         public let collaborationList: [CollaborationSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5294,11 +5362,12 @@ extension CleanRooms {
     }
 
     public struct ListConfiguredAudienceModelAssociationsInput: AWSEncodableShape {
-        /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
         /// A unique identifier for a membership that contains the configured audience model associations that you want to retrieve.
         public let membershipIdentifier: String
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5347,11 +5416,12 @@ extension CleanRooms {
     }
 
     public struct ListConfiguredTableAssociationsInput: AWSEncodableShape {
-        /// The maximum size of the results that is returned per call.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
         /// A unique identifier for the membership to list configured table associations for. Currently accepts the membership ID.
         public let membershipIdentifier: String
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5384,7 +5454,7 @@ extension CleanRooms {
     public struct ListConfiguredTableAssociationsOutput: AWSDecodableShape {
         /// The retrieved list of configured table associations.
         public let configuredTableAssociationSummaries: [ConfiguredTableAssociationSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5400,9 +5470,10 @@ extension CleanRooms {
     }
 
     public struct ListConfiguredTablesInput: AWSEncodableShape {
-        /// The maximum size of the results that is returned per call.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5430,7 +5501,7 @@ extension CleanRooms {
     public struct ListConfiguredTablesOutput: AWSDecodableShape {
         /// The configured tables listed by the request.
         public let configuredTableSummaries: [ConfiguredTableSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5554,9 +5625,10 @@ extension CleanRooms {
     public struct ListMembersInput: AWSEncodableShape {
         /// The identifier of the collaboration in which the members are listed.
         public let collaborationIdentifier: String
-        /// The maximum size of the results that is returned per call.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5589,7 +5661,7 @@ extension CleanRooms {
     public struct ListMembersOutput: AWSDecodableShape {
         /// The list of members returned by the ListMembers operation.
         public let memberSummaries: [MemberSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5605,9 +5677,10 @@ extension CleanRooms {
     }
 
     public struct ListMembershipsInput: AWSEncodableShape {
-        /// The maximum size of the results that is returned per call.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
         /// A filter which will return only memberships in the specified status.
         public let status: MembershipStatus?
@@ -5639,7 +5712,7 @@ extension CleanRooms {
     public struct ListMembershipsOutput: AWSDecodableShape {
         /// The list of memberships returned from the ListMemberships operation.
         public let membershipSummaries: [MembershipSummary]
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5655,11 +5728,12 @@ extension CleanRooms {
     }
 
     public struct ListPrivacyBudgetTemplatesInput: AWSEncodableShape {
-        /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
         /// A unique identifier for one of your memberships for a collaboration. The privacy budget templates are retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
         public let membershipIdentifier: String
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -5690,7 +5764,7 @@ extension CleanRooms {
     }
 
     public struct ListPrivacyBudgetTemplatesOutput: AWSDecodableShape {
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
         /// An array that summarizes the privacy budget templates. The summary includes collaboration information, creation information, and privacy budget type.
         public let privacyBudgetTemplateSummaries: [PrivacyBudgetTemplateSummary]
@@ -5708,11 +5782,12 @@ extension CleanRooms {
     }
 
     public struct ListPrivacyBudgetsInput: AWSEncodableShape {
-        /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
         /// A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
         public let membershipIdentifier: String
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
         /// The privacy budget type.
         public let privacyBudgetType: PrivacyBudgetType
@@ -5747,7 +5822,7 @@ extension CleanRooms {
     }
 
     public struct ListPrivacyBudgetsOutput: AWSDecodableShape {
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
         /// An array that summarizes the privacy budgets. The summary includes collaboration information, membership information, privacy budget template information, and privacy budget details.
         public let privacyBudgetSummaries: [PrivacyBudgetSummary]
@@ -5765,11 +5840,11 @@ extension CleanRooms {
     }
 
     public struct ListProtectedQueriesInput: AWSEncodableShape {
-        /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service can return a nextToken even if the maximum results has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the  `maxResults` value has not been met.
         public let maxResults: Int?
         /// The identifier for the membership in the collaboration.
         public let membershipIdentifier: String
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
         /// A filter on the status of the protected query.
         public let status: ProtectedQueryStatus?
@@ -5804,7 +5879,7 @@ extension CleanRooms {
     }
 
     public struct ListProtectedQueriesOutput: AWSDecodableShape {
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
         /// A list of protected queries.
         public let protectedQueries: [ProtectedQuerySummary]
@@ -5824,11 +5899,12 @@ extension CleanRooms {
     public struct ListSchemasInput: AWSEncodableShape {
         /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
         public let collaborationIdentifier: String
-        /// The maximum size of the results that is returned per call.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+        /// `maxResults` value has not been met.
         public let maxResults: Int?
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
-        /// If present, filter schemas by schema type. The only valid schema type is currently `TABLE`.
+        /// If present, filter schemas by schema type.
         public let schemaType: SchemaType?
 
         @inlinable
@@ -5861,7 +5937,7 @@ extension CleanRooms {
     }
 
     public struct ListSchemasOutput: AWSDecodableShape {
-        /// The token value retrieved from a previous call to access the next page of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
         /// The retrieved list of schemas.
         public let schemaSummaries: [SchemaSummary]
@@ -5915,6 +5991,42 @@ extension CleanRooms {
         }
     }
 
+    public struct MLMemberAbilities: AWSEncodableShape & AWSDecodableShape {
+        /// The custom ML member abilities for a collaboration member. The inference feature is not available in the custom ML modeling beta. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        public let customMLMemberAbilities: [CustomMLMemberAbility]
+
+        @inlinable
+        public init(customMLMemberAbilities: [CustomMLMemberAbility]) {
+            self.customMLMemberAbilities = customMLMemberAbilities
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customMLMemberAbilities, name: "customMLMemberAbilities", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customMLMemberAbilities = "customMLMemberAbilities"
+        }
+    }
+
+    public struct MLPaymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The payment responsibilities accepted by the member for model inference.
+        public let modelInference: ModelInferencePaymentConfig?
+        /// The payment responsibilities accepted by the member for model training.
+        public let modelTraining: ModelTrainingPaymentConfig?
+
+        @inlinable
+        public init(modelInference: ModelInferencePaymentConfig? = nil, modelTraining: ModelTrainingPaymentConfig? = nil) {
+            self.modelInference = modelInference
+            self.modelTraining = modelTraining
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelInference = "modelInference"
+            case modelTraining = "modelTraining"
+        }
+    }
+
     public struct MemberSpecification: AWSEncodableShape {
         /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         public let accountId: String
@@ -5922,14 +6034,17 @@ extension CleanRooms {
         public let displayName: String
         /// The abilities granted to the collaboration member.
         public let memberAbilities: [MemberAbility]
+        /// The ML abilities granted to the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        public let mlMemberAbilities: MLMemberAbilities?
         /// The collaboration member's payment responsibilities set by the collaboration creator.  If the collaboration creator hasn't speciﬁed anyone as the member paying for query compute costs, then the member who can query is the default payer.
         public let paymentConfiguration: PaymentConfiguration?
 
         @inlinable
-        public init(accountId: String, displayName: String, memberAbilities: [MemberAbility], paymentConfiguration: PaymentConfiguration? = nil) {
+        public init(accountId: String, displayName: String, memberAbilities: [MemberAbility], mlMemberAbilities: MLMemberAbilities? = nil, paymentConfiguration: PaymentConfiguration? = nil) {
             self.accountId = accountId
             self.displayName = displayName
             self.memberAbilities = memberAbilities
+            self.mlMemberAbilities = mlMemberAbilities
             self.paymentConfiguration = paymentConfiguration
         }
 
@@ -5940,12 +6055,14 @@ extension CleanRooms {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.mlMemberAbilities?.validate(name: "\(name).mlMemberAbilities")
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case displayName = "displayName"
             case memberAbilities = "memberAbilities"
+            case mlMemberAbilities = "mlMemberAbilities"
             case paymentConfiguration = "paymentConfiguration"
         }
     }
@@ -5963,6 +6080,8 @@ extension CleanRooms {
         public let membershipArn: String?
         /// The unique ID for the member's associated membership, if present.
         public let membershipId: String?
+        /// Provides a summary of the ML abilities for the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        public let mlAbilities: MLMemberAbilities?
         /// The collaboration member's payment responsibilities set by the collaboration creator.
         public let paymentConfiguration: PaymentConfiguration
         /// The status of the member.
@@ -5971,13 +6090,14 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(abilities: [MemberAbility], accountId: String, createTime: Date, displayName: String, membershipArn: String? = nil, membershipId: String? = nil, paymentConfiguration: PaymentConfiguration, status: MemberStatus, updateTime: Date) {
+        public init(abilities: [MemberAbility], accountId: String, createTime: Date, displayName: String, membershipArn: String? = nil, membershipId: String? = nil, mlAbilities: MLMemberAbilities? = nil, paymentConfiguration: PaymentConfiguration, status: MemberStatus, updateTime: Date) {
             self.abilities = abilities
             self.accountId = accountId
             self.createTime = createTime
             self.displayName = displayName
             self.membershipArn = membershipArn
             self.membershipId = membershipId
+            self.mlAbilities = mlAbilities
             self.paymentConfiguration = paymentConfiguration
             self.status = status
             self.updateTime = updateTime
@@ -5990,6 +6110,7 @@ extension CleanRooms {
             case displayName = "displayName"
             case membershipArn = "membershipArn"
             case membershipId = "membershipId"
+            case mlAbilities = "mlAbilities"
             case paymentConfiguration = "paymentConfiguration"
             case status = "status"
             case updateTime = "updateTime"
@@ -6017,6 +6138,8 @@ extension CleanRooms {
         public let id: String
         /// The abilities granted to the collaboration member.
         public let memberAbilities: [MemberAbility]
+        /// Specifies the ML member abilities that are granted to a collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        public let mlMemberAbilities: MLMemberAbilities?
         /// The payment responsibilities accepted by the collaboration member.
         public let paymentConfiguration: MembershipPaymentConfiguration
         /// An indicator as to whether query logging has been enabled or disabled for the membership.
@@ -6027,7 +6150,7 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(arn: String, collaborationArn: String, collaborationCreatorAccountId: String, collaborationCreatorDisplayName: String, collaborationId: String, collaborationName: String, createTime: Date, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, id: String, memberAbilities: [MemberAbility], paymentConfiguration: MembershipPaymentConfiguration, queryLogStatus: MembershipQueryLogStatus, status: MembershipStatus, updateTime: Date) {
+        public init(arn: String, collaborationArn: String, collaborationCreatorAccountId: String, collaborationCreatorDisplayName: String, collaborationId: String, collaborationName: String, createTime: Date, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, id: String, memberAbilities: [MemberAbility], mlMemberAbilities: MLMemberAbilities? = nil, paymentConfiguration: MembershipPaymentConfiguration, queryLogStatus: MembershipQueryLogStatus, status: MembershipStatus, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationCreatorAccountId = collaborationCreatorAccountId
@@ -6038,6 +6161,7 @@ extension CleanRooms {
             self.defaultResultConfiguration = defaultResultConfiguration
             self.id = id
             self.memberAbilities = memberAbilities
+            self.mlMemberAbilities = mlMemberAbilities
             self.paymentConfiguration = paymentConfiguration
             self.queryLogStatus = queryLogStatus
             self.status = status
@@ -6055,6 +6179,7 @@ extension CleanRooms {
             case defaultResultConfiguration = "defaultResultConfiguration"
             case id = "id"
             case memberAbilities = "memberAbilities"
+            case mlMemberAbilities = "mlMemberAbilities"
             case paymentConfiguration = "paymentConfiguration"
             case queryLogStatus = "queryLogStatus"
             case status = "status"
@@ -6062,16 +6187,66 @@ extension CleanRooms {
         }
     }
 
+    public struct MembershipMLPaymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The payment responsibilities accepted by the member for model inference.
+        public let modelInference: MembershipModelInferencePaymentConfig?
+        /// The payment responsibilities accepted by the member for model training.
+        public let modelTraining: MembershipModelTrainingPaymentConfig?
+
+        @inlinable
+        public init(modelInference: MembershipModelInferencePaymentConfig? = nil, modelTraining: MembershipModelTrainingPaymentConfig? = nil) {
+            self.modelInference = modelInference
+            self.modelTraining = modelTraining
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelInference = "modelInference"
+            case modelTraining = "modelTraining"
+        }
+    }
+
+    public struct MembershipModelInferencePaymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the collaboration member has accepted to pay for model inference costs (TRUE) or has not accepted to pay for model inference costs (FALSE). If the collaboration creator has not specified anyone to pay for model inference costs, then the member who can query is the default payer.  An error message is returned for the following reasons:    If you set the value to FALSE but you are responsible to pay for model inference costs.    If you set the value to TRUE but you are not responsible to pay for model inference costs.
+        public let isResponsible: Bool
+
+        @inlinable
+        public init(isResponsible: Bool) {
+            self.isResponsible = isResponsible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isResponsible = "isResponsible"
+        }
+    }
+
+    public struct MembershipModelTrainingPaymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the collaboration member has accepted to pay for model training costs (TRUE) or has not accepted to pay for model training costs (FALSE). If the collaboration creator has not specified anyone to pay for model training costs, then the member who can query is the default payer.  An error message is returned for the following reasons:    If you set the value to FALSE but you are responsible to pay for model training costs.    If you set the value to TRUE but you are not responsible to pay for model training costs.
+        public let isResponsible: Bool
+
+        @inlinable
+        public init(isResponsible: Bool) {
+            self.isResponsible = isResponsible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isResponsible = "isResponsible"
+        }
+    }
+
     public struct MembershipPaymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The payment responsibilities accepted by the collaboration member for machine learning costs.
+        public let machineLearning: MembershipMLPaymentConfig?
         /// The payment responsibilities accepted by the collaboration member for query compute costs.
         public let queryCompute: MembershipQueryComputePaymentConfig
 
         @inlinable
-        public init(queryCompute: MembershipQueryComputePaymentConfig) {
+        public init(machineLearning: MembershipMLPaymentConfig? = nil, queryCompute: MembershipQueryComputePaymentConfig) {
+            self.machineLearning = machineLearning
             self.queryCompute = queryCompute
         }
 
         private enum CodingKeys: String, CodingKey {
+            case machineLearning = "machineLearning"
             case queryCompute = "queryCompute"
         }
     }
@@ -6134,6 +6309,8 @@ extension CleanRooms {
         public let id: String
         /// The abilities granted to the collaboration member.
         public let memberAbilities: [MemberAbility]
+        /// Provides a summary of the ML abilities for the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        public let mlMemberAbilities: MLMemberAbilities?
         /// The payment responsibilities accepted by the collaboration member.
         public let paymentConfiguration: MembershipPaymentConfiguration
         /// The status of the membership.
@@ -6142,7 +6319,7 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(arn: String, collaborationArn: String, collaborationCreatorAccountId: String, collaborationCreatorDisplayName: String, collaborationId: String, collaborationName: String, createTime: Date, id: String, memberAbilities: [MemberAbility], paymentConfiguration: MembershipPaymentConfiguration, status: MembershipStatus, updateTime: Date) {
+        public init(arn: String, collaborationArn: String, collaborationCreatorAccountId: String, collaborationCreatorDisplayName: String, collaborationId: String, collaborationName: String, createTime: Date, id: String, memberAbilities: [MemberAbility], mlMemberAbilities: MLMemberAbilities? = nil, paymentConfiguration: MembershipPaymentConfiguration, status: MembershipStatus, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationCreatorAccountId = collaborationCreatorAccountId
@@ -6152,6 +6329,7 @@ extension CleanRooms {
             self.createTime = createTime
             self.id = id
             self.memberAbilities = memberAbilities
+            self.mlMemberAbilities = mlMemberAbilities
             self.paymentConfiguration = paymentConfiguration
             self.status = status
             self.updateTime = updateTime
@@ -6167,22 +6345,55 @@ extension CleanRooms {
             case createTime = "createTime"
             case id = "id"
             case memberAbilities = "memberAbilities"
+            case mlMemberAbilities = "mlMemberAbilities"
             case paymentConfiguration = "paymentConfiguration"
             case status = "status"
             case updateTime = "updateTime"
         }
     }
 
+    public struct ModelInferencePaymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for model inference costs (TRUE) or has not configured the collaboration member to pay for model inference costs (FALSE). Exactly one member can be configured to pay for model inference costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration.  If the collaboration creator hasn't specified anyone as the member paying for model inference costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
+        public let isResponsible: Bool
+
+        @inlinable
+        public init(isResponsible: Bool) {
+            self.isResponsible = isResponsible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isResponsible = "isResponsible"
+        }
+    }
+
+    public struct ModelTrainingPaymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for model training costs (TRUE) or has not configured the collaboration member to pay for model training costs (FALSE). Exactly one member can be configured to pay for model training costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration.  If the collaboration creator hasn't specified anyone as the member paying for model training costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
+        public let isResponsible: Bool
+
+        @inlinable
+        public init(isResponsible: Bool) {
+            self.isResponsible = isResponsible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isResponsible = "isResponsible"
+        }
+    }
+
     public struct PaymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator.
+        public let machineLearning: MLPaymentConfig?
         /// The collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
         public let queryCompute: QueryComputePaymentConfig
 
         @inlinable
-        public init(queryCompute: QueryComputePaymentConfig) {
+        public init(machineLearning: MLPaymentConfig? = nil, queryCompute: QueryComputePaymentConfig) {
+            self.machineLearning = machineLearning
             self.queryCompute = queryCompute
         }
 
         private enum CodingKeys: String, CodingKey {
+            case machineLearning = "machineLearning"
             case queryCompute = "queryCompute"
         }
     }
@@ -6432,6 +6643,8 @@ extension CleanRooms {
     }
 
     public struct ProtectedQuery: AWSDecodableShape {
+        ///  The compute configuration for the protected query.
+        public let computeConfiguration: ComputeConfiguration?
         /// The time at which the protected query was created.
         public let createTime: Date
         /// The sensitivity parameters of the differential privacy results of the protected query.
@@ -6456,7 +6669,8 @@ extension CleanRooms {
         public let status: ProtectedQueryStatus
 
         @inlinable
-        public init(createTime: Date, differentialPrivacy: DifferentialPrivacyParameters? = nil, error: ProtectedQueryError? = nil, id: String, membershipArn: String, membershipId: String, result: ProtectedQueryResult? = nil, resultConfiguration: ProtectedQueryResultConfiguration? = nil, sqlParameters: ProtectedQuerySQLParameters? = nil, statistics: ProtectedQueryStatistics? = nil, status: ProtectedQueryStatus) {
+        public init(computeConfiguration: ComputeConfiguration? = nil, createTime: Date, differentialPrivacy: DifferentialPrivacyParameters? = nil, error: ProtectedQueryError? = nil, id: String, membershipArn: String, membershipId: String, result: ProtectedQueryResult? = nil, resultConfiguration: ProtectedQueryResultConfiguration? = nil, sqlParameters: ProtectedQuerySQLParameters? = nil, statistics: ProtectedQueryStatistics? = nil, status: ProtectedQueryStatus) {
+            self.computeConfiguration = computeConfiguration
             self.createTime = createTime
             self.differentialPrivacy = differentialPrivacy
             self.error = error
@@ -6471,6 +6685,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case computeConfiguration = "computeConfiguration"
             case createTime = "createTime"
             case differentialPrivacy = "differentialPrivacy"
             case error = "error"
@@ -6576,12 +6791,15 @@ extension CleanRooms {
         public let keyPrefix: String?
         /// Intended file format of the result.
         public let resultFormat: ResultFormat
+        /// Indicates whether files should be output as a single file (TRUE) or output as multiple files (FALSE). This parameter is only supported for analyses with the Spark analytics engine.
+        public let singleFileOutput: Bool?
 
         @inlinable
-        public init(bucket: String, keyPrefix: String? = nil, resultFormat: ResultFormat) {
+        public init(bucket: String, keyPrefix: String? = nil, resultFormat: ResultFormat, singleFileOutput: Bool? = nil) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
             self.resultFormat = resultFormat
+            self.singleFileOutput = singleFileOutput
         }
 
         public func validate(name: String) throws {
@@ -6593,6 +6811,7 @@ extension CleanRooms {
             case bucket = "bucket"
             case keyPrefix = "keyPrefix"
             case resultFormat = "resultFormat"
+            case singleFileOutput = "singleFileOutput"
         }
     }
 
@@ -6644,15 +6863,19 @@ extension CleanRooms {
     }
 
     public struct ProtectedQueryStatistics: AWSDecodableShape {
+        ///  The billed resource utilization.
+        public let billedResourceUtilization: BilledResourceUtilization?
         /// The duration of the protected query, from creation until query completion.
         public let totalDurationInMillis: Int64?
 
         @inlinable
-        public init(totalDurationInMillis: Int64? = nil) {
+        public init(billedResourceUtilization: BilledResourceUtilization? = nil, totalDurationInMillis: Int64? = nil) {
+            self.billedResourceUtilization = billedResourceUtilization
             self.totalDurationInMillis = totalDurationInMillis
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billedResourceUtilization = "billedResourceUtilization"
             case totalDurationInMillis = "totalDurationInMillis"
         }
     }
@@ -6668,7 +6891,7 @@ extension CleanRooms {
         public let membershipId: String
         ///  The receiver configuration.
         public let receiverConfigurations: [ReceiverConfiguration]
-        /// The status of the protected query. Value values are `SUBMITTED`, `STARTED`, `CANCELLED`, `CANCELLING`, `FAILED`, `SUCCESS`, `TIMED_OUT`.
+        /// The status of the protected query.
         public let status: ProtectedQueryStatus
 
         @inlinable
@@ -6740,15 +6963,15 @@ extension CleanRooms {
     public struct Schema: AWSDecodableShape {
         /// The analysis method for the schema. The only valid value is currently DIRECT_QUERY.
         public let analysisMethod: AnalysisMethod?
-        /// The analysis rule types associated with the schema. Currently, only one entry is present.
+        /// The analysis rule types that are associated with the schema. Currently, only one entry is present.
         public let analysisRuleTypes: [AnalysisRuleType]
-        /// The unique ARN for the collaboration that the schema belongs to.
+        /// The unique Amazon Resource Name (ARN) for the collaboration that the schema belongs to.
         public let collaborationArn: String
         /// The unique ID for the collaboration that the schema belongs to.
         public let collaborationId: String
-        /// The columns for the relation this schema represents.
+        /// The columns for the relation that this schema represents.
         public let columns: [Column]
-        /// The time the schema was created.
+        /// The time at which the schema was created.
         public let createTime: Date
         /// The unique account ID for the Amazon Web Services account that owns the schema.
         public let creatorAccountId: String
@@ -6762,9 +6985,9 @@ extension CleanRooms {
         public let schemaStatusDetails: [SchemaStatusDetail]
         /// The schema type properties.
         public let schemaTypeProperties: SchemaTypeProperties?
-        /// The type of schema. The only valid value is currently `TABLE`.
+        /// The type of schema.
         public let type: SchemaType
-        /// The time the schema was last updated.
+        /// The most recent time at which the schema was updated.
         public let updateTime: Date
 
         @inlinable
@@ -6889,7 +7112,7 @@ extension CleanRooms {
         public let creatorAccountId: String
         /// The name for the schema object.
         public let name: String
-        /// The type of schema object. The only valid schema type is currently `TABLE`.
+        /// The type of schema object.
         public let type: SchemaType
         /// The time the schema object was last updated.
         public let updateTime: Date
@@ -6921,6 +7144,8 @@ extension CleanRooms {
     }
 
     public struct StartProtectedQueryInput: AWSEncodableShape {
+        ///  The compute configuration for the protected query.
+        public let computeConfiguration: ComputeConfiguration?
         /// A unique identifier for the membership to run this query against. Currently accepts a membership ID.
         public let membershipIdentifier: String
         /// The details needed to write the query results.
@@ -6931,7 +7156,8 @@ extension CleanRooms {
         public let type: ProtectedQueryType
 
         @inlinable
-        public init(membershipIdentifier: String, resultConfiguration: ProtectedQueryResultConfiguration? = nil, sqlParameters: ProtectedQuerySQLParameters, type: ProtectedQueryType) {
+        public init(computeConfiguration: ComputeConfiguration? = nil, membershipIdentifier: String, resultConfiguration: ProtectedQueryResultConfiguration? = nil, sqlParameters: ProtectedQuerySQLParameters, type: ProtectedQueryType) {
+            self.computeConfiguration = computeConfiguration
             self.membershipIdentifier = membershipIdentifier
             self.resultConfiguration = resultConfiguration
             self.sqlParameters = sqlParameters
@@ -6941,6 +7167,7 @@ extension CleanRooms {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.computeConfiguration, forKey: .computeConfiguration)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             try container.encodeIfPresent(self.resultConfiguration, forKey: .resultConfiguration)
             try container.encode(self.sqlParameters, forKey: .sqlParameters)
@@ -6956,6 +7183,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case computeConfiguration = "computeConfiguration"
             case resultConfiguration = "resultConfiguration"
             case sqlParameters = "sqlParameters"
             case type = "type"
@@ -7723,6 +7951,24 @@ extension CleanRooms {
         }
     }
 
+    public struct WorkerComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The number of workers.
+        public let number: Int?
+        ///  The worker compute configuration type.
+        public let type: WorkerComputeType?
+
+        @inlinable
+        public init(number: Int? = nil, type: WorkerComputeType? = nil) {
+            self.number = number
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case number = "number"
+            case type = "type"
+        }
+    }
+
     public struct AnalysisRulePolicy: AWSDecodableShape {
         /// Controls on the query specifications that can be run on configured table.
         public let v1: AnalysisRulePolicyV1?
@@ -7752,6 +7998,20 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case text = "text"
+        }
+    }
+
+    public struct ComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The worker configuration for the compute environment.
+        public let worker: WorkerComputeConfiguration?
+
+        @inlinable
+        public init(worker: WorkerComputeConfiguration? = nil) {
+            self.worker = worker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case worker = "worker"
         }
     }
 

@@ -1124,6 +1124,8 @@ extension QBusiness {
         public let allowedFormat: String?
         /// Information about the field values that an end user can use to provide to Amazon Q Business for Amazon Q Business to perform the requested plugin action.
         public let allowedValues: [ActionReviewPayloadFieldAllowedValue]?
+        /// Use to create a custom form with array fields (fields with nested objects inside an array).
+        public let arrayItemJsonSchema: String?
         /// The field level description of each action review input field. This could be an explanation of the field. In the Amazon Q Business web experience, these descriptions could be used to display as tool tips to help users understand the field.
         public let displayDescription: String?
         ///  The name of the field.
@@ -1138,9 +1140,10 @@ extension QBusiness {
         public let value: String?
 
         @inlinable
-        public init(allowedFormat: String? = nil, allowedValues: [ActionReviewPayloadFieldAllowedValue]? = nil, displayDescription: String? = nil, displayName: String? = nil, displayOrder: Int? = nil, required: Bool? = nil, type: ActionPayloadFieldType? = nil, value: String? = nil) {
+        public init(allowedFormat: String? = nil, allowedValues: [ActionReviewPayloadFieldAllowedValue]? = nil, arrayItemJsonSchema: String? = nil, displayDescription: String? = nil, displayName: String? = nil, displayOrder: Int? = nil, required: Bool? = nil, type: ActionPayloadFieldType? = nil, value: String? = nil) {
             self.allowedFormat = allowedFormat
             self.allowedValues = allowedValues
+            self.arrayItemJsonSchema = arrayItemJsonSchema
             self.displayDescription = displayDescription
             self.displayName = displayName
             self.displayOrder = displayOrder
@@ -1152,6 +1155,7 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case allowedFormat = "allowedFormat"
             case allowedValues = "allowedValues"
+            case arrayItemJsonSchema = "arrayItemJsonSchema"
             case displayDescription = "displayDescription"
             case displayName = "displayName"
             case displayOrder = "displayOrder"
@@ -4352,11 +4356,13 @@ extension QBusiness {
         public let memberGroups: [MemberGroup]?
         /// A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group.
         public let memberUsers: [MemberUser]?
+        public let s3PathForGroupMembers: S3?
 
         @inlinable
-        public init(memberGroups: [MemberGroup]? = nil, memberUsers: [MemberUser]? = nil) {
+        public init(memberGroups: [MemberGroup]? = nil, memberUsers: [MemberUser]? = nil, s3PathForGroupMembers: S3? = nil) {
             self.memberGroups = memberGroups
             self.memberUsers = memberUsers
+            self.s3PathForGroupMembers = s3PathForGroupMembers
         }
 
         public func validate(name: String) throws {
@@ -4370,11 +4376,13 @@ extension QBusiness {
             }
             try self.validate(self.memberUsers, name: "memberUsers", parent: name, max: 1000)
             try self.validate(self.memberUsers, name: "memberUsers", parent: name, min: 1)
+            try self.s3PathForGroupMembers?.validate(name: "\(name).s3PathForGroupMembers")
         }
 
         private enum CodingKeys: String, CodingKey {
             case memberGroups = "memberGroups"
             case memberUsers = "memberUsers"
+            case s3PathForGroupMembers = "s3PathForGroupMembers"
         }
     }
 
@@ -5724,16 +5732,19 @@ extension QBusiness {
         public let groupName: String
         /// The identifier of the index in which you want to map users to their groups.
         public let indexId: String
+        /// The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file that contains  your list of users that belong to a group.The Amazon Resource Name (ARN) of an IAM role that  has access to the S3 file that contains your list of users that belong to a group.
+        public let roleArn: String?
         /// The type of the group.
         public let type: MembershipType
 
         @inlinable
-        public init(applicationId: String, dataSourceId: String? = nil, groupMembers: GroupMembers, groupName: String, indexId: String, type: MembershipType) {
+        public init(applicationId: String, dataSourceId: String? = nil, groupMembers: GroupMembers, groupName: String, indexId: String, roleArn: String? = nil, type: MembershipType) {
             self.applicationId = applicationId
             self.dataSourceId = dataSourceId
             self.groupMembers = groupMembers
             self.groupName = groupName
             self.indexId = indexId
+            self.roleArn = roleArn
             self.type = type
         }
 
@@ -5745,6 +5756,7 @@ extension QBusiness {
             try container.encode(self.groupMembers, forKey: .groupMembers)
             try container.encode(self.groupName, forKey: .groupName)
             request.encodePath(self.indexId, key: "indexId")
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encode(self.type, forKey: .type)
         }
 
@@ -5762,12 +5774,15 @@ extension QBusiness {
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataSourceId = "dataSourceId"
             case groupMembers = "groupMembers"
             case groupName = "groupName"
+            case roleArn = "roleArn"
             case type = "type"
         }
     }

@@ -40,6 +40,12 @@ extension RedshiftServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum PerformanceTargetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SnapshotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case cancelled = "CANCELLED"
@@ -672,6 +678,8 @@ extension RedshiftServerless {
         public let namespaceName: String
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public let port: Int?
+        /// An object that represents the price performance target settings for the workgroup.
+        public let pricePerformanceTarget: PerformanceTarget?
         /// A value that specifies whether the workgroup can be accessed from a public network.
         public let publiclyAccessible: Bool?
         /// An array of security group IDs to associate with the workgroup.
@@ -684,7 +692,7 @@ extension RedshiftServerless {
         public let workgroupName: String
 
         @inlinable
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
@@ -692,6 +700,7 @@ extension RedshiftServerless {
             self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
             self.port = port
+            self.pricePerformanceTarget = pricePerformanceTarget
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -721,6 +730,7 @@ extension RedshiftServerless {
             case maxCapacity = "maxCapacity"
             case namespaceName = "namespaceName"
             case port = "port"
+            case pricePerformanceTarget = "pricePerformanceTarget"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
@@ -2172,6 +2182,24 @@ extension RedshiftServerless {
         }
     }
 
+    public struct PerformanceTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The target price performance level for the workgroup. Valid values include 1, 25, 50, 75, and 100. These correspond to the price performance levels LOW_COST, ECONOMICAL, BALANCED, RESOURCEFUL, and HIGH_PERFORMANCE.
+        public let level: Int?
+        /// Whether the price performance target is enabled for the workgroup.
+        public let status: PerformanceTargetStatus?
+
+        @inlinable
+        public init(level: Int? = nil, status: PerformanceTargetStatus? = nil) {
+            self.level = level
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case level = "level"
+            case status = "status"
+        }
+    }
+
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         /// The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot.  "{\"Version\": \"2012-10-17\", \"Statement\" :  [{ \"Sid\": \"AllowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\":  [\"739247239426\"]}, \"Action\": [\"redshift-serverless:RestoreFromSnapshot\"] , \"Effect\": \"Allow\" }]}"
         public let policy: String
@@ -3198,6 +3226,8 @@ extension RedshiftServerless {
         public let maxCapacity: Int?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public let port: Int?
+        /// An object that represents the price performance target settings for the workgroup.
+        public let pricePerformanceTarget: PerformanceTarget?
         /// A value that specifies whether the workgroup can be accessible from a public network.
         public let publiclyAccessible: Bool?
         /// An array of security group IDs to associate with the workgroup.
@@ -3208,13 +3238,14 @@ extension RedshiftServerless {
         public let workgroupName: String
 
         @inlinable
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
             self.ipAddressType = ipAddressType
             self.maxCapacity = maxCapacity
             self.port = port
+            self.pricePerformanceTarget = pricePerformanceTarget
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -3235,6 +3266,7 @@ extension RedshiftServerless {
             case ipAddressType = "ipAddressType"
             case maxCapacity = "maxCapacity"
             case port = "port"
+            case pricePerformanceTarget = "pricePerformanceTarget"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
@@ -3363,6 +3395,8 @@ extension RedshiftServerless {
         public let patchVersion: String?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public let port: Int?
+        /// An object that represents the price performance target settings for the workgroup.
+        public let pricePerformanceTarget: PerformanceTarget?
         /// A value that specifies whether the workgroup can be accessible from a public network.
         public let publiclyAccessible: Bool?
         /// An array of security group IDs to associate with the workgroup.
@@ -3381,7 +3415,7 @@ extension RedshiftServerless {
         public let workgroupVersion: String?
 
         @inlinable
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, crossAccountVpcs: [String]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String? = nil, patchVersion: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil, workgroupVersion: String? = nil) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, crossAccountVpcs: [String]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String? = nil, patchVersion: String? = nil, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil, workgroupVersion: String? = nil) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.creationDate = creationDate
@@ -3396,6 +3430,7 @@ extension RedshiftServerless {
             self.namespaceName = namespaceName
             self.patchVersion = patchVersion
             self.port = port
+            self.pricePerformanceTarget = pricePerformanceTarget
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.status = status
@@ -3421,6 +3456,7 @@ extension RedshiftServerless {
             case namespaceName = "namespaceName"
             case patchVersion = "patchVersion"
             case port = "port"
+            case pricePerformanceTarget = "pricePerformanceTarget"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroupIds = "securityGroupIds"
             case status = "status"

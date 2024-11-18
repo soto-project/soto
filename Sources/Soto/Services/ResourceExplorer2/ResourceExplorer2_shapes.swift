@@ -360,6 +360,34 @@ extension ResourceExplorer2 {
         }
     }
 
+    public struct GetManagedViewInput: AWSEncodableShape {
+        /// The Amazon resource name (ARN) of the managed view.
+        public let managedViewArn: String
+
+        @inlinable
+        public init(managedViewArn: String) {
+            self.managedViewArn = managedViewArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedViewArn = "ManagedViewArn"
+        }
+    }
+
+    public struct GetManagedViewOutput: AWSDecodableShape {
+        /// Details about the specified managed view.
+        public let managedView: ManagedView?
+
+        @inlinable
+        public init(managedView: ManagedView? = nil) {
+            self.managedView = managedView
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedView = "ManagedView"
+        }
+    }
+
     public struct GetViewInput: AWSEncodableShape {
         /// The Amazon resource name (ARN) of the view that you want information about.
         public let viewArn: String
@@ -519,6 +547,46 @@ extension ResourceExplorer2 {
         }
     }
 
+    public struct ListManagedViewsInput: AWSEncodableShape {
+        /// The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
+        public let maxResults: Int?
+        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from. The pagination tokens expire after 24 hours.
+        public let nextToken: String?
+        /// Specifies a service principal name. If specified, then the  operation only returns the managed views that are managed by the input service.
+        public let servicePrincipal: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, servicePrincipal: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.servicePrincipal = servicePrincipal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case servicePrincipal = "ServicePrincipal"
+        }
+    }
+
+    public struct ListManagedViewsOutput: AWSDecodableShape {
+        /// The list of managed views available in the Amazon Web Services Region in which you called this operation.
+        public let managedViews: [String]?
+        /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+        public let nextToken: String?
+
+        @inlinable
+        public init(managedViews: [String]? = nil, nextToken: String? = nil) {
+            self.managedViews = managedViews
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedViews = "ManagedViews"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListResourcesInput: AWSEncodableShape {
         public let filters: SearchFilter?
         /// The maximum number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value appropriate to the  operation. If additional items exist beyond those included in the current response, the  NextToken response element is present and has a value (is not null). Include that  value as the NextToken request parameter in the next call to the operation to get  the next part of the results.  An API operation can return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
@@ -670,6 +738,55 @@ extension ResourceExplorer2 {
         }
     }
 
+    public struct ManagedView: AWSDecodableShape {
+        public let filters: SearchFilter?
+        /// A structure that contains additional information about the managed view.
+        public let includedProperties: [IncludedProperty]?
+        /// The date and time when this managed view was last modified.
+        public let lastUpdatedAt: Date?
+        /// The Amazon resource name (ARN) of the managed view.
+        public let managedViewArn: String?
+        /// The name of the managed view.
+        public let managedViewName: String?
+        /// The Amazon Web Services account that owns this managed view.
+        public let owner: String?
+        /// The resource policy that defines access to the managed view. To learn more about this policy, review  Managed views.
+        public let resourcePolicy: String?
+        /// An Amazon resource name (ARN) of an Amazon Web Services account or organization that specifies whether this managed view  includes resources from only the specified Amazon Web Services account or all accounts in the specified organization.
+        public let scope: String?
+        /// The service principal of the Amazon Web Services service that created and manages the managed view.
+        public let trustedService: String?
+        /// The version of the managed view.
+        public let version: String?
+
+        @inlinable
+        public init(filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, lastUpdatedAt: Date? = nil, managedViewArn: String? = nil, managedViewName: String? = nil, owner: String? = nil, resourcePolicy: String? = nil, scope: String? = nil, trustedService: String? = nil, version: String? = nil) {
+            self.filters = filters
+            self.includedProperties = includedProperties
+            self.lastUpdatedAt = lastUpdatedAt
+            self.managedViewArn = managedViewArn
+            self.managedViewName = managedViewName
+            self.owner = owner
+            self.resourcePolicy = resourcePolicy
+            self.scope = scope
+            self.trustedService = trustedService
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case includedProperties = "IncludedProperties"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case managedViewArn = "ManagedViewArn"
+            case managedViewName = "ManagedViewName"
+            case owner = "Owner"
+            case resourcePolicy = "ResourcePolicy"
+            case scope = "Scope"
+            case trustedService = "TrustedService"
+            case version = "Version"
+        }
+    }
+
     public struct MemberIndex: AWSDecodableShape {
         /// The account ID for the index.
         public let accountId: String?
@@ -727,7 +844,7 @@ extension ResourceExplorer2 {
         public let region: String?
         /// The type of the resource.
         public let resourceType: String?
-        /// The Amazon Web Servicesservice that owns the resource and is responsible for creating and updating it.
+        /// The Amazon Web Services service that owns the resource and is responsible for creating and updating it.
         public let service: String?
 
         @inlinable
@@ -865,7 +982,7 @@ extension ResourceExplorer2 {
     public struct SupportedResourceType: AWSDecodableShape {
         /// The unique identifier of the resource type.
         public let resourceType: String?
-        /// The Amazon Web Servicesservice that is associated with the resource type. This is the primary service that lets you create and interact with resources of this type.
+        /// The Amazon Web Services service that is associated with the resource type. This is the primary service that lets you create and interact with resources of this type.
         public let service: String?
 
         @inlinable

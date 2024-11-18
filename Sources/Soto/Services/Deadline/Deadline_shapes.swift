@@ -26,6 +26,14 @@ import Foundation
 extension Deadline {
     // MARK: Enums
 
+    public enum AcceleratorName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case a10g = "a10g"
+        case l4 = "l4"
+        case l40s = "l40s"
+        case t4 = "t4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AcceleratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// GPU accelerator type.
         case gpu = "gpu"
@@ -963,10 +971,35 @@ extension Deadline {
 
     // MARK: Shapes
 
+    public struct AcceleratorCapabilities: AWSEncodableShape & AWSDecodableShape {
+        /// The number of GPUs on each worker. The default is 1.
+        public let count: AcceleratorCountRange?
+        /// A list of objects that contain the GPU name of the accelerator and driver for the instance types that support the accelerator.
+        public let selections: [AcceleratorSelection]
+
+        @inlinable
+        public init(count: AcceleratorCountRange? = nil, selections: [AcceleratorSelection]) {
+            self.count = count
+            self.selections = selections
+        }
+
+        public func validate(name: String) throws {
+            try self.count?.validate(name: "\(name).count")
+            try self.selections.forEach {
+                try $0.validate(name: "\(name).selections[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case selections = "selections"
+        }
+    }
+
     public struct AcceleratorCountRange: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum GPU for the accelerator.
+        /// The maximum number of GPUs for the accelerator.
         public let max: Int?
-        /// The minimum GPU for the accelerator.
+        /// The minimum number of GPUs for the accelerator. If you set the value to 0, a worker will still have 1 GPU.
         public let min: Int
 
         @inlinable
@@ -985,6 +1018,29 @@ extension Deadline {
         private enum CodingKeys: String, CodingKey {
             case max = "max"
             case min = "min"
+        }
+    }
+
+    public struct AcceleratorSelection: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the GPU accelerator.
+        public let name: AcceleratorName
+        /// The driver version that the GPU accelerator uses.
+        public let runtime: String?
+
+        @inlinable
+        public init(name: AcceleratorName, runtime: String? = nil) {
+            self.name = name
+            self.runtime = runtime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runtime, name: "runtime", parent: name, max: 100)
+            try self.validate(self.runtime, name: "runtime", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case runtime = "runtime"
         }
     }
 
@@ -8177,6 +8233,8 @@ extension Deadline {
     }
 
     public struct ServiceManagedEc2InstanceCapabilities: AWSEncodableShape & AWSDecodableShape {
+        /// The GPU accelerator capabilities required for the Amazon EC2 instances. If you include the acceleratorCapabilities property in the ServiceManagedEc2InstanceCapabilities object, all of the Amazon EC2 instances will have at least one accelerator.
+        public let acceleratorCapabilities: AcceleratorCapabilities?
         /// The allowable Amazon EC2 instance types.
         public let allowedInstanceTypes: [String]?
         /// The CPU architecture type.
@@ -8197,7 +8255,8 @@ extension Deadline {
         public let vCpuCount: VCpuCountRange
 
         @inlinable
-        public init(allowedInstanceTypes: [String]? = nil, cpuArchitectureType: CpuArchitectureType, customAmounts: [FleetAmountCapability]? = nil, customAttributes: [FleetAttributeCapability]? = nil, excludedInstanceTypes: [String]? = nil, memoryMiB: MemoryMiBRange, osFamily: ServiceManagedFleetOperatingSystemFamily, rootEbsVolume: Ec2EbsVolume? = nil, vCpuCount: VCpuCountRange) {
+        public init(acceleratorCapabilities: AcceleratorCapabilities? = nil, allowedInstanceTypes: [String]? = nil, cpuArchitectureType: CpuArchitectureType, customAmounts: [FleetAmountCapability]? = nil, customAttributes: [FleetAttributeCapability]? = nil, excludedInstanceTypes: [String]? = nil, memoryMiB: MemoryMiBRange, osFamily: ServiceManagedFleetOperatingSystemFamily, rootEbsVolume: Ec2EbsVolume? = nil, vCpuCount: VCpuCountRange) {
+            self.acceleratorCapabilities = acceleratorCapabilities
             self.allowedInstanceTypes = allowedInstanceTypes
             self.cpuArchitectureType = cpuArchitectureType
             self.customAmounts = customAmounts
@@ -8210,6 +8269,7 @@ extension Deadline {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorCapabilities?.validate(name: "\(name).acceleratorCapabilities")
             try self.allowedInstanceTypes?.forEach {
                 try validate($0, name: "allowedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$")
             }
@@ -8236,6 +8296,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceleratorCapabilities = "acceleratorCapabilities"
             case allowedInstanceTypes = "allowedInstanceTypes"
             case cpuArchitectureType = "cpuArchitectureType"
             case customAmounts = "customAmounts"

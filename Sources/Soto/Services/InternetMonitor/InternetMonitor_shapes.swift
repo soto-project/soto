@@ -101,6 +101,7 @@ extension InternetMonitor {
         case measurements = "MEASUREMENTS"
         case overallTrafficSuggestions = "OVERALL_TRAFFIC_SUGGESTIONS"
         case overallTrafficSuggestionsDetails = "OVERALL_TRAFFIC_SUGGESTIONS_DETAILS"
+        case routingSuggestions = "ROUTING_SUGGESTIONS"
         case topLocations = "TOP_LOCATIONS"
         case topLocationDetails = "TOP_LOCATION_DETAILS"
         public var description: String { return self.rawValue }
@@ -1394,7 +1395,8 @@ extension InternetMonitor {
         /// 				and time to first byte (TTFB) information, for the top location and ASN combinations that you're monitoring, by traffic volume.    TOP_LOCATION_DETAILS: Provides TTFB for Amazon CloudFront, your
         /// 				current configuration, and the best performing EC2 configuration, at 1 hour intervals.    OVERALL_TRAFFIC_SUGGESTIONS: Provides TTFB, using a 30-day weighted average, for all traffic in
         /// 				each Amazon Web Services location that is monitored.    OVERALL_TRAFFIC_SUGGESTIONS_DETAILS: Provides TTFB, using a 30-day weighted average, for each top
-        /// 				location, for a proposed Amazon Web Services location. Must provide a Amazon Web Services location to search.   For lists of the fields returned with each query type and more information about how each type of query is
+        /// 				location, for a proposed Amazon Web Services location. Must provide an Amazon Web Services location to search.    ROUTING_SUGGESTIONS: Provides the predicted average round-trip time (RTT) from an IP prefix toward
+        /// 				an Amazon Web Services location for a DNS resolver. The RTT is calculated at one hour intervals, over a one hour period.   For lists of the fields returned with each query type and more information about how each type of query is
         /// 			performed, see
         /// 				Using the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide.
         public let queryType: QueryType

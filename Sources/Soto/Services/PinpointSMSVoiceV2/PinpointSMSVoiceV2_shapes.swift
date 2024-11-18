@@ -58,6 +58,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public enum ConfigurationSetFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case defaultMessageFeedbackEnabled = "default-message-feedback-enabled"
         case defaultMessageType = "default-message-type"
         case defaultSenderId = "default-sender-id"
         case eventDestinationName = "event-destination-name"
@@ -99,6 +100,7 @@ extension PinpointSMSVoiceV2 {
         case textInvalid = "TEXT_INVALID"
         case textInvalidMessage = "TEXT_INVALID_MESSAGE"
         case textPending = "TEXT_PENDING"
+        case textProtectBlocked = "TEXT_PROTECT_BLOCKED"
         case textQueued = "TEXT_QUEUED"
         case textSent = "TEXT_SENT"
         case textSpam = "TEXT_SPAM"
@@ -158,6 +160,12 @@ extension PinpointSMSVoiceV2 {
         case ptBr = "PT_BR"
         case zhCn = "ZH_CN"
         case zhTw = "ZH_TW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageFeedbackStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case received = "RECEIVED"
         public var description: String { return self.rawValue }
     }
 
@@ -248,6 +256,23 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProtectConfigurationRuleOverrideAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "ALLOW"
+        case block = "BLOCK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectConfigurationRuleSetNumberOverrideFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case action = "action"
+        case createdAfter = "created-after"
+        case createdBefore = "created-before"
+        case destinationPhoneNumberBeginsWith = "destination-phone-number-begins-with"
+        case expiresAfter = "expires-after"
+        case expiresBefore = "expires-before"
+        case isoCountryCode = "iso-country-code"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProtectStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case block = "BLOCK"
@@ -291,6 +316,7 @@ extension PinpointSMSVoiceV2 {
         case created = "CREATED"
         case deleted = "DELETED"
         case provisioning = "PROVISIONING"
+        case requiresAuthentication = "REQUIRES_AUTHENTICATION"
         case requiresUpdates = "REQUIRES_UPDATES"
         case reviewing = "REVIEWING"
         case submitted = "SUBMITTED"
@@ -314,6 +340,7 @@ extension PinpointSMSVoiceV2 {
         case denied = "DENIED"
         case discarded = "DISCARDED"
         case draft = "DRAFT"
+        case requiresAuthentication = "REQUIRES_AUTHENTICATION"
         case reviewing = "REVIEWING"
         case revoked = "REVOKED"
         case submitted = "SUBMITTED"
@@ -639,7 +666,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -658,6 +685,8 @@ extension PinpointSMSVoiceV2 {
         public let configurationSetName: String
         /// The time when the ConfigurationSet was created, in UNIX epoch time format.
         public let createdTimestamp: Date
+        /// True if message feedback is enabled.
+        public let defaultMessageFeedbackEnabled: Bool?
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let defaultMessageType: MessageType?
         /// The default sender ID used by the ConfigurationSet.
@@ -668,10 +697,11 @@ extension PinpointSMSVoiceV2 {
         public let protectConfigurationId: String?
 
         @inlinable
-        public init(configurationSetArn: String, configurationSetName: String, createdTimestamp: Date, defaultMessageType: MessageType? = nil, defaultSenderId: String? = nil, eventDestinations: [EventDestination], protectConfigurationId: String? = nil) {
+        public init(configurationSetArn: String, configurationSetName: String, createdTimestamp: Date, defaultMessageFeedbackEnabled: Bool? = nil, defaultMessageType: MessageType? = nil, defaultSenderId: String? = nil, eventDestinations: [EventDestination], protectConfigurationId: String? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
             self.createdTimestamp = createdTimestamp
+            self.defaultMessageFeedbackEnabled = defaultMessageFeedbackEnabled
             self.defaultMessageType = defaultMessageType
             self.defaultSenderId = defaultSenderId
             self.eventDestinations = eventDestinations
@@ -682,6 +712,7 @@ extension PinpointSMSVoiceV2 {
             case configurationSetArn = "ConfigurationSetArn"
             case configurationSetName = "ConfigurationSetName"
             case createdTimestamp = "CreatedTimestamp"
+            case defaultMessageFeedbackEnabled = "DefaultMessageFeedbackEnabled"
             case defaultMessageType = "DefaultMessageType"
             case defaultSenderId = "DefaultSenderId"
             case eventDestinations = "EventDestinations"
@@ -1136,9 +1167,9 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct CreateRegistrationAttachmentRequest: AWSEncodableShape {
-        /// The registration file to upload. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG.
+        /// The registration file to upload. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG.
         public let attachmentBody: AWSBase64Data?
-        /// A URL to the required registration file.  For example, you can provide the S3 object URL.
+        /// Registration files have to be stored in an Amazon S3 bucket. The URI to use when sending is in the format s3://BucketName/FileName.
         public let attachmentUrl: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
         public let clientToken: String?
@@ -1252,7 +1283,7 @@ extension PinpointSMSVoiceV2 {
         public let registrationArn: String
         /// The unique identifier for the registration.
         public let registrationId: String
-        /// The status of the registration.    CREATED: Your registration is created but not submitted.    SUBMITTED: Your registration has been submitted and is awaiting review.    REVIEWING: Your registration has been accepted and is being reviewed.    PROVISIONING: Your registration has been approved and your origination identity is being created.    COMPLETE: Your registration has been approved and and your origination identity has been created.    REQUIRES_UPDATES: You must fix your registration and resubmit it.    CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.    DELETED: The registration has been deleted.
+        /// The status of the registration.    CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.    CREATED: Your registration is created but not submitted.    COMPLETE: Your registration has been approved and your origination identity has been created.    DELETED: The registration has been deleted.    PROVISIONING: Your registration has been approved and your origination identity is being created.    REQUIRES_AUTHENTICATION: You need to complete email authentication.    REQUIRES_UPDATES: You must fix your registration and resubmit it.    REVIEWING: Your registration has been accepted and is being reviewed.    SUBMITTED: Your registration has been submitted and is awaiting review.
         public let registrationStatus: RegistrationStatus
         /// The type of registration form to create. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationType: String
@@ -1308,7 +1339,7 @@ extension PinpointSMSVoiceV2 {
         public let registrationArn: String
         /// The unique identifier for the registration.
         public let registrationId: String
-        /// The status of the registration.    DRAFT: The initial status of a registration version after it’s created.    SUBMITTED: Your registration has been submitted.    REVIEWING: Your registration has been accepted and is being reviewed.    APPROVED: Your registration has been approved.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DENIED: You must fix your registration and resubmit it.    REVOKED: Your previously approved registration has been revoked.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+        /// The status of the registration.    APPROVED: Your registration has been approved.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.    DENIED: You must fix your registration and resubmit it.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DRAFT: The initial status of a registration version after it’s created.    REQUIRES_AUTHENTICATION: You need to complete email authentication.    REVIEWING: Your registration has been accepted and is being reviewed.    REVOKED: Your previously approved registration has been revoked.    SUBMITTED: Your registration has been submitted.
         public let registrationVersionStatus: RegistrationVersionStatus
         /// A RegistrationVersionStatusHistory object that contains timestamps for the registration.
         public let registrationVersionStatusHistory: RegistrationVersionStatusHistory
@@ -1451,6 +1482,8 @@ extension PinpointSMSVoiceV2 {
         public let configurationSetName: String?
         /// The time that the deleted configuration set was created in UNIX epoch time format.
         public let createdTimestamp: Date?
+        /// True if the configuration set has message feedback enabled. By default this is set to false.
+        public let defaultMessageFeedbackEnabled: Bool?
         /// The default message type of the configuration set that was deleted.
         public let defaultMessageType: MessageType?
         /// The default Sender ID of the configuration set that was deleted.
@@ -1459,10 +1492,11 @@ extension PinpointSMSVoiceV2 {
         public let eventDestinations: [EventDestination]?
 
         @inlinable
-        public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, createdTimestamp: Date? = nil, defaultMessageType: MessageType? = nil, defaultSenderId: String? = nil, eventDestinations: [EventDestination]? = nil) {
+        public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, createdTimestamp: Date? = nil, defaultMessageFeedbackEnabled: Bool? = nil, defaultMessageType: MessageType? = nil, defaultSenderId: String? = nil, eventDestinations: [EventDestination]? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
             self.createdTimestamp = createdTimestamp
+            self.defaultMessageFeedbackEnabled = defaultMessageFeedbackEnabled
             self.defaultMessageType = defaultMessageType
             self.defaultSenderId = defaultSenderId
             self.eventDestinations = eventDestinations
@@ -1472,6 +1506,7 @@ extension PinpointSMSVoiceV2 {
             case configurationSetArn = "ConfigurationSetArn"
             case configurationSetName = "ConfigurationSetName"
             case createdTimestamp = "CreatedTimestamp"
+            case defaultMessageFeedbackEnabled = "DefaultMessageFeedbackEnabled"
             case defaultMessageType = "DefaultMessageType"
             case defaultSenderId = "DefaultSenderId"
             case eventDestinations = "EventDestinations"
@@ -1909,6 +1944,71 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DeleteProtectConfigurationRuleSetNumberOverrideRequest: AWSEncodableShape {
+        /// The destination phone number in E.164 format.
+        public let destinationPhoneNumber: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        @inlinable
+        public init(destinationPhoneNumber: String, protectConfigurationId: String) {
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, min: 1)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, pattern: "^\\+?[1-9][0-9]{1,18}$")
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct DeleteProtectConfigurationRuleSetNumberOverrideResult: AWSDecodableShape {
+        /// The action associated with the rule.
+        public let action: ProtectConfigurationRuleOverrideAction
+        /// The time when the rule was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The destination phone number in E.164 format.
+        public let destinationPhoneNumber: String
+        /// The time when the resource-based policy was created, in UNIX epoch time format.
+        public let expirationTimestamp: Date?
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String?
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        @inlinable
+        public init(action: ProtectConfigurationRuleOverrideAction, createdTimestamp: Date, destinationPhoneNumber: String, expirationTimestamp: Date? = nil, isoCountryCode: String? = nil, protectConfigurationArn: String, protectConfigurationId: String) {
+            self.action = action
+            self.createdTimestamp = createdTimestamp
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.expirationTimestamp = expirationTimestamp
+            self.isoCountryCode = isoCountryCode
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case createdTimestamp = "CreatedTimestamp"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case expirationTimestamp = "ExpirationTimestamp"
+            case isoCountryCode = "IsoCountryCode"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
     public struct DeleteRegistrationAttachmentRequest: AWSEncodableShape {
         /// The unique identifier for the registration attachment.
         public let registrationAttachmentId: String
@@ -2059,7 +2159,7 @@ extension PinpointSMSVoiceV2 {
         public let registrationArn: String
         /// The unique identifier for the registration.
         public let registrationId: String
-        /// The status of the registration.    CREATED: Your registration is created but not submitted.    SUBMITTED: Your registration has been submitted and is awaiting review.    REVIEWING: Your registration has been accepted and is being reviewed.    PROVISIONING: Your registration has been approved and your origination identity is being created.    COMPLETE: Your registration has been approved and and your origination identity has been created.    REQUIRES_UPDATES: You must fix your registration and resubmit it.    CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.    DELETED: The registration has been deleted.
+        /// The status of the registration.    CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.    CREATED: Your registration is created but not submitted.    COMPLETE: Your registration has been approved and your origination identity has been created.    DELETED: The registration has been deleted.    PROVISIONING: Your registration has been approved and your origination identity is being created.    REQUIRES_AUTHENTICATION: You need to complete email authentication.    REQUIRES_UPDATES: You must fix your registration and resubmit it.    REVIEWING: Your registration has been accepted and is being reviewed.    SUBMITTED: Your registration has been submitted and is awaiting review.
         public let registrationStatus: RegistrationStatus
         /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationType: String
@@ -2506,7 +2606,7 @@ extension PinpointSMSVoiceV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
-        /// An array of phone numbers to search for in the OptOutList.
+        /// An array of phone numbers to search for in the OptOutList. If you specify an opted out number that isn't valid, an exception is returned.
         public let optedOutNumbers: [String]?
         /// The OptOutListName or OptOutListArn of the OptOutList. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let optOutListName: String
@@ -3372,7 +3472,7 @@ extension PinpointSMSVoiceV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
-        /// An array of VerifiedDestinationNumberid to retreive.
+        /// An array of VerifiedDestinationNumberid to retrieve.
         public let verifiedDestinationNumberIds: [String]?
 
         @inlinable
@@ -3584,7 +3684,7 @@ extension PinpointSMSVoiceV2 {
         public let registrationArn: String
         /// The unique identifier for the registration.
         public let registrationId: String
-        /// The status of the registration version.    DRAFT: The initial status of a registration version after it’s created.    SUBMITTED: Your registration has been submitted.    REVIEWING: Your registration has been accepted and is being reviewed.    APPROVED: Your registration has been approved.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DENIED: You must fix your registration and resubmit it.    REVOKED: Your previously approved registration has been revoked.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+        /// The status of the registration version.    APPROVED: Your registration has been approved.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.    DENIED: You must fix your registration and resubmit it.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DRAFT: The initial status of a registration version after it’s created.    REQUIRES_AUTHENTICATION: You need to complete email authentication.    REVIEWING: Your registration has been accepted and is being reviewed.    REVOKED: Your previously approved registration has been revoked.    SUBMITTED: Your registration has been submitted.
         public let registrationVersionStatus: RegistrationVersionStatus
         /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
         public let registrationVersionStatusHistory: RegistrationVersionStatusHistory
@@ -3751,7 +3851,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -3876,6 +3976,73 @@ extension PinpointSMSVoiceV2 {
             case originationIdentities = "OriginationIdentities"
             case poolArn = "PoolArn"
             case poolId = "PoolId"
+        }
+    }
+
+    public struct ListProtectConfigurationRuleSetNumberOverridesRequest: AWSEncodableShape {
+        /// An array of ProtectConfigurationRuleSetNumberOverrideFilterItem objects to filter the results.
+        public let filters: [ProtectConfigurationRuleSetNumberOverrideFilterItem]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        @inlinable
+        public init(filters: [ProtectConfigurationRuleSetNumberOverrideFilterItem]? = nil, maxResults: Int? = nil, nextToken: String? = nil, protectConfigurationId: String) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct ListProtectConfigurationRuleSetNumberOverridesResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+        /// An array of RuleSetNumberOverrides objects.
+        public let ruleSetNumberOverrides: [ProtectConfigurationRuleSetNumberOverride]?
+
+        @inlinable
+        public init(nextToken: String? = nil, protectConfigurationArn: String, protectConfigurationId: String, ruleSetNumberOverrides: [ProtectConfigurationRuleSetNumberOverride]? = nil) {
+            self.nextToken = nextToken
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+            self.ruleSetNumberOverrides = ruleSetNumberOverrides
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
+            case ruleSetNumberOverrides = "RuleSetNumberOverrides"
         }
     }
 
@@ -4026,7 +4193,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4106,7 +4273,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4216,7 +4383,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4302,7 +4469,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4344,7 +4511,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4383,6 +4550,64 @@ extension PinpointSMSVoiceV2 {
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
             case protectConfigurationArn = "ProtectConfigurationArn"
             case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct ProtectConfigurationRuleSetNumberOverride: AWSDecodableShape {
+        /// The action for the rule to perform of either blocking or allowing messages to the destination phone number.
+        public let action: ProtectConfigurationRuleOverrideAction
+        /// The time when the rule was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The destination phone number in E.164 format.
+        public let destinationPhoneNumber: String
+        /// The time the rule will expire at. If ExpirationTimestamp is not set then the rule will not expire.
+        public let expirationTimestamp: Date?
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String?
+
+        @inlinable
+        public init(action: ProtectConfigurationRuleOverrideAction, createdTimestamp: Date, destinationPhoneNumber: String, expirationTimestamp: Date? = nil, isoCountryCode: String? = nil) {
+            self.action = action
+            self.createdTimestamp = createdTimestamp
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.expirationTimestamp = expirationTimestamp
+            self.isoCountryCode = isoCountryCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case createdTimestamp = "CreatedTimestamp"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case expirationTimestamp = "ExpirationTimestamp"
+            case isoCountryCode = "IsoCountryCode"
+        }
+    }
+
+    public struct ProtectConfigurationRuleSetNumberOverrideFilterItem: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: ProtectConfigurationRuleSetNumberOverrideFilterName
+        /// An array values to filter for.
+        public let values: [String]
+
+        @inlinable
+        public init(name: ProtectConfigurationRuleSetNumberOverrideFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
         }
     }
 
@@ -4454,6 +4679,48 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct PutMessageFeedbackRequest: AWSEncodableShape {
+        /// Set the message feedback to be either RECEIVED or FAILED.
+        public let messageFeedbackStatus: MessageFeedbackStatus
+        /// The unique identifier for the message.
+        public let messageId: String
+
+        @inlinable
+        public init(messageFeedbackStatus: MessageFeedbackStatus, messageId: String) {
+            self.messageFeedbackStatus = messageFeedbackStatus
+            self.messageId = messageId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.messageId, name: "messageId", parent: name, max: 64)
+            try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
+            try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageFeedbackStatus = "MessageFeedbackStatus"
+            case messageId = "MessageId"
+        }
+    }
+
+    public struct PutMessageFeedbackResult: AWSDecodableShape {
+        /// The current status of the message.
+        public let messageFeedbackStatus: MessageFeedbackStatus
+        /// The unique identifier for the message.
+        public let messageId: String
+
+        @inlinable
+        public init(messageFeedbackStatus: MessageFeedbackStatus, messageId: String) {
+            self.messageFeedbackStatus = messageFeedbackStatus
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageFeedbackStatus = "MessageFeedbackStatus"
+            case messageId = "MessageId"
+        }
+    }
+
     public struct PutOptedOutNumberRequest: AWSEncodableShape {
         /// The phone number to add to the OptOutList in E.164 format.
         public let optedOutNumber: String
@@ -4508,6 +4775,86 @@ extension PinpointSMSVoiceV2 {
             case optedOutTimestamp = "OptedOutTimestamp"
             case optOutListArn = "OptOutListArn"
             case optOutListName = "OptOutListName"
+        }
+    }
+
+    public struct PutProtectConfigurationRuleSetNumberOverrideRequest: AWSEncodableShape {
+        /// The action for the rule to either block or allow messages to the destination phone number.
+        public let action: ProtectConfigurationRuleOverrideAction
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// The destination phone number in E.164 format.
+        public let destinationPhoneNumber: String
+        /// The time the rule will expire at. If ExpirationTimestamp is not set then the rule does not expire.
+        public let expirationTimestamp: Date?
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        @inlinable
+        public init(action: ProtectConfigurationRuleOverrideAction, clientToken: String? = PutProtectConfigurationRuleSetNumberOverrideRequest.idempotencyToken(), destinationPhoneNumber: String, expirationTimestamp: Date? = nil, protectConfigurationId: String) {
+            self.action = action
+            self.clientToken = clientToken
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.expirationTimestamp = expirationTimestamp
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, min: 1)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, pattern: "^\\+?[1-9][0-9]{1,18}$")
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case clientToken = "ClientToken"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case expirationTimestamp = "ExpirationTimestamp"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct PutProtectConfigurationRuleSetNumberOverrideResult: AWSDecodableShape {
+        /// The action for the rule to take.
+        public let action: ProtectConfigurationRuleOverrideAction
+        /// The time when the rule was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The destination phone number in E.164 format.
+        public let destinationPhoneNumber: String
+        /// The time the rule will expire at.
+        public let expirationTimestamp: Date?
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String?
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        @inlinable
+        public init(action: ProtectConfigurationRuleOverrideAction, createdTimestamp: Date, destinationPhoneNumber: String, expirationTimestamp: Date? = nil, isoCountryCode: String? = nil, protectConfigurationArn: String, protectConfigurationId: String) {
+            self.action = action
+            self.createdTimestamp = createdTimestamp
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.expirationTimestamp = expirationTimestamp
+            self.isoCountryCode = isoCountryCode
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case createdTimestamp = "CreatedTimestamp"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case expirationTimestamp = "ExpirationTimestamp"
+            case isoCountryCode = "IsoCountryCode"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
         }
     }
 
@@ -4662,7 +5009,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4720,7 +5067,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4918,7 +5265,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4945,7 +5292,7 @@ extension PinpointSMSVoiceV2 {
         public let registrationArn: String
         /// The unique identifier for the registration.
         public let registrationId: String
-        /// The status of the registration.    CREATED: Your registration is created but not submitted.    SUBMITTED: Your registration has been submitted and is awaiting review.    REVIEWING: Your registration has been accepted and is being reviewed.    PROVISIONING: Your registration has been approved and your origination identity is being created.    COMPLETE: Your registration has been approved and and your origination identity has been created.    REQUIRES_UPDATES: You must fix your registration and resubmit it.    CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.    DELETED: The registration has been deleted.
+        /// The status of the registration.    CLOSED: The phone number or sender ID has been deleted and you must also delete the registration for the number.    CREATED: Your registration is created but not submitted.    COMPLETE: Your registration has been approved and your origination identity has been created.    DELETED: The registration has been deleted.    PROVISIONING: Your registration has been approved and your origination identity is being created.    REQUIRES_AUTHENTICATION: You need to complete email authentication.    REQUIRES_UPDATES: You must fix your registration and resubmit it.    REVIEWING: Your registration has been accepted and is being reviewed.    SUBMITTED: Your registration has been submitted and is awaiting review.
         public let registrationStatus: RegistrationStatus
         /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationType: String
@@ -5092,7 +5439,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -5120,7 +5467,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -5135,7 +5482,7 @@ extension PinpointSMSVoiceV2 {
     public struct RegistrationVersionInformation: AWSDecodableShape {
         /// An array of RegistrationDeniedReasonInformation objects.
         public let deniedReasons: [RegistrationDeniedReasonInformation]?
-        /// The status of the registration.    DRAFT: The initial status of a registration version after it’s created.    SUBMITTED: Your registration has been submitted.    REVIEWING: Your registration has been accepted and is being reviewed.    APPROVED: Your registration has been approved.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DENIED: You must fix your registration and resubmit it.    REVOKED: Your previously approved registration has been revoked.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+        /// The status of the registration.    APPROVED: Your registration has been approved.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.    DENIED: You must fix your registration and resubmit it.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DRAFT: The initial status of a registration version after it’s created.    REQUIRES_AUTHENTICATION: You need to complete email authentication.    REVIEWING: Your registration has been accepted and is being reviewed.    REVOKED: Your previously approved registration has been revoked.    SUBMITTED: Your registration has been submitted.
         public let registrationVersionStatus: RegistrationVersionStatus
         /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
         public let registrationVersionStatusHistory: RegistrationVersionStatusHistory
@@ -5169,6 +5516,8 @@ extension PinpointSMSVoiceV2 {
         public let discardedTimestamp: Date?
         /// The time when the registration was in the draft state, in UNIX epoch time format.
         public let draftTimestamp: Date
+        /// The time when the registration was in the requires authentication state, in UNIX epoch time format.
+        public let requiresAuthenticationTimestamp: Date?
         /// The time when the registration was in the reviewing state, in UNIX epoch time format.
         public let reviewingTimestamp: Date?
         /// The time when the registration was in the revoked state, in UNIX epoch time format.
@@ -5177,12 +5526,13 @@ extension PinpointSMSVoiceV2 {
         public let submittedTimestamp: Date?
 
         @inlinable
-        public init(approvedTimestamp: Date? = nil, archivedTimestamp: Date? = nil, deniedTimestamp: Date? = nil, discardedTimestamp: Date? = nil, draftTimestamp: Date, reviewingTimestamp: Date? = nil, revokedTimestamp: Date? = nil, submittedTimestamp: Date? = nil) {
+        public init(approvedTimestamp: Date? = nil, archivedTimestamp: Date? = nil, deniedTimestamp: Date? = nil, discardedTimestamp: Date? = nil, draftTimestamp: Date, requiresAuthenticationTimestamp: Date? = nil, reviewingTimestamp: Date? = nil, revokedTimestamp: Date? = nil, submittedTimestamp: Date? = nil) {
             self.approvedTimestamp = approvedTimestamp
             self.archivedTimestamp = archivedTimestamp
             self.deniedTimestamp = deniedTimestamp
             self.discardedTimestamp = discardedTimestamp
             self.draftTimestamp = draftTimestamp
+            self.requiresAuthenticationTimestamp = requiresAuthenticationTimestamp
             self.reviewingTimestamp = reviewingTimestamp
             self.revokedTimestamp = revokedTimestamp
             self.submittedTimestamp = submittedTimestamp
@@ -5194,6 +5544,7 @@ extension PinpointSMSVoiceV2 {
             case deniedTimestamp = "DeniedTimestamp"
             case discardedTimestamp = "DiscardedTimestamp"
             case draftTimestamp = "DraftTimestamp"
+            case requiresAuthenticationTimestamp = "RequiresAuthenticationTimestamp"
             case reviewingTimestamp = "ReviewingTimestamp"
             case revokedTimestamp = "RevokedTimestamp"
             case submittedTimestamp = "SubmittedTimestamp"
@@ -5750,15 +6101,17 @@ extension PinpointSMSVoiceV2 {
         public let mediaUrls: [String]?
         /// The text body of the message.
         public let messageBody: String?
+        /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
+        public let messageFeedbackEnabled: Bool?
         /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
         /// The unique identifier of the protect configuration to use.
         public let protectConfigurationId: String?
-        /// How long the text message is valid for. By default this is 72 hours.
+        /// How long the media message is valid for. By default this is 72 hours.
         public let timeToLive: Int?
 
         @inlinable
-        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, maxPrice: String? = nil, mediaUrls: [String]? = nil, messageBody: String? = nil, originationIdentity: String, protectConfigurationId: String? = nil, timeToLive: Int? = nil) {
+        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, maxPrice: String? = nil, mediaUrls: [String]? = nil, messageBody: String? = nil, messageFeedbackEnabled: Bool? = nil, originationIdentity: String, protectConfigurationId: String? = nil, timeToLive: Int? = nil) {
             self.configurationSetName = configurationSetName
             self.context = context
             self.destinationPhoneNumber = destinationPhoneNumber
@@ -5766,6 +6119,7 @@ extension PinpointSMSVoiceV2 {
             self.maxPrice = maxPrice
             self.mediaUrls = mediaUrls
             self.messageBody = messageBody
+            self.messageFeedbackEnabled = messageFeedbackEnabled
             self.originationIdentity = originationIdentity
             self.protectConfigurationId = protectConfigurationId
             self.timeToLive = timeToLive
@@ -5818,6 +6172,7 @@ extension PinpointSMSVoiceV2 {
             case maxPrice = "MaxPrice"
             case mediaUrls = "MediaUrls"
             case messageBody = "MessageBody"
+            case messageFeedbackEnabled = "MessageFeedbackEnabled"
             case originationIdentity = "OriginationIdentity"
             case protectConfigurationId = "ProtectConfigurationId"
             case timeToLive = "TimeToLive"
@@ -5855,6 +6210,8 @@ extension PinpointSMSVoiceV2 {
         public let maxPrice: String?
         /// The body of the text message.
         public let messageBody: String?
+        /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
+        public let messageFeedbackEnabled: Bool?
         /// The type of message. Valid values are            for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let messageType: MessageType?
         /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
@@ -5865,7 +6222,7 @@ extension PinpointSMSVoiceV2 {
         public let timeToLive: Int?
 
         @inlinable
-        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationCountryParameters: [DestinationCountryParameterKey: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, keyword: String? = nil, maxPrice: String? = nil, messageBody: String? = nil, messageType: MessageType? = nil, originationIdentity: String? = nil, protectConfigurationId: String? = nil, timeToLive: Int? = nil) {
+        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationCountryParameters: [DestinationCountryParameterKey: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, keyword: String? = nil, maxPrice: String? = nil, messageBody: String? = nil, messageFeedbackEnabled: Bool? = nil, messageType: MessageType? = nil, originationIdentity: String? = nil, protectConfigurationId: String? = nil, timeToLive: Int? = nil) {
             self.configurationSetName = configurationSetName
             self.context = context
             self.destinationCountryParameters = destinationCountryParameters
@@ -5874,6 +6231,7 @@ extension PinpointSMSVoiceV2 {
             self.keyword = keyword
             self.maxPrice = maxPrice
             self.messageBody = messageBody
+            self.messageFeedbackEnabled = messageFeedbackEnabled
             self.messageType = messageType
             self.originationIdentity = originationIdentity
             self.protectConfigurationId = protectConfigurationId
@@ -5930,6 +6288,7 @@ extension PinpointSMSVoiceV2 {
             case keyword = "Keyword"
             case maxPrice = "MaxPrice"
             case messageBody = "MessageBody"
+            case messageFeedbackEnabled = "MessageFeedbackEnabled"
             case messageType = "MessageType"
             case originationIdentity = "OriginationIdentity"
             case protectConfigurationId = "ProtectConfigurationId"
@@ -5966,6 +6325,8 @@ extension PinpointSMSVoiceV2 {
         public let messageBody: String?
         /// Specifies if the MessageBody field contains text or speech synthesis markup language (SSML).   TEXT: This is the default value. When used the maximum character limit is 3000.   SSML: When used the maximum character limit is 6000 including SSML tagging.
         public let messageBodyTextType: VoiceMessageBodyTextType?
+        /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
+        public let messageFeedbackEnabled: Bool?
         /// The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
         /// The unique identifier for the protect configuration.
@@ -5976,7 +6337,7 @@ extension PinpointSMSVoiceV2 {
         public let voiceId: VoiceId?
 
         @inlinable
-        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, maxPricePerMinute: String? = nil, messageBody: String? = nil, messageBodyTextType: VoiceMessageBodyTextType? = nil, originationIdentity: String, protectConfigurationId: String? = nil, timeToLive: Int? = nil, voiceId: VoiceId? = nil) {
+        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, maxPricePerMinute: String? = nil, messageBody: String? = nil, messageBodyTextType: VoiceMessageBodyTextType? = nil, messageFeedbackEnabled: Bool? = nil, originationIdentity: String, protectConfigurationId: String? = nil, timeToLive: Int? = nil, voiceId: VoiceId? = nil) {
             self.configurationSetName = configurationSetName
             self.context = context
             self.destinationPhoneNumber = destinationPhoneNumber
@@ -5984,6 +6345,7 @@ extension PinpointSMSVoiceV2 {
             self.maxPricePerMinute = maxPricePerMinute
             self.messageBody = messageBody
             self.messageBodyTextType = messageBodyTextType
+            self.messageFeedbackEnabled = messageFeedbackEnabled
             self.originationIdentity = originationIdentity
             self.protectConfigurationId = protectConfigurationId
             self.timeToLive = timeToLive
@@ -6030,6 +6392,7 @@ extension PinpointSMSVoiceV2 {
             case maxPricePerMinute = "MaxPricePerMinute"
             case messageBody = "MessageBody"
             case messageBodyTextType = "MessageBodyTextType"
+            case messageFeedbackEnabled = "MessageFeedbackEnabled"
             case originationIdentity = "OriginationIdentity"
             case protectConfigurationId = "ProtectConfigurationId"
             case timeToLive = "TimeToLive"
@@ -6094,7 +6457,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -6183,6 +6546,52 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case defaultProtectConfigurationArn = "DefaultProtectConfigurationArn"
             case defaultProtectConfigurationId = "DefaultProtectConfigurationId"
+        }
+    }
+
+    public struct SetDefaultMessageFeedbackEnabledRequest: AWSEncodableShape {
+        /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+        public let configurationSetName: String
+        /// Set to true to enable message feedback.
+        public let messageFeedbackEnabled: Bool
+
+        @inlinable
+        public init(configurationSetName: String, messageFeedbackEnabled: Bool) {
+            self.configurationSetName = configurationSetName
+            self.messageFeedbackEnabled = messageFeedbackEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, max: 256)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, min: 1)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case messageFeedbackEnabled = "MessageFeedbackEnabled"
+        }
+    }
+
+    public struct SetDefaultMessageFeedbackEnabledResult: AWSDecodableShape {
+        /// The arn of the configuration set.
+        public let configurationSetArn: String?
+        /// The name of the configuration.
+        public let configurationSetName: String?
+        /// True if message feedback is enabled.
+        public let messageFeedbackEnabled: Bool?
+
+        @inlinable
+        public init(configurationSetArn: String? = nil, configurationSetName: String? = nil, messageFeedbackEnabled: Bool? = nil) {
+            self.configurationSetArn = configurationSetArn
+            self.configurationSetName = configurationSetName
+            self.messageFeedbackEnabled = messageFeedbackEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetArn = "ConfigurationSetArn"
+            case configurationSetName = "ConfigurationSetName"
+            case messageFeedbackEnabled = "MessageFeedbackEnabled"
         }
     }
 
@@ -6451,7 +6860,7 @@ extension PinpointSMSVoiceV2 {
         public let registrationArn: String
         /// The unique identifier for the registration.
         public let registrationId: String
-        /// The status of the registration version.    DRAFT: The initial status of a registration version after it’s created.    SUBMITTED: Your registration has been submitted.    REVIEWING: Your registration has been accepted and is being reviewed.    APPROVED: Your registration has been approved.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DENIED: You must fix your registration and resubmit it.    REVOKED: Your previously approved registration has been revoked.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.
+        /// The status of the registration version.    APPROVED: Your registration has been approved.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.    DENIED: You must fix your registration and resubmit it.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DRAFT: The initial status of a registration version after it’s created.    REQUIRES_AUTHENTICATION: You need to complete email authentication.    REVIEWING: Your registration has been accepted and is being reviewed.    REVOKED: Your previously approved registration has been revoked.    SUBMITTED: Your registration has been submitted.
         public let registrationVersionStatus: RegistrationVersionStatus
         /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
         public let registrationVersionStatusHistory: RegistrationVersionStatusHistory
@@ -7142,7 +7551,7 @@ extension PinpointSMSVoiceV2 {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)

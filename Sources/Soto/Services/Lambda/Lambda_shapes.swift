@@ -196,6 +196,7 @@ extension Lambda {
         case python310 = "python3.10"
         case python311 = "python3.11"
         case python312 = "python3.12"
+        case python313 = "python3.13"
         case python36 = "python3.6"
         case python37 = "python3.7"
         case python38 = "python3.8"
@@ -1052,12 +1053,8 @@ extension Lambda {
         public let handler: String?
         /// Container image configuration values that override the values in the container image Dockerfile.
         public let imageConfig: ImageConfig?
-        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's
-        /// environment variables. When
-        /// Lambda SnapStart is activated, Lambda also uses
-        /// this key is to encrypt your function's snapshot. If you deploy your function using a container image, Lambda also uses this key to
-        /// encrypt your function when it's deployed. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR).
-        /// If you don't provide a customer managed key, Lambda uses a default service key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see
+        /// Specifying a customer managed key for Lambda.   The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecycle.   If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key.
         public let kmsKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
@@ -1903,15 +1900,19 @@ extension Lambda {
         public let s3Key: String?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's
+        /// .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key.
+        public let sourceKMSKeyArn: String?
         /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients handle the encoding for you.
         public let zipFile: AWSBase64Data?
 
         @inlinable
-        public init(imageUri: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: AWSBase64Data? = nil) {
+        public init(imageUri: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, sourceKMSKeyArn: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.imageUri = imageUri
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
             self.s3ObjectVersion = s3ObjectVersion
+            self.sourceKMSKeyArn = sourceKMSKeyArn
             self.zipFile = zipFile
         }
 
@@ -1923,6 +1924,7 @@ extension Lambda {
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, min: 1)
+            try self.validate(self.sourceKMSKeyArn, name: "sourceKMSKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1930,6 +1932,7 @@ extension Lambda {
             case s3Bucket = "S3Bucket"
             case s3Key = "S3Key"
             case s3ObjectVersion = "S3ObjectVersion"
+            case sourceKMSKeyArn = "SourceKMSKeyArn"
             case zipFile = "ZipFile"
         }
     }
@@ -1943,13 +1946,17 @@ extension Lambda {
         public let repositoryType: String?
         /// The resolved URI for the image.
         public let resolvedImageUri: String?
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's
+        /// .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key.
+        public let sourceKMSKeyArn: String?
 
         @inlinable
-        public init(imageUri: String? = nil, location: String? = nil, repositoryType: String? = nil, resolvedImageUri: String? = nil) {
+        public init(imageUri: String? = nil, location: String? = nil, repositoryType: String? = nil, resolvedImageUri: String? = nil, sourceKMSKeyArn: String? = nil) {
             self.imageUri = imageUri
             self.location = location
             self.repositoryType = repositoryType
             self.resolvedImageUri = resolvedImageUri
+            self.sourceKMSKeyArn = sourceKMSKeyArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1957,6 +1964,7 @@ extension Lambda {
             case location = "Location"
             case repositoryType = "RepositoryType"
             case resolvedImageUri = "ResolvedImageUri"
+            case sourceKMSKeyArn = "SourceKMSKeyArn"
         }
     }
 
@@ -1985,7 +1993,7 @@ extension Lambda {
         public let handler: String?
         /// The function's image configuration values.
         public let imageConfigResponse: ImageConfigResponse?
-        /// The KMS key that's used to encrypt the function's environment variables. When Lambda SnapStart is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see  Specifying a customer managed key for Lambda.   The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecycle.   If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key.
         public let kmsKeyArn: String?
         /// The date and time that the function was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModified: String?
@@ -2507,15 +2515,18 @@ extension Lambda {
         public let concurrency: Concurrency?
         /// The configuration of the function or version.
         public let configuration: FunctionConfiguration?
-        /// The function's tags.
+        /// The function's tags. Lambda returns tag data only if you have explicit allow permissions for lambda:ListTags.
         public let tags: [String: String]?
+        /// An object that contains details about an error related to retrieving tags.
+        public let tagsError: TagsError?
 
         @inlinable
-        public init(code: FunctionCodeLocation? = nil, concurrency: Concurrency? = nil, configuration: FunctionConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(code: FunctionCodeLocation? = nil, concurrency: Concurrency? = nil, configuration: FunctionConfiguration? = nil, tags: [String: String]? = nil, tagsError: TagsError? = nil) {
             self.code = code
             self.concurrency = concurrency
             self.configuration = configuration
             self.tags = tags
+            self.tagsError = tagsError
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2523,6 +2534,7 @@ extension Lambda {
             case concurrency = "Concurrency"
             case configuration = "Configuration"
             case tags = "Tags"
+            case tagsError = "TagsError"
         }
     }
 
@@ -4827,6 +4839,24 @@ extension Lambda {
         }
     }
 
+    public struct TagsError: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: String
+        /// The error message.
+        public let message: String
+
+        @inlinable
+        public init(errorCode: String, message: String) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+        }
+    }
+
     public struct TracingConfig: AWSEncodableShape {
         /// The tracing mode.
         public let mode: TracingMode?
@@ -5142,12 +5172,14 @@ extension Lambda {
         public let s3Key: String?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's  .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
+        public let sourceKMSKeyArn: String?
         /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients
         /// handle the encoding for you. Use only with a function defined with a .zip file archive deployment package.
         public let zipFile: AWSBase64Data?
 
         @inlinable
-        public init(architectures: [Architecture]? = nil, dryRun: Bool? = nil, functionName: String, imageUri: String? = nil, publish: Bool? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: AWSBase64Data? = nil) {
+        public init(architectures: [Architecture]? = nil, dryRun: Bool? = nil, functionName: String, imageUri: String? = nil, publish: Bool? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, sourceKMSKeyArn: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.architectures = architectures
             self.dryRun = dryRun
             self.functionName = functionName
@@ -5157,6 +5189,7 @@ extension Lambda {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
             self.s3ObjectVersion = s3ObjectVersion
+            self.sourceKMSKeyArn = sourceKMSKeyArn
             self.zipFile = zipFile
         }
 
@@ -5172,6 +5205,7 @@ extension Lambda {
             try container.encodeIfPresent(self.s3Bucket, forKey: .s3Bucket)
             try container.encodeIfPresent(self.s3Key, forKey: .s3Key)
             try container.encodeIfPresent(self.s3ObjectVersion, forKey: .s3ObjectVersion)
+            try container.encodeIfPresent(self.sourceKMSKeyArn, forKey: .sourceKMSKeyArn)
             try container.encodeIfPresent(self.zipFile, forKey: .zipFile)
         }
 
@@ -5188,6 +5222,7 @@ extension Lambda {
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, min: 1)
+            try self.validate(self.sourceKMSKeyArn, name: "sourceKMSKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5199,6 +5234,7 @@ extension Lambda {
             case s3Bucket = "S3Bucket"
             case s3Key = "S3Key"
             case s3ObjectVersion = "S3ObjectVersion"
+            case sourceKMSKeyArn = "SourceKMSKeyArn"
             case zipFile = "ZipFile"
         }
     }
@@ -5221,12 +5257,8 @@ extension Lambda {
         public let handler: String?
         ///  Container image configuration values that override the values in the container image Docker file.
         public let imageConfig: ImageConfig?
-        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's
-        /// environment variables. When
-        /// Lambda SnapStart is activated, Lambda also uses
-        /// this key is to encrypt your function's snapshot. If you deploy your function using a container image, Lambda also uses this key to
-        /// encrypt your function when it's deployed. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR).
-        /// If you don't provide a customer managed key, Lambda uses a default service key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:   The function's environment variables.   The function's Lambda SnapStart snapshots.   When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see
+        /// Specifying a customer managed key for Lambda.   The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see Function lifecycle.   If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key or an Amazon Web Services managed key.
         public let kmsKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?

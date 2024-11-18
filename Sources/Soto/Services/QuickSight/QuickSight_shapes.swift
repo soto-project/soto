@@ -216,6 +216,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case password = "PASSWORD"
+        case token = "TOKEN"
+        case x509 = "X509"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthorSpecifiedAggregation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `var` = "VAR"
         case average = "AVERAGE"
@@ -262,6 +269,27 @@ extension QuickSight {
     public enum BoxPlotFillStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case solid = "SOLID"
         case transparent = "TRANSPARENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BrandStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createSucceeded = "CREATE_SUCCEEDED"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BrandVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createSucceeded = "CREATE_SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapabilityState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
@@ -2129,6 +2157,47 @@ extension QuickSight {
         }
     }
 
+    public enum ImageSource: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The public URL that points to the source image.
+        case publicUrl(String)
+        /// The Amazon S3 URI that points to the source image.
+        case s3Uri(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .publicUrl:
+                let value = try container.decode(String.self, forKey: .publicUrl)
+                self = .publicUrl(value)
+            case .s3Uri:
+                let value = try container.decode(String.self, forKey: .s3Uri)
+                self = .s3Uri(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .publicUrl(let value):
+                try container.encode(value, forKey: .publicUrl)
+            case .s3Uri(let value):
+                try container.encode(value, forKey: .s3Uri)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicUrl = "PublicUrl"
+            case s3Uri = "S3Uri"
+        }
+    }
+
     public enum PhysicalTable: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A physical table type built from the results of the custom SQL query.
         case customSql(CustomSql)
@@ -3024,6 +3093,29 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case fileGroups = "FileGroups"
+        }
+    }
+
+    public struct ApplicationTheme: AWSEncodableShape & AWSDecodableShape {
+        /// The color palette.
+        public let brandColorPalette: BrandColorPalette?
+        /// The element style.
+        public let brandElementStyle: BrandElementStyle?
+
+        @inlinable
+        public init(brandColorPalette: BrandColorPalette? = nil, brandElementStyle: BrandElementStyle? = nil) {
+            self.brandColorPalette = brandColorPalette
+            self.brandElementStyle = brandElementStyle
+        }
+
+        public func validate(name: String) throws {
+            try self.brandColorPalette?.validate(name: "\(name).brandColorPalette")
+            try self.brandElementStyle?.validate(name: "\(name).brandElementStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brandColorPalette = "BrandColorPalette"
+            case brandElementStyle = "BrandElementStyle"
         }
     }
 
@@ -5897,6 +5989,202 @@ extension QuickSight {
         }
     }
 
+    public struct BrandColorPalette: AWSEncodableShape & AWSDecodableShape {
+        /// The color that is used for accent elements.
+        public let accent: Palette?
+        /// The color that is used for danger elements.
+        public let danger: Palette?
+        /// The color that is used for dimension elements.
+        public let dimension: Palette?
+        /// The color that is used for info elements.
+        public let info: Palette?
+        /// The color that is used for measure elements.
+        public let measure: Palette?
+        /// The primary color.
+        public let primary: Palette?
+        /// The secondary color.
+        public let secondary: Palette?
+        /// The color that is used for success elements.
+        public let success: Palette?
+        /// The color that is used for warning elements.
+        public let warning: Palette?
+
+        @inlinable
+        public init(accent: Palette? = nil, danger: Palette? = nil, dimension: Palette? = nil, info: Palette? = nil, measure: Palette? = nil, primary: Palette? = nil, secondary: Palette? = nil, success: Palette? = nil, warning: Palette? = nil) {
+            self.accent = accent
+            self.danger = danger
+            self.dimension = dimension
+            self.info = info
+            self.measure = measure
+            self.primary = primary
+            self.secondary = secondary
+            self.success = success
+            self.warning = warning
+        }
+
+        public func validate(name: String) throws {
+            try self.accent?.validate(name: "\(name).accent")
+            try self.danger?.validate(name: "\(name).danger")
+            try self.dimension?.validate(name: "\(name).dimension")
+            try self.info?.validate(name: "\(name).info")
+            try self.measure?.validate(name: "\(name).measure")
+            try self.primary?.validate(name: "\(name).primary")
+            try self.secondary?.validate(name: "\(name).secondary")
+            try self.success?.validate(name: "\(name).success")
+            try self.warning?.validate(name: "\(name).warning")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accent = "Accent"
+            case danger = "Danger"
+            case dimension = "Dimension"
+            case info = "Info"
+            case measure = "Measure"
+            case primary = "Primary"
+            case secondary = "Secondary"
+            case success = "Success"
+            case warning = "Warning"
+        }
+    }
+
+    public struct BrandDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The application theme of the brand.
+        public let applicationTheme: ApplicationTheme?
+        /// The name of the brand.
+        public let brandName: String
+        /// The description of the brand.
+        public let description: String?
+        /// The logo configuration of the brand.
+        public let logoConfiguration: LogoConfiguration?
+
+        @inlinable
+        public init(applicationTheme: ApplicationTheme? = nil, brandName: String, description: String? = nil, logoConfiguration: LogoConfiguration? = nil) {
+            self.applicationTheme = applicationTheme
+            self.brandName = brandName
+            self.description = description
+            self.logoConfiguration = logoConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationTheme?.validate(name: "\(name).applicationTheme")
+            try self.validate(self.brandName, name: "brandName", parent: name, max: 512)
+            try self.validate(self.brandName, name: "brandName", parent: name, min: 1)
+            try self.validate(self.brandName, name: "brandName", parent: name, pattern: "^[ -ÿ]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[ -ÿ]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationTheme = "ApplicationTheme"
+            case brandName = "BrandName"
+            case description = "Description"
+            case logoConfiguration = "LogoConfiguration"
+        }
+    }
+
+    public struct BrandDetail: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the brand.
+        public let arn: String?
+        /// The ID of the Amazon QuickSight brand.
+        public let brandId: String
+        /// The status of the brand.
+        public let brandStatus: BrandStatus?
+        /// The time that the brand was created.
+        public let createdTime: Date?
+        /// A list of errors that occurred during the most recent brand operation.
+        public let errors: [String]?
+        /// The last time the brand was updated.
+        public let lastUpdatedTime: Date?
+        /// The logo details.
+        public let logo: Logo?
+        /// The ID of the version.
+        public let versionId: String?
+        /// The status of the version.
+        public let versionStatus: BrandVersionStatus?
+
+        @inlinable
+        public init(arn: String? = nil, brandId: String, brandStatus: BrandStatus? = nil, createdTime: Date? = nil, errors: [String]? = nil, lastUpdatedTime: Date? = nil, logo: Logo? = nil, versionId: String? = nil, versionStatus: BrandVersionStatus? = nil) {
+            self.arn = arn
+            self.brandId = brandId
+            self.brandStatus = brandStatus
+            self.createdTime = createdTime
+            self.errors = errors
+            self.lastUpdatedTime = lastUpdatedTime
+            self.logo = logo
+            self.versionId = versionId
+            self.versionStatus = versionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case brandId = "BrandId"
+            case brandStatus = "BrandStatus"
+            case createdTime = "CreatedTime"
+            case errors = "Errors"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case logo = "Logo"
+            case versionId = "VersionId"
+            case versionStatus = "VersionStatus"
+        }
+    }
+
+    public struct BrandElementStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The navigation bar style.
+        public let navbarStyle: NavbarStyle?
+
+        @inlinable
+        public init(navbarStyle: NavbarStyle? = nil) {
+            self.navbarStyle = navbarStyle
+        }
+
+        public func validate(name: String) throws {
+            try self.navbarStyle?.validate(name: "\(name).navbarStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case navbarStyle = "NavbarStyle"
+        }
+    }
+
+    public struct BrandSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the brand.
+        public let arn: String?
+        /// The ID of the Amazon QuickSight brand.
+        public let brandId: String?
+        /// The name of the brand.
+        public let brandName: String?
+        /// The status of the brand.
+        public let brandStatus: BrandStatus?
+        /// The time that the brand was created.
+        public let createdTime: Date?
+        /// The description of the brand.
+        public let description: String?
+        /// The time when the brand was last updated.
+        public let lastUpdatedTime: Date?
+
+        @inlinable
+        public init(arn: String? = nil, brandId: String? = nil, brandName: String? = nil, brandStatus: BrandStatus? = nil, createdTime: Date? = nil, description: String? = nil, lastUpdatedTime: Date? = nil) {
+            self.arn = arn
+            self.brandId = brandId
+            self.brandName = brandName
+            self.brandStatus = brandStatus
+            self.createdTime = createdTime
+            self.description = description
+            self.lastUpdatedTime = lastUpdatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case brandId = "BrandId"
+            case brandName = "BrandName"
+            case brandStatus = "BrandStatus"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case lastUpdatedTime = "LastUpdatedTime"
+        }
+    }
+
     public struct CalculatedColumn: AWSEncodableShape & AWSDecodableShape {
         /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Amazon QuickSight preserves the existing calculated column.
         public let columnId: String
@@ -6050,6 +6338,84 @@ extension QuickSight {
             case arn = "Arn"
             case ingestionId = "IngestionId"
             case requestId = "RequestId"
+        }
+    }
+
+    public struct Capabilities: AWSEncodableShape & AWSDecodableShape {
+        /// The ability to add or run anomaly detection.
+        public let addOrRunAnomalyDetectionForAnalyses: CapabilityState?
+        /// The ability to create and update email reports.
+        public let createAndUpdateDashboardEmailReports: CapabilityState?
+        /// The ability to create and update datasets.
+        public let createAndUpdateDatasets: CapabilityState?
+        /// The ability to create and update data sources.
+        public let createAndUpdateDataSources: CapabilityState?
+        /// The ability to export to Create and Update themes.
+        public let createAndUpdateThemes: CapabilityState?
+        /// The ability to create and update threshold alerts.
+        public let createAndUpdateThresholdAlerts: CapabilityState?
+        /// The ability to create shared folders.
+        public let createSharedFolders: CapabilityState?
+        /// The ability to create a SPICE dataset.
+        public let createSPICEDataset: CapabilityState?
+        /// The ability to export to CSV files.
+        public let exportToCsv: CapabilityState?
+        /// The ability to export to Excel files.
+        public let exportToExcel: CapabilityState?
+        /// The ability to rename shared folders.
+        public let renameSharedFolders: CapabilityState?
+        /// The ability to share analyses.
+        public let shareAnalyses: CapabilityState?
+        /// The ability to share dashboards.
+        public let shareDashboards: CapabilityState?
+        /// The ability to share datasets.
+        public let shareDatasets: CapabilityState?
+        /// The ability to share data sources.
+        public let shareDataSources: CapabilityState?
+        /// The ability to subscribe to email reports.
+        public let subscribeDashboardEmailReports: CapabilityState?
+        /// The ability to view account SPICE capacity.
+        public let viewAccountSPICECapacity: CapabilityState?
+
+        @inlinable
+        public init(addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil) {
+            self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
+            self.createAndUpdateDashboardEmailReports = createAndUpdateDashboardEmailReports
+            self.createAndUpdateDatasets = createAndUpdateDatasets
+            self.createAndUpdateDataSources = createAndUpdateDataSources
+            self.createAndUpdateThemes = createAndUpdateThemes
+            self.createAndUpdateThresholdAlerts = createAndUpdateThresholdAlerts
+            self.createSharedFolders = createSharedFolders
+            self.createSPICEDataset = createSPICEDataset
+            self.exportToCsv = exportToCsv
+            self.exportToExcel = exportToExcel
+            self.renameSharedFolders = renameSharedFolders
+            self.shareAnalyses = shareAnalyses
+            self.shareDashboards = shareDashboards
+            self.shareDatasets = shareDatasets
+            self.shareDataSources = shareDataSources
+            self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
+            self.viewAccountSPICECapacity = viewAccountSPICECapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addOrRunAnomalyDetectionForAnalyses = "AddOrRunAnomalyDetectionForAnalyses"
+            case createAndUpdateDashboardEmailReports = "CreateAndUpdateDashboardEmailReports"
+            case createAndUpdateDatasets = "CreateAndUpdateDatasets"
+            case createAndUpdateDataSources = "CreateAndUpdateDataSources"
+            case createAndUpdateThemes = "CreateAndUpdateThemes"
+            case createAndUpdateThresholdAlerts = "CreateAndUpdateThresholdAlerts"
+            case createSharedFolders = "CreateSharedFolders"
+            case createSPICEDataset = "CreateSPICEDataset"
+            case exportToCsv = "ExportToCsv"
+            case exportToExcel = "ExportToExcel"
+            case renameSharedFolders = "RenameSharedFolders"
+            case shareAnalyses = "ShareAnalyses"
+            case shareDashboards = "ShareDashboards"
+            case shareDatasets = "ShareDatasets"
+            case shareDataSources = "ShareDataSources"
+            case subscribeDashboardEmailReports = "SubscribeDashboardEmailReports"
+            case viewAccountSPICECapacity = "ViewAccountSPICECapacity"
         }
     }
 
@@ -7792,6 +8158,76 @@ extension QuickSight {
         }
     }
 
+    public struct CreateBrandRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that owns the brand.
+        public let awsAccountId: String
+        /// The definition of the brand.
+        public let brandDefinition: BrandDefinition?
+        /// The ID of the Amazon QuickSight brand.
+        public let brandId: String
+        /// A map of the key-value pairs that are assigned to the brand.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(awsAccountId: String, brandDefinition: BrandDefinition? = nil, brandId: String, tags: [Tag]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.brandDefinition = brandDefinition
+            self.brandId = brandId
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.brandDefinition, forKey: .brandDefinition)
+            request.encodePath(self.brandId, key: "BrandId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.brandDefinition?.validate(name: "\(name).brandDefinition")
+            try self.validate(self.brandId, name: "brandId", parent: name, max: 512)
+            try self.validate(self.brandId, name: "brandId", parent: name, min: 1)
+            try self.validate(self.brandId, name: "brandId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brandDefinition = "BrandDefinition"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateBrandResponse: AWSDecodableShape {
+        /// The definition of the brand.
+        public let brandDefinition: BrandDefinition?
+        /// The details of the brand.
+        public let brandDetail: BrandDetail?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(brandDefinition: BrandDefinition? = nil, brandDetail: BrandDetail? = nil, requestId: String? = nil) {
+            self.brandDefinition = brandDefinition
+            self.brandDetail = brandDetail
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brandDefinition = "BrandDefinition"
+            case brandDetail = "BrandDetail"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct CreateColumnsOperation: AWSEncodableShape & AWSDecodableShape {
         /// Calculated columns to create.
         public let columns: [CalculatedColumn]
@@ -7811,6 +8247,76 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case columns = "Columns"
+        }
+    }
+
+    public struct CreateCustomPermissionsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that you want to create the custom permissions profile in.
+        public let awsAccountId: String
+        /// A set of actions to include in the custom permissions profile.
+        public let capabilities: Capabilities?
+        /// The name of the custom permissions profile that you want to create.
+        public let customPermissionsName: String
+        /// The tags to associate with the custom permissions profile.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(awsAccountId: String, capabilities: Capabilities? = nil, customPermissionsName: String, tags: [Tag]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.capabilities = capabilities
+            self.customPermissionsName = customPermissionsName
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.capabilities, forKey: .capabilities)
+            try container.encode(self.customPermissionsName, forKey: .customPermissionsName)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
+            case customPermissionsName = "CustomPermissionsName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateCustomPermissionsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom permissions profile.
+        public let arn: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(arn: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case status = "Status"
         }
     }
 
@@ -10234,6 +10740,28 @@ extension QuickSight {
             case decimalValues = "DecimalValues"
             case integerValues = "IntegerValues"
             case stringValues = "StringValues"
+        }
+    }
+
+    public struct CustomPermissions: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom permissions profile.
+        public let arn: String?
+        /// A set of actions in the custom permissions profile.
+        public let capabilities: Capabilities?
+        /// The name of the custom permissions profile.
+        public let customPermissionsName: String?
+
+        @inlinable
+        public init(arn: String? = nil, capabilities: Capabilities? = nil, customPermissionsName: String? = nil) {
+            self.arn = arn
+            self.capabilities = capabilities
+            self.customPermissionsName = customPermissionsName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case capabilities = "Capabilities"
+            case customPermissionsName = "CustomPermissionsName"
         }
     }
 
@@ -12773,6 +13301,142 @@ extension QuickSight {
         }
     }
 
+    public struct DeleteBrandAssignmentRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that owns the brand assignment.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(awsAccountId: String) {
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteBrandAssignmentResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(requestId: String? = nil) {
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DeleteBrandRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that owns the brand.
+        public let awsAccountId: String
+        /// The ID of the Amazon QuickSight brand.
+        public let brandId: String
+
+        @inlinable
+        public init(awsAccountId: String, brandId: String) {
+            self.awsAccountId = awsAccountId
+            self.brandId = brandId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.brandId, key: "BrandId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.brandId, name: "brandId", parent: name, max: 512)
+            try self.validate(self.brandId, name: "brandId", parent: name, min: 1)
+            try self.validate(self.brandId, name: "brandId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteBrandResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(requestId: String? = nil) {
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DeleteCustomPermissionsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the custom permissions profile that you want to delete.
+        public let awsAccountId: String
+        /// The name of the custom permissions profile that you want to delete.
+        public let customPermissionsName: String
+
+        @inlinable
+        public init(awsAccountId: String, customPermissionsName: String) {
+            self.awsAccountId = awsAccountId
+            self.customPermissionsName = customPermissionsName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.customPermissionsName, key: "CustomPermissionsName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCustomPermissionsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom permissions profile.
+        public let arn: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(arn: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct DeleteDashboardRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that contains the dashboard that you're deleting.
         public let awsAccountId: String
@@ -14123,6 +14787,66 @@ extension QuickSight {
         }
     }
 
+    public struct DeleteUserCustomPermissionRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the custom permission configuration that you want to delete.
+        public let awsAccountId: String
+        /// The namespace that the user belongs to.
+        public let namespace: String
+        /// The username of the user that you want to remove custom permissions from.
+        public let userName: String
+
+        @inlinable
+        public init(awsAccountId: String, namespace: String, userName: String) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodePath(self.userName, key: "UserName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try self.validate(self.userName, name: "userName", parent: name, min: 1)
+            try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteUserCustomPermissionResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DeleteUserRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
@@ -14923,6 +15647,214 @@ extension QuickSight {
             case requestId = "RequestId"
             case rollbackErrors = "RollbackErrors"
             case warnings = "Warnings"
+        }
+    }
+
+    public struct DescribeBrandAssignmentRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that owns the brand assignment.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(awsAccountId: String) {
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeBrandAssignmentResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the brand.
+        public let brandArn: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(brandArn: String? = nil, requestId: String? = nil) {
+            self.brandArn = brandArn
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brandArn = "BrandArn"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeBrandPublishedVersionRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that owns the brand.
+        public let awsAccountId: String
+        /// The ID of the Amazon QuickSight brand.
+        public let brandId: String
+
+        @inlinable
+        public init(awsAccountId: String, brandId: String) {
+            self.awsAccountId = awsAccountId
+            self.brandId = brandId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.brandId, key: "BrandId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.brandId, name: "brandId", parent: name, max: 512)
+            try self.validate(self.brandId, name: "brandId", parent: name, min: 1)
+            try self.validate(self.brandId, name: "brandId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeBrandPublishedVersionResponse: AWSDecodableShape {
+        /// The definition of the brand.
+        public let brandDefinition: BrandDefinition?
+        /// The details of the brand.
+        public let brandDetail: BrandDetail?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(brandDefinition: BrandDefinition? = nil, brandDetail: BrandDetail? = nil, requestId: String? = nil) {
+            self.brandDefinition = brandDefinition
+            self.brandDetail = brandDetail
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brandDefinition = "BrandDefinition"
+            case brandDetail = "BrandDetail"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeBrandRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that owns the brand.
+        public let awsAccountId: String
+        /// The ID of the Amazon QuickSight brand.
+        public let brandId: String
+        /// The ID of the specific version. The default value is the latest version.
+        public let versionId: String?
+
+        @inlinable
+        public init(awsAccountId: String, brandId: String, versionId: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.brandId = brandId
+            self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.brandId, key: "BrandId")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.brandId, name: "brandId", parent: name, max: 512)
+            try self.validate(self.brandId, name: "brandId", parent: name, min: 1)
+            try self.validate(self.brandId, name: "brandId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.versionId, name: "versionId", parent: name, max: 512)
+            try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
+            try self.validate(self.versionId, name: "versionId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeBrandResponse: AWSDecodableShape {
+        /// The definition of the brand.
+        public let brandDefinition: BrandDefinition?
+        /// The details of the brand.
+        public let brandDetail: BrandDetail?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(brandDefinition: BrandDefinition? = nil, brandDetail: BrandDetail? = nil, requestId: String? = nil) {
+            self.brandDefinition = brandDefinition
+            self.brandDetail = brandDetail
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brandDefinition = "BrandDefinition"
+            case brandDetail = "BrandDetail"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeCustomPermissionsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the custom permissions profile that you want described.
+        public let awsAccountId: String
+        /// The name of the custom permissions profile to describe.
+        public let customPermissionsName: String
+
+        @inlinable
+        public init(awsAccountId: String, customPermissionsName: String) {
+            self.awsAccountId = awsAccountId
+            self.customPermissionsName = customPermissionsName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.customPermissionsName, key: "CustomPermissionsName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeCustomPermissionsResponse: AWSDecodableShape {
+        /// The custom permissions profile.
+        public let customPermissions: CustomPermissions?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(customPermissions: CustomPermissions? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.customPermissions = customPermissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customPermissions = "CustomPermissions"
+            case requestId = "RequestId"
+            case status = "Status"
         }
     }
 
@@ -21515,6 +22447,74 @@ extension QuickSight {
         }
     }
 
+    public struct Image: AWSDecodableShape {
+        /// The URL that points to the generated logo image.
+        public let generatedImageUrl: String?
+        /// The source of the logo image.
+        public let source: ImageSource?
+
+        @inlinable
+        public init(generatedImageUrl: String? = nil, source: ImageSource? = nil) {
+            self.generatedImageUrl = generatedImageUrl
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generatedImageUrl = "GeneratedImageUrl"
+            case source = "Source"
+        }
+    }
+
+    public struct ImageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The source of the image.
+        public let source: ImageSource?
+
+        @inlinable
+        public init(source: ImageSource? = nil) {
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "Source"
+        }
+    }
+
+    public struct ImageSet: AWSDecodableShape {
+        /// The image with the height set to 32 pixels.
+        public let height32: Image?
+        /// The image with the height set to 64 pixels.
+        public let height64: Image?
+        /// The original image.
+        public let original: Image
+
+        @inlinable
+        public init(height32: Image? = nil, height64: Image? = nil, original: Image) {
+            self.height32 = height32
+            self.height64 = height64
+            self.original = original
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height32 = "Height32"
+            case height64 = "Height64"
+            case original = "Original"
+        }
+    }
+
+    public struct ImageSetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The original image.
+        public let original: ImageConfiguration
+
+        @inlinable
+        public init(original: ImageConfiguration) {
+            self.original = original
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case original = "Original"
+        }
+    }
+
     public struct IncrementalRefresh: AWSEncodableShape & AWSDecodableShape {
         /// The lookback window setup for an incremental refresh configuration.
         public let lookbackWindow: LookbackWindow
@@ -23120,6 +24120,59 @@ extension QuickSight {
         }
     }
 
+    public struct ListBrandsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that owns the brands that you want to list.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned in a single request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListBrandsResponse: AWSDecodableShape {
+        /// A list of all brands in your Amazon Web Services account. This structure provides basic
+        /// 	          information about each brand.
+        public let brands: [BrandSummary]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(brands: [BrandSummary]? = nil, nextToken: String? = nil) {
+            self.brands = brands
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brands = "Brands"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
         /// The configuration of info icon label options.
         public let infoIconLabelOptions: SheetControlInfoIconLabelOptions?
@@ -23176,6 +24229,74 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case visibility = "Visibility"
+        }
+    }
+
+    public struct ListCustomPermissionsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the custom permissions profiles that you want to list.
+        public let awsAccountId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCustomPermissionsResponse: AWSDecodableShape {
+        /// A list of custom permissions profiles.
+        public let customPermissionsList: [CustomPermissions]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(customPermissionsList: [CustomPermissions]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.customPermissionsList = customPermissionsList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.customPermissionsList = try container.decodeIfPresent([CustomPermissions].self, forKey: .customPermissionsList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customPermissionsList = "CustomPermissionsList"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
         }
     }
 
@@ -25348,6 +26469,78 @@ extension QuickSight {
         }
     }
 
+    public struct Logo: AWSDecodableShape {
+        /// The alt text for the logo.
+        public let altText: String
+        /// A set of configured logos.
+        public let logoSet: LogoSet
+
+        @inlinable
+        public init(altText: String, logoSet: LogoSet) {
+            self.altText = altText
+            self.logoSet = logoSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case altText = "AltText"
+            case logoSet = "LogoSet"
+        }
+    }
+
+    public struct LogoConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The alt text for the logo.
+        public let altText: String
+        /// A set of configured logos.
+        public let logoSet: LogoSetConfiguration
+
+        @inlinable
+        public init(altText: String, logoSet: LogoSetConfiguration) {
+            self.altText = altText
+            self.logoSet = logoSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case altText = "AltText"
+            case logoSet = "LogoSet"
+        }
+    }
+
+    public struct LogoSet: AWSDecodableShape {
+        /// The favicon logo.
+        public let favicon: ImageSet?
+        /// The primary logo.
+        public let primary: ImageSet
+
+        @inlinable
+        public init(favicon: ImageSet? = nil, primary: ImageSet) {
+            self.favicon = favicon
+            self.primary = primary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case favicon = "Favicon"
+            case primary = "Primary"
+        }
+    }
+
+    public struct LogoSetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The favicon logo.
+        public let favicon: ImageSetConfiguration?
+        /// The primary logo.
+        public let primary: ImageSetConfiguration
+
+        @inlinable
+        public init(favicon: ImageSetConfiguration? = nil, primary: ImageSetConfiguration) {
+            self.favicon = favicon
+            self.primary = primary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case favicon = "Favicon"
+            case primary = "Primary"
+        }
+    }
+
     public struct LongFormatText: AWSEncodableShape & AWSDecodableShape {
         /// Plain text format.
         public let plainText: String?
@@ -25824,6 +27017,29 @@ extension QuickSight {
             case identityStore = "IdentityStore"
             case name = "Name"
             case namespaceError = "NamespaceError"
+        }
+    }
+
+    public struct NavbarStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The contextual navigation bar style.
+        public let contextualNavbar: Palette?
+        /// The global navigation bar style.
+        public let globalNavbar: Palette?
+
+        @inlinable
+        public init(contextualNavbar: Palette? = nil, globalNavbar: Palette? = nil) {
+            self.contextualNavbar = contextualNavbar
+            self.globalNavbar = globalNavbar
+        }
+
+        public func validate(name: String) throws {
+            try self.contextualNavbar?.validate(name: "\(name).contextualNavbar")
+            try self.globalNavbar?.validate(name: "\(name).globalNavbar")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextualNavbar = "ContextualNavbar"
+            case globalNavbar = "GlobalNavbar"
         }
     }
 
@@ -26372,6 +27588,40 @@ extension QuickSight {
         }
     }
 
+    public struct OAuthParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The resource uri of the identity provider.
+        public let identityProviderResourceUri: String?
+        public let identityProviderVpcConnectionProperties: VpcConnectionProperties?
+        /// The OAuth scope.
+        public let oAuthScope: String?
+        /// The token endpoint URL of the identity provider.
+        public let tokenProviderUrl: String
+
+        @inlinable
+        public init(identityProviderResourceUri: String? = nil, identityProviderVpcConnectionProperties: VpcConnectionProperties? = nil, oAuthScope: String? = nil, tokenProviderUrl: String) {
+            self.identityProviderResourceUri = identityProviderResourceUri
+            self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+            self.oAuthScope = oAuthScope
+            self.tokenProviderUrl = tokenProviderUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityProviderResourceUri, name: "identityProviderResourceUri", parent: name, max: 2048)
+            try self.validate(self.identityProviderResourceUri, name: "identityProviderResourceUri", parent: name, min: 1)
+            try self.validate(self.oAuthScope, name: "oAuthScope", parent: name, max: 128)
+            try self.validate(self.oAuthScope, name: "oAuthScope", parent: name, min: 1)
+            try self.validate(self.tokenProviderUrl, name: "tokenProviderUrl", parent: name, max: 2048)
+            try self.validate(self.tokenProviderUrl, name: "tokenProviderUrl", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProviderResourceUri = "IdentityProviderResourceUri"
+            case identityProviderVpcConnectionProperties = "IdentityProviderVpcConnectionProperties"
+            case oAuthScope = "OAuthScope"
+            case tokenProviderUrl = "TokenProviderUrl"
+        }
+    }
+
     public struct OracleParameters: AWSEncodableShape & AWSDecodableShape {
         /// The database.
         public let database: String
@@ -26480,6 +27730,29 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case pageNumber = "PageNumber"
             case pageSize = "PageSize"
+        }
+    }
+
+    public struct Palette: AWSEncodableShape & AWSDecodableShape {
+        /// The background color.
+        public let background: String?
+        /// The foreground color.
+        public let foreground: String?
+
+        @inlinable
+        public init(background: String? = nil, foreground: String? = nil) {
+            self.background = background
+            self.foreground = foreground
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.background, name: "background", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.validate(self.foreground, name: "foreground", parent: name, pattern: "^#[A-F0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case background = "Background"
+            case foreground = "Foreground"
         }
     }
 
@@ -29475,11 +30748,14 @@ extension QuickSight {
         public let analysisId: String
         /// The ID of the Amazon Web Services account that contains the analysis.
         public let awsAccountId: String
+        /// A boolean value that determines if the analysis will be restored to folders that it previously resided in. A True value restores analysis back to all folders that it previously resided in. A False value restores the analysis but does not restore the analysis back to all previously resided folders. Restoring a restricted analysis requires this parameter to be set to True.
+        public let restoreToFolders: Bool?
 
         @inlinable
-        public init(analysisId: String, awsAccountId: String) {
+        public init(analysisId: String, awsAccountId: String, restoreToFolders: Bool? = nil) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
+            self.restoreToFolders = restoreToFolders
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -29487,6 +30763,7 @@ extension QuickSight {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.analysisId, key: "AnalysisId")
             request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.restoreToFolders, key: "restore-to-folders")
         }
 
         public func validate(name: String) throws {
@@ -29508,14 +30785,17 @@ extension QuickSight {
         public let arn: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
+        /// A list of folder arns thatthe analysis failed to be restored to.
+        public let restorationFailedFolderArns: [String]?
         /// The HTTP status of the request.
         public let status: Int?
 
         @inlinable
-        public init(analysisId: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil) {
+        public init(analysisId: String? = nil, arn: String? = nil, requestId: String? = nil, restorationFailedFolderArns: [String]? = nil, status: Int? = nil) {
             self.analysisId = analysisId
             self.arn = arn
             self.requestId = requestId
+            self.restorationFailedFolderArns = restorationFailedFolderArns
             self.status = status
         }
 
@@ -29525,6 +30805,7 @@ extension QuickSight {
             self.analysisId = try container.decodeIfPresent(String.self, forKey: .analysisId)
             self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.restorationFailedFolderArns = try container.decodeIfPresent([String].self, forKey: .restorationFailedFolderArns)
             self.status = response.decodeStatus()
         }
 
@@ -29532,6 +30813,7 @@ extension QuickSight {
             case analysisId = "AnalysisId"
             case arn = "Arn"
             case requestId = "RequestId"
+            case restorationFailedFolderArns = "RestorationFailedFolderArns"
         }
     }
 
@@ -31952,31 +33234,45 @@ extension QuickSight {
     }
 
     public struct SnowflakeParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The authentication type that you want to use for your connection. This parameter accepts OAuth and non-OAuth authentication types.
+        public let authenticationType: AuthenticationType?
         /// Database.
         public let database: String
+        /// The database access control role.
+        public let databaseAccessControlRole: String?
         /// Host.
         public let host: String
+        /// An object that contains information needed to create a data source connection between an Amazon QuickSight account and Snowflake.
+        public let oAuthParameters: OAuthParameters?
         /// Warehouse.
         public let warehouse: String
 
         @inlinable
-        public init(database: String, host: String, warehouse: String) {
+        public init(authenticationType: AuthenticationType? = nil, database: String, databaseAccessControlRole: String? = nil, host: String, oAuthParameters: OAuthParameters? = nil, warehouse: String) {
+            self.authenticationType = authenticationType
             self.database = database
+            self.databaseAccessControlRole = databaseAccessControlRole
             self.host = host
+            self.oAuthParameters = oAuthParameters
             self.warehouse = warehouse
         }
 
         public func validate(name: String) throws {
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
+            try self.validate(self.databaseAccessControlRole, name: "databaseAccessControlRole", parent: name, max: 128)
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.oAuthParameters?.validate(name: "\(name).oAuthParameters")
             try self.validate(self.warehouse, name: "warehouse", parent: name, max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
             case database = "Database"
+            case databaseAccessControlRole = "DatabaseAccessControlRole"
             case host = "Host"
+            case oAuthParameters = "OAuthParameters"
             case warehouse = "Warehouse"
         }
     }
@@ -32078,34 +33374,48 @@ extension QuickSight {
     }
 
     public struct StarburstParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The authentication type that you want to use for your connection. This parameter accepts OAuth and non-OAuth authentication types.
+        public let authenticationType: AuthenticationType?
         /// The catalog name for the Starburst data source.
         public let catalog: String
+        /// The database access control role.
+        public let databaseAccessControlRole: String?
         /// The host name of the Starburst data source.
         public let host: String
+        /// An object that contains information needed to create a data source connection between an Amazon QuickSight account and Starburst.
+        public let oAuthParameters: OAuthParameters?
         /// The port for the Starburst data source.
         public let port: Int
         /// The product type for the Starburst data source.
         public let productType: StarburstProductType?
 
         @inlinable
-        public init(catalog: String, host: String, port: Int, productType: StarburstProductType? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, catalog: String, databaseAccessControlRole: String? = nil, host: String, oAuthParameters: OAuthParameters? = nil, port: Int, productType: StarburstProductType? = nil) {
+            self.authenticationType = authenticationType
             self.catalog = catalog
+            self.databaseAccessControlRole = databaseAccessControlRole
             self.host = host
+            self.oAuthParameters = oAuthParameters
             self.port = port
             self.productType = productType
         }
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, max: 128)
+            try self.validate(self.databaseAccessControlRole, name: "databaseAccessControlRole", parent: name, max: 128)
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.oAuthParameters?.validate(name: "\(name).oAuthParameters")
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
             case catalog = "Catalog"
+            case databaseAccessControlRole = "DatabaseAccessControlRole"
             case host = "Host"
+            case oAuthParameters = "OAuthParameters"
             case port = "Port"
             case productType = "ProductType"
         }
@@ -32410,6 +33720,68 @@ extension QuickSight {
             case arn = "Arn"
             case requestId = "RequestId"
             case snapshotJobId = "SnapshotJobId"
+        }
+    }
+
+    public struct StartDashboardSnapshotJobScheduleRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
+        public let awsAccountId: String
+        /// The ID of the dashboard that you want to start a snapshot job schedule for.
+        public let dashboardId: String
+        /// The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon QuickSight console in the Schedules pane of the dashboard that the schedule is configured for.
+        public let scheduleId: String
+
+        @inlinable
+        public init(awsAccountId: String, dashboardId: String, scheduleId: String) {
+            self.awsAccountId = awsAccountId
+            self.dashboardId = dashboardId
+            self.scheduleId = scheduleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.dashboardId, key: "DashboardId")
+            request.encodePath(self.scheduleId, key: "ScheduleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.scheduleId, name: "scheduleId", parent: name, max: 512)
+            try self.validate(self.scheduleId, name: "scheduleId", parent: name, min: 1)
+            try self.validate(self.scheduleId, name: "scheduleId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartDashboardSnapshotJobScheduleResponse: AWSDecodableShape {
+        ///  The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
         }
     }
 
@@ -36735,6 +38107,231 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateBrandAssignmentRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that owns the brand assignment.
+        public let awsAccountId: String
+        /// The Amazon Resource Name (ARN) of the brand.
+        public let brandArn: String
+
+        @inlinable
+        public init(awsAccountId: String, brandArn: String) {
+            self.awsAccountId = awsAccountId
+            self.brandArn = brandArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.brandArn, forKey: .brandArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brandArn = "BrandArn"
+        }
+    }
+
+    public struct UpdateBrandAssignmentResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the brand.
+        public let brandArn: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(brandArn: String? = nil, requestId: String? = nil) {
+            self.brandArn = brandArn
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brandArn = "BrandArn"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateBrandPublishedVersionRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that owns the brand.
+        public let awsAccountId: String
+        /// The ID of the Amazon QuickSight brand.
+        public let brandId: String
+        /// The ID of the published version.
+        public let versionId: String
+
+        @inlinable
+        public init(awsAccountId: String, brandId: String, versionId: String) {
+            self.awsAccountId = awsAccountId
+            self.brandId = brandId
+            self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.brandId, key: "BrandId")
+            try container.encode(self.versionId, forKey: .versionId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.brandId, name: "brandId", parent: name, max: 512)
+            try self.validate(self.brandId, name: "brandId", parent: name, min: 1)
+            try self.validate(self.brandId, name: "brandId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.versionId, name: "versionId", parent: name, max: 512)
+            try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
+            try self.validate(self.versionId, name: "versionId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct UpdateBrandPublishedVersionResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ID of the published version.
+        public let versionId: String?
+
+        @inlinable
+        public init(requestId: String? = nil, versionId: String? = nil) {
+            self.requestId = requestId
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct UpdateBrandRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that owns the brand.
+        public let awsAccountId: String
+        /// The definition of the brand.
+        public let brandDefinition: BrandDefinition?
+        /// The ID of the Amazon QuickSight brand.
+        public let brandId: String
+
+        @inlinable
+        public init(awsAccountId: String, brandDefinition: BrandDefinition? = nil, brandId: String) {
+            self.awsAccountId = awsAccountId
+            self.brandDefinition = brandDefinition
+            self.brandId = brandId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.brandDefinition, forKey: .brandDefinition)
+            request.encodePath(self.brandId, key: "BrandId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.brandDefinition?.validate(name: "\(name).brandDefinition")
+            try self.validate(self.brandId, name: "brandId", parent: name, max: 512)
+            try self.validate(self.brandId, name: "brandId", parent: name, min: 1)
+            try self.validate(self.brandId, name: "brandId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brandDefinition = "BrandDefinition"
+        }
+    }
+
+    public struct UpdateBrandResponse: AWSDecodableShape {
+        /// The definition of the brand.
+        public let brandDefinition: BrandDefinition?
+        /// The details of the brand.
+        public let brandDetail: BrandDetail?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(brandDefinition: BrandDefinition? = nil, brandDetail: BrandDetail? = nil, requestId: String? = nil) {
+            self.brandDefinition = brandDefinition
+            self.brandDetail = brandDetail
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brandDefinition = "BrandDefinition"
+            case brandDetail = "BrandDetail"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateCustomPermissionsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the custom permissions profile that you want to update.
+        public let awsAccountId: String
+        /// A set of actions to include in the custom permissions profile.
+        public let capabilities: Capabilities?
+        /// The name of the custom permissions profile that you want to update.
+        public let customPermissionsName: String
+
+        @inlinable
+        public init(awsAccountId: String, capabilities: Capabilities? = nil, customPermissionsName: String) {
+            self.awsAccountId = awsAccountId
+            self.capabilities = capabilities
+            self.customPermissionsName = customPermissionsName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.capabilities, forKey: .capabilities)
+            request.encodePath(self.customPermissionsName, key: "CustomPermissionsName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
+        }
+    }
+
+    public struct UpdateCustomPermissionsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom permissions profile.
+        public let arn: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(arn: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct UpdateDashboardLinksRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that contains the dashboard whose links you want to update.
         public let awsAccountId: String
@@ -39182,6 +40779,75 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateUserCustomPermissionRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the custom permission configuration that you want to update.
+        public let awsAccountId: String
+        /// The name of the custom permissions that you want to update.
+        public let customPermissionsName: String
+        /// The namespace that the user belongs to.
+        public let namespace: String
+        /// The username of the user that you want to update custom permissions for.
+        public let userName: String
+
+        @inlinable
+        public init(awsAccountId: String, customPermissionsName: String, namespace: String, userName: String) {
+            self.awsAccountId = awsAccountId
+            self.customPermissionsName = customPermissionsName
+            self.namespace = namespace
+            self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.customPermissionsName, forKey: .customPermissionsName)
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodePath(self.userName, key: "UserName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
+            try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try self.validate(self.userName, name: "userName", parent: name, min: 1)
+            try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customPermissionsName = "CustomPermissionsName"
+        }
+    }
+
+    public struct UpdateUserCustomPermissionResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
     public struct UpdateUserRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon QuickSight account.
@@ -40535,6 +42201,7 @@ public struct QuickSightErrorType: AWSErrorType {
         case domainNotWhitelistedException = "DomainNotWhitelistedException"
         case identityTypeNotSupportedException = "IdentityTypeNotSupportedException"
         case internalFailureException = "InternalFailureException"
+        case internalServerException = "InternalServerException"
         case invalidNextTokenException = "InvalidNextTokenException"
         case invalidParameterValueException = "InvalidParameterValueException"
         case invalidRequestException = "InvalidRequestException"
@@ -40588,6 +42255,8 @@ public struct QuickSightErrorType: AWSErrorType {
     public static var identityTypeNotSupportedException: Self { .init(.identityTypeNotSupportedException) }
     /// An internal failure occurred.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// An internal service exception.
+    public static var internalServerException: Self { .init(.internalServerException) }
     /// The NextToken value isn't valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// One or more parameters has a value that isn't valid.

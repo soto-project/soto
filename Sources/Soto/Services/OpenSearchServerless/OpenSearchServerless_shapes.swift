@@ -54,6 +54,24 @@ extension OpenSearchServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum IamIdentityCenterGroupAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Group ID
+        case groupId = "GroupId"
+        /// Group Name
+        case groupName = "GroupName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IamIdentityCenterUserAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Email
+        case email = "Email"
+        /// User ID
+        case userId = "UserId"
+        /// User Name
+        case userName = "UserName"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LifecyclePolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// retention policy type
         case retention = "retention"
@@ -67,6 +85,8 @@ extension OpenSearchServerless {
     }
 
     public enum SecurityConfigType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// iam identity center
+        case iamidentitycenter = "iamidentitycenter"
         /// saml provider
         case saml = "saml"
         public var description: String { return self.rawValue }
@@ -706,6 +726,34 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct CreateIamIdentityCenterConfigOptions: AWSEncodableShape {
+        /// The group attribute for this IAM Identity Center integration. Defaults to GroupId.
+        public let groupAttribute: IamIdentityCenterGroupAttribute?
+        /// The ARN of the IAM Identity Center instance used to integrate with OpenSearch Serverless.
+        public let instanceArn: String
+        /// The user attribute for this IAM Identity Center integration. Defaults to UserId.
+        public let userAttribute: IamIdentityCenterUserAttribute?
+
+        @inlinable
+        public init(groupAttribute: IamIdentityCenterGroupAttribute? = nil, instanceArn: String, userAttribute: IamIdentityCenterUserAttribute? = nil) {
+            self.groupAttribute = groupAttribute
+            self.instanceArn = instanceArn
+            self.userAttribute = userAttribute
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupAttribute = "groupAttribute"
+            case instanceArn = "instanceArn"
+            case userAttribute = "userAttribute"
+        }
+    }
+
     public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
@@ -767,6 +815,8 @@ extension OpenSearchServerless {
         public let clientToken: String?
         /// A description of the security configuration.
         public let description: String?
+        /// Describes IAM Identity Center options in the form of a key-value map. This field is required if you specify iamidentitycenter for the type parameter.
+        public let iamIdentityCenterOptions: CreateIamIdentityCenterConfigOptions?
         /// The name of the security configuration.
         public let name: String
         /// Describes SAML options in in the form of a key-value map. This field is required if you specify saml for the type parameter.
@@ -775,9 +825,10 @@ extension OpenSearchServerless {
         public let type: SecurityConfigType
 
         @inlinable
-        public init(clientToken: String? = CreateSecurityConfigRequest.idempotencyToken(), description: String? = nil, name: String, samlOptions: SamlConfigOptions? = nil, type: SecurityConfigType) {
+        public init(clientToken: String? = CreateSecurityConfigRequest.idempotencyToken(), description: String? = nil, iamIdentityCenterOptions: CreateIamIdentityCenterConfigOptions? = nil, name: String, samlOptions: SamlConfigOptions? = nil, type: SecurityConfigType) {
             self.clientToken = clientToken
             self.description = description
+            self.iamIdentityCenterOptions = iamIdentityCenterOptions
             self.name = name
             self.samlOptions = samlOptions
             self.type = type
@@ -788,6 +839,7 @@ extension OpenSearchServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.iamIdentityCenterOptions?.validate(name: "\(name).iamIdentityCenterOptions")
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -797,6 +849,7 @@ extension OpenSearchServerless {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case description = "description"
+            case iamIdentityCenterOptions = "iamIdentityCenterOptions"
             case name = "name"
             case samlOptions = "samlOptions"
             case type = "type"
@@ -1440,6 +1493,40 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct IamIdentityCenterConfigOptions: AWSDecodableShape {
+        /// The ARN of the IAM Identity Center application used to integrate with OpenSearch Serverless.
+        public let applicationArn: String?
+        /// The description of the IAM Identity Center application used to integrate with OpenSearch Serverless.
+        public let applicationDescription: String?
+        /// The name of the IAM Identity Center application used to integrate with OpenSearch Serverless.
+        public let applicationName: String?
+        /// The group attribute for this IAM Identity Center integration. Defaults to GroupId.
+        public let groupAttribute: IamIdentityCenterGroupAttribute?
+        /// The ARN of the IAM Identity Center instance used to integrate with OpenSearch Serverless.
+        public let instanceArn: String?
+        /// The user attribute for this IAM Identity Center integration. Defaults to UserId
+        public let userAttribute: IamIdentityCenterUserAttribute?
+
+        @inlinable
+        public init(applicationArn: String? = nil, applicationDescription: String? = nil, applicationName: String? = nil, groupAttribute: IamIdentityCenterGroupAttribute? = nil, instanceArn: String? = nil, userAttribute: IamIdentityCenterUserAttribute? = nil) {
+            self.applicationArn = applicationArn
+            self.applicationDescription = applicationDescription
+            self.applicationName = applicationName
+            self.groupAttribute = groupAttribute
+            self.instanceArn = instanceArn
+            self.userAttribute = userAttribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "applicationArn"
+            case applicationDescription = "applicationDescription"
+            case applicationName = "applicationName"
+            case groupAttribute = "groupAttribute"
+            case instanceArn = "instanceArn"
+            case userAttribute = "userAttribute"
+        }
+    }
+
     public struct LifecyclePolicyDetail: AWSDecodableShape {
         /// The date the lifecycle policy was created.
         public let createdDate: Int64?
@@ -1932,6 +2019,8 @@ extension OpenSearchServerless {
         public let createdDate: Int64?
         /// The description of the security configuration.
         public let description: String?
+        /// Describes IAM Identity Center options in the form of a key-value map.
+        public let iamIdentityCenterOptions: IamIdentityCenterConfigOptions?
         /// The unique identifier of the security configuration.
         public let id: String?
         /// The timestamp of when the configuration was last modified.
@@ -1942,10 +2031,11 @@ extension OpenSearchServerless {
         public let type: SecurityConfigType?
 
         @inlinable
-        public init(configVersion: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, samlOptions: SamlConfigOptions? = nil, type: SecurityConfigType? = nil) {
+        public init(configVersion: String? = nil, createdDate: Int64? = nil, description: String? = nil, iamIdentityCenterOptions: IamIdentityCenterConfigOptions? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, samlOptions: SamlConfigOptions? = nil, type: SecurityConfigType? = nil) {
             self.configVersion = configVersion
             self.createdDate = createdDate
             self.description = description
+            self.iamIdentityCenterOptions = iamIdentityCenterOptions
             self.id = id
             self.lastModifiedDate = lastModifiedDate
             self.samlOptions = samlOptions
@@ -1956,6 +2046,7 @@ extension OpenSearchServerless {
             case configVersion = "configVersion"
             case createdDate = "createdDate"
             case description = "description"
+            case iamIdentityCenterOptions = "iamIdentityCenterOptions"
             case id = "id"
             case lastModifiedDate = "lastModifiedDate"
             case samlOptions = "samlOptions"
@@ -2368,6 +2459,24 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct UpdateIamIdentityCenterConfigOptions: AWSEncodableShape {
+        /// The group attribute for this IAM Identity Center integration. Defaults to GroupId.
+        public let groupAttribute: IamIdentityCenterGroupAttribute?
+        /// The user attribute for this IAM Identity Center integration. Defaults to UserId.
+        public let userAttribute: IamIdentityCenterUserAttribute?
+
+        @inlinable
+        public init(groupAttribute: IamIdentityCenterGroupAttribute? = nil, userAttribute: IamIdentityCenterUserAttribute? = nil) {
+            self.groupAttribute = groupAttribute
+            self.userAttribute = userAttribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupAttribute = "groupAttribute"
+            case userAttribute = "userAttribute"
+        }
+    }
+
     public struct UpdateLifecyclePolicyRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
@@ -2438,16 +2547,19 @@ extension OpenSearchServerless {
         public let configVersion: String
         /// A description of the security configuration.
         public let description: String?
+        /// Describes IAM Identity Center options in the form of a key-value map.
+        public let iamIdentityCenterOptionsUpdates: UpdateIamIdentityCenterConfigOptions?
         /// The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt;. For example, saml/123456789123/OKTADev.
         public let id: String
         /// SAML options in in the form of a key-value map.
         public let samlOptions: SamlConfigOptions?
 
         @inlinable
-        public init(clientToken: String? = UpdateSecurityConfigRequest.idempotencyToken(), configVersion: String, description: String? = nil, id: String, samlOptions: SamlConfigOptions? = nil) {
+        public init(clientToken: String? = UpdateSecurityConfigRequest.idempotencyToken(), configVersion: String, description: String? = nil, iamIdentityCenterOptionsUpdates: UpdateIamIdentityCenterConfigOptions? = nil, id: String, samlOptions: SamlConfigOptions? = nil) {
             self.clientToken = clientToken
             self.configVersion = configVersion
             self.description = description
+            self.iamIdentityCenterOptionsUpdates = iamIdentityCenterOptionsUpdates
             self.id = id
             self.samlOptions = samlOptions
         }
@@ -2469,6 +2581,7 @@ extension OpenSearchServerless {
             case clientToken = "clientToken"
             case configVersion = "configVersion"
             case description = "description"
+            case iamIdentityCenterOptionsUpdates = "iamIdentityCenterOptionsUpdates"
             case id = "id"
             case samlOptions = "samlOptions"
         }

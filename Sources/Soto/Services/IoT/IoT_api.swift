@@ -395,16 +395,19 @@ public struct IoT: AWSService {
     /// Parameters:
     ///   - principal: The principal, which can be a certificate ARN (as returned from the
     ///   - thingName: The name of the thing.
+    ///   - thingPrincipalType: The type of the relation you want to specify when you attach a principal to a thing.    EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively.
     ///   - logger: Logger use during operation
     @inlinable
     public func attachThingPrincipal(
         principal: String,
         thingName: String,
+        thingPrincipalType: ThingPrincipalType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AttachThingPrincipalResponse {
         let input = AttachThingPrincipalRequest(
             principal: principal, 
-            thingName: thingName
+            thingName: thingName, 
+            thingPrincipalType: thingPrincipalType
         )
         return try await self.attachThingPrincipal(input, logger: logger)
     }
@@ -6302,6 +6305,46 @@ public struct IoT: AWSService {
         return try await self.listPrincipalThings(input, logger: logger)
     }
 
+    /// Lists the things associated with the specified principal. A principal can be an X.509
+    /// 			certificate or an Amazon Cognito ID. Requires permission to access the ListPrincipalThings action.
+    @Sendable
+    @inlinable
+    public func listPrincipalThingsV2(_ input: ListPrincipalThingsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPrincipalThingsV2Response {
+        try await self.client.execute(
+            operation: "ListPrincipalThingsV2", 
+            path: "/principals/things-v2", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the things associated with the specified principal. A principal can be an X.509
+    /// 			certificate or an Amazon Cognito ID. Requires permission to access the ListPrincipalThings action.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in this operation.
+    ///   - nextToken: To retrieve the next set of results, the nextToken
+    ///   - principal: The principal. A principal can be an X.509 certificate or an Amazon Cognito ID.
+    ///   - thingPrincipalType: The type of the relation you want to filter in the response. If no value is provided in
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPrincipalThingsV2(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        principal: String,
+        thingPrincipalType: ThingPrincipalType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPrincipalThingsV2Response {
+        let input = ListPrincipalThingsV2Request(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            principal: principal, 
+            thingPrincipalType: thingPrincipalType
+        )
+        return try await self.listPrincipalThingsV2(input, logger: logger)
+    }
+
     /// A list of provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
     @Sendable
     @inlinable
@@ -6838,6 +6881,46 @@ public struct IoT: AWSService {
             thingName: thingName
         )
         return try await self.listThingPrincipals(input, logger: logger)
+    }
+
+    /// Lists the principals associated with the specified thing. A principal can be an X.509
+    /// 			certificate or an Amazon Cognito ID. Requires permission to access the ListThingPrincipals action.
+    @Sendable
+    @inlinable
+    public func listThingPrincipalsV2(_ input: ListThingPrincipalsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThingPrincipalsV2Response {
+        try await self.client.execute(
+            operation: "ListThingPrincipalsV2", 
+            path: "/things/{thingName}/principals-v2", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the principals associated with the specified thing. A principal can be an X.509
+    /// 			certificate or an Amazon Cognito ID. Requires permission to access the ListThingPrincipals action.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in this operation.
+    ///   - nextToken: To retrieve the next set of results, the nextToken
+    ///   - thingName: The name of the thing.
+    ///   - thingPrincipalType: The type of the relation you want to filter in the response. If no value is provided in
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listThingPrincipalsV2(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        thingName: String,
+        thingPrincipalType: ThingPrincipalType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListThingPrincipalsV2Response {
+        let input = ListThingPrincipalsV2Request(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            thingName: thingName, 
+            thingPrincipalType: thingPrincipalType
+        )
+        return try await self.listThingPrincipalsV2(input, logger: logger)
     }
 
     /// Information about the thing registration tasks.
@@ -9211,6 +9294,38 @@ public struct IoT: AWSService {
         return try await self.updateThingGroupsForThing(input, logger: logger)
     }
 
+    /// Updates a thing type.
+    @Sendable
+    @inlinable
+    public func updateThingType(_ input: UpdateThingTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThingTypeResponse {
+        try await self.client.execute(
+            operation: "UpdateThingType", 
+            path: "/thing-types/{thingTypeName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a thing type.
+    ///
+    /// Parameters:
+    ///   - thingTypeName: The name of a thing type.
+    ///   - thingTypeProperties: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateThingType(
+        thingTypeName: String,
+        thingTypeProperties: ThingTypeProperties? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateThingTypeResponse {
+        let input = UpdateThingTypeRequest(
+            thingTypeName: thingTypeName, 
+            thingTypeProperties: thingTypeProperties
+        )
+        return try await self.updateThingType(input, logger: logger)
+    }
+
     /// Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination. Requires permission to access the UpdateTopicRuleDestination action.
     @Sendable
     @inlinable
@@ -10698,6 +10813,46 @@ extension IoT {
         return self.listPrincipalThingsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listPrincipalThingsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPrincipalThingsV2Paginator(
+        _ input: ListPrincipalThingsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPrincipalThingsV2Request, ListPrincipalThingsV2Response> {
+        return .init(
+            input: input,
+            command: self.listPrincipalThingsV2,
+            inputKey: \ListPrincipalThingsV2Request.nextToken,
+            outputKey: \ListPrincipalThingsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPrincipalThingsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in this operation.
+    ///   - principal: The principal. A principal can be an X.509 certificate or an Amazon Cognito ID.
+    ///   - thingPrincipalType: The type of the relation you want to filter in the response. If no value is provided in
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPrincipalThingsV2Paginator(
+        maxResults: Int? = nil,
+        principal: String,
+        thingPrincipalType: ThingPrincipalType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPrincipalThingsV2Request, ListPrincipalThingsV2Response> {
+        let input = ListPrincipalThingsV2Request(
+            maxResults: maxResults, 
+            principal: principal, 
+            thingPrincipalType: thingPrincipalType
+        )
+        return self.listPrincipalThingsV2Paginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listProvisioningTemplateVersions(_:logger:)``.
     ///
     /// - Parameters:
@@ -11260,6 +11415,46 @@ extension IoT {
             thingName: thingName
         )
         return self.listThingPrincipalsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listThingPrincipalsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listThingPrincipalsV2Paginator(
+        _ input: ListThingPrincipalsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListThingPrincipalsV2Request, ListThingPrincipalsV2Response> {
+        return .init(
+            input: input,
+            command: self.listThingPrincipalsV2,
+            inputKey: \ListThingPrincipalsV2Request.nextToken,
+            outputKey: \ListThingPrincipalsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listThingPrincipalsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in this operation.
+    ///   - thingName: The name of the thing.
+    ///   - thingPrincipalType: The type of the relation you want to filter in the response. If no value is provided in
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listThingPrincipalsV2Paginator(
+        maxResults: Int? = nil,
+        thingName: String,
+        thingPrincipalType: ThingPrincipalType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListThingPrincipalsV2Request, ListThingPrincipalsV2Response> {
+        let input = ListThingPrincipalsV2Request(
+            maxResults: maxResults, 
+            thingName: thingName, 
+            thingPrincipalType: thingPrincipalType
+        )
+        return self.listThingPrincipalsV2Paginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listThingRegistrationTaskReports(_:logger:)``.
@@ -12090,6 +12285,18 @@ extension IoT.ListPrincipalThingsRequest: AWSPaginateToken {
     }
 }
 
+extension IoT.ListPrincipalThingsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoT.ListPrincipalThingsV2Request {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            principal: self.principal,
+            thingPrincipalType: self.thingPrincipalType
+        )
+    }
+}
+
 extension IoT.ListProvisioningTemplateVersionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoT.ListProvisioningTemplateVersionsRequest {
@@ -12254,6 +12461,18 @@ extension IoT.ListThingPrincipalsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             thingName: self.thingName
+        )
+    }
+}
+
+extension IoT.ListThingPrincipalsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoT.ListThingPrincipalsV2Request {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            thingName: self.thingName,
+            thingPrincipalType: self.thingPrincipalType
         )
     }
 }

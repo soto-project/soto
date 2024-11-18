@@ -448,7 +448,7 @@ extension S3Control {
         public let name: String
         /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies.
         public let networkOrigin: NetworkOrigin
-        /// The virtual private cloud (VPC) configuration for this access point, if one exists.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Servicesservices.
+        /// The virtual private cloud (VPC) configuration for this access point, if one exists.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Services services.
         public let vpcConfiguration: VpcConfiguration?
 
         @inlinable
@@ -3083,7 +3083,7 @@ extension S3Control {
         /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies. This will always be true for an Amazon S3 on Outposts access point
         public let networkOrigin: NetworkOrigin?
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
-        /// Contains the virtual private cloud (VPC) configuration for the specified access point.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Servicesservices.
+        /// Contains the virtual private cloud (VPC) configuration for the specified access point.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Services services.
         public let vpcConfiguration: VpcConfiguration?
 
         @inlinable
@@ -5349,7 +5349,7 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case storageLensConfigurationList = "StorageLensConfigurationList"
+            case storageLensConfigurationList = "StorageLensConfiguration"
         }
     }
 
@@ -5417,7 +5417,7 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case storageLensGroupList = "StorageLensGroupList"
+            case storageLensGroupList = "StorageLensGroup"
         }
     }
 
@@ -5856,7 +5856,7 @@ extension S3Control {
         public let blockPublicPolicy: Bool?
         /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain.  Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set. This property is not supported for Amazon S3 on Outposts.
         public let ignorePublicAcls: Bool?
-        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Servicesservice principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This property is not supported for Amazon S3 on Outposts.
+        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Services service principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This property is not supported for Amazon S3 on Outposts.
         public let restrictPublicBuckets: Bool?
 
         @inlinable

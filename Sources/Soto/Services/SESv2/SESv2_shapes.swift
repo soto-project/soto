@@ -5479,15 +5479,18 @@ extension SESv2 {
         public let headers: [MessageHeader]?
         /// The Amazon Resource Name (ARN) of the template.
         public let templateArn: String?
+        /// The content of the template.  Amazon SES supports only simple substitions when you send email using the   SendEmail or SendBulkEmail operations and  you provide the full template content in the request.
+        public let templateContent: EmailTemplateContent?
         /// An object that defines the values to use for message variables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable.
         public let templateData: String?
         /// The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
         public let templateName: String?
 
         @inlinable
-        public init(headers: [MessageHeader]? = nil, templateArn: String? = nil, templateData: String? = nil, templateName: String? = nil) {
+        public init(headers: [MessageHeader]? = nil, templateArn: String? = nil, templateContent: EmailTemplateContent? = nil, templateData: String? = nil, templateName: String? = nil) {
             self.headers = headers
             self.templateArn = templateArn
+            self.templateContent = templateContent
             self.templateData = templateData
             self.templateName = templateName
         }
@@ -5504,6 +5507,7 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case headers = "Headers"
             case templateArn = "TemplateArn"
+            case templateContent = "TemplateContent"
             case templateData = "TemplateData"
             case templateName = "TemplateName"
         }

@@ -241,6 +241,7 @@ extension EKS {
         case autoScalingGroupOptInRequired = "AutoScalingGroupOptInRequired"
         case autoScalingGroupRateLimitExceeded = "AutoScalingGroupRateLimitExceeded"
         case clusterUnreachable = "ClusterUnreachable"
+        case ec2InstanceTypeDoesNotExist = "Ec2InstanceTypeDoesNotExist"
         case ec2LaunchTemplateDeletionFailure = "Ec2LaunchTemplateDeletionFailure"
         case ec2LaunchTemplateInvalidConfiguration = "Ec2LaunchTemplateInvalidConfiguration"
         case ec2LaunchTemplateMaxLimitExceeded = "Ec2LaunchTemplateMaxLimitExceeded"
@@ -331,6 +332,7 @@ extension EKS {
         case taintsToRemove = "TaintsToRemove"
         case upgradePolicy = "UpgradePolicy"
         case version = "Version"
+        case zonalShiftConfig = "ZonalShiftConfig"
         public var description: String { return self.rawValue }
     }
 
@@ -354,6 +356,7 @@ extension EKS {
         case upgradePolicyUpdate = "UpgradePolicyUpdate"
         case versionUpdate = "VersionUpdate"
         case vpcConfigUpdate = "VpcConfigUpdate"
+        case zonalShiftConfigUpdate = "ZonalShiftConfigUpdate"
         public var description: String { return self.rawValue }
     }
 
@@ -952,9 +955,11 @@ extension EKS {
         public let upgradePolicy: UpgradePolicyResponse?
         /// The Kubernetes server version for the cluster.
         public let version: String?
+        /// The configuration for zonal shift for the cluster.
+        public let zonalShiftConfig: ZonalShiftConfigResponse?
 
         @inlinable
-        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil) {
+        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigResponse? = nil) {
             self.accessConfig = accessConfig
             self.arn = arn
             self.certificateAuthority = certificateAuthority
@@ -977,6 +982,7 @@ extension EKS {
             self.tags = tags
             self.upgradePolicy = upgradePolicy
             self.version = version
+            self.zonalShiftConfig = zonalShiftConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1002,6 +1008,7 @@ extension EKS {
             case tags = "tags"
             case upgradePolicy = "upgradePolicy"
             case version = "version"
+            case zonalShiftConfig = "zonalShiftConfig"
         }
     }
 
@@ -1332,7 +1339,10 @@ extension EKS {
         public let kubernetesNetworkConfig: KubernetesNetworkConfigRequest?
         /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
         public let logging: Logging?
-        /// The unique name to give to your cluster.
+        /// The unique name to give to your cluster. The name can contain only alphanumeric characters (case-sensitive),
+        /// hyphens, and underscores. It must start with an alphanumeric character and can't be longer than
+        /// 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're
+        /// creating the cluster in.
         public let name: String
         /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review Local clusters for Amazon EKS on Amazon Web Services Outposts in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
         public let outpostConfig: OutpostConfigRequest?
@@ -1346,9 +1356,11 @@ extension EKS {
         public let upgradePolicy: UpgradePolicyRequest?
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the default version available in Amazon EKS is used.  The default version might not be the latest version available.
         public let version: String?
+        /// Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS in the  Amazon EKS User Guide .
+        public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil) {
+        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
             self.clientRequestToken = clientRequestToken
@@ -1362,6 +1374,7 @@ extension EKS {
             self.tags = tags
             self.upgradePolicy = upgradePolicy
             self.version = version
+            self.zonalShiftConfig = zonalShiftConfig
         }
 
         public func validate(name: String) throws {
@@ -1392,6 +1405,7 @@ extension EKS {
             case tags = "tags"
             case upgradePolicy = "upgradePolicy"
             case version = "version"
+            case zonalShiftConfig = "zonalShiftConfig"
         }
     }
 
@@ -3058,7 +3072,7 @@ extension EKS {
     }
 
     public struct Issue: AWSDecodableShape {
-        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your Amazon Web Services account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
+        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2InstanceTypeDoesNotExist: One or more of the supplied Amazon EC2 instance types do not exist. Amazon EKS checked for the instance types that you provided in this Amazon Web Services Region, and one or more aren't available.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your Amazon Web Services account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
         public let code: NodegroupIssueCode?
         /// The error message associated with the issue.
         public let message: String?
@@ -4662,15 +4676,18 @@ extension EKS {
         public let resourcesVpcConfig: VpcConfigRequest?
         /// You can enable or disable extended support for clusters currently on standard support. You cannot disable extended support once it starts. You must enable extended support before your cluster exits standard support.
         public let upgradePolicy: UpgradePolicyRequest?
+        /// Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS in the  Amazon EKS User Guide .
+        public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil) {
+        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.clientRequestToken = clientRequestToken
             self.logging = logging
             self.name = name
             self.resourcesVpcConfig = resourcesVpcConfig
             self.upgradePolicy = upgradePolicy
+            self.zonalShiftConfig = zonalShiftConfig
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4682,6 +4699,7 @@ extension EKS {
             request.encodePath(self.name, key: "name")
             try container.encodeIfPresent(self.resourcesVpcConfig, forKey: .resourcesVpcConfig)
             try container.encodeIfPresent(self.upgradePolicy, forKey: .upgradePolicy)
+            try container.encodeIfPresent(self.zonalShiftConfig, forKey: .zonalShiftConfig)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4690,6 +4708,7 @@ extension EKS {
             case logging = "logging"
             case resourcesVpcConfig = "resourcesVpcConfig"
             case upgradePolicy = "upgradePolicy"
+            case zonalShiftConfig = "zonalShiftConfig"
         }
     }
 
@@ -5137,6 +5156,34 @@ extension EKS {
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
             case vpcId = "vpcId"
+        }
+    }
+
+    public struct ZonalShiftConfigRequest: AWSEncodableShape {
+        /// If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+        }
+    }
+
+    public struct ZonalShiftConfigResponse: AWSDecodableShape {
+        /// Whether the zonal shift is enabled.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
         }
     }
 }

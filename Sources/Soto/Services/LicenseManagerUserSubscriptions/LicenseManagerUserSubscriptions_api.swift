@@ -25,7 +25,8 @@ import Foundation
 
 /// Service object for interacting with AWS LicenseManagerUserSubscriptions service.
 ///
-/// With License Manager, you can create user-based subscriptions to utilize licensed software with a per user subscription fee on Amazon EC2 instances.
+/// With License Manager, you can create user-based subscriptions to utilize licensed software with
+/// 		a per user subscription fee on Amazon EC2 instances.
 public struct LicenseManagerUserSubscriptions: AWSService {
     // MARK: Member variables
 
@@ -89,7 +90,9 @@ public struct LicenseManagerUserSubscriptions: AWSService {
 
     // MARK: API Calls
 
-    /// Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide.
+    /// Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated bill for charges on the number of users and related costs will take 48
+    /// 			hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your
+    /// 				monthly charges in the Amazon Web Services Billing User Guide.
     @Sendable
     @inlinable
     public func associateUser(_ input: AssociateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateUserResponse {
@@ -102,19 +105,23 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             logger: logger
         )
     }
-    /// Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide.
+    /// Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated bill for charges on the number of users and related costs will take 48
+    /// 			hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your
+    /// 				monthly charges in the Amazon Web Services Billing User Guide.
     ///
     /// Parameters:
-    ///   - domain: The domain name of the user.
-    ///   - identityProvider: The identity provider of the user.
-    ///   - instanceId: The ID of the EC2 instance, which provides user-based subscriptions.
-    ///   - username: The user name from the identity provider for the user.
+    ///   - domain: The domain name of the  Active Directory that contains information for the user to associate.
+    ///   - identityProvider: The identity provider for the user.
+    ///   - instanceId: The ID of the EC2 instance that provides the user-based subscription.
+    ///   - tags: The tags that apply for the user association.
+    ///   - username: The user name from the identity provider.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateUser(
         domain: String? = nil,
         identityProvider: IdentityProvider,
         instanceId: String,
+        tags: [String: String]? = nil,
         username: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AssociateUserResponse {
@@ -122,12 +129,80 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             domain: domain, 
             identityProvider: identityProvider, 
             instanceId: instanceId, 
+            tags: tags, 
             username: username
         )
         return try await self.associateUser(input, logger: logger)
     }
 
-    /// Deregisters the identity provider from providing user-based subscriptions.
+    /// Creates a network endpoint for the Remote Desktop Services (RDS) license server.
+    @Sendable
+    @inlinable
+    public func createLicenseServerEndpoint(_ input: CreateLicenseServerEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLicenseServerEndpointResponse {
+        try await self.client.execute(
+            operation: "CreateLicenseServerEndpoint", 
+            path: "/license-server/CreateLicenseServerEndpoint", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a network endpoint for the Remote Desktop Services (RDS) license server.
+    ///
+    /// Parameters:
+    ///   - identityProviderArn: The Amazon Resource Name (ARN) that identifies the IdentityProvider resource that contains details
+    ///   - licenseServerSettings: The LicenseServerSettings resource to create for the endpoint. The
+    ///   - tags: The tags that apply for the license server endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createLicenseServerEndpoint(
+        identityProviderArn: String,
+        licenseServerSettings: LicenseServerSettings,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateLicenseServerEndpointResponse {
+        let input = CreateLicenseServerEndpointRequest(
+            identityProviderArn: identityProviderArn, 
+            licenseServerSettings: licenseServerSettings, 
+            tags: tags
+        )
+        return try await self.createLicenseServerEndpoint(input, logger: logger)
+    }
+
+    /// Deletes a LicenseServerEndpoint resource.
+    @Sendable
+    @inlinable
+    public func deleteLicenseServerEndpoint(_ input: DeleteLicenseServerEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLicenseServerEndpointResponse {
+        try await self.client.execute(
+            operation: "DeleteLicenseServerEndpoint", 
+            path: "/license-server/DeleteLicenseServerEndpoint", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a LicenseServerEndpoint resource.
+    ///
+    /// Parameters:
+    ///   - licenseServerEndpointArn: The Amazon Resource Name (ARN) that identifies the LicenseServerEndpoint
+    ///   - serverType: The type of License Server that the delete request refers to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteLicenseServerEndpoint(
+        licenseServerEndpointArn: String,
+        serverType: ServerType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteLicenseServerEndpointResponse {
+        let input = DeleteLicenseServerEndpointRequest(
+            licenseServerEndpointArn: licenseServerEndpointArn, 
+            serverType: serverType
+        )
+        return try await self.deleteLicenseServerEndpoint(input, logger: logger)
+    }
+
+    /// Deregisters the Active Directory identity provider from License Manager user-based subscriptions.
     @Sendable
     @inlinable
     public func deregisterIdentityProvider(_ input: DeregisterIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterIdentityProviderResponse {
@@ -140,20 +215,23 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             logger: logger
         )
     }
-    /// Deregisters the identity provider from providing user-based subscriptions.
+    /// Deregisters the Active Directory identity provider from License Manager user-based subscriptions.
     ///
     /// Parameters:
-    ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - product: The name of the user-based subscription product.
+    ///   - identityProvider: An object that specifies details for the Active Directory identity provider.
+    ///   - identityProviderArn: The Amazon Resource Name (ARN) that identifies the identity provider to deregister.
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
     ///   - logger: Logger use during operation
     @inlinable
     public func deregisterIdentityProvider(
-        identityProvider: IdentityProvider,
-        product: String,
+        identityProvider: IdentityProvider? = nil,
+        identityProviderArn: String? = nil,
+        product: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeregisterIdentityProviderResponse {
         let input = DeregisterIdentityProviderRequest(
             identityProvider: identityProvider, 
+            identityProviderArn: identityProviderArn, 
             product: product
         )
         return try await self.deregisterIdentityProvider(input, logger: logger)
@@ -175,29 +253,32 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Disassociates the user from an EC2 instance providing user-based subscriptions.
     ///
     /// Parameters:
-    ///   - domain: The domain name of the user.
-    ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - instanceId: The ID of the EC2 instance, which provides user-based subscriptions.
-    ///   - username: The user name from the identity provider for the user.
+    ///   - domain: The domain name of the  Active Directory that contains information for the user to disassociate.
+    ///   - identityProvider: An object that specifies details for the Active Directory identity provider.
+    ///   - instanceId: The ID of the EC2 instance which provides user-based subscriptions.
+    ///   - instanceUserArn: The Amazon Resource Name (ARN) of the user to disassociate from the EC2 instance.
+    ///   - username: The user name from the Active Directory identity provider for the user.
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateUser(
         domain: String? = nil,
-        identityProvider: IdentityProvider,
-        instanceId: String,
-        username: String,
+        identityProvider: IdentityProvider? = nil,
+        instanceId: String? = nil,
+        instanceUserArn: String? = nil,
+        username: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DisassociateUserResponse {
         let input = DisassociateUserRequest(
             domain: domain, 
             identityProvider: identityProvider, 
             instanceId: instanceId, 
+            instanceUserArn: instanceUserArn, 
             username: username
         )
         return try await self.disassociateUser(input, logger: logger)
     }
 
-    /// Lists the identity providers for user-based subscriptions.
+    /// Lists the Active Directory identity providers for user-based subscriptions.
     @Sendable
     @inlinable
     public func listIdentityProviders(_ input: ListIdentityProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentityProvidersResponse {
@@ -210,19 +291,22 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             logger: logger
         )
     }
-    /// Lists the identity providers for user-based subscriptions.
+    /// Lists the Active Directory identity providers for user-based subscriptions.
     ///
     /// Parameters:
-    ///   - maxResults: Maximum number of results to return in a single call.
-    ///   - nextToken: Token for the next set of results.
+    ///   - filters: You can use the following filters to streamline results:   Product   DirectoryId
+    ///   - maxResults: The maximum number of results to return from a single request.
+    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
     ///   - logger: Logger use during operation
     @inlinable
     public func listIdentityProviders(
+        filters: [Filter]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListIdentityProvidersResponse {
         let input = ListIdentityProvidersRequest(
+            filters: filters, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -245,9 +329,9 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Lists the EC2 instances providing user-based subscriptions.
     ///
     /// Parameters:
-    ///   - filters: An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
-    ///   - maxResults: Maximum number of results to return in a single call.
-    ///   - nextToken: Token for the next set of results.
+    ///   - filters: You can use the following filters to streamline results:   Status   InstanceId
+    ///   - maxResults: The maximum number of results to return from a single request.
+    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
     ///   - logger: Logger use during operation
     @inlinable
     public func listInstances(
@@ -262,6 +346,41 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             nextToken: nextToken
         )
         return try await self.listInstances(input, logger: logger)
+    }
+
+    /// List the Remote Desktop Services (RDS) License Server endpoints
+    @Sendable
+    @inlinable
+    public func listLicenseServerEndpoints(_ input: ListLicenseServerEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLicenseServerEndpointsResponse {
+        try await self.client.execute(
+            operation: "ListLicenseServerEndpoints", 
+            path: "/license-server/ListLicenseServerEndpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the Remote Desktop Services (RDS) License Server endpoints
+    ///
+    /// Parameters:
+    ///   - filters: You can use the following filters to streamline results:   IdentityProviderArn
+    ///   - maxResults: The maximum number of results to return from a single request.
+    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listLicenseServerEndpoints(
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListLicenseServerEndpointsResponse {
+        let input = ListLicenseServerEndpointsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listLicenseServerEndpoints(input, logger: logger)
     }
 
     /// Lists the user-based subscription products available from an identity provider.
@@ -280,11 +399,11 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Lists the user-based subscription products available from an identity provider.
     ///
     /// Parameters:
-    ///   - filters: An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
+    ///   - filters: You can use the following filters to streamline results:   Status   Username   Domain
     ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - maxResults: Maximum number of results to return in a single call.
-    ///   - nextToken: Token for the next set of results.
-    ///   - product: The name of the user-based subscription product.
+    ///   - maxResults: The maximum number of results to return from a single request.
+    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
     ///   - logger: Logger use during operation
     @inlinable
     public func listProductSubscriptions(
@@ -292,7 +411,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
         identityProvider: IdentityProvider,
         maxResults: Int? = nil,
         nextToken: String? = nil,
-        product: String,
+        product: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListProductSubscriptionsResponse {
         let input = ListProductSubscriptionsRequest(
@@ -303,6 +422,35 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             product: product
         )
         return try await self.listProductSubscriptions(input, logger: logger)
+    }
+
+    /// Returns the list of tags for the specified resource.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the list of tags for the specified resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
     }
 
     /// Lists user associations for an identity provider.
@@ -321,11 +469,11 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Lists user associations for an identity provider.
     ///
     /// Parameters:
-    ///   - filters: An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
+    ///   - filters: You can use the following filters to streamline results:   Status   Username   Domain
     ///   - identityProvider: An object that specifies details for the identity provider.
     ///   - instanceId: The ID of the EC2 instance, which provides user-based subscriptions.
-    ///   - maxResults: Maximum number of results to return in a single call.
-    ///   - nextToken: Token for the next set of results.
+    ///   - maxResults: The maximum number of results to return from a single request.
+    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
     ///   - logger: Logger use during operation
     @inlinable
     public func listUserAssociations(
@@ -362,26 +510,31 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Registers an identity provider for user-based subscriptions.
     ///
     /// Parameters:
-    ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - product: The name of the user-based subscription product.
-    ///   - settings: The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
+    ///   - identityProvider: An object that specifies details for the identity provider to register.
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
+    ///   - settings: The registered identity provider’s product related configuration
+    ///   - tags: The tags that apply to the identity provider's registration.
     ///   - logger: Logger use during operation
     @inlinable
     public func registerIdentityProvider(
         identityProvider: IdentityProvider,
         product: String,
         settings: Settings? = nil,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RegisterIdentityProviderResponse {
         let input = RegisterIdentityProviderRequest(
             identityProvider: identityProvider, 
             product: product, 
-            settings: settings
+            settings: settings, 
+            tags: tags
         )
         return try await self.registerIdentityProvider(input, logger: logger)
     }
 
-    /// Starts a product subscription for a user with the specified identity provider.  Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide.
+    /// Starts a product subscription for a user with the specified identity provider.  Your estimated bill for charges on the number of users and related costs will take 48
+    /// 			hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your
+    /// 				monthly charges in the Amazon Web Services Billing User Guide.
     @Sendable
     @inlinable
     public func startProductSubscription(_ input: StartProductSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartProductSubscriptionResponse {
@@ -394,12 +547,15 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             logger: logger
         )
     }
-    /// Starts a product subscription for a user with the specified identity provider.  Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide.
+    /// Starts a product subscription for a user with the specified identity provider.  Your estimated bill for charges on the number of users and related costs will take 48
+    /// 			hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your
+    /// 				monthly charges in the Amazon Web Services Billing User Guide.
     ///
     /// Parameters:
-    ///   - domain: The domain name of the user.
+    ///   - domain: The domain name of the  Active Directory that contains the user for whom to start the product
     ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - product: The name of the user-based subscription product.
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
+    ///   - tags: The tags that apply to the product subscription.
     ///   - username: The user name from the identity provider of the user.
     ///   - logger: Logger use during operation
     @inlinable
@@ -407,6 +563,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
         domain: String? = nil,
         identityProvider: IdentityProvider,
         product: String,
+        tags: [String: String]? = nil,
         username: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartProductSubscriptionResponse {
@@ -414,6 +571,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             domain: domain, 
             identityProvider: identityProvider, 
             product: product, 
+            tags: tags, 
             username: username
         )
         return try await self.startProductSubscription(input, logger: logger)
@@ -435,29 +593,97 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Stops a product subscription for a user with the specified identity provider.
     ///
     /// Parameters:
-    ///   - domain: The domain name of the user.
+    ///   - domain: The domain name of the  Active Directory that contains the user for whom to stop the product
     ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - product: The name of the user-based subscription product.
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
+    ///   - productUserArn: The Amazon Resource Name (ARN) of the product user.
     ///   - username: The user name from the identity provider for the user.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopProductSubscription(
         domain: String? = nil,
-        identityProvider: IdentityProvider,
-        product: String,
-        username: String,
+        identityProvider: IdentityProvider? = nil,
+        product: String? = nil,
+        productUserArn: String? = nil,
+        username: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StopProductSubscriptionResponse {
         let input = StopProductSubscriptionRequest(
             domain: domain, 
             identityProvider: identityProvider, 
             product: product, 
+            productUserArn: productUserArn, 
             username: username
         )
         return try await self.stopProductSubscription(input, logger: logger)
     }
 
-    /// Updates additional product configuration settings for the registered identity provider.
+    /// Adds tags to a resource.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds tags to a resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want to tag.
+    ///   - tags: The tags to apply to the specified resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceResponse {
+        let input = TagResourceRequest(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Removes tags from a resource.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes tags from a resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
+    ///   - tagKeys: The tag keys to remove from the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceResponse {
+        let input = UntagResourceRequest(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates additional product configuration settings for the registered identity
+    /// 			provider.
     @Sendable
     @inlinable
     public func updateIdentityProviderSettings(_ input: UpdateIdentityProviderSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdentityProviderSettingsResponse {
@@ -470,22 +696,26 @@ public struct LicenseManagerUserSubscriptions: AWSService {
             logger: logger
         )
     }
-    /// Updates additional product configuration settings for the registered identity provider.
+    /// Updates additional product configuration settings for the registered identity
+    /// 			provider.
     ///
     /// Parameters:
     ///   - identityProvider: 
-    ///   - product: The name of the user-based subscription product.
-    ///   - updateSettings: Updates the registered identity provider’s product related configuration settings. You can update any combination of settings in a single operation such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which you want to remove the VPC endpoints from.   Security group ID which permits traffic to the VPC endpoints.
+    ///   - identityProviderArn: The Amazon Resource Name (ARN) of the identity provider to update.
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
+    ///   - updateSettings: Updates the registered identity provider’s product related configuration settings. You can
     ///   - logger: Logger use during operation
     @inlinable
     public func updateIdentityProviderSettings(
-        identityProvider: IdentityProvider,
-        product: String,
+        identityProvider: IdentityProvider? = nil,
+        identityProviderArn: String? = nil,
+        product: String? = nil,
         updateSettings: UpdateSettings,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateIdentityProviderSettingsResponse {
         let input = UpdateIdentityProviderSettingsRequest(
             identityProvider: identityProvider, 
+            identityProviderArn: identityProviderArn, 
             product: product, 
             updateSettings: updateSettings
         )
@@ -527,14 +757,17 @@ extension LicenseManagerUserSubscriptions {
     /// Return PaginatorSequence for operation ``listIdentityProviders(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Maximum number of results to return in a single call.
+    ///   - filters: You can use the following filters to streamline results:   Product   DirectoryId
+    ///   - maxResults: The maximum number of results to return from a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listIdentityProvidersPaginator(
+        filters: [Filter]? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListIdentityProvidersRequest, ListIdentityProvidersResponse> {
         let input = ListIdentityProvidersRequest(
+            filters: filters, 
             maxResults: maxResults
         )
         return self.listIdentityProvidersPaginator(input, logger: logger)
@@ -561,8 +794,8 @@ extension LicenseManagerUserSubscriptions {
     /// Return PaginatorSequence for operation ``listInstances(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
-    ///   - maxResults: Maximum number of results to return in a single call.
+    ///   - filters: You can use the following filters to streamline results:   Status   InstanceId
+    ///   - maxResults: The maximum number of results to return from a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listInstancesPaginator(
@@ -575,6 +808,43 @@ extension LicenseManagerUserSubscriptions {
             maxResults: maxResults
         )
         return self.listInstancesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listLicenseServerEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLicenseServerEndpointsPaginator(
+        _ input: ListLicenseServerEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLicenseServerEndpointsRequest, ListLicenseServerEndpointsResponse> {
+        return .init(
+            input: input,
+            command: self.listLicenseServerEndpoints,
+            inputKey: \ListLicenseServerEndpointsRequest.nextToken,
+            outputKey: \ListLicenseServerEndpointsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listLicenseServerEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: You can use the following filters to streamline results:   IdentityProviderArn
+    ///   - maxResults: The maximum number of results to return from a single request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLicenseServerEndpointsPaginator(
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListLicenseServerEndpointsRequest, ListLicenseServerEndpointsResponse> {
+        let input = ListLicenseServerEndpointsRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listLicenseServerEndpointsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listProductSubscriptions(_:logger:)``.
@@ -598,17 +868,17 @@ extension LicenseManagerUserSubscriptions {
     /// Return PaginatorSequence for operation ``listProductSubscriptions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
+    ///   - filters: You can use the following filters to streamline results:   Status   Username   Domain
     ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - maxResults: Maximum number of results to return in a single call.
-    ///   - product: The name of the user-based subscription product.
+    ///   - maxResults: The maximum number of results to return from a single request.
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
     ///   - logger: Logger used for logging
     @inlinable
     public func listProductSubscriptionsPaginator(
         filters: [Filter]? = nil,
         identityProvider: IdentityProvider,
         maxResults: Int? = nil,
-        product: String,
+        product: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListProductSubscriptionsRequest, ListProductSubscriptionsResponse> {
         let input = ListProductSubscriptionsRequest(
@@ -641,10 +911,10 @@ extension LicenseManagerUserSubscriptions {
     /// Return PaginatorSequence for operation ``listUserAssociations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
+    ///   - filters: You can use the following filters to streamline results:   Status   Username   Domain
     ///   - identityProvider: An object that specifies details for the identity provider.
     ///   - instanceId: The ID of the EC2 instance, which provides user-based subscriptions.
-    ///   - maxResults: Maximum number of results to return in a single call.
+    ///   - maxResults: The maximum number of results to return from a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listUserAssociationsPaginator(
@@ -668,6 +938,7 @@ extension LicenseManagerUserSubscriptions.ListIdentityProvidersRequest: AWSPagin
     @inlinable
     public func usingPaginationToken(_ token: String) -> LicenseManagerUserSubscriptions.ListIdentityProvidersRequest {
         return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -677,6 +948,17 @@ extension LicenseManagerUserSubscriptions.ListIdentityProvidersRequest: AWSPagin
 extension LicenseManagerUserSubscriptions.ListInstancesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> LicenseManagerUserSubscriptions.ListInstancesRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension LicenseManagerUserSubscriptions.ListLicenseServerEndpointsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LicenseManagerUserSubscriptions.ListLicenseServerEndpointsRequest {
         return .init(
             filters: self.filters,
             maxResults: self.maxResults,

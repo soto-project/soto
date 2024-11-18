@@ -205,6 +205,7 @@ extension Imagebuilder {
 
     public enum Platform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linux = "Linux"
+        case macos = "macOS"
         case windows = "Windows"
         public var description: String { return self.rawValue }
     }
@@ -214,6 +215,13 @@ extension Imagebuilder {
         case deleted = "DELETED"
         case deprecated = "DEPRECATED"
         case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TenancyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
+        case dedicated = "dedicated"
+        case host = "host"
         public var description: String { return self.rawValue }
     }
 
@@ -1143,7 +1151,7 @@ extension Imagebuilder {
         /// A group of options that can be used to configure an instance for building and testing
         /// 			container images.
         public let instanceConfiguration: InstanceConfiguration?
-        /// Identifies which KMS key is used to encrypt the container image.
+        /// Identifies which KMS key is used to encrypt the Dockerfile template.
         public let kmsKeyId: String?
         /// The name of the container recipe.
         public let name: String
@@ -1707,7 +1715,11 @@ extension Imagebuilder {
         public let logging: Logging?
         /// The name of the infrastructure configuration.
         public let name: String
-        /// The tags attached to the resource created by Image Builder.
+        /// The instance placement settings that define where the instances that are launched
+        /// 			from your image will run.
+        public let placement: Placement?
+        /// The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during the build process.
+        /// 			Tags are formatted as key value pairs.
         public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your Amazon EC2
         /// 			AMI.
@@ -1719,7 +1731,8 @@ extension Imagebuilder {
         public let snsTopicArn: String?
         /// The subnet ID in which to place the instance used to customize your Amazon EC2 AMI.
         public let subnetId: String?
-        /// The tags of the infrastructure configuration.
+        /// The metadata tags to assign to the infrastructure configuration resource that Image Builder
+        /// 			creates as output. Tags are formatted as key value pairs.
         public let tags: [String: String]?
         /// The terminate instance on failure setting of the infrastructure configuration. Set to
         /// 			false if you want Image Builder to retain the instance used to configure your AMI if the build or
@@ -1727,7 +1740,7 @@ extension Imagebuilder {
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
-        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.instanceMetadataOptions = instanceMetadataOptions
@@ -1736,6 +1749,7 @@ extension Imagebuilder {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
@@ -1757,6 +1771,7 @@ extension Imagebuilder {
             try self.validate(self.keyPair, name: "keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.placement?.validate(name: "\(name).placement")
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
                 try validate($0.key, name: "resourceTags.key", parent: name, min: 1)
@@ -1791,6 +1806,7 @@ extension Imagebuilder {
             case keyPair = "keyPair"
             case logging = "logging"
             case name = "name"
+            case placement = "placement"
             case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
@@ -2657,7 +2673,7 @@ extension Imagebuilder {
     }
 
     public struct EcrConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Tags for Image Builder to apply to the output container image that &INS; scans. Tags can
+        /// Tags for Image Builder to apply to the output container image that Amazon Inspector scans. Tags can
         /// 			help you identify and manage your scanned images.
         public let containerTags: [String]?
         /// The name of the container repository that Amazon Inspector scans to identify findings for your
@@ -4545,6 +4561,9 @@ extension Imagebuilder {
         public let logging: Logging?
         /// The name of the infrastructure configuration.
         public let name: String?
+        /// The instance placement settings that define where the instances that are launched
+        /// 			from your image will run.
+        public let placement: Placement?
         /// The tags attached to the resource created by Image Builder.
         public let resourceTags: [String: String]?
         /// The security group IDs of the infrastructure configuration.
@@ -4563,7 +4582,7 @@ extension Imagebuilder {
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
-        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -4574,6 +4593,7 @@ extension Imagebuilder {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
@@ -4593,6 +4613,7 @@ extension Imagebuilder {
             case keyPair = "keyPair"
             case logging = "logging"
             case name = "name"
+            case placement = "placement"
             case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
@@ -4617,13 +4638,16 @@ extension Imagebuilder {
         public let instanceTypes: [String]?
         /// The name of the infrastructure configuration.
         public let name: String?
+        /// The instance placement settings that define where the instances that are launched
+        /// 			from your image will run.
+        public let placement: Placement?
         /// The tags attached to the image created by Image Builder.
         public let resourceTags: [String: String]?
         /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, name: String? = nil, resourceTags: [String: String]? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, name: String? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -4631,6 +4655,7 @@ extension Imagebuilder {
             self.instanceProfileName = instanceProfileName
             self.instanceTypes = instanceTypes
             self.name = name
+            self.placement = placement
             self.resourceTags = resourceTags
             self.tags = tags
         }
@@ -4643,6 +4668,7 @@ extension Imagebuilder {
             case instanceProfileName = "instanceProfileName"
             case instanceTypes = "instanceTypes"
             case name = "name"
+            case placement = "placement"
             case resourceTags = "resourceTags"
             case tags = "tags"
         }
@@ -6817,6 +6843,50 @@ extension Imagebuilder {
         }
     }
 
+    public struct Placement: AWSEncodableShape & AWSDecodableShape {
+        /// The Availability Zone where your build and test instances will launch.
+        public let availabilityZone: String?
+        /// The ID of the Dedicated Host on which build and test instances run. This only
+        /// 			applies if tenancy is host. If you specify the host ID, you
+        /// 			must not specify the resource group ARN. If you specify both, Image Builder returns an error.
+        public let hostId: String?
+        /// The Amazon Resource Name (ARN) of the host resource group in which to launch build and test instances.
+        /// 			This only applies if tenancy is host. If you specify the resource
+        /// 			group ARN, you must not specify the host ID. If you specify both, Image Builder returns an error.
+        public let hostResourceGroupArn: String?
+        /// The tenancy of the instance. An instance with a tenancy of dedicated
+        /// 			runs on single-tenant hardware. An instance with a tenancy of host runs
+        /// 			on a Dedicated Host. If tenancy is set to host, then you can optionally specify one target
+        /// 			for placement – either host ID or host resource group ARN. If automatic placement
+        /// 			is enabled for your host, and you don't specify any placement target, Amazon EC2 will try to
+        /// 			find an available host for your build and test instances.
+        public let tenancy: TenancyType?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, tenancy: TenancyType? = nil) {
+            self.availabilityZone = availabilityZone
+            self.hostId = hostId
+            self.hostResourceGroupArn = hostResourceGroupArn
+            self.tenancy = tenancy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 1024)
+            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, min: 1)
+            try self.validate(self.hostId, name: "hostId", parent: name, max: 1024)
+            try self.validate(self.hostId, name: "hostId", parent: name, min: 1)
+            try self.validate(self.hostResourceGroupArn, name: "hostResourceGroupArn", parent: name, max: 1024)
+            try self.validate(self.hostResourceGroupArn, name: "hostResourceGroupArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case hostId = "hostId"
+            case hostResourceGroupArn = "hostResourceGroupArn"
+            case tenancy = "tenancy"
+        }
+    }
+
     public struct PutComponentPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the component that this policy should be applied
         /// 			to.
@@ -7710,6 +7780,9 @@ extension Imagebuilder {
         public let keyPair: String?
         /// The logging configuration of the infrastructure configuration.
         public let logging: Logging?
+        /// The instance placement settings that define where the instances that are launched
+        /// 			from your image will run.
+        public let placement: Placement?
         /// The tags attached to the resource created by Image Builder.
         public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your Amazon EC2
@@ -7728,7 +7801,7 @@ extension Imagebuilder {
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
-        public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -7737,6 +7810,7 @@ extension Imagebuilder {
             self.instanceTypes = instanceTypes
             self.keyPair = keyPair
             self.logging = logging
+            self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
@@ -7757,6 +7831,7 @@ extension Imagebuilder {
             try self.validate(self.keyPair, name: "keyPair", parent: name, max: 1024)
             try self.validate(self.keyPair, name: "keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
+            try self.placement?.validate(name: "\(name).placement")
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
                 try validate($0.key, name: "resourceTags.key", parent: name, min: 1)
@@ -7783,6 +7858,7 @@ extension Imagebuilder {
             case instanceTypes = "instanceTypes"
             case keyPair = "keyPair"
             case logging = "logging"
+            case placement = "placement"
             case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"

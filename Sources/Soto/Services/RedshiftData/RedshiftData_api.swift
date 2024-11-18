@@ -100,6 +100,7 @@ public struct RedshiftData: AWSService {
     ///   - clusterIdentifier: The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials.
     ///   - database: The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
     ///   - dbUser: The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
+    ///   - resultFormat: The data format of the result of the SQL statement. If no format is specified, the default is JSON.
     ///   - secretArn: The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     ///   - sessionId: The session identifier of the query.
     ///   - sessionKeepAliveSeconds: The number of seconds to keep the session alive after the query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the session is forced closed and the query is terminated.
@@ -114,6 +115,7 @@ public struct RedshiftData: AWSService {
         clusterIdentifier: String? = nil,
         database: String? = nil,
         dbUser: String? = nil,
+        resultFormat: ResultFormatString? = nil,
         secretArn: String? = nil,
         sessionId: String? = nil,
         sessionKeepAliveSeconds: Int? = nil,
@@ -128,6 +130,7 @@ public struct RedshiftData: AWSService {
             clusterIdentifier: clusterIdentifier, 
             database: database, 
             dbUser: dbUser, 
+            resultFormat: resultFormat, 
             secretArn: secretArn, 
             sessionId: sessionId, 
             sessionKeepAliveSeconds: sessionKeepAliveSeconds, 
@@ -274,6 +277,7 @@ public struct RedshiftData: AWSService {
     ///   - database: The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
     ///   - dbUser: The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
     ///   - parameters: The parameters for the SQL statement.
+    ///   - resultFormat: The data format of the result of the SQL statement. If no format is specified, the default is JSON.
     ///   - secretArn: The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     ///   - sessionId: The session identifier of the query.
     ///   - sessionKeepAliveSeconds: The number of seconds to keep the session alive after the query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the session is forced closed and the query is terminated.
@@ -289,6 +293,7 @@ public struct RedshiftData: AWSService {
         database: String? = nil,
         dbUser: String? = nil,
         parameters: [SqlParameter]? = nil,
+        resultFormat: ResultFormatString? = nil,
         secretArn: String? = nil,
         sessionId: String? = nil,
         sessionKeepAliveSeconds: Int? = nil,
@@ -304,6 +309,7 @@ public struct RedshiftData: AWSService {
             database: database, 
             dbUser: dbUser, 
             parameters: parameters, 
+            resultFormat: resultFormat, 
             secretArn: secretArn, 
             sessionId: sessionId, 
             sessionKeepAliveSeconds: sessionKeepAliveSeconds, 
@@ -315,7 +321,7 @@ public struct RedshiftData: AWSService {
         return try await self.executeStatement(input, logger: logger)
     }
 
-    /// Fetches the temporarily cached result of an SQL statement.  A token is returned to page through the statement results.  For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
+    /// Fetches the temporarily cached result of an SQL statement in JSON format.  The ExecuteStatement or BatchExecuteStatement operation that ran the SQL statement must have specified ResultFormat as JSON , or let the format default to JSON. A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
     @Sendable
     @inlinable
     public func getStatementResult(_ input: GetStatementResultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStatementResultResponse {
@@ -328,7 +334,7 @@ public struct RedshiftData: AWSService {
             logger: logger
         )
     }
-    /// Fetches the temporarily cached result of an SQL statement.  A token is returned to page through the statement results.  For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
+    /// Fetches the temporarily cached result of an SQL statement in JSON format.  The ExecuteStatement or BatchExecuteStatement operation that ran the SQL statement must have specified ResultFormat as JSON , or let the format default to JSON. A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
     ///
     /// Parameters:
     ///   - id: The identifier of the SQL statement whose results are to be fetched. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API.  A suffix indicates then number of the SQL statement. For example, d9b6c0c9-0747-4bf4-b142-e8883122f766:2 has a suffix of :2 that indicates the second SQL statement of a batch query. This identifier is returned by BatchExecuteStatment, ExecuteStatment, and ListStatements.
@@ -345,6 +351,38 @@ public struct RedshiftData: AWSService {
             nextToken: nextToken
         )
         return try await self.getStatementResult(input, logger: logger)
+    }
+
+    /// Fetches the temporarily cached result of an SQL statement in CSV format.  The ExecuteStatement or BatchExecuteStatement operation that ran the SQL statement must have specified ResultFormat as CSV. A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
+    @Sendable
+    @inlinable
+    public func getStatementResultV2(_ input: GetStatementResultV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStatementResultV2Response {
+        try await self.client.execute(
+            operation: "GetStatementResultV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Fetches the temporarily cached result of an SQL statement in CSV format.  The ExecuteStatement or BatchExecuteStatement operation that ran the SQL statement must have specified ResultFormat as CSV. A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
+    ///
+    /// Parameters:
+    ///   - id: The identifier of the SQL statement whose results are to be fetched. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API.  A suffix indicates then number of the SQL statement. For example, d9b6c0c9-0747-4bf4-b142-e8883122f766:2 has a suffix of :2 that indicates the second SQL statement of a batch query. This identifier is returned by BatchExecuteStatment, ExecuteStatment, and ListStatements.
+    ///   - nextToken: A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned NextToken value in the next NextToken parameter and retrying the command. If the NextToken field is empty, all response records have been retrieved for the request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getStatementResultV2(
+        id: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetStatementResultV2Response {
+        let input = GetStatementResultV2Request(
+            id: id, 
+            nextToken: nextToken
+        )
+        return try await self.getStatementResultV2(input, logger: logger)
     }
 
     /// List the databases in a cluster.  A token is returned to page through the database list. Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret  stored in Secrets Manager which has username and password.  The specified secret contains credentials to connect to the database you specify.  When you are connecting to a cluster, you also supply the database name,  If you provide a cluster identifier (dbClusterIdentifier), it must match the cluster identifier stored in the secret.        When you are connecting to a serverless workgroup, you also supply the database name.   Temporary credentials - when connecting to your data warehouse, choose one of the following options:   When connecting to a serverless workgroup, specify the workgroup name and database name. The database user name is derived from the IAM identity. For example, arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call the redshift-serverless:GetCredentials operation is required.   When connecting to a cluster as an IAM identity, specify the cluster identifier and the database name. The database user name is derived from the IAM identity. For example, arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a cluster as a database user, specify the cluster identifier, the database name, and the database user name.  Also, permission to call the redshift:GetClusterCredentials operation is required.     For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
@@ -650,6 +688,40 @@ extension RedshiftData {
         return self.getStatementResultPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getStatementResultV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getStatementResultV2Paginator(
+        _ input: GetStatementResultV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetStatementResultV2Request, GetStatementResultV2Response> {
+        return .init(
+            input: input,
+            command: self.getStatementResultV2,
+            inputKey: \GetStatementResultV2Request.nextToken,
+            outputKey: \GetStatementResultV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getStatementResultV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - id: The identifier of the SQL statement whose results are to be fetched. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API.  A suffix indicates then number of the SQL statement. For example, d9b6c0c9-0747-4bf4-b142-e8883122f766:2 has a suffix of :2 that indicates the second SQL statement of a batch query. This identifier is returned by BatchExecuteStatment, ExecuteStatment, and ListStatements.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getStatementResultV2Paginator(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetStatementResultV2Request, GetStatementResultV2Response> {
+        let input = GetStatementResultV2Request(
+            id: id
+        )
+        return self.getStatementResultV2Paginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDatabases(_:logger:)``.
     ///
     /// - Parameters:
@@ -877,6 +949,16 @@ extension RedshiftData.DescribeTableRequest: AWSPaginateToken {
 extension RedshiftData.GetStatementResultRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> RedshiftData.GetStatementResultRequest {
+        return .init(
+            id: self.id,
+            nextToken: token
+        )
+    }
+}
+
+extension RedshiftData.GetStatementResultV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> RedshiftData.GetStatementResultV2Request {
         return .init(
             id: self.id,
             nextToken: token

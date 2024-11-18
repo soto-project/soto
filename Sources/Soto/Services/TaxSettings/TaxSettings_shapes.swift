@@ -90,6 +90,11 @@ extension TaxSettings {
         public var description: String { return self.rawValue }
     }
 
+    public enum SupplementalTaxRegistrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case vat = "VAT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TaxRegistrationNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case localRegistrationNumber = "LocalRegistrationNumber"
         case taxRegistrationNumber = "TaxRegistrationNumber"
@@ -108,7 +113,9 @@ extension TaxSettings {
         case cnpj = "CNPJ"
         case cpf = "CPF"
         case gst = "GST"
+        case nric = "NRIC"
         case sst = "SST"
+        case tin = "TIN"
         case vat = "VAT"
         public var description: String { return self.rawValue }
     }
@@ -341,7 +348,7 @@ extension TaxSettings {
         public let districtOrCounty: String?
         ///  The postal code associated with the address.
         public let postalCode: String
-        /// The state, region, or province that the address is located. If this is required for tax settings, use the same name as shown on the Tax Settings page.
+        /// The state, region, or province that the address is located. This field is only required for Canada, India, United Arab Emirates, Romania, and Brazil (CPF). It is optional for all other countries. If this is required for tax settings, use the same name as shown on the Tax Settings page.
         public let stateOrRegion: String?
 
         @inlinable
@@ -545,7 +552,7 @@ extension TaxSettings {
     public struct CanadaAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
         ///  The Quebec Sales Tax ID number. Leave blank if you do not have a Quebec Sales Tax ID number.
         public let canadaQuebecSalesTaxNumber: String?
-        ///  Manitoba Retail Sales Tax ID number. Customers purchasing Amazon Web Services for resale in Manitoba must provide a valid Retail Sales Tax ID number for Manitoba. Leave this blank if you do not have a Retail Sales Tax ID number in Manitoba or are not purchasing Amazon Web Services for resale.
+        ///  Manitoba Retail Sales Tax ID number. Customers purchasing Amazon Web Services services for resale in Manitoba must provide a valid Retail Sales Tax ID number for Manitoba. Leave this blank if you do not have a Retail Sales Tax ID number in Manitoba or are not purchasing Amazon Web Services services for resale.
         public let canadaRetailSalesTaxNumber: String?
         ///  The value for this parameter must be true if the provincialSalesTaxId value is provided for a TRN in British Columbia, Saskatchewan, or Manitoba provinces.  To claim a provincial sales tax (PST) and retail sales tax (RST) reseller exemption, you must confirm that purchases  from this account were made for resale. Otherwise, remove the PST or RST number from the provincialSalesTaxId parameter from your request.
         public let isResellerAccount: Bool?
@@ -574,6 +581,30 @@ extension TaxSettings {
             case isResellerAccount = "isResellerAccount"
             case provincialSalesTaxId = "provincialSalesTaxId"
         }
+    }
+
+    public struct DeleteSupplementalTaxRegistrationRequest: AWSEncodableShape {
+        ///  The unique authority Id for the supplemental TRN information that needs to be deleted.
+        public let authorityId: String
+
+        @inlinable
+        public init(authorityId: String) {
+            self.authorityId = authorityId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authorityId, name: "authorityId", parent: name, max: 200)
+            try self.validate(self.authorityId, name: "authorityId", parent: name, min: 1)
+            try self.validate(self.authorityId, name: "authorityId", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorityId = "authorityId"
+        }
+    }
+
+    public struct DeleteSupplementalTaxRegistrationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteTaxRegistrationRequest: AWSEncodableShape {
@@ -828,6 +859,50 @@ extension TaxSettings {
         }
     }
 
+    public struct ListSupplementalTaxRegistrationsRequest: AWSEncodableShape {
+        ///  The number of taxRegistrations results you want in one response.
+        public let maxResults: Int?
+        ///  The token to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-A-Za-z0-9_+\\=\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSupplementalTaxRegistrationsResponse: AWSDecodableShape {
+        ///  The token to retrieve the next set of results.
+        public let nextToken: String?
+        ///  The list of supplemental tax registrations.
+        public let taxRegistrations: [SupplementalTaxRegistration]
+
+        @inlinable
+        public init(nextToken: String? = nil, taxRegistrations: [SupplementalTaxRegistration]) {
+            self.nextToken = nextToken
+            self.taxRegistrations = taxRegistrations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case taxRegistrations = "taxRegistrations"
+        }
+    }
+
     public struct ListTaxRegistrationsRequest: AWSEncodableShape {
         /// Number of accountDetails results you want in one response.
         public let maxResults: Int?
@@ -873,21 +948,30 @@ extension TaxSettings {
     }
 
     public struct MalaysiaAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The tax registration number (TRN) in Malaysia.  For individual, you can specify the taxInformationNumber in MalaysiaAdditionalInfo with NRIC type, and a valid MyKad or NRIC number. For business, you must specify a businessRegistrationNumber in MalaysiaAdditionalInfo with a TIN type and tax identification number. For business resellers, you must specify a businessRegistrationNumber and taxInformationNumber in MalaysiaAdditionalInfo with a sales and service tax (SST) type and a valid SST number.  For business resellers with service codes, you must specify businessRegistrationNumber, taxInformationNumber, and distinct serviceTaxCodes in MalaysiaAdditionalInfo with a SST type and valid sales and service tax (SST) number. By using this API operation, Amazon Web Services registers your self-declaration that you’re an authorized business reseller registered with the Royal Malaysia Customs Department (RMCD), and have a valid SST number.
+        public let businessRegistrationNumber: String?
         /// List of service tax codes for your TRN in Malaysia.
-        public let serviceTaxCodes: [MalaysiaServiceTaxCode]
+        public let serviceTaxCodes: [MalaysiaServiceTaxCode]?
+        /// The tax information number in Malaysia.   For individual, you can specify the taxInformationNumber in MalaysiaAdditionalInfo with NRIC type, and a valid MyKad or NRIC number. For business resellers, you must specify a businessRegistrationNumber and taxInformationNumber in MalaysiaAdditionalInfo with a sales and service tax (SST) type and a valid SST number.  For business resellers with service codes, you must specify businessRegistrationNumber, taxInformationNumber, and distinct serviceTaxCodes in MalaysiaAdditionalInfo with a SST type and valid sales and service tax (SST) number. By using this API operation, Amazon Web Services registers your self-declaration that you’re an authorized business reseller registered with the Royal Malaysia Customs Department (RMCD), and have a valid SST number.
+        public let taxInformationNumber: String?
 
         @inlinable
-        public init(serviceTaxCodes: [MalaysiaServiceTaxCode]) {
+        public init(businessRegistrationNumber: String? = nil, serviceTaxCodes: [MalaysiaServiceTaxCode]? = nil, taxInformationNumber: String? = nil) {
+            self.businessRegistrationNumber = businessRegistrationNumber
             self.serviceTaxCodes = serviceTaxCodes
+            self.taxInformationNumber = taxInformationNumber
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.businessRegistrationNumber, name: "businessRegistrationNumber", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.serviceTaxCodes, name: "serviceTaxCodes", parent: name, max: 4)
-            try self.validate(self.serviceTaxCodes, name: "serviceTaxCodes", parent: name, min: 1)
+            try self.validate(self.taxInformationNumber, name: "taxInformationNumber", parent: name, pattern: "^[A-Z]{1,2}[0-9]{1,11}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case businessRegistrationNumber = "businessRegistrationNumber"
             case serviceTaxCodes = "serviceTaxCodes"
+            case taxInformationNumber = "taxInformationNumber"
         }
     }
 
@@ -910,6 +994,42 @@ extension TaxSettings {
         private enum CodingKeys: String, CodingKey {
             case individualRegistrationNumber = "individualRegistrationNumber"
             case isGroupVatEnabled = "isGroupVatEnabled"
+        }
+    }
+
+    public struct PutSupplementalTaxRegistrationRequest: AWSEncodableShape {
+        ///  The supplemental TRN information that will be stored for the caller account ID.
+        public let taxRegistrationEntry: SupplementalTaxRegistrationEntry
+
+        @inlinable
+        public init(taxRegistrationEntry: SupplementalTaxRegistrationEntry) {
+            self.taxRegistrationEntry = taxRegistrationEntry
+        }
+
+        public func validate(name: String) throws {
+            try self.taxRegistrationEntry.validate(name: "\(name).taxRegistrationEntry")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taxRegistrationEntry = "taxRegistrationEntry"
+        }
+    }
+
+    public struct PutSupplementalTaxRegistrationResponse: AWSDecodableShape {
+        ///  Unique authority ID for the supplemental TRN information that was stored.
+        public let authorityId: String
+        ///  The status of the supplemental TRN stored in the system after processing. Based on the validation occurring on the TRN, the status can be Verified, Pending, Rejected, or Deleted.
+        public let status: TaxRegistrationStatus
+
+        @inlinable
+        public init(authorityId: String, status: TaxRegistrationStatus) {
+            self.authorityId = authorityId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorityId = "authorityId"
+            case status = "status"
         }
     }
 
@@ -1051,6 +1171,74 @@ extension TaxSettings {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case registrationType = "registrationType"
+        }
+    }
+
+    public struct SupplementalTaxRegistration: AWSDecodableShape {
+        public let address: Address
+        ///  Unique authority ID for the supplemental TRN.
+        public let authorityId: String
+        ///  The legal name associated with your TRN registration.
+        public let legalName: String
+        ///  The supplemental TRN unique identifier.
+        public let registrationId: String
+        ///  Type of supplemental TRN. Currently, this can only be VAT.
+        public let registrationType: SupplementalTaxRegistrationType
+        ///  The status of your TRN.
+        public let status: TaxRegistrationStatus
+
+        @inlinable
+        public init(address: Address, authorityId: String, legalName: String, registrationId: String, registrationType: SupplementalTaxRegistrationType, status: TaxRegistrationStatus) {
+            self.address = address
+            self.authorityId = authorityId
+            self.legalName = legalName
+            self.registrationId = registrationId
+            self.registrationType = registrationType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "address"
+            case authorityId = "authorityId"
+            case legalName = "legalName"
+            case registrationId = "registrationId"
+            case registrationType = "registrationType"
+            case status = "status"
+        }
+    }
+
+    public struct SupplementalTaxRegistrationEntry: AWSEncodableShape {
+        public let address: Address
+        ///  The legal name associated with your TRN registration.
+        public let legalName: String
+        ///  The supplemental TRN unique identifier.
+        public let registrationId: String
+        ///  Type of supplemental TRN. Currently, this can only be VAT.
+        public let registrationType: SupplementalTaxRegistrationType
+
+        @inlinable
+        public init(address: Address, legalName: String, registrationId: String, registrationType: SupplementalTaxRegistrationType) {
+            self.address = address
+            self.legalName = legalName
+            self.registrationId = registrationId
+            self.registrationType = registrationType
+        }
+
+        public func validate(name: String) throws {
+            try self.address.validate(name: "\(name).address")
+            try self.validate(self.legalName, name: "legalName", parent: name, max: 200)
+            try self.validate(self.legalName, name: "legalName", parent: name, min: 1)
+            try self.validate(self.legalName, name: "legalName", parent: name, pattern: "^(?!\\s*$)[\\s\\S]+$")
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 20)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^(?!\\s*$)[\\s\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "address"
+            case legalName = "legalName"
+            case registrationId = "registrationId"
             case registrationType = "registrationType"
         }
     }

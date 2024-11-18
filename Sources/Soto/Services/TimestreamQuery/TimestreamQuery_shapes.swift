@@ -40,6 +40,12 @@ extension TimestreamQuery {
         public var description: String { return self.rawValue }
     }
 
+    public enum QueryInsightsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabledWithRateControl = "ENABLED_WITH_RATE_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QueryPricingModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bytesScanned = "BYTES_SCANNED"
         case computeUnits = "COMPUTE_UNITS"
@@ -73,6 +79,12 @@ extension TimestreamQuery {
         case timestamp = "TIMESTAMP"
         case unknown = "UNKNOWN"
         case varchar = "VARCHAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduledQueryInsightsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabledWithRateControl = "ENABLED_WITH_RATE_CONTROL"
         public var description: String { return self.rawValue }
     }
 
@@ -425,13 +437,16 @@ extension TimestreamQuery {
         public let clientToken: String?
         /// The timestamp in UTC. Query will be run as if it was invoked at this timestamp.
         public let invocationTime: Date
+        /// Encapsulates settings for enabling QueryInsights. Enabling QueryInsights returns insights and metrics as a part of the Amazon SNS notification for the query that you executed. You can use QueryInsights to tune your query performance and cost.
+        public let queryInsights: ScheduledQueryInsights?
         /// ARN of the scheduled query.
         public let scheduledQueryArn: String
 
         @inlinable
-        public init(clientToken: String? = ExecuteScheduledQueryRequest.idempotencyToken(), invocationTime: Date, scheduledQueryArn: String) {
+        public init(clientToken: String? = ExecuteScheduledQueryRequest.idempotencyToken(), invocationTime: Date, queryInsights: ScheduledQueryInsights? = nil, scheduledQueryArn: String) {
             self.clientToken = clientToken
             self.invocationTime = invocationTime
+            self.queryInsights = queryInsights
             self.scheduledQueryArn = scheduledQueryArn
         }
 
@@ -445,6 +460,7 @@ extension TimestreamQuery {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case invocationTime = "InvocationTime"
+            case queryInsights = "QueryInsights"
             case scheduledQueryArn = "ScheduledQueryArn"
         }
     }
@@ -729,6 +745,62 @@ extension TimestreamQuery {
         }
     }
 
+    public struct QueryInsights: AWSEncodableShape {
+        /// Provides the following modes to enable QueryInsights:    ENABLED_WITH_RATE_CONTROL – Enables QueryInsights for the queries being processed. This mode also includes a rate control mechanism, which limits the QueryInsights feature to 1 query per second (QPS).    DISABLED – Disables QueryInsights.
+        public let mode: QueryInsightsMode
+
+        @inlinable
+        public init(mode: QueryInsightsMode) {
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+        }
+    }
+
+    public struct QueryInsightsResponse: AWSDecodableShape {
+        /// Indicates the size of query result set in bytes. You can use this data to validate if the result set has changed as part of the query tuning exercise.
+        public let outputBytes: Int64?
+        /// Indicates the total number of rows returned as part of the query result set. You can use this data to validate if the number of rows in the result set have changed as part of the query tuning exercise.
+        public let outputRows: Int64?
+        /// Provides insights into the spatial coverage of the query, including the table with sub-optimal (max) spatial pruning. This information can help you identify areas for improvement in your partitioning strategy to enhance spatial pruning.
+        public let querySpatialCoverage: QuerySpatialCoverage?
+        /// Indicates the number of tables in the query.
+        public let queryTableCount: Int64?
+        /// Provides insights into the temporal range of the query, including the table with the largest (max) time range. Following are some of the potential options for optimizing time-based pruning:   Add missing time-predicates.   Remove functions around the time predicates.   Add time predicates to all the sub-queries.
+        public let queryTemporalRange: QueryTemporalRange?
+        /// Indicates the partitions created by the Unload operation.
+        public let unloadPartitionCount: Int64?
+        /// Indicates the size, in bytes, written by the Unload operation.
+        public let unloadWrittenBytes: Int64?
+        /// Indicates the rows written by the Unload query.
+        public let unloadWrittenRows: Int64?
+
+        @inlinable
+        public init(outputBytes: Int64? = nil, outputRows: Int64? = nil, querySpatialCoverage: QuerySpatialCoverage? = nil, queryTableCount: Int64? = nil, queryTemporalRange: QueryTemporalRange? = nil, unloadPartitionCount: Int64? = nil, unloadWrittenBytes: Int64? = nil, unloadWrittenRows: Int64? = nil) {
+            self.outputBytes = outputBytes
+            self.outputRows = outputRows
+            self.querySpatialCoverage = querySpatialCoverage
+            self.queryTableCount = queryTableCount
+            self.queryTemporalRange = queryTemporalRange
+            self.unloadPartitionCount = unloadPartitionCount
+            self.unloadWrittenBytes = unloadWrittenBytes
+            self.unloadWrittenRows = unloadWrittenRows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputBytes = "OutputBytes"
+            case outputRows = "OutputRows"
+            case querySpatialCoverage = "QuerySpatialCoverage"
+            case queryTableCount = "QueryTableCount"
+            case queryTemporalRange = "QueryTemporalRange"
+            case unloadPartitionCount = "UnloadPartitionCount"
+            case unloadWrittenBytes = "UnloadWrittenBytes"
+            case unloadWrittenRows = "UnloadWrittenRows"
+        }
+    }
+
     public struct QueryRequest: AWSEncodableShape {
         ///  Unique, case-sensitive string of up to 64 ASCII characters specified when a Query request is made. Providing a ClientToken makes the call to Query idempotent. This means that running the same query repeatedly will produce the same result. In other words, making multiple identical Query requests has the same effect as making a single request. When using ClientToken in a query, note the following:    If the Query API is instantiated without a ClientToken, the Query SDK generates a ClientToken on your behalf.   If the Query invocation only contains the ClientToken but does not include a NextToken, that invocation of Query is assumed to be a new query run.   If the invocation contains NextToken, that particular invocation is assumed to be a subsequent invocation of a prior call to the Query API, and a result set is returned.   After 4 hours, any request with the same ClientToken is treated as a new request.
         public let clientToken: String?
@@ -736,14 +808,17 @@ extension TimestreamQuery {
         public let maxRows: Int?
         ///  A pagination token used to return a set of results. When the Query API is invoked using NextToken, that particular invocation is assumed to be a subsequent invocation of a prior call to Query, and a result set is returned. However, if the Query invocation only contains the ClientToken, that invocation of Query is assumed to be a new query run.  Note the following when using NextToken in a query:   A pagination token can be used for up to five Query invocations, OR for a duration of up to 1 hour – whichever comes first.   Using the same NextToken will return the same set of records. To keep paginating through the result set, you must to use the most recent nextToken.   Suppose a Query invocation returns two NextToken values, TokenA and TokenB. If TokenB is used in a subsequent Query invocation, then TokenA is invalidated and cannot be reused.   To request a previous result set from a query after pagination has begun, you must re-invoke the Query API.   The latest NextToken should be used to paginate until null is returned, at which point a new NextToken should be used.   If the IAM principal of the query initiator and the result reader are not the same and/or the query initiator and the result reader do not have the same query string in the query requests, the query will fail with an Invalid pagination token error.
         public let nextToken: String?
+        /// Encapsulates settings for enabling QueryInsights. Enabling QueryInsights returns insights and metrics in addition to query results for the query that you executed. You can use QueryInsights to tune your query performance.
+        public let queryInsights: QueryInsights?
         ///  The query to be run by Timestream.
         public let queryString: String
 
         @inlinable
-        public init(clientToken: String? = QueryRequest.idempotencyToken(), maxRows: Int? = nil, nextToken: String? = nil, queryString: String) {
+        public init(clientToken: String? = QueryRequest.idempotencyToken(), maxRows: Int? = nil, nextToken: String? = nil, queryInsights: QueryInsights? = nil, queryString: String) {
             self.clientToken = clientToken
             self.maxRows = maxRows
             self.nextToken = nextToken
+            self.queryInsights = queryInsights
             self.queryString = queryString
         }
 
@@ -762,6 +837,7 @@ extension TimestreamQuery {
             case clientToken = "ClientToken"
             case maxRows = "MaxRows"
             case nextToken = "NextToken"
+            case queryInsights = "QueryInsights"
             case queryString = "QueryString"
         }
     }
@@ -773,16 +849,19 @@ extension TimestreamQuery {
         public let nextToken: String?
         ///  A unique ID for the given query.
         public let queryId: String
+        /// Encapsulates QueryInsights containing insights and metrics related to the query that you executed.
+        public let queryInsightsResponse: QueryInsightsResponse?
         /// Information about the status of the query, including progress and bytes scanned.
         public let queryStatus: QueryStatus?
         ///  The result set rows returned by the query.
         public let rows: [Row]
 
         @inlinable
-        public init(columnInfo: [ColumnInfo], nextToken: String? = nil, queryId: String, queryStatus: QueryStatus? = nil, rows: [Row]) {
+        public init(columnInfo: [ColumnInfo], nextToken: String? = nil, queryId: String, queryInsightsResponse: QueryInsightsResponse? = nil, queryStatus: QueryStatus? = nil, rows: [Row]) {
             self.columnInfo = columnInfo
             self.nextToken = nextToken
             self.queryId = queryId
+            self.queryInsightsResponse = queryInsightsResponse
             self.queryStatus = queryStatus
             self.rows = rows
         }
@@ -791,8 +870,45 @@ extension TimestreamQuery {
             case columnInfo = "ColumnInfo"
             case nextToken = "NextToken"
             case queryId = "QueryId"
+            case queryInsightsResponse = "QueryInsightsResponse"
             case queryStatus = "QueryStatus"
             case rows = "Rows"
+        }
+    }
+
+    public struct QuerySpatialCoverage: AWSDecodableShape {
+        /// Provides insights into the spatial coverage of the executed query and the table with the most inefficient spatial pruning.    Value – The maximum ratio of spatial coverage.    TableArn – The Amazon Resource Name (ARN) of the table with sub-optimal spatial pruning.    PartitionKey – The partition key used for partitioning, which can be a default measure_name or a CDPK.
+        public let max: QuerySpatialCoverageMax?
+
+        @inlinable
+        public init(max: QuerySpatialCoverageMax? = nil) {
+            self.max = max
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+        }
+    }
+
+    public struct QuerySpatialCoverageMax: AWSDecodableShape {
+        /// The partition key used for partitioning, which can be a default measure_name or a customer defined partition key.
+        public let partitionKey: [String]?
+        /// The Amazon Resource Name (ARN) of the table with the most sub-optimal spatial pruning.
+        public let tableArn: String?
+        /// The maximum ratio of spatial coverage.
+        public let value: Double?
+
+        @inlinable
+        public init(partitionKey: [String]? = nil, tableArn: String? = nil, value: Double? = nil) {
+            self.partitionKey = partitionKey
+            self.tableArn = tableArn
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partitionKey = "PartitionKey"
+            case tableArn = "TableArn"
+            case value = "Value"
         }
     }
 
@@ -815,6 +931,38 @@ extension TimestreamQuery {
             case cumulativeBytesMetered = "CumulativeBytesMetered"
             case cumulativeBytesScanned = "CumulativeBytesScanned"
             case progressPercentage = "ProgressPercentage"
+        }
+    }
+
+    public struct QueryTemporalRange: AWSDecodableShape {
+        /// Encapsulates the following properties that provide insights into the most sub-optimal performing table on the temporal axis:    Value – The maximum duration in nanoseconds between the start and end of the query.    TableArn – The Amazon Resource Name (ARN) of the table which is queried with the largest time range.
+        public let max: QueryTemporalRangeMax?
+
+        @inlinable
+        public init(max: QueryTemporalRangeMax? = nil) {
+            self.max = max
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+        }
+    }
+
+    public struct QueryTemporalRangeMax: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the table which is queried with the largest time range.
+        public let tableArn: String?
+        /// The maximum duration in nanoseconds between the start and end of the query.
+        public let value: Int64?
+
+        @inlinable
+        public init(tableArn: String? = nil, value: Int64? = nil) {
+            self.tableArn = tableArn
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableArn = "TableArn"
+            case value = "Value"
         }
     }
 
@@ -1016,6 +1164,50 @@ extension TimestreamQuery {
         }
     }
 
+    public struct ScheduledQueryInsights: AWSEncodableShape {
+        /// Provides the following modes to enable ScheduledQueryInsights:    ENABLED_WITH_RATE_CONTROL – Enables ScheduledQueryInsights for the queries being processed. This mode also includes a rate control mechanism, which limits the QueryInsights feature to 1 query per second (QPS).    DISABLED – Disables ScheduledQueryInsights.
+        public let mode: ScheduledQueryInsightsMode
+
+        @inlinable
+        public init(mode: ScheduledQueryInsightsMode) {
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+        }
+    }
+
+    public struct ScheduledQueryInsightsResponse: AWSDecodableShape {
+        /// Indicates the size of query result set in bytes. You can use this data to validate if the result set has changed as part of the query tuning exercise.
+        public let outputBytes: Int64?
+        /// Indicates the total number of rows returned as part of the query result set. You can use this data to validate if the number of rows in the result set have changed as part of the query tuning exercise.
+        public let outputRows: Int64?
+        /// Provides insights into the spatial coverage of the query, including the table with sub-optimal (max) spatial pruning. This information can help you identify areas for improvement in your partitioning strategy to enhance spatial pruning.
+        public let querySpatialCoverage: QuerySpatialCoverage?
+        /// Indicates the number of tables in the query.
+        public let queryTableCount: Int64?
+        /// Provides insights into the temporal range of the query, including the table with the largest (max) time range. Following are some of the potential options for optimizing time-based pruning:   Add missing time-predicates.   Remove functions around the time predicates.   Add time predicates to all the sub-queries.
+        public let queryTemporalRange: QueryTemporalRange?
+
+        @inlinable
+        public init(outputBytes: Int64? = nil, outputRows: Int64? = nil, querySpatialCoverage: QuerySpatialCoverage? = nil, queryTableCount: Int64? = nil, queryTemporalRange: QueryTemporalRange? = nil) {
+            self.outputBytes = outputBytes
+            self.outputRows = outputRows
+            self.querySpatialCoverage = querySpatialCoverage
+            self.queryTableCount = queryTableCount
+            self.queryTemporalRange = queryTemporalRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputBytes = "OutputBytes"
+            case outputRows = "OutputRows"
+            case querySpatialCoverage = "QuerySpatialCoverage"
+            case queryTableCount = "QueryTableCount"
+            case queryTemporalRange = "QueryTemporalRange"
+        }
+    }
+
     public struct ScheduledQueryRunSummary: AWSDecodableShape {
         /// S3 location for error report.
         public let errorReportLocation: ErrorReportLocation?
@@ -1025,17 +1217,20 @@ extension TimestreamQuery {
         public let failureReason: String?
         /// InvocationTime for this run. This is the time at which the query is scheduled to run. Parameter @scheduled_runtime can be used in the query to get the value.
         public let invocationTime: Date?
+        /// Provides various insights and metrics related to the run summary of the scheduled query.
+        public let queryInsightsResponse: ScheduledQueryInsightsResponse?
         /// The status of a scheduled query run.
         public let runStatus: ScheduledQueryRunStatus?
         /// The actual time when the query was run.
         public let triggerTime: Date?
 
         @inlinable
-        public init(errorReportLocation: ErrorReportLocation? = nil, executionStats: ExecutionStats? = nil, failureReason: String? = nil, invocationTime: Date? = nil, runStatus: ScheduledQueryRunStatus? = nil, triggerTime: Date? = nil) {
+        public init(errorReportLocation: ErrorReportLocation? = nil, executionStats: ExecutionStats? = nil, failureReason: String? = nil, invocationTime: Date? = nil, queryInsightsResponse: ScheduledQueryInsightsResponse? = nil, runStatus: ScheduledQueryRunStatus? = nil, triggerTime: Date? = nil) {
             self.errorReportLocation = errorReportLocation
             self.executionStats = executionStats
             self.failureReason = failureReason
             self.invocationTime = invocationTime
+            self.queryInsightsResponse = queryInsightsResponse
             self.runStatus = runStatus
             self.triggerTime = triggerTime
         }
@@ -1045,6 +1240,7 @@ extension TimestreamQuery {
             case executionStats = "ExecutionStats"
             case failureReason = "FailureReason"
             case invocationTime = "InvocationTime"
+            case queryInsightsResponse = "QueryInsightsResponse"
             case runStatus = "RunStatus"
             case triggerTime = "TriggerTime"
         }

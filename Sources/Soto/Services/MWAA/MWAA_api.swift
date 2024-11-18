@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS MWAA service.
 ///
-/// Amazon Managed Workflows for Apache Airflow This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation. For more information, see What is Amazon MWAA?.  Endpoints     api.airflow.{region}.amazonaws.com - This endpoint is used for environment management.    CreateEnvironment     DeleteEnvironment     GetEnvironment     ListEnvironments     ListTagsForResource     TagResource     UntagResource     UpdateEnvironment       env.airflow.{region}.amazonaws.com - This endpoint is used to operate the Airflow environment.    CreateCliToken     CreateWebLoginToken       Regions  For a list of supported regions, see Amazon MWAA endpoints and quotas in the Amazon Web Services General Reference.
+/// Amazon Managed Workflows for Apache Airflow This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation. For more information, see What is Amazon MWAA?.  Endpoints     api.airflow.{region}.amazonaws.com - This endpoint is used for environment management.    CreateEnvironment     DeleteEnvironment     GetEnvironment     ListEnvironments     ListTagsForResource     TagResource     UntagResource     UpdateEnvironment       env.airflow.{region}.amazonaws.com - This endpoint is used to operate the Airflow environment.    CreateCliToken     CreateWebLoginToken     InvokeRestApi       Regions  For a list of supported regions, see Amazon MWAA endpoints and quotas in the Amazon Web Services General Reference.
 public struct MWAA: AWSService {
     // MARK: Member variables
 
@@ -109,7 +109,7 @@ public struct MWAA: AWSService {
         return try await self.createCliToken(input, logger: logger)
     }
 
-    /// Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    /// Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
     @Sendable
     @inlinable
     public func createEnvironment(_ input: CreateEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentOutput {
@@ -123,11 +123,11 @@ public struct MWAA: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    /// Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
     ///
     /// Parameters:
     ///   - airflowConfigurationOptions: A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
-    ///   - airflowVersion: The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2 2.8.1
+    ///   - airflowVersion: The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
     ///   - dagS3Path: The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
     ///   - endpointManagement: Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints for your VPC. If you choose to create an environment in a shared VPC, you must set this value to CUSTOMER. In a shared VPC deployment, the environment will remain in PENDING status until you create the VPC endpoints. If you do not take action to create the endpoints within 72 hours, the status will change to CREATE_FAILED. You can delete the failed environment and create a new one.
     ///   - environmentClass: The environment class type. Valid values: mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see Amazon MWAA environment class.
@@ -241,7 +241,7 @@ public struct MWAA: AWSService {
         return try await self.createWebLoginToken(input, logger: logger)
     }
 
-    /// Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    /// Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
     @Sendable
     @inlinable
     public func deleteEnvironment(_ input: DeleteEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentOutput {
@@ -255,7 +255,7 @@ public struct MWAA: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    /// Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
     ///
     /// Parameters:
     ///   - name: The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
@@ -299,6 +299,48 @@ public struct MWAA: AWSService {
             name: name
         )
         return try await self.getEnvironment(input, logger: logger)
+    }
+
+    /// Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API
+    @Sendable
+    @inlinable
+    public func invokeRestApi(_ input: InvokeRestApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeRestApiResponse {
+        try await self.client.execute(
+            operation: "InvokeRestApi", 
+            path: "/restapi/{Name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "env.", 
+            logger: logger
+        )
+    }
+    /// Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn more, see Using the Apache Airflow REST API
+    ///
+    /// Parameters:
+    ///   - body: The request body for the Apache Airflow REST API call, provided as a JSON object.
+    ///   - method: The HTTP method used for making Airflow REST API calls. For example, POST.
+    ///   - name: The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
+    ///   - path: The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances. For more information, see Apache Airflow API
+    ///   - queryParameters: Query parameters to be included in the Apache Airflow REST API call, provided as a JSON object.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeRestApi(
+        body: String? = nil,
+        method: RestApiMethod,
+        name: String,
+        path: String,
+        queryParameters: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeRestApiResponse {
+        let input = InvokeRestApiRequest(
+            body: body, 
+            method: method, 
+            name: name, 
+            path: path, 
+            queryParameters: queryParameters
+        )
+        return try await self.invokeRestApi(input, logger: logger)
     }
 
     /// Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
@@ -483,7 +525,7 @@ public struct MWAA: AWSService {
     ///
     /// Parameters:
     ///   - airflowConfigurationOptions: A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
-    ///   - airflowVersion: The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1.
+    ///   - airflowVersion: The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
     ///   - dagS3Path: The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
     ///   - environmentClass: The environment class type. Valid values: mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see Amazon MWAA environment class.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA Execution role.

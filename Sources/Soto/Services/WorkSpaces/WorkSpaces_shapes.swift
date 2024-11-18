@@ -645,7 +645,7 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^([a-zA-Z0-9]+[.-])+([a-zA-Z0-9])+$")
             try self.validate(self.serviceAccountSecretArn, name: "serviceAccountSecretArn", parent: name, pattern: "^arn:aws[a-z-]{0,7}:secretsmanager:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:secret:[A-Za-z0-9][A-za-z0-9_/.-]{8,519}$")
         }
 
