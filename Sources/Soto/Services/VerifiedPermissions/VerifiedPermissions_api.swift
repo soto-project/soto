@@ -94,6 +94,35 @@ public struct VerifiedPermissions: AWSService {
 
     // MARK: API Calls
 
+    /// Retrieves information about a group (batch) of policies.  The BatchGetPolicy operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:GetPolicy in their IAM policies.
+    @Sendable
+    @inlinable
+    public func batchGetPolicy(_ input: BatchGetPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetPolicyOutput {
+        try await self.client.execute(
+            operation: "BatchGetPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a group (batch) of policies.  The BatchGetPolicy operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:GetPolicy in their IAM policies.
+    ///
+    /// Parameters:
+    ///   - requests: An array of up to 100 policies you want information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetPolicy(
+        requests: [BatchGetPolicyInputItem],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetPolicyOutput {
+        let input = BatchGetPolicyInput(
+            requests: requests
+        )
+        return try await self.batchGetPolicy(input, logger: logger)
+    }
+
     /// Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an IsAuthorized request: principal, action, resource, and context. Either the principal or the resource parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where bob views photo1 and alice views photo2. Authorization of bob to view photo1 and photo2, or bob and alice to view photo1, are valid batches.  The request is evaluated against all policies in the specified policy store that match the entities that you declare. The result of the decisions is a series of Allow or Deny responses, along with the IDs of the policies that produced each decision. The entities of a BatchIsAuthorized API request can contain up to 100 principals and up to 100 resources. The requests of a BatchIsAuthorized API request can contain up to 30 requests.  The BatchIsAuthorized operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:IsAuthorized in their IAM policies.
     @Sendable
     @inlinable

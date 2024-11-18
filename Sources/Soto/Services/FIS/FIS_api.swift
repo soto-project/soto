@@ -99,6 +99,7 @@ public struct FIS: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     ///   - description: A description for the experiment template.
     ///   - experimentOptions: The experiment options for the experiment template.
+    ///   - experimentReportConfiguration: The experiment report configuration for the experiment template.
     ///   - logConfiguration: The configuration for experiment logging.
     ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf.
     ///   - stopConditions: The stop conditions.
@@ -111,6 +112,7 @@ public struct FIS: AWSService {
         clientToken: String = CreateExperimentTemplateRequest.idempotencyToken(),
         description: String,
         experimentOptions: CreateExperimentTemplateExperimentOptionsInput? = nil,
+        experimentReportConfiguration: CreateExperimentTemplateReportConfigurationInput? = nil,
         logConfiguration: CreateExperimentTemplateLogConfigurationInput? = nil,
         roleArn: String,
         stopConditions: [CreateExperimentTemplateStopConditionInput],
@@ -123,6 +125,7 @@ public struct FIS: AWSService {
             clientToken: clientToken, 
             description: description, 
             experimentOptions: experimentOptions, 
+            experimentReportConfiguration: experimentReportConfiguration, 
             logConfiguration: logConfiguration, 
             roleArn: roleArn, 
             stopConditions: stopConditions, 
@@ -858,6 +861,7 @@ public struct FIS: AWSService {
     ///   - actions: The actions for the experiment.
     ///   - description: A description for the template.
     ///   - experimentOptions: The experiment options for the experiment template.
+    ///   - experimentReportConfiguration: The experiment report configuration for the experiment template.
     ///   - id: The ID of the experiment template.
     ///   - logConfiguration: The configuration for experiment logging.
     ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf.
@@ -869,6 +873,7 @@ public struct FIS: AWSService {
         actions: [String: UpdateExperimentTemplateActionInputItem]? = nil,
         description: String? = nil,
         experimentOptions: UpdateExperimentTemplateExperimentOptionsInput? = nil,
+        experimentReportConfiguration: UpdateExperimentTemplateReportConfigurationInput? = nil,
         id: String,
         logConfiguration: UpdateExperimentTemplateLogConfigurationInput? = nil,
         roleArn: String? = nil,
@@ -880,6 +885,7 @@ public struct FIS: AWSService {
             actions: actions, 
             description: description, 
             experimentOptions: experimentOptions, 
+            experimentReportConfiguration: experimentReportConfiguration, 
             id: id, 
             logConfiguration: logConfiguration, 
             roleArn: roleArn, 

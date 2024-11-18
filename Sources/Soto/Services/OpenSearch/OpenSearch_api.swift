@@ -243,20 +243,58 @@ public struct OpenSearch: AWSService {
     /// Associates a package with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service.
     ///
     /// Parameters:
+    ///   - associationConfiguration: The configuration for associating a package with an Amazon OpenSearch Service domain.
     ///   - domainName: Name of the domain to associate the package with.
     ///   - packageID: Internal ID of the package to associate with a domain. Use DescribePackages to find this value.
+    ///   - prerequisitePackageIDList: A list of package IDs that must be associated with the domain before the package specified in the request can be associated.
     ///   - logger: Logger use during operation
     @inlinable
     public func associatePackage(
+        associationConfiguration: PackageAssociationConfiguration? = nil,
         domainName: String,
         packageID: String,
+        prerequisitePackageIDList: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AssociatePackageResponse {
         let input = AssociatePackageRequest(
+            associationConfiguration: associationConfiguration, 
             domainName: domainName, 
-            packageID: packageID
+            packageID: packageID, 
+            prerequisitePackageIDList: prerequisitePackageIDList
         )
         return try await self.associatePackage(input, logger: logger)
+    }
+
+    /// Operation in the Amazon OpenSearch Service API for associating  multiple packages with a domain simultaneously.
+    @Sendable
+    @inlinable
+    public func associatePackages(_ input: AssociatePackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociatePackagesResponse {
+        try await self.client.execute(
+            operation: "AssociatePackages", 
+            path: "/2021-01-01/packages/associateMultiple", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation in the Amazon OpenSearch Service API for associating  multiple packages with a domain simultaneously.
+    ///
+    /// Parameters:
+    ///   - domainName: 
+    ///   - packageList: A list of packages and their prerequisites to be associated with a domain.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associatePackages(
+        domainName: String,
+        packageList: [PackageDetailsForAssociation],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociatePackagesResponse {
+        let input = AssociatePackagesRequest(
+            domainName: domainName, 
+            packageList: packageList
+        )
+        return try await self.associatePackages(input, logger: logger)
     }
 
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
@@ -277,16 +315,19 @@ public struct OpenSearch: AWSService {
     /// Parameters:
     ///   - account: The Amazon Web Services account ID to grant access to.
     ///   - domainName: The name of the OpenSearch Service domain to provide access to.
+    ///   - service: The Amazon Web Services service SP to grant access to.
     ///   - logger: Logger use during operation
     @inlinable
     public func authorizeVpcEndpointAccess(
-        account: String,
+        account: String? = nil,
         domainName: String,
+        service: AWSServicePrincipal? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AuthorizeVpcEndpointAccessResponse {
         let input = AuthorizeVpcEndpointAccessRequest(
             account: account, 
-            domainName: domainName
+            domainName: domainName, 
+            service: service
         )
         return try await self.authorizeVpcEndpointAccess(input, logger: logger)
     }
@@ -352,6 +393,50 @@ public struct OpenSearch: AWSService {
         return try await self.cancelServiceSoftwareUpdate(input, logger: logger)
     }
 
+    /// Creates an OpenSearch Application.
+    @Sendable
+    @inlinable
+    public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
+        try await self.client.execute(
+            operation: "CreateApplication", 
+            path: "/2021-01-01/opensearch/application", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an OpenSearch Application.
+    ///
+    /// Parameters:
+    ///   - appConfigs: Configurations of the OpenSearch Application, inlcuding admin configuration.
+    ///   - clientToken: A unique client idempotency token. It will be auto generated if not provided.
+    ///   - dataSources: Data sources to be associated with the OpenSearch Application.
+    ///   - iamIdentityCenterOptions: Settings of IAM Identity Center for the OpenSearch Application.
+    ///   - name: Name of the OpenSearch Appication to create. Application names are unique across the applications owned by an account within an Amazon Web Services Region.
+    ///   - tagList: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createApplication(
+        appConfigs: [AppConfig]? = nil,
+        clientToken: String? = CreateApplicationRequest.idempotencyToken(),
+        dataSources: [DataSource]? = nil,
+        iamIdentityCenterOptions: IamIdentityCenterOptionsInput? = nil,
+        name: String,
+        tagList: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateApplicationResponse {
+        let input = CreateApplicationRequest(
+            appConfigs: appConfigs, 
+            clientToken: clientToken, 
+            dataSources: dataSources, 
+            iamIdentityCenterOptions: iamIdentityCenterOptions, 
+            name: name, 
+            tagList: tagList
+        )
+        return try await self.createApplication(input, logger: logger)
+    }
+
     /// Creates an Amazon OpenSearch Service domain. For more information, see Creating and managing Amazon OpenSearch Service domains.
     @Sendable
     @inlinable
@@ -380,6 +465,7 @@ public struct OpenSearch: AWSService {
     ///   - ebsOptions: Container for the parameters required to enable EBS-based storage for an OpenSearch Service domain.
     ///   - encryptionAtRestOptions: Key-value pairs to enable encryption at rest.
     ///   - engineVersion: String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch Service domains.
+    ///   - identityCenterOptions: Options for IAM Identity Center Option control for the domain.
     ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
     ///   - logPublishingOptions: Key-value pairs to configure log publishing.
     ///   - nodeToNodeEncryptionOptions: Enables node-to-node encryption.
@@ -403,6 +489,7 @@ public struct OpenSearch: AWSService {
         ebsOptions: EBSOptions? = nil,
         encryptionAtRestOptions: EncryptionAtRestOptions? = nil,
         engineVersion: String? = nil,
+        identityCenterOptions: IdentityCenterOptionsInput? = nil,
         ipAddressType: IPAddressType? = nil,
         logPublishingOptions: [LogType: LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil,
@@ -426,6 +513,7 @@ public struct OpenSearch: AWSService {
             ebsOptions: ebsOptions, 
             encryptionAtRestOptions: encryptionAtRestOptions, 
             engineVersion: engineVersion, 
+            identityCenterOptions: identityCenterOptions, 
             ipAddressType: ipAddressType, 
             logPublishingOptions: logPublishingOptions, 
             nodeToNodeEncryptionOptions: nodeToNodeEncryptionOptions, 
@@ -495,24 +583,36 @@ public struct OpenSearch: AWSService {
     /// Creates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service.
     ///
     /// Parameters:
+    ///   - engineVersion: The version of the Amazon OpenSearch Service engine for which is compatible with the package. This can only be specified for package type ZIP-PLUGIN
+    ///   - packageConfiguration:  The configuration parameters for the package being created.
     ///   - packageDescription: Description of the package.
+    ///   - packageEncryptionOptions: The encryption parameters for the package being created.
     ///   - packageName: Unique name for the package.
     ///   - packageSource: The Amazon S3 location from which to import the package.
     ///   - packageType: The type of package.
+    ///   - packageVendingOptions:  The vending options for the package being created. They determine if the package can be vended to other users.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPackage(
+        engineVersion: String? = nil,
+        packageConfiguration: PackageConfiguration? = nil,
         packageDescription: String? = nil,
+        packageEncryptionOptions: PackageEncryptionOptions? = nil,
         packageName: String,
         packageSource: PackageSource,
         packageType: PackageType,
+        packageVendingOptions: PackageVendingOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePackageResponse {
         let input = CreatePackageRequest(
+            engineVersion: engineVersion, 
+            packageConfiguration: packageConfiguration, 
             packageDescription: packageDescription, 
+            packageEncryptionOptions: packageEncryptionOptions, 
             packageName: packageName, 
             packageSource: packageSource, 
-            packageType: packageType
+            packageType: packageType, 
+            packageVendingOptions: packageVendingOptions
         )
         return try await self.createPackage(input, logger: logger)
     }
@@ -550,6 +650,35 @@ public struct OpenSearch: AWSService {
             vpcOptions: vpcOptions
         )
         return try await self.createVpcEndpoint(input, logger: logger)
+    }
+
+    /// Deletes an existing OpenSearch Application.
+    @Sendable
+    @inlinable
+    public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
+        try await self.client.execute(
+            operation: "DeleteApplication", 
+            path: "/2021-01-01/opensearch/application/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing OpenSearch Application.
+    ///
+    /// Parameters:
+    ///   - id: Unique identifier for the OpenSearch Application that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteApplication(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteApplicationResponse {
+        let input = DeleteApplicationRequest(
+            id: id
+        )
+        return try await self.deleteApplication(input, logger: logger)
     }
 
     /// Deletes a direct-query data source. For more information, see Deleting an Amazon OpenSearch Service data source with Amazon S3.
@@ -1247,6 +1376,67 @@ public struct OpenSearch: AWSService {
         return try await self.dissociatePackage(input, logger: logger)
     }
 
+    /// Dissociates multiple packages from a domain simulatneously.
+    @Sendable
+    @inlinable
+    public func dissociatePackages(_ input: DissociatePackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DissociatePackagesResponse {
+        try await self.client.execute(
+            operation: "DissociatePackages", 
+            path: "/2021-01-01/packages/dissociateMultiple", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Dissociates multiple packages from a domain simulatneously.
+    ///
+    /// Parameters:
+    ///   - domainName: 
+    ///   - packageList: A list of package IDs to be dissociated from a domain.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func dissociatePackages(
+        domainName: String,
+        packageList: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DissociatePackagesResponse {
+        let input = DissociatePackagesRequest(
+            domainName: domainName, 
+            packageList: packageList
+        )
+        return try await self.dissociatePackages(input, logger: logger)
+    }
+
+    /// Check the configuration and status of an existing OpenSearch Application.
+    @Sendable
+    @inlinable
+    public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationResponse {
+        try await self.client.execute(
+            operation: "GetApplication", 
+            path: "/2021-01-01/opensearch/application/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Check the configuration and status of an existing OpenSearch Application.
+    ///
+    /// Parameters:
+    ///   - id: Unique identifier of the checked OpenSearch Application.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getApplication(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetApplicationResponse {
+        let input = GetApplicationRequest(
+            id: id
+        )
+        return try await self.getApplication(input, logger: logger)
+    }
+
     /// Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
     @Sendable
     @inlinable
@@ -1437,6 +1627,41 @@ public struct OpenSearch: AWSService {
             domainName: domainName
         )
         return try await self.getUpgradeStatus(input, logger: logger)
+    }
+
+    /// List all OpenSearch Applications under your account.
+    @Sendable
+    @inlinable
+    public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
+        try await self.client.execute(
+            operation: "ListApplications", 
+            path: "/2021-01-01/opensearch/list-applications", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all OpenSearch Applications under your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - statuses: OpenSearch Application Status can be used as filters for the listing request. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listApplications(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        statuses: [ApplicationStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListApplicationsResponse {
+        let input = ListApplicationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            statuses: statuses
+        )
+        return try await self.listApplications(input, logger: logger)
     }
 
     /// Lists direct-query data sources for a specific domain. For more information, see  For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
@@ -1955,16 +2180,19 @@ public struct OpenSearch: AWSService {
     /// Parameters:
     ///   - account: The account ID to revoke access from.
     ///   - domainName: The name of the OpenSearch Service domain.
+    ///   - service: The service SP to revoke access from.
     ///   - logger: Logger use during operation
     @inlinable
     public func revokeVpcEndpointAccess(
-        account: String,
+        account: String? = nil,
         domainName: String,
+        service: AWSServicePrincipal? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RevokeVpcEndpointAccessResponse {
         let input = RevokeVpcEndpointAccessRequest(
             account: account, 
-            domainName: domainName
+            domainName: domainName, 
+            service: service
         )
         return try await self.revokeVpcEndpointAccess(input, logger: logger)
     }
@@ -2039,6 +2267,41 @@ public struct OpenSearch: AWSService {
         return try await self.startServiceSoftwareUpdate(input, logger: logger)
     }
 
+    /// Update the OpenSearch Application.
+    @Sendable
+    @inlinable
+    public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResponse {
+        try await self.client.execute(
+            operation: "UpdateApplication", 
+            path: "/2021-01-01/opensearch/application/{id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update the OpenSearch Application.
+    ///
+    /// Parameters:
+    ///   - appConfigs: Configurations to be changed for the OpenSearch Application.
+    ///   - dataSources: Data sources to be associated with the OpenSearch Application.
+    ///   - id: Unique identifier of the OpenSearch Application to be updated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateApplication(
+        appConfigs: [AppConfig]? = nil,
+        dataSources: [DataSource]? = nil,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateApplicationResponse {
+        let input = UpdateApplicationRequest(
+            appConfigs: appConfigs, 
+            dataSources: dataSources, 
+            id: id
+        )
+        return try await self.updateApplication(input, logger: logger)
+    }
+
     /// Updates a direct-query data source. For more information, see Working with Amazon OpenSearch Service data source integrations with Amazon S3.
     @Sendable
     @inlinable
@@ -2109,6 +2372,7 @@ public struct OpenSearch: AWSService {
     ///   - dryRunMode: The type of dry run to perform.    Basic only returns the type of deployment (blue/green or dynamic) that the update will cause.    Verbose runs an additional check to validate the changes you're making. For more information, see Validating a domain update.
     ///   - ebsOptions: The type and size of the EBS volume to attach to instances in the domain.
     ///   - encryptionAtRestOptions: Encryption at rest options for the domain.
+    ///   - identityCenterOptions: 
     ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If your IP address type is currently set to dual stack, you can't change it.
     ///   - logPublishingOptions: Options to publish OpenSearch logs to Amazon CloudWatch Logs.
     ///   - nodeToNodeEncryptionOptions: Node-to-node encryption options for the domain.
@@ -2132,6 +2396,7 @@ public struct OpenSearch: AWSService {
         dryRunMode: DryRunMode? = nil,
         ebsOptions: EBSOptions? = nil,
         encryptionAtRestOptions: EncryptionAtRestOptions? = nil,
+        identityCenterOptions: IdentityCenterOptionsInput? = nil,
         ipAddressType: IPAddressType? = nil,
         logPublishingOptions: [LogType: LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil,
@@ -2155,6 +2420,7 @@ public struct OpenSearch: AWSService {
             dryRunMode: dryRunMode, 
             ebsOptions: ebsOptions, 
             encryptionAtRestOptions: encryptionAtRestOptions, 
+            identityCenterOptions: identityCenterOptions, 
             ipAddressType: ipAddressType, 
             logPublishingOptions: logPublishingOptions, 
             nodeToNodeEncryptionOptions: nodeToNodeEncryptionOptions, 
@@ -2183,25 +2449,66 @@ public struct OpenSearch: AWSService {
     ///
     /// Parameters:
     ///   - commitMessage: Commit message for the updated file, which is shown as part of GetPackageVersionHistoryResponse.
+    ///   - packageConfiguration: The updated configuration details for a package.
     ///   - packageDescription: A new description of the package.
+    ///   - packageEncryptionOptions: Encryption options for a package.
     ///   - packageID: The unique identifier for the package.
     ///   - packageSource: Amazon S3 bucket and key for the package.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePackage(
         commitMessage: String? = nil,
+        packageConfiguration: PackageConfiguration? = nil,
         packageDescription: String? = nil,
+        packageEncryptionOptions: PackageEncryptionOptions? = nil,
         packageID: String,
         packageSource: PackageSource,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePackageResponse {
         let input = UpdatePackageRequest(
             commitMessage: commitMessage, 
+            packageConfiguration: packageConfiguration, 
             packageDescription: packageDescription, 
+            packageEncryptionOptions: packageEncryptionOptions, 
             packageID: packageID, 
             packageSource: packageSource
         )
         return try await self.updatePackage(input, logger: logger)
+    }
+
+    /// Updates the scope of a package. Scope of the package defines users who can view and associate a package.
+    @Sendable
+    @inlinable
+    public func updatePackageScope(_ input: UpdatePackageScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageScopeResponse {
+        try await self.client.execute(
+            operation: "UpdatePackageScope", 
+            path: "/2021-01-01/packages/updateScope", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the scope of a package. Scope of the package defines users who can view and associate a package.
+    ///
+    /// Parameters:
+    ///   - operation:  The operation to perform on the package scope (e.g., add/remove/override users).
+    ///   - packageID: ID of the package whose scope is being updated.
+    ///   - packageUserList:  List of users to be added or removed from the package scope.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePackageScope(
+        operation: PackageScopeOperationEnum,
+        packageID: String,
+        packageUserList: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePackageScopeResponse {
+        let input = UpdatePackageScopeRequest(
+            operation: operation, 
+            packageID: packageID, 
+            packageUserList: packageUserList
+        )
+        return try await self.updatePackageScope(input, logger: logger)
     }
 
     /// Reschedules a planned domain configuration change for a later time. This change can be a scheduled service software update or a blue/green Auto-Tune enhancement.
@@ -2625,6 +2932,43 @@ extension OpenSearch {
         return self.getUpgradeHistoryPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listApplications(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listApplicationsPaginator(
+        _ input: ListApplicationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationsRequest, ListApplicationsResponse> {
+        return .init(
+            input: input,
+            command: self.listApplications,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listApplications(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: 
+    ///   - statuses: OpenSearch Application Status can be used as filters for the listing request. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listApplicationsPaginator(
+        maxResults: Int? = nil,
+        statuses: [ApplicationStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListApplicationsRequest, ListApplicationsResponse> {
+        let input = ListApplicationsRequest(
+            maxResults: maxResults, 
+            statuses: statuses
+        )
+        return self.listApplicationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDomainMaintenances(_:logger:)``.
     ///
     /// - Parameters:
@@ -2944,6 +3288,17 @@ extension OpenSearch.GetUpgradeHistoryRequest: AWSPaginateToken {
             domainName: self.domainName,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension OpenSearch.ListApplicationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> OpenSearch.ListApplicationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            statuses: self.statuses
         )
     }
 }

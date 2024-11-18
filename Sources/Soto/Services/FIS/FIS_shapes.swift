@@ -57,6 +57,15 @@ extension FIS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExperimentReportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "cancelled"
+        case completed = "completed"
+        case failed = "failed"
+        case pending = "pending"
+        case running = "running"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExperimentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "cancelled"
         case completed = "completed"
@@ -278,6 +287,41 @@ extension FIS {
         }
     }
 
+    public struct CreateExperimentTemplateReportConfigurationInput: AWSEncodableShape {
+        /// The data sources for the experiment report.
+        public let dataSources: ExperimentTemplateReportConfigurationDataSourcesInput?
+        /// The output destinations of the experiment report.
+        public let outputs: ExperimentTemplateReportConfigurationOutputsInput?
+        /// The duration after the experiment end time for the data sources to include in the report.
+        public let postExperimentDuration: String?
+        /// The duration before the experiment start time for the data sources to include in the report.
+        public let preExperimentDuration: String?
+
+        @inlinable
+        public init(dataSources: ExperimentTemplateReportConfigurationDataSourcesInput? = nil, outputs: ExperimentTemplateReportConfigurationOutputsInput? = nil, postExperimentDuration: String? = nil, preExperimentDuration: String? = nil) {
+            self.dataSources = dataSources
+            self.outputs = outputs
+            self.postExperimentDuration = postExperimentDuration
+            self.preExperimentDuration = preExperimentDuration
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSources?.validate(name: "\(name).dataSources")
+            try self.outputs?.validate(name: "\(name).outputs")
+            try self.validate(self.postExperimentDuration, name: "postExperimentDuration", parent: name, max: 32)
+            try self.validate(self.postExperimentDuration, name: "postExperimentDuration", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.preExperimentDuration, name: "preExperimentDuration", parent: name, max: 32)
+            try self.validate(self.preExperimentDuration, name: "preExperimentDuration", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSources = "dataSources"
+            case outputs = "outputs"
+            case postExperimentDuration = "postExperimentDuration"
+            case preExperimentDuration = "preExperimentDuration"
+        }
+    }
+
     public struct CreateExperimentTemplateRequest: AWSEncodableShape {
         /// The actions for the experiment.
         public let actions: [String: CreateExperimentTemplateActionInput]
@@ -287,6 +331,8 @@ extension FIS {
         public let description: String
         /// The experiment options for the experiment template.
         public let experimentOptions: CreateExperimentTemplateExperimentOptionsInput?
+        /// The experiment report configuration for the experiment template.
+        public let experimentReportConfiguration: CreateExperimentTemplateReportConfigurationInput?
         /// The configuration for experiment logging.
         public let logConfiguration: CreateExperimentTemplateLogConfigurationInput?
         /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf.
@@ -299,11 +345,12 @@ extension FIS {
         public let targets: [String: CreateExperimentTemplateTargetInput]?
 
         @inlinable
-        public init(actions: [String: CreateExperimentTemplateActionInput], clientToken: String = CreateExperimentTemplateRequest.idempotencyToken(), description: String, experimentOptions: CreateExperimentTemplateExperimentOptionsInput? = nil, logConfiguration: CreateExperimentTemplateLogConfigurationInput? = nil, roleArn: String, stopConditions: [CreateExperimentTemplateStopConditionInput], tags: [String: String]? = nil, targets: [String: CreateExperimentTemplateTargetInput]? = nil) {
+        public init(actions: [String: CreateExperimentTemplateActionInput], clientToken: String = CreateExperimentTemplateRequest.idempotencyToken(), description: String, experimentOptions: CreateExperimentTemplateExperimentOptionsInput? = nil, experimentReportConfiguration: CreateExperimentTemplateReportConfigurationInput? = nil, logConfiguration: CreateExperimentTemplateLogConfigurationInput? = nil, roleArn: String, stopConditions: [CreateExperimentTemplateStopConditionInput], tags: [String: String]? = nil, targets: [String: CreateExperimentTemplateTargetInput]? = nil) {
             self.actions = actions
             self.clientToken = clientToken
             self.description = description
             self.experimentOptions = experimentOptions
+            self.experimentReportConfiguration = experimentReportConfiguration
             self.logConfiguration = logConfiguration
             self.roleArn = roleArn
             self.stopConditions = stopConditions
@@ -322,6 +369,7 @@ extension FIS {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\S]+$")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.experimentReportConfiguration?.validate(name: "\(name).experimentReportConfiguration")
             try self.logConfiguration?.validate(name: "\(name).logConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
@@ -348,6 +396,7 @@ extension FIS {
             case clientToken = "clientToken"
             case description = "description"
             case experimentOptions = "experimentOptions"
+            case experimentReportConfiguration = "experimentReportConfiguration"
             case logConfiguration = "logConfiguration"
             case roleArn = "roleArn"
             case stopConditions = "stopConditions"
@@ -620,6 +669,10 @@ extension FIS {
         public let endTime: Date?
         /// The experiment options for the experiment.
         public let experimentOptions: ExperimentOptions?
+        /// The experiment report for the experiment.
+        public let experimentReport: ExperimentReport?
+        /// The experiment report configuration for the experiment.
+        public let experimentReportConfiguration: ExperimentReportConfiguration?
         /// The ID of the experiment template.
         public let experimentTemplateId: String?
         /// The ID of the experiment.
@@ -642,12 +695,14 @@ extension FIS {
         public let targets: [String: ExperimentTarget]?
 
         @inlinable
-        public init(actions: [String: ExperimentAction]? = nil, arn: String? = nil, creationTime: Date? = nil, endTime: Date? = nil, experimentOptions: ExperimentOptions? = nil, experimentTemplateId: String? = nil, id: String? = nil, logConfiguration: ExperimentLogConfiguration? = nil, roleArn: String? = nil, startTime: Date? = nil, state: ExperimentState? = nil, stopConditions: [ExperimentStopCondition]? = nil, tags: [String: String]? = nil, targetAccountConfigurationsCount: Int64? = nil, targets: [String: ExperimentTarget]? = nil) {
+        public init(actions: [String: ExperimentAction]? = nil, arn: String? = nil, creationTime: Date? = nil, endTime: Date? = nil, experimentOptions: ExperimentOptions? = nil, experimentReport: ExperimentReport? = nil, experimentReportConfiguration: ExperimentReportConfiguration? = nil, experimentTemplateId: String? = nil, id: String? = nil, logConfiguration: ExperimentLogConfiguration? = nil, roleArn: String? = nil, startTime: Date? = nil, state: ExperimentState? = nil, stopConditions: [ExperimentStopCondition]? = nil, tags: [String: String]? = nil, targetAccountConfigurationsCount: Int64? = nil, targets: [String: ExperimentTarget]? = nil) {
             self.actions = actions
             self.arn = arn
             self.creationTime = creationTime
             self.endTime = endTime
             self.experimentOptions = experimentOptions
+            self.experimentReport = experimentReport
+            self.experimentReportConfiguration = experimentReportConfiguration
             self.experimentTemplateId = experimentTemplateId
             self.id = id
             self.logConfiguration = logConfiguration
@@ -666,6 +721,8 @@ extension FIS {
             case creationTime = "creationTime"
             case endTime = "endTime"
             case experimentOptions = "experimentOptions"
+            case experimentReport = "experimentReport"
+            case experimentReportConfiguration = "experimentReportConfiguration"
             case experimentTemplateId = "experimentTemplateId"
             case id = "id"
             case logConfiguration = "logConfiguration"
@@ -816,6 +873,164 @@ extension FIS {
             case accountTargeting = "accountTargeting"
             case actionsMode = "actionsMode"
             case emptyTargetResolutionMode = "emptyTargetResolutionMode"
+        }
+    }
+
+    public struct ExperimentReport: AWSDecodableShape {
+        /// The S3 destination of the experiment report.
+        public let s3Reports: [ExperimentReportS3Report]?
+        /// The state of the experiment report.
+        public let state: ExperimentReportState?
+
+        @inlinable
+        public init(s3Reports: [ExperimentReportS3Report]? = nil, state: ExperimentReportState? = nil) {
+            self.s3Reports = s3Reports
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Reports = "s3Reports"
+            case state = "state"
+        }
+    }
+
+    public struct ExperimentReportConfiguration: AWSDecodableShape {
+        /// The data sources for the experiment report.
+        public let dataSources: ExperimentReportConfigurationDataSources?
+        /// The output destinations of the experiment report.
+        public let outputs: ExperimentReportConfigurationOutputs?
+        /// The duration after the experiment end time for the data sources to include in the report.
+        public let postExperimentDuration: String?
+        /// The duration before the experiment start time for the data sources to include in the report.
+        public let preExperimentDuration: String?
+
+        @inlinable
+        public init(dataSources: ExperimentReportConfigurationDataSources? = nil, outputs: ExperimentReportConfigurationOutputs? = nil, postExperimentDuration: String? = nil, preExperimentDuration: String? = nil) {
+            self.dataSources = dataSources
+            self.outputs = outputs
+            self.postExperimentDuration = postExperimentDuration
+            self.preExperimentDuration = preExperimentDuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSources = "dataSources"
+            case outputs = "outputs"
+            case postExperimentDuration = "postExperimentDuration"
+            case preExperimentDuration = "preExperimentDuration"
+        }
+    }
+
+    public struct ExperimentReportConfigurationCloudWatchDashboard: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the CloudWatch dashboard to include in the experiment report.
+        public let dashboardIdentifier: String?
+
+        @inlinable
+        public init(dashboardIdentifier: String? = nil) {
+            self.dashboardIdentifier = dashboardIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardIdentifier = "dashboardIdentifier"
+        }
+    }
+
+    public struct ExperimentReportConfigurationDataSources: AWSDecodableShape {
+        /// The CloudWatch dashboards to include as data sources in the experiment report.
+        public let cloudWatchDashboards: [ExperimentReportConfigurationCloudWatchDashboard]?
+
+        @inlinable
+        public init(cloudWatchDashboards: [ExperimentReportConfigurationCloudWatchDashboard]? = nil) {
+            self.cloudWatchDashboards = cloudWatchDashboards
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchDashboards = "cloudWatchDashboards"
+        }
+    }
+
+    public struct ExperimentReportConfigurationOutputs: AWSDecodableShape {
+        /// The S3 destination for the experiment report.
+        public let s3Configuration: ExperimentReportConfigurationOutputsS3Configuration?
+
+        @inlinable
+        public init(s3Configuration: ExperimentReportConfigurationOutputsS3Configuration? = nil) {
+            self.s3Configuration = s3Configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Configuration = "s3Configuration"
+        }
+    }
+
+    public struct ExperimentReportConfigurationOutputsS3Configuration: AWSDecodableShape {
+        /// The name of the S3 bucket where the experiment report will be stored.
+        public let bucketName: String?
+        /// The prefix of the S3 bucket where the experiment report will be stored.
+        public let prefix: String?
+
+        @inlinable
+        public init(bucketName: String? = nil, prefix: String? = nil) {
+            self.bucketName = bucketName
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case prefix = "prefix"
+        }
+    }
+
+    public struct ExperimentReportError: AWSDecodableShape {
+        /// The error code for the failed experiment report generation.
+        public let code: String?
+
+        @inlinable
+        public init(code: String? = nil) {
+            self.code = code
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+        }
+    }
+
+    public struct ExperimentReportS3Report: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the generated report.
+        public let arn: String?
+        /// The report type for the experiment report.
+        public let reportType: String?
+
+        @inlinable
+        public init(arn: String? = nil, reportType: String? = nil) {
+            self.arn = arn
+            self.reportType = reportType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case reportType = "reportType"
+        }
+    }
+
+    public struct ExperimentReportState: AWSDecodableShape {
+        /// The error information of the experiment when the experiment report generation has failed.
+        public let error: ExperimentReportError?
+        /// The reason for the state of the experiment report generation.
+        public let reason: String?
+        /// The state of the experiment report generation.
+        public let status: ExperimentReportStatus?
+
+        @inlinable
+        public init(error: ExperimentReportError? = nil, reason: String? = nil, status: ExperimentReportStatus? = nil) {
+            self.error = error
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case reason = "reason"
+            case status = "status"
         }
     }
 
@@ -1022,6 +1237,8 @@ extension FIS {
         public let description: String?
         /// The experiment options for an experiment template.
         public let experimentOptions: ExperimentTemplateExperimentOptions?
+        /// Describes the report configuration for the experiment template.
+        public let experimentReportConfiguration: ExperimentTemplateReportConfiguration?
         /// The ID of the experiment template.
         public let id: String?
         /// The time the experiment template was last updated.
@@ -1040,12 +1257,13 @@ extension FIS {
         public let targets: [String: ExperimentTemplateTarget]?
 
         @inlinable
-        public init(actions: [String: ExperimentTemplateAction]? = nil, arn: String? = nil, creationTime: Date? = nil, description: String? = nil, experimentOptions: ExperimentTemplateExperimentOptions? = nil, id: String? = nil, lastUpdateTime: Date? = nil, logConfiguration: ExperimentTemplateLogConfiguration? = nil, roleArn: String? = nil, stopConditions: [ExperimentTemplateStopCondition]? = nil, tags: [String: String]? = nil, targetAccountConfigurationsCount: Int64? = nil, targets: [String: ExperimentTemplateTarget]? = nil) {
+        public init(actions: [String: ExperimentTemplateAction]? = nil, arn: String? = nil, creationTime: Date? = nil, description: String? = nil, experimentOptions: ExperimentTemplateExperimentOptions? = nil, experimentReportConfiguration: ExperimentTemplateReportConfiguration? = nil, id: String? = nil, lastUpdateTime: Date? = nil, logConfiguration: ExperimentTemplateLogConfiguration? = nil, roleArn: String? = nil, stopConditions: [ExperimentTemplateStopCondition]? = nil, tags: [String: String]? = nil, targetAccountConfigurationsCount: Int64? = nil, targets: [String: ExperimentTemplateTarget]? = nil) {
             self.actions = actions
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.experimentOptions = experimentOptions
+            self.experimentReportConfiguration = experimentReportConfiguration
             self.id = id
             self.lastUpdateTime = lastUpdateTime
             self.logConfiguration = logConfiguration
@@ -1062,6 +1280,7 @@ extension FIS {
             case creationTime = "creationTime"
             case description = "description"
             case experimentOptions = "experimentOptions"
+            case experimentReportConfiguration = "experimentReportConfiguration"
             case id = "id"
             case lastUpdateTime = "lastUpdateTime"
             case logConfiguration = "logConfiguration"
@@ -1173,6 +1392,112 @@ extension FIS {
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogsConfiguration = "cloudWatchLogsConfiguration"
             case logSchemaVersion = "logSchemaVersion"
+            case s3Configuration = "s3Configuration"
+        }
+    }
+
+    public struct ExperimentTemplateReportConfiguration: AWSDecodableShape {
+        /// The data sources for the experiment report.
+        public let dataSources: ExperimentTemplateReportConfigurationDataSources?
+        /// Describes the output destinations of the experiment report.
+        public let outputs: ExperimentTemplateReportConfigurationOutputs?
+        /// The duration after the experiment end time for the data sources to include in the report.
+        public let postExperimentDuration: String?
+        /// The duration before the experiment start time for the data sources to include in the report.
+        public let preExperimentDuration: String?
+
+        @inlinable
+        public init(dataSources: ExperimentTemplateReportConfigurationDataSources? = nil, outputs: ExperimentTemplateReportConfigurationOutputs? = nil, postExperimentDuration: String? = nil, preExperimentDuration: String? = nil) {
+            self.dataSources = dataSources
+            self.outputs = outputs
+            self.postExperimentDuration = postExperimentDuration
+            self.preExperimentDuration = preExperimentDuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSources = "dataSources"
+            case outputs = "outputs"
+            case postExperimentDuration = "postExperimentDuration"
+            case preExperimentDuration = "preExperimentDuration"
+        }
+    }
+
+    public struct ExperimentTemplateReportConfigurationCloudWatchDashboard: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the CloudWatch dashboard to include in the experiment report.
+        public let dashboardIdentifier: String?
+
+        @inlinable
+        public init(dashboardIdentifier: String? = nil) {
+            self.dashboardIdentifier = dashboardIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardIdentifier = "dashboardIdentifier"
+        }
+    }
+
+    public struct ExperimentTemplateReportConfigurationDataSources: AWSDecodableShape {
+        /// The CloudWatch dashboards to include as data sources in the experiment report.
+        public let cloudWatchDashboards: [ExperimentTemplateReportConfigurationCloudWatchDashboard]?
+
+        @inlinable
+        public init(cloudWatchDashboards: [ExperimentTemplateReportConfigurationCloudWatchDashboard]? = nil) {
+            self.cloudWatchDashboards = cloudWatchDashboards
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchDashboards = "cloudWatchDashboards"
+        }
+    }
+
+    public struct ExperimentTemplateReportConfigurationDataSourcesInput: AWSEncodableShape {
+        /// The CloudWatch dashboards to include as data sources in the experiment report.
+        public let cloudWatchDashboards: [ReportConfigurationCloudWatchDashboardInput]?
+
+        @inlinable
+        public init(cloudWatchDashboards: [ReportConfigurationCloudWatchDashboardInput]? = nil) {
+            self.cloudWatchDashboards = cloudWatchDashboards
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchDashboards?.forEach {
+                try $0.validate(name: "\(name).cloudWatchDashboards[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchDashboards = "cloudWatchDashboards"
+        }
+    }
+
+    public struct ExperimentTemplateReportConfigurationOutputs: AWSDecodableShape {
+        /// The S3 destination for the experiment report.
+        public let s3Configuration: ReportConfigurationS3Output?
+
+        @inlinable
+        public init(s3Configuration: ReportConfigurationS3Output? = nil) {
+            self.s3Configuration = s3Configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Configuration = "s3Configuration"
+        }
+    }
+
+    public struct ExperimentTemplateReportConfigurationOutputsInput: AWSEncodableShape {
+        /// The S3 destination for the experiment report.
+        public let s3Configuration: ReportConfigurationS3OutputInput?
+
+        @inlinable
+        public init(s3Configuration: ReportConfigurationS3OutputInput? = nil) {
+            self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case s3Configuration = "s3Configuration"
         }
     }
@@ -2024,6 +2349,70 @@ extension FIS {
         }
     }
 
+    public struct ReportConfigurationCloudWatchDashboardInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the CloudWatch dashboard to include in the experiment report.
+        public let dashboardIdentifier: String?
+
+        @inlinable
+        public init(dashboardIdentifier: String? = nil) {
+            self.dashboardIdentifier = dashboardIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dashboardIdentifier, name: "dashboardIdentifier", parent: name, max: 512)
+            try self.validate(self.dashboardIdentifier, name: "dashboardIdentifier", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardIdentifier = "dashboardIdentifier"
+        }
+    }
+
+    public struct ReportConfigurationS3Output: AWSDecodableShape {
+        /// The name of the S3 bucket where the experiment report will be stored.
+        public let bucketName: String?
+        /// The prefix of the S3 bucket where the experiment report will be stored.
+        public let prefix: String?
+
+        @inlinable
+        public init(bucketName: String? = nil, prefix: String? = nil) {
+            self.bucketName = bucketName
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case prefix = "prefix"
+        }
+    }
+
+    public struct ReportConfigurationS3OutputInput: AWSEncodableShape {
+        /// The name of the S3 bucket where the experiment report will be stored.
+        public let bucketName: String?
+        /// The prefix of the S3 bucket where the experiment report will be stored.
+        public let prefix: String?
+
+        @inlinable
+        public init(bucketName: String? = nil, prefix: String? = nil) {
+            self.bucketName = bucketName
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^[\\s\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case prefix = "prefix"
+        }
+    }
+
     public struct ResolvedTarget: AWSDecodableShape {
         /// The resource type of the target.
         public let resourceType: String?
@@ -2465,6 +2854,41 @@ extension FIS {
         }
     }
 
+    public struct UpdateExperimentTemplateReportConfigurationInput: AWSEncodableShape {
+        /// The data sources for the experiment report.
+        public let dataSources: ExperimentTemplateReportConfigurationDataSourcesInput?
+        /// Describes the output destinations of the experiment report.
+        public let outputs: ExperimentTemplateReportConfigurationOutputsInput?
+        /// The duration after the experiment end time for the data sources to include in the report.
+        public let postExperimentDuration: String?
+        /// The duration before the experiment start time for the data sources to include in the report.
+        public let preExperimentDuration: String?
+
+        @inlinable
+        public init(dataSources: ExperimentTemplateReportConfigurationDataSourcesInput? = nil, outputs: ExperimentTemplateReportConfigurationOutputsInput? = nil, postExperimentDuration: String? = nil, preExperimentDuration: String? = nil) {
+            self.dataSources = dataSources
+            self.outputs = outputs
+            self.postExperimentDuration = postExperimentDuration
+            self.preExperimentDuration = preExperimentDuration
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSources?.validate(name: "\(name).dataSources")
+            try self.outputs?.validate(name: "\(name).outputs")
+            try self.validate(self.postExperimentDuration, name: "postExperimentDuration", parent: name, max: 32)
+            try self.validate(self.postExperimentDuration, name: "postExperimentDuration", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.preExperimentDuration, name: "preExperimentDuration", parent: name, max: 32)
+            try self.validate(self.preExperimentDuration, name: "preExperimentDuration", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSources = "dataSources"
+            case outputs = "outputs"
+            case postExperimentDuration = "postExperimentDuration"
+            case preExperimentDuration = "preExperimentDuration"
+        }
+    }
+
     public struct UpdateExperimentTemplateRequest: AWSEncodableShape {
         /// The actions for the experiment.
         public let actions: [String: UpdateExperimentTemplateActionInputItem]?
@@ -2472,6 +2896,8 @@ extension FIS {
         public let description: String?
         /// The experiment options for the experiment template.
         public let experimentOptions: UpdateExperimentTemplateExperimentOptionsInput?
+        /// The experiment report configuration for the experiment template.
+        public let experimentReportConfiguration: UpdateExperimentTemplateReportConfigurationInput?
         /// The ID of the experiment template.
         public let id: String
         /// The configuration for experiment logging.
@@ -2484,10 +2910,11 @@ extension FIS {
         public let targets: [String: UpdateExperimentTemplateTargetInput]?
 
         @inlinable
-        public init(actions: [String: UpdateExperimentTemplateActionInputItem]? = nil, description: String? = nil, experimentOptions: UpdateExperimentTemplateExperimentOptionsInput? = nil, id: String, logConfiguration: UpdateExperimentTemplateLogConfigurationInput? = nil, roleArn: String? = nil, stopConditions: [UpdateExperimentTemplateStopConditionInput]? = nil, targets: [String: UpdateExperimentTemplateTargetInput]? = nil) {
+        public init(actions: [String: UpdateExperimentTemplateActionInputItem]? = nil, description: String? = nil, experimentOptions: UpdateExperimentTemplateExperimentOptionsInput? = nil, experimentReportConfiguration: UpdateExperimentTemplateReportConfigurationInput? = nil, id: String, logConfiguration: UpdateExperimentTemplateLogConfigurationInput? = nil, roleArn: String? = nil, stopConditions: [UpdateExperimentTemplateStopConditionInput]? = nil, targets: [String: UpdateExperimentTemplateTargetInput]? = nil) {
             self.actions = actions
             self.description = description
             self.experimentOptions = experimentOptions
+            self.experimentReportConfiguration = experimentReportConfiguration
             self.id = id
             self.logConfiguration = logConfiguration
             self.roleArn = roleArn
@@ -2501,6 +2928,7 @@ extension FIS {
             try container.encodeIfPresent(self.actions, forKey: .actions)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.experimentOptions, forKey: .experimentOptions)
+            try container.encodeIfPresent(self.experimentReportConfiguration, forKey: .experimentReportConfiguration)
             request.encodePath(self.id, key: "id")
             try container.encodeIfPresent(self.logConfiguration, forKey: .logConfiguration)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
@@ -2516,6 +2944,7 @@ extension FIS {
             }
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
+            try self.experimentReportConfiguration?.validate(name: "\(name).experimentReportConfiguration")
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\S]+$")
             try self.logConfiguration?.validate(name: "\(name).logConfiguration")
@@ -2536,6 +2965,7 @@ extension FIS {
             case actions = "actions"
             case description = "description"
             case experimentOptions = "experimentOptions"
+            case experimentReportConfiguration = "experimentReportConfiguration"
             case logConfiguration = "logConfiguration"
             case roleArn = "roleArn"
             case stopConditions = "stopConditions"

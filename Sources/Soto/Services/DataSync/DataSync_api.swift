@@ -176,7 +176,7 @@ public struct DataSync: AWSService {
         return try await self.cancelTaskExecution(input, logger: logger)
     }
 
-    /// Activates an DataSync agent that you've deployed in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see the following topics to learn more:    Agent requirements     Create an agent     If you're transferring between Amazon Web Services storage services, you don't need a DataSync agent.
+    /// Activates an DataSync agent that you deploy in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see Do I need a DataSync agent?
     @Sendable
     @inlinable
     public func createAgent(_ input: CreateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentResponse {
@@ -189,15 +189,15 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Activates an DataSync agent that you've deployed in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see the following topics to learn more:    Agent requirements     Create an agent     If you're transferring between Amazon Web Services storage services, you don't need a DataSync agent.
+    /// Activates an DataSync agent that you deploy in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see Do I need a DataSync agent?
     ///
     /// Parameters:
-    ///   - activationKey: Specifies your DataSync agent's activation key. If you don't have an activation key, see Activate your agent.
-    ///   - agentName: Specifies a name for your agent. You can see this name in the DataSync console.
-    ///   - securityGroupArns: Specifies the Amazon Resource Name (ARN) of the security group that protects your task's network interfaces when using a virtual private cloud (VPC) endpoint. You can only specify one ARN.
-    ///   - subnetArns: Specifies the ARN of the subnet where you want to run your DataSync task when using a VPC endpoint. This is the subnet where DataSync creates and manages the network interfaces for your transfer. You can only specify one ARN.
+    ///   - activationKey: Specifies your DataSync agent's activation key. If you don't have an activation key, see Activating your agent.
+    ///   - agentName: Specifies a name for your agent. We recommend specifying a name that you can remember.
+    ///   - securityGroupArns: Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN.
+    ///   - subnetArns: Specifies the ARN of the subnet where your VPC service endpoint is located. You can only specify one ARN.
     ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least one tag for your agent.
-    ///   - vpcEndpointId: Specifies the ID of the VPC endpoint that you want your agent to connect to. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1.  The VPC endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).
+    ///   - vpcEndpointId: Specifies the ID of the VPC service endpoint that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1.  The VPC service endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).
     ///   - logger: Logger use during operation
     @inlinable
     public func createAgent(
@@ -286,12 +286,12 @@ public struct DataSync: AWSService {
     /// Creates a transfer location for an Amazon EFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses Amazon EFS file systems.
     ///
     /// Parameters:
-    ///   - accessPointArn: Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to access the Amazon EFS file system.
-    ///   - ec2Config: Specifies the subnet and security groups DataSync uses to access your Amazon EFS file system.
-    ///   - efsFilesystemArn: Specifies the ARN for the Amazon EFS file system.
-    ///   - fileSystemAccessRoleArn: Specifies an Identity and Access Management (IAM) role that DataSync assumes when mounting the Amazon EFS file system.
-    ///   - inTransitEncryption: Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it copies data to or from the Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
-    ///   - subdirectory: Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data (depending on if this is a source or destination location). By default, DataSync uses the root directory, but you can also include subdirectories.  You must specify a value with forward slashes (for example, /path/to/folder).
+    ///   - accessPointArn: Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to mount your Amazon EFS file system. For more information, see Accessing restricted file systems.
+    ///   - ec2Config: Specifies the subnet and security groups DataSync uses to connect to one of your Amazon EFS file system's mount targets.
+    ///   - efsFilesystemArn: Specifies the ARN for your Amazon EFS file system.
+    ///   - fileSystemAccessRoleArn: Specifies an Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For information on creating this role, see Creating a DataSync IAM role for file system access.
+    ///   - inTransitEncryption: Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
+    ///   - subdirectory: Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data (depending on if this is a source or destination location) on your file system. By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
     ///   - tags: Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
     ///   - logger: Logger use during operation
     @inlinable
@@ -456,7 +456,7 @@ public struct DataSync: AWSService {
     ///   - domain: Specifies the name of the Microsoft Active Directory domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
     ///   - fsxFilesystemArn: Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
     ///   - password: Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system.
-    ///   - securityGroupArns: Specifies the ARNs of the security groups that provide access to your file system's preferred subnet.  If you choose a security group that doesn't allow connections from within itself, do one of the following:   Configure the security group to allow it to communicate within itself.   Choose a different security group that can communicate with the mount target's security group.
+    ///   - securityGroupArns: Specifies the ARNs of the Amazon EC2 security groups that provide access to your file system's preferred subnet. The security groups that you specify must be able to communicate with your file system's security groups. For information about configuring security groups for file system access, see the  Amazon FSx for Windows File Server User Guide .  If you choose a security group that doesn't allow connections from within itself, do one of the following:   Configure the security group to allow it to communicate within itself.   Choose a different security group that can communicate with the mount target's security group.
     ///   - subdirectory: Specifies a mount path for your file system using forward slashes. This is where DataSync reads or writes data (depending on if this is a source or destination location).
     ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
     ///   - user: Specifies the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. For information about choosing a user with the right level of access for your transfer, see required permissions for FSx for Windows File Server locations.
@@ -500,7 +500,7 @@ public struct DataSync: AWSService {
     /// Creates a transfer location for a Hadoop Distributed File System (HDFS). DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses HDFS clusters.
     ///
     /// Parameters:
-    ///   - agentArns: The Amazon Resource Names (ARNs) of the agents that are used to connect to the HDFS cluster.
+    ///   - agentArns: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
     ///   - authenticationType: The type of authentication used to determine the identity of the user.
     ///   - blockSize: The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
     ///   - kerberosKeytab: The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you're using the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is required.
@@ -566,7 +566,7 @@ public struct DataSync: AWSService {
     ///
     /// Parameters:
     ///   - mountOptions: Specifies the options that DataSync can use to mount your NFS file server.
-    ///   - onPremConfig: Specifies the Amazon Resource Name (ARN) of the DataSync agent that want to connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple agents for transfers.
+    ///   - onPremConfig: Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple DataSync agents.
     ///   - serverHostname: Specifies the Domain Name System (DNS) name or IP version 4 address of the NFS file server that your DataSync agent connects to.
     ///   - subdirectory: Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see Accessing NFS file servers.
     ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
@@ -607,7 +607,7 @@ public struct DataSync: AWSService {
     ///
     /// Parameters:
     ///   - accessKey: Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
-    ///   - agentArns: Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can securely connect with your location.
+    ///   - agentArns: Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system.
     ///   - bucketName: Specifies the name of the object storage bucket involved in the transfer.
     ///   - secretKey: Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
     ///   - serverCertificate: Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:   The object storage system's certificate   All intermediate certificates (if there are any)   The root certificate of the signing CA   You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates:  cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem  To use this parameter, configure ServerProtocol to HTTPS.
@@ -706,7 +706,7 @@ public struct DataSync: AWSService {
     /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers.
     ///
     /// Parameters:
-    ///   - agentArns: Specifies the DataSync agent (or agents) which you want to connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
+    ///   - agentArns: Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     ///   - domain: Specifies the name of the Active Directory domain that your SMB file server belongs to.  If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
     ///   - mountOptions: Specifies the version of the SMB protocol that DataSync uses to access your SMB file server.
     ///   - password: Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. For more information, see required permissions for SMB locations.
@@ -756,16 +756,17 @@ public struct DataSync: AWSService {
     /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, destination location, and transfer options (such as bandwidth limits, scheduling, and more).  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     ///
     /// Parameters:
-    ///   - cloudWatchLogGroupArn: Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task.
+    ///   - cloudWatchLogGroupArn: Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task. For Enhanced mode tasks, you don't need to specify anything. DataSync automatically sends logs to a CloudWatch log group named /aws/datasync.
     ///   - destinationLocationArn: Specifies the ARN of your transfer's destination location.
     ///   - excludes: Specifies exclude filters that define the files, objects, and folders in your source location that you don't want DataSync to transfer. For more information and examples, see Specifying what DataSync transfers by using filters.
-    ///   - includes: Specifies include filters define the files, objects, and folders in your source location that you want DataSync to transfer. For more information and examples, see Specifying what DataSync transfers by using filters.
+    ///   - includes: Specifies include filters that define the files, objects, and folders in your source location that you want DataSync to transfer. For more information and examples, see Specifying what DataSync transfers by using filters.
     ///   - manifestConfig: Configures a manifest, which is a list of files or objects that you want DataSync to transfer. For more information and configuration examples, see Specifying what DataSync transfers by using a manifest. When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The AWSDataSyncFullAccess policy includes this permission.
     ///   - name: Specifies the name of your task.
     ///   - options: Specifies your task's settings, such as preserving file metadata, verifying data integrity, among other options.
     ///   - schedule: Specifies a schedule for when you want your task to run. For more information, see Scheduling your task.
     ///   - sourceLocationArn: Specifies the ARN of your transfer's source location.
     ///   - tags: Specifies the tags that you want to apply to your task.  Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
+    ///   - taskMode: Specifies one of the following task modes for your data transfer:    ENHANCED - Transfer virtually unlimited numbers of objects with higher performance than Basic mode. Enhanced mode tasks optimize the data transfer process by listing, preparing, transferring, and verifying data in parallel. Enhanced mode is currently available for transfers between Amazon S3 locations.  To create an Enhanced mode task, the IAM role that you use to call the CreateTask operation must have the iam:CreateServiceLinkedRole permission.     BASIC (default) - Transfer files or objects between Amazon Web Services storage and all other supported DataSync locations. Basic mode tasks are subject to quotas on the number of files, objects, and directories in a dataset. Basic mode sequentially prepares, transfers, and verifies data, making it slower than Enhanced mode for most workloads.   For more information, see Understanding task mode differences.
     ///   - taskReportConfig: Specifies how you want to configure a task report, which provides detailed information about your DataSync transfer. For more information, see Monitoring your DataSync transfers with task reports. When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The AWSDataSyncFullAccess policy includes this permission.
     ///   - logger: Logger use during operation
     @inlinable
@@ -780,6 +781,7 @@ public struct DataSync: AWSService {
         schedule: TaskSchedule? = nil,
         sourceLocationArn: String,
         tags: [TagListEntry]? = nil,
+        taskMode: TaskMode? = nil,
         taskReportConfig: TaskReportConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTaskResponse {
@@ -794,6 +796,7 @@ public struct DataSync: AWSService {
             schedule: schedule, 
             sourceLocationArn: sourceLocationArn, 
             tags: tags, 
+            taskMode: taskMode, 
             taskReportConfig: taskReportConfig
         )
         return try await self.createTask(input, logger: logger)
@@ -1416,7 +1419,7 @@ public struct DataSync: AWSService {
         return try await self.describeTask(input, logger: logger)
     }
 
-    /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing transfer or check the results of the transfer.
+    /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing data transfer or check the results of the transfer.  Some DescribeTaskExecution response elements are only relevant to a specific task mode. For information, see Understanding task mode differences and Understanding data transfer performance counters.
     @Sendable
     @inlinable
     public func describeTaskExecution(_ input: DescribeTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskExecutionResponse {
@@ -1429,7 +1432,7 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing transfer or check the results of the transfer.
+    /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing data transfer or check the results of the transfer.  Some DescribeTaskExecution response elements are only relevant to a specific task mode. For information, see Understanding task mode differences and Understanding data transfer performance counters.
     ///
     /// Parameters:
     ///   - taskExecutionArn: Specifies the Amazon Resource Name (ARN) of the task execution that you want information about.
@@ -1791,7 +1794,7 @@ public struct DataSync: AWSService {
         return try await self.startDiscoveryJob(input, logger: logger)
     }
 
-    /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see Task execution statuses.  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
+    /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several steps to a task execution. For more information, see Task execution statuses.  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     @Sendable
     @inlinable
     public func startTaskExecution(_ input: StartTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTaskExecutionResponse {
@@ -1804,7 +1807,7 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see Task execution statuses.  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
+    /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several steps to a task execution. For more information, see Task execution statuses.  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     ///
     /// Parameters:
     ///   - excludes: Specifies a list of filter rules that determines which files to exclude from a task. The list contains a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
@@ -2060,7 +2063,7 @@ public struct DataSync: AWSService {
     /// Updates some parameters of a previously created location for a Hadoop Distributed File System cluster.
     ///
     /// Parameters:
-    ///   - agentArns: The ARNs of the agents that are used to connect to the HDFS cluster.
+    ///   - agentArns: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
     ///   - authenticationType: The type of authentication used to determine the identity of the user.
     ///   - blockSize: The size of the data blocks to write into the HDFS cluster.
     ///   - kerberosKeytab: The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you use the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.
@@ -2164,7 +2167,7 @@ public struct DataSync: AWSService {
     ///
     /// Parameters:
     ///   - accessKey: Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
-    ///   - agentArns: Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can securely connect with your location.
+    ///   - agentArns: Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system.
     ///   - locationArn: Specifies the ARN of the object storage system location that you're updating.
     ///   - secretKey: Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
     ///   - serverCertificate: Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:   The object storage system's certificate   All intermediate certificates (if there are any)   The root certificate of the signing CA   You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates:  cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem  To use this parameter, configure ServerProtocol to HTTPS. Updating this parameter doesn't interfere with tasks that you have in progress.
@@ -2213,7 +2216,7 @@ public struct DataSync: AWSService {
     /// Updates some of the parameters of a Server Message Block (SMB) file server location that you can use for DataSync transfers.
     ///
     /// Parameters:
-    ///   - agentArns: Specifies the DataSync agent (or agents) which you want to connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
+    ///   - agentArns: Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     ///   - domain: Specifies the Windows domain name that your SMB file server belongs to.  If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. For more information, see required permissions for SMB locations.
     ///   - locationArn: Specifies the ARN of the SMB location that you want to update.
     ///   - mountOptions: 
@@ -2305,7 +2308,7 @@ public struct DataSync: AWSService {
     /// Updates the configuration of a task, which defines where and how DataSync transfers your data.
     ///
     /// Parameters:
-    ///   - cloudWatchLogGroupArn: Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task.
+    ///   - cloudWatchLogGroupArn: Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task. For Enhanced mode tasks, you must use /aws/datasync as your log group name. For example:  arn:aws:logs:us-east-1:111222333444:log-group:/aws/datasync:*  For more information, see Monitoring data transfers with CloudWatch Logs.
     ///   - excludes: Specifies exclude filters that define the files, objects, and folders in your source location that you don't want DataSync to transfer. For more information and examples, see Specifying what DataSync transfers by using filters.
     ///   - includes: Specifies include filters define the files, objects, and folders in your source location that you want DataSync to transfer. For more information and examples, see Specifying what DataSync transfers by using filters.
     ///   - manifestConfig: Configures a manifest, which is a list of files or objects that you want DataSync to transfer. For more information and configuration examples, see Specifying what DataSync transfers by using a manifest. When using this parameter, your caller identity (the IAM role that you're using DataSync with) must have the iam:PassRole permission. The AWSDataSyncFullAccess policy includes this permission. To remove a manifest configuration, specify this parameter as empty.

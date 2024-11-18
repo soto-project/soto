@@ -469,15 +469,15 @@ public struct IAM: AWSService {
     /// Creates a password for the specified IAM user. A password allows an IAM user to access Amazon Web Services services through the Amazon Web Services Management Console. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to create a password for any IAM user. Use ChangePassword to update your own existing password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about managing passwords, see Managing passwords in the IAM User Guide.
     ///
     /// Parameters:
-    ///   - password: The new password for the user. The regex pattern  that is used to validate this parameter is a string of characters. That string can include almost any printable  ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF).  You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D)  characters. Any of these characters are valid in a password. However, many tools, such  as the Amazon Web Services Management Console, might restrict the ability to type certain characters because they have  special meaning within that tool.
+    ///   - password: The new password for the user. This parameter must be omitted when you make the request with an AssumeRoot session. It is required in all other cases. The regex pattern  that is used to validate this parameter is a string of characters. That string can include almost any printable  ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF).  You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D)  characters. Any of these characters are valid in a password. However, many tools, such  as the Amazon Web Services Management Console, might restrict the ability to type certain characters because they have  special meaning within that tool.
     ///   - passwordResetRequired: Specifies whether the user is required to set a new password on next sign-in.
-    ///   - userName: The name of the IAM user to create a password for. The user must already exist. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
+    ///   - userName: The name of the IAM user to create a password for. The user must already exist. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an AssumeRoot session to omit the user name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
     ///   - logger: Logger use during operation
     @inlinable
     public func createLoginProfile(
-        password: String,
+        password: String? = nil,
         passwordResetRequired: Bool? = nil,
-        userName: String,
+        userName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateLoginProfileResponse {
         let input = CreateLoginProfileRequest(
@@ -841,12 +841,12 @@ public struct IAM: AWSService {
     ///
     /// Parameters:
     ///   - serialNumber: The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (through its regex pattern) a string of characters consisting  of upper and lowercase alphanumeric characters with no spaces. You can also include any of the  following characters: =,.@:/-
-    ///   - userName: The name of the user whose MFA device you want to deactivate. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
+    ///   - userName: The name of the user whose MFA device you want to deactivate. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an AssumeRoot session to omit the user name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
     ///   - logger: Logger use during operation
     @inlinable
     public func deactivateMFADevice(
         serialNumber: String,
-        userName: String,
+        userName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = DeactivateMFADeviceRequest(
@@ -1036,11 +1036,11 @@ public struct IAM: AWSService {
     /// Deletes the password for the specified IAM user, For more information, see Managing passwords for IAM users. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to delete a password for any IAM user. You can use ChangePassword to update, but not delete, your own password in the My Security Credentials page in the Amazon Web Services Management Console.  Deleting a user's password does not prevent a user from accessing Amazon Web Services through the command line interface or the API. To prevent all user access, you must also either make any access keys inactive or delete them. For more information about making keys inactive or deleting them, see UpdateAccessKey and DeleteAccessKey.
     ///
     /// Parameters:
-    ///   - userName: The name of the user whose password you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
+    ///   - userName: The name of the user whose password you want to delete. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an AssumeRoot session to omit the user name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteLoginProfile(
-        userName: String,
+        userName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = DeleteLoginProfileRequest(
@@ -1627,6 +1627,58 @@ public struct IAM: AWSService {
         return try await self.detachUserPolicy(input, logger: logger)
     }
 
+    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer manage root user credentials for member accounts in your organization.
+    @Sendable
+    @inlinable
+    public func disableOrganizationsRootCredentialsManagement(_ input: DisableOrganizationsRootCredentialsManagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationsRootCredentialsManagementResponse {
+        try await self.client.execute(
+            operation: "DisableOrganizationsRootCredentialsManagement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer manage root user credentials for member accounts in your organization.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disableOrganizationsRootCredentialsManagement(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisableOrganizationsRootCredentialsManagementResponse {
+        let input = DisableOrganizationsRootCredentialsManagementRequest(
+        )
+        return try await self.disableOrganizationsRootCredentialsManagement(input, logger: logger)
+    }
+
+    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer perform privileged tasks on member accounts in your organization.
+    @Sendable
+    @inlinable
+    public func disableOrganizationsRootSessions(_ input: DisableOrganizationsRootSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationsRootSessionsResponse {
+        try await self.client.execute(
+            operation: "DisableOrganizationsRootSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer perform privileged tasks on member accounts in your organization.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disableOrganizationsRootSessions(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisableOrganizationsRootSessionsResponse {
+        let input = DisableOrganizationsRootSessionsRequest(
+        )
+        return try await self.disableOrganizationsRootSessions(input, logger: logger)
+    }
+
     /// Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device.
     @Sendable
     @inlinable
@@ -1663,6 +1715,58 @@ public struct IAM: AWSService {
             userName: userName
         )
         return try await self.enableMFADevice(input, logger: logger)
+    }
+
+    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for centralized root access, the management account and the delegated admininstrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    @Sendable
+    @inlinable
+    public func enableOrganizationsRootCredentialsManagement(_ input: EnableOrganizationsRootCredentialsManagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationsRootCredentialsManagementResponse {
+        try await self.client.execute(
+            operation: "EnableOrganizationsRootCredentialsManagement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for centralized root access, the management account and the delegated admininstrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func enableOrganizationsRootCredentialsManagement(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EnableOrganizationsRootCredentialsManagementResponse {
+        let input = EnableOrganizationsRootCredentialsManagementRequest(
+        )
+        return try await self.enableOrganizationsRootCredentialsManagement(input, logger: logger)
+    }
+
+    /// Allows the management account or delegated administrator to perform privileged tasks on member accounts in your organization. For more information, see Centrally manage root access for member accounts in the Identity and Access Management User Guide. Before you enable this feature, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    @Sendable
+    @inlinable
+    public func enableOrganizationsRootSessions(_ input: EnableOrganizationsRootSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationsRootSessionsResponse {
+        try await self.client.execute(
+            operation: "EnableOrganizationsRootSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows the management account or delegated administrator to perform privileged tasks on member accounts in your organization. For more information, see Centrally manage root access for member accounts in the Identity and Access Management User Guide. Before you enable this feature, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func enableOrganizationsRootSessions(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EnableOrganizationsRootSessionsResponse {
+        let input = EnableOrganizationsRootSessionsRequest(
+        )
+        return try await self.enableOrganizationsRootSessions(input, logger: logger)
     }
 
     ///  Generates a credential report for the Amazon Web Services account. For more information about the credential report, see Getting credential reports in the IAM User Guide.
@@ -2018,11 +2122,11 @@ public struct IAM: AWSService {
     /// Retrieves the user name for the specified IAM user. A login profile is created when you create a password for the user to access the Amazon Web Services Management Console. If the user does not exist or does not have a password, the operation returns a 404 (NoSuchEntity) error. If you create an IAM user with access to the console, the CreateDate reflects the date you created the initial password for the user. If you create an IAM user with programmatic access, and then later add a password for the user to access the Amazon Web Services Management Console, the CreateDate reflects the initial password creation date. A user with programmatic access does not have a login profile unless you create a password for the user to access the Amazon Web Services Management Console.
     ///
     /// Parameters:
-    ///   - userName: The name of the user whose login profile you want to retrieve. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
+    ///   - userName: The name of the user whose login profile you want to retrieve. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an AssumeRoot session to omit the user name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
     ///   - logger: Logger use during operation
     @inlinable
     public func getLoginProfile(
-        userName: String,
+        userName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetLoginProfileResponse {
         let input = GetLoginProfileRequest(
@@ -2543,7 +2647,7 @@ public struct IAM: AWSService {
         return try await self.listAccessKeys(input, logger: logger)
     }
 
-    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the IAM User Guide.
+    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User Guide.
     @Sendable
     @inlinable
     public func listAccountAliases(_ input: ListAccountAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountAliasesResponse {
@@ -2556,7 +2660,7 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the IAM User Guide.
+    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User Guide.
     ///
     /// Parameters:
     ///   - marker: Use this parameter only when paginating results and only after  you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call  should start.
@@ -3072,6 +3176,32 @@ public struct IAM: AWSService {
         let input = ListOpenIDConnectProvidersRequest(
         )
         return try await self.listOpenIDConnectProviders(input, logger: logger)
+    }
+
+    /// Lists the centralized root access features enabled for your organization. For more information, see Centrally manage root access for member accounts.
+    @Sendable
+    @inlinable
+    public func listOrganizationsFeatures(_ input: ListOrganizationsFeaturesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationsFeaturesResponse {
+        try await self.client.execute(
+            operation: "ListOrganizationsFeatures", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the centralized root access features enabled for your organization. For more information, see Centrally manage root access for member accounts.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listOrganizationsFeatures(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListOrganizationsFeaturesResponse {
+        let input = ListOrganizationsFeaturesRequest(
+        )
+        return try await self.listOrganizationsFeatures(input, logger: logger)
     }
 
     /// Lists all the managed policies that are available in your Amazon Web Services account, including your own customer-defined managed policies and all Amazon Web Services managed policies. You can filter the list of policies that is returned using the optional OnlyAttached, Scope, and PathPrefix parameters. For example, to list only the customer managed policies in your Amazon Web Services account, set Scope to Local. To list only Amazon Web Services managed policies, set Scope to AWS. You can paginate the results using the MaxItems and Marker parameters. For more information about managed policies, see Managed policies and inline policies in the IAM User Guide.  IAM resource-listing operations return a subset of the available  attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a customer manged policy, see GetPolicy.

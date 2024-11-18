@@ -419,6 +419,41 @@ public struct B2bi: AWSService {
         return try await self.deleteTransformer(input, logger: logger)
     }
 
+    /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs.  Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Amazon Web Services B2B Data Interchange User guide.
+    @Sendable
+    @inlinable
+    public func generateMapping(_ input: GenerateMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateMappingResponse {
+        try await self.client.execute(
+            operation: "GenerateMapping", 
+            path: "/generate-mapping", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs.  Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Amazon Web Services B2B Data Interchange User guide.
+    ///
+    /// Parameters:
+    ///   - inputFileContent: Provide the contents of a sample X12 EDI file (for inbound EDI) or JSON/XML file (for outbound EDI) to use as a starting point for the mapping.
+    ///   - mappingType: Specify the mapping type: either JSONATA or XSLT.
+    ///   - outputFileContent: Provide the contents of a sample X12 EDI file (for outbound EDI) or JSON/XML file (for inbound EDI) to use as a target for the mapping.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func generateMapping(
+        inputFileContent: String,
+        mappingType: MappingType,
+        outputFileContent: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GenerateMappingResponse {
+        let input = GenerateMappingRequest(
+            inputFileContent: inputFileContent, 
+            mappingType: mappingType, 
+            outputFileContent: outputFileContent
+        )
+        return try await self.generateMapping(input, logger: logger)
+    }
+
     /// Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     @Sendable
     @inlinable
@@ -1069,7 +1104,7 @@ public struct B2bi: AWSService {
     ///   - name: Specify a new name for the transformer, if you want to update it.
     ///   - outputConversion: To update, specify the OutputConversion object, which contains the format options for the outbound transformation.
     ///   - sampleDocuments: Specify a structure that contains the Amazon S3 bucket and an array of the corresponding keys used to identify the location for your sample documents.
-    ///   - status: Specifies the transformer's status. You can update the state of the transformer, from active to inactive, or inactive to active.
+    ///   - status: Specifies the transformer's status. You can update the state of the transformer from inactive to active.
     ///   - transformerId: Specifies the system-assigned unique identifier for the transformer.
     ///   - logger: Logger use during operation
     @inlinable

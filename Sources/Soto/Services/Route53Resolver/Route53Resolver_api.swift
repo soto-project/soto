@@ -327,13 +327,15 @@ public struct Route53Resolver: AWSService {
     /// Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
     ///
     /// Parameters:
-    ///   - action: The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request and send metrics and logs to Cloud Watch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
+    ///   - action: The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.    ALERT - Permit the request and send metrics and logs to Cloud Watch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
     ///   - blockOverrideDnsType: The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
     ///   - blockOverrideDomain: The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
     ///   - blockOverrideTtl: The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
     ///   - blockResponse: The way that you want DNS Firewall to block the request, used with the rule action
+    ///   - confidenceThreshold: 			The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence
     ///   - creatorRequestId: A unique string that identifies the request and that allows you to retry failed requests
-    ///   - firewallDomainListId: The ID of the domain list that you want to use in the rule.
+    ///   - dnsThreatProtection: 			Use to create a DNS Firewall Advanced rule.
+    ///   - firewallDomainListId: The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton.
     ///   - firewallDomainRedirectionAction: 			How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME.
     ///   - firewallRuleGroupId: The unique identifier of the firewall rule group where you want to create the rule.
     ///   - name: A name that lets you identify the rule in the rule group.
@@ -347,8 +349,10 @@ public struct Route53Resolver: AWSService {
         blockOverrideDomain: String? = nil,
         blockOverrideTtl: Int? = nil,
         blockResponse: BlockResponse? = nil,
+        confidenceThreshold: ConfidenceThreshold? = nil,
         creatorRequestId: String = CreateFirewallRuleRequest.idempotencyToken(),
-        firewallDomainListId: String,
+        dnsThreatProtection: DnsThreatProtection? = nil,
+        firewallDomainListId: String? = nil,
         firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil,
         firewallRuleGroupId: String,
         name: String,
@@ -362,7 +366,9 @@ public struct Route53Resolver: AWSService {
             blockOverrideDomain: blockOverrideDomain, 
             blockOverrideTtl: blockOverrideTtl, 
             blockResponse: blockResponse, 
+            confidenceThreshold: confidenceThreshold, 
             creatorRequestId: creatorRequestId, 
+            dnsThreatProtection: dnsThreatProtection, 
             firewallDomainListId: firewallDomainListId, 
             firewallDomainRedirectionAction: firewallDomainRedirectionAction, 
             firewallRuleGroupId: firewallRuleGroupId, 
@@ -654,18 +660,21 @@ public struct Route53Resolver: AWSService {
     /// Parameters:
     ///   - firewallDomainListId: The ID of the domain list that's used in the rule.
     ///   - firewallRuleGroupId: The unique identifier of the firewall rule group that you want to delete the rule from.
+    ///   - firewallThreatProtectionId: 			The ID that is created for a DNS Firewall Advanced rule.
     ///   - qtype: 			The DNS query type that the rule you are deleting evaluates. Allowed values are;
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteFirewallRule(
-        firewallDomainListId: String,
+        firewallDomainListId: String? = nil,
         firewallRuleGroupId: String,
+        firewallThreatProtectionId: String? = nil,
         qtype: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteFirewallRuleResponse {
         let input = DeleteFirewallRuleRequest(
             firewallDomainListId: firewallDomainListId, 
             firewallRuleGroupId: firewallRuleGroupId, 
+            firewallThreatProtectionId: firewallThreatProtectionId, 
             qtype: qtype
         )
         return try await self.deleteFirewallRule(input, logger: logger)
@@ -1658,7 +1667,7 @@ public struct Route53Resolver: AWSService {
     /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.  A single call might return only a partial list of the rules. For information, see MaxResults.
     ///
     /// Parameters:
-    ///   - action: Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
+    ///   - action: Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not availabe for DNS Firewall Advanced rules.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
     ///   - firewallRuleGroupId: The unique identifier of the firewall rule group that you want to retrieve the rules for.
     ///   - maxResults: The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
     ///   - nextToken: For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects  specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next  batch of objects, use the token that was returned for the prior request in your next request.
@@ -2299,14 +2308,17 @@ public struct Route53Resolver: AWSService {
     /// Updates the specified firewall rule.
     ///
     /// Parameters:
-    ///   - action: The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
+    ///   - action: The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
     ///   - blockOverrideDnsType: The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
     ///   - blockOverrideDomain: The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
     ///   - blockOverrideTtl: The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
     ///   - blockResponse: The way that you want DNS Firewall to block the request. Used for the rule action setting BLOCK.    NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
+    ///   - confidenceThreshold: 			The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence
+    ///   - dnsThreatProtection: 			The type of the DNS Firewall Advanced rule. Valid values are:
     ///   - firewallDomainListId: The ID of the domain list to use in the rule.
     ///   - firewallDomainRedirectionAction: 			How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME.
     ///   - firewallRuleGroupId: The unique identifier of the firewall rule group for the rule.
+    ///   - firewallThreatProtectionId: 			The DNS Firewall Advanced rule ID.
     ///   - name: The name of the rule.
     ///   - priority: The setting that determines the processing order of the rule in the rule group. DNS Firewall  processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group.  To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You  can change the priority setting for the rules in a rule group at any time.
     ///   - qtype: 			The DNS query type you want the rule to evaluate. Allowed values are;
@@ -2318,9 +2330,12 @@ public struct Route53Resolver: AWSService {
         blockOverrideDomain: String? = nil,
         blockOverrideTtl: Int? = nil,
         blockResponse: BlockResponse? = nil,
-        firewallDomainListId: String,
+        confidenceThreshold: ConfidenceThreshold? = nil,
+        dnsThreatProtection: DnsThreatProtection? = nil,
+        firewallDomainListId: String? = nil,
         firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil,
         firewallRuleGroupId: String,
+        firewallThreatProtectionId: String? = nil,
         name: String? = nil,
         priority: Int? = nil,
         qtype: String? = nil,
@@ -2332,9 +2347,12 @@ public struct Route53Resolver: AWSService {
             blockOverrideDomain: blockOverrideDomain, 
             blockOverrideTtl: blockOverrideTtl, 
             blockResponse: blockResponse, 
+            confidenceThreshold: confidenceThreshold, 
+            dnsThreatProtection: dnsThreatProtection, 
             firewallDomainListId: firewallDomainListId, 
             firewallDomainRedirectionAction: firewallDomainRedirectionAction, 
             firewallRuleGroupId: firewallRuleGroupId, 
+            firewallThreatProtectionId: firewallThreatProtectionId, 
             name: name, 
             priority: priority, 
             qtype: qtype
@@ -2781,7 +2799,7 @@ extension Route53Resolver {
     /// Return PaginatorSequence for operation ``listFirewallRules(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - action: Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
+    ///   - action: Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not availabe for DNS Firewall Advanced rules.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
     ///   - firewallRuleGroupId: The unique identifier of the firewall rule group that you want to retrieve the rules for.
     ///   - maxResults: The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
     ///   - priority: Optional additional filter for the rules to retrieve. The setting that determines the processing order of the rules in a rule group. DNS Firewall  processes the rules in a rule group by order of priority, starting from the lowest setting.

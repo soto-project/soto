@@ -423,7 +423,8 @@ extension GuardDuty {
     }
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
-        /// The unique ID of the detector of the GuardDuty member account.
+        /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The value that is used to validate the administrator account to the member account.
         public let invitationId: String?
@@ -776,7 +777,8 @@ extension GuardDuty {
     }
 
     public struct ArchiveFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive.
+        /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The IDs of the findings that you want to archive.
         public let findingIds: [String]?
@@ -1420,7 +1422,8 @@ extension GuardDuty {
         public let clientToken: String?
         /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
         public let description: String?
-        /// The detector ID associated with the GuardDuty account for which you want to create a filter.
+        /// The detector ID associated with the GuardDuty account for which you want to create a filter. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   id   region   severity To filter on the basis of severity, the API and CLI use the following input list for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8", "9"]    For more information, see Severity levels for GuardDuty findings.   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.resourceType   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.ipAddressV6   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.ipAddressV6   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6   service.action.kubernetesApiCallAction.namespace   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn   service.action.kubernetesApiCallAction.requestUri   service.action.kubernetesApiCallAction.statusCode   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.localIpDetails.ipAddressV6   service.action.networkConnectionAction.protocol   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.additionalInfo.threatListName   service.resourceRole   resource.eksClusterDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   resource.ecsClusterDetails.name   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.definitionArn   resource.containerDetails.image   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.engine   resource.rdsDbUserDetails.user   resource.rdsDbInstanceDetails.tags.key   resource.rdsDbInstanceDetails.tags.value   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.name   service.runtimeDetails.process.name   resource.lambdaDetails.functionName   resource.lambdaDetails.functionArn   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value
         public let findingCriteria: FindingCriteria?
@@ -1505,7 +1508,8 @@ extension GuardDuty {
         public let activate: Bool?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet.
+        /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat?
@@ -1641,7 +1645,8 @@ extension GuardDuty {
     public struct CreateMembersRequest: AWSEncodableShape {
         /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
         public let accountDetails: [AccountDetail]?
-        /// The unique ID of the detector of the GuardDuty account for which you want to associate member accounts.
+        /// The unique ID of the detector of the GuardDuty account for which you want to associate member accounts. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -1711,7 +1716,8 @@ extension GuardDuty {
         public let destinationProperties: DestinationProperties?
         /// The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported.
         public let destinationType: DestinationType?
-        /// The ID of the GuardDuty detector associated with the publishing destination.
+        /// The ID of the GuardDuty detector associated with the publishing destination. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -1781,7 +1787,8 @@ extension GuardDuty {
     }
 
     public struct CreateSampleFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector for which you need to create sample findings.
+        /// The ID of the detector for which you need to create sample findings. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The types of sample findings to generate.
         public let findingTypes: [String]?
@@ -1823,7 +1830,8 @@ extension GuardDuty {
         public let activate: Bool?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet.
+        /// The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The format of the file that contains the ThreatIntelSet.
         public let format: ThreatIntelSetFormat?
@@ -2099,7 +2107,8 @@ extension GuardDuty {
     }
 
     public struct DeleteDetectorRequest: AWSEncodableShape {
-        /// The unique ID of the detector that you want to delete.
+        /// The unique ID of the detector that you want to delete. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -2126,7 +2135,8 @@ extension GuardDuty {
     }
 
     public struct DeleteFilterRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the filter.
+        /// The unique ID of the detector that is associated with the filter. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The name of the filter that you want to delete.
         public let filterName: String
@@ -2157,7 +2167,8 @@ extension GuardDuty {
     }
 
     public struct DeleteIPSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector associated with the IPSet.
+        /// The unique ID of the detector associated with the IPSet. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID of the IPSet to delete.
         public let ipSetId: String
@@ -2245,7 +2256,8 @@ extension GuardDuty {
     public struct DeleteMembersRequest: AWSEncodableShape {
         /// A list of account IDs of the GuardDuty member accounts that you want to delete.
         public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty account whose members you want to delete.
+        /// The unique ID of the detector of the GuardDuty account whose members you want to delete. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -2294,7 +2306,8 @@ extension GuardDuty {
     public struct DeletePublishingDestinationRequest: AWSEncodableShape {
         /// The ID of the publishing destination to delete.
         public let destinationId: String
-        /// The unique ID of the detector associated with the publishing destination to delete.
+        /// The unique ID of the detector associated with the publishing destination to delete. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -2323,7 +2336,8 @@ extension GuardDuty {
     }
 
     public struct DeleteThreatIntelSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the threatIntelSet.
+        /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID of the threatIntelSet that you want to delete.
         public let threatIntelSetId: String
@@ -2354,7 +2368,8 @@ extension GuardDuty {
     }
 
     public struct DescribeMalwareScansRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the request is associated with.
+        /// The unique ID of the detector that the request is associated with. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria to be used in the filter for describing scan entries.
         public let filterCriteria: FilterCriteria?
@@ -2419,7 +2434,8 @@ extension GuardDuty {
     }
 
     public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
-        /// The detector ID of the delegated administrator for which you need to retrieve the information.
+        /// The detector ID of the delegated administrator for which you need to retrieve the information. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response.
         public let maxResults: Int?
@@ -2499,7 +2515,8 @@ extension GuardDuty {
     public struct DescribePublishingDestinationRequest: AWSEncodableShape {
         /// The ID of the publishing destination to retrieve.
         public let destinationId: String
-        /// The unique ID of the detector associated with the publishing destination to retrieve.
+        /// The unique ID of the detector associated with the publishing destination to retrieve. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -3417,7 +3434,8 @@ extension GuardDuty {
     }
 
     public struct GetCoverageStatisticsRequest: AWSEncodableShape {
-        /// The unique ID of the GuardDuty detector.
+        /// The unique ID of the GuardDuty detector. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria used to filter the coverage statistics.
         public let filterCriteria: CoverageFilterCriteria?
@@ -3466,7 +3484,8 @@ extension GuardDuty {
     }
 
     public struct GetDetectorRequest: AWSEncodableShape {
-        /// The unique ID of the detector that you want to get.
+        /// The unique ID of the detector that you want to get. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -3544,7 +3563,8 @@ extension GuardDuty {
     }
 
     public struct GetFilterRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with this filter.
+        /// The unique ID of the detector that is associated with this filter. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The name of the filter you want to get.
         public let filterName: String
@@ -3605,7 +3625,8 @@ extension GuardDuty {
     }
 
     public struct GetFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve.
+        /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The IDs of the findings that you want to retrieve.
         public let findingIds: [String]?
@@ -3658,7 +3679,8 @@ extension GuardDuty {
     }
 
     public struct GetFindingsStatisticsRequest: AWSEncodableShape {
-        /// The ID of the detector whose findings statistics you want to retrieve.
+        /// The ID of the detector whose findings statistics you want to retrieve. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria that is used for querying findings.
         public let findingCriteria: FindingCriteria?
@@ -3739,7 +3761,8 @@ extension GuardDuty {
     }
 
     public struct GetIPSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the IPSet.
+        /// The unique ID of the detector that is associated with the IPSet. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID of the IPSet to retrieve.
         public let ipSetId: String
@@ -3874,7 +3897,8 @@ extension GuardDuty {
     }
 
     public struct GetMalwareScanSettingsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with this scan.
+        /// The unique ID of the detector that is associated with this scan. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -3915,7 +3939,8 @@ extension GuardDuty {
     }
 
     public struct GetMasterAccountRequest: AWSEncodableShape {
-        /// The unique ID of the detector of the GuardDuty member account.
+        /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -3954,7 +3979,8 @@ extension GuardDuty {
     public struct GetMemberDetectorsRequest: AWSEncodableShape {
         /// A list of member account IDs.
         public let accountIds: [String]?
-        /// The detector ID for the administrator account.
+        /// The detector ID for the administrator account. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -4007,7 +4033,8 @@ extension GuardDuty {
     public struct GetMembersRequest: AWSEncodableShape {
         /// A list of account IDs of the GuardDuty member accounts that you want to describe.
         public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty account whose members you want to retrieve.
+        /// The unique ID of the detector of the GuardDuty account whose members you want to retrieve. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -4074,7 +4101,8 @@ extension GuardDuty {
     public struct GetRemainingFreeTrialDaysRequest: AWSEncodableShape {
         /// A list of account identifiers of the GuardDuty member account.
         public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty member account.
+        /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -4125,7 +4153,8 @@ extension GuardDuty {
     }
 
     public struct GetThreatIntelSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the threatIntelSet.
+        /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID of the threatIntelSet that you want to get.
         public let threatIntelSetId: String
@@ -4182,7 +4211,8 @@ extension GuardDuty {
     }
 
     public struct GetUsageStatisticsRequest: AWSEncodableShape {
-        /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve.
+        /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -4414,7 +4444,8 @@ extension GuardDuty {
     public struct InviteMembersRequest: AWSEncodableShape {
         /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
         public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty account with which you want to invite members.
+        /// The unique ID of the detector of the GuardDuty account with which you want to invite members. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
         public let disableEmailNotification: Bool?
@@ -4880,7 +4911,8 @@ extension GuardDuty {
     }
 
     public struct ListCoverageRequest: AWSEncodableShape {
-        /// The unique ID of the detector whose coverage details you want to retrieve.
+        /// The unique ID of the detector whose coverage details you want to retrieve. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria used to filter the coverage details.
         public let filterCriteria: CoverageFilterCriteria?
@@ -4990,7 +5022,8 @@ extension GuardDuty {
     }
 
     public struct ListFiltersRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the filter.
+        /// The unique ID of the detector that is associated with the filter. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -5041,7 +5074,8 @@ extension GuardDuty {
     }
 
     public struct ListFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
+        /// The ID of the detector that specifies the GuardDuty service whose findings you want to list. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.ebsVolumeScanDetails.scanId   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
         public let findingCriteria: FindingCriteria?
@@ -5105,7 +5139,8 @@ extension GuardDuty {
     }
 
     public struct ListIPSetsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with IPSet.
+        /// The unique ID of the detector that is associated with IPSet. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -5237,7 +5272,8 @@ extension GuardDuty {
     }
 
     public struct ListMembersRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the member.
+        /// The unique ID of the detector that is associated with the member. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -5337,7 +5373,8 @@ extension GuardDuty {
     }
 
     public struct ListPublishingDestinationsRequest: AWSEncodableShape {
-        /// The detector ID for which you want to retrieve the publishing destination.
+        /// The detector ID for which you want to retrieve the publishing destination. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -5424,7 +5461,8 @@ extension GuardDuty {
     }
 
     public struct ListThreatIntelSetsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the threatIntelSet.
+        /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -6553,7 +6591,7 @@ extension GuardDuty {
         public let engine: String?
         /// The version of the database engine that was involved in the finding.
         public let engineVersion: String?
-        /// Instance tag key-value pairs associated with the database instance ID.
+        /// Information about the tag key-value pairs.
         public let tags: [Tag]?
 
         @inlinable
@@ -6603,6 +6641,44 @@ extension GuardDuty {
             case database = "database"
             case ssl = "ssl"
             case user = "user"
+        }
+    }
+
+    public struct RdsLimitlessDbDetails: AWSDecodableShape {
+        /// The name of the database cluster that is a part of the Limitless Database.
+        public let dbClusterIdentifier: String?
+        /// The Amazon Resource Name (ARN) that identifies the DB shard group.
+        public let dbShardGroupArn: String?
+        /// The name associated with the Limitless DB shard group.
+        public let dbShardGroupIdentifier: String?
+        /// The resource identifier of the DB shard group within the Limitless Database.
+        public let dbShardGroupResourceId: String?
+        /// The database engine of the database instance involved in the finding.
+        public let engine: String?
+        /// The version of the database engine.
+        public let engineVersion: String?
+        /// Information about the tag-key value pair.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(dbClusterIdentifier: String? = nil, dbShardGroupArn: String? = nil, dbShardGroupIdentifier: String? = nil, dbShardGroupResourceId: String? = nil, engine: String? = nil, engineVersion: String? = nil, tags: [Tag]? = nil) {
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbShardGroupArn = dbShardGroupArn
+            self.dbShardGroupIdentifier = dbShardGroupIdentifier
+            self.dbShardGroupResourceId = dbShardGroupResourceId
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterIdentifier = "dbClusterIdentifier"
+            case dbShardGroupArn = "dbShardGroupArn"
+            case dbShardGroupIdentifier = "dbShardGroupIdentifier"
+            case dbShardGroupResourceId = "dbShardGroupResourceId"
+            case engine = "engine"
+            case engineVersion = "engineVersion"
+            case tags = "tags"
         }
     }
 
@@ -6713,13 +6789,15 @@ extension GuardDuty {
         public let rdsDbInstanceDetails: RdsDbInstanceDetails?
         /// Contains information about the user details through which anomalous login attempt was made.
         public let rdsDbUserDetails: RdsDbUserDetails?
+        /// Contains information about the RDS Limitless database that was involved in a GuardDuty finding.
+        public let rdsLimitlessDbDetails: RdsLimitlessDbDetails?
         /// The type of Amazon Web Services resource.
         public let resourceType: String?
         /// Contains information on the S3 bucket.
         public let s3BucketDetails: [S3BucketDetail]?
 
         @inlinable
-        public init(accessKeyDetails: AccessKeyDetails? = nil, containerDetails: Container? = nil, ebsVolumeDetails: EbsVolumeDetails? = nil, ecsClusterDetails: EcsClusterDetails? = nil, eksClusterDetails: EksClusterDetails? = nil, instanceDetails: InstanceDetails? = nil, kubernetesDetails: KubernetesDetails? = nil, lambdaDetails: LambdaDetails? = nil, rdsDbInstanceDetails: RdsDbInstanceDetails? = nil, rdsDbUserDetails: RdsDbUserDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
+        public init(accessKeyDetails: AccessKeyDetails? = nil, containerDetails: Container? = nil, ebsVolumeDetails: EbsVolumeDetails? = nil, ecsClusterDetails: EcsClusterDetails? = nil, eksClusterDetails: EksClusterDetails? = nil, instanceDetails: InstanceDetails? = nil, kubernetesDetails: KubernetesDetails? = nil, lambdaDetails: LambdaDetails? = nil, rdsDbInstanceDetails: RdsDbInstanceDetails? = nil, rdsDbUserDetails: RdsDbUserDetails? = nil, rdsLimitlessDbDetails: RdsLimitlessDbDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
             self.accessKeyDetails = accessKeyDetails
             self.containerDetails = containerDetails
             self.ebsVolumeDetails = ebsVolumeDetails
@@ -6730,6 +6808,7 @@ extension GuardDuty {
             self.lambdaDetails = lambdaDetails
             self.rdsDbInstanceDetails = rdsDbInstanceDetails
             self.rdsDbUserDetails = rdsDbUserDetails
+            self.rdsLimitlessDbDetails = rdsLimitlessDbDetails
             self.resourceType = resourceType
             self.s3BucketDetails = s3BucketDetails
         }
@@ -6745,6 +6824,7 @@ extension GuardDuty {
             case lambdaDetails = "lambdaDetails"
             case rdsDbInstanceDetails = "rdsDbInstanceDetails"
             case rdsDbUserDetails = "rdsDbUserDetails"
+            case rdsLimitlessDbDetails = "rdsLimitlessDbDetails"
             case resourceType = "resourceType"
             case s3BucketDetails = "s3BucketDetails"
         }
@@ -7029,11 +7109,13 @@ extension GuardDuty {
     public struct Scan: AWSDecodableShape {
         /// The ID for the account that belongs to the scan.
         public let accountId: String?
-        /// The unique detector ID of the administrator account that the request is associated with. If the account is an administrator, the AdminDetectorId will be the same as the one used for  DetectorId.
+        /// The unique detector ID of the administrator account that the request is associated with. If the account is an administrator, the AdminDetectorId will be the same as the one used for  DetectorId. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let adminDetectorId: String?
         /// List of volumes that were attached to the original instance to be scanned.
         public let attachedVolumes: [VolumeDetail]?
-        /// The unique ID of the detector that the request is associated with.
+        /// The unique ID of the detector that the request is associated with. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String?
         /// Represents the reason for FAILED scan status.
         public let failureReason: String?
@@ -7513,7 +7595,8 @@ extension GuardDuty {
     public struct StartMonitoringMembersRequest: AWSEncodableShape {
         /// A list of account IDs of the GuardDuty member accounts to start monitoring.
         public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor.
+        /// The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -7562,7 +7645,8 @@ extension GuardDuty {
     public struct StopMonitoringMembersRequest: AWSEncodableShape {
         /// A list of account IDs for the member accounts to stop monitoring.
         public let accountIds: [String]?
-        /// The unique ID of the detector associated with the GuardDuty administrator account that is monitoring member accounts.
+        /// The unique ID of the detector associated with the GuardDuty administrator account that is monitoring member accounts. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -7609,9 +7693,9 @@ extension GuardDuty {
     }
 
     public struct Tag: AWSDecodableShape {
-        /// The EC2 instance tag key.
+        /// Describes the key associated with the tag.
         public let key: String?
-        /// The EC2 instance tag value.
+        /// Describes the value associated with the tag key.
         public let value: String?
 
         @inlinable
@@ -7787,7 +7871,8 @@ extension GuardDuty {
     }
 
     public struct UnarchiveFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector associated with the findings to unarchive.
+        /// The ID of the detector associated with the findings to unarchive. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The IDs of the findings to unarchive.
         public let findingIds: [String]?
@@ -7895,7 +7980,8 @@ extension GuardDuty {
     public struct UpdateDetectorRequest: AWSEncodableShape {
         /// Describes which data sources will be updated. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
         public let dataSources: DataSourceConfigurations?
-        /// The unique ID of the detector to update.
+        /// The unique ID of the detector to update. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Specifies whether the detector is enabled or not enabled.
         public let enable: Bool?
@@ -7955,7 +8041,8 @@ extension GuardDuty {
         public let action: FilterAction?
         /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
         public let description: String?
-        /// The unique ID of the detector that specifies the GuardDuty service where you want to update a filter.
+        /// The unique ID of the detector that specifies the GuardDuty service where you want to update a filter. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The name of the filter.
         public let filterName: String
@@ -8018,7 +8105,8 @@ extension GuardDuty {
     public struct UpdateFindingsFeedbackRequest: AWSEncodableShape {
         /// Additional feedback about the GuardDuty findings.
         public let comments: String?
-        /// The ID of the detector that is associated with the findings for which you want to update  the feedback.
+        /// The ID of the detector that is associated with the findings for which you want to update  the feedback. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The feedback for the finding.
         public let feedback: Feedback?
@@ -8066,7 +8154,8 @@ extension GuardDuty {
     public struct UpdateIPSetRequest: AWSEncodableShape {
         /// The updated Boolean value that specifies whether the IPSet is active or not.
         public let activate: Bool?
-        /// The detectorID that specifies the GuardDuty service whose IPSet you want to update.
+        /// The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID that specifies the IPSet that you want to update.
         public let ipSetId: String
@@ -8153,7 +8242,8 @@ extension GuardDuty {
     }
 
     public struct UpdateMalwareScanSettingsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings.
+        /// The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// An enum value representing possible snapshot preservation settings.
         public let ebsSnapshotPreservation: EbsSnapshotPreservation?
@@ -8196,7 +8286,8 @@ extension GuardDuty {
         public let accountIds: [String]?
         /// Describes which data sources will be updated.
         public let dataSources: DataSourceConfigurations?
-        /// The detector ID of the administrator account.
+        /// The detector ID of the administrator account. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// A list of features that will be updated for the specified member accounts.
         public let features: [MemberFeaturesConfiguration]?
@@ -8266,7 +8357,8 @@ extension GuardDuty {
         public let autoEnableOrganizationMembers: AutoEnableMembers?
         /// Describes which data sources will be updated.
         public let dataSources: OrganizationDataSourceConfigurations?
-        /// The ID of the detector that configures the delegated administrator.
+        /// The ID of the detector that configures the delegated administrator. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// A list of features that will be configured for the organization.
         public let features: [OrganizationFeatureConfiguration]?
@@ -8340,7 +8432,8 @@ extension GuardDuty {
         public let destinationId: String
         /// A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination.
         public let destinationProperties: DestinationProperties?
-        /// The ID of the detector associated with the publishing destinations to update.
+        /// The ID of the detector associated with the publishing destinations to update. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -8393,7 +8486,8 @@ extension GuardDuty {
     public struct UpdateThreatIntelSetRequest: AWSEncodableShape {
         /// The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
         public let activate: Bool?
-        /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update.
+        /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update. To find the detectorId in the current Region, see the
+        /// Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The updated URI of the file that contains the ThreateIntelSet.
         public let location: String?

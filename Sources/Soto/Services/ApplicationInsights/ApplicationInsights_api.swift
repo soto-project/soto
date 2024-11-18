@@ -145,6 +145,7 @@ public struct ApplicationInsights: AWSService {
     ///   - opsCenterEnabled:  When set to true, creates opsItems for any problems detected on an application.
     ///   - opsItemSNSTopicArn:  The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem.
     ///   - resourceGroupName: The name of the resource group.
+    ///   - snsNotificationArn:  The SNS notification topic ARN.
     ///   - tags: List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
     ///   - logger: Logger use during operation
     @inlinable
@@ -157,6 +158,7 @@ public struct ApplicationInsights: AWSService {
         opsCenterEnabled: Bool? = nil,
         opsItemSNSTopicArn: String? = nil,
         resourceGroupName: String? = nil,
+        snsNotificationArn: String? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateApplicationResponse {
@@ -169,6 +171,7 @@ public struct ApplicationInsights: AWSService {
             opsCenterEnabled: opsCenterEnabled, 
             opsItemSNSTopicArn: opsItemSNSTopicArn, 
             resourceGroupName: resourceGroupName, 
+            snsNotificationArn: snsNotificationArn, 
             tags: tags
         )
         return try await self.createApplication(input, logger: logger)
@@ -228,7 +231,7 @@ public struct ApplicationInsights: AWSService {
     ///   - pattern: The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
     ///   - patternName: The name of the log pattern.
     ///   - patternSetName: The name of the log pattern set.
-    ///   - rank: Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
+    ///   - rank: Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.
     ///   - resourceGroupName: The name of the resource group.
     ///   - logger: Logger use during operation
     @inlinable
@@ -362,7 +365,7 @@ public struct ApplicationInsights: AWSService {
     /// Describes the application.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - resourceGroupName: The name of the resource group.
     ///   - logger: Logger use during operation
     @inlinable
@@ -394,7 +397,7 @@ public struct ApplicationInsights: AWSService {
     /// Describes a component and lists the resources that are grouped together in a component.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - componentName: The name of the component.
     ///   - resourceGroupName: The name of the resource group.
     ///   - logger: Logger use during operation
@@ -429,7 +432,7 @@ public struct ApplicationInsights: AWSService {
     /// Describes the monitoring configuration of the component.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - componentName: The name of the component.
     ///   - resourceGroupName: The name of the resource group.
     ///   - logger: Logger use during operation
@@ -468,7 +471,7 @@ public struct ApplicationInsights: AWSService {
     ///   - recommendationType: The recommended configuration type.
     ///   - resourceGroupName: The name of the resource group.
     ///   - tier: The tier of the application component.
-    ///   - workloadName: The name of the workload.
+    ///   - workloadName: The name of the workload. The name of the workload is required when the tier of the application component is  SAP_ASE_SINGLE_NODE or SAP_ASE_HIGH_AVAILABILITY.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeComponentConfigurationRecommendation(
@@ -505,7 +508,7 @@ public struct ApplicationInsights: AWSService {
     /// Describe a specific log pattern from a LogPatternSet.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - patternName: The name of the log pattern.
     ///   - patternSetName: The name of the log pattern set.
     ///   - resourceGroupName: The name of the resource group.
@@ -543,7 +546,7 @@ public struct ApplicationInsights: AWSService {
     /// Describes an anomaly or error with the application.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - observationId: The ID of the observation.
     ///   - logger: Logger use during operation
     @inlinable
@@ -575,7 +578,7 @@ public struct ApplicationInsights: AWSService {
     /// Describes an application problem.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the owner of the resource group affected by the problem.
+    ///   - accountId: The Amazon Web Services account ID for the owner of the resource group affected by the problem.
     ///   - problemId: The ID of the problem.
     ///   - logger: Logger use during operation
     @inlinable
@@ -607,7 +610,7 @@ public struct ApplicationInsights: AWSService {
     /// Describes the anomalies or errors associated with the problem.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - problemId: The ID of the problem.
     ///   - logger: Logger use during operation
     @inlinable
@@ -639,7 +642,7 @@ public struct ApplicationInsights: AWSService {
     /// Describes a workload and its configuration.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the workload owner.
+    ///   - accountId: The Amazon Web Services account ID for the workload owner.
     ///   - componentName: The name of the component.
     ///   - resourceGroupName: The name of the resource group.
     ///   - workloadId: The ID of the workload.
@@ -677,7 +680,7 @@ public struct ApplicationInsights: AWSService {
     /// Lists the IDs of the applications that you are monitoring.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - nextToken: The token to request the next page of results.
     ///   - logger: Logger use during operation
@@ -712,7 +715,7 @@ public struct ApplicationInsights: AWSService {
     /// Lists the auto-grouped, standalone, and custom components of the application.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - nextToken: The token to request the next page of results.
     ///   - resourceGroupName: The name of the resource group.
@@ -750,7 +753,7 @@ public struct ApplicationInsights: AWSService {
     ///  Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - endTime: The end time of the event.
     ///   - eventStatus: The status of the configuration update event. Possible values include INFO, WARN, and ERROR.
     ///   - maxResults:  The maximum number of results returned by ListConfigurationHistory in paginated output. When this parameter is used, ListConfigurationHistory returns only MaxResults in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another ListConfigurationHistory request with the returned NextToken value. If this parameter is not used, then ListConfigurationHistory returns all results.
@@ -797,7 +800,7 @@ public struct ApplicationInsights: AWSService {
     /// Lists the log pattern sets in the specific application.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - nextToken: The token to request the next page of results.
     ///   - resourceGroupName: The name of the resource group.
@@ -835,7 +838,7 @@ public struct ApplicationInsights: AWSService {
     /// Lists the log patterns in the specific log LogPatternSet.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - nextToken: The token to request the next page of results.
     ///   - patternSetName: The name of the log pattern set.
@@ -876,7 +879,7 @@ public struct ApplicationInsights: AWSService {
     /// Lists the problems with your application.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - componentName:  The name of the component.
     ///   - endTime: The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -955,7 +958,7 @@ public struct ApplicationInsights: AWSService {
     /// Lists the workloads that are configured on a given component.
     ///
     /// Parameters:
-    ///   - accountId: The AWS account ID of the owner of the workload.
+    ///   - accountId: The Amazon Web Services account ID of the owner of the workload.
     ///   - componentName: The name of the component.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - nextToken: The token to request the next page of results.
@@ -1102,6 +1105,7 @@ public struct ApplicationInsights: AWSService {
     ///   - opsItemSNSTopicArn:  The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem.
     ///   - removeSNSTopic:  Disassociates the SNS topic from the opsItem created for detected problems.
     ///   - resourceGroupName: The name of the resource group.
+    ///   - snsNotificationArn:  The SNS topic ARN. Allows you to receive SNS notifications for updates and issues with an application.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateApplication(
@@ -1112,6 +1116,7 @@ public struct ApplicationInsights: AWSService {
         opsItemSNSTopicArn: String? = nil,
         removeSNSTopic: Bool? = nil,
         resourceGroupName: String,
+        snsNotificationArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateApplicationResponse {
         let input = UpdateApplicationRequest(
@@ -1121,7 +1126,8 @@ public struct ApplicationInsights: AWSService {
             opsCenterEnabled: opsCenterEnabled, 
             opsItemSNSTopicArn: opsItemSNSTopicArn, 
             removeSNSTopic: removeSNSTopic, 
-            resourceGroupName: resourceGroupName
+            resourceGroupName: resourceGroupName, 
+            snsNotificationArn: snsNotificationArn
         )
         return try await self.updateApplication(input, logger: logger)
     }
@@ -1227,7 +1233,7 @@ public struct ApplicationInsights: AWSService {
     ///   - pattern: The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
     ///   - patternName: The name of the log pattern.
     ///   - patternSetName: The name of the log pattern set.
-    ///   - rank: Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
+    ///   - rank: Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.
     ///   - resourceGroupName: The name of the resource group.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1357,7 +1363,7 @@ extension ApplicationInsights {
     /// Return PaginatorSequence for operation ``listApplications(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1394,7 +1400,7 @@ extension ApplicationInsights {
     /// Return PaginatorSequence for operation ``listComponents(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - resourceGroupName: The name of the resource group.
     ///   - logger: Logger used for logging
@@ -1434,7 +1440,7 @@ extension ApplicationInsights {
     /// Return PaginatorSequence for operation ``listConfigurationHistory(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - endTime: The end time of the event.
     ///   - eventStatus: The status of the configuration update event. Possible values include INFO, WARN, and ERROR.
     ///   - maxResults:  The maximum number of results returned by ListConfigurationHistory in paginated output. When this parameter is used, ListConfigurationHistory returns only MaxResults in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another ListConfigurationHistory request with the returned NextToken value. If this parameter is not used, then ListConfigurationHistory returns all results.
@@ -1483,7 +1489,7 @@ extension ApplicationInsights {
     /// Return PaginatorSequence for operation ``listLogPatternSets(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - resourceGroupName: The name of the resource group.
     ///   - logger: Logger used for logging
@@ -1523,7 +1529,7 @@ extension ApplicationInsights {
     /// Return PaginatorSequence for operation ``listLogPatterns(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - patternSetName: The name of the log pattern set.
     ///   - resourceGroupName: The name of the resource group.
@@ -1566,7 +1572,7 @@ extension ApplicationInsights {
     /// Return PaginatorSequence for operation ``listProblems(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - accountId: The AWS account ID for the resource group owner.
+    ///   - accountId: The Amazon Web Services account ID for the resource group owner.
     ///   - componentName:  The name of the component.
     ///   - endTime: The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -1618,7 +1624,7 @@ extension ApplicationInsights {
     /// Return PaginatorSequence for operation ``listWorkloads(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - accountId: The AWS account ID of the owner of the workload.
+    ///   - accountId: The Amazon Web Services account ID of the owner of the workload.
     ///   - componentName: The name of the component.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - resourceGroupName: The name of the resource group.

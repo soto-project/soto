@@ -211,7 +211,7 @@ public struct ECS: AWSService {
     /// Runs and maintains your desired number of tasks from a specified task definition. If
     /// 			the number of tasks running in a service drops below the desiredCount,
     /// 			Amazon ECS runs another copy of the task in the specified cluster. To update an existing
-    /// 			service, use UpdateService.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  In addition to maintaining the desired count of tasks in your service, you can
+    /// 			service, see the UpdateService action.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  In addition to maintaining the desired count of tasks in your service, you can
     /// 			optionally run your service behind one or more load balancers. The load balancers
     /// 			distribute traffic across the tasks that are associated with the service. For more
     /// 			information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
@@ -283,7 +283,7 @@ public struct ECS: AWSService {
     /// Runs and maintains your desired number of tasks from a specified task definition. If
     /// 			the number of tasks running in a service drops below the desiredCount,
     /// 			Amazon ECS runs another copy of the task in the specified cluster. To update an existing
-    /// 			service, use UpdateService.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  In addition to maintaining the desired count of tasks in your service, you can
+    /// 			service, see the UpdateService action.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  In addition to maintaining the desired count of tasks in your service, you can
     /// 			optionally run your service behind one or more load balancers. The load balancers
     /// 			distribute traffic across the tasks that are associated with the service. For more
     /// 			information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
@@ -345,7 +345,7 @@ public struct ECS: AWSService {
     ///   - capacityProviderStrategy: The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType
     ///   - clientToken: An identifier that you provide to ensure the idempotency of the request. It must be
     ///   - cluster: The short name or full Amazon Resource Name (ARN) of the cluster that you run your service on.
-    ///   - deploymentConfiguration: Optional deployment parameters that control how many tasks run during the deployment
+    ///   - deploymentConfiguration: Optional deployment parameters that control how many tasks run during the deployment and the
     ///   - deploymentController: The deployment controller to use for the service. If no deployment controller is
     ///   - desiredCount: The number of instantiations of the specified task definition to place and keep
     ///   - enableECSManagedTags: Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For
@@ -1018,6 +1018,68 @@ public struct ECS: AWSService {
         return try await self.describeContainerInstances(input, logger: logger)
     }
 
+    /// Describes one or more of your service deployments. A service deployment happens when you release a software update for the service. For more information, see Amazon ECS service deployments.
+    @Sendable
+    @inlinable
+    public func describeServiceDeployments(_ input: DescribeServiceDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceDeploymentsResponse {
+        try await self.client.execute(
+            operation: "DescribeServiceDeployments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more of your service deployments. A service deployment happens when you release a software update for the service. For more information, see Amazon ECS service deployments.
+    ///
+    /// Parameters:
+    ///   - serviceDeploymentArns: The ARN of the service deployment. You can specify a maximum of 20 ARNs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeServiceDeployments(
+        serviceDeploymentArns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeServiceDeploymentsResponse {
+        let input = DescribeServiceDeploymentsRequest(
+            serviceDeploymentArns: serviceDeploymentArns
+        )
+        return try await self.describeServiceDeployments(input, logger: logger)
+    }
+
+    /// Describes one or more service revisions. A service revision is a version of the service that includes the values for the Amazon ECS
+    /// 			resources (for example, task definition) and the environment resources (for example,
+    /// 			load balancers, subnets, and security groups). For more information, see Amazon ECS service revisions. You can't describe a service revision that was created before October 25, 2024.
+    @Sendable
+    @inlinable
+    public func describeServiceRevisions(_ input: DescribeServiceRevisionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceRevisionsResponse {
+        try await self.client.execute(
+            operation: "DescribeServiceRevisions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more service revisions. A service revision is a version of the service that includes the values for the Amazon ECS
+    /// 			resources (for example, task definition) and the environment resources (for example,
+    /// 			load balancers, subnets, and security groups). For more information, see Amazon ECS service revisions. You can't describe a service revision that was created before October 25, 2024.
+    ///
+    /// Parameters:
+    ///   - serviceRevisionArns: The ARN of the service revision.  You can specify a maximum of 20 ARNs. You can call ListServiceDeployments to
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeServiceRevisions(
+        serviceRevisionArns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeServiceRevisionsResponse {
+        let input = DescribeServiceRevisionsRequest(
+            serviceRevisionArns: serviceRevisionArns
+        )
+        return try await self.describeServiceRevisions(input, logger: logger)
+    }
+
     /// Describes the specified services running in your cluster.
     @Sendable
     @inlinable
@@ -1466,6 +1528,54 @@ public struct ECS: AWSService {
             status: status
         )
         return try await self.listContainerInstances(input, logger: logger)
+    }
+
+    /// This operation lists all the service deployments that meet the specified filter criteria. A service deployment happens when you release a softwre update for the service. You
+    /// 			route traffic from the running service revisions to the new service revison and control
+    /// 			the number of running tasks.  This API returns the values that you use for the request parameters in DescribeServiceRevisions.
+    @Sendable
+    @inlinable
+    public func listServiceDeployments(_ input: ListServiceDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceDeploymentsResponse {
+        try await self.client.execute(
+            operation: "ListServiceDeployments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation lists all the service deployments that meet the specified filter criteria. A service deployment happens when you release a softwre update for the service. You
+    /// 			route traffic from the running service revisions to the new service revison and control
+    /// 			the number of running tasks.  This API returns the values that you use for the request parameters in DescribeServiceRevisions.
+    ///
+    /// Parameters:
+    ///   - cluster: The cluster that hosts the service. This can either be the cluster name or ARN. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performanceIf you don't
+    ///   - createdAt: An optional filter you can use to narrow the results by the service creation date. If you do
+    ///   - maxResults: The maximum number of service deployment results that ListServiceDeployments
+    ///   - nextToken: The nextToken value returned from a ListServiceDeployments request indicating that more results are available to fulfill the request and further calls are needed. If you provided maxResults, it's possible the number of results is fewer than maxResults.
+    ///   - service: The ARN or name of the service
+    ///   - status: An optional filter you can use to narrow the results. If you do not specify a status, then
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listServiceDeployments(
+        cluster: String? = nil,
+        createdAt: CreatedAt? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        service: String,
+        status: [ServiceDeploymentStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListServiceDeploymentsResponse {
+        let input = ListServiceDeploymentsRequest(
+            cluster: cluster, 
+            createdAt: createdAt, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            service: service, 
+            status: status
+        )
+        return try await self.listServiceDeployments(input, logger: logger)
     }
 
     /// Returns a list of services. You can filter the results by cluster, launch type, and
@@ -2004,10 +2114,10 @@ public struct ECS: AWSService {
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. For informationabout the required IAM roles for Amazon ECS, see IAM roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
     ///   - family: You must specify a family for a task definition. You can use it track
     ///   - inferenceAccelerators: The Elastic Inference accelerators to use for the containers in the task.
-    ///   - ipcMode: The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see System Controls in the Amazon Elastic Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.   For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.    This parameter is not supported for Windows containers or tasks run on Fargate.
+    ///   - ipcMode: The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see IPC settings in the Docker run reference. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. For more information, see Docker security. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see System Controls in the Amazon Elastic Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.   For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.    This parameter is not supported for Windows containers or tasks run on Fargate.
     ///   - memory: The amount of memory (in MiB) used by the task. It can be expressed as an integer
-    ///   - networkMode: The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required.  For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used.  For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
-    ///   - pidMode: The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure.  This parameter is not supported for Windows containers.   This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+    ///   - networkMode: The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required.  For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used.  For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. For more information, see Network settings in the Docker run reference.
+    ///   - pidMode: The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. For more information, see PID settings in the Docker run reference. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. For more information, see Docker security.  This parameter is not supported for Windows containers.   This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
     ///   - placementConstraints: An array of placement constraint objects to use for the task. You can specify a
     ///   - proxyConfiguration: The configuration details for the App Mesh proxy. For tasks hosted on Amazon EC2 instances, the container instances require at least version
     ///   - requiresCompatibilities: The task launch type that Amazon ECS validates the task definition against. A client
@@ -2121,7 +2231,7 @@ public struct ECS: AWSService {
     ///   - placementStrategy: The placement strategy objects to use for the task. You can specify a maximum of 5
     ///   - platformVersion: The platform version the task uses. A platform version is only specified for tasks
     ///   - propagateTags: Specifies whether to propagate the tags from the task definition to the task. If no
-    ///   - referenceId: The reference ID to use for the task. The reference ID can have a maximum length of
+    ///   - referenceId: This parameter is only used by Amazon ECS. It is not intended for use by customers.
     ///   - startedBy: An optional tag specified when a task is started. For example, if you automatically
     ///   - tags: The metadata that you apply to the task to help you categorize and organize them. Each
     ///   - taskDefinition: The family and revision (family:revision) or
@@ -2204,8 +2314,8 @@ public struct ECS: AWSService {
     ///   - networkConfiguration: The VPC subnet and security group configuration for tasks that receive their own elastic network interface by using the awsvpc networking mode.
     ///   - overrides: A list of container overrides in JSON format that specify the name of a container in
     ///   - propagateTags: Specifies whether to propagate the tags from the task definition or the service to the
-    ///   - referenceId: The reference ID to use for the task.
-    ///   - startedBy: An optional tag specified when a task is started. For example, if you automatically
+    ///   - referenceId: This parameter is only used by Amazon ECS. It is not intended for use by customers.
+    ///   - startedBy: An optional tag specified when a task is started. For example, if you automatically trigger
     ///   - tags: The metadata that you apply to the task to help you categorize and organize them. Each
     ///   - taskDefinition: The family and revision (family:revision) or
     ///   - volumeConfigurations: The details of the volume that was configuredAtLaunch. You can configure
@@ -2915,7 +3025,7 @@ public struct ECS: AWSService {
     /// Parameters:
     ///   - capacityProviderStrategy: The capacity provider strategy to update the service to use. if the service uses the default capacity provider strategy for the cluster, the
     ///   - cluster: The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on.
-    ///   - deploymentConfiguration: Optional deployment parameters that control how many tasks run during the deployment
+    ///   - deploymentConfiguration: Optional deployment parameters that control how many tasks run during the deployment and the
     ///   - desiredCount: The number of instantiations of the task to place and keep running in your
     ///   - enableECSManagedTags: Determines whether to turn on Amazon ECS managed tags for the tasks in the service. For
     ///   - enableExecuteCommand: If true, this enables execute command functionality on all task

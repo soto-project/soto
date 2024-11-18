@@ -830,7 +830,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - capacityReservationId: The ID of the Capacity Reservation.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - unusedReservationBillingOwnerId: The ID of the consumer account to which assign billing.
+    ///   - unusedReservationBillingOwnerId: The ID of the consumer account to which to assign billing.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateCapacityReservationBillingOwner(
@@ -1118,7 +1118,7 @@ public struct EC2: AWSService {
         return try await self.associateIpamResourceDiscovery(input, logger: logger)
     }
 
-    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information,  see Work with NAT gateways in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment.  For more information, see Elastic IP address quotas in the Amazon VPC User Guide.  When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
+    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information,  see Work with NAT gateways in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment.  For more information, see Elastic IP address quotas in the Amazon VPC User Guide.  When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs  must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same,  the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information  about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
     @Sendable
     @inlinable
     public func associateNatGatewayAddress(_ input: AssociateNatGatewayAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateNatGatewayAddressResult {
@@ -1131,7 +1131,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information,  see Work with NAT gateways in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment.  For more information, see Elastic IP address quotas in the Amazon VPC User Guide.  When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
+    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information,  see Work with NAT gateways in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment.  For more information, see Elastic IP address quotas in the Amazon VPC User Guide.  When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs  must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same,  the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information  about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
     ///
     /// Parameters:
     ///   - allocationIds: The allocation IDs of EIPs that you want to associate with your NAT gateway.
@@ -1192,6 +1192,41 @@ public struct EC2: AWSService {
             subnetId: subnetId
         )
         return try await self.associateRouteTable(input, logger: logger)
+    }
+
+    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC.    The VPC you want to associate the security group with must be in the same Region.   You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you.   You must own the security group and the VPC that it was created in.   You cannot use this feature with default security groups.   You cannot use this feature with the default VPC.
+    @Sendable
+    @inlinable
+    public func associateSecurityGroupVpc(_ input: AssociateSecurityGroupVpcRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSecurityGroupVpcResult {
+        try await self.client.execute(
+            operation: "AssociateSecurityGroupVpc", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC.    The VPC you want to associate the security group with must be in the same Region.   You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you.   You must own the security group and the VPC that it was created in.   You cannot use this feature with default security groups.   You cannot use this feature with the default VPC.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - groupId: A security group ID.
+    ///   - vpcId: A VPC ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateSecurityGroupVpc(
+        dryRun: Bool? = nil,
+        groupId: String? = nil,
+        vpcId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateSecurityGroupVpcResult {
+        let input = AssociateSecurityGroupVpcRequest(
+            dryRun: dryRun, 
+            groupId: groupId, 
+            vpcId: vpcId
+        )
+        return try await self.associateSecurityGroupVpc(input, logger: logger)
     }
 
     /// Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR block with your subnet.
@@ -2508,7 +2543,7 @@ public struct EC2: AWSService {
         return try await self.createCapacityReservation(input, logger: logger)
     }
 
-    /// 			Create a new Capacity Reservation by splitting the available capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
+    /// 			Create a new Capacity Reservation by splitting the capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
     ///
     @Sendable
     @inlinable
@@ -2522,14 +2557,14 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// 			Create a new Capacity Reservation by splitting the available capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
+    /// 			Create a new Capacity Reservation by splitting the capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
     ///
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempotency.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - instanceCount: 			The number of instances to split from the source Capacity Reservation.
-    ///   - sourceCapacityReservationId: 			The ID of the Capacity Reservation from which you want to split the available capacity.
+    ///   - sourceCapacityReservationId: 			The ID of the Capacity Reservation from which you want to split the capacity.
     ///   - tagSpecifications: 			The tags to apply to the new Capacity Reservation.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3147,7 +3182,7 @@ public struct EC2: AWSService {
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - logDestination: The destination for the flow log data. The meaning of this parameter depends on the destination type.   If the destination type is cloud-watch-logs, specify the ARN of a CloudWatch Logs log group. For example: arn:aws:logs:region:account_id:log-group:my_group  Alternatively, use the LogGroupName parameter.   If the destination type is s3, specify the ARN of an S3 bucket. For example: arn:aws:s3:::my_bucket/my_subfolder/ The subfolder is optional. Note that you can't use AWSLogs as a subfolder name.   If the destination type is kinesis-data-firehose, specify the ARN of a Kinesis Data Firehose delivery stream. For example: arn:aws:firehose:region:account_id:deliverystream:my_stream
     ///   - logDestinationType: The type of destination for the flow log data. Default: cloud-watch-logs
-    ///   - logFormat: The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see Flow log records in the Amazon VPC User Guide or Transit Gateway Flow Log records in the Amazon Web Services Transit Gateway Guide. Specify the fields using the ${field-id} format, separated by spaces.
+    ///   - logFormat: The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see Flow log records  in the Amazon VPC User Guide or Transit Gateway Flow Log records in the Amazon Web Services Transit Gateway Guide. Specify the fields using the ${field-id} format, separated by spaces.
     ///   - logGroupName: The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. This parameter is valid only if the destination type is cloud-watch-logs.
     ///   - maxAggregationInterval: The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.  The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway resource types. When a network interface is attached to a Nitro-based instance, the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
     ///   - resourceIds: The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 1000 for the other resource types.
@@ -3558,9 +3593,9 @@ public struct EC2: AWSService {
     ///   - description: A description for the IPAM pool.
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - ipamScopeId: The ID of the scope in which you would like to create the IPAM pool.
-    ///   - locale: The locale for the pool should be one of the following:   An Amazon Web Services Region where you want this IPAM pool to be available for allocations.   The network border group for an Amazon Web Services Local Zone where you want this IPAM pool to be available for allocations (supported Local Zones). This option is only available for IPAM IPv4 pools in the public scope.   If you do not choose a locale, resources in Regions others than the IPAM's home region cannot use CIDRs from this pool. Possible values: Any Amazon Web Services Region or supported Amazon Web Services Local Zone. Default is none and means any locale.
+    ///   - locale: The locale for the pool should be one of the following:   An Amazon Web Services Region where you want this IPAM pool to be available for allocations.   The network border group for an Amazon Web Services Local Zone where you want this IPAM pool to be available for allocations (supported Local Zones). This option is only available for IPAM IPv4 pools in the public scope.   Possible values: Any Amazon Web Services Region or supported Amazon Web Services Local Zone. Default is none and means any locale.
     ///   - publicIpSource: The IP address source for pools in the public scope. Only used for provisioning IP address CIDRs to pools in the public scope. Default is byoip. For more information, see Create IPv6 pools in the Amazon VPC IPAM User Guide.  By default, you can add only one Amazon-provided IPv6 CIDR block to a top-level IPv6 pool if PublicIpSource is amazon. For information on increasing the default limit, see  Quotas for your IPAM in the Amazon VPC IPAM User Guide.
-    ///   - publiclyAdvertisable: Determines if the pool is publicly advertisable. This option is not available for pools with AddressFamily set to ipv4.
+    ///   - publiclyAdvertisable: Determines if the pool is publicly advertisable. The request can only contain PubliclyAdvertisable if AddressFamily is ipv6 and PublicIpSource is byoip.
     ///   - sourceIpamPoolId: The ID of the source IPAM pool. Use this option to create a pool within an existing pool. Note that the CIDR you provision for the pool within the source pool must be available in the source pool's CIDR range.
     ///   - sourceResource: The resource used to provision CIDRs to a resource planning pool.
     ///   - tagSpecifications: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
@@ -3690,7 +3725,7 @@ public struct EC2: AWSService {
         return try await self.createIpamScope(input, logger: logger)
     }
 
-    /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified PEM or PPK format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using ImportKeyPair. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see Amazon EC2 key pairs in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using ImportKeyPair. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see Amazon EC2 key pairs in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createKeyPair(_ input: CreateKeyPairRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> KeyPair {
@@ -3703,7 +3738,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified PEM or PPK format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using ImportKeyPair. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see Amazon EC2 key pairs in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using ImportKeyPair. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see Amazon EC2 key pairs in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -4030,7 +4065,7 @@ public struct EC2: AWSService {
         return try await self.createManagedPrefixList(input, logger: logger)
     }
 
-    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see NAT gateways in the Amazon VPC User Guide.  When you create a public NAT gateway and assign it an EIP or secondary EIPs, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the NAT gateway will fail to launch. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
+    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see NAT gateways in the Amazon VPC User Guide.  When you create a public NAT gateway and assign it an EIP or secondary EIPs,  the network border group of the EIPs must match the network border group of the Availability Zone (AZ)  that the public NAT gateway is in. If it's not the same, the NAT gateway will fail to launch.  You can see the network border group for the subnet's AZ by viewing the details of the subnet.  Similarly, you can view the network border group of an EIP by viewing the details of the EIP address.  For more information about network border groups and EIPs, see Allocate an Elastic IP address  in the Amazon VPC User Guide.
     @Sendable
     @inlinable
     public func createNatGateway(_ input: CreateNatGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNatGatewayResult {
@@ -4043,7 +4078,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see NAT gateways in the Amazon VPC User Guide.  When you create a public NAT gateway and assign it an EIP or secondary EIPs, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the NAT gateway will fail to launch. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
+    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see NAT gateways in the Amazon VPC User Guide.  When you create a public NAT gateway and assign it an EIP or secondary EIPs,  the network border group of the EIPs must match the network border group of the Availability Zone (AZ)  that the public NAT gateway is in. If it's not the same, the NAT gateway will fail to launch.  You can see the network border group for the subnet's AZ by viewing the details of the subnet.  Similarly, you can view the network border group of an EIP by viewing the details of the EIP address.  For more information about network border groups and EIPs, see Allocate an Elastic IP address  in the Amazon VPC User Guide.
     ///
     /// Parameters:
     ///   - allocationId: [Public NAT gateways only] The allocation ID of an Elastic IP address to associate  with the NAT gateway. You cannot specify an Elastic IP address with a private NAT gateway. If the Elastic IP address is associated with another resource, you must first disassociate it.
@@ -4312,7 +4347,7 @@ public struct EC2: AWSService {
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - enablePrimaryIpv6: If you’re creating a network interface in a dual-stack or IPv6-only subnet, you have the option to assign a primary IPv6 IP address. A primary IPv6 address is an IPv6 GUA address associated with an ENI that you have enabled to use a primary IPv6 address. Use this option if the instance that this ENI will be attached to relies on its IPv6 address not changing. Amazon Web Services will automatically assign an IPv6 address associated with the ENI attached to your instance to be the primary IPv6 address. Once you enable an IPv6 GUA address to be a primary IPv6, you cannot disable it. When you enable an IPv6 GUA address to be a primary IPv6, the first IPv6 GUA will be made the primary IPv6 address until the instance is terminated or the network interface is detached. If you have multiple IPv6 addresses associated with an ENI attached to your instance and you enable a primary IPv6 address, the first IPv6 GUA address associated with the ENI becomes the primary IPv6 address.
     ///   - groups: The IDs of one or more security groups.
-    ///   - interfaceType: The type of network interface. The default is interface. The only supported values are interface, efa, and trunk.
+    ///   - interfaceType: The type of network interface. The default is interface. If you specify efa-only, do not assign any IP addresses to the network  interface. EFA-only network interfaces do not support IP addresses. The only supported values are interface, efa, efa-only, and trunk.
     ///   - ipv4PrefixCount: The number of IPv4 prefixes that Amazon Web Services automatically assigns to the network interface. You can't specify a count of IPv4 prefixes if you've specified one of the following: specific IPv4 prefixes, specific private IPv4 addresses, or a count of private IPv4 addresses.
     ///   - ipv4Prefixes: The IPv4 prefixes assigned to the network interface. You can't specify IPv4 prefixes if you've specified one of the following: a count of IPv4 prefixes, specific private IPv4 addresses, or a count of private IPv4 addresses.
     ///   - ipv6AddressCount: The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't specify a count of IPv6 addresses using this parameter if you've specified  one of the following: specific IPv6 addresses, specific IPv6 prefixes, or a count of IPv6 prefixes. If your subnet has the AssignIpv6AddressOnCreation attribute set, you can override that setting by specifying 0 as the IPv6 address count.
@@ -4740,9 +4775,9 @@ public struct EC2: AWSService {
 
     /// Creates a security group. A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. For more information, see
     /// 				Amazon EC2 security groups in
-    /// 				the Amazon Elastic Compute Cloud User Guide and
+    /// 				the Amazon EC2 User Guide and
     /// 				Security groups for your VPC in the
-    /// 				Amazon Virtual Private Cloud User Guide. When you create a security group, you specify a friendly name of your choice.  You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't specify a security group  when you launch an instance, the instance is launched into the appropriate default security group.  A default security group includes a default rule that grants instances unrestricted network access  to each other. You can add or remove rules from your security groups using
+    /// 				Amazon VPC User Guide. When you create a security group, you specify a friendly name of your choice.  You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't specify a security group  when you launch an instance, the instance is launched into the appropriate default security group.  A default security group includes a default rule that grants instances unrestricted network access  to each other. You can add or remove rules from your security groups using
     /// 					AuthorizeSecurityGroupIngress,
     /// 					AuthorizeSecurityGroupEgress,
     /// 					RevokeSecurityGroupIngress, and
@@ -4761,9 +4796,9 @@ public struct EC2: AWSService {
     }
     /// Creates a security group. A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. For more information, see
     /// 				Amazon EC2 security groups in
-    /// 				the Amazon Elastic Compute Cloud User Guide and
+    /// 				the Amazon EC2 User Guide and
     /// 				Security groups for your VPC in the
-    /// 				Amazon Virtual Private Cloud User Guide. When you create a security group, you specify a friendly name of your choice.  You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't specify a security group  when you launch an instance, the instance is launched into the appropriate default security group.  A default security group includes a default rule that grants instances unrestricted network access  to each other. You can add or remove rules from your security groups using
+    /// 				Amazon VPC User Guide. When you create a security group, you specify a friendly name of your choice.  You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't specify a security group  when you launch an instance, the instance is launched into the appropriate default security group.  A default security group includes a default rule that grants instances unrestricted network access  to each other. You can add or remove rules from your security groups using
     /// 					AuthorizeSecurityGroupIngress,
     /// 					AuthorizeSecurityGroupEgress,
     /// 					RevokeSecurityGroupIngress, and
@@ -5018,7 +5053,7 @@ public struct EC2: AWSService {
         return try await self.createSubnet(input, logger: logger)
     }
 
-    /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations  in the Amazon VPC User Guide and Assign prefixes  to network interfaces in the Amazon EC2 User Guide.
+    /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations  in the Amazon VPC User Guide and Manage prefixes  for your network interfaces in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createSubnetCidrReservation(_ input: CreateSubnetCidrReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubnetCidrReservationResult {
@@ -5031,7 +5066,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations  in the Amazon VPC User Guide and Assign prefixes  to network interfaces in the Amazon EC2 User Guide.
+    /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations  in the Amazon VPC User Guide and Manage prefixes  for your network interfaces in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - cidr: The IPv4 or IPV6 CIDR range to reserve.
@@ -7814,8 +7849,8 @@ public struct EC2: AWSService {
         return try await self.deleteRouteTable(input, logger: logger)
     }
 
-    /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface or is
-    /// 			  referenced by another security group in the same VPC, the operation fails with
+    /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface, is
+    /// 			  referenced by another security group in the same VPC, or has a VPC association, the operation fails with
     /// 				DependencyViolation.
     @Sendable
     @inlinable
@@ -7829,8 +7864,8 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface or is
-    /// 			  referenced by another security group in the same VPC, the operation fails with
+    /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface, is
+    /// 			  referenced by another security group in the same VPC, or has a VPC association, the operation fails with
     /// 				DependencyViolation.
     ///
     /// Parameters:
@@ -8671,7 +8706,11 @@ public struct EC2: AWSService {
         return try await self.deleteVolume(input, logger: logger)
     }
 
-    /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the default one), and so on. When you delete the VPC, it deletes the VPC's default security group, network ACL, and route table.
+    /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated
+    /// 		  with the VPC before you can delete it. For example, you must terminate all instances running in the VPC,
+    /// 		  delete all security groups associated with the VPC (except the default one), delete all route tables
+    /// 		  associated with the VPC (except the default one), and so on. When you delete the VPC, it deletes the
+    /// 		  default security group, network ACL, and route table for the VPC. If you created a flow log for the VPC that you are deleting, note that flow logs for deleted  VPCs are eventually automatically removed.
     @Sendable
     @inlinable
     public func deleteVpc(_ input: DeleteVpcRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -8684,7 +8723,11 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the default one), and so on. When you delete the VPC, it deletes the VPC's default security group, network ACL, and route table.
+    /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated
+    /// 		  with the VPC before you can delete it. For example, you must terminate all instances running in the VPC,
+    /// 		  delete all security groups associated with the VPC (except the default one), delete all route tables
+    /// 		  associated with the VPC (except the default one), and so on. When you delete the VPC, it deletes the
+    /// 		  default security group, network ACL, and route table for the VPC. If you created a flow log for the VPC that you are deleting, note that flow logs for deleted  VPCs are eventually automatically removed.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -10928,13 +10971,13 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions.  Specify an Amazon Web Services account ID, self (the sender of the request),
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 |  arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 |  arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
-    ///   - owners: Scopes the results to images with the specified owners. You can specify a combination of   Amazon Web Services account IDs, self, amazon, and aws-marketplace.  If you omit this parameter, the results include all images for which you have launch permissions,  regardless of ownership.
+    ///   - owners: Scopes the results to images with the specified owners. You can specify a combination of   Amazon Web Services account IDs, self, amazon, aws-backup-vault, and aws-marketplace.  If you omit this parameter, the results include all images for which you have launch permissions,  regardless of ownership.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeImages(
@@ -11232,6 +11275,47 @@ public struct EC2: AWSService {
         return try await self.describeInstanceEventWindows(input, logger: logger)
     }
 
+    /// Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, or made private (no longer public or shared with your account). If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. If you specify an instance ID that is not valid, an instance that doesn't exist, or an instance that you do not own, an error (InvalidInstanceID.NotFound) is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. In the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected Availability Zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs that are in an unaffected Availability Zone, the call works normally.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    @Sendable
+    @inlinable
+    public func describeInstanceImageMetadata(_ input: DescribeInstanceImageMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceImageMetadataResult {
+        try await self.client.execute(
+            operation: "DescribeInstanceImageMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, or made private (no longer public or shared with your account). If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. If you specify an instance ID that is not valid, an instance that doesn't exist, or an instance that you do not own, an error (InvalidInstanceID.NotFound) is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. In the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected Availability Zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs that are in an unaffected Availability Zone, the call works normally.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
+    ///   - filters: The filters.    availability-zone - The name of the Availability Zone (for example, us-west-2a) or Local Zone (for example, us-west-2-lax-1b) of the instance.    instance-id - The ID of the instance.    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t3.micro).    launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2023-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2023-09-29T*, which matches an entire day.     tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    zone-id - The ID of the Availability Zone (for example, usw2-az2) or Local Zone (for example, usw2-lax1-az1) of the instance.
+    ///   - instanceIds: The instance IDs. If you don't specify an instance ID or filters, the output includes information for all instances.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeInstanceImageMetadata(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        instanceIds: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeInstanceImageMetadataResult {
+        let input = DescribeInstanceImageMetadataRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            instanceIds: instanceIds, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeInstanceImageMetadata(input, logger: logger)
+    }
+
     /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.    The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     @inlinable
@@ -11378,7 +11462,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
     ///   - instanceTypes: The instance types.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -11807,7 +11891,7 @@ public struct EC2: AWSService {
     }
 
     /// Describes the specified key pairs or all of your key pairs. For more information about key pairs, see Amazon EC2 key pairs
-    /// 				in the Amazon Elastic Compute Cloud User Guide.
+    /// 				in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func describeKeyPairs(_ input: DescribeKeyPairsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKeyPairsResult {
@@ -11821,7 +11905,7 @@ public struct EC2: AWSService {
         )
     }
     /// Describes the specified key pairs or all of your key pairs. For more information about key pairs, see Amazon EC2 key pairs
-    /// 				in the Amazon Elastic Compute Cloud User Guide.
+    /// 				in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -13291,7 +13375,7 @@ public struct EC2: AWSService {
         return try await self.describeScheduledInstances(input, logger: logger)
     }
 
-    /// Describes the VPCs on the other side of a VPC peering connection that are referencing the security groups you've specified in this request.
+    /// Describes the VPCs on the other side of a VPC peering or Transit Gateway connection that are referencing the security groups you've specified in this request.
     @Sendable
     @inlinable
     public func describeSecurityGroupReferences(_ input: DescribeSecurityGroupReferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityGroupReferencesResult {
@@ -13304,7 +13388,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the VPCs on the other side of a VPC peering connection that are referencing the security groups you've specified in this request.
+    /// Describes the VPCs on the other side of a VPC peering or Transit Gateway connection that are referencing the security groups you've specified in this request.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -13362,6 +13446,44 @@ public struct EC2: AWSService {
             securityGroupRuleIds: securityGroupRuleIds
         )
         return try await self.describeSecurityGroupRules(input, logger: logger)
+    }
+
+    /// Describes security group VPC associations made with AssociateSecurityGroupVpc.
+    @Sendable
+    @inlinable
+    public func describeSecurityGroupVpcAssociations(_ input: DescribeSecurityGroupVpcAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityGroupVpcAssociationsResult {
+        try await self.client.execute(
+            operation: "DescribeSecurityGroupVpcAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes security group VPC associations made with AssociateSecurityGroupVpc.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: Security group VPC association filters.    group-id: The security group ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+    ///   - maxResults: The maximum number of items to return for this request.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeSecurityGroupVpcAssociations(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeSecurityGroupVpcAssociationsResult {
+        let input = DescribeSecurityGroupVpcAssociationsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeSecurityGroupVpcAssociations(input, logger: logger)
     }
 
     /// Describes the specified security groups or all of your security groups.
@@ -13771,7 +13893,7 @@ public struct EC2: AWSService {
         return try await self.describeSpotPriceHistory(input, logger: logger)
     }
 
-    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in a peered VPC. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
+    /// Describes the stale security group rules for security groups referenced across a VPC peering connection, transit gateway connection, or with a security group VPC association. Rules are stale when they reference a deleted security group. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has been deleted, across a transit gateway where the transit gateway has been deleted (or the transit gateway security group referencing feature has been disabled), or if a security group VPC association has been disassociated.
     @Sendable
     @inlinable
     public func describeStaleSecurityGroups(_ input: DescribeStaleSecurityGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStaleSecurityGroupsResult {
@@ -13784,7 +13906,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in a peered VPC. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
+    /// Describes the stale security group rules for security groups referenced across a VPC peering connection, transit gateway connection, or with a security group VPC association. Rules are stale when they reference a deleted security group. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has been deleted, across a transit gateway where the transit gateway has been deleted (or the transit gateway security group referencing feature has been disabled), or if a security group VPC association has been disassociated.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -16546,6 +16668,41 @@ public struct EC2: AWSService {
         return try await self.disassociateRouteTable(input, logger: logger)
     }
 
+    /// Disassociates a security group from a VPC. You cannot disassociate the security group if any Elastic network interfaces in the associated VPC are still associated with the security group.  Note that the disassociation is asynchronous and you can check the status of the request with DescribeSecurityGroupVpcAssociations.
+    @Sendable
+    @inlinable
+    public func disassociateSecurityGroupVpc(_ input: DisassociateSecurityGroupVpcRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateSecurityGroupVpcResult {
+        try await self.client.execute(
+            operation: "DisassociateSecurityGroupVpc", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates a security group from a VPC. You cannot disassociate the security group if any Elastic network interfaces in the associated VPC are still associated with the security group.  Note that the disassociation is asynchronous and you can check the status of the request with DescribeSecurityGroupVpcAssociations.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - groupId: A security group ID.
+    ///   - vpcId: A VPC ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateSecurityGroupVpc(
+        dryRun: Bool? = nil,
+        groupId: String? = nil,
+        vpcId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateSecurityGroupVpcResult {
+        let input = DisassociateSecurityGroupVpcRequest(
+            dryRun: dryRun, 
+            groupId: groupId, 
+            vpcId: vpcId
+        )
+        return try await self.disassociateSecurityGroupVpc(input, logger: logger)
+    }
+
     /// Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it.
     @Sendable
     @inlinable
@@ -18110,7 +18267,7 @@ public struct EC2: AWSService {
         return try await self.getInstanceTpmEkPub(input, logger: logger)
     }
 
-    /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attributes, Attribute-based instance type selection for EC2 Fleet, Attribute-based instance type selection for Spot Fleet, and Spot placement score in the Amazon EC2 User Guide, and Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
+    /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attributes, Specify attributes for instance type selection for EC2 Fleet or Spot Fleet, and Spot placement score in the Amazon EC2 User Guide, and Creating mixed instance groups using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     @inlinable
     public func getInstanceTypesFromInstanceRequirements(_ input: GetInstanceTypesFromInstanceRequirementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstanceTypesFromInstanceRequirementsResult {
@@ -18123,7 +18280,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attributes, Attribute-based instance type selection for EC2 Fleet, Attribute-based instance type selection for Spot Fleet, and Spot placement score in the Amazon EC2 User Guide, and Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
+    /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attributes, Specify attributes for instance type selection for EC2 Fleet or Spot Fleet, and Spot placement score in the Amazon EC2 User Guide, and Creating mixed instance groups using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// Parameters:
     ///   - architectureTypes: The processor architecture type.
@@ -19565,8 +19722,7 @@ public struct EC2: AWSService {
         return try await self.importInstance(input, logger: logger)
     }
 
-    /// Imports the public key from an RSA or ED25519 key pair that you created with a third-party tool.  Compare this with CreateKeyPair, in which Amazon Web Services creates the key pair and gives the keys to you  (Amazon Web Services keeps a copy of the public key). With ImportKeyPair, you create the key pair and give Amazon Web Services just the public key.  The private key is never transferred between you and Amazon Web Services. For more information about key pairs, see Amazon EC2 key pairs
-    /// 				in the Amazon Elastic Compute Cloud User Guide.
+    /// Imports the public key from an RSA or ED25519 key pair that you created using a third-party tool.  You give Amazon Web Services only the public key. The private key is never transferred between you and Amazon Web Services. For more information about the requirements for importing a key pair, see Create a key pair and import the public key to Amazon EC2 in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func importKeyPair(_ input: ImportKeyPairRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportKeyPairResult {
@@ -19579,13 +19735,12 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Imports the public key from an RSA or ED25519 key pair that you created with a third-party tool.  Compare this with CreateKeyPair, in which Amazon Web Services creates the key pair and gives the keys to you  (Amazon Web Services keeps a copy of the public key). With ImportKeyPair, you create the key pair and give Amazon Web Services just the public key.  The private key is never transferred between you and Amazon Web Services. For more information about key pairs, see Amazon EC2 key pairs
-    /// 				in the Amazon Elastic Compute Cloud User Guide.
+    /// Imports the public key from an RSA or ED25519 key pair that you created using a third-party tool.  You give Amazon Web Services only the public key. The private key is never transferred between you and Amazon Web Services. For more information about the requirements for importing a key pair, see Create a key pair and import the public key to Amazon EC2 in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - keyName: A unique name for the key pair.
-    ///   - publicKeyMaterial: The public key. For API calls, the text must be base64-encoded. For command line tools, base64 encoding is performed for you.
+    ///   - publicKeyMaterial: The public key.
     ///   - tagSpecifications: The tags to apply to the imported key pair.
     ///   - logger: Logger use during operation
     @inlinable
@@ -21524,7 +21679,7 @@ public struct EC2: AWSService {
     ///   - assignIpv6AddressOnCreation: Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives an IPv6 address).  If you enable the IPv6 addressing feature for your subnet, your network interface or instance only receives an IPv6 address if it's created using version 2016-11-15 or later of the Amazon EC2 API.
     ///   - customerOwnedIpv4Pool: The customer-owned IPv4 address pool associated with the subnet. You must set this value when you specify true for MapCustomerOwnedIpOnLaunch.
     ///   - disableLniAtDeviceIndex:  Specify true to indicate that local network interfaces at the current  position should be disabled.
-    ///   - enableDns64: Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet  should return synthetic IPv6 addresses for IPv4-only destinations.  You must first configure a NAT gateway in a public subnet (separate from the subnet containing the IPv6-only workloads). For example, the subnet containing the NAT gateway should have a 0.0.0.0/0 route pointing to the internet gateway. For more information, see Configure DNS64 and NAT64 in the Amazon VPC User Guide.
+    ///   - enableDns64: Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet  should return synthetic IPv6 addresses for IPv4-only destinations. You must first configure a NAT gateway in a public subnet (separate from the subnet  containing the IPv6-only workloads). For example, the subnet containing the NAT gateway  should have a 0.0.0.0/0 route pointing to the internet gateway. For more  information, see Configure DNS64 and NAT64 in the Amazon VPC User Guide.
     ///   - enableLniAtDeviceIndex:  Indicates the device position for local network interfaces in this subnet. For example,  1 indicates local network interfaces in this subnet are the secondary  network interface (eth1). A local network interface cannot be the primary network interface (eth0).
     ///   - enableResourceNameDnsAAAARecordOnLaunch: Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
     ///   - enableResourceNameDnsARecordOnLaunch: Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
@@ -24657,7 +24812,7 @@ public struct EC2: AWSService {
     ///   - accessGroupId: The ID of the Active Directory group for which to revoke access.
     ///   - clientVpnEndpointId: The ID of the Client VPN endpoint with which the authorization rule is associated.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - revokeAllGroups: Indicates whether access should be revoked for all clients.
+    ///   - revokeAllGroups: Indicates whether access should be revoked for all groups for a single TargetNetworkCidr that earlier authorized ingress for all groups using AuthorizeAllGroups.
     ///   - targetNetworkCidr: The IPv4 address range, in CIDR notation, of the network for which access is being removed.
     ///   - logger: Logger use during operation
     @inlinable
@@ -25463,7 +25618,7 @@ public struct EC2: AWSService {
         return try await self.unassignPrivateIpAddresses(input, logger: logger)
     }
 
-    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide. While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections, but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses are released.
+    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information,  see Edit secondary IP address associations  in the Amazon VPC User Guide. While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections, but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses are released.
     @Sendable
     @inlinable
     public func unassignPrivateNatGatewayAddress(_ input: UnassignPrivateNatGatewayAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UnassignPrivateNatGatewayAddressResult {
@@ -25476,7 +25631,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide. While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections, but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses are released.
+    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information,  see Edit secondary IP address associations  in the Amazon VPC User Guide. While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections, but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses are released.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -26929,12 +27084,12 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions.  Specify an Amazon Web Services account ID, self (the sender of the request),
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 |  arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 |  arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
-    ///   - owners: Scopes the results to images with the specified owners. You can specify a combination of   Amazon Web Services account IDs, self, amazon, and aws-marketplace.  If you omit this parameter, the results include all images for which you have launch permissions,  regardless of ownership.
+    ///   - owners: Scopes the results to images with the specified owners. You can specify a combination of   Amazon Web Services account IDs, self, amazon, aws-backup-vault, and aws-marketplace.  If you omit this parameter, the results include all images for which you have launch permissions,  regardless of ownership.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeImagesPaginator(
@@ -27176,6 +27331,49 @@ extension EC2 {
         return self.describeInstanceEventWindowsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``describeInstanceImageMetadata(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeInstanceImageMetadataPaginator(
+        _ input: DescribeInstanceImageMetadataRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeInstanceImageMetadataRequest, DescribeInstanceImageMetadataResult> {
+        return .init(
+            input: input,
+            command: self.describeInstanceImageMetadata,
+            inputKey: \DescribeInstanceImageMetadataRequest.nextToken,
+            outputKey: \DescribeInstanceImageMetadataResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeInstanceImageMetadata(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
+    ///   - filters: The filters.    availability-zone - The name of the Availability Zone (for example, us-west-2a) or Local Zone (for example, us-west-2-lax-1b) of the instance.    instance-id - The ID of the instance.    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t3.micro).    launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2023-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2023-09-29T*, which matches an entire day.     tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    zone-id - The ID of the Availability Zone (for example, usw2-az2) or Local Zone (for example, usw2-lax1-az1) of the instance.
+    ///   - instanceIds: The instance IDs. If you don't specify an instance ID or filters, the output includes information for all instances.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeInstanceImageMetadataPaginator(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        instanceIds: [String]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeInstanceImageMetadataRequest, DescribeInstanceImageMetadataResult> {
+        let input = DescribeInstanceImageMetadataRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            instanceIds: instanceIds, 
+            maxResults: maxResults
+        )
+        return self.describeInstanceImageMetadataPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``describeInstanceStatus(_:logger:)``.
     ///
     /// - Parameters:
@@ -27333,7 +27531,7 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
     ///   - instanceTypes: The instance types.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - logger: Logger used for logging
@@ -29003,6 +29201,46 @@ extension EC2 {
             securityGroupRuleIds: securityGroupRuleIds
         )
         return self.describeSecurityGroupRulesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeSecurityGroupVpcAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeSecurityGroupVpcAssociationsPaginator(
+        _ input: DescribeSecurityGroupVpcAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeSecurityGroupVpcAssociationsRequest, DescribeSecurityGroupVpcAssociationsResult> {
+        return .init(
+            input: input,
+            command: self.describeSecurityGroupVpcAssociations,
+            inputKey: \DescribeSecurityGroupVpcAssociationsRequest.nextToken,
+            outputKey: \DescribeSecurityGroupVpcAssociationsResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeSecurityGroupVpcAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: Security group VPC association filters.    group-id: The security group ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+    ///   - maxResults: The maximum number of items to return for this request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeSecurityGroupVpcAssociationsPaginator(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeSecurityGroupVpcAssociationsRequest, DescribeSecurityGroupVpcAssociationsResult> {
+        let input = DescribeSecurityGroupVpcAssociationsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.describeSecurityGroupVpcAssociationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``describeSecurityGroups(_:logger:)``.
@@ -32325,6 +32563,19 @@ extension EC2.DescribeInstanceEventWindowsRequest: AWSPaginateToken {
     }
 }
 
+extension EC2.DescribeInstanceImageMetadataRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeInstanceImageMetadataRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            instanceIds: self.instanceIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension EC2.DescribeInstanceStatusRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> EC2.DescribeInstanceStatusRequest {
@@ -32876,6 +33127,18 @@ extension EC2.DescribeSecurityGroupRulesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             securityGroupRuleIds: self.securityGroupRuleIds
+        )
+    }
+}
+
+extension EC2.DescribeSecurityGroupVpcAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeSecurityGroupVpcAssociationsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -34064,13 +34327,13 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions.  Specify an Amazon Web Services account ID, self (the sender of the request),
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 |  arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 |  arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
-    ///   - owners: Scopes the results to images with the specified owners. You can specify a combination of   Amazon Web Services account IDs, self, amazon, and aws-marketplace.  If you omit this parameter, the results include all images for which you have launch permissions,  regardless of ownership.
+    ///   - owners: Scopes the results to images with the specified owners. You can specify a combination of   Amazon Web Services account IDs, self, amazon, aws-backup-vault, and aws-marketplace.  If you omit this parameter, the results include all images for which you have launch permissions,  regardless of ownership.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilImageAvailable(
@@ -34125,13 +34388,13 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions.  Specify an Amazon Web Services account ID, self (the sender of the request),
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 |  arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 |  arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates 	whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace).  The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be  	set using the IAM console. We recommend that you use the Owner  	request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the  		Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
-    ///   - owners: Scopes the results to images with the specified owners. You can specify a combination of   Amazon Web Services account IDs, self, amazon, and aws-marketplace.  If you omit this parameter, the results include all images for which you have launch permissions,  regardless of ownership.
+    ///   - owners: Scopes the results to images with the specified owners. You can specify a combination of   Amazon Web Services account IDs, self, amazon, aws-backup-vault, and aws-marketplace.  If you omit this parameter, the results include all images for which you have launch permissions,  regardless of ownership.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilImageExists(

@@ -128,6 +128,8 @@ extension ApplicationInsights {
         case mysql = "MYSQL"
         case oracle = "ORACLE"
         case postgresql = "POSTGRESQL"
+        case sapAseHighAvailability = "SAP_ASE_HIGH_AVAILABILITY"
+        case sapAseSingleNode = "SAP_ASE_SINGLE_NODE"
         case sapHanaHighAvailability = "SAP_HANA_HIGH_AVAILABILITY"
         case sapHanaMultiNode = "SAP_HANA_MULTI_NODE"
         case sapHanaSingleNode = "SAP_HANA_SINGLE_NODE"
@@ -243,7 +245,7 @@ extension ApplicationInsights {
     }
 
     public struct ApplicationInfo: AWSDecodableShape {
-        /// The AWS account ID for the owner of the application.
+        /// The Amazon Web Services account ID for the owner of the application.
         public let accountId: String?
         /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
         public let attachMissingPermission: Bool?
@@ -263,9 +265,11 @@ extension ApplicationInsights {
         public let remarks: String?
         /// The name of the resource group used for the application.
         public let resourceGroupName: String?
+        ///  The SNS topic ARN that is associated with SNS notifications for updates or issues.
+        public let snsNotificationArn: String?
 
         @inlinable
-        public init(accountId: String? = nil, attachMissingPermission: Bool? = nil, autoConfigEnabled: Bool? = nil, cweMonitorEnabled: Bool? = nil, discoveryType: DiscoveryType? = nil, lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
+        public init(accountId: String? = nil, attachMissingPermission: Bool? = nil, autoConfigEnabled: Bool? = nil, cweMonitorEnabled: Bool? = nil, discoveryType: DiscoveryType? = nil, lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil, snsNotificationArn: String? = nil) {
             self.accountId = accountId
             self.attachMissingPermission = attachMissingPermission
             self.autoConfigEnabled = autoConfigEnabled
@@ -276,6 +280,7 @@ extension ApplicationInsights {
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.remarks = remarks
             self.resourceGroupName = resourceGroupName
+            self.snsNotificationArn = snsNotificationArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -289,11 +294,12 @@ extension ApplicationInsights {
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case remarks = "Remarks"
             case resourceGroupName = "ResourceGroupName"
+            case snsNotificationArn = "SNSNotificationArn"
         }
     }
 
     public struct ConfigurationEvent: AWSDecodableShape {
-        /// The AWS account ID for the owner of the application to which the configuration event belongs.
+        /// The Amazon Web Services account ID for the owner of the application to which the configuration event belongs.
         public let accountId: String?
         ///  The details of the event in plain text.
         public let eventDetail: String?
@@ -351,11 +357,13 @@ extension ApplicationInsights {
         public let opsItemSNSTopicArn: String?
         /// The name of the resource group.
         public let resourceGroupName: String?
+        ///  The SNS notification topic ARN.
+        public let snsNotificationArn: String?
         /// List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [Tag]?
 
         @inlinable
-        public init(attachMissingPermission: Bool? = nil, autoConfigEnabled: Bool? = nil, autoCreate: Bool? = nil, cweMonitorEnabled: Bool? = nil, groupingType: GroupingType? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String? = nil, tags: [Tag]? = nil) {
+        public init(attachMissingPermission: Bool? = nil, autoConfigEnabled: Bool? = nil, autoCreate: Bool? = nil, cweMonitorEnabled: Bool? = nil, groupingType: GroupingType? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String? = nil, snsNotificationArn: String? = nil, tags: [Tag]? = nil) {
             self.attachMissingPermission = attachMissingPermission
             self.autoConfigEnabled = autoConfigEnabled
             self.autoCreate = autoCreate
@@ -364,6 +372,7 @@ extension ApplicationInsights {
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.resourceGroupName = resourceGroupName
+            self.snsNotificationArn = snsNotificationArn
             self.tags = tags
         }
 
@@ -374,6 +383,9 @@ extension ApplicationInsights {
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
+            try self.validate(self.snsNotificationArn, name: "snsNotificationArn", parent: name, max: 300)
+            try self.validate(self.snsNotificationArn, name: "snsNotificationArn", parent: name, min: 20)
+            try self.validate(self.snsNotificationArn, name: "snsNotificationArn", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -389,6 +401,7 @@ extension ApplicationInsights {
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case resourceGroupName = "ResourceGroupName"
+            case snsNotificationArn = "SNSNotificationArn"
             case tags = "Tags"
         }
     }
@@ -454,7 +467,7 @@ extension ApplicationInsights {
         public let patternName: String
         /// The name of the log pattern set.
         public let patternSetName: String
-        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
+        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.
         public let rank: Int
         /// The name of the resource group.
         public let resourceGroupName: String
@@ -604,7 +617,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeApplicationRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The name of the resource group.
         public let resourceGroupName: String
@@ -653,7 +666,7 @@ extension ApplicationInsights {
         public let resourceGroupName: String
         /// The tier of the application component.
         public let tier: Tier
-        /// The name of the workload.
+        /// The name of the workload. The name of the workload is required when the tier of the application component is  SAP_ASE_SINGLE_NODE or SAP_ASE_HIGH_AVAILABILITY.
         public let workloadName: String?
 
         @inlinable
@@ -672,7 +685,7 @@ extension ApplicationInsights {
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
-            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 8)
+            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 12)
             try self.validate(self.workloadName, name: "workloadName", parent: name, min: 1)
             try self.validate(self.workloadName, name: "workloadName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
         }
@@ -701,7 +714,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentConfigurationRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The name of the component.
         public let componentName: String
@@ -757,7 +770,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The name of the component.
         public let componentName: String
@@ -808,7 +821,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeLogPatternRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The name of the log pattern.
         public let patternName: String
@@ -849,7 +862,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeLogPatternResponse: AWSDecodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The successfully created log pattern.
         public let logPattern: LogPattern?
@@ -871,7 +884,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeObservationRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The ID of the observation.
         public let observationId: String
@@ -912,7 +925,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemObservationsRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The ID of the problem.
         public let problemId: String
@@ -953,7 +966,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemRequest: AWSEncodableShape {
-        /// The AWS account ID for the owner of the resource group affected by the problem.
+        /// The Amazon Web Services account ID for the owner of the resource group affected by the problem.
         public let accountId: String?
         /// The ID of the problem.
         public let problemId: String
@@ -982,19 +995,23 @@ extension ApplicationInsights {
     public struct DescribeProblemResponse: AWSDecodableShape {
         /// Information about the problem.
         public let problem: Problem?
+        ///  The SNS notification topic ARN of the problem.
+        public let snsNotificationArn: String?
 
         @inlinable
-        public init(problem: Problem? = nil) {
+        public init(problem: Problem? = nil, snsNotificationArn: String? = nil) {
             self.problem = problem
+            self.snsNotificationArn = snsNotificationArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case problem = "Problem"
+            case snsNotificationArn = "SNSNotificationArn"
         }
     }
 
     public struct DescribeWorkloadRequest: AWSEncodableShape {
-        /// The AWS account ID for the workload owner.
+        /// The Amazon Web Services account ID for the workload owner.
         public let accountId: String?
         /// The name of the component.
         public let componentName: String
@@ -1057,7 +1074,7 @@ extension ApplicationInsights {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -1108,7 +1125,7 @@ extension ApplicationInsights {
     }
 
     public struct ListComponentsRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -1166,7 +1183,7 @@ extension ApplicationInsights {
     }
 
     public struct ListConfigurationHistoryRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The end time of the event.
         public let endTime: Date?
@@ -1236,7 +1253,7 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternSetsRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -1276,7 +1293,7 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternSetsResponse: AWSDecodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The list of log pattern sets.
         public let logPatternSets: [String]?
@@ -1302,7 +1319,7 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternsRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -1349,7 +1366,7 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternsResponse: AWSDecodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The list of log patterns.
         public let logPatterns: [LogPattern]?
@@ -1375,7 +1392,7 @@ extension ApplicationInsights {
     }
 
     public struct ListProblemsRequest: AWSEncodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         ///  The name of the component.
         public let componentName: String?
@@ -1434,7 +1451,7 @@ extension ApplicationInsights {
     }
 
     public struct ListProblemsResponse: AWSDecodableShape {
-        /// The AWS account ID for the resource group owner.
+        /// The Amazon Web Services account ID for the resource group owner.
         public let accountId: String?
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -1494,7 +1511,7 @@ extension ApplicationInsights {
     }
 
     public struct ListWorkloadsRequest: AWSEncodableShape {
-        /// The AWS account ID of the owner of the workload.
+        /// The Amazon Web Services account ID of the owner of the workload.
         public let accountId: String?
         /// The name of the component.
         public let componentName: String
@@ -1565,7 +1582,7 @@ extension ApplicationInsights {
         public let patternName: String?
         /// The name of the log pattern. A log pattern name can contain as many as 30 characters, and it cannot be empty. The characters can be Unicode letters, digits, or one of the following symbols: period, dash, underscore.
         public let patternSetName: String?
-        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
+        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.
         public let rank: Int?
 
         @inlinable
@@ -1613,15 +1630,15 @@ extension ApplicationInsights {
         public let ec2State: String?
         /// The time when the observation ended, in epoch seconds.
         public let endTime: Date?
-        ///  The Amazon Resource Name (ARN) of the AWS Health Event-based observation.
+        ///  The Amazon Resource Name (ARN) of the Health Event-based observation.
         public let healthEventArn: String?
-        ///  The description of the AWS Health event provided by the service, such as Amazon EC2.
+        ///  The description of the Health event provided by the service, such as Amazon EC2.
         public let healthEventDescription: String?
-        ///  The category of the AWS Health event, such as issue.
+        ///  The category of the Health event, such as issue.
         public let healthEventTypeCategory: String?
-        ///  The type of the AWS Health event, for example, AWS_EC2_POWER_CONNECTIVITY_ISSUE.
+        ///  The type of the Health event, for example, AWS_EC2_POWER_CONNECTIVITY_ISSUE.
         public let healthEventTypeCode: String?
-        ///  The service to which the AWS Health Event belongs, such as EC2.
+        ///  The service to which the Health Event belongs, such as EC2.
         public let healthService: String?
         /// The ID of the observation type.
         public let id: String?
@@ -1775,7 +1792,7 @@ extension ApplicationInsights {
     }
 
     public struct Problem: AWSDecodableShape {
-        /// The AWS account ID for the owner of the resource group affected by the problem.
+        /// The Amazon Web Services account ID for the owner of the resource group affected by the problem.
         public let accountId: String?
         /// The resource affected by the problem.
         public let affectedResource: String?
@@ -1797,6 +1814,8 @@ extension ApplicationInsights {
         public let resourceGroupName: String?
         /// A measure of the level of impact of the problem.
         public let severityLevel: SeverityLevel?
+        ///  The short name of the problem associated with the SNS notification.
+        public let shortName: String?
         /// The time when the problem started, in epoch seconds.
         public let startTime: Date?
         /// The status of the problem.
@@ -1807,7 +1826,7 @@ extension ApplicationInsights {
         public let visibility: Visibility?
 
         @inlinable
-        public init(accountId: String? = nil, affectedResource: String? = nil, endTime: Date? = nil, feedback: [FeedbackKey: FeedbackValue]? = nil, id: String? = nil, insights: String? = nil, lastRecurrenceTime: Date? = nil, recurringCount: Int64? = nil, resolutionMethod: ResolutionMethod? = nil, resourceGroupName: String? = nil, severityLevel: SeverityLevel? = nil, startTime: Date? = nil, status: Status? = nil, title: String? = nil, visibility: Visibility? = nil) {
+        public init(accountId: String? = nil, affectedResource: String? = nil, endTime: Date? = nil, feedback: [FeedbackKey: FeedbackValue]? = nil, id: String? = nil, insights: String? = nil, lastRecurrenceTime: Date? = nil, recurringCount: Int64? = nil, resolutionMethod: ResolutionMethod? = nil, resourceGroupName: String? = nil, severityLevel: SeverityLevel? = nil, shortName: String? = nil, startTime: Date? = nil, status: Status? = nil, title: String? = nil, visibility: Visibility? = nil) {
             self.accountId = accountId
             self.affectedResource = affectedResource
             self.endTime = endTime
@@ -1819,6 +1838,7 @@ extension ApplicationInsights {
             self.resolutionMethod = resolutionMethod
             self.resourceGroupName = resourceGroupName
             self.severityLevel = severityLevel
+            self.shortName = shortName
             self.startTime = startTime
             self.status = status
             self.title = title
@@ -1837,6 +1857,7 @@ extension ApplicationInsights {
             case resolutionMethod = "ResolutionMethod"
             case resourceGroupName = "ResourceGroupName"
             case severityLevel = "SeverityLevel"
+            case shortName = "ShortName"
             case startTime = "StartTime"
             case status = "Status"
             case title = "Title"
@@ -2003,9 +2024,11 @@ extension ApplicationInsights {
         public let removeSNSTopic: Bool?
         /// The name of the resource group.
         public let resourceGroupName: String
+        ///  The SNS topic ARN. Allows you to receive SNS notifications for updates and issues with an application.
+        public let snsNotificationArn: String?
 
         @inlinable
-        public init(attachMissingPermission: Bool? = nil, autoConfigEnabled: Bool? = nil, cweMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, removeSNSTopic: Bool? = nil, resourceGroupName: String) {
+        public init(attachMissingPermission: Bool? = nil, autoConfigEnabled: Bool? = nil, cweMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, removeSNSTopic: Bool? = nil, resourceGroupName: String, snsNotificationArn: String? = nil) {
             self.attachMissingPermission = attachMissingPermission
             self.autoConfigEnabled = autoConfigEnabled
             self.cweMonitorEnabled = cweMonitorEnabled
@@ -2013,6 +2036,7 @@ extension ApplicationInsights {
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.removeSNSTopic = removeSNSTopic
             self.resourceGroupName = resourceGroupName
+            self.snsNotificationArn = snsNotificationArn
         }
 
         public func validate(name: String) throws {
@@ -2022,6 +2046,9 @@ extension ApplicationInsights {
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
+            try self.validate(self.snsNotificationArn, name: "snsNotificationArn", parent: name, max: 300)
+            try self.validate(self.snsNotificationArn, name: "snsNotificationArn", parent: name, min: 20)
+            try self.validate(self.snsNotificationArn, name: "snsNotificationArn", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2032,6 +2059,7 @@ extension ApplicationInsights {
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case removeSNSTopic = "RemoveSNSTopic"
             case resourceGroupName = "ResourceGroupName"
+            case snsNotificationArn = "SNSNotificationArn"
         }
     }
 
@@ -2153,7 +2181,7 @@ extension ApplicationInsights {
         public let patternName: String
         /// The name of the log pattern set.
         public let patternSetName: String
-        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
+        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.
         public let rank: Int?
         /// The name of the resource group.
         public let resourceGroupName: String
@@ -2301,6 +2329,8 @@ extension ApplicationInsights {
     public struct Workload: AWSDecodableShape {
         /// The name of the component.
         public let componentName: String?
+        /// Indicates whether all of the component configurations required to monitor a workload were provided.
+        public let missingWorkloadConfig: Bool?
         /// The tier of the workload.
         public let tier: Tier?
         /// The ID of the workload.
@@ -2311,8 +2341,9 @@ extension ApplicationInsights {
         public let workloadRemarks: String?
 
         @inlinable
-        public init(componentName: String? = nil, tier: Tier? = nil, workloadId: String? = nil, workloadName: String? = nil, workloadRemarks: String? = nil) {
+        public init(componentName: String? = nil, missingWorkloadConfig: Bool? = nil, tier: Tier? = nil, workloadId: String? = nil, workloadName: String? = nil, workloadRemarks: String? = nil) {
             self.componentName = componentName
+            self.missingWorkloadConfig = missingWorkloadConfig
             self.tier = tier
             self.workloadId = workloadId
             self.workloadName = workloadName
@@ -2321,6 +2352,7 @@ extension ApplicationInsights {
 
         private enum CodingKeys: String, CodingKey {
             case componentName = "ComponentName"
+            case missingWorkloadConfig = "MissingWorkloadConfig"
             case tier = "Tier"
             case workloadId = "WorkloadId"
             case workloadName = "WorkloadName"
@@ -2347,7 +2379,7 @@ extension ApplicationInsights {
             try self.validate(self.configuration, name: "configuration", parent: name, max: 10000)
             try self.validate(self.configuration, name: "configuration", parent: name, min: 1)
             try self.validate(self.configuration, name: "configuration", parent: name, pattern: "^[\\S\\s]+$")
-            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 8)
+            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 12)
             try self.validate(self.workloadName, name: "workloadName", parent: name, min: 1)
             try self.validate(self.workloadName, name: "workloadName", parent: name, pattern: "^[a-zA-Z0-9\\.\\-_]*$")
         }

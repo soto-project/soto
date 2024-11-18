@@ -169,6 +169,7 @@ extension Bedrock {
     }
 
     public enum InferenceProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case application = "APPLICATION"
         case systemDefined = "SYSTEM_DEFINED"
         public var description: String { return self.rawValue }
     }
@@ -698,6 +699,71 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case guardrailId = "guardrailId"
             case version = "version"
+        }
+    }
+
+    public struct CreateInferenceProfileRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientRequestToken: String?
+        /// A description for the inference profile.
+        public let description: String?
+        /// A name for the inference profile.
+        public let inferenceProfileName: String
+        /// The foundation model or system-defined inference profile that the inference profile will track metrics and costs for.
+        public let modelSource: InferenceProfileModelSource
+        /// An array of objects, each of which contains a tag and its value. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientRequestToken: String? = CreateInferenceProfileRequest.idempotencyToken(), description: String? = nil, inferenceProfileName: String, modelSource: InferenceProfileModelSource, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.inferenceProfileName = inferenceProfileName
+            self.modelSource = modelSource
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([0-9a-zA-Z:.][ _-]?)+$")
+            try self.validate(self.inferenceProfileName, name: "inferenceProfileName", parent: name, max: 64)
+            try self.validate(self.inferenceProfileName, name: "inferenceProfileName", parent: name, min: 1)
+            try self.validate(self.inferenceProfileName, name: "inferenceProfileName", parent: name, pattern: "^([0-9a-zA-Z][ _-]?)+$")
+            try self.modelSource.validate(name: "\(name).modelSource")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case description = "description"
+            case inferenceProfileName = "inferenceProfileName"
+            case modelSource = "modelSource"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateInferenceProfileResponse: AWSDecodableShape {
+        /// The ARN of the inference profile that you created.
+        public let inferenceProfileArn: String
+        /// The status of the inference profile. ACTIVE means that the inference profile is ready to be used.
+        public let status: InferenceProfileStatus?
+
+        @inlinable
+        public init(inferenceProfileArn: String, status: InferenceProfileStatus? = nil) {
+            self.inferenceProfileArn = inferenceProfileArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceProfileArn = "inferenceProfileArn"
+            case status = "status"
         }
     }
 
@@ -1238,6 +1304,34 @@ extension Bedrock {
         public init() {}
     }
 
+    public struct DeleteInferenceProfileRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) or ID of the application inference profile to delete.
+        public let inferenceProfileIdentifier: String
+
+        @inlinable
+        public init(inferenceProfileIdentifier: String) {
+            self.inferenceProfileIdentifier = inferenceProfileIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inferenceProfileIdentifier, key: "inferenceProfileIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inferenceProfileIdentifier, name: "inferenceProfileIdentifier", parent: name, max: 2048)
+            try self.validate(self.inferenceProfileIdentifier, name: "inferenceProfileIdentifier", parent: name, min: 1)
+            try self.validate(self.inferenceProfileIdentifier, name: "inferenceProfileIdentifier", parent: name, pattern: "^(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/)?[a-zA-Z0-9-:.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteInferenceProfileResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteModelInvocationLoggingConfigurationRequest: AWSEncodableShape {
         public init() {}
     }
@@ -1289,7 +1383,7 @@ extension Bedrock {
             try self.validate(self.inferenceParams, name: "inferenceParams", parent: name, min: 1)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
-            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/(([a-z]{2}.)[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))))|(([a-z]{2}[.]{1})([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))$")
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:application-inference-profile/[a-z0-9]{12})|([0-9]{12}:inference-profile/(([a-z]{2}.)[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))))|(([a-z]{2}[.]{1})([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1885,6 +1979,8 @@ extension Bedrock {
         /// Creation time of the imported model.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
+        /// Specifies if the imported model supports converse.
+        public let instructSupported: Bool?
         /// Job Amazon Resource Name (ARN) associated with the imported model.
         public let jobArn: String?
         /// Job name associated with the imported model.
@@ -1901,8 +1997,9 @@ extension Bedrock {
         public let modelName: String?
 
         @inlinable
-        public init(creationTime: Date? = nil, jobArn: String? = nil, jobName: String? = nil, modelArchitecture: String? = nil, modelArn: String? = nil, modelDataSource: ModelDataSource? = nil, modelKmsKeyArn: String? = nil, modelName: String? = nil) {
+        public init(creationTime: Date? = nil, instructSupported: Bool? = nil, jobArn: String? = nil, jobName: String? = nil, modelArchitecture: String? = nil, modelArn: String? = nil, modelDataSource: ModelDataSource? = nil, modelKmsKeyArn: String? = nil, modelName: String? = nil) {
             self.creationTime = creationTime
+            self.instructSupported = instructSupported
             self.jobArn = jobArn
             self.jobName = jobName
             self.modelArchitecture = modelArchitecture
@@ -1914,6 +2011,7 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
+            case instructSupported = "instructSupported"
             case jobArn = "jobArn"
             case jobName = "jobName"
             case modelArchitecture = "modelArchitecture"
@@ -1925,7 +2023,7 @@ extension Bedrock {
     }
 
     public struct GetInferenceProfileRequest: AWSEncodableShape {
-        /// The unique identifier of the inference profile.
+        /// The ID or Amazon Resource Name (ARN) of the inference profile.
         public let inferenceProfileIdentifier: String
 
         @inlinable
@@ -1942,7 +2040,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.inferenceProfileIdentifier, name: "inferenceProfileIdentifier", parent: name, max: 2048)
             try self.validate(self.inferenceProfileIdentifier, name: "inferenceProfileIdentifier", parent: name, min: 1)
-            try self.validate(self.inferenceProfileIdentifier, name: "inferenceProfileIdentifier", parent: name, pattern: "^(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):inference-profile/)?[a-zA-Z0-9-:.]+$")
+            try self.validate(self.inferenceProfileIdentifier, name: "inferenceProfileIdentifier", parent: name, pattern: "^(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/)?[a-zA-Z0-9-:.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1962,9 +2060,9 @@ extension Bedrock {
         public let inferenceProfileName: String
         /// A list of information about each model in the inference profile.
         public let models: [InferenceProfileModel]
-        /// The status of the inference profile. ACTIVE means that the inference profile is available to use.
+        /// The status of the inference profile. ACTIVE means that the inference profile is ready to be used.
         public let status: InferenceProfileStatus
-        /// The type of the inference profile. SYSTEM_DEFINED means that the inference profile is defined by Amazon Bedrock.
+        /// The type of the inference profile. The following types are possible:    SYSTEM_DEFINED – The inference profile is defined by Amazon Bedrock. You can route inference requests across regions with these inference profiles.    APPLICATION – The inference profile was created by a user. This type of inference profile can track metrics and costs when invoking the model in it. The inference profile may route requests to one or multiple regions.
         public let type: InferenceProfileType
         /// The time at which the inference profile was last updated.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -3101,20 +3199,28 @@ extension Bedrock {
         /// Creation time of the imported model.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
+        /// Specifies if the imported model supports converse.
+        public let instructSupported: Bool?
+        /// The architecture of the imported model.
+        public let modelArchitecture: String?
         /// The Amazon Resource Name (ARN) of the imported model.
         public let modelArn: String
         /// Name of the imported model.
         public let modelName: String
 
         @inlinable
-        public init(creationTime: Date, modelArn: String, modelName: String) {
+        public init(creationTime: Date, instructSupported: Bool? = nil, modelArchitecture: String? = nil, modelArn: String, modelName: String) {
             self.creationTime = creationTime
+            self.instructSupported = instructSupported
+            self.modelArchitecture = modelArchitecture
             self.modelArn = modelArn
             self.modelName = modelName
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
+            case instructSupported = "instructSupported"
+            case modelArchitecture = "modelArchitecture"
             case modelArn = "modelArn"
             case modelName = "modelName"
         }
@@ -3148,9 +3254,9 @@ extension Bedrock {
         public let inferenceProfileName: String
         /// A list of information about each model in the inference profile.
         public let models: [InferenceProfileModel]
-        /// The status of the inference profile. ACTIVE means that the inference profile is available to use.
+        /// The status of the inference profile. ACTIVE means that the inference profile is ready to be used.
         public let status: InferenceProfileStatus
-        /// The type of the inference profile. SYSTEM_DEFINED means that the inference profile is defined by Amazon Bedrock.
+        /// The type of the inference profile. The following types are possible:    SYSTEM_DEFINED – The inference profile is defined by Amazon Bedrock. You can route inference requests across regions with these inference profiles.    APPLICATION – The inference profile was created by a user. This type of inference profile can track metrics and costs when invoking the model in it. The inference profile may route requests to one or multiple regions.
         public let type: InferenceProfileType
         /// The time at which the inference profile was last updated.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -3528,11 +3634,14 @@ extension Bedrock {
         public let maxResults: Int?
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
+        /// Filters for inference profiles that match the type you specify.    SYSTEM_DEFINED – The inference profile is defined by Amazon Bedrock. You can route inference requests across regions with these inference profiles.    APPLICATION – The inference profile was created by a user. This type of inference profile can track metrics and costs when invoking the model in it. The inference profile may route requests to one or multiple regions.
+        public let typeEquals: InferenceProfileType?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, typeEquals: InferenceProfileType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.typeEquals = typeEquals
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3540,6 +3649,7 @@ extension Bedrock {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.typeEquals, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -3987,7 +4097,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model)/[a-z0-9]{12}$)))")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4601,7 +4711,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model)/[a-z0-9]{12}$)))")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4667,7 +4777,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model)/[a-z0-9]{12}$)))")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -4992,6 +5102,26 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case bedrockModel = "bedrockModel"
+        }
+    }
+
+    public struct InferenceProfileModelSource: AWSEncodableShape {
+        /// The ARN of the model or system-defined inference profile that is the source for the inference profile.
+        public let copyFrom: String?
+
+        @inlinable
+        public init(copyFrom: String? = nil) {
+            self.copyFrom = copyFrom
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.copyFrom, name: "copyFrom", parent: name, max: 2048)
+            try self.validate(self.copyFrom, name: "copyFrom", parent: name, min: 1)
+            try self.validate(self.copyFrom, name: "copyFrom", parent: name, pattern: "^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|foundation-model)/[a-zA-Z0-9-:.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyFrom = "copyFrom"
         }
     }
 

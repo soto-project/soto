@@ -183,8 +183,10 @@ public struct IVS: AWSService {
     ///
     /// Parameters:
     ///   - authorized: Whether the channel is private (enabled for playback authorization). Default: false.
+    ///   - containerFormat: Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
     ///   - insecureIngest: Whether the channel allows insecure RTMP and SRT ingest. Default: false.
     ///   - latencyMode: Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
+    ///   - multitrackInputConfiguration: Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.
     ///   - name: Channel name.
     ///   - playbackRestrictionPolicyArn: Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. Default: "" (empty string, no playback restriction policy is applied).
     ///   - preset: Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the empty string ("").
@@ -195,8 +197,10 @@ public struct IVS: AWSService {
     @inlinable
     public func createChannel(
         authorized: Bool? = nil,
+        containerFormat: ContainerFormat? = nil,
         insecureIngest: Bool? = nil,
         latencyMode: ChannelLatencyMode? = nil,
+        multitrackInputConfiguration: MultitrackInputConfiguration? = nil,
         name: String? = nil,
         playbackRestrictionPolicyArn: String? = nil,
         preset: TranscodePreset? = nil,
@@ -207,8 +211,10 @@ public struct IVS: AWSService {
     ) async throws -> CreateChannelResponse {
         let input = CreateChannelRequest(
             authorized: authorized, 
+            containerFormat: containerFormat, 
             insecureIngest: insecureIngest, 
             latencyMode: latencyMode, 
+            multitrackInputConfiguration: multitrackInputConfiguration, 
             name: name, 
             playbackRestrictionPolicyArn: playbackRestrictionPolicyArn, 
             preset: preset, 
@@ -1171,8 +1177,10 @@ public struct IVS: AWSService {
     /// Parameters:
     ///   - arn: ARN of the channel to be updated.
     ///   - authorized: Whether the channel is private (enabled for playback authorization).
+    ///   - containerFormat: Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
     ///   - insecureIngest: Whether the channel allows insecure RTMP and SRT ingest. Default: false.
     ///   - latencyMode: Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers.
+    ///   - multitrackInputConfiguration: Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.
     ///   - name: Channel name.
     ///   - playbackRestrictionPolicyArn: Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. If this is set to an empty string, playback restriction policy is disabled.
     ///   - preset: Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the empty string ("").
@@ -1183,8 +1191,10 @@ public struct IVS: AWSService {
     public func updateChannel(
         arn: String,
         authorized: Bool? = nil,
+        containerFormat: ContainerFormat? = nil,
         insecureIngest: Bool? = nil,
         latencyMode: ChannelLatencyMode? = nil,
+        multitrackInputConfiguration: MultitrackInputConfiguration? = nil,
         name: String? = nil,
         playbackRestrictionPolicyArn: String? = nil,
         preset: TranscodePreset? = nil,
@@ -1195,8 +1205,10 @@ public struct IVS: AWSService {
         let input = UpdateChannelRequest(
             arn: arn, 
             authorized: authorized, 
+            containerFormat: containerFormat, 
             insecureIngest: insecureIngest, 
             latencyMode: latencyMode, 
+            multitrackInputConfiguration: multitrackInputConfiguration, 
             name: name, 
             playbackRestrictionPolicyArn: playbackRestrictionPolicyArn, 
             preset: preset, 

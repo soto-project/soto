@@ -449,7 +449,7 @@ extension ChimeSDKMediaPipelines {
         public let filterPartialResults: Bool?
         /// Turns language identification on or off.
         public let identifyLanguage: Bool?
-        /// Turns language identification on or off for multiple languages.
+        /// Turns language identification on or off for multiple languages.  Calls to this API must include a LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages parameter.  If you include more than one of those parameters, your transcription job fails.
         public let identifyMultipleLanguages: Bool?
         /// The language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification. For a list of languages that real-time Call Analytics supports, see the Supported languages table  in the Amazon Transcribe Developer Guide.
         public let languageCode: CallAnalyticsLanguageCode?
@@ -857,23 +857,29 @@ extension ChimeSDKMediaPipelines {
         public let clientRequestToken: String?
         /// The ARN of the sink type.
         public let sinkArn: String
+        /// The Amazon Resource Name (ARN) of the sink role to be used with AwsKmsKeyId in SseAwsKeyManagementParams. Can only interact with S3Bucket sink type. The role must belong to the caller’s account and be able to act on behalf of the caller during the API call. All minimum policy permissions requirements for the caller to perform sink-related actions are the same for SinkIamRoleArn. Additionally, the role must have permission to kms:GenerateDataKey using KMS key supplied as AwsKmsKeyId in SseAwsKeyManagementParams. If media concatenation will be required later, the role must also have permission to kms:Decrypt for the same KMS key.
+        public let sinkIamRoleArn: String?
         /// Destination type to which the media artifacts are saved. You must use an S3 bucket.
         public let sinkType: MediaPipelineSinkType
         /// ARN of the source from which the media artifacts are captured.
         public let sourceArn: String
         /// Source type from which the media artifacts are captured. A Chime SDK Meeting is the only supported source.
         public let sourceType: MediaPipelineSourceType
+        /// An object that contains server side encryption parameters to be used by media capture pipeline. The parameters can also be used by media concatenation pipeline taking media capture pipeline as a media source.
+        public let sseAwsKeyManagementParams: SseAwsKeyManagementParams?
         /// The tag key-value pairs.
         public let tags: [Tag]?
 
         @inlinable
-        public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil, clientRequestToken: String? = CreateMediaCapturePipelineRequest.idempotencyToken(), sinkArn: String, sinkType: MediaPipelineSinkType, sourceArn: String, sourceType: MediaPipelineSourceType, tags: [Tag]? = nil) {
+        public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil, clientRequestToken: String? = CreateMediaCapturePipelineRequest.idempotencyToken(), sinkArn: String, sinkIamRoleArn: String? = nil, sinkType: MediaPipelineSinkType, sourceArn: String, sourceType: MediaPipelineSourceType, sseAwsKeyManagementParams: SseAwsKeyManagementParams? = nil, tags: [Tag]? = nil) {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.clientRequestToken = clientRequestToken
             self.sinkArn = sinkArn
+            self.sinkIamRoleArn = sinkIamRoleArn
             self.sinkType = sinkType
             self.sourceArn = sourceArn
             self.sourceType = sourceType
+            self.sseAwsKeyManagementParams = sseAwsKeyManagementParams
             self.tags = tags
         }
 
@@ -885,9 +891,13 @@ extension ChimeSDKMediaPipelines {
             try self.validate(self.sinkArn, name: "sinkArn", parent: name, max: 1024)
             try self.validate(self.sinkArn, name: "sinkArn", parent: name, min: 1)
             try self.validate(self.sinkArn, name: "sinkArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+            try self.validate(self.sinkIamRoleArn, name: "sinkIamRoleArn", parent: name, max: 1024)
+            try self.validate(self.sinkIamRoleArn, name: "sinkIamRoleArn", parent: name, min: 1)
+            try self.validate(self.sinkIamRoleArn, name: "sinkIamRoleArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 1024)
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 1)
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+            try self.sseAwsKeyManagementParams?.validate(name: "\(name).sseAwsKeyManagementParams")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -899,9 +909,11 @@ extension ChimeSDKMediaPipelines {
             case chimeSdkMeetingConfiguration = "ChimeSdkMeetingConfiguration"
             case clientRequestToken = "ClientRequestToken"
             case sinkArn = "SinkArn"
+            case sinkIamRoleArn = "SinkIamRoleArn"
             case sinkType = "SinkType"
             case sourceArn = "SourceArn"
             case sourceType = "SourceType"
+            case sseAwsKeyManagementParams = "SseAwsKeyManagementParams"
             case tags = "Tags"
         }
     }
@@ -2346,12 +2358,16 @@ extension ChimeSDKMediaPipelines {
         public let mediaPipelineId: String?
         /// ARN of the destination to which the media artifacts are saved.
         public let sinkArn: String?
+        /// The Amazon Resource Name (ARN) of the sink role to be used with AwsKmsKeyId in SseAwsKeyManagementParams.
+        public let sinkIamRoleArn: String?
         /// Destination type to which the media artifacts are saved. You must use an S3 Bucket.
         public let sinkType: MediaPipelineSinkType?
         /// ARN of the source from which the media artifacts are saved.
         public let sourceArn: String?
         /// Source type from which media artifacts are saved. You must use ChimeMeeting.
         public let sourceType: MediaPipelineSourceType?
+        /// An object that contains server side encryption parameters to be used by media capture pipeline. The parameters can also be used by media concatenation pipeline taking media capture pipeline as a media source.
+        public let sseAwsKeyManagementParams: SseAwsKeyManagementParams?
         /// The status of the media pipeline.
         public let status: MediaPipelineStatus?
         /// The time at which the pipeline was updated, in ISO 8601 format.
@@ -2359,15 +2375,17 @@ extension ChimeSDKMediaPipelines {
         public var updatedTimestamp: Date?
 
         @inlinable
-        public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil, createdTimestamp: Date? = nil, mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil, sinkArn: String? = nil, sinkType: MediaPipelineSinkType? = nil, sourceArn: String? = nil, sourceType: MediaPipelineSourceType? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
+        public init(chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil, createdTimestamp: Date? = nil, mediaPipelineArn: String? = nil, mediaPipelineId: String? = nil, sinkArn: String? = nil, sinkIamRoleArn: String? = nil, sinkType: MediaPipelineSinkType? = nil, sourceArn: String? = nil, sourceType: MediaPipelineSourceType? = nil, sseAwsKeyManagementParams: SseAwsKeyManagementParams? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.createdTimestamp = createdTimestamp
             self.mediaPipelineArn = mediaPipelineArn
             self.mediaPipelineId = mediaPipelineId
             self.sinkArn = sinkArn
+            self.sinkIamRoleArn = sinkIamRoleArn
             self.sinkType = sinkType
             self.sourceArn = sourceArn
             self.sourceType = sourceType
+            self.sseAwsKeyManagementParams = sseAwsKeyManagementParams
             self.status = status
             self.updatedTimestamp = updatedTimestamp
         }
@@ -2378,9 +2396,11 @@ extension ChimeSDKMediaPipelines {
             case mediaPipelineArn = "MediaPipelineArn"
             case mediaPipelineId = "MediaPipelineId"
             case sinkArn = "SinkArn"
+            case sinkIamRoleArn = "SinkIamRoleArn"
             case sinkType = "SinkType"
             case sourceArn = "SourceArn"
             case sourceType = "SourceType"
+            case sseAwsKeyManagementParams = "SseAwsKeyManagementParams"
             case status = "Status"
             case updatedTimestamp = "UpdatedTimestamp"
         }
@@ -3203,6 +3223,31 @@ extension ChimeSDKMediaPipelines {
 
         private enum CodingKeys: String, CodingKey {
             case insightsTarget = "InsightsTarget"
+        }
+    }
+
+    public struct SseAwsKeyManagementParams: AWSEncodableShape & AWSDecodableShape {
+        /// Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as non-secret key-value pair known as encryption context pairs, that provides an added layer of security for your data. For more information, see KMS encryption context and Asymmetric keys in KMS in the Key Management Service Developer Guide.
+        public let awsKmsEncryptionContext: String?
+        /// The KMS key you want to use to encrypt your media pipeline output. Decryption is required for concatenation pipeline. If using a key located in the current Amazon Web Services account, you can specify your KMS key in one of four ways:   Use the KMS key ID itself. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Use an alias for the KMS key ID. For example, alias/ExampleAlias.   Use the Amazon Resource Name (ARN) for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.   If using a key located in a different Amazon Web Services account than the current Amazon Web Services account, you can specify your KMS key in one of two ways:   Use the ARN for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.   If you don't specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). Note that the role specified in the SinkIamRoleArn request parameter must have permission to use the specified KMS key.
+        public let awsKmsKeyId: String
+
+        @inlinable
+        public init(awsKmsEncryptionContext: String? = nil, awsKmsKeyId: String) {
+            self.awsKmsEncryptionContext = awsKmsEncryptionContext
+            self.awsKmsKeyId = awsKmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsKmsEncryptionContext, name: "awsKmsEncryptionContext", parent: name, max: 4096)
+            try self.validate(self.awsKmsEncryptionContext, name: "awsKmsEncryptionContext", parent: name, pattern: ".*")
+            try self.validate(self.awsKmsKeyId, name: "awsKmsKeyId", parent: name, max: 4096)
+            try self.validate(self.awsKmsKeyId, name: "awsKmsKeyId", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsKmsEncryptionContext = "AwsKmsEncryptionContext"
+            case awsKmsKeyId = "AwsKmsKeyId"
         }
     }
 

@@ -99,6 +99,7 @@ extension IoTWireless {
     }
 
     public enum EventNotificationResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fuotaTask = "FuotaTask"
         case sidewalkAccount = "SidewalkAccount"
         case wirelessDevice = "WirelessDevice"
         case wirelessGateway = "WirelessGateway"
@@ -133,6 +134,11 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum FuotaTaskEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fuota = "Fuota"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FuotaTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleteWaiting = "Delete_Waiting"
         case fuotaDone = "FuotaDone"
@@ -142,8 +148,14 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum FuotaTaskType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case loRaWAN = "LoRaWAN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdentifierType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case devEui = "DevEui"
+        case fuotaTaskId = "FuotaTaskId"
         case gatewayEui = "GatewayEui"
         case partnerAccountId = "PartnerAccountId"
         case wirelessDeviceId = "WirelessDeviceId"
@@ -1161,6 +1173,7 @@ extension IoTWireless {
     public struct CreateFuotaTaskRequest: AWSEncodableShape {
         public let clientRequestToken: String?
         public let description: String?
+        public let descriptor: String?
         public let firmwareUpdateImage: String
         public let firmwareUpdateRole: String
         public let fragmentIntervalMS: Int?
@@ -1171,9 +1184,10 @@ extension IoTWireless {
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientRequestToken: String? = CreateFuotaTaskRequest.idempotencyToken(), description: String? = nil, firmwareUpdateImage: String, firmwareUpdateRole: String, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil, redundancyPercent: Int? = nil, tags: [Tag]? = nil) {
+        public init(clientRequestToken: String? = CreateFuotaTaskRequest.idempotencyToken(), description: String? = nil, descriptor: String? = nil, firmwareUpdateImage: String, firmwareUpdateRole: String, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil, redundancyPercent: Int? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
+            self.descriptor = descriptor
             self.firmwareUpdateImage = firmwareUpdateImage
             self.firmwareUpdateRole = firmwareUpdateRole
             self.fragmentIntervalMS = fragmentIntervalMS
@@ -1189,6 +1203,8 @@ extension IoTWireless {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.descriptor, name: "descriptor", parent: name, max: 332)
+            try self.validate(self.descriptor, name: "descriptor", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
             try self.validate(self.firmwareUpdateImage, name: "firmwareUpdateImage", parent: name, max: 4096)
             try self.validate(self.firmwareUpdateImage, name: "firmwareUpdateImage", parent: name, min: 1)
             try self.validate(self.firmwareUpdateRole, name: "firmwareUpdateRole", parent: name, max: 2048)
@@ -1207,6 +1223,7 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
+            case descriptor = "Descriptor"
             case firmwareUpdateImage = "FirmwareUpdateImage"
             case firmwareUpdateRole = "FirmwareUpdateRole"
             case fragmentIntervalMS = "FragmentIntervalMS"
@@ -1257,6 +1274,7 @@ extension IoTWireless {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.loRaWAN.validate(name: "\(name).loRaWAN")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -2499,6 +2517,42 @@ extension IoTWireless {
         }
     }
 
+    public struct FuotaTaskEventLogOption: AWSEncodableShape & AWSDecodableShape {
+        public let event: FuotaTaskEvent
+        public let logLevel: LogLevel
+
+        @inlinable
+        public init(event: FuotaTaskEvent, logLevel: LogLevel) {
+            self.event = event
+            self.logLevel = logLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
+            case logLevel = "LogLevel"
+        }
+    }
+
+    public struct FuotaTaskLogOption: AWSEncodableShape & AWSDecodableShape {
+        public let events: [FuotaTaskEventLogOption]?
+        public let logLevel: LogLevel
+        /// The fuota task type.
+        public let type: FuotaTaskType
+
+        @inlinable
+        public init(events: [FuotaTaskEventLogOption]? = nil, logLevel: LogLevel, type: FuotaTaskType) {
+            self.events = events
+            self.logLevel = logLevel
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case logLevel = "LogLevel"
+            case type = "Type"
+        }
+    }
+
     public struct GatewayListItem: AWSEncodableShape & AWSDecodableShape {
         /// The frequency to use for the gateways when sending a downlink message to the wireless device.
         public let downlinkFrequency: Int
@@ -2691,6 +2745,7 @@ extension IoTWireless {
         public let arn: String?
         public let createdAt: Date?
         public let description: String?
+        public let descriptor: String?
         public let firmwareUpdateImage: String?
         public let firmwareUpdateRole: String?
         public let fragmentIntervalMS: Int?
@@ -2702,10 +2757,11 @@ extension IoTWireless {
         public let status: FuotaTaskStatus?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, id: String? = nil, loRaWAN: LoRaWANFuotaTaskGetInfo? = nil, name: String? = nil, redundancyPercent: Int? = nil, status: FuotaTaskStatus? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, descriptor: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, id: String? = nil, loRaWAN: LoRaWANFuotaTaskGetInfo? = nil, name: String? = nil, redundancyPercent: Int? = nil, status: FuotaTaskStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
+            self.descriptor = descriptor
             self.firmwareUpdateImage = firmwareUpdateImage
             self.firmwareUpdateRole = firmwareUpdateRole
             self.fragmentIntervalMS = fragmentIntervalMS
@@ -2721,6 +2777,7 @@ extension IoTWireless {
             case arn = "Arn"
             case createdAt = "CreatedAt"
             case description = "Description"
+            case descriptor = "Descriptor"
             case firmwareUpdateImage = "FirmwareUpdateImage"
             case firmwareUpdateRole = "FirmwareUpdateRole"
             case fragmentIntervalMS = "FragmentIntervalMS"
@@ -2739,18 +2796,21 @@ extension IoTWireless {
 
     public struct GetLogLevelsByResourceTypesResponse: AWSDecodableShape {
         public let defaultLogLevel: LogLevel?
+        public let fuotaTaskLogOptions: [FuotaTaskLogOption]?
         public let wirelessDeviceLogOptions: [WirelessDeviceLogOption]?
         public let wirelessGatewayLogOptions: [WirelessGatewayLogOption]?
 
         @inlinable
-        public init(defaultLogLevel: LogLevel? = nil, wirelessDeviceLogOptions: [WirelessDeviceLogOption]? = nil, wirelessGatewayLogOptions: [WirelessGatewayLogOption]? = nil) {
+        public init(defaultLogLevel: LogLevel? = nil, fuotaTaskLogOptions: [FuotaTaskLogOption]? = nil, wirelessDeviceLogOptions: [WirelessDeviceLogOption]? = nil, wirelessGatewayLogOptions: [WirelessGatewayLogOption]? = nil) {
             self.defaultLogLevel = defaultLogLevel
+            self.fuotaTaskLogOptions = fuotaTaskLogOptions
             self.wirelessDeviceLogOptions = wirelessDeviceLogOptions
             self.wirelessGatewayLogOptions = wirelessGatewayLogOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultLogLevel = "DefaultLogLevel"
+            case fuotaTaskLogOptions = "FuotaTaskLogOptions"
             case wirelessDeviceLogOptions = "WirelessDeviceLogOptions"
             case wirelessGatewayLogOptions = "WirelessGatewayLogOptions"
         }
@@ -3218,7 +3278,7 @@ extension IoTWireless {
 
     public struct GetResourceLogLevelRequest: AWSEncodableShape {
         public let resourceIdentifier: String
-        /// The type of the resource, which can be WirelessDevice or WirelessGateway.
+        /// The type of the resource, which can be WirelessDevice, WirelessGateway or FuotaTask.
         public let resourceType: String
 
         @inlinable
@@ -5505,16 +5565,23 @@ extension IoTWireless {
 
     public struct LoRaWANMulticast: AWSEncodableShape {
         public let dlClass: DlClass?
+        public let participatingGateways: ParticipatingGatewaysMulticast?
         public let rfRegion: SupportedRfRegion?
 
         @inlinable
-        public init(dlClass: DlClass? = nil, rfRegion: SupportedRfRegion? = nil) {
+        public init(dlClass: DlClass? = nil, participatingGateways: ParticipatingGatewaysMulticast? = nil, rfRegion: SupportedRfRegion? = nil) {
             self.dlClass = dlClass
+            self.participatingGateways = participatingGateways
             self.rfRegion = rfRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.participatingGateways?.validate(name: "\(name).participatingGateways")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dlClass = "DlClass"
+            case participatingGateways = "ParticipatingGateways"
             case rfRegion = "RfRegion"
         }
     }
@@ -5523,13 +5590,15 @@ extension IoTWireless {
         public let dlClass: DlClass?
         public let numberOfDevicesInGroup: Int?
         public let numberOfDevicesRequested: Int?
+        public let participatingGateways: ParticipatingGatewaysMulticast?
         public let rfRegion: SupportedRfRegion?
 
         @inlinable
-        public init(dlClass: DlClass? = nil, numberOfDevicesInGroup: Int? = nil, numberOfDevicesRequested: Int? = nil, rfRegion: SupportedRfRegion? = nil) {
+        public init(dlClass: DlClass? = nil, numberOfDevicesInGroup: Int? = nil, numberOfDevicesRequested: Int? = nil, participatingGateways: ParticipatingGatewaysMulticast? = nil, rfRegion: SupportedRfRegion? = nil) {
             self.dlClass = dlClass
             self.numberOfDevicesInGroup = numberOfDevicesInGroup
             self.numberOfDevicesRequested = numberOfDevicesRequested
+            self.participatingGateways = participatingGateways
             self.rfRegion = rfRegion
         }
 
@@ -5537,6 +5606,7 @@ extension IoTWireless {
             case dlClass = "DlClass"
             case numberOfDevicesInGroup = "NumberOfDevicesInGroup"
             case numberOfDevicesRequested = "NumberOfDevicesRequested"
+            case participatingGateways = "ParticipatingGateways"
             case rfRegion = "RfRegion"
         }
     }
@@ -6157,6 +6227,33 @@ extension IoTWireless {
         }
     }
 
+    public struct ParticipatingGatewaysMulticast: AWSEncodableShape & AWSDecodableShape {
+        /// The list of gateways that you want to use for sending the multicast downlink. Each downlink will be sent to all the gateways in the list with transmission interval between them. If list is empty the gateway list will be dynamically selected similar to the case of no ParticipatingGateways
+        public let gatewayList: [String]?
+        /// The duration of time for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast payload to the next gateway in the list.
+        public let transmissionInterval: Int?
+
+        @inlinable
+        public init(gatewayList: [String]? = nil, transmissionInterval: Int? = nil) {
+            self.gatewayList = gatewayList
+            self.transmissionInterval = transmissionInterval
+        }
+
+        public func validate(name: String) throws {
+            try self.gatewayList?.forEach {
+                try validate($0, name: "gatewayList[]", parent: name, max: 256)
+            }
+            try self.validate(self.gatewayList, name: "gatewayList", parent: name, max: 20)
+            try self.validate(self.transmissionInterval, name: "transmissionInterval", parent: name, max: 60000)
+            try self.validate(self.transmissionInterval, name: "transmissionInterval", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayList = "GatewayList"
+            case transmissionInterval = "TransmissionInterval"
+        }
+    }
+
     public struct PositionConfigurationItem: AWSDecodableShape {
         /// The position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
         public let destination: String?
@@ -6317,7 +6414,7 @@ extension IoTWireless {
     public struct PutResourceLogLevelRequest: AWSEncodableShape {
         public let logLevel: LogLevel
         public let resourceIdentifier: String
-        /// The type of the resource, which can be WirelessDevice or WirelessGateway.
+        /// The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
         public let resourceType: String
 
         @inlinable
@@ -6358,7 +6455,7 @@ extension IoTWireless {
 
     public struct ResetResourceLogLevelRequest: AWSEncodableShape {
         public let resourceIdentifier: String
-        /// The type of the resource, which can be WirelessDevice or WirelessGateway.
+        /// The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
         public let resourceType: String
 
         @inlinable
@@ -7756,6 +7853,7 @@ extension IoTWireless {
 
     public struct UpdateFuotaTaskRequest: AWSEncodableShape {
         public let description: String?
+        public let descriptor: String?
         public let firmwareUpdateImage: String?
         public let firmwareUpdateRole: String?
         public let fragmentIntervalMS: Int?
@@ -7766,8 +7864,9 @@ extension IoTWireless {
         public let redundancyPercent: Int?
 
         @inlinable
-        public init(description: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, id: String, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil, redundancyPercent: Int? = nil) {
+        public init(description: String? = nil, descriptor: String? = nil, firmwareUpdateImage: String? = nil, firmwareUpdateRole: String? = nil, fragmentIntervalMS: Int? = nil, fragmentSizeBytes: Int? = nil, id: String, loRaWAN: LoRaWANFuotaTask? = nil, name: String? = nil, redundancyPercent: Int? = nil) {
             self.description = description
+            self.descriptor = descriptor
             self.firmwareUpdateImage = firmwareUpdateImage
             self.firmwareUpdateRole = firmwareUpdateRole
             self.fragmentIntervalMS = fragmentIntervalMS
@@ -7782,6 +7881,7 @@ extension IoTWireless {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.descriptor, forKey: .descriptor)
             try container.encodeIfPresent(self.firmwareUpdateImage, forKey: .firmwareUpdateImage)
             try container.encodeIfPresent(self.firmwareUpdateRole, forKey: .firmwareUpdateRole)
             try container.encodeIfPresent(self.fragmentIntervalMS, forKey: .fragmentIntervalMS)
@@ -7794,6 +7894,8 @@ extension IoTWireless {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.descriptor, name: "descriptor", parent: name, max: 332)
+            try self.validate(self.descriptor, name: "descriptor", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
             try self.validate(self.firmwareUpdateImage, name: "firmwareUpdateImage", parent: name, max: 4096)
             try self.validate(self.firmwareUpdateImage, name: "firmwareUpdateImage", parent: name, min: 1)
             try self.validate(self.firmwareUpdateRole, name: "firmwareUpdateRole", parent: name, max: 2048)
@@ -7808,6 +7910,7 @@ extension IoTWireless {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case descriptor = "Descriptor"
             case firmwareUpdateImage = "FirmwareUpdateImage"
             case firmwareUpdateRole = "FirmwareUpdateRole"
             case fragmentIntervalMS = "FragmentIntervalMS"
@@ -7824,18 +7927,21 @@ extension IoTWireless {
 
     public struct UpdateLogLevelsByResourceTypesRequest: AWSEncodableShape {
         public let defaultLogLevel: LogLevel?
+        public let fuotaTaskLogOptions: [FuotaTaskLogOption]?
         public let wirelessDeviceLogOptions: [WirelessDeviceLogOption]?
         public let wirelessGatewayLogOptions: [WirelessGatewayLogOption]?
 
         @inlinable
-        public init(defaultLogLevel: LogLevel? = nil, wirelessDeviceLogOptions: [WirelessDeviceLogOption]? = nil, wirelessGatewayLogOptions: [WirelessGatewayLogOption]? = nil) {
+        public init(defaultLogLevel: LogLevel? = nil, fuotaTaskLogOptions: [FuotaTaskLogOption]? = nil, wirelessDeviceLogOptions: [WirelessDeviceLogOption]? = nil, wirelessGatewayLogOptions: [WirelessGatewayLogOption]? = nil) {
             self.defaultLogLevel = defaultLogLevel
+            self.fuotaTaskLogOptions = fuotaTaskLogOptions
             self.wirelessDeviceLogOptions = wirelessDeviceLogOptions
             self.wirelessGatewayLogOptions = wirelessGatewayLogOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultLogLevel = "DefaultLogLevel"
+            case fuotaTaskLogOptions = "FuotaTaskLogOptions"
             case wirelessDeviceLogOptions = "WirelessDeviceLogOptions"
             case wirelessGatewayLogOptions = "WirelessGatewayLogOptions"
         }
@@ -7889,6 +7995,7 @@ extension IoTWireless {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.loRaWAN?.validate(name: "\(name).loRaWAN")
             try self.validate(self.name, name: "name", parent: name, max: 256)
         }
 

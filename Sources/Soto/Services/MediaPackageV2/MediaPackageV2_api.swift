@@ -79,6 +79,47 @@ public struct MediaPackageV2: AWSService {
 
     // MARK: API Calls
 
+    /// Cancels an in-progress harvest job.
+    @Sendable
+    @inlinable
+    public func cancelHarvestJob(_ input: CancelHarvestJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelHarvestJobResponse {
+        try await self.client.execute(
+            operation: "CancelHarvestJob", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/harvestJob/{HarvestJobName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels an in-progress harvest job.
+    ///
+    /// Parameters:
+    ///   - channelGroupName: The name of the channel group containing the channel from which the harvest job is running.
+    ///   - channelName: The name of the channel from which the harvest job is running.
+    ///   - eTag: The current Entity Tag (ETag) associated with the harvest job. Used for concurrency control.
+    ///   - harvestJobName: The name of the harvest job to cancel. This name must be unique within the channel and cannot be changed after the harvest job is submitted.
+    ///   - originEndpointName: The name of the origin endpoint that the harvest job is harvesting from. This cannot be changed after the harvest job is submitted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelHarvestJob(
+        channelGroupName: String,
+        channelName: String,
+        eTag: String? = nil,
+        harvestJobName: String,
+        originEndpointName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelHarvestJobResponse {
+        let input = CancelHarvestJobRequest(
+            channelGroupName: channelGroupName, 
+            channelName: channelName, 
+            eTag: eTag, 
+            harvestJobName: harvestJobName, 
+            originEndpointName: originEndpointName
+        )
+        return try await self.cancelHarvestJob(input, logger: logger)
+    }
+
     /// Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
     @Sendable
     @inlinable
@@ -159,6 +200,62 @@ public struct MediaPackageV2: AWSService {
             tags: tags
         )
         return try await self.createChannelGroup(input, logger: logger)
+    }
+
+    /// Creates a new harvest job to export content from a MediaPackage v2 channel to an S3 bucket.
+    @Sendable
+    @inlinable
+    public func createHarvestJob(_ input: CreateHarvestJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHarvestJobResponse {
+        try await self.client.execute(
+            operation: "CreateHarvestJob", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/harvestJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new harvest job to export content from a MediaPackage v2 channel to an S3 bucket.
+    ///
+    /// Parameters:
+    ///   - channelGroupName: The name of the channel group containing the channel from which to harvest content.
+    ///   - channelName: The name of the channel from which to harvest content.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: An optional description for the harvest job.
+    ///   - destination: The S3 destination where the harvested content will be placed.
+    ///   - harvestedManifests: A list of manifests to be harvested.
+    ///   - harvestJobName: A name for the harvest job. This name must be unique within the channel.
+    ///   - originEndpointName: The name of the origin endpoint from which to harvest content.
+    ///   - scheduleConfiguration: The configuration for when the harvest job should run, including start and end times.
+    ///   - tags: A collection of tags associated with the harvest job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createHarvestJob(
+        channelGroupName: String,
+        channelName: String,
+        clientToken: String? = CreateHarvestJobRequest.idempotencyToken(),
+        description: String? = nil,
+        destination: Destination,
+        harvestedManifests: HarvestedManifests,
+        harvestJobName: String? = nil,
+        originEndpointName: String,
+        scheduleConfiguration: HarvesterScheduleConfiguration,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateHarvestJobResponse {
+        let input = CreateHarvestJobRequest(
+            channelGroupName: channelGroupName, 
+            channelName: channelName, 
+            clientToken: clientToken, 
+            description: description, 
+            destination: destination, 
+            harvestedManifests: harvestedManifests, 
+            harvestJobName: harvestJobName, 
+            originEndpointName: originEndpointName, 
+            scheduleConfiguration: scheduleConfiguration, 
+            tags: tags
+        )
+        return try await self.createHarvestJob(input, logger: logger)
     }
 
     /// The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
@@ -482,6 +579,44 @@ public struct MediaPackageV2: AWSService {
         return try await self.getChannelPolicy(input, logger: logger)
     }
 
+    /// Retrieves the details of a specific harvest job.
+    @Sendable
+    @inlinable
+    public func getHarvestJob(_ input: GetHarvestJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHarvestJobResponse {
+        try await self.client.execute(
+            operation: "GetHarvestJob", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/harvestJob/{HarvestJobName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the details of a specific harvest job.
+    ///
+    /// Parameters:
+    ///   - channelGroupName: The name of the channel group containing the channel associated with the harvest job.
+    ///   - channelName: The name of the channel associated with the harvest job.
+    ///   - harvestJobName: The name of the harvest job to retrieve.
+    ///   - originEndpointName: The name of the origin endpoint associated with the harvest job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getHarvestJob(
+        channelGroupName: String,
+        channelName: String,
+        harvestJobName: String,
+        originEndpointName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetHarvestJobResponse {
+        let input = GetHarvestJobRequest(
+            channelGroupName: channelGroupName, 
+            channelName: channelName, 
+            harvestJobName: harvestJobName, 
+            originEndpointName: originEndpointName
+        )
+        return try await self.getHarvestJob(input, logger: logger)
+    }
+
     /// Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using.
     @Sendable
     @inlinable
@@ -617,6 +752,50 @@ public struct MediaPackageV2: AWSService {
             nextToken: nextToken
         )
         return try await self.listChannels(input, logger: logger)
+    }
+
+    /// Retrieves a list of harvest jobs that match the specified criteria.
+    @Sendable
+    @inlinable
+    public func listHarvestJobs(_ input: ListHarvestJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHarvestJobsResponse {
+        try await self.client.execute(
+            operation: "ListHarvestJobs", 
+            path: "/channelGroup/{ChannelGroupName}/harvestJob", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of harvest jobs that match the specified criteria.
+    ///
+    /// Parameters:
+    ///   - channelGroupName: The name of the channel group to filter the harvest jobs by. If specified, only harvest jobs associated with channels in this group will be returned.
+    ///   - channelName: The name of the channel to filter the harvest jobs by. If specified, only harvest jobs associated with this channel will be returned.
+    ///   - maxResults: The maximum number of harvest jobs to return in a single request. If not specified, a default value will be used.
+    ///   - nextToken: A token used for pagination. Provide this value in subsequent requests to retrieve the next set of results.
+    ///   - originEndpointName: The name of the origin endpoint to filter the harvest jobs by. If specified, only harvest jobs associated with this origin endpoint will be returned.
+    ///   - status: The status to filter the harvest jobs by. If specified, only harvest jobs with this status will be returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listHarvestJobs(
+        channelGroupName: String,
+        channelName: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        originEndpointName: String? = nil,
+        status: HarvestJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListHarvestJobsResponse {
+        let input = ListHarvestJobsRequest(
+            channelGroupName: channelGroupName, 
+            channelName: channelName, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            originEndpointName: originEndpointName, 
+            status: status
+        )
+        return try await self.listHarvestJobs(input, logger: logger)
     }
 
     /// Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage.
@@ -1043,6 +1222,52 @@ extension MediaPackageV2 {
         return self.listChannelsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listHarvestJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listHarvestJobsPaginator(
+        _ input: ListHarvestJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListHarvestJobsRequest, ListHarvestJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listHarvestJobs,
+            inputKey: \ListHarvestJobsRequest.nextToken,
+            outputKey: \ListHarvestJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listHarvestJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - channelGroupName: The name of the channel group to filter the harvest jobs by. If specified, only harvest jobs associated with channels in this group will be returned.
+    ///   - channelName: The name of the channel to filter the harvest jobs by. If specified, only harvest jobs associated with this channel will be returned.
+    ///   - maxResults: The maximum number of harvest jobs to return in a single request. If not specified, a default value will be used.
+    ///   - originEndpointName: The name of the origin endpoint to filter the harvest jobs by. If specified, only harvest jobs associated with this origin endpoint will be returned.
+    ///   - status: The status to filter the harvest jobs by. If specified, only harvest jobs with this status will be returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listHarvestJobsPaginator(
+        channelGroupName: String,
+        channelName: String? = nil,
+        maxResults: Int? = nil,
+        originEndpointName: String? = nil,
+        status: HarvestJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListHarvestJobsRequest, ListHarvestJobsResponse> {
+        let input = ListHarvestJobsRequest(
+            channelGroupName: channelGroupName, 
+            channelName: channelName, 
+            maxResults: maxResults, 
+            originEndpointName: originEndpointName, 
+            status: status
+        )
+        return self.listHarvestJobsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listOriginEndpoints(_:logger:)``.
     ///
     /// - Parameters:
@@ -1105,6 +1330,20 @@ extension MediaPackageV2.ListChannelsRequest: AWSPaginateToken {
     }
 }
 
+extension MediaPackageV2.ListHarvestJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaPackageV2.ListHarvestJobsRequest {
+        return .init(
+            channelGroupName: self.channelGroupName,
+            channelName: self.channelName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            originEndpointName: self.originEndpointName,
+            status: self.status
+        )
+    }
+}
+
 extension MediaPackageV2.ListOriginEndpointsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> MediaPackageV2.ListOriginEndpointsRequest {
@@ -1114,5 +1353,58 @@ extension MediaPackageV2.ListOriginEndpointsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension MediaPackageV2 {
+    /// Waiter for operation ``getHarvestJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilHarvestJobFinished(
+        _ input: GetHarvestJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetHarvestJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "COMPLETED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "CANCELLED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "QUEUED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "IN_PROGRESS")),
+            ],
+            command: self.getHarvestJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getHarvestJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - channelGroupName: The name of the channel group containing the channel associated with the harvest job.
+    ///   - channelName: The name of the channel associated with the harvest job.
+    ///   - harvestJobName: The name of the harvest job to retrieve.
+    ///   - originEndpointName: The name of the origin endpoint associated with the harvest job.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilHarvestJobFinished(
+        channelGroupName: String,
+        channelName: String,
+        harvestJobName: String,
+        originEndpointName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetHarvestJobRequest(
+            channelGroupName: channelGroupName, 
+            channelName: channelName, 
+            harvestJobName: harvestJobName, 
+            originEndpointName: originEndpointName
+        )
+        try await self.waitUntilHarvestJobFinished(input, logger: logger)
     }
 }

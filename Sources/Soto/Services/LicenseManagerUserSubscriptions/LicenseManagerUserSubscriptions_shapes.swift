@@ -26,44 +26,134 @@ import Foundation
 extension LicenseManagerUserSubscriptions {
     // MARK: Enums
 
+    public enum ActiveDirectoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// AWS_MANAGED type of Active Directory
+        case awsManaged = "AWS_MANAGED"
+        /// SELF_MANAGED type of Active Directory
+        case selfManaged = "SELF_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseServerEndpointProvisioningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case deletionFailed = "DELETION_FAILED"
+        case provisioned = "PROVISIONED"
+        case provisioning = "PROVISIONING"
+        case provisioningFailed = "PROVISIONING_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LicenseServerHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case healthy = "HEALTHY"
+        case notApplicable = "NOT_APPLICABLE"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rdsSal = "RDS_SAL"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ActiveDirectoryIdentityProvider: AWSEncodableShape & AWSDecodableShape {
+        /// The ActiveDirectorySettings resource contains details about
+        /// 			the Active Directory, including network access details such as domain name and IP
+        /// 			addresses, and the credential provider for user administration.
+        public let activeDirectorySettings: ActiveDirectorySettings?
+        /// The type of Active Directory – either a self-managed Active Directory or an
+        /// 			Amazon Web Services Managed Active Directory.
+        public let activeDirectoryType: ActiveDirectoryType?
         /// The directory ID for an Active Directory identity provider.
         public let directoryId: String?
 
         @inlinable
-        public init(directoryId: String? = nil) {
+        public init(activeDirectorySettings: ActiveDirectorySettings? = nil, activeDirectoryType: ActiveDirectoryType? = nil, directoryId: String? = nil) {
+            self.activeDirectorySettings = activeDirectorySettings
+            self.activeDirectoryType = activeDirectoryType
             self.directoryId = directoryId
         }
 
+        public func validate(name: String) throws {
+            try self.activeDirectorySettings?.validate(name: "\(name).activeDirectorySettings")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d|sd)-[0-9a-f]{10}$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case activeDirectorySettings = "ActiveDirectorySettings"
+            case activeDirectoryType = "ActiveDirectoryType"
             case directoryId = "DirectoryId"
         }
     }
 
+    public struct ActiveDirectorySettings: AWSEncodableShape & AWSDecodableShape {
+        /// Points to the CredentialsProvider resource that contains
+        /// 			information about the credential provider for user administration.
+        public let domainCredentialsProvider: CredentialsProvider?
+        /// A list of domain IPv4 addresses that are used for the Active Directory.
+        public let domainIpv4List: [String]?
+        /// The domain name for the Active Directory.
+        public let domainName: String?
+        /// The DomainNetworkSettings resource contains an array of
+        /// 			subnets that apply for the Active Directory.
+        public let domainNetworkSettings: DomainNetworkSettings?
+
+        @inlinable
+        public init(domainCredentialsProvider: CredentialsProvider? = nil, domainIpv4List: [String]? = nil, domainName: String? = nil, domainNetworkSettings: DomainNetworkSettings? = nil) {
+            self.domainCredentialsProvider = domainCredentialsProvider
+            self.domainIpv4List = domainIpv4List
+            self.domainName = domainName
+            self.domainNetworkSettings = domainNetworkSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.domainIpv4List?.forEach {
+                try validate($0, name: "domainIpv4List[]", parent: name, pattern: "^(?:(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\\.(?!$)|$)){4}$")
+            }
+            try self.domainNetworkSettings?.validate(name: "\(name).domainNetworkSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainCredentialsProvider = "DomainCredentialsProvider"
+            case domainIpv4List = "DomainIpv4List"
+            case domainName = "DomainName"
+            case domainNetworkSettings = "DomainNetworkSettings"
+        }
+    }
+
     public struct AssociateUserRequest: AWSEncodableShape {
-        /// The domain name of the user.
+        /// The domain name of the  Active Directory that contains information for the user to associate.
         public let domain: String?
-        /// The identity provider of the user.
+        /// The identity provider for the user.
         public let identityProvider: IdentityProvider
-        /// The ID of the EC2 instance, which provides user-based subscriptions.
+        /// The ID of the EC2 instance that provides the user-based subscription.
         public let instanceId: String
-        /// The user name from the identity provider for the user.
+        /// The tags that apply for the user association.
+        public let tags: [String: String]?
+        /// The user name from the identity provider.
         public let username: String
 
         @inlinable
-        public init(domain: String? = nil, identityProvider: IdentityProvider, instanceId: String, username: String) {
+        public init(domain: String? = nil, identityProvider: IdentityProvider, instanceId: String, tags: [String: String]? = nil, username: String) {
             self.domain = domain
             self.identityProvider = identityProvider
             self.instanceId = instanceId
+            self.tags = tags
             self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.identityProvider.validate(name: "\(name).identityProvider")
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case domain = "Domain"
             case identityProvider = "IdentityProvider"
             case instanceId = "InstanceId"
+            case tags = "Tags"
             case username = "Username"
         }
     }
@@ -82,20 +172,116 @@ extension LicenseManagerUserSubscriptions {
         }
     }
 
-    public struct DeregisterIdentityProviderRequest: AWSEncodableShape {
-        /// An object that specifies details for the identity provider.
-        public let identityProvider: IdentityProvider
-        /// The name of the user-based subscription product.
-        public let product: String
+    public struct CreateLicenseServerEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that identifies the IdentityProvider resource that contains details
+        /// 			about a registered identity provider. In the case of Active Directory, that can be
+        /// 			a self-managed Active Directory or an Amazon Web Services Managed Active Directory that contains user identity details.
+        public let identityProviderArn: String
+        /// The LicenseServerSettings resource to create for the endpoint. The
+        /// 			settings include the type of license server and the Secrets Manager secret that
+        /// 			enables administrators to add or remove users associated with the
+        /// 			license server.
+        public let licenseServerSettings: LicenseServerSettings
+        /// The tags that apply for the license server endpoint.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(identityProvider: IdentityProvider, product: String) {
+        public init(identityProviderArn: String, licenseServerSettings: LicenseServerSettings, tags: [String: String]? = nil) {
+            self.identityProviderArn = identityProviderArn
+            self.licenseServerSettings = licenseServerSettings
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-zA-Z0-9-\\.]{1,510}/[a-zA-Z0-9-\\.]{1,510}$")
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProviderArn = "IdentityProviderArn"
+            case licenseServerSettings = "LicenseServerSettings"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLicenseServerEndpointResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the identity provider specified in the request.
+        public let identityProviderArn: String?
+        /// The ARN of the LicenseServerEndpoint resource.
+        public let licenseServerEndpointArn: String?
+
+        @inlinable
+        public init(identityProviderArn: String? = nil, licenseServerEndpointArn: String? = nil) {
+            self.identityProviderArn = identityProviderArn
+            self.licenseServerEndpointArn = licenseServerEndpointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProviderArn = "IdentityProviderArn"
+            case licenseServerEndpointArn = "LicenseServerEndpointArn"
+        }
+    }
+
+    public struct DeleteLicenseServerEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that identifies the LicenseServerEndpoint
+        /// 			resource to delete.
+        public let licenseServerEndpointArn: String
+        /// The type of License Server that the delete request refers to.
+        public let serverType: ServerType
+
+        @inlinable
+        public init(licenseServerEndpointArn: String, serverType: ServerType) {
+            self.licenseServerEndpointArn = licenseServerEndpointArn
+            self.serverType = serverType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.licenseServerEndpointArn, name: "licenseServerEndpointArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-zA-Z0-9-\\.]{1,510}/[a-zA-Z0-9-\\.]{1,510}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseServerEndpointArn = "LicenseServerEndpointArn"
+            case serverType = "ServerType"
+        }
+    }
+
+    public struct DeleteLicenseServerEndpointResponse: AWSDecodableShape {
+        /// Shows details from the LicenseServerEndpoint resource that was deleted.
+        public let licenseServerEndpoint: LicenseServerEndpoint?
+
+        @inlinable
+        public init(licenseServerEndpoint: LicenseServerEndpoint? = nil) {
+            self.licenseServerEndpoint = licenseServerEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseServerEndpoint = "LicenseServerEndpoint"
+        }
+    }
+
+    public struct DeregisterIdentityProviderRequest: AWSEncodableShape {
+        /// An object that specifies details for the Active Directory identity provider.
+        public let identityProvider: IdentityProvider?
+        /// The Amazon Resource Name (ARN) that identifies the identity provider to deregister.
+        public let identityProviderArn: String?
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
+        public let product: String?
+
+        @inlinable
+        public init(identityProvider: IdentityProvider? = nil, identityProviderArn: String? = nil, product: String? = nil) {
             self.identityProvider = identityProvider
+            self.identityProviderArn = identityProviderArn
             self.product = product
+        }
+
+        public func validate(name: String) throws {
+            try self.identityProvider?.validate(name: "\(name).identityProvider")
+            try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-zA-Z0-9-\\.]{1,510}/[a-zA-Z0-9-\\.]{1,510}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityProvider = "IdentityProvider"
+            case identityProviderArn = "IdentityProviderArn"
             case product = "Product"
         }
     }
@@ -115,27 +301,36 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct DisassociateUserRequest: AWSEncodableShape {
-        /// The domain name of the user.
+        /// The domain name of the  Active Directory that contains information for the user to disassociate.
         public let domain: String?
-        /// An object that specifies details for the identity provider.
-        public let identityProvider: IdentityProvider
-        /// The ID of the EC2 instance, which provides user-based subscriptions.
-        public let instanceId: String
-        /// The user name from the identity provider for the user.
-        public let username: String
+        /// An object that specifies details for the Active Directory identity provider.
+        public let identityProvider: IdentityProvider?
+        /// The ID of the EC2 instance which provides user-based subscriptions.
+        public let instanceId: String?
+        /// The Amazon Resource Name (ARN) of the user to disassociate from the EC2 instance.
+        public let instanceUserArn: String?
+        /// The user name from the Active Directory identity provider for the user.
+        public let username: String?
 
         @inlinable
-        public init(domain: String? = nil, identityProvider: IdentityProvider, instanceId: String, username: String) {
+        public init(domain: String? = nil, identityProvider: IdentityProvider? = nil, instanceId: String? = nil, instanceUserArn: String? = nil, username: String? = nil) {
             self.domain = domain
             self.identityProvider = identityProvider
             self.instanceId = instanceId
+            self.instanceUserArn = instanceUserArn
             self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.identityProvider?.validate(name: "\(name).identityProvider")
+            try self.validate(self.instanceUserArn, name: "instanceUserArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-zA-Z0-9-\\.]{1,510}/[a-zA-Z0-9-\\.]{1,510}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case domain = "Domain"
             case identityProvider = "IdentityProvider"
             case instanceId = "InstanceId"
+            case instanceUserArn = "InstanceUserArn"
             case username = "Username"
         }
     }
@@ -151,6 +346,26 @@ extension LicenseManagerUserSubscriptions {
 
         private enum CodingKeys: String, CodingKey {
             case instanceUserSummary = "InstanceUserSummary"
+        }
+    }
+
+    public struct DomainNetworkSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Contains a list of subnets that apply for the Active Directory domain.
+        public let subnets: [String]
+
+        @inlinable
+        public init(subnets: [String]) {
+            self.subnets = subnets
+        }
+
+        public func validate(name: String) throws {
+            try self.subnets.forEach {
+                try validate($0, name: "subnets[]", parent: name, pattern: "^subnet-[a-z0-9]{8,17}")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnets = "Subnets"
         }
     }
 
@@ -179,19 +394,25 @@ extension LicenseManagerUserSubscriptions {
     public struct IdentityProviderSummary: AWSDecodableShape {
         /// The failure message associated with an identity provider.
         public let failureMessage: String?
-        /// An object that specifies details for the identity provider.
+        /// The IdentityProvider resource contains information about
+        /// 			an identity provider.
         public let identityProvider: IdentityProvider
+        /// The Amazon Resource Name (ARN) of the identity provider.
+        public let identityProviderArn: String?
         /// The name of the user-based subscription product.
         public let product: String
-        /// An object that details the registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
+        /// The Settings resource contains details about the registered
+        /// 			identity provider’s product related configuration settings, such as the
+        /// 			subnets to provision VPC endpoints.
         public let settings: Settings
-        /// The status of an identity provider.
+        /// The status of the identity provider.
         public let status: String
 
         @inlinable
-        public init(failureMessage: String? = nil, identityProvider: IdentityProvider, product: String, settings: Settings, status: String) {
+        public init(failureMessage: String? = nil, identityProvider: IdentityProvider, identityProviderArn: String? = nil, product: String, settings: Settings, status: String) {
             self.failureMessage = failureMessage
             self.identityProvider = identityProvider
+            self.identityProviderArn = identityProviderArn
             self.product = product
             self.settings = settings
             self.status = status
@@ -200,6 +421,7 @@ extension LicenseManagerUserSubscriptions {
         private enum CodingKeys: String, CodingKey {
             case failureMessage = "FailureMessage"
             case identityProvider = "IdentityProvider"
+            case identityProviderArn = "IdentityProviderArn"
             case product = "Product"
             case settings = "Settings"
             case status = "Status"
@@ -241,12 +463,15 @@ extension LicenseManagerUserSubscriptions {
         public let associationDate: String?
         /// The date a user was disassociated from an EC2 instance.
         public let disassociationDate: String?
-        /// The domain name of the user.
+        /// The domain name of the  Active Directory that contains the user information for the product subscription.
         public let domain: String?
-        /// An object that specifies details for the identity provider.
+        /// The IdentityProvider resource specifies details
+        /// 			about the identity provider.
         public let identityProvider: IdentityProvider
-        /// The ID of the EC2 instance, which provides user-based subscriptions.
+        /// The ID of the EC2 instance that provides user-based subscriptions.
         public let instanceId: String
+        /// The Amazon Resource Name (ARN) that identifies the instance user.
+        public let instanceUserArn: String?
         /// The status of a user associated with an EC2 instance.
         public let status: String
         /// The status message for users of an EC2 instance.
@@ -255,12 +480,13 @@ extension LicenseManagerUserSubscriptions {
         public let username: String
 
         @inlinable
-        public init(associationDate: String? = nil, disassociationDate: String? = nil, domain: String? = nil, identityProvider: IdentityProvider, instanceId: String, status: String, statusMessage: String? = nil, username: String) {
+        public init(associationDate: String? = nil, disassociationDate: String? = nil, domain: String? = nil, identityProvider: IdentityProvider, instanceId: String, instanceUserArn: String? = nil, status: String, statusMessage: String? = nil, username: String) {
             self.associationDate = associationDate
             self.disassociationDate = disassociationDate
             self.domain = domain
             self.identityProvider = identityProvider
             self.instanceId = instanceId
+            self.instanceUserArn = instanceUserArn
             self.status = status
             self.statusMessage = statusMessage
             self.username = username
@@ -272,34 +498,137 @@ extension LicenseManagerUserSubscriptions {
             case domain = "Domain"
             case identityProvider = "IdentityProvider"
             case instanceId = "InstanceId"
+            case instanceUserArn = "InstanceUserArn"
             case status = "Status"
             case statusMessage = "StatusMessage"
             case username = "Username"
         }
     }
 
+    public struct LicenseServer: AWSDecodableShape {
+        /// The health status of the RDS license server.
+        public let healthStatus: LicenseServerHealthStatus?
+        /// A list of domain IPv4 addresses that are used for the RDS
+        /// 			license server.
+        public let ipv4Address: String?
+        /// The current state of the provisioning process for the RDS
+        /// 			license server.
+        public let provisioningStatus: LicenseServerEndpointProvisioningStatus?
+
+        @inlinable
+        public init(healthStatus: LicenseServerHealthStatus? = nil, ipv4Address: String? = nil, provisioningStatus: LicenseServerEndpointProvisioningStatus? = nil) {
+            self.healthStatus = healthStatus
+            self.ipv4Address = ipv4Address
+            self.provisioningStatus = provisioningStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthStatus = "HealthStatus"
+            case ipv4Address = "Ipv4Address"
+            case provisioningStatus = "ProvisioningStatus"
+        }
+    }
+
+    public struct LicenseServerEndpoint: AWSDecodableShape {
+        /// The timestamp when License Manager created the license server endpoint.
+        public let creationTime: Date?
+        /// The Amazon Resource Name (ARN) of the identity provider that's associated with
+        /// 			the RDS license server endpoint.
+        public let identityProviderArn: String?
+        /// The ARN of the ServerEndpoint resource for the RDS
+        /// 			license server.
+        public let licenseServerEndpointArn: String?
+        /// The ID of the license server endpoint.
+        public let licenseServerEndpointId: String?
+        /// The current state of the provisioning process for the RDS license
+        /// 			server endpoint
+        public let licenseServerEndpointProvisioningStatus: LicenseServerEndpointProvisioningStatus?
+        /// An array of LicenseServer resources that represent the
+        /// 			license servers that are accessed through this endpoint.
+        public let licenseServers: [LicenseServer]?
+        /// The ServerEndpoint resource contains the network
+        /// 			address of the RDS license server endpoint.
+        public let serverEndpoint: ServerEndpoint?
+        /// The type of license server.
+        public let serverType: ServerType?
+        /// The message associated with the provisioning status, if there is one.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(creationTime: Date? = nil, identityProviderArn: String? = nil, licenseServerEndpointArn: String? = nil, licenseServerEndpointId: String? = nil, licenseServerEndpointProvisioningStatus: LicenseServerEndpointProvisioningStatus? = nil, licenseServers: [LicenseServer]? = nil, serverEndpoint: ServerEndpoint? = nil, serverType: ServerType? = nil, statusMessage: String? = nil) {
+            self.creationTime = creationTime
+            self.identityProviderArn = identityProviderArn
+            self.licenseServerEndpointArn = licenseServerEndpointArn
+            self.licenseServerEndpointId = licenseServerEndpointId
+            self.licenseServerEndpointProvisioningStatus = licenseServerEndpointProvisioningStatus
+            self.licenseServers = licenseServers
+            self.serverEndpoint = serverEndpoint
+            self.serverType = serverType
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case identityProviderArn = "IdentityProviderArn"
+            case licenseServerEndpointArn = "LicenseServerEndpointArn"
+            case licenseServerEndpointId = "LicenseServerEndpointId"
+            case licenseServerEndpointProvisioningStatus = "LicenseServerEndpointProvisioningStatus"
+            case licenseServers = "LicenseServers"
+            case serverEndpoint = "ServerEndpoint"
+            case serverType = "ServerType"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct LicenseServerSettings: AWSEncodableShape {
+        /// The ServerSettings resource contains the settings for your
+        /// 			server.
+        public let serverSettings: ServerSettings
+        /// The type of license server.
+        public let serverType: ServerType
+
+        @inlinable
+        public init(serverSettings: ServerSettings, serverType: ServerType) {
+            self.serverSettings = serverSettings
+            self.serverType = serverType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverSettings = "ServerSettings"
+            case serverType = "ServerType"
+        }
+    }
+
     public struct ListIdentityProvidersRequest: AWSEncodableShape {
-        /// Maximum number of results to return in a single call.
+        /// You can use the following filters to streamline results:   Product   DirectoryId
+        public let filters: [Filter]?
+        /// The maximum number of results to return from a single request.
         public let maxResults: Int?
-        /// Token for the next set of results.
+        /// A token to specify where to start paginating. This is the nextToken
+        /// 	from a previously truncated response.
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
     }
 
     public struct ListIdentityProvidersResponse: AWSDecodableShape {
-        /// Metadata that describes the list identity providers operation.
+        /// An array of IdentityProviderSummary resources that contain
+        /// 			details about the Active Directory identity providers that meet the request criteria.
         public let identityProviderSummaries: [IdentityProviderSummary]
-        /// Token for the next set of results.
+        /// The next token used for paginated responses. When this field isn't empty,
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
+        /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
 
         @inlinable
@@ -315,11 +644,12 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct ListInstancesRequest: AWSEncodableShape {
-        /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
+        /// You can use the following filters to streamline results:   Status   InstanceId
         public let filters: [Filter]?
-        /// Maximum number of results to return in a single call.
+        /// The maximum number of results to return from a single request.
         public let maxResults: Int?
-        /// Token for the next set of results.
+        /// A token to specify where to start paginating. This is the nextToken
+        /// 	from a previously truncated response.
         public let nextToken: String?
 
         @inlinable
@@ -337,9 +667,13 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct ListInstancesResponse: AWSDecodableShape {
-        /// Metadata that describes the list instances operation.
+        /// An array of InstanceSummary resources that contain details
+        /// 			about the instances that provide user-based subscriptions and also meet the
+        /// 			request criteria.
         public let instanceSummaries: [InstanceSummary]?
-        /// Token for the next set of results.
+        /// The next token used for paginated responses. When this field isn't empty,
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
+        /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
 
         @inlinable
@@ -354,25 +688,75 @@ extension LicenseManagerUserSubscriptions {
         }
     }
 
+    public struct ListLicenseServerEndpointsRequest: AWSEncodableShape {
+        /// You can use the following filters to streamline results:   IdentityProviderArn
+        public let filters: [Filter]?
+        /// The maximum number of results to return from a single request.
+        public let maxResults: Int?
+        /// A token to specify where to start paginating. This is the nextToken
+        /// 	from a previously truncated response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLicenseServerEndpointsResponse: AWSDecodableShape {
+        /// An array of LicenseServerEndpoint resources that
+        /// 			contain detailed information about the RDS License Servers that meet
+        /// 			the request criteria.
+        public let licenseServerEndpoints: [LicenseServerEndpoint]?
+        /// The next token used for paginated responses. When this field isn't empty,
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
+        /// 		with the next request to retrieve additional objects.
+        public let nextToken: String?
+
+        @inlinable
+        public init(licenseServerEndpoints: [LicenseServerEndpoint]? = nil, nextToken: String? = nil) {
+            self.licenseServerEndpoints = licenseServerEndpoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseServerEndpoints = "LicenseServerEndpoints"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListProductSubscriptionsRequest: AWSEncodableShape {
-        /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
+        /// You can use the following filters to streamline results:   Status   Username   Domain
         public let filters: [Filter]?
         /// An object that specifies details for the identity provider.
         public let identityProvider: IdentityProvider
-        /// Maximum number of results to return in a single call.
+        /// The maximum number of results to return from a single request.
         public let maxResults: Int?
-        /// Token for the next set of results.
+        /// A token to specify where to start paginating. This is the nextToken
+        /// 	from a previously truncated response.
         public let nextToken: String?
-        /// The name of the user-based subscription product.
-        public let product: String
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
+        public let product: String?
 
         @inlinable
-        public init(filters: [Filter]? = nil, identityProvider: IdentityProvider, maxResults: Int? = nil, nextToken: String? = nil, product: String) {
+        public init(filters: [Filter]? = nil, identityProvider: IdentityProvider, maxResults: Int? = nil, nextToken: String? = nil, product: String? = nil) {
             self.filters = filters
             self.identityProvider = identityProvider
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.product = product
+        }
+
+        public func validate(name: String) throws {
+            try self.identityProvider.validate(name: "\(name).identityProvider")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -385,7 +769,9 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct ListProductSubscriptionsResponse: AWSDecodableShape {
-        /// Token for the next set of results.
+        /// The next token used for paginated responses. When this field isn't empty,
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
+        /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// Metadata that describes the list product subscriptions operation.
         public let productUserSummaries: [ProductUserSummary]?
@@ -402,16 +788,53 @@ extension LicenseManagerUserSubscriptions {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,510})/([a-z0-9-\\.]{1,510})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tags for the specified resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct ListUserAssociationsRequest: AWSEncodableShape {
-        /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
+        /// You can use the following filters to streamline results:   Status   Username   Domain
         public let filters: [Filter]?
         /// An object that specifies details for the identity provider.
         public let identityProvider: IdentityProvider
         /// The ID of the EC2 instance, which provides user-based subscriptions.
         public let instanceId: String
-        /// Maximum number of results to return in a single call.
+        /// The maximum number of results to return from a single request.
         public let maxResults: Int?
-        /// Token for the next set of results.
+        /// A token to specify where to start paginating. This is the nextToken
+        /// 	from a previously truncated response.
         public let nextToken: String?
 
         @inlinable
@@ -421,6 +844,10 @@ extension LicenseManagerUserSubscriptions {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.identityProvider.validate(name: "\(name).identityProvider")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -435,7 +862,9 @@ extension LicenseManagerUserSubscriptions {
     public struct ListUserAssociationsResponse: AWSDecodableShape {
         /// Metadata that describes the list user association operation.
         public let instanceUserSummaries: [InstanceUserSummary]?
-        /// Token for the next set of results.
+        /// The next token used for paginated responses. When this field isn't empty,
+        /// 	there are additional elements that the service hasn't included in this request. Use this token
+        /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
 
         @inlinable
@@ -451,28 +880,31 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct ProductUserSummary: AWSDecodableShape {
-        /// The domain name of the user.
+        /// The domain name of the  Active Directory that contains the user information for the product subscription.
         public let domain: String?
         /// An object that specifies details for the identity provider.
         public let identityProvider: IdentityProvider
         /// The name of the user-based subscription product.
         public let product: String
-        /// The status of a product for a user.
+        /// The Amazon Resource Name (ARN) for this product user.
+        public let productUserArn: String?
+        /// The status of a product for this user.
         public let status: String
-        /// The status message for a product for a user.
+        /// The status message for a product for this user.
         public let statusMessage: String?
         /// The end date of a subscription.
         public let subscriptionEndDate: String?
         /// The start date of a subscription.
         public let subscriptionStartDate: String?
-        /// The user name from the identity provider of the user.
+        /// The user name from the identity provider for this product user.
         public let username: String
 
         @inlinable
-        public init(domain: String? = nil, identityProvider: IdentityProvider, product: String, status: String, statusMessage: String? = nil, subscriptionEndDate: String? = nil, subscriptionStartDate: String? = nil, username: String) {
+        public init(domain: String? = nil, identityProvider: IdentityProvider, product: String, productUserArn: String? = nil, status: String, statusMessage: String? = nil, subscriptionEndDate: String? = nil, subscriptionStartDate: String? = nil, username: String) {
             self.domain = domain
             self.identityProvider = identityProvider
             self.product = product
+            self.productUserArn = productUserArn
             self.status = status
             self.statusMessage = statusMessage
             self.subscriptionEndDate = subscriptionEndDate
@@ -484,6 +916,7 @@ extension LicenseManagerUserSubscriptions {
             case domain = "Domain"
             case identityProvider = "IdentityProvider"
             case product = "Product"
+            case productUserArn = "ProductUserArn"
             case status = "Status"
             case statusMessage = "StatusMessage"
             case subscriptionEndDate = "SubscriptionEndDate"
@@ -492,29 +925,51 @@ extension LicenseManagerUserSubscriptions {
         }
     }
 
-    public struct RegisterIdentityProviderRequest: AWSEncodableShape {
-        /// An object that specifies details for the identity provider.
-        public let identityProvider: IdentityProvider
-        /// The name of the user-based subscription product.
-        public let product: String
-        /// The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
-        public let settings: Settings?
+    public struct RdsSalSettings: AWSEncodableShape {
+        /// The CredentialsProvider resource contains a reference to
+        /// 			the credentials provider that's used for RDS license server user administration.
+        public let rdsSalCredentialsProvider: CredentialsProvider
 
         @inlinable
-        public init(identityProvider: IdentityProvider, product: String, settings: Settings? = nil) {
+        public init(rdsSalCredentialsProvider: CredentialsProvider) {
+            self.rdsSalCredentialsProvider = rdsSalCredentialsProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rdsSalCredentialsProvider = "RdsSalCredentialsProvider"
+        }
+    }
+
+    public struct RegisterIdentityProviderRequest: AWSEncodableShape {
+        /// An object that specifies details for the identity provider to register.
+        public let identityProvider: IdentityProvider
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
+        public let product: String
+        /// The registered identity provider’s product related configuration
+        /// 			settings such as the subnets to provision VPC endpoints.
+        public let settings: Settings?
+        /// The tags that apply to the identity provider's registration.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(identityProvider: IdentityProvider, product: String, settings: Settings? = nil, tags: [String: String]? = nil) {
             self.identityProvider = identityProvider
             self.product = product
             self.settings = settings
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.identityProvider.validate(name: "\(name).identityProvider")
             try self.settings?.validate(name: "\(name).settings")
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityProvider = "IdentityProvider"
             case product = "Product"
             case settings = "Settings"
+            case tags = "Tags"
         }
     }
 
@@ -532,8 +987,37 @@ extension LicenseManagerUserSubscriptions {
         }
     }
 
+    public struct SecretsManagerCredentialsProvider: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Secrets Manager secret that contains credentials.
+        public let secretId: String?
+
+        @inlinable
+        public init(secretId: String? = nil) {
+            self.secretId = secretId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretId = "SecretId"
+        }
+    }
+
+    public struct ServerEndpoint: AWSDecodableShape {
+        /// The network address of the endpoint.
+        public let endpoint: String?
+
+        @inlinable
+        public init(endpoint: String? = nil) {
+            self.endpoint = endpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+        }
+    }
+
     public struct Settings: AWSEncodableShape & AWSDecodableShape {
-        /// A security group ID that allows inbound TCP port 1688 communication between resources in your VPC and the VPC endpoint for activation servers.
+        /// A security group ID that allows inbound TCP port 1688 communication between resources in
+        /// 			your VPC and the VPC endpoint for activation servers.
         public let securityGroupId: String
         /// The subnets defined for the registered identity provider.
         public let subnets: [String]
@@ -549,7 +1033,7 @@ extension LicenseManagerUserSubscriptions {
             try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, min: 5)
             try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, pattern: "^sg-(([0-9a-z]{8})|([0-9a-z]{17}))$")
             try self.subnets.forEach {
-                try validate($0, name: "subnets[]", parent: name, pattern: "subnet-[a-z0-9]{8,17}")
+                try validate($0, name: "subnets[]", parent: name, pattern: "^subnet-[a-z0-9]{8,17}")
             }
         }
 
@@ -560,27 +1044,37 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct StartProductSubscriptionRequest: AWSEncodableShape {
-        /// The domain name of the user.
+        /// The domain name of the  Active Directory that contains the user for whom to start the product
+        /// 			subscription.
         public let domain: String?
         /// An object that specifies details for the identity provider.
         public let identityProvider: IdentityProvider
-        /// The name of the user-based subscription product.
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
         public let product: String
+        /// The tags that apply to the product subscription.
+        public let tags: [String: String]?
         /// The user name from the identity provider of the user.
         public let username: String
 
         @inlinable
-        public init(domain: String? = nil, identityProvider: IdentityProvider, product: String, username: String) {
+        public init(domain: String? = nil, identityProvider: IdentityProvider, product: String, tags: [String: String]? = nil, username: String) {
             self.domain = domain
             self.identityProvider = identityProvider
             self.product = product
+            self.tags = tags
             self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.identityProvider.validate(name: "\(name).identityProvider")
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case domain = "Domain"
             case identityProvider = "IdentityProvider"
             case product = "Product"
+            case tags = "Tags"
             case username = "Username"
         }
     }
@@ -600,27 +1094,37 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct StopProductSubscriptionRequest: AWSEncodableShape {
-        /// The domain name of the user.
+        /// The domain name of the  Active Directory that contains the user for whom to stop the product
+        /// 			subscription.
         public let domain: String?
         /// An object that specifies details for the identity provider.
-        public let identityProvider: IdentityProvider
-        /// The name of the user-based subscription product.
-        public let product: String
+        public let identityProvider: IdentityProvider?
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
+        public let product: String?
+        /// The Amazon Resource Name (ARN) of the product user.
+        public let productUserArn: String?
         /// The user name from the identity provider for the user.
-        public let username: String
+        public let username: String?
 
         @inlinable
-        public init(domain: String? = nil, identityProvider: IdentityProvider, product: String, username: String) {
+        public init(domain: String? = nil, identityProvider: IdentityProvider? = nil, product: String? = nil, productUserArn: String? = nil, username: String? = nil) {
             self.domain = domain
             self.identityProvider = identityProvider
             self.product = product
+            self.productUserArn = productUserArn
             self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.identityProvider?.validate(name: "\(name).identityProvider")
+            try self.validate(self.productUserArn, name: "productUserArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-zA-Z0-9-\\.]{1,510}/[a-zA-Z0-9-\\.]{1,510}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case domain = "Domain"
             case identityProvider = "IdentityProvider"
             case product = "Product"
+            case productUserArn = "ProductUserArn"
             case username = "Username"
         }
     }
@@ -639,26 +1143,97 @@ extension LicenseManagerUserSubscriptions {
         }
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that you want to tag.
+        public let resourceArn: String
+        /// The tags to apply to the specified resource.
+        public let tags: [String: String]
+
+        @inlinable
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,510})/([a-z0-9-\\.]{1,510})$")
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
+        public let resourceArn: String
+        /// The tag keys to remove from the resource.
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,63}):([a-z0-9-\\.]{1,510})/([a-z0-9-\\.]{1,510})$")
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateIdentityProviderSettingsRequest: AWSEncodableShape {
-        public let identityProvider: IdentityProvider
-        /// The name of the user-based subscription product.
-        public let product: String
-        /// Updates the registered identity provider’s product related configuration settings. You can update any combination of settings in a single operation such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which you want to remove the VPC endpoints from.   Security group ID which permits traffic to the VPC endpoints.
+        public let identityProvider: IdentityProvider?
+        /// The Amazon Resource Name (ARN) of the identity provider to update.
+        public let identityProviderArn: String?
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS
+        public let product: String?
+        /// Updates the registered identity provider’s product related configuration settings. You can
+        /// 			update any combination of settings in a single operation such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which you want to remove the VPC endpoints from.   Security group ID which permits traffic to the VPC endpoints.
         public let updateSettings: UpdateSettings
 
         @inlinable
-        public init(identityProvider: IdentityProvider, product: String, updateSettings: UpdateSettings) {
+        public init(identityProvider: IdentityProvider? = nil, identityProviderArn: String? = nil, product: String? = nil, updateSettings: UpdateSettings) {
             self.identityProvider = identityProvider
+            self.identityProviderArn = identityProviderArn
             self.product = product
             self.updateSettings = updateSettings
         }
 
         public func validate(name: String) throws {
+            try self.identityProvider?.validate(name: "\(name).identityProvider")
+            try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-zA-Z0-9-\\.]{1,510}/[a-zA-Z0-9-\\.]{1,510}$")
             try self.updateSettings.validate(name: "\(name).updateSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityProvider = "IdentityProvider"
+            case identityProviderArn = "IdentityProviderArn"
             case product = "Product"
             case updateSettings = "UpdateSettings"
         }
@@ -678,11 +1253,13 @@ extension LicenseManagerUserSubscriptions {
     }
 
     public struct UpdateSettings: AWSEncodableShape {
-        /// The ID of one or more subnets in which License Manager will create a VPC endpoint for products that require connectivity to activation servers.
+        /// The ID of one or more subnets in which License Manager will create a VPC endpoint for products that
+        /// 			require connectivity to activation servers.
         public let addSubnets: [String]
         /// The ID of one or more subnets to remove.
         public let removeSubnets: [String]
-        /// A security group ID that allows inbound TCP port 1688 communication between resources in your VPC and the VPC endpoints for activation servers.
+        /// A security group ID that allows inbound TCP port 1688 communication between resources in
+        /// 			your VPC and the VPC endpoints for activation servers.
         public let securityGroupId: String?
 
         @inlinable
@@ -694,10 +1271,10 @@ extension LicenseManagerUserSubscriptions {
 
         public func validate(name: String) throws {
             try self.addSubnets.forEach {
-                try validate($0, name: "addSubnets[]", parent: name, pattern: "subnet-[a-z0-9]{8,17}")
+                try validate($0, name: "addSubnets[]", parent: name, pattern: "^subnet-[a-z0-9]{8,17}")
             }
             try self.removeSubnets.forEach {
-                try validate($0, name: "removeSubnets[]", parent: name, pattern: "subnet-[a-z0-9]{8,17}")
+                try validate($0, name: "removeSubnets[]", parent: name, pattern: "^subnet-[a-z0-9]{8,17}")
             }
             try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, max: 200)
             try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, min: 5)
@@ -711,8 +1288,24 @@ extension LicenseManagerUserSubscriptions {
         }
     }
 
+    public struct CredentialsProvider: AWSEncodableShape & AWSDecodableShape {
+        /// Identifies the Secrets Manager secret that contains credentials needed for
+        /// 			user administration in the Active Directory.
+        public let secretsManagerCredentialsProvider: SecretsManagerCredentialsProvider?
+
+        @inlinable
+        public init(secretsManagerCredentialsProvider: SecretsManagerCredentialsProvider? = nil) {
+            self.secretsManagerCredentialsProvider = secretsManagerCredentialsProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretsManagerCredentialsProvider = "SecretsManagerCredentialsProvider"
+        }
+    }
+
     public struct IdentityProvider: AWSEncodableShape & AWSDecodableShape {
-        /// An object that details an Active Directory identity provider.
+        /// The ActiveDirectoryIdentityProvider resource contains settings
+        /// 			and other details about a specific Active Directory identity provider.
         public let activeDirectoryIdentityProvider: ActiveDirectoryIdentityProvider?
 
         @inlinable
@@ -720,8 +1313,27 @@ extension LicenseManagerUserSubscriptions {
             self.activeDirectoryIdentityProvider = activeDirectoryIdentityProvider
         }
 
+        public func validate(name: String) throws {
+            try self.activeDirectoryIdentityProvider?.validate(name: "\(name).activeDirectoryIdentityProvider")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activeDirectoryIdentityProvider = "ActiveDirectoryIdentityProvider"
+        }
+    }
+
+    public struct ServerSettings: AWSEncodableShape {
+        /// The RdsSalSettings resource contains settings to configure
+        /// 			a specific Remote Desktop Services (RDS) license server.
+        public let rdsSalSettings: RdsSalSettings?
+
+        @inlinable
+        public init(rdsSalSettings: RdsSalSettings? = nil) {
+            self.rdsSalSettings = rdsSalSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rdsSalSettings = "RdsSalSettings"
         }
     }
 }
@@ -760,7 +1372,8 @@ public struct LicenseManagerUserSubscriptionsErrorType: AWSErrorType {
 
     /// You don't have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request couldn't be completed because it conflicted with the current state of the resource.
+    /// The request couldn't be completed because it conflicted with the current state of the
+    /// 			resource.
     public static var conflictException: Self { .init(.conflictException) }
     /// An exception occurred with the service.
     public static var internalServerException: Self { .init(.internalServerException) }

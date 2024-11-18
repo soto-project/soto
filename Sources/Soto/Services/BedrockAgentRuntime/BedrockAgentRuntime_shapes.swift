@@ -263,6 +263,8 @@ extension BedrockAgentRuntime {
         case flowCompletionEvent(FlowCompletionEvent)
         /// Contains information about an output from flow invocation.
         case flowOutputEvent(FlowOutputEvent)
+        /// Contains information about a trace, which tracks an input or output for a node in the flow.
+        case flowTraceEvent(FlowTraceEvent)
         /// An internal server error occurred. Retry your request.
         case internalServerException(InternalServerException)
         /// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
@@ -302,6 +304,9 @@ extension BedrockAgentRuntime {
             case .flowOutputEvent:
                 let value = try container.decode(FlowOutputEvent.self, forKey: .flowOutputEvent)
                 self = .flowOutputEvent(value)
+            case .flowTraceEvent:
+                let value = try container.decode(FlowTraceEvent.self, forKey: .flowTraceEvent)
+                self = .flowTraceEvent(value)
             case .internalServerException:
                 let value = try container.decode(InternalServerException.self, forKey: .internalServerException)
                 self = .internalServerException(value)
@@ -327,11 +332,49 @@ extension BedrockAgentRuntime {
             case dependencyFailedException = "dependencyFailedException"
             case flowCompletionEvent = "flowCompletionEvent"
             case flowOutputEvent = "flowOutputEvent"
+            case flowTraceEvent = "flowTraceEvent"
             case internalServerException = "internalServerException"
             case resourceNotFoundException = "resourceNotFoundException"
             case serviceQuotaExceededException = "serviceQuotaExceededException"
             case throttlingException = "throttlingException"
             case validationException = "validationException"
+        }
+    }
+
+    public enum FlowTrace: AWSDecodableShape, Sendable {
+        /// Contains information about an output from a condition node.
+        case conditionNodeResultTrace(FlowTraceConditionNodeResultEvent)
+        /// Contains information about the input into a node.
+        case nodeInputTrace(FlowTraceNodeInputEvent)
+        /// Contains information about the output from a node.
+        case nodeOutputTrace(FlowTraceNodeOutputEvent)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .conditionNodeResultTrace:
+                let value = try container.decode(FlowTraceConditionNodeResultEvent.self, forKey: .conditionNodeResultTrace)
+                self = .conditionNodeResultTrace(value)
+            case .nodeInputTrace:
+                let value = try container.decode(FlowTraceNodeInputEvent.self, forKey: .nodeInputTrace)
+                self = .nodeInputTrace(value)
+            case .nodeOutputTrace:
+                let value = try container.decode(FlowTraceNodeOutputEvent.self, forKey: .nodeOutputTrace)
+                self = .nodeOutputTrace(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionNodeResultTrace = "conditionNodeResultTrace"
+            case nodeInputTrace = "nodeInputTrace"
+            case nodeOutputTrace = "nodeOutputTrace"
         }
     }
 
@@ -1249,7 +1292,7 @@ extension BedrockAgentRuntime {
             try self.generationConfiguration?.validate(name: "\(name).generationConfiguration")
             try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
             try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))))|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.sources.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
@@ -1423,6 +1466,139 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct FlowTraceCondition: AWSDecodableShape {
+        /// The name of the condition.
+        public let conditionName: String
+
+        @inlinable
+        public init(conditionName: String) {
+            self.conditionName = conditionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionName = "conditionName"
+        }
+    }
+
+    public struct FlowTraceConditionNodeResultEvent: AWSDecodableShape {
+        /// The name of the condition node.
+        public let nodeName: String
+        /// An array of objects containing information about the conditions that were satisfied.
+        public let satisfiedConditions: [FlowTraceCondition]
+        /// The date and time that the trace was returned.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(nodeName: String, satisfiedConditions: [FlowTraceCondition], timestamp: Date) {
+            self.nodeName = nodeName
+            self.satisfiedConditions = satisfiedConditions
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeName = "nodeName"
+            case satisfiedConditions = "satisfiedConditions"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct FlowTraceEvent: AWSDecodableShape {
+        /// The trace object containing information about an input or output for a node in the flow.
+        public let trace: FlowTrace
+
+        @inlinable
+        public init(trace: FlowTrace) {
+            self.trace = trace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trace = "trace"
+        }
+    }
+
+    public struct FlowTraceNodeInputEvent: AWSDecodableShape {
+        /// An array of objects containing information about each field in the input.
+        public let fields: [FlowTraceNodeInputField]
+        /// The name of the node that received the input.
+        public let nodeName: String
+        /// The date and time that the trace was returned.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(fields: [FlowTraceNodeInputField], nodeName: String, timestamp: Date) {
+            self.fields = fields
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case nodeName = "nodeName"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct FlowTraceNodeInputField: AWSDecodableShape {
+        /// The content of the node input.
+        public let content: FlowTraceNodeInputContent
+        /// The name of the node input.
+        public let nodeInputName: String
+
+        @inlinable
+        public init(content: FlowTraceNodeInputContent, nodeInputName: String) {
+            self.content = content
+            self.nodeInputName = nodeInputName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case nodeInputName = "nodeInputName"
+        }
+    }
+
+    public struct FlowTraceNodeOutputEvent: AWSDecodableShape {
+        /// An array of objects containing information about each field in the output.
+        public let fields: [FlowTraceNodeOutputField]
+        /// The name of the node that yielded the output.
+        public let nodeName: String
+        /// The date and time that the trace was returned.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(fields: [FlowTraceNodeOutputField], nodeName: String, timestamp: Date) {
+            self.fields = fields
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case nodeName = "nodeName"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct FlowTraceNodeOutputField: AWSDecodableShape {
+        /// The content of the node output.
+        public let content: FlowTraceNodeOutputContent
+        /// The name of the node output.
+        public let nodeOutputName: String
+
+        @inlinable
+        public init(content: FlowTraceNodeOutputContent, nodeOutputName: String) {
+            self.content = content
+            self.nodeOutputName = nodeOutputName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case nodeOutputName = "nodeOutputName"
+        }
+    }
+
     public struct FunctionInvocationInput: AWSDecodableShape {
         /// The action group that the function belongs to.
         public let actionGroup: String
@@ -1522,7 +1698,7 @@ extension BedrockAgentRuntime {
         public let guardrailConfiguration: GuardrailConfiguration?
         ///  Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source.
         public let inferenceConfig: InferenceConfig?
-        /// Contains the template for the prompt that's sent to the model for response generation.
+        /// Contains the template for the prompt that's sent to the model for response generation. Generation prompts must include the $search_results$ variable. For more information, see Use placeholder variables in the user guide.
         public let promptTemplate: PromptTemplate?
 
         @inlinable
@@ -2103,6 +2279,8 @@ extension BedrockAgentRuntime {
     }
 
     public struct InvokeFlowRequest: AWSEncodableShape {
+        /// Specifies whether to return the trace for the flow or not. Traces track inputs and outputs for nodes in the flow. For more information, see Track each step in your prompt flow by viewing its trace in Amazon Bedrock.
+        public let enableTrace: Bool?
         /// The unique identifier of the flow alias.
         public let flowAliasIdentifier: String
         /// The unique identifier of the flow.
@@ -2111,7 +2289,8 @@ extension BedrockAgentRuntime {
         public let inputs: [FlowInput]
 
         @inlinable
-        public init(flowAliasIdentifier: String, flowIdentifier: String, inputs: [FlowInput]) {
+        public init(enableTrace: Bool? = nil, flowAliasIdentifier: String, flowIdentifier: String, inputs: [FlowInput]) {
+            self.enableTrace = enableTrace
             self.flowAliasIdentifier = flowAliasIdentifier
             self.flowIdentifier = flowIdentifier
             self.inputs = inputs
@@ -2120,6 +2299,7 @@ extension BedrockAgentRuntime {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.enableTrace, forKey: .enableTrace)
             request.encodePath(self.flowAliasIdentifier, key: "flowAliasIdentifier")
             request.encodePath(self.flowIdentifier, key: "flowIdentifier")
             try container.encode(self.inputs, forKey: .inputs)
@@ -2138,6 +2318,7 @@ extension BedrockAgentRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableTrace = "enableTrace"
             case inputs = "inputs"
         }
     }
@@ -2301,7 +2482,8 @@ extension BedrockAgentRuntime {
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
             try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))))|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+            try self.orchestrationConfiguration?.validate(name: "\(name).orchestrationConfiguration")
             try self.retrievalConfiguration?.validate(name: "\(name).retrievalConfiguration")
         }
 
@@ -2463,21 +2645,42 @@ extension BedrockAgentRuntime {
     }
 
     public struct OrchestrationConfiguration: AWSEncodableShape {
+        ///  Additional model parameters and corresponding values not included in the textInferenceConfig structure for a knowledge base. This allows users to provide custom model parameters specific to the language model being used.
+        public let additionalModelRequestFields: [String: String]?
+        ///  Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source.
+        public let inferenceConfig: InferenceConfig?
+        /// Contains the template for the prompt that's sent to the model. Orchestration prompts must include the $conversation_history$ and $output_format_instructions$ variables. For more information, see Use placeholder variables in the user guide.
+        public let promptTemplate: PromptTemplate?
         /// To split up the prompt and retrieve multiple sources, set the transformation type to QUERY_DECOMPOSITION.
-        public let queryTransformationConfiguration: QueryTransformationConfiguration
+        public let queryTransformationConfiguration: QueryTransformationConfiguration?
 
         @inlinable
-        public init(queryTransformationConfiguration: QueryTransformationConfiguration) {
+        public init(additionalModelRequestFields: [String: String]? = nil, inferenceConfig: InferenceConfig? = nil, promptTemplate: PromptTemplate? = nil, queryTransformationConfiguration: QueryTransformationConfiguration? = nil) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.inferenceConfig = inferenceConfig
+            self.promptTemplate = promptTemplate
             self.queryTransformationConfiguration = queryTransformationConfiguration
         }
 
+        public func validate(name: String) throws {
+            try self.additionalModelRequestFields?.forEach {
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
+            }
+            try self.inferenceConfig?.validate(name: "\(name).inferenceConfig")
+            try self.promptTemplate?.validate(name: "\(name).promptTemplate")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case inferenceConfig = "inferenceConfig"
+            case promptTemplate = "promptTemplate"
             case queryTransformationConfiguration = "queryTransformationConfiguration"
         }
     }
 
     public struct OrchestrationModelInvocationOutput: AWSDecodableShape {
-        /// Contains information about the foundation model output.
+        /// Contains information about the foundation model output from the orchestration step.
         public let metadata: Metadata?
         /// Contains details of the raw response from the foundation model output.
         public let rawResponse: RawResponse?
@@ -2561,9 +2764,11 @@ extension BedrockAgentRuntime {
     }
 
     public struct PostProcessingModelInvocationOutput: AWSDecodableShape {
+        ///  Contains information about the foundation model output from the post-processing step.
         public let metadata: Metadata?
         /// Details about the response from the Lambda parsing of the output of the post-processing step.
         public let parsedResponse: PostProcessingParsedResponse?
+        ///  Details of the raw response from the foundation model output.
         public let rawResponse: RawResponse?
         /// The unique identifier of the trace.
         public let traceId: String?
@@ -2599,9 +2804,11 @@ extension BedrockAgentRuntime {
     }
 
     public struct PreProcessingModelInvocationOutput: AWSDecodableShape {
+        ///  Contains information about the foundation model output from the pre-processing step.
         public let metadata: Metadata?
         /// Details about the response from the Lambda parsing of the output of the pre-processing step.
         public let parsedResponse: PreProcessingParsedResponse?
+        ///  Details of the raw response from the foundation model output.
         public let rawResponse: RawResponse?
         /// The unique identifier of the trace.
         public let traceId: String?
@@ -3379,6 +3586,34 @@ extension BedrockAgentRuntime {
 
     public struct FlowOutputContent: AWSDecodableShape {
         /// The content in the output.
+        public let document: String?
+
+        @inlinable
+        public init(document: String? = nil) {
+            self.document = document
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+        }
+    }
+
+    public struct FlowTraceNodeInputContent: AWSDecodableShape {
+        /// The content of the node input.
+        public let document: String?
+
+        @inlinable
+        public init(document: String? = nil) {
+            self.document = document
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+        }
+    }
+
+    public struct FlowTraceNodeOutputContent: AWSDecodableShape {
+        /// The content of the node output.
         public let document: String?
 
         @inlinable

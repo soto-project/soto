@@ -40,6 +40,25 @@ extension IVS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContainerFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fragmentedMp4 = "FRAGMENTED_MP4"
+        case ts = "TS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MultitrackMaximumResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fullHd = "FULL_HD"
+        case hd = "HD"
+        case sd = "SD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MultitrackPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "ALLOW"
+        case require = "REQUIRE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecordingConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
@@ -112,13 +131,16 @@ extension IVS {
         public let sampleRate: Int64?
         /// The expected ingest bitrate (bits per second). This is configured in the encoder.
         public let targetBitrate: Int64?
+        /// Name of the audio track (if the stream has an audio track). If multitrack is not enabled, this is track0 (the sole track).
+        public let track: String?
 
         @inlinable
-        public init(channels: Int64? = nil, codec: String? = nil, sampleRate: Int64? = nil, targetBitrate: Int64? = nil) {
+        public init(channels: Int64? = nil, codec: String? = nil, sampleRate: Int64? = nil, targetBitrate: Int64? = nil, track: String? = nil) {
             self.channels = channels
             self.codec = codec
             self.sampleRate = sampleRate
             self.targetBitrate = targetBitrate
+            self.track = track
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -126,6 +148,7 @@ extension IVS {
             case codec = "codec"
             case sampleRate = "sampleRate"
             case targetBitrate = "targetBitrate"
+            case track = "track"
         }
     }
 
@@ -330,12 +353,16 @@ extension IVS {
         public let arn: String?
         /// Whether the channel is private (enabled for playback authorization). Default: false.
         public let authorized: Bool?
+        /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
+        public let containerFormat: ContainerFormat?
         /// Channel ingest endpoint, part of the definition of an ingest server, used when you set up streaming software.
         public let ingestEndpoint: String?
         /// Whether the channel allows insecure RTMP ingest. Default: false.
         public let insecureIngest: Bool?
         /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
         public let latencyMode: ChannelLatencyMode?
+        /// Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.
+        public let multitrackInputConfiguration: MultitrackInputConfiguration?
         /// Channel name.
         public let name: String?
         /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. Default: "" (empty string, no playback restriction policy is applied).
@@ -354,12 +381,14 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(arn: String? = nil, authorized: Bool? = nil, ingestEndpoint: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, playbackUrl: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, srt: Srt? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+        public init(arn: String? = nil, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, ingestEndpoint: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, playbackUrl: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, srt: Srt? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.arn = arn
             self.authorized = authorized
+            self.containerFormat = containerFormat
             self.ingestEndpoint = ingestEndpoint
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
+            self.multitrackInputConfiguration = multitrackInputConfiguration
             self.name = name
             self.playbackRestrictionPolicyArn = playbackRestrictionPolicyArn
             self.playbackUrl = playbackUrl
@@ -373,9 +402,11 @@ extension IVS {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case authorized = "authorized"
+            case containerFormat = "containerFormat"
             case ingestEndpoint = "ingestEndpoint"
             case insecureIngest = "insecureIngest"
             case latencyMode = "latencyMode"
+            case multitrackInputConfiguration = "multitrackInputConfiguration"
             case name = "name"
             case playbackRestrictionPolicyArn = "playbackRestrictionPolicyArn"
             case playbackUrl = "playbackUrl"
@@ -440,10 +471,14 @@ extension IVS {
     public struct CreateChannelRequest: AWSEncodableShape {
         /// Whether the channel is private (enabled for playback authorization). Default: false.
         public let authorized: Bool?
+        /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
+        public let containerFormat: ContainerFormat?
         /// Whether the channel allows insecure RTMP and SRT ingest. Default: false.
         public let insecureIngest: Bool?
         /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
         public let latencyMode: ChannelLatencyMode?
+        /// Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.
+        public let multitrackInputConfiguration: MultitrackInputConfiguration?
         /// Channel name.
         public let name: String?
         /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. Default: "" (empty string, no playback restriction policy is applied).
@@ -458,10 +493,12 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+        public init(authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.authorized = authorized
+            self.containerFormat = containerFormat
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
+            self.multitrackInputConfiguration = multitrackInputConfiguration
             self.name = name
             self.playbackRestrictionPolicyArn = playbackRestrictionPolicyArn
             self.preset = preset
@@ -487,8 +524,10 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case authorized = "authorized"
+            case containerFormat = "containerFormat"
             case insecureIngest = "insecureIngest"
             case latencyMode = "latencyMode"
+            case multitrackInputConfiguration = "multitrackInputConfiguration"
             case name = "name"
             case playbackRestrictionPolicyArn = "playbackRestrictionPolicyArn"
             case preset = "preset"
@@ -1104,6 +1143,24 @@ extension IVS {
         }
     }
 
+    public struct IngestConfigurations: AWSDecodableShape {
+        /// Encoder settings for audio.
+        public let audioConfigurations: [AudioConfiguration]
+        /// Encoder settings for video
+        public let videoConfigurations: [VideoConfiguration]
+
+        @inlinable
+        public init(audioConfigurations: [AudioConfiguration], videoConfigurations: [VideoConfiguration]) {
+            self.audioConfigurations = audioConfigurations
+            self.videoConfigurations = videoConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioConfigurations = "audioConfigurations"
+            case videoConfigurations = "videoConfigurations"
+        }
+    }
+
     public struct ListChannelsRequest: AWSEncodableShape {
         /// Filters the channel list to match the specified name.
         public let filterByName: String?
@@ -1479,6 +1536,28 @@ extension IVS {
         }
     }
 
+    public struct MultitrackInputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether multitrack input is enabled. Can be set to true only if channel type is STANDARD. Setting enabled to true with any other channel type will cause an exception. If true, then policy, maximumResolution, and containerFormat are required, and containerFormat must be set to FRAGMENTED_MP4. Default: false.
+        public let enabled: Bool?
+        /// Maximum resolution for multitrack input. Required if enabled is true.
+        public let maximumResolution: MultitrackMaximumResolution?
+        /// Indicates whether multitrack input is allowed or required. Required if enabled is true.
+        public let policy: MultitrackPolicy?
+
+        @inlinable
+        public init(enabled: Bool? = nil, maximumResolution: MultitrackMaximumResolution? = nil, policy: MultitrackPolicy? = nil) {
+            self.enabled = enabled
+            self.maximumResolution = maximumResolution
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case maximumResolution = "maximumResolution"
+            case policy = "policy"
+        }
+    }
+
     public struct PlaybackKeyPair: AWSDecodableShape {
         /// Key-pair ARN.
         public let arn: String?
@@ -1847,14 +1926,7 @@ extension IVS {
     }
 
     public struct StreamEvent: AWSDecodableShape {
-        /// Provides additional details about the stream event. There are several values; note that
-        /// 			the long descriptions are provided in the IVS console but not delivered through
-        /// 	  	    the IVS API or EventBridge:    StreamTakeoverMediaMismatch — The broadcast client attempted to take over
-        /// 			with different media properties (e.g., codec, resolution, or video track type) from the
-        /// 			original stream.    StreamTakeoverInvalidPriority — The broadcast client attempted a takeover
-        /// 			with either a priority integer value equal to or lower than the original stream's value or a value outside
-        /// 			the allowed range of 1 to 2,147,483,647.    StreamTakeoverLimitBreached — The broadcast client reached the maximum allowed
-        /// 			takeover attempts for this stream.
+        /// Provides additional details about the stream event. There are several values; the long descriptions are provided in the IVS console but not delivered through the IVS API or EventBridge. Multitrack-related codes are used only for certain Session Ended events.    MultitrackInputNotAllowed — The broadcast client attempted to connect with multitrack input, but multitrack input was not enabled on the channel. Check your broadcast software settings or set MultitrackInputConfiguration.Policy to ALLOW or REQUIRE.    MultitrackInputRequired — The broadcast client attempted to connect with single-track video, but multitrack input is required on this channel. Enable multitrack video in your broadcast software or configure the channel’s MultitrackInputConfiguration.Policy to ALLOW.    InvalidGetClientConfigurationStreamKey — The broadcast client attempted to connect with an invalid, expired, or corrupt stream key.    GetClientConfigurationStreamKeyRequired — The broadcast client attempted to stream multitrack video without providing an authenticated stream key from GetClientConfiguration.    InvalidMultitrackInputTrackCount — The multitrack input stream contained an invalid number of tracks.    InvalidMultitrackInputVideoTrackMediaProperties — The multitrack input stream contained one or more tracks with an invalid codec, resolution, bitrate, or framerate.    StreamTakeoverMediaMismatch — The broadcast client attempted to take over with different media properties (e.g., codec, resolution, or video track type) from the original stream.    StreamTakeoverInvalidPriority — The broadcast client attempted a takeover with either a priority integer value equal to or lower than the original stream's value or a value outside the allowed range of 1 to 2,147,483,647.  StreamTakeoverLimitBreached — The broadcast client reached the maximum allowed takeover attempts for this stream.
         public let code: String?
         /// Time when the event occurred. This is an ISO 8601 timestamp; note that this is returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1948,8 +2020,10 @@ extension IVS {
         /// Time when the channel went offline. This is an ISO 8601 timestamp; note that this is returned as a string. For live streams, this is NULL.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTime: Date?
-        /// The properties of the incoming RTMP stream for the stream.
+        /// The properties of the incoming RTMP stream.  Note: ingestConfiguration is deprecated in favor of ingestConfigurations but retained to ensure backward compatibility. If multitrack is not enabled, ingestConfiguration and ingestConfigurations contain the same data, namely information about track0 (the sole track). If multitrack is enabled, ingestConfiguration contains data for only the first track (track0) and ingestConfigurations contains data for all tracks.
         public let ingestConfiguration: IngestConfiguration?
+        /// The properties of the incoming RTMP stream. If multitrack is enabled, ingestConfigurations contains data for all tracks; otherwise, it contains data only for track0 (the sole track).
+        public let ingestConfigurations: IngestConfigurations?
         /// The properties of recording the live stream.
         public let recordingConfiguration: RecordingConfiguration?
         /// Time when the channel went live. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -1961,10 +2035,11 @@ extension IVS {
         public let truncatedEvents: [StreamEvent]?
 
         @inlinable
-        public init(channel: Channel? = nil, endTime: Date? = nil, ingestConfiguration: IngestConfiguration? = nil, recordingConfiguration: RecordingConfiguration? = nil, startTime: Date? = nil, streamId: String? = nil, truncatedEvents: [StreamEvent]? = nil) {
+        public init(channel: Channel? = nil, endTime: Date? = nil, ingestConfiguration: IngestConfiguration? = nil, ingestConfigurations: IngestConfigurations? = nil, recordingConfiguration: RecordingConfiguration? = nil, startTime: Date? = nil, streamId: String? = nil, truncatedEvents: [StreamEvent]? = nil) {
             self.channel = channel
             self.endTime = endTime
             self.ingestConfiguration = ingestConfiguration
+            self.ingestConfigurations = ingestConfigurations
             self.recordingConfiguration = recordingConfiguration
             self.startTime = startTime
             self.streamId = streamId
@@ -1975,6 +2050,7 @@ extension IVS {
             case channel = "channel"
             case endTime = "endTime"
             case ingestConfiguration = "ingestConfiguration"
+            case ingestConfigurations = "ingestConfigurations"
             case recordingConfiguration = "recordingConfiguration"
             case startTime = "startTime"
             case streamId = "streamId"
@@ -2092,7 +2168,7 @@ extension IVS {
         public let resolution: ThumbnailConfigurationResolution?
         /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails directory. LATEST saves the latest thumbnail in media/latest_thumbnail/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
         public let storage: [ThumbnailConfigurationStorage]?
-        /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60.  Important: For the BASIC channel type, setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See  Amazon IVS Streaming Configuration for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
+        /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60.  Important: For the BASIC channel type, or the STANDARD channel type with multitrack input, setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See  Amazon IVS Streaming Configuration for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
         public let targetIntervalSeconds: Int64?
 
         @inlinable
@@ -2158,10 +2234,14 @@ extension IVS {
         public let arn: String
         /// Whether the channel is private (enabled for playback authorization).
         public let authorized: Bool?
+        /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
+        public let containerFormat: ContainerFormat?
         /// Whether the channel allows insecure RTMP and SRT ingest. Default: false.
         public let insecureIngest: Bool?
         /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers.
         public let latencyMode: ChannelLatencyMode?
+        /// Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.
+        public let multitrackInputConfiguration: MultitrackInputConfiguration?
         /// Channel name.
         public let name: String?
         /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. If this is set to an empty string, playback restriction policy is disabled.
@@ -2174,11 +2254,13 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(arn: String, authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, type: ChannelType? = nil) {
+        public init(arn: String, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, type: ChannelType? = nil) {
             self.arn = arn
             self.authorized = authorized
+            self.containerFormat = containerFormat
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
+            self.multitrackInputConfiguration = multitrackInputConfiguration
             self.name = name
             self.playbackRestrictionPolicyArn = playbackRestrictionPolicyArn
             self.preset = preset
@@ -2201,8 +2283,10 @@ extension IVS {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case authorized = "authorized"
+            case containerFormat = "containerFormat"
             case insecureIngest = "insecureIngest"
             case latencyMode = "latencyMode"
+            case multitrackInputConfiguration = "multitrackInputConfiguration"
             case name = "name"
             case playbackRestrictionPolicyArn = "playbackRestrictionPolicyArn"
             case preset = "preset"
@@ -2293,23 +2377,32 @@ extension IVS {
         public let codec: String?
         /// Software or hardware used to encode the video.
         public let encoder: String?
+        /// Indicates the degree of required decoder performance for a profile. Normally this is set automatically by the encoder. When an AVC codec is used, this field has the same value as avcLevel.
+        public let level: String?
+        /// Indicates to the decoder the requirements for decoding the stream. When an AVC codec is used, this field has the same value as avcProfile.
+        public let profile: String?
         /// The expected ingest bitrate (bits per second). This is configured in the encoder.
         public let targetBitrate: Int64?
         /// The expected ingest framerate. This is configured in the encoder.
         public let targetFramerate: Int64?
+        /// Name of the video track. If multitrack is not enabled, this is track0 (the sole track).
+        public let track: String?
         /// Video-resolution height in pixels.
         public let videoHeight: Int64?
         /// Video-resolution width in pixels.
         public let videoWidth: Int64?
 
         @inlinable
-        public init(avcLevel: String? = nil, avcProfile: String? = nil, codec: String? = nil, encoder: String? = nil, targetBitrate: Int64? = nil, targetFramerate: Int64? = nil, videoHeight: Int64? = nil, videoWidth: Int64? = nil) {
+        public init(avcLevel: String? = nil, avcProfile: String? = nil, codec: String? = nil, encoder: String? = nil, level: String? = nil, profile: String? = nil, targetBitrate: Int64? = nil, targetFramerate: Int64? = nil, track: String? = nil, videoHeight: Int64? = nil, videoWidth: Int64? = nil) {
             self.avcLevel = avcLevel
             self.avcProfile = avcProfile
             self.codec = codec
             self.encoder = encoder
+            self.level = level
+            self.profile = profile
             self.targetBitrate = targetBitrate
             self.targetFramerate = targetFramerate
+            self.track = track
             self.videoHeight = videoHeight
             self.videoWidth = videoWidth
         }
@@ -2319,8 +2412,11 @@ extension IVS {
             case avcProfile = "avcProfile"
             case codec = "codec"
             case encoder = "encoder"
+            case level = "level"
+            case profile = "profile"
             case targetBitrate = "targetBitrate"
             case targetFramerate = "targetFramerate"
+            case track = "track"
             case videoHeight = "videoHeight"
             case videoWidth = "videoWidth"
         }

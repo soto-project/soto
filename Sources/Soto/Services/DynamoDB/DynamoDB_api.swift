@@ -307,6 +307,7 @@ public struct DynamoDB: AWSService {
     ///   - tableClass: The table class of the new table. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
     ///   - tableName: The name of the table to create. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     ///   - tags: A list of key-value pairs to label the table. For more information, see Tagging for DynamoDB.
+    ///   - warmThroughput: Represents the warm throughput (in read units per second and write units per second) for creating a table.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTable(
@@ -324,6 +325,7 @@ public struct DynamoDB: AWSService {
         tableClass: TableClass? = nil,
         tableName: String,
         tags: [Tag]? = nil,
+        warmThroughput: WarmThroughput? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTableOutput {
         let input = CreateTableInput(
@@ -340,7 +342,8 @@ public struct DynamoDB: AWSService {
             streamSpecification: streamSpecification, 
             tableClass: tableClass, 
             tableName: tableName, 
-            tags: tags
+            tags: tags, 
+            warmThroughput: warmThroughput
         )
         return try await self.createTable(input, logger: logger)
     }
@@ -2280,6 +2283,7 @@ public struct DynamoDB: AWSService {
     ///   - streamSpecification: Represents the DynamoDB Streams configuration for the table.  You receive a ValidationException if you try to enable a stream on a table that already has a stream, or if you try to disable a stream on a table that doesn't have a stream.
     ///   - tableClass: The table class of the table to be updated. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
     ///   - tableName: The name of the table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
+    ///   - warmThroughput: Represents the warm throughput (in read units per second and write units per second) for updating a table.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateTable(
@@ -2294,6 +2298,7 @@ public struct DynamoDB: AWSService {
         streamSpecification: StreamSpecification? = nil,
         tableClass: TableClass? = nil,
         tableName: String,
+        warmThroughput: WarmThroughput? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateTableOutput {
         let input = UpdateTableInput(
@@ -2307,7 +2312,8 @@ public struct DynamoDB: AWSService {
             sseSpecification: sseSpecification, 
             streamSpecification: streamSpecification, 
             tableClass: tableClass, 
-            tableName: tableName
+            tableName: tableName, 
+            warmThroughput: warmThroughput
         )
         return try await self.updateTable(input, logger: logger)
     }

@@ -26,6 +26,11 @@ import Foundation
 extension OpenSearch {
     // MARK: Enums
 
+    public enum AWSServicePrincipal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applicationOpensearchserviceAmazonawsCom = "application.opensearchservice.amazonaws.com"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ActionSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
@@ -47,6 +52,21 @@ extension OpenSearch {
         case jvmHeapSizeTuning = "JVM_HEAP_SIZE_TUNING"
         case jvmYoungGenTuning = "JVM_YOUNG_GEN_TUNING"
         case serviceSoftwareUpdate = "SERVICE_SOFTWARE_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppConfigType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case opensearchDashboardAdminGroups = "opensearchDashboards.dashboardAdmin.groups"
+        case opensearchDashboardAdminUsers = "opensearchDashboards.dashboardAdmin.users"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -111,6 +131,7 @@ extension OpenSearch {
         case engineVersion = "EngineVersion"
         case packageID = "PackageID"
         case packageName = "PackageName"
+        case packageOwner = "PackageOwner"
         case packageStatus = "PackageStatus"
         case packageType = "PackageType"
         public var description: String { return self.rawValue }
@@ -231,6 +252,11 @@ extension OpenSearch {
     public enum NaturalLanguageQueryGenerationDesiredState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeOptionsNodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case coordinator = "coordinator"
         public var description: String { return self.rawValue }
     }
 
@@ -391,6 +417,13 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum PackageScopeOperationEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case add = "ADD"
+        case override = "OVERRIDE"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PackageStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case copyFailed = "COPY_FAILED"
@@ -404,6 +437,8 @@ extension OpenSearch {
     }
 
     public enum PackageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case packageConfig = "PACKAGE-CONFIG"
+        case packageLicense = "PACKAGE-LICENSE"
         case txtDictionary = "TXT-DICTIONARY"
         case zipPlugin = "ZIP-PLUGIN"
         public var description: String { return self.rawValue }
@@ -421,10 +456,23 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum RequirementLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case optional = "OPTIONAL"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReservedInstancePaymentOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allUpfront = "ALL_UPFRONT"
         case noUpfront = "NO_UPFRONT"
         case partialUpfront = "PARTIAL_UPFRONT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RolesKeyIdCOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case groupId = "GroupId"
+        case groupName = "GroupName"
         public var description: String { return self.rawValue }
     }
 
@@ -463,6 +511,13 @@ extension OpenSearch {
     public enum SkipUnavailableStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubjectKeyIdCOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case email = "Email"
+        case userId = "UserId"
+        case userName = "UserName"
         public var description: String { return self.rawValue }
     }
 
@@ -877,33 +932,108 @@ extension OpenSearch {
         }
     }
 
+    public struct AppConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the item to configure, such as admin role for the OpenSearch Application.
+        public let key: AppConfigType?
+        /// Specifies the value to configure for the key, such as an IAM user ARN.
+        public let value: String?
+
+        @inlinable
+        public init(key: AppConfigType? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 4096)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct ApplicationSummary: AWSDecodableShape {
+        public let arn: String?
+        /// Timestamp at which an OpenSearch Application was created.
+        public let createdAt: Date?
+        /// Endpoint URL of an OpenSearch Application.
+        public let endpoint: String?
+        /// Unique identifier for an OpenSearch application.
+        public let id: String?
+        /// Timestamp at which an OpenSearch Application was last updated.
+        public let lastUpdatedAt: Date?
+        /// Name of an OpenSearch Application.
+        public let name: String?
+        /// Status of an OpenSearch Application. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+        public let status: ApplicationStatus?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, endpoint: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, status: ApplicationStatus? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.endpoint = endpoint
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case endpoint = "endpoint"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
     public struct AssociatePackageRequest: AWSEncodableShape {
+        /// The configuration for associating a package with an Amazon OpenSearch Service domain.
+        public let associationConfiguration: PackageAssociationConfiguration?
         /// Name of the domain to associate the package with.
         public let domainName: String
         /// Internal ID of the package to associate with a domain. Use DescribePackages to find this value.
         public let packageID: String
+        /// A list of package IDs that must be associated with the domain before the package specified in the request can be associated.
+        public let prerequisitePackageIDList: [String]?
 
         @inlinable
-        public init(domainName: String, packageID: String) {
+        public init(associationConfiguration: PackageAssociationConfiguration? = nil, domainName: String, packageID: String, prerequisitePackageIDList: [String]? = nil) {
+            self.associationConfiguration = associationConfiguration
             self.domainName = domainName
             self.packageID = packageID
+            self.prerequisitePackageIDList = prerequisitePackageIDList
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.associationConfiguration, forKey: .associationConfiguration)
             request.encodePath(self.domainName, key: "DomainName")
             request.encodePath(self.packageID, key: "PackageID")
+            try container.encodeIfPresent(self.prerequisitePackageIDList, forKey: .prerequisitePackageIDList)
         }
 
         public func validate(name: String) throws {
+            try self.associationConfiguration?.validate(name: "\(name).associationConfiguration")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
-            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$")
+            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
+            try self.prerequisitePackageIDList?.forEach {
+                try validate($0, name: "prerequisitePackageIDList[]", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
+            }
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case associationConfiguration = "AssociationConfiguration"
+            case prerequisitePackageIDList = "PrerequisitePackageIDList"
+        }
     }
 
     public struct AssociatePackageResponse: AWSDecodableShape {
@@ -920,23 +1050,67 @@ extension OpenSearch {
         }
     }
 
-    public struct AuthorizeVpcEndpointAccessRequest: AWSEncodableShape {
-        /// The Amazon Web Services account ID to grant access to.
-        public let account: String
-        /// The name of the OpenSearch Service domain to provide access to.
+    public struct AssociatePackagesRequest: AWSEncodableShape {
         public let domainName: String
+        /// A list of packages and their prerequisites to be associated with a domain.
+        public let packageList: [PackageDetailsForAssociation]
 
         @inlinable
-        public init(account: String, domainName: String) {
+        public init(domainName: String, packageList: [PackageDetailsForAssociation]) {
+            self.domainName = domainName
+            self.packageList = packageList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.packageList.forEach {
+                try $0.validate(name: "\(name).packageList[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case packageList = "PackageList"
+        }
+    }
+
+    public struct AssociatePackagesResponse: AWSDecodableShape {
+        /// List of information about packages that are associated with a domain.
+        public let domainPackageDetailsList: [DomainPackageDetails]?
+
+        @inlinable
+        public init(domainPackageDetailsList: [DomainPackageDetails]? = nil) {
+            self.domainPackageDetailsList = domainPackageDetailsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainPackageDetailsList = "DomainPackageDetailsList"
+        }
+    }
+
+    public struct AuthorizeVpcEndpointAccessRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID to grant access to.
+        public let account: String?
+        /// The name of the OpenSearch Service domain to provide access to.
+        public let domainName: String
+        /// The Amazon Web Services service SP to grant access to.
+        public let service: AWSServicePrincipal?
+
+        @inlinable
+        public init(account: String? = nil, domainName: String, service: AWSServicePrincipal? = nil) {
             self.account = account
             self.domainName = domainName
+            self.service = service
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.account, forKey: .account)
+            try container.encodeIfPresent(self.account, forKey: .account)
             request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.service, forKey: .service)
         }
 
         public func validate(name: String) throws {
@@ -948,6 +1122,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
+            case service = "Service"
         }
     }
 
@@ -1443,6 +1618,8 @@ extension OpenSearch {
         public let instanceType: OpenSearchPartitionInstanceType?
         /// A boolean that indicates whether a multi-AZ domain is turned on with a standby AZ. For more information, see Configuring a multi-AZ domain in Amazon OpenSearch Service.
         public let multiAZWithStandbyEnabled: Bool?
+        /// List of node options for the domain.
+        public let nodeOptions: [NodeOption]?
         /// The number of warm nodes in the cluster.
         public let warmCount: Int?
         /// Whether to enable warm storage for the cluster.
@@ -1455,7 +1632,7 @@ extension OpenSearch {
         public let zoneAwarenessEnabled: Bool?
 
         @inlinable
-        public init(coldStorageOptions: ColdStorageOptions? = nil, dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: OpenSearchPartitionInstanceType? = nil, instanceCount: Int? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, multiAZWithStandbyEnabled: Bool? = nil, warmCount: Int? = nil, warmEnabled: Bool? = nil, warmType: OpenSearchWarmPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
+        public init(coldStorageOptions: ColdStorageOptions? = nil, dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: OpenSearchPartitionInstanceType? = nil, instanceCount: Int? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, multiAZWithStandbyEnabled: Bool? = nil, nodeOptions: [NodeOption]? = nil, warmCount: Int? = nil, warmEnabled: Bool? = nil, warmType: OpenSearchWarmPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
             self.coldStorageOptions = coldStorageOptions
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
@@ -1463,6 +1640,7 @@ extension OpenSearch {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.multiAZWithStandbyEnabled = multiAZWithStandbyEnabled
+            self.nodeOptions = nodeOptions
             self.warmCount = warmCount
             self.warmEnabled = warmEnabled
             self.warmType = warmType
@@ -1478,6 +1656,7 @@ extension OpenSearch {
             case instanceCount = "InstanceCount"
             case instanceType = "InstanceType"
             case multiAZWithStandbyEnabled = "MultiAZWithStandbyEnabled"
+            case nodeOptions = "NodeOptions"
             case warmCount = "WarmCount"
             case warmEnabled = "WarmEnabled"
             case warmType = "WarmType"
@@ -1614,6 +1793,98 @@ extension OpenSearch {
         }
     }
 
+    public struct CreateApplicationRequest: AWSEncodableShape {
+        /// Configurations of the OpenSearch Application, inlcuding admin configuration.
+        public let appConfigs: [AppConfig]?
+        /// A unique client idempotency token. It will be auto generated if not provided.
+        public let clientToken: String?
+        /// Data sources to be associated with the OpenSearch Application.
+        public let dataSources: [DataSource]?
+        /// Settings of IAM Identity Center for the OpenSearch Application.
+        public let iamIdentityCenterOptions: IamIdentityCenterOptionsInput?
+        /// Name of the OpenSearch Appication to create. Application names are unique across the applications owned by an account within an Amazon Web Services Region.
+        public let name: String
+        public let tagList: [Tag]?
+
+        @inlinable
+        public init(appConfigs: [AppConfig]? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), dataSources: [DataSource]? = nil, iamIdentityCenterOptions: IamIdentityCenterOptionsInput? = nil, name: String, tagList: [Tag]? = nil) {
+            self.appConfigs = appConfigs
+            self.clientToken = clientToken
+            self.dataSources = dataSources
+            self.iamIdentityCenterOptions = iamIdentityCenterOptions
+            self.name = name
+            self.tagList = tagList
+        }
+
+        public func validate(name: String) throws {
+            try self.appConfigs?.forEach {
+                try $0.validate(name: "\(name).appConfigs[]")
+            }
+            try self.validate(self.appConfigs, name: "appConfigs", parent: name, max: 200)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.dataSources?.forEach {
+                try $0.validate(name: "\(name).dataSources[]")
+            }
+            try self.iamIdentityCenterOptions?.validate(name: "\(name).iamIdentityCenterOptions")
+            try self.validate(self.name, name: "name", parent: name, max: 30)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appConfigs = "appConfigs"
+            case clientToken = "clientToken"
+            case dataSources = "dataSources"
+            case iamIdentityCenterOptions = "iamIdentityCenterOptions"
+            case name = "name"
+            case tagList = "tagList"
+        }
+    }
+
+    public struct CreateApplicationResponse: AWSDecodableShape {
+        /// Configurations of the OpenSearch Application, inlcuding admin configuration.
+        public let appConfigs: [AppConfig]?
+        public let arn: String?
+        /// Timestamp when the OpenSearch Application was created.
+        public let createdAt: Date?
+        /// Data sources associated with the created OpenSearch Application.
+        public let dataSources: [DataSource]?
+        /// Settings of IAM Identity Center for the created OpenSearch Application.
+        public let iamIdentityCenterOptions: IamIdentityCenterOptions?
+        /// Unique identifier for the created OpenSearch Application.
+        public let id: String?
+        /// Name of the created OpenSearch Application.
+        public let name: String?
+        public let tagList: [Tag]?
+
+        @inlinable
+        public init(appConfigs: [AppConfig]? = nil, arn: String? = nil, createdAt: Date? = nil, dataSources: [DataSource]? = nil, iamIdentityCenterOptions: IamIdentityCenterOptions? = nil, id: String? = nil, name: String? = nil, tagList: [Tag]? = nil) {
+            self.appConfigs = appConfigs
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSources = dataSources
+            self.iamIdentityCenterOptions = iamIdentityCenterOptions
+            self.id = id
+            self.name = name
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appConfigs = "appConfigs"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case dataSources = "dataSources"
+            case iamIdentityCenterOptions = "iamIdentityCenterOptions"
+            case id = "id"
+            case name = "name"
+            case tagList = "tagList"
+        }
+    }
+
     public struct CreateDomainRequest: AWSEncodableShape {
         /// Identity and Access Management (IAM) policy document specifying the access policies for the new domain.
         public let accessPolicies: String?
@@ -1639,6 +1910,8 @@ extension OpenSearch {
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch Service domains.
         public let engineVersion: String?
+        /// Options for IAM Identity Center Option control for the domain.
+        public let identityCenterOptions: IdentityCenterOptionsInput?
         /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
         public let ipAddressType: IPAddressType?
         /// Key-value pairs to configure log publishing.
@@ -1657,7 +1930,7 @@ extension OpenSearch {
         public let vpcOptions: VPCOptions?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -1670,6 +1943,7 @@ extension OpenSearch {
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.engineVersion = engineVersion
+            self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
@@ -1694,6 +1968,7 @@ extension OpenSearch {
             try self.validate(self.engineVersion, name: "engineVersion", parent: name, max: 18)
             try self.validate(self.engineVersion, name: "engineVersion", parent: name, min: 14)
             try self.validate(self.engineVersion, name: "engineVersion", parent: name, pattern: "^Elasticsearch_[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
+            try self.identityCenterOptions?.validate(name: "\(name).identityCenterOptions")
             try self.logPublishingOptions?.forEach {
                 try $0.value.validate(name: "\(name).logPublishingOptions[\"\($0.key)\"]")
             }
@@ -1716,6 +1991,7 @@ extension OpenSearch {
             case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case engineVersion = "EngineVersion"
+            case identityCenterOptions = "IdentityCenterOptions"
             case ipAddressType = "IPAddressType"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
@@ -1819,25 +2095,40 @@ extension OpenSearch {
     }
 
     public struct CreatePackageRequest: AWSEncodableShape {
+        /// The version of the Amazon OpenSearch Service engine for which is compatible with the package. This can only be specified for package type ZIP-PLUGIN
+        public let engineVersion: String?
+        ///  The configuration parameters for the package being created.
+        public let packageConfiguration: PackageConfiguration?
         /// Description of the package.
         public let packageDescription: String?
+        /// The encryption parameters for the package being created.
+        public let packageEncryptionOptions: PackageEncryptionOptions?
         /// Unique name for the package.
         public let packageName: String
         /// The Amazon S3 location from which to import the package.
         public let packageSource: PackageSource
         /// The type of package.
         public let packageType: PackageType
+        ///  The vending options for the package being created. They determine if the package can be vended to other users.
+        public let packageVendingOptions: PackageVendingOptions?
 
         @inlinable
-        public init(packageDescription: String? = nil, packageName: String, packageSource: PackageSource, packageType: PackageType) {
+        public init(engineVersion: String? = nil, packageConfiguration: PackageConfiguration? = nil, packageDescription: String? = nil, packageEncryptionOptions: PackageEncryptionOptions? = nil, packageName: String, packageSource: PackageSource, packageType: PackageType, packageVendingOptions: PackageVendingOptions? = nil) {
+            self.engineVersion = engineVersion
+            self.packageConfiguration = packageConfiguration
             self.packageDescription = packageDescription
+            self.packageEncryptionOptions = packageEncryptionOptions
             self.packageName = packageName
             self.packageSource = packageSource
             self.packageType = packageType
+            self.packageVendingOptions = packageVendingOptions
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.engineVersion, name: "engineVersion", parent: name, pattern: "^Elasticsearch_[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$")
+            try self.packageConfiguration?.validate(name: "\(name).packageConfiguration")
             try self.validate(self.packageDescription, name: "packageDescription", parent: name, max: 1024)
+            try self.packageEncryptionOptions?.validate(name: "\(name).packageEncryptionOptions")
             try self.validate(self.packageName, name: "packageName", parent: name, max: 256)
             try self.validate(self.packageName, name: "packageName", parent: name, min: 3)
             try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
@@ -1845,10 +2136,14 @@ extension OpenSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case engineVersion = "EngineVersion"
+            case packageConfiguration = "PackageConfiguration"
             case packageDescription = "PackageDescription"
+            case packageEncryptionOptions = "PackageEncryptionOptions"
             case packageName = "PackageName"
             case packageSource = "PackageSource"
             case packageType = "PackageType"
+            case packageVendingOptions = "PackageVendingOptions"
         }
     }
 
@@ -1924,6 +2219,31 @@ extension OpenSearch {
         }
     }
 
+    public struct DataSource: AWSEncodableShape & AWSDecodableShape {
+        public let dataSourceArn: String?
+        /// Detailed description of a data source.
+        public let dataSourceDescription: String?
+
+        @inlinable
+        public init(dataSourceArn: String? = nil, dataSourceDescription: String? = nil) {
+            self.dataSourceArn = dataSourceArn
+            self.dataSourceDescription = dataSourceDescription
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, max: 2048)
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, min: 20)
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, pattern: ".*")
+            try self.validate(self.dataSourceDescription, name: "dataSourceDescription", parent: name, max: 1000)
+            try self.validate(self.dataSourceDescription, name: "dataSourceDescription", parent: name, pattern: "^([a-zA-Z0-9_])*[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "dataSourceArn"
+            case dataSourceDescription = "dataSourceDescription"
+        }
+    }
+
     public struct DataSourceDetails: AWSDecodableShape {
         /// The type of data source.
         public let dataSourceType: DataSourceType?
@@ -1948,6 +2268,32 @@ extension OpenSearch {
             case name = "Name"
             case status = "Status"
         }
+    }
+
+    public struct DeleteApplicationRequest: AWSEncodableShape {
+        /// Unique identifier for the OpenSearch Application that you want to delete.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,30}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteApplicationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteDataSourceRequest: AWSEncodableShape {
@@ -2125,7 +2471,7 @@ extension OpenSearch {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$")
+            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2955,7 +3301,7 @@ extension OpenSearch {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
-            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$")
+            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2972,6 +3318,46 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case domainPackageDetails = "DomainPackageDetails"
+        }
+    }
+
+    public struct DissociatePackagesRequest: AWSEncodableShape {
+        public let domainName: String
+        /// A list of package IDs to be dissociated from a domain.
+        public let packageList: [String]
+
+        @inlinable
+        public init(domainName: String, packageList: [String]) {
+            self.domainName = domainName
+            self.packageList = packageList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.packageList.forEach {
+                try validate($0, name: "packageList[]", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case packageList = "PackageList"
+        }
+    }
+
+    public struct DissociatePackagesResponse: AWSDecodableShape {
+        /// A list of package details for the packages that were dissociated from the domain.
+        public let domainPackageDetailsList: [DomainPackageDetails]?
+
+        @inlinable
+        public init(domainPackageDetailsList: [DomainPackageDetails]? = nil) {
+            self.domainPackageDetailsList = domainPackageDetailsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainPackageDetailsList = "DomainPackageDetailsList"
         }
     }
 
@@ -3000,6 +3386,8 @@ extension OpenSearch {
         public let encryptionAtRestOptions: EncryptionAtRestOptionsStatus?
         /// The OpenSearch or Elasticsearch version that the domain is running.
         public let engineVersion: VersionStatus?
+        /// Container for IAM Identity Center Option control for the domain.
+        public let identityCenterOptions: IdentityCenterOptionsStatus?
         /// Choose either dual stack or IPv4 as your IP address type.  Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
         public let ipAddressType: IPAddressTypeStatus?
         /// Key-value pairs to configure log publishing.
@@ -3018,7 +3406,7 @@ extension OpenSearch {
         public let vpcOptions: VPCDerivedInfoStatus?
 
         @inlinable
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, aimlOptions: AIMLOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, ipAddressType: IPAddressTypeStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, offPeakWindowOptions: OffPeakWindowOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, softwareUpdateOptions: SoftwareUpdateOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, aimlOptions: AIMLOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, identityCenterOptions: IdentityCenterOptionsStatus? = nil, ipAddressType: IPAddressTypeStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, offPeakWindowOptions: OffPeakWindowOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, softwareUpdateOptions: SoftwareUpdateOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -3031,6 +3419,7 @@ extension OpenSearch {
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.engineVersion = engineVersion
+            self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
             self.modifyingProperties = modifyingProperties
@@ -3054,6 +3443,7 @@ extension OpenSearch {
             case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case engineVersion = "EngineVersion"
+            case identityCenterOptions = "IdentityCenterOptions"
             case ipAddressType = "IPAddressType"
             case logPublishingOptions = "LogPublishingOptions"
             case modifyingProperties = "ModifyingProperties"
@@ -3243,6 +3633,8 @@ extension OpenSearch {
     }
 
     public struct DomainPackageDetails: AWSDecodableShape {
+        /// The configuration for associating a package with an Amazon OpenSearch Service domain.
+        public let associationConfiguration: PackageAssociationConfiguration?
         /// Name of the domain that the package is associated with.
         public let domainName: String?
         /// State of the association.
@@ -3259,11 +3651,14 @@ extension OpenSearch {
         public let packageType: PackageType?
         /// The current version of the package.
         public let packageVersion: String?
+        /// A list of package IDs that must be associated with the domain before or with the package can be associated.
+        public let prerequisitePackageIDList: [String]?
         /// The relative path of the package on the OpenSearch Service cluster nodes. This is synonym_path when the package is for synonym files.
         public let referencePath: String?
 
         @inlinable
-        public init(domainName: String? = nil, domainPackageStatus: DomainPackageStatus? = nil, errorDetails: ErrorDetails? = nil, lastUpdated: Date? = nil, packageID: String? = nil, packageName: String? = nil, packageType: PackageType? = nil, packageVersion: String? = nil, referencePath: String? = nil) {
+        public init(associationConfiguration: PackageAssociationConfiguration? = nil, domainName: String? = nil, domainPackageStatus: DomainPackageStatus? = nil, errorDetails: ErrorDetails? = nil, lastUpdated: Date? = nil, packageID: String? = nil, packageName: String? = nil, packageType: PackageType? = nil, packageVersion: String? = nil, prerequisitePackageIDList: [String]? = nil, referencePath: String? = nil) {
+            self.associationConfiguration = associationConfiguration
             self.domainName = domainName
             self.domainPackageStatus = domainPackageStatus
             self.errorDetails = errorDetails
@@ -3272,10 +3667,12 @@ extension OpenSearch {
             self.packageName = packageName
             self.packageType = packageType
             self.packageVersion = packageVersion
+            self.prerequisitePackageIDList = prerequisitePackageIDList
             self.referencePath = referencePath
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associationConfiguration = "AssociationConfiguration"
             case domainName = "DomainName"
             case domainPackageStatus = "DomainPackageStatus"
             case errorDetails = "ErrorDetails"
@@ -3284,6 +3681,7 @@ extension OpenSearch {
             case packageName = "PackageName"
             case packageType = "PackageType"
             case packageVersion = "PackageVersion"
+            case prerequisitePackageIDList = "PrerequisitePackageIDList"
             case referencePath = "ReferencePath"
         }
     }
@@ -3333,6 +3731,8 @@ extension OpenSearch {
         public let endpointV2: String?
         /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public let engineVersion: String?
+        /// Container for IAM Identity Center Option control for the domain.
+        public let identityCenterOptions: IdentityCenterOptions?
         /// The type of IP addresses supported by the endpoint for the domain.
         public let ipAddressType: IPAddressType?
         /// Log publishing options for the domain.
@@ -3357,7 +3757,7 @@ extension OpenSearch {
         public let vpcOptions: VPCDerivedInfo?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, aimlOptions: AIMLOptionsOutput? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainEndpointV2HostedZoneId: String? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineVersion: String? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, aimlOptions: AIMLOptionsOutput? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainEndpointV2HostedZoneId: String? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineVersion: String? = nil, identityCenterOptions: IdentityCenterOptions? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -3380,6 +3780,7 @@ extension OpenSearch {
             self.endpoints = endpoints
             self.endpointV2 = endpointV2
             self.engineVersion = engineVersion
+            self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
             self.modifyingProperties = modifyingProperties
@@ -3416,6 +3817,7 @@ extension OpenSearch {
             case endpoints = "Endpoints"
             case endpointV2 = "EndpointV2"
             case engineVersion = "EngineVersion"
+            case identityCenterOptions = "IdentityCenterOptions"
             case ipAddressType = "IPAddressType"
             case logPublishingOptions = "LogPublishingOptions"
             case modifyingProperties = "ModifyingProperties"
@@ -3653,6 +4055,77 @@ extension OpenSearch {
         }
     }
 
+    public struct GetApplicationRequest: AWSEncodableShape {
+        /// Unique identifier of the checked OpenSearch Application.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,30}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetApplicationResponse: AWSDecodableShape {
+        /// App configurations of the checked OpenSearch Application.
+        public let appConfigs: [AppConfig]?
+        public let arn: String?
+        /// Timestamp at which the checked OpenSearch Application was created.
+        public let createdAt: Date?
+        /// Associated data sources to the checked OpenSearch Application.
+        public let dataSources: [DataSource]?
+        /// Endpoint URL of the checked OpenSearch Application.
+        public let endpoint: String?
+        /// IAM Identity Center settings for the checked OpenSearch Application.
+        public let iamIdentityCenterOptions: IamIdentityCenterOptions?
+        /// Unique identifier of the checked OpenSearch Application.
+        public let id: String?
+        /// Timestamp at which the checked OpenSearch Application was last updated.
+        public let lastUpdatedAt: Date?
+        /// Name of the checked OpenSearch Application.
+        public let name: String?
+        /// Current status of the checked OpenSearch Application. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+        public let status: ApplicationStatus?
+
+        @inlinable
+        public init(appConfigs: [AppConfig]? = nil, arn: String? = nil, createdAt: Date? = nil, dataSources: [DataSource]? = nil, endpoint: String? = nil, iamIdentityCenterOptions: IamIdentityCenterOptions? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, status: ApplicationStatus? = nil) {
+            self.appConfigs = appConfigs
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSources = dataSources
+            self.endpoint = endpoint
+            self.iamIdentityCenterOptions = iamIdentityCenterOptions
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appConfigs = "appConfigs"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case dataSources = "dataSources"
+            case endpoint = "endpoint"
+            case iamIdentityCenterOptions = "iamIdentityCenterOptions"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
     public struct GetCompatibleVersionsRequest: AWSEncodableShape {
         /// The name of an existing domain. Provide this parameter to limit the results to a single domain.
         public let domainName: String?
@@ -3838,7 +4311,7 @@ extension OpenSearch {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$")
+            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3970,6 +4443,144 @@ extension OpenSearch {
 
         @inlinable
         public init(options: IPAddressType, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct IamIdentityCenterOptions: AWSDecodableShape {
+        /// IAM Identity Center is enabled for the OpenSearch Application.
+        public let enabled: Bool?
+        public let iamIdentityCenterApplicationArn: String?
+        public let iamIdentityCenterInstanceArn: String?
+        /// Amazon Resource Name of the IAM Identity Center's Application created for the OpenSearch Application after enabling IAM Identity Center.
+        public let iamRoleForIdentityCenterApplicationArn: String?
+
+        @inlinable
+        public init(enabled: Bool? = nil, iamIdentityCenterApplicationArn: String? = nil, iamIdentityCenterInstanceArn: String? = nil, iamRoleForIdentityCenterApplicationArn: String? = nil) {
+            self.enabled = enabled
+            self.iamIdentityCenterApplicationArn = iamIdentityCenterApplicationArn
+            self.iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArn
+            self.iamRoleForIdentityCenterApplicationArn = iamRoleForIdentityCenterApplicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case iamIdentityCenterApplicationArn = "iamIdentityCenterApplicationArn"
+            case iamIdentityCenterInstanceArn = "iamIdentityCenterInstanceArn"
+            case iamRoleForIdentityCenterApplicationArn = "iamRoleForIdentityCenterApplicationArn"
+        }
+    }
+
+    public struct IamIdentityCenterOptionsInput: AWSEncodableShape {
+        /// Enable/disable settings for IAM Identity Center.
+        public let enabled: Bool?
+        public let iamIdentityCenterInstanceArn: String?
+        /// Amazon Resource Name of IAM Identity Center's application.
+        public let iamRoleForIdentityCenterApplicationArn: String?
+
+        @inlinable
+        public init(enabled: Bool? = nil, iamIdentityCenterInstanceArn: String? = nil, iamRoleForIdentityCenterApplicationArn: String? = nil) {
+            self.enabled = enabled
+            self.iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArn
+            self.iamRoleForIdentityCenterApplicationArn = iamRoleForIdentityCenterApplicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iamIdentityCenterInstanceArn, name: "iamIdentityCenterInstanceArn", parent: name, max: 2048)
+            try self.validate(self.iamIdentityCenterInstanceArn, name: "iamIdentityCenterInstanceArn", parent: name, min: 20)
+            try self.validate(self.iamIdentityCenterInstanceArn, name: "iamIdentityCenterInstanceArn", parent: name, pattern: ".*")
+            try self.validate(self.iamRoleForIdentityCenterApplicationArn, name: "iamRoleForIdentityCenterApplicationArn", parent: name, max: 2048)
+            try self.validate(self.iamRoleForIdentityCenterApplicationArn, name: "iamRoleForIdentityCenterApplicationArn", parent: name, min: 20)
+            try self.validate(self.iamRoleForIdentityCenterApplicationArn, name: "iamRoleForIdentityCenterApplicationArn", parent: name, pattern: "^arn:(aws|aws\\-cn|aws\\-us\\-gov|aws\\-iso|aws\\-iso\\-b):iam::[0-9]+:role\\/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case iamIdentityCenterInstanceArn = "iamIdentityCenterInstanceArn"
+            case iamRoleForIdentityCenterApplicationArn = "iamRoleForIdentityCenterApplicationArn"
+        }
+    }
+
+    public struct IdentityCenterOptions: AWSDecodableShape {
+        /// True to enable IAM Identity Center for API access in Amazon OpenSearch Service.
+        public let enabledAPIAccess: Bool?
+        /// The ARN for IAM Identity Center Application which will integrate with Amazon OpenSearch Service.
+        public let identityCenterApplicationARN: String?
+        /// The ARN for IAM Identity Center Instance.
+        public let identityCenterInstanceARN: String?
+        /// The ID of IAM Identity Store.
+        public let identityStoreId: String?
+        /// Specify the attribute that contains the backend role (groupName, groupID) of IAM Identity Center
+        public let rolesKey: RolesKeyIdCOption?
+        /// Specify the attribute that contains the subject (username, userID, email) of IAM Identity Center.
+        public let subjectKey: SubjectKeyIdCOption?
+
+        @inlinable
+        public init(enabledAPIAccess: Bool? = nil, identityCenterApplicationARN: String? = nil, identityCenterInstanceARN: String? = nil, identityStoreId: String? = nil, rolesKey: RolesKeyIdCOption? = nil, subjectKey: SubjectKeyIdCOption? = nil) {
+            self.enabledAPIAccess = enabledAPIAccess
+            self.identityCenterApplicationARN = identityCenterApplicationARN
+            self.identityCenterInstanceARN = identityCenterInstanceARN
+            self.identityStoreId = identityStoreId
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledAPIAccess = "EnabledAPIAccess"
+            case identityCenterApplicationARN = "IdentityCenterApplicationARN"
+            case identityCenterInstanceARN = "IdentityCenterInstanceARN"
+            case identityStoreId = "IdentityStoreId"
+            case rolesKey = "RolesKey"
+            case subjectKey = "SubjectKey"
+        }
+    }
+
+    public struct IdentityCenterOptionsInput: AWSEncodableShape {
+        /// True to enable IAM Identity Center for API access in Amazon OpenSearch Service.
+        public let enabledAPIAccess: Bool?
+        /// The ARN for IAM Identity Center Instance which will be used for IAM Identity Center Application creation.
+        public let identityCenterInstanceARN: String?
+        /// Specify the attribute that contains the backend role (groupName, groupID) of IAM Identity Center
+        public let rolesKey: RolesKeyIdCOption?
+        /// Specify the attribute that contains the subject (username, userID, email) of IAM Identity Center.
+        public let subjectKey: SubjectKeyIdCOption?
+
+        @inlinable
+        public init(enabledAPIAccess: Bool? = nil, identityCenterInstanceARN: String? = nil, rolesKey: RolesKeyIdCOption? = nil, subjectKey: SubjectKeyIdCOption? = nil) {
+            self.enabledAPIAccess = enabledAPIAccess
+            self.identityCenterInstanceARN = identityCenterInstanceARN
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityCenterInstanceARN, name: "identityCenterInstanceARN", parent: name, max: 2048)
+            try self.validate(self.identityCenterInstanceARN, name: "identityCenterInstanceARN", parent: name, min: 20)
+            try self.validate(self.identityCenterInstanceARN, name: "identityCenterInstanceARN", parent: name, pattern: "^arn:aws[a-z\\\\-]*:[a-z]+:[a-z0-9\\\\-]*:[0-9]*:[a-z0-9\\\\-]+\\/[a-z0-9\\\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledAPIAccess = "EnabledAPIAccess"
+            case identityCenterInstanceARN = "IdentityCenterInstanceARN"
+            case rolesKey = "RolesKey"
+            case subjectKey = "SubjectKey"
+        }
+    }
+
+    public struct IdentityCenterOptionsStatus: AWSDecodableShape {
+        /// Container for IAM Identity Center Options settings.
+        public let options: IdentityCenterOptions
+        /// The status of IAM Identity Center Options settings for a domain.
+        public let status: OptionStatus
+
+        @inlinable
+        public init(options: IdentityCenterOptions, status: OptionStatus) {
             self.options = options
             self.status = status
         }
@@ -4161,6 +4772,30 @@ extension OpenSearch {
         }
     }
 
+    public struct KeyStoreAccessOption: AWSEncodableShape & AWSDecodableShape {
+        /// Role ARN to access the KeyStore Key
+        public let keyAccessRoleArn: String?
+        /// This indicates whether Key Store access is enabled
+        public let keyStoreAccessEnabled: Bool
+
+        @inlinable
+        public init(keyAccessRoleArn: String? = nil, keyStoreAccessEnabled: Bool) {
+            self.keyAccessRoleArn = keyAccessRoleArn
+            self.keyStoreAccessEnabled = keyStoreAccessEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyAccessRoleArn, name: "keyAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.keyAccessRoleArn, name: "keyAccessRoleArn", parent: name, min: 20)
+            try self.validate(self.keyAccessRoleArn, name: "keyAccessRoleArn", parent: name, pattern: "^arn:(aws|aws\\-cn|aws\\-us\\-gov|aws\\-iso|aws\\-iso\\-b):iam::[0-9]+:role\\/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyAccessRoleArn = "KeyAccessRoleArn"
+            case keyStoreAccessEnabled = "KeyStoreAccessEnabled"
+        }
+    }
+
     public struct Limits: AWSDecodableShape {
         /// List of additional limits that are specific to a given instance type for each of its instance roles.
         public let additionalLimits: [AdditionalLimit]?
@@ -4180,6 +4815,51 @@ extension OpenSearch {
             case additionalLimits = "AdditionalLimits"
             case instanceLimits = "InstanceLimits"
             case storageTypes = "StorageTypes"
+        }
+    }
+
+    public struct ListApplicationsRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// OpenSearch Application Status can be used as filters for the listing request. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+        public let statuses: [ApplicationStatus]?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, statuses: [ApplicationStatus]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.statuses = statuses
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.statuses, key: "statuses")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListApplicationsResponse: AWSDecodableShape {
+        /// Summary of the OpenSearch Applications, including ID, ARN, name, endpoint, status, create time and last update time.
+        public let applicationSummaries: [ApplicationSummary]?
+        public let nextToken: String?
+
+        @inlinable
+        public init(applicationSummaries: [ApplicationSummary]? = nil, nextToken: String? = nil) {
+            self.applicationSummaries = applicationSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSummaries = "ApplicationSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4337,7 +5017,7 @@ extension OpenSearch {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$")
+            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4876,6 +5556,46 @@ extension OpenSearch {
         }
     }
 
+    public struct NodeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The number of nodes of a particular node type in the cluster.
+        public let count: Int?
+        /// A boolean that indicates whether a particular node type is enabled or not.
+        public let enabled: Bool?
+        /// The instance type of a particular node type in the cluster.
+        public let type: OpenSearchPartitionInstanceType?
+
+        @inlinable
+        public init(count: Int? = nil, enabled: Bool? = nil, type: OpenSearchPartitionInstanceType? = nil) {
+            self.count = count
+            self.enabled = enabled
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case enabled = "Enabled"
+            case type = "Type"
+        }
+    }
+
+    public struct NodeOption: AWSEncodableShape & AWSDecodableShape {
+        /// Container for specifying configuration of any node type.
+        public let nodeConfig: NodeConfig?
+        /// Container for node type like coordinating.
+        public let nodeType: NodeOptionsNodeType?
+
+        @inlinable
+        public init(nodeConfig: NodeConfig? = nil, nodeType: NodeOptionsNodeType? = nil) {
+            self.nodeConfig = nodeConfig
+            self.nodeType = nodeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeConfig = "NodeConfig"
+            case nodeType = "NodeType"
+        }
+    }
+
     public struct NodeToNodeEncryptionOptions: AWSEncodableShape & AWSDecodableShape {
         /// True to enable node-to-node encryption.
         public let enabled: Bool?
@@ -5052,7 +5772,60 @@ extension OpenSearch {
         }
     }
 
+    public struct PackageAssociationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration parameters to enable accessing the key store required by the package.
+        public let keyStoreAccessOption: KeyStoreAccessOption?
+
+        @inlinable
+        public init(keyStoreAccessOption: KeyStoreAccessOption? = nil) {
+            self.keyStoreAccessOption = keyStoreAccessOption
+        }
+
+        public func validate(name: String) throws {
+            try self.keyStoreAccessOption?.validate(name: "\(name).keyStoreAccessOption")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyStoreAccessOption = "KeyStoreAccessOption"
+        }
+    }
+
+    public struct PackageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration requirements for the package.
+        public let configurationRequirement: RequirementLevel
+        /// The relative file path for the license associated with the package.
+        public let licenseFilepath: String?
+        /// The license requirements for the package.
+        public let licenseRequirement: RequirementLevel
+        /// This indicates whether a B/G deployment is required for updating the configuration that the plugin is prerequisite for.
+        public let requiresRestartForConfigurationUpdate: Bool?
+
+        @inlinable
+        public init(configurationRequirement: RequirementLevel, licenseFilepath: String? = nil, licenseRequirement: RequirementLevel, requiresRestartForConfigurationUpdate: Bool? = nil) {
+            self.configurationRequirement = configurationRequirement
+            self.licenseFilepath = licenseFilepath
+            self.licenseRequirement = licenseRequirement
+            self.requiresRestartForConfigurationUpdate = requiresRestartForConfigurationUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.licenseFilepath, name: "licenseFilepath", parent: name, max: 256)
+            try self.validate(self.licenseFilepath, name: "licenseFilepath", parent: name, pattern: "^(?!.*\\/\\.{2,})(?!.*\\.\\.)[a-zA-Z0-9_.-]+(?:\\/[a-zA-Z0-9_.-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationRequirement = "ConfigurationRequirement"
+            case licenseFilepath = "LicenseFilepath"
+            case licenseRequirement = "LicenseRequirement"
+            case requiresRestartForConfigurationUpdate = "RequiresRestartForConfigurationUpdate"
+        }
+    }
+
     public struct PackageDetails: AWSDecodableShape {
+        ///  A list of users who are allowed to view and associate the package. This field is only visible to the owner of a package.
+        public let allowListedUserList: [String]?
+        /// This represents the available configuration parameters for the package.
+        public let availablePackageConfiguration: PackageConfiguration?
         /// The package version.
         public let availablePackageVersion: String?
         /// If the package is a ZIP-PLUGIN package, additional information about plugin properties.
@@ -5067,17 +5840,25 @@ extension OpenSearch {
         public let lastUpdatedAt: Date?
         /// User-specified description of the package.
         public let packageDescription: String?
+        /// Package Encryption Options for a package.
+        public let packageEncryptionOptions: PackageEncryptionOptions?
         /// The unique identifier of the package.
         public let packageID: String?
         /// The user-specified name of the package.
         public let packageName: String?
+        /// The owner of the package who is allowed to create/update a package and add users to the package scope.
+        public let packageOwner: String?
         /// The current status of the package. The available options are AVAILABLE, COPYING, COPY_FAILED, VALIDATNG, VALIDATION_FAILED, DELETING, and DELETE_FAILED.
         public let packageStatus: PackageStatus?
         /// The type of package.
         public let packageType: PackageType?
+        /// Package Vending Options for a package.
+        public let packageVendingOptions: PackageVendingOptions?
 
         @inlinable
-        public init(availablePackageVersion: String? = nil, availablePluginProperties: PluginProperties? = nil, createdAt: Date? = nil, engineVersion: String? = nil, errorDetails: ErrorDetails? = nil, lastUpdatedAt: Date? = nil, packageDescription: String? = nil, packageID: String? = nil, packageName: String? = nil, packageStatus: PackageStatus? = nil, packageType: PackageType? = nil) {
+        public init(allowListedUserList: [String]? = nil, availablePackageConfiguration: PackageConfiguration? = nil, availablePackageVersion: String? = nil, availablePluginProperties: PluginProperties? = nil, createdAt: Date? = nil, engineVersion: String? = nil, errorDetails: ErrorDetails? = nil, lastUpdatedAt: Date? = nil, packageDescription: String? = nil, packageEncryptionOptions: PackageEncryptionOptions? = nil, packageID: String? = nil, packageName: String? = nil, packageOwner: String? = nil, packageStatus: PackageStatus? = nil, packageType: PackageType? = nil, packageVendingOptions: PackageVendingOptions? = nil) {
+            self.allowListedUserList = allowListedUserList
+            self.availablePackageConfiguration = availablePackageConfiguration
             self.availablePackageVersion = availablePackageVersion
             self.availablePluginProperties = availablePluginProperties
             self.createdAt = createdAt
@@ -5085,13 +5866,18 @@ extension OpenSearch {
             self.errorDetails = errorDetails
             self.lastUpdatedAt = lastUpdatedAt
             self.packageDescription = packageDescription
+            self.packageEncryptionOptions = packageEncryptionOptions
             self.packageID = packageID
             self.packageName = packageName
+            self.packageOwner = packageOwner
             self.packageStatus = packageStatus
             self.packageType = packageType
+            self.packageVendingOptions = packageVendingOptions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowListedUserList = "AllowListedUserList"
+            case availablePackageConfiguration = "AvailablePackageConfiguration"
             case availablePackageVersion = "AvailablePackageVersion"
             case availablePluginProperties = "AvailablePluginProperties"
             case createdAt = "CreatedAt"
@@ -5099,10 +5885,67 @@ extension OpenSearch {
             case errorDetails = "ErrorDetails"
             case lastUpdatedAt = "LastUpdatedAt"
             case packageDescription = "PackageDescription"
+            case packageEncryptionOptions = "PackageEncryptionOptions"
             case packageID = "PackageID"
             case packageName = "PackageName"
+            case packageOwner = "PackageOwner"
             case packageStatus = "PackageStatus"
             case packageType = "PackageType"
+            case packageVendingOptions = "PackageVendingOptions"
+        }
+    }
+
+    public struct PackageDetailsForAssociation: AWSEncodableShape {
+        /// The configuration parameters for associating the package with a domain.
+        public let associationConfiguration: PackageAssociationConfiguration?
+        /// Internal ID of the package that you want to associate with a domain.
+        public let packageID: String
+        /// List of package IDs that must be associated with the domain with or before the package can be associated.
+        public let prerequisitePackageIDList: [String]?
+
+        @inlinable
+        public init(associationConfiguration: PackageAssociationConfiguration? = nil, packageID: String, prerequisitePackageIDList: [String]? = nil) {
+            self.associationConfiguration = associationConfiguration
+            self.packageID = packageID
+            self.prerequisitePackageIDList = prerequisitePackageIDList
+        }
+
+        public func validate(name: String) throws {
+            try self.associationConfiguration?.validate(name: "\(name).associationConfiguration")
+            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
+            try self.prerequisitePackageIDList?.forEach {
+                try validate($0, name: "prerequisitePackageIDList[]", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationConfiguration = "AssociationConfiguration"
+            case packageID = "PackageID"
+            case prerequisitePackageIDList = "PrerequisitePackageIDList"
+        }
+    }
+
+    public struct PackageEncryptionOptions: AWSEncodableShape & AWSDecodableShape {
+        /// This indicates whether encryption is enabled for the package.
+        public let encryptionEnabled: Bool
+        ///  KMS key ID for encrypting the package.
+        public let kmsKeyIdentifier: String?
+
+        @inlinable
+        public init(encryptionEnabled: Bool, kmsKeyIdentifier: String? = nil) {
+            self.encryptionEnabled = encryptionEnabled
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 500)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionEnabled = "EncryptionEnabled"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
         }
     }
 
@@ -5131,20 +5974,37 @@ extension OpenSearch {
         }
     }
 
+    public struct PackageVendingOptions: AWSEncodableShape & AWSDecodableShape {
+        /// This indicates whether vending is enabled for the package to determine if package can be used by other users.
+        public let vendingEnabled: Bool
+
+        @inlinable
+        public init(vendingEnabled: Bool) {
+            self.vendingEnabled = vendingEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vendingEnabled = "VendingEnabled"
+        }
+    }
+
     public struct PackageVersionHistory: AWSDecodableShape {
         /// A message associated with the package version when it was uploaded.
         public let commitMessage: String?
         /// The date and time when the package was created.
         public let createdAt: Date?
+        /// The configuration details for a specific version of a package.
+        public let packageConfiguration: PackageConfiguration?
         /// The package version.
         public let packageVersion: String?
         /// Additional information about plugin properties if the package is a ZIP-PLUGIN package.
         public let pluginProperties: PluginProperties?
 
         @inlinable
-        public init(commitMessage: String? = nil, createdAt: Date? = nil, packageVersion: String? = nil, pluginProperties: PluginProperties? = nil) {
+        public init(commitMessage: String? = nil, createdAt: Date? = nil, packageConfiguration: PackageConfiguration? = nil, packageVersion: String? = nil, pluginProperties: PluginProperties? = nil) {
             self.commitMessage = commitMessage
             self.createdAt = createdAt
+            self.packageConfiguration = packageConfiguration
             self.packageVersion = packageVersion
             self.pluginProperties = pluginProperties
         }
@@ -5152,6 +6012,7 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case commitMessage = "CommitMessage"
             case createdAt = "CreatedAt"
+            case packageConfiguration = "PackageConfiguration"
             case packageVersion = "PackageVersion"
             case pluginProperties = "PluginProperties"
         }
@@ -5427,21 +6288,25 @@ extension OpenSearch {
 
     public struct RevokeVpcEndpointAccessRequest: AWSEncodableShape {
         /// The account ID to revoke access from.
-        public let account: String
+        public let account: String?
         /// The name of the OpenSearch Service domain.
         public let domainName: String
+        /// The service SP to revoke access from.
+        public let service: AWSServicePrincipal?
 
         @inlinable
-        public init(account: String, domainName: String) {
+        public init(account: String? = nil, domainName: String, service: AWSServicePrincipal? = nil) {
             self.account = account
             self.domainName = domainName
+            self.service = service
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.account, forKey: .account)
+            try container.encodeIfPresent(self.account, forKey: .account)
             request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.service, forKey: .service)
         }
 
         public func validate(name: String) throws {
@@ -5453,6 +6318,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
+            case service = "Service"
         }
     }
 
@@ -5919,6 +6785,87 @@ extension OpenSearch {
         }
     }
 
+    public struct UpdateApplicationRequest: AWSEncodableShape {
+        /// Configurations to be changed for the OpenSearch Application.
+        public let appConfigs: [AppConfig]?
+        /// Data sources to be associated with the OpenSearch Application.
+        public let dataSources: [DataSource]?
+        /// Unique identifier of the OpenSearch Application to be updated.
+        public let id: String
+
+        @inlinable
+        public init(appConfigs: [AppConfig]? = nil, dataSources: [DataSource]? = nil, id: String) {
+            self.appConfigs = appConfigs
+            self.dataSources = dataSources
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.appConfigs, forKey: .appConfigs)
+            try container.encodeIfPresent(self.dataSources, forKey: .dataSources)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.appConfigs?.forEach {
+                try $0.validate(name: "\(name).appConfigs[]")
+            }
+            try self.validate(self.appConfigs, name: "appConfigs", parent: name, max: 200)
+            try self.dataSources?.forEach {
+                try $0.validate(name: "\(name).dataSources[]")
+            }
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,30}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appConfigs = "appConfigs"
+            case dataSources = "dataSources"
+        }
+    }
+
+    public struct UpdateApplicationResponse: AWSDecodableShape {
+        /// Configurations for the updated OpenSearch Application.
+        public let appConfigs: [AppConfig]?
+        public let arn: String?
+        /// Timestamp at which the OpenSearch Application was created.
+        public let createdAt: Date?
+        /// Data sources associated with the updated OpenSearch Application.
+        public let dataSources: [DataSource]?
+        /// IAM Identity Center settings for the updated OpenSearch Application.
+        public let iamIdentityCenterOptions: IamIdentityCenterOptions?
+        /// Unique identifier of the updated OpenSearch Application.
+        public let id: String?
+        /// Timestamp at which the OpenSearch Application was last updated.
+        public let lastUpdatedAt: Date?
+        /// Name of the updated OpenSearch Application.
+        public let name: String?
+
+        @inlinable
+        public init(appConfigs: [AppConfig]? = nil, arn: String? = nil, createdAt: Date? = nil, dataSources: [DataSource]? = nil, iamIdentityCenterOptions: IamIdentityCenterOptions? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil) {
+            self.appConfigs = appConfigs
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSources = dataSources
+            self.iamIdentityCenterOptions = iamIdentityCenterOptions
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appConfigs = "appConfigs"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case dataSources = "dataSources"
+            case iamIdentityCenterOptions = "iamIdentityCenterOptions"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+        }
+    }
+
     public struct UpdateDataSourceRequest: AWSEncodableShape {
         /// The type of data source.
         public let dataSourceType: DataSourceType
@@ -6010,6 +6957,7 @@ extension OpenSearch {
         public let ebsOptions: EBSOptions?
         /// Encryption at rest options for the domain.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
+        public let identityCenterOptions: IdentityCenterOptionsInput?
         /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If your IP address type is currently set to dual stack, you can't change it.
         public let ipAddressType: IPAddressType?
         /// Options to publish OpenSearch logs to Amazon CloudWatch Logs.
@@ -6026,7 +6974,7 @@ extension OpenSearch {
         public let vpcOptions: VPCOptions?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -6040,6 +6988,7 @@ extension OpenSearch {
             self.dryRunMode = dryRunMode
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
@@ -6065,6 +7014,7 @@ extension OpenSearch {
             try container.encodeIfPresent(self.dryRunMode, forKey: .dryRunMode)
             try container.encodeIfPresent(self.ebsOptions, forKey: .ebsOptions)
             try container.encodeIfPresent(self.encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
+            try container.encodeIfPresent(self.identityCenterOptions, forKey: .identityCenterOptions)
             try container.encodeIfPresent(self.ipAddressType, forKey: .ipAddressType)
             try container.encodeIfPresent(self.logPublishingOptions, forKey: .logPublishingOptions)
             try container.encodeIfPresent(self.nodeToNodeEncryptionOptions, forKey: .nodeToNodeEncryptionOptions)
@@ -6085,6 +7035,7 @@ extension OpenSearch {
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
             try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
+            try self.identityCenterOptions?.validate(name: "\(name).identityCenterOptions")
             try self.logPublishingOptions?.forEach {
                 try $0.value.validate(name: "\(name).logPublishingOptions[\"\($0.key)\"]")
             }
@@ -6104,6 +7055,7 @@ extension OpenSearch {
             case dryRunMode = "DryRunMode"
             case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
+            case identityCenterOptions = "IdentityCenterOptions"
             case ipAddressType = "IPAddressType"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
@@ -6139,31 +7091,41 @@ extension OpenSearch {
     public struct UpdatePackageRequest: AWSEncodableShape {
         /// Commit message for the updated file, which is shown as part of GetPackageVersionHistoryResponse.
         public let commitMessage: String?
+        /// The updated configuration details for a package.
+        public let packageConfiguration: PackageConfiguration?
         /// A new description of the package.
         public let packageDescription: String?
+        /// Encryption options for a package.
+        public let packageEncryptionOptions: PackageEncryptionOptions?
         /// The unique identifier for the package.
         public let packageID: String
         /// Amazon S3 bucket and key for the package.
         public let packageSource: PackageSource
 
         @inlinable
-        public init(commitMessage: String? = nil, packageDescription: String? = nil, packageID: String, packageSource: PackageSource) {
+        public init(commitMessage: String? = nil, packageConfiguration: PackageConfiguration? = nil, packageDescription: String? = nil, packageEncryptionOptions: PackageEncryptionOptions? = nil, packageID: String, packageSource: PackageSource) {
             self.commitMessage = commitMessage
+            self.packageConfiguration = packageConfiguration
             self.packageDescription = packageDescription
+            self.packageEncryptionOptions = packageEncryptionOptions
             self.packageID = packageID
             self.packageSource = packageSource
         }
 
         public func validate(name: String) throws {
             try self.validate(self.commitMessage, name: "commitMessage", parent: name, max: 160)
+            try self.packageConfiguration?.validate(name: "\(name).packageConfiguration")
             try self.validate(self.packageDescription, name: "packageDescription", parent: name, max: 1024)
-            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$")
+            try self.packageEncryptionOptions?.validate(name: "\(name).packageEncryptionOptions")
+            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
             try self.packageSource.validate(name: "\(name).packageSource")
         }
 
         private enum CodingKeys: String, CodingKey {
             case commitMessage = "CommitMessage"
+            case packageConfiguration = "PackageConfiguration"
             case packageDescription = "PackageDescription"
+            case packageEncryptionOptions = "PackageEncryptionOptions"
             case packageID = "PackageID"
             case packageSource = "PackageSource"
         }
@@ -6180,6 +7142,59 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case packageDetails = "PackageDetails"
+        }
+    }
+
+    public struct UpdatePackageScopeRequest: AWSEncodableShape {
+        ///  The operation to perform on the package scope (e.g., add/remove/override users).
+        public let operation: PackageScopeOperationEnum
+        /// ID of the package whose scope is being updated.
+        public let packageID: String
+        ///  List of users to be added or removed from the package scope.
+        public let packageUserList: [String]
+
+        @inlinable
+        public init(operation: PackageScopeOperationEnum, packageID: String, packageUserList: [String]) {
+            self.operation = operation
+            self.packageID = packageID
+            self.packageUserList = packageUserList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.packageID, name: "packageID", parent: name, pattern: "^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$")
+            try self.packageUserList.forEach {
+                try validate($0, name: "packageUserList[]", parent: name, max: 12)
+                try validate($0, name: "packageUserList[]", parent: name, min: 6)
+                try validate($0, name: "packageUserList[]", parent: name, pattern: "^[0-9]{12}$|^GLOBAL$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "Operation"
+            case packageID = "PackageID"
+            case packageUserList = "PackageUserList"
+        }
+    }
+
+    public struct UpdatePackageScopeResponse: AWSDecodableShape {
+        /// The operation that was performed on the package scope.
+        public let operation: PackageScopeOperationEnum?
+        ///  ID of the package whose scope was updated.
+        public let packageID: String?
+        ///  List of users who have access to the package after the scope update.
+        public let packageUserList: [String]?
+
+        @inlinable
+        public init(operation: PackageScopeOperationEnum? = nil, packageID: String? = nil, packageUserList: [String]? = nil) {
+            self.operation = operation
+            self.packageID = packageID
+            self.packageUserList = packageUserList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "Operation"
+            case packageID = "PackageID"
+            case packageUserList = "PackageUserList"
         }
     }
 

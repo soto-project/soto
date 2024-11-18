@@ -364,6 +364,82 @@ public struct QuickSight: AWSService {
         return try await self.createAnalysis(input, logger: logger)
     }
 
+    /// Creates an Amazon QuickSight brand.
+    @Sendable
+    @inlinable
+    public func createBrand(_ input: CreateBrandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBrandResponse {
+        try await self.client.execute(
+            operation: "CreateBrand", 
+            path: "/accounts/{AwsAccountId}/brands/{BrandId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon QuickSight brand.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
+    ///   - brandDefinition: The definition of the brand.
+    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - tags: A map of the key-value pairs that are assigned to the brand.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createBrand(
+        awsAccountId: String,
+        brandDefinition: BrandDefinition? = nil,
+        brandId: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateBrandResponse {
+        let input = CreateBrandRequest(
+            awsAccountId: awsAccountId, 
+            brandDefinition: brandDefinition, 
+            brandId: brandId, 
+            tags: tags
+        )
+        return try await self.createBrand(input, logger: logger)
+    }
+
+    /// Creates a custom permissions profile.
+    @Sendable
+    @inlinable
+    public func createCustomPermissions(_ input: CreateCustomPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomPermissionsResponse {
+        try await self.client.execute(
+            operation: "CreateCustomPermissions", 
+            path: "/accounts/{AwsAccountId}/custom-permissions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a custom permissions profile.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that you want to create the custom permissions profile in.
+    ///   - capabilities: A set of actions to include in the custom permissions profile.
+    ///   - customPermissionsName: The name of the custom permissions profile that you want to create.
+    ///   - tags: The tags to associate with the custom permissions profile.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCustomPermissions(
+        awsAccountId: String,
+        capabilities: Capabilities? = nil,
+        customPermissionsName: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCustomPermissionsResponse {
+        let input = CreateCustomPermissionsRequest(
+            awsAccountId: awsAccountId, 
+            capabilities: capabilities, 
+            customPermissionsName: customPermissionsName, 
+            tags: tags
+        )
+        return try await self.createCustomPermissions(input, logger: logger)
+    }
+
     /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the   CreateTemplate  API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     @Sendable
     @inlinable
@@ -1368,6 +1444,99 @@ public struct QuickSight: AWSService {
         return try await self.deleteAnalysis(input, logger: logger)
     }
 
+    /// Deletes an Amazon QuickSight brand.
+    @Sendable
+    @inlinable
+    public func deleteBrand(_ input: DeleteBrandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBrandResponse {
+        try await self.client.execute(
+            operation: "DeleteBrand", 
+            path: "/accounts/{AwsAccountId}/brands/{BrandId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Amazon QuickSight brand.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
+    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteBrand(
+        awsAccountId: String,
+        brandId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteBrandResponse {
+        let input = DeleteBrandRequest(
+            awsAccountId: awsAccountId, 
+            brandId: brandId
+        )
+        return try await self.deleteBrand(input, logger: logger)
+    }
+
+    /// Deletes a brand assignment.
+    @Sendable
+    @inlinable
+    public func deleteBrandAssignment(_ input: DeleteBrandAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBrandAssignmentResponse {
+        try await self.client.execute(
+            operation: "DeleteBrandAssignment", 
+            path: "/accounts/{AwsAccountId}/brandassignments", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a brand assignment.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand assignment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteBrandAssignment(
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteBrandAssignmentResponse {
+        let input = DeleteBrandAssignmentRequest(
+            awsAccountId: awsAccountId
+        )
+        return try await self.deleteBrandAssignment(input, logger: logger)
+    }
+
+    /// Deletes a custom permissions profile.
+    @Sendable
+    @inlinable
+    public func deleteCustomPermissions(_ input: DeleteCustomPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomPermissionsResponse {
+        try await self.client.execute(
+            operation: "DeleteCustomPermissions", 
+            path: "/accounts/{AwsAccountId}/custom-permissions/{CustomPermissionsName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a custom permissions profile.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the custom permissions profile that you want to delete.
+    ///   - customPermissionsName: The name of the custom permissions profile that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCustomPermissions(
+        awsAccountId: String,
+        customPermissionsName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCustomPermissionsResponse {
+        let input = DeleteCustomPermissionsRequest(
+            awsAccountId: awsAccountId, 
+            customPermissionsName: customPermissionsName
+        )
+        return try await self.deleteCustomPermissions(input, logger: logger)
+    }
+
     /// Deletes a dashboard.
     @Sendable
     @inlinable
@@ -2138,6 +2307,41 @@ public struct QuickSight: AWSService {
         return try await self.deleteUserByPrincipalId(input, logger: logger)
     }
 
+    /// Deletes a custom permissions profile from a user.
+    @Sendable
+    @inlinable
+    public func deleteUserCustomPermission(_ input: DeleteUserCustomPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserCustomPermissionResponse {
+        try await self.client.execute(
+            operation: "DeleteUserCustomPermission", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/custom-permission", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a custom permissions profile from a user.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the custom permission configuration that you want to delete.
+    ///   - namespace: The namespace that the user belongs to.
+    ///   - userName: The username of the user that you want to remove custom permissions from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteUserCustomPermission(
+        awsAccountId: String,
+        namespace: String,
+        userName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteUserCustomPermissionResponse {
+        let input = DeleteUserCustomPermissionRequest(
+            awsAccountId: awsAccountId, 
+            namespace: namespace, 
+            userName: userName
+        )
+        return try await self.deleteUserCustomPermission(input, logger: logger)
+    }
+
     /// Deletes a VPC connection.
     @Sendable
     @inlinable
@@ -2421,6 +2625,134 @@ public struct QuickSight: AWSService {
             awsAccountId: awsAccountId
         )
         return try await self.describeAssetBundleImportJob(input, logger: logger)
+    }
+
+    /// Describes a brand.
+    @Sendable
+    @inlinable
+    public func describeBrand(_ input: DescribeBrandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBrandResponse {
+        try await self.client.execute(
+            operation: "DescribeBrand", 
+            path: "/accounts/{AwsAccountId}/brands/{BrandId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a brand.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
+    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - versionId: The ID of the specific version. The default value is the latest version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeBrand(
+        awsAccountId: String,
+        brandId: String,
+        versionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeBrandResponse {
+        let input = DescribeBrandRequest(
+            awsAccountId: awsAccountId, 
+            brandId: brandId, 
+            versionId: versionId
+        )
+        return try await self.describeBrand(input, logger: logger)
+    }
+
+    /// Describes a brand assignment.
+    @Sendable
+    @inlinable
+    public func describeBrandAssignment(_ input: DescribeBrandAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBrandAssignmentResponse {
+        try await self.client.execute(
+            operation: "DescribeBrandAssignment", 
+            path: "/accounts/{AwsAccountId}/brandassignments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a brand assignment.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand assignment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeBrandAssignment(
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeBrandAssignmentResponse {
+        let input = DescribeBrandAssignmentRequest(
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeBrandAssignment(input, logger: logger)
+    }
+
+    /// Describes the published version of the brand.
+    @Sendable
+    @inlinable
+    public func describeBrandPublishedVersion(_ input: DescribeBrandPublishedVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBrandPublishedVersionResponse {
+        try await self.client.execute(
+            operation: "DescribeBrandPublishedVersion", 
+            path: "/accounts/{AwsAccountId}/brands/{BrandId}/publishedversion", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the published version of the brand.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
+    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeBrandPublishedVersion(
+        awsAccountId: String,
+        brandId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeBrandPublishedVersionResponse {
+        let input = DescribeBrandPublishedVersionRequest(
+            awsAccountId: awsAccountId, 
+            brandId: brandId
+        )
+        return try await self.describeBrandPublishedVersion(input, logger: logger)
+    }
+
+    /// Describes a custom permissions profile.
+    @Sendable
+    @inlinable
+    public func describeCustomPermissions(_ input: DescribeCustomPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCustomPermissionsResponse {
+        try await self.client.execute(
+            operation: "DescribeCustomPermissions", 
+            path: "/accounts/{AwsAccountId}/custom-permissions/{CustomPermissionsName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a custom permissions profile.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the custom permissions profile that you want described.
+    ///   - customPermissionsName: The name of the custom permissions profile to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCustomPermissions(
+        awsAccountId: String,
+        customPermissionsName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCustomPermissionsResponse {
+        let input = DescribeCustomPermissionsRequest(
+            awsAccountId: awsAccountId, 
+            customPermissionsName: customPermissionsName
+        )
+        return try await self.describeCustomPermissions(input, logger: logger)
     }
 
     /// Provides a summary for a dashboard.
@@ -3958,6 +4290,76 @@ public struct QuickSight: AWSService {
         return try await self.listAssetBundleImportJobs(input, logger: logger)
     }
 
+    /// Lists all brands in an Amazon QuickSight account.
+    @Sendable
+    @inlinable
+    public func listBrands(_ input: ListBrandsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBrandsResponse {
+        try await self.client.execute(
+            operation: "ListBrands", 
+            path: "/accounts/{AwsAccountId}/brands", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all brands in an Amazon QuickSight account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brands that you want to list.
+    ///   - maxResults: The maximum number of results to be returned in a single request.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBrands(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBrandsResponse {
+        let input = ListBrandsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listBrands(input, logger: logger)
+    }
+
+    /// Returns a list of all the custom permissions profiles.
+    @Sendable
+    @inlinable
+    public func listCustomPermissions(_ input: ListCustomPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomPermissionsResponse {
+        try await self.client.execute(
+            operation: "ListCustomPermissions", 
+            path: "/accounts/{AwsAccountId}/custom-permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of all the custom permissions profiles.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the custom permissions profiles that you want to list.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCustomPermissions(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCustomPermissionsResponse {
+        let input = ListCustomPermissionsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCustomPermissions(input, logger: logger)
+    }
+
     /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
     @Sendable
     @inlinable
@@ -5157,16 +5559,19 @@ public struct QuickSight: AWSService {
     /// Parameters:
     ///   - analysisId: The ID of the analysis that you're restoring.
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the analysis.
+    ///   - restoreToFolders: A boolean value that determines if the analysis will be restored to folders that it previously resided in. A True value restores analysis back to all folders that it previously resided in. A False value restores the analysis but does not restore the analysis back to all previously resided folders. Restoring a restricted analysis requires this parameter to be set to True.
     ///   - logger: Logger use during operation
     @inlinable
     public func restoreAnalysis(
         analysisId: String,
         awsAccountId: String,
+        restoreToFolders: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RestoreAnalysisResponse {
         let input = RestoreAnalysisRequest(
             analysisId: analysisId, 
-            awsAccountId: awsAccountId
+            awsAccountId: awsAccountId, 
+            restoreToFolders: restoreToFolders
         )
         return try await self.restoreAnalysis(input, logger: logger)
     }
@@ -5552,6 +5957,41 @@ public struct QuickSight: AWSService {
         return try await self.startDashboardSnapshotJob(input, logger: logger)
     }
 
+    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email.  Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon QuickSight reports by email and Configuring email report settings for a Amazon QuickSight dashboard in the Amazon QuickSight User Guide.
+    @Sendable
+    @inlinable
+    public func startDashboardSnapshotJobSchedule(_ input: StartDashboardSnapshotJobScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDashboardSnapshotJobScheduleResponse {
+        try await self.client.execute(
+            operation: "StartDashboardSnapshotJobSchedule", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/schedules/{ScheduleId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email.  Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see Scheduling and sending Amazon QuickSight reports by email and Configuring email report settings for a Amazon QuickSight dashboard in the Amazon QuickSight User Guide.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
+    ///   - dashboardId: The ID of the dashboard that you want to start a snapshot job schedule for.
+    ///   - scheduleId: The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon QuickSight console in the Schedules pane of the dashboard that the schedule is configured for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startDashboardSnapshotJobSchedule(
+        awsAccountId: String,
+        dashboardId: String,
+        scheduleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartDashboardSnapshotJobScheduleResponse {
+        let input = StartDashboardSnapshotJobScheduleRequest(
+            awsAccountId: awsAccountId, 
+            dashboardId: dashboardId, 
+            scheduleId: scheduleId
+        )
+        return try await self.startDashboardSnapshotJobSchedule(input, logger: logger)
+    }
+
     /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to
     /// 			scope user permissions, by granting a user permission to access or change only resources
     /// 			with certain tag values. You can use the TagResource operation with a
@@ -5791,6 +6231,143 @@ public struct QuickSight: AWSService {
             revokePermissions: revokePermissions
         )
         return try await self.updateAnalysisPermissions(input, logger: logger)
+    }
+
+    /// Updates a brand.
+    @Sendable
+    @inlinable
+    public func updateBrand(_ input: UpdateBrandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBrandResponse {
+        try await self.client.execute(
+            operation: "UpdateBrand", 
+            path: "/accounts/{AwsAccountId}/brands/{BrandId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a brand.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
+    ///   - brandDefinition: The definition of the brand.
+    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateBrand(
+        awsAccountId: String,
+        brandDefinition: BrandDefinition? = nil,
+        brandId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateBrandResponse {
+        let input = UpdateBrandRequest(
+            awsAccountId: awsAccountId, 
+            brandDefinition: brandDefinition, 
+            brandId: brandId
+        )
+        return try await self.updateBrand(input, logger: logger)
+    }
+
+    /// Updates a brand assignment.
+    @Sendable
+    @inlinable
+    public func updateBrandAssignment(_ input: UpdateBrandAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBrandAssignmentResponse {
+        try await self.client.execute(
+            operation: "UpdateBrandAssignment", 
+            path: "/accounts/{AwsAccountId}/brandassignments", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a brand assignment.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand assignment.
+    ///   - brandArn: The Amazon Resource Name (ARN) of the brand.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateBrandAssignment(
+        awsAccountId: String,
+        brandArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateBrandAssignmentResponse {
+        let input = UpdateBrandAssignmentRequest(
+            awsAccountId: awsAccountId, 
+            brandArn: brandArn
+        )
+        return try await self.updateBrandAssignment(input, logger: logger)
+    }
+
+    /// Updates the published version of a brand.
+    @Sendable
+    @inlinable
+    public func updateBrandPublishedVersion(_ input: UpdateBrandPublishedVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBrandPublishedVersionResponse {
+        try await self.client.execute(
+            operation: "UpdateBrandPublishedVersion", 
+            path: "/accounts/{AwsAccountId}/brands/{BrandId}/publishedversion", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the published version of a brand.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
+    ///   - brandId: The ID of the Amazon QuickSight brand.
+    ///   - versionId: The ID of the published version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateBrandPublishedVersion(
+        awsAccountId: String,
+        brandId: String,
+        versionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateBrandPublishedVersionResponse {
+        let input = UpdateBrandPublishedVersionRequest(
+            awsAccountId: awsAccountId, 
+            brandId: brandId, 
+            versionId: versionId
+        )
+        return try await self.updateBrandPublishedVersion(input, logger: logger)
+    }
+
+    /// Updates a custom permissions profile.
+    @Sendable
+    @inlinable
+    public func updateCustomPermissions(_ input: UpdateCustomPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCustomPermissionsResponse {
+        try await self.client.execute(
+            operation: "UpdateCustomPermissions", 
+            path: "/accounts/{AwsAccountId}/custom-permissions/{CustomPermissionsName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a custom permissions profile.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the custom permissions profile that you want to update.
+    ///   - capabilities: A set of actions to include in the custom permissions profile.
+    ///   - customPermissionsName: The name of the custom permissions profile that you want to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCustomPermissions(
+        awsAccountId: String,
+        capabilities: Capabilities? = nil,
+        customPermissionsName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCustomPermissionsResponse {
+        let input = UpdateCustomPermissionsRequest(
+            awsAccountId: awsAccountId, 
+            capabilities: capabilities, 
+            customPermissionsName: customPermissionsName
+        )
+        return try await self.updateCustomPermissions(input, logger: logger)
     }
 
     /// Updates a dashboard in an Amazon Web Services account.  Updating a Dashboard creates a new dashboard version but does not immediately publish the new version.  You can update the published version of a dashboard by using the  UpdateDashboardPublishedVersion API operation.
@@ -7001,6 +7578,44 @@ public struct QuickSight: AWSService {
         return try await self.updateUser(input, logger: logger)
     }
 
+    /// Updates a custom permissions profile for a user.
+    @Sendable
+    @inlinable
+    public func updateUserCustomPermission(_ input: UpdateUserCustomPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserCustomPermissionResponse {
+        try await self.client.execute(
+            operation: "UpdateUserCustomPermission", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/custom-permission", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a custom permissions profile for a user.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the custom permission configuration that you want to update.
+    ///   - customPermissionsName: The name of the custom permissions that you want to update.
+    ///   - namespace: The namespace that the user belongs to.
+    ///   - userName: The username of the user that you want to update custom permissions for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateUserCustomPermission(
+        awsAccountId: String,
+        customPermissionsName: String,
+        namespace: String,
+        userName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateUserCustomPermissionResponse {
+        let input = UpdateUserCustomPermissionRequest(
+            awsAccountId: awsAccountId, 
+            customPermissionsName: customPermissionsName, 
+            namespace: namespace, 
+            userName: userName
+        )
+        return try await self.updateUserCustomPermission(input, logger: logger)
+    }
+
     /// Updates a VPC connection.
     @Sendable
     @inlinable
@@ -7257,6 +7872,80 @@ extension QuickSight {
             maxResults: maxResults
         )
         return self.listAssetBundleImportJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBrands(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBrandsPaginator(
+        _ input: ListBrandsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBrandsRequest, ListBrandsResponse> {
+        return .init(
+            input: input,
+            command: self.listBrands,
+            inputKey: \ListBrandsRequest.nextToken,
+            outputKey: \ListBrandsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBrands(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brands that you want to list.
+    ///   - maxResults: The maximum number of results to be returned in a single request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBrandsPaginator(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBrandsRequest, ListBrandsResponse> {
+        let input = ListBrandsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults
+        )
+        return self.listBrandsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCustomPermissions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomPermissionsPaginator(
+        _ input: ListCustomPermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCustomPermissionsRequest, ListCustomPermissionsResponse> {
+        return .init(
+            input: input,
+            command: self.listCustomPermissions,
+            inputKey: \ListCustomPermissionsRequest.nextToken,
+            outputKey: \ListCustomPermissionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCustomPermissions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the custom permissions profiles that you want to list.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomPermissionsPaginator(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCustomPermissionsRequest, ListCustomPermissionsResponse> {
+        let input = ListCustomPermissionsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults
+        )
+        return self.listCustomPermissionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listDashboardVersions(_:logger:)``.
@@ -8465,6 +9154,28 @@ extension QuickSight.ListAssetBundleExportJobsRequest: AWSPaginateToken {
 extension QuickSight.ListAssetBundleImportJobsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.ListAssetBundleImportJobsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListBrandsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListBrandsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListCustomPermissionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListCustomPermissionsRequest {
         return .init(
             awsAccountId: self.awsAccountId,
             maxResults: self.maxResults,

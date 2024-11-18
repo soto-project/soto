@@ -765,6 +765,35 @@ public struct ControlTower: AWSService {
         return try await self.resetEnabledBaseline(input, logger: logger)
     }
 
+    /// Resets an enabled control.
+    @Sendable
+    @inlinable
+    public func resetEnabledControl(_ input: ResetEnabledControlInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetEnabledControlOutput {
+        try await self.client.execute(
+            operation: "ResetEnabledControl", 
+            path: "/reset-enabled-control", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Resets an enabled control.
+    ///
+    /// Parameters:
+    ///   - enabledControlIdentifier: The ARN of the enabled control to be reset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func resetEnabledControl(
+        enabledControlIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ResetEnabledControlOutput {
+        let input = ResetEnabledControlInput(
+            enabledControlIdentifier: enabledControlIdentifier
+        )
+        return try await self.resetEnabledControl(input, logger: logger)
+    }
+
     /// This API call resets a landing zone. It starts an asynchronous operation that resets the landing zone to the parameters specified in the original configuration, which you specified in the manifest file. Nothing in the manifest file's original landing zone configuration is changed during the reset process, by default. This API is not the same as a rollback of a landing zone version, which is not a supported operation.
     @Sendable
     @inlinable
@@ -893,7 +922,7 @@ public struct ControlTower: AWSService {
         return try await self.updateEnabledBaseline(input, logger: logger)
     }
 
-    ///  Updates the configuration of an already enabled control. If the enabled control shows an EnablementStatus of SUCCEEDED, supply parameters that are different from the currently configured parameters. Otherwise, Amazon Web Services Control Tower will not accept the request. If the enabled control shows an EnablementStatus of FAILED, Amazon Web Services Control Tower updates the control to match any valid parameters that you supply. If the DriftSummary status for the control shows as DRIFTED, you cannot call this API. Instead, you can update the control by calling DisableControl and again calling EnableControl, or you can run an extending governance operation. For usage examples, see the  Controls Reference Guide .
+    ///  Updates the configuration of an already enabled control. If the enabled control shows an EnablementStatus of SUCCEEDED, supply parameters that are different from the currently configured parameters. Otherwise, Amazon Web Services Control Tower will not accept the request. If the enabled control shows an EnablementStatus of FAILED, Amazon Web Services Control Tower updates the control to match any valid parameters that you supply. If the DriftSummary status for the control shows as DRIFTED, you cannot call this API. Instead, you can update the control by calling the ResetEnabledControl API. Alternatively, you can call DisableControl and then call EnableControl again. Also, you can run an extending governance operation to repair drift. For usage examples, see the  Controls Reference Guide .
     @Sendable
     @inlinable
     public func updateEnabledControl(_ input: UpdateEnabledControlInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnabledControlOutput {
@@ -906,7 +935,7 @@ public struct ControlTower: AWSService {
             logger: logger
         )
     }
-    ///  Updates the configuration of an already enabled control. If the enabled control shows an EnablementStatus of SUCCEEDED, supply parameters that are different from the currently configured parameters. Otherwise, Amazon Web Services Control Tower will not accept the request. If the enabled control shows an EnablementStatus of FAILED, Amazon Web Services Control Tower updates the control to match any valid parameters that you supply. If the DriftSummary status for the control shows as DRIFTED, you cannot call this API. Instead, you can update the control by calling DisableControl and again calling EnableControl, or you can run an extending governance operation. For usage examples, see the  Controls Reference Guide .
+    ///  Updates the configuration of an already enabled control. If the enabled control shows an EnablementStatus of SUCCEEDED, supply parameters that are different from the currently configured parameters. Otherwise, Amazon Web Services Control Tower will not accept the request. If the enabled control shows an EnablementStatus of FAILED, Amazon Web Services Control Tower updates the control to match any valid parameters that you supply. If the DriftSummary status for the control shows as DRIFTED, you cannot call this API. Instead, you can update the control by calling the ResetEnabledControl API. Alternatively, you can call DisableControl and then call EnableControl again. Also, you can run an extending governance operation to repair drift. For usage examples, see the  Controls Reference Guide .
     ///
     /// Parameters:
     ///   - enabledControlIdentifier:  The ARN of the enabled control that will be updated.

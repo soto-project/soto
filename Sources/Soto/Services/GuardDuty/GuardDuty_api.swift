@@ -143,7 +143,7 @@ public struct GuardDuty: AWSService {
     /// Accepts the invitation to be monitored by a GuardDuty administrator account.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector of the GuardDuty member account.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the
     ///   - invitationId: The value that is used to validate the administrator account to the member account.
     ///   - masterId: The account ID of the GuardDuty administrator account whose invitation you're accepting.
     ///   - logger: Logger use during operation
@@ -179,7 +179,7 @@ public struct GuardDuty: AWSService {
     /// Archives GuardDuty findings that are specified by the list of finding IDs.  Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts.
     ///
     /// Parameters:
-    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose findings you want to archive.
+    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose findings you want to archive. To find the detectorId in the current Region, see the
     ///   - findingIds: The IDs of the findings that you want to archive.
     ///   - logger: Logger use during operation
     @inlinable
@@ -255,7 +255,7 @@ public struct GuardDuty: AWSService {
     ///   - action: Specifies the action that is to be applied to the findings that match the filter.
     ///   - clientToken: The idempotency token for the create request.
     ///   - description: The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
-    ///   - detectorId: The detector ID associated with the GuardDuty account for which you want to create a filter.
+    ///   - detectorId: The detector ID associated with the GuardDuty account for which you want to create a filter. To find the detectorId in the current Region, see the
     ///   - findingCriteria: Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   id   region   severity To filter on the basis of severity, the API and CLI use the following input list for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8", "9"]    For more information, see Severity levels for GuardDuty findings.   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.resourceType   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.ipAddressV6   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.ipAddressV6   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6   service.action.kubernetesApiCallAction.namespace   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn   service.action.kubernetesApiCallAction.requestUri   service.action.kubernetesApiCallAction.statusCode   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.localIpDetails.ipAddressV6   service.action.networkConnectionAction.protocol   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.additionalInfo.threatListName   service.resourceRole   resource.eksClusterDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   resource.ecsClusterDetails.name   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.definitionArn   resource.containerDetails.image   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.engine   resource.rdsDbUserDetails.user   resource.rdsDbInstanceDetails.tags.key   resource.rdsDbInstanceDetails.tags.value   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.name   service.runtimeDetails.process.name   resource.lambdaDetails.functionName   resource.lambdaDetails.functionArn   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value
     ///   - name: The name of the filter. Valid characters include period (.), underscore (_), dash (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
     ///   - rank: Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
@@ -304,7 +304,7 @@ public struct GuardDuty: AWSService {
     /// Parameters:
     ///   - activate: A Boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
     ///   - clientToken: The idempotency token for the create request.
-    ///   - detectorId: The unique ID of the detector of the GuardDuty account for which you want to create an IPSet.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the
     ///   - format: The format of the file that contains the IPSet.
     ///   - location: The URI of the file that contains the IPSet.
     ///   - name: The user-friendly name to identify the IPSet. Allowed characters are alphanumeric, whitespace, dash (-), and underscores (_).
@@ -391,7 +391,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - accountDetails: A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
-    ///   - detectorId: The unique ID of the detector of the GuardDuty account for which you want to associate member accounts.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty account for which you want to associate member accounts. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func createMembers(
@@ -425,7 +425,7 @@ public struct GuardDuty: AWSService {
     ///   - clientToken: The idempotency token for the request.
     ///   - destinationProperties: The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption.
     ///   - destinationType: The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported.
-    ///   - detectorId: The ID of the GuardDuty detector associated with the publishing destination.
+    ///   - detectorId: The ID of the GuardDuty detector associated with the publishing destination. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func createPublishingDestination(
@@ -460,7 +460,7 @@ public struct GuardDuty: AWSService {
     /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates sample findings of all supported finding types.
     ///
     /// Parameters:
-    ///   - detectorId: The ID of the detector for which you need to create sample findings.
+    ///   - detectorId: The ID of the detector for which you need to create sample findings. To find the detectorId in the current Region, see the
     ///   - findingTypes: The types of sample findings to generate.
     ///   - logger: Logger use during operation
     @inlinable
@@ -494,7 +494,7 @@ public struct GuardDuty: AWSService {
     /// Parameters:
     ///   - activate: A Boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
     ///   - clientToken: The idempotency token for the create request.
-    ///   - detectorId: The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet. To find the detectorId in the current Region, see the
     ///   - format: The format of the file that contains the ThreatIntelSet.
     ///   - location: The URI of the file that contains the ThreatIntelSet.
     ///   - name: A user-friendly ThreatIntelSet name displayed in all findings that are generated by activity that involves IP addresses included in this ThreatIntelSet.
@@ -568,7 +568,7 @@ public struct GuardDuty: AWSService {
     /// Deletes an Amazon GuardDuty detector that is specified by the detector ID.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that you want to delete.
+    ///   - detectorId: The unique ID of the detector that you want to delete. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDetector(
@@ -597,7 +597,7 @@ public struct GuardDuty: AWSService {
     /// Deletes the filter specified by the filter name.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with the filter.
+    ///   - detectorId: The unique ID of the detector that is associated with the filter. To find the detectorId in the current Region, see the
     ///   - filterName: The name of the filter that you want to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -629,7 +629,7 @@ public struct GuardDuty: AWSService {
     /// Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the console user interface.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector associated with the IPSet.
+    ///   - detectorId: The unique ID of the detector associated with the IPSet. To find the detectorId in the current Region, see the
     ///   - ipSetId: The unique ID of the IPSet to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -720,7 +720,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - accountIds: A list of account IDs of the GuardDuty member accounts that you want to delete.
-    ///   - detectorId: The unique ID of the detector of the GuardDuty account whose members you want to delete.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty account whose members you want to delete. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteMembers(
@@ -752,7 +752,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - destinationId: The ID of the publishing destination to delete.
-    ///   - detectorId: The unique ID of the detector associated with the publishing destination to delete.
+    ///   - detectorId: The unique ID of the detector associated with the publishing destination to delete. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func deletePublishingDestination(
@@ -783,7 +783,7 @@ public struct GuardDuty: AWSService {
     /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with the threatIntelSet.
+    ///   - detectorId: The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
     ///   - threatIntelSetId: The unique ID of the threatIntelSet that you want to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -815,7 +815,7 @@ public struct GuardDuty: AWSService {
     /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that the request is associated with.
+    ///   - detectorId: The unique ID of the detector that the request is associated with. To find the detectorId in the current Region, see the
     ///   - filterCriteria: Represents the criteria to be used in the filter for describing scan entries.
     ///   - maxResults: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
     ///   - nextToken: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
@@ -856,7 +856,7 @@ public struct GuardDuty: AWSService {
     /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     ///
     /// Parameters:
-    ///   - detectorId: The detector ID of the delegated administrator for which you need to retrieve the information.
+    ///   - detectorId: The detector ID of the delegated administrator for which you need to retrieve the information. To find the detectorId in the current Region, see the
     ///   - maxResults: You can use this parameter to indicate the maximum number of items that you want in the response.
     ///   - nextToken: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     ///   - logger: Logger use during operation
@@ -892,7 +892,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - destinationId: The ID of the publishing destination to retrieve.
-    ///   - detectorId: The unique ID of the detector associated with the publishing destination to retrieve.
+    ///   - detectorId: The unique ID of the detector associated with the publishing destination to retrieve. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func describePublishingDestination(
@@ -1102,7 +1102,7 @@ public struct GuardDuty: AWSService {
     /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the GuardDuty detector.
+    ///   - detectorId: The unique ID of the GuardDuty detector. To find the detectorId in the current Region, see the
     ///   - filterCriteria: Represents the criteria used to filter the coverage statistics.
     ///   - statisticsType: Represents the statistics type used to aggregate the coverage details.
     ///   - logger: Logger use during operation
@@ -1137,7 +1137,7 @@ public struct GuardDuty: AWSService {
     /// Retrieves a GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that you want to get.
+    ///   - detectorId: The unique ID of the detector that you want to get. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func getDetector(
@@ -1166,7 +1166,7 @@ public struct GuardDuty: AWSService {
     /// Returns the details of the filter specified by the filter name.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with this filter.
+    ///   - detectorId: The unique ID of the detector that is associated with this filter. To find the detectorId in the current Region, see the
     ///   - filterName: The name of the filter you want to get.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1198,7 +1198,7 @@ public struct GuardDuty: AWSService {
     /// Describes Amazon GuardDuty findings specified by finding IDs.
     ///
     /// Parameters:
-    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve.
+    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve. To find the detectorId in the current Region, see the
     ///   - findingIds: The IDs of the findings that you want to retrieve.
     ///   - sortCriteria: Represents the criteria used for sorting findings.
     ///   - logger: Logger use during operation
@@ -1233,7 +1233,7 @@ public struct GuardDuty: AWSService {
     /// Lists GuardDuty findings statistics for the specified detector ID. You must provide either findingStatisticTypes or groupBy parameter, and not both. You can use the maxResults and orderBy parameters only when using groupBy. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints.
     ///
     /// Parameters:
-    ///   - detectorId: The ID of the detector whose findings statistics you want to retrieve.
+    ///   - detectorId: The ID of the detector whose findings statistics you want to retrieve. To find the detectorId in the current Region, see the
     ///   - findingCriteria: Represents the criteria that is used for querying findings.
     ///   - groupBy: Displays the findings statistics grouped by one of the listed valid values.
     ///   - maxResults: The maximum number of results to be returned in the response. The default value is 25. You can use this parameter only with the groupBy parameter.
@@ -1274,7 +1274,7 @@ public struct GuardDuty: AWSService {
     /// Retrieves the IPSet specified by the ipSetId.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with the IPSet.
+    ///   - detectorId: The unique ID of the detector that is associated with the IPSet. To find the detectorId in the current Region, see the
     ///   - ipSetId: The unique ID of the IPSet to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1361,7 +1361,7 @@ public struct GuardDuty: AWSService {
     /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with this scan.
+    ///   - detectorId: The unique ID of the detector that is associated with this scan. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func getMalwareScanSettings(
@@ -1391,7 +1391,7 @@ public struct GuardDuty: AWSService {
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector of the GuardDuty member account.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @available(*, deprecated, message: "This operation is deprecated, use GetAdministratorAccount instead")
     @inlinable
@@ -1422,7 +1422,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - accountIds: A list of member account IDs.
-    ///   - detectorId: The detector ID for the administrator account.
+    ///   - detectorId: The detector ID for the administrator account. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func getMemberDetectors(
@@ -1454,7 +1454,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - accountIds: A list of account IDs of the GuardDuty member accounts that you want to describe.
-    ///   - detectorId: The unique ID of the detector of the GuardDuty account whose members you want to retrieve.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty account whose members you want to retrieve. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func getMembers(
@@ -1499,7 +1499,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - accountIds: A list of account identifiers of the GuardDuty member account.
-    ///   - detectorId: The unique ID of the detector of the GuardDuty member account.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func getRemainingFreeTrialDays(
@@ -1530,7 +1530,7 @@ public struct GuardDuty: AWSService {
     /// Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with the threatIntelSet.
+    ///   - detectorId: The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
     ///   - threatIntelSetId: The unique ID of the threatIntelSet that you want to get.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1562,7 +1562,7 @@ public struct GuardDuty: AWSService {
     /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated.
     ///
     /// Parameters:
-    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve.
+    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - nextToken: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     ///   - unit: The currency unit you would like to view your usage statistics in. Current valid values are USD.
@@ -1607,7 +1607,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - accountIds: A list of account IDs of the accounts that you want to invite to GuardDuty as members.
-    ///   - detectorId: The unique ID of the detector of the GuardDuty account with which you want to invite members.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty account with which you want to invite members. To find the detectorId in the current Region, see the
     ///   - disableEmailNotification: A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
     ///   - message: The invitation message that you want to send to the accounts that you're inviting to GuardDuty as members.
     ///   - logger: Logger use during operation
@@ -1644,7 +1644,7 @@ public struct GuardDuty: AWSService {
     /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector whose coverage details you want to retrieve.
+    ///   - detectorId: The unique ID of the detector whose coverage details you want to retrieve. To find the detectorId in the current Region, see the
     ///   - filterCriteria: Represents the criteria used to filter the coverage details.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - nextToken: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
@@ -1717,7 +1717,7 @@ public struct GuardDuty: AWSService {
     /// Returns a paginated list of the current filters.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with the filter.
+    ///   - detectorId: The unique ID of the detector that is associated with the filter. To find the detectorId in the current Region, see the
     ///   - maxResults: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
     ///   - nextToken: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     ///   - logger: Logger use during operation
@@ -1752,7 +1752,7 @@ public struct GuardDuty: AWSService {
     /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints.
     ///
     /// Parameters:
-    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose findings you want to list.
+    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose findings you want to list. To find the detectorId in the current Region, see the
     ///   - findingCriteria: Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.ebsVolumeScanDetails.scanId   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
     ///   - maxResults: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
     ///   - nextToken: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
@@ -1793,7 +1793,7 @@ public struct GuardDuty: AWSService {
     /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with IPSet.
+    ///   - detectorId: The unique ID of the detector that is associated with IPSet. To find the detectorId in the current Region, see the
     ///   - maxResults: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
     ///   - nextToken: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     ///   - logger: Logger use during operation
@@ -1889,7 +1889,7 @@ public struct GuardDuty: AWSService {
     /// Lists details about all member accounts for the current GuardDuty administrator account.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with the member.
+    ///   - detectorId: The unique ID of the detector that is associated with the member. To find the detectorId in the current Region, see the
     ///   - maxResults: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
     ///   - nextToken: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     ///   - onlyAssociated: Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated). Member accounts must have been previously associated with the GuardDuty administrator account using  Create Members .
@@ -1959,7 +1959,7 @@ public struct GuardDuty: AWSService {
     /// Returns a list of publishing destinations associated with the specified detectorId.
     ///
     /// Parameters:
-    ///   - detectorId: The detector ID for which you want to retrieve the publishing destination.
+    ///   - detectorId: The detector ID for which you want to retrieve the publishing destination. To find the detectorId in the current Region, see the
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - nextToken: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     ///   - logger: Logger use during operation
@@ -2023,7 +2023,7 @@ public struct GuardDuty: AWSService {
     /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with the threatIntelSet.
+    ///   - detectorId: The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
     ///   - maxResults: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
     ///   - nextToken: You can use this parameter to paginate results in the response. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     ///   - logger: Logger use during operation
@@ -2088,7 +2088,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - accountIds: A list of account IDs of the GuardDuty member accounts to start monitoring.
-    ///   - detectorId: The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor.
+    ///   - detectorId: The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func startMonitoringMembers(
@@ -2120,7 +2120,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - accountIds: A list of account IDs for the member accounts to stop monitoring.
-    ///   - detectorId: The unique ID of the detector associated with the GuardDuty administrator account that is monitoring member accounts.
+    ///   - detectorId: The unique ID of the detector associated with the GuardDuty administrator account that is monitoring member accounts. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func stopMonitoringMembers(
@@ -2183,7 +2183,7 @@ public struct GuardDuty: AWSService {
     /// Unarchives GuardDuty findings specified by the findingIds.
     ///
     /// Parameters:
-    ///   - detectorId: The ID of the detector associated with the findings to unarchive.
+    ///   - detectorId: The ID of the detector associated with the findings to unarchive. To find the detectorId in the current Region, see the
     ///   - findingIds: The IDs of the findings to unarchive.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2247,7 +2247,7 @@ public struct GuardDuty: AWSService {
     /// Updates the GuardDuty detector specified by the detector ID. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error.  You can add only one of these two features because Runtime Monitoring already includes the  threat detection for Amazon EKS resources. For more information, see Runtime Monitoring. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector to update.
+    ///   - detectorId: The unique ID of the detector to update. To find the detectorId in the current Region, see the
     ///   - enable: Specifies whether the detector is enabled or not enabled.
     ///   - features: Provides the features that will be updated for the detector.
     ///   - findingPublishingFrequency: An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
@@ -2287,7 +2287,7 @@ public struct GuardDuty: AWSService {
     /// Parameters:
     ///   - action: Specifies the action that is to be applied to the findings that match the filter.
     ///   - description: The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
-    ///   - detectorId: The unique ID of the detector that specifies the GuardDuty service where you want to update a filter.
+    ///   - detectorId: The unique ID of the detector that specifies the GuardDuty service where you want to update a filter. To find the detectorId in the current Region, see the
     ///   - filterName: The name of the filter.
     ///   - findingCriteria: Represents the criteria to be used in the filter for querying findings.
     ///   - rank: Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
@@ -2330,7 +2330,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - comments: Additional feedback about the GuardDuty findings.
-    ///   - detectorId: The ID of the detector that is associated with the findings for which you want to update  the feedback.
+    ///   - detectorId: The ID of the detector that is associated with the findings for which you want to update  the feedback. To find the detectorId in the current Region, see the
     ///   - feedback: The feedback for the finding.
     ///   - findingIds: The IDs of the findings that you want to mark as useful or not useful.
     ///   - logger: Logger use during operation
@@ -2368,7 +2368,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - activate: The updated Boolean value that specifies whether the IPSet is active or not.
-    ///   - detectorId: The detectorID that specifies the GuardDuty service whose IPSet you want to update.
+    ///   - detectorId: The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the
     ///   - ipSetId: The unique ID that specifies the IPSet that you want to update.
     ///   - location: The updated URI of the file that contains the IPSet.
     ///   - name: The unique ID that specifies the IPSet that you want to update.
@@ -2446,7 +2446,7 @@ public struct GuardDuty: AWSService {
     /// Updates the malware scan settings. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     ///
     /// Parameters:
-    ///   - detectorId: The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings.
+    ///   - detectorId: The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings. To find the detectorId in the current Region, see the
     ///   - ebsSnapshotPreservation: An enum value representing possible snapshot preservation settings.
     ///   - scanResourceCriteria: Represents the criteria to be used in the filter for selecting resources to scan.
     ///   - logger: Logger use during operation
@@ -2482,7 +2482,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - accountIds: A list of member account IDs to be updated.
-    ///   - detectorId: The detector ID of the administrator account.
+    ///   - detectorId: The detector ID of the administrator account. To find the detectorId in the current Region, see the
     ///   - features: A list of features that will be updated for the specified member accounts.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2517,7 +2517,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - autoEnableOrganizationMembers: Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization. You must provide a value for either autoEnableOrganizationMembers or autoEnable.  Use one of the  following configuration values for autoEnableOrganizationMembers:    NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.     ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually. When you update the auto-enable setting from ALL or NEW to  NONE, this action doesn't disable the corresponding option for your existing accounts. This configuration will apply to the new accounts that join the organization. After you update the auto-enable settings, no new account will have the corresponding option as enabled.
-    ///   - detectorId: The ID of the detector that configures the delegated administrator.
+    ///   - detectorId: The ID of the detector that configures the delegated administrator. To find the detectorId in the current Region, see the
     ///   - features: A list of features that will be configured for the organization.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2553,7 +2553,7 @@ public struct GuardDuty: AWSService {
     /// Parameters:
     ///   - destinationId: The ID of the publishing destination to update.
     ///   - destinationProperties: A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination.
-    ///   - detectorId: The ID of the detector associated with the publishing destinations to update.
+    ///   - detectorId: The ID of the detector associated with the publishing destinations to update. To find the detectorId in the current Region, see the
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePublishingDestination(
@@ -2587,7 +2587,7 @@ public struct GuardDuty: AWSService {
     ///
     /// Parameters:
     ///   - activate: The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
-    ///   - detectorId: The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update.
+    ///   - detectorId: The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update. To find the detectorId in the current Region, see the
     ///   - location: The updated URI of the file that contains the ThreateIntelSet.
     ///   - name: The unique ID that specifies the ThreatIntelSet that you want to update.
     ///   - threatIntelSetId: The unique ID that specifies the ThreatIntelSet that you want to update.
@@ -2646,7 +2646,7 @@ extension GuardDuty {
     /// Return PaginatorSequence for operation ``describeMalwareScans(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - detectorId: The unique ID of the detector that the request is associated with.
+    ///   - detectorId: The unique ID of the detector that the request is associated with. To find the detectorId in the current Region, see the
     ///   - filterCriteria: Represents the criteria to be used in the filter for describing scan entries.
     ///   - maxResults: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
     ///   - sortCriteria: Represents the criteria used for sorting scan entries. The  attributeName is required and it must be scanStartTime.
@@ -2689,7 +2689,7 @@ extension GuardDuty {
     /// Return PaginatorSequence for operation ``describeOrganizationConfiguration(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - detectorId: The detector ID of the delegated administrator for which you need to retrieve the information.
+    ///   - detectorId: The detector ID of the delegated administrator for which you need to retrieve the information. To find the detectorId in the current Region, see the
     ///   - maxResults: You can use this parameter to indicate the maximum number of items that you want in the response.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2726,7 +2726,7 @@ extension GuardDuty {
     /// Return PaginatorSequence for operation ``getUsageStatistics(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve.
+    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - unit: The currency unit you would like to view your usage statistics in. Current valid values are USD.
     ///   - usageCriteria: Represents the criteria used for querying usage.
@@ -2772,7 +2772,7 @@ extension GuardDuty {
     /// Return PaginatorSequence for operation ``listCoverage(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - detectorId: The unique ID of the detector whose coverage details you want to retrieve.
+    ///   - detectorId: The unique ID of the detector whose coverage details you want to retrieve. To find the detectorId in the current Region, see the
     ///   - filterCriteria: Represents the criteria used to filter the coverage details.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - sortCriteria: Represents the criteria used to sort the coverage details.
@@ -2849,7 +2849,7 @@ extension GuardDuty {
     /// Return PaginatorSequence for operation ``listFilters(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with the filter.
+    ///   - detectorId: The unique ID of the detector that is associated with the filter. To find the detectorId in the current Region, see the
     ///   - maxResults: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2886,7 +2886,7 @@ extension GuardDuty {
     /// Return PaginatorSequence for operation ``listFindings(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose findings you want to list.
+    ///   - detectorId: The ID of the detector that specifies the GuardDuty service whose findings you want to list. To find the detectorId in the current Region, see the
     ///   - findingCriteria: Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.ebsVolumeScanDetails.scanId   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
     ///   - maxResults: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
     ///   - sortCriteria: Represents the criteria used for sorting findings.
@@ -2929,7 +2929,7 @@ extension GuardDuty {
     /// Return PaginatorSequence for operation ``listIPSets(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with IPSet.
+    ///   - detectorId: The unique ID of the detector that is associated with IPSet. To find the detectorId in the current Region, see the
     ///   - maxResults: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3000,7 +3000,7 @@ extension GuardDuty {
     /// Return PaginatorSequence for operation ``listMembers(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with the member.
+    ///   - detectorId: The unique ID of the detector that is associated with the member. To find the detectorId in the current Region, see the
     ///   - maxResults: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
     ///   - onlyAssociated: Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated). Member accounts must have been previously associated with the GuardDuty administrator account using  Create Members .
     ///   - logger: Logger used for logging
@@ -3074,7 +3074,7 @@ extension GuardDuty {
     /// Return PaginatorSequence for operation ``listPublishingDestinations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - detectorId: The detector ID for which you want to retrieve the publishing destination.
+    ///   - detectorId: The detector ID for which you want to retrieve the publishing destination. To find the detectorId in the current Region, see the
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3111,7 +3111,7 @@ extension GuardDuty {
     /// Return PaginatorSequence for operation ``listThreatIntelSets(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - detectorId: The unique ID of the detector that is associated with the threatIntelSet.
+    ///   - detectorId: The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
     ///   - maxResults: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
     ///   - logger: Logger used for logging
     @inlinable

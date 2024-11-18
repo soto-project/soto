@@ -143,6 +143,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum ComputationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case full = "FULL"
+        case incremental = "INCREMENTAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clusterIdentifier = "CLUSTER_IDENTIFIER"
         case configFiles = "CONFIG_FILES"
@@ -3922,6 +3928,8 @@ extension Glue {
         public let columnNameList: [String]?
         /// The identifier for the particular column statistics task run.
         public let columnStatisticsTaskRunId: String?
+        /// The type of column statistics computation.
+        public let computationType: ComputationType?
         /// The time that this task was created.
         public let creationTime: Date?
         /// The Amazon Web Services account ID.
@@ -3954,10 +3962,11 @@ extension Glue {
         public let workerType: String?
 
         @inlinable
-        public init(catalogID: String? = nil, columnNameList: [String]? = nil, columnStatisticsTaskRunId: String? = nil, creationTime: Date? = nil, customerId: String? = nil, databaseName: String? = nil, dpuSeconds: Double? = nil, endTime: Date? = nil, errorMessage: String? = nil, lastUpdated: Date? = nil, numberOfWorkers: Int? = nil, role: String? = nil, sampleSize: Double? = nil, securityConfiguration: String? = nil, startTime: Date? = nil, status: ColumnStatisticsState? = nil, tableName: String? = nil, workerType: String? = nil) {
+        public init(catalogID: String? = nil, columnNameList: [String]? = nil, columnStatisticsTaskRunId: String? = nil, computationType: ComputationType? = nil, creationTime: Date? = nil, customerId: String? = nil, databaseName: String? = nil, dpuSeconds: Double? = nil, endTime: Date? = nil, errorMessage: String? = nil, lastUpdated: Date? = nil, numberOfWorkers: Int? = nil, role: String? = nil, sampleSize: Double? = nil, securityConfiguration: String? = nil, startTime: Date? = nil, status: ColumnStatisticsState? = nil, tableName: String? = nil, workerType: String? = nil) {
             self.catalogID = catalogID
             self.columnNameList = columnNameList
             self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
+            self.computationType = computationType
             self.creationTime = creationTime
             self.customerId = customerId
             self.databaseName = databaseName
@@ -3979,6 +3988,7 @@ extension Glue {
             case catalogID = "CatalogID"
             case columnNameList = "ColumnNameList"
             case columnStatisticsTaskRunId = "ColumnStatisticsTaskRunId"
+            case computationType = "ComputationType"
             case creationTime = "CreationTime"
             case customerId = "CustomerId"
             case databaseName = "DatabaseName"
@@ -3994,6 +4004,48 @@ extension Glue {
             case status = "Status"
             case tableName = "TableName"
             case workerType = "WorkerType"
+        }
+    }
+
+    public struct ColumnStatisticsTaskSettings: AWSDecodableShape {
+        /// The ID of the Data Catalog in which the database resides.
+        public let catalogID: String?
+        /// A list of column names for which to run statistics.
+        public let columnNameList: [String]?
+        /// The name of the database where the table resides.
+        public let databaseName: String?
+        /// The role used for running the column statistics.
+        public let role: String?
+        /// The percentage of data to sample.
+        public let sampleSize: Double?
+        /// A schedule for running the column statistics, specified in CRON syntax.
+        public let schedule: Schedule?
+        /// Name of the security configuration that is used to encrypt CloudWatch logs.
+        public let securityConfiguration: String?
+        /// The name of the table for which to generate column statistics.
+        public let tableName: String?
+
+        @inlinable
+        public init(catalogID: String? = nil, columnNameList: [String]? = nil, databaseName: String? = nil, role: String? = nil, sampleSize: Double? = nil, schedule: Schedule? = nil, securityConfiguration: String? = nil, tableName: String? = nil) {
+            self.catalogID = catalogID
+            self.columnNameList = columnNameList
+            self.databaseName = databaseName
+            self.role = role
+            self.sampleSize = sampleSize
+            self.schedule = schedule
+            self.securityConfiguration = securityConfiguration
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
+            case columnNameList = "ColumnNameList"
+            case databaseName = "DatabaseName"
+            case role = "Role"
+            case sampleSize = "SampleSize"
+            case schedule = "Schedule"
+            case securityConfiguration = "SecurityConfiguration"
+            case tableName = "TableName"
         }
     }
 
@@ -4789,6 +4841,87 @@ extension Glue {
     }
 
     public struct CreateClassifierResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CreateColumnStatisticsTaskSettingsRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog in which the database resides.
+        public let catalogID: String?
+        /// A list of column names for which to run statistics.
+        public let columnNameList: [String]?
+        /// The name of the database where the table resides.
+        public let databaseName: String
+        /// The role used for running the column statistics.
+        public let role: String
+        /// The percentage of data to sample.
+        public let sampleSize: Double?
+        /// A schedule for running the column statistics, specified in CRON syntax.
+        public let schedule: String?
+        /// Name of the security configuration that is used to encrypt CloudWatch logs.
+        public let securityConfiguration: String?
+        /// The name of the table for which to generate column statistics.
+        public let tableName: String
+        /// A map of tags.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(catalogID: String? = nil, columnNameList: [String]? = nil, databaseName: String, role: String, sampleSize: Double? = nil, schedule: String? = nil, securityConfiguration: String? = nil, tableName: String, tags: [String: String]? = nil) {
+            self.catalogID = catalogID
+            self.columnNameList = columnNameList
+            self.databaseName = databaseName
+            self.role = role
+            self.sampleSize = sampleSize
+            self.schedule = schedule
+            self.securityConfiguration = securityConfiguration
+            self.tableName = tableName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.columnNameList?.forEach {
+                try validate($0, name: "columnNameList[]", parent: name, max: 255)
+                try validate($0, name: "columnNameList[]", parent: name, min: 1)
+                try validate($0, name: "columnNameList[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.role, name: "role", parent: name, max: 255)
+            try self.validate(self.role, name: "role", parent: name, min: 1)
+            try self.validate(self.role, name: "role", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.sampleSize, name: "sampleSize", parent: name, max: 100.0)
+            try self.validate(self.sampleSize, name: "sampleSize", parent: name, min: 0.0)
+            try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, max: 255)
+            try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, min: 1)
+            try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
+            case columnNameList = "ColumnNameList"
+            case databaseName = "DatabaseName"
+            case role = "Role"
+            case sampleSize = "SampleSize"
+            case schedule = "Schedule"
+            case securityConfiguration = "SecurityConfiguration"
+            case tableName = "TableName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateColumnStatisticsTaskSettingsResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -7702,6 +7835,37 @@ extension Glue {
         public init() {}
     }
 
+    public struct DeleteColumnStatisticsTaskSettingsRequest: AWSEncodableShape {
+        /// The name of the database where the table resides.
+        public let databaseName: String
+        /// The name of the table for which to delete column statistics.
+        public let tableName: String
+
+        @inlinable
+        public init(databaseName: String, tableName: String) {
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DeleteColumnStatisticsTaskSettingsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteConnectionRequest: AWSEncodableShape {
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
@@ -10050,6 +10214,47 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case columnStatisticsTaskRuns = "ColumnStatisticsTaskRuns"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetColumnStatisticsTaskSettingsRequest: AWSEncodableShape {
+        /// The name of the database where the table resides.
+        public let databaseName: String
+        /// The name of the table for which to retrieve column statistics.
+        public let tableName: String
+
+        @inlinable
+        public init(databaseName: String, tableName: String) {
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetColumnStatisticsTaskSettingsResponse: AWSDecodableShape {
+        /// A ColumnStatisticsTaskSettings object representing the settings for the column statistics task.
+        public let columnStatisticsTaskSettings: ColumnStatisticsTaskSettings?
+
+        @inlinable
+        public init(columnStatisticsTaskSettings: ColumnStatisticsTaskSettings? = nil) {
+            self.columnStatisticsTaskSettings = columnStatisticsTaskSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnStatisticsTaskSettings = "ColumnStatisticsTaskSettings"
         }
     }
 
@@ -20869,6 +21074,37 @@ extension Glue {
         }
     }
 
+    public struct StartColumnStatisticsTaskRunScheduleRequest: AWSEncodableShape {
+        /// The name of the database where the table resides.
+        public let databaseName: String
+        /// The name of the table for which to start a column statistic task run schedule.
+        public let tableName: String
+
+        @inlinable
+        public init(databaseName: String, tableName: String) {
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct StartColumnStatisticsTaskRunScheduleResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct StartCrawlerRequest: AWSEncodableShape {
         /// Name of the crawler to start.
         public let name: String
@@ -21653,6 +21889,37 @@ extension Glue {
     }
 
     public struct StopColumnStatisticsTaskRunResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StopColumnStatisticsTaskRunScheduleRequest: AWSEncodableShape {
+        /// The name of the database where the table resides.
+        public let databaseName: String
+        /// The name of the table for which to stop a column statistic task run schedule.
+        public let tableName: String
+
+        @inlinable
+        public init(databaseName: String, tableName: String) {
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct StopColumnStatisticsTaskRunScheduleResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -23257,6 +23524,77 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case errors = "Errors"
         }
+    }
+
+    public struct UpdateColumnStatisticsTaskSettingsRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog in which the database resides.
+        public let catalogID: String?
+        /// A list of column names for which to run statistics.
+        public let columnNameList: [String]?
+        /// The name of the database where the table resides.
+        public let databaseName: String
+        /// The role used for running the column statistics.
+        public let role: String?
+        /// The percentage of data to sample.
+        public let sampleSize: Double?
+        /// A schedule for running the column statistics, specified in CRON syntax.
+        public let schedule: String?
+        /// Name of the security configuration that is used to encrypt CloudWatch logs.
+        public let securityConfiguration: String?
+        /// The name of the table for which to generate column statistics.
+        public let tableName: String
+
+        @inlinable
+        public init(catalogID: String? = nil, columnNameList: [String]? = nil, databaseName: String, role: String? = nil, sampleSize: Double? = nil, schedule: String? = nil, securityConfiguration: String? = nil, tableName: String) {
+            self.catalogID = catalogID
+            self.columnNameList = columnNameList
+            self.databaseName = databaseName
+            self.role = role
+            self.sampleSize = sampleSize
+            self.schedule = schedule
+            self.securityConfiguration = securityConfiguration
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.columnNameList?.forEach {
+                try validate($0, name: "columnNameList[]", parent: name, max: 255)
+                try validate($0, name: "columnNameList[]", parent: name, min: 1)
+                try validate($0, name: "columnNameList[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.role, name: "role", parent: name, max: 255)
+            try self.validate(self.role, name: "role", parent: name, min: 1)
+            try self.validate(self.role, name: "role", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.sampleSize, name: "sampleSize", parent: name, max: 100.0)
+            try self.validate(self.sampleSize, name: "sampleSize", parent: name, min: 0.0)
+            try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, max: 255)
+            try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, min: 1)
+            try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
+            case columnNameList = "ColumnNameList"
+            case databaseName = "DatabaseName"
+            case role = "Role"
+            case sampleSize = "SampleSize"
+            case schedule = "Schedule"
+            case securityConfiguration = "SecurityConfiguration"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct UpdateColumnStatisticsTaskSettingsResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateConnectionRequest: AWSEncodableShape {

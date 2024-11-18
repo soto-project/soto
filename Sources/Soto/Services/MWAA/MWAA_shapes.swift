@@ -57,6 +57,15 @@ extension MWAA {
         public var description: String { return self.rawValue }
     }
 
+    public enum RestApiMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delete = "DELETE"
+        case get = "GET"
+        case patch = "PATCH"
+        case post = "POST"
+        case put = "PUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Unit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bits = "Bits"
         case bitsSecond = "Bits/Second"
@@ -148,7 +157,7 @@ extension MWAA {
     public struct CreateEnvironmentInput: AWSEncodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2 2.8.1
+        /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
         public let airflowVersion: String?
         /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
         public let dagS3Path: String
@@ -462,7 +471,7 @@ extension MWAA {
     public struct Environment: AWSDecodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
         public let airflowVersion: String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public let arn: String?
@@ -640,6 +649,71 @@ extension MWAA {
 
         private enum CodingKeys: String, CodingKey {
             case environment = "Environment"
+        }
+    }
+
+    public struct InvokeRestApiRequest: AWSEncodableShape {
+        /// The request body for the Apache Airflow REST API call, provided as a JSON object.
+        public let body: String?
+        /// The HTTP method used for making Airflow REST API calls. For example, POST.
+        public let method: RestApiMethod
+        /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
+        public let name: String
+        /// The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances. For more information, see Apache Airflow API
+        public let path: String
+        /// Query parameters to be included in the Apache Airflow REST API call, provided as a JSON object.
+        public let queryParameters: String?
+
+        @inlinable
+        public init(body: String? = nil, method: RestApiMethod, name: String, path: String, queryParameters: String? = nil) {
+            self.body = body
+            self.method = method
+            self.name = name
+            self.path = path
+            self.queryParameters = queryParameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.body, forKey: .body)
+            try container.encode(self.method, forKey: .method)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.path, forKey: .path)
+            try container.encodeIfPresent(self.queryParameters, forKey: .queryParameters)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 80)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
+            try self.validate(self.path, name: "path", parent: name, max: 64)
+            try self.validate(self.path, name: "path", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case method = "Method"
+            case path = "Path"
+            case queryParameters = "QueryParameters"
+        }
+    }
+
+    public struct InvokeRestApiResponse: AWSDecodableShape {
+        /// The response data from the Apache Airflow REST API call, provided as a JSON object.
+        public let restApiResponse: String?
+        /// The HTTP status code returned by the Apache Airflow REST API call.
+        public let restApiStatusCode: Int?
+
+        @inlinable
+        public init(restApiResponse: String? = nil, restApiStatusCode: Int? = nil) {
+            self.restApiResponse = restApiResponse
+            self.restApiStatusCode = restApiStatusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restApiResponse = "RestApiResponse"
+            case restApiStatusCode = "RestApiStatusCode"
         }
     }
 
@@ -1065,7 +1139,7 @@ extension MWAA {
     public struct UpdateEnvironmentInput: AWSEncodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1.
+        /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
         public let airflowVersion: String?
         /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
         public let dagS3Path: String?
@@ -1303,6 +1377,8 @@ public struct MWAAErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case restApiClientException = "RestApiClientException"
+        case restApiServerException = "RestApiServerException"
         case validationException = "ValidationException"
     }
 
@@ -1330,6 +1406,10 @@ public struct MWAAErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// ResourceNotFoundException: The resource is not available.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// An exception indicating that a client-side error occurred during the Apache Airflow REST API call.
+    public static var restApiClientException: Self { .init(.restApiClientException) }
+    /// An exception indicating that a server-side error occurred during the Apache Airflow REST API call.
+    public static var restApiServerException: Self { .init(.restApiServerException) }
     /// ValidationException: The provided input is not valid.
     public static var validationException: Self { .init(.validationException) }
 }

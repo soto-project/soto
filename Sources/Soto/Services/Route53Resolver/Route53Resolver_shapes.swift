@@ -52,6 +52,19 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfidenceThreshold: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DnsThreatProtection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dga = "DGA"
+        case dnsTunneling = "DNS_TUNNELING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FirewallDomainImportOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
@@ -549,7 +562,7 @@ extension Route53Resolver {
     }
 
     public struct CreateFirewallRuleRequest: AWSEncodableShape {
-        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request and send metrics and logs to Cloud Watch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.    ALERT - Permit the request and send metrics and logs to Cloud Watch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
         public let action: Action
         /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
         public let blockOverrideDnsType: BlockOverrideDnsType?
@@ -560,15 +573,22 @@ extension Route53Resolver {
         /// The way that you want DNS Firewall to block the request, used with the rule action
         /// 			setting BLOCK.     NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.    This setting is required if the rule action setting is BLOCK.
         public let blockResponse: BlockResponse?
+        /// 			The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence
+        /// 			level values mean:
+        /// 		    LOW: Provides the highest detection rate for threats, but also increases false positives.    MEDIUM: Provides a balance between detecting threats and false positives.    HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+        public let confidenceThreshold: ConfidenceThreshold?
         /// A unique string that identifies the request and that allows you to retry failed requests
         /// 			without the risk of running the operation twice. CreatorRequestId can be
         /// 			any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
-        /// The ID of the domain list that you want to use in the rule.
-        public let firewallDomainListId: String
+        /// 			Use to create a DNS Firewall Advanced rule.
+        ///
+        public let dnsThreatProtection: DnsThreatProtection?
+        /// The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton.
+        public let firewallDomainListId: String?
         /// 			How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME.
-        /// 		  Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be
-        /// 			added to the domain list.  Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to
+        /// 		  INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be
+        /// 			added to the domain list.  TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to
         /// 			the domain list.
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group where you want to create the rule.
@@ -587,13 +607,15 @@ extension Route53Resolver {
         public let qtype: String?
 
         @inlinable
-        public init(action: Action, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, creatorRequestId: String = CreateFirewallRuleRequest.idempotencyToken(), firewallDomainListId: String, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, name: String, priority: Int, qtype: String? = nil) {
+        public init(action: Action, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, creatorRequestId: String = CreateFirewallRuleRequest.idempotencyToken(), dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, name: String, priority: Int, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
             self.blockOverrideDomain = blockOverrideDomain
             self.blockOverrideTtl = blockOverrideTtl
             self.blockResponse = blockResponse
+            self.confidenceThreshold = confidenceThreshold
             self.creatorRequestId = creatorRequestId
+            self.dnsThreatProtection = dnsThreatProtection
             self.firewallDomainListId = firewallDomainListId
             self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
@@ -625,7 +647,9 @@ extension Route53Resolver {
             case blockOverrideDomain = "BlockOverrideDomain"
             case blockOverrideTtl = "BlockOverrideTtl"
             case blockResponse = "BlockResponse"
+            case confidenceThreshold = "ConfidenceThreshold"
             case creatorRequestId = "CreatorRequestId"
+            case dnsThreatProtection = "DnsThreatProtection"
             case firewallDomainListId = "FirewallDomainListId"
             case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
             case firewallRuleGroupId = "FirewallRuleGroupId"
@@ -1030,9 +1054,12 @@ extension Route53Resolver {
 
     public struct DeleteFirewallRuleRequest: AWSEncodableShape {
         /// The ID of the domain list that's used in the rule.
-        public let firewallDomainListId: String
+        public let firewallDomainListId: String?
         /// The unique identifier of the firewall rule group that you want to delete the rule from.
         public let firewallRuleGroupId: String
+        /// 			The ID that is created for a DNS Firewall Advanced rule.
+        ///
+        public let firewallThreatProtectionId: String?
         /// 			The DNS query type that the rule you are deleting evaluates. Allowed values are;
         ///
         /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be
@@ -1043,9 +1070,10 @@ extension Route53Resolver {
         public let qtype: String?
 
         @inlinable
-        public init(firewallDomainListId: String, firewallRuleGroupId: String, qtype: String? = nil) {
+        public init(firewallDomainListId: String? = nil, firewallRuleGroupId: String, firewallThreatProtectionId: String? = nil, qtype: String? = nil) {
             self.firewallDomainListId = firewallDomainListId
             self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallThreatProtectionId = firewallThreatProtectionId
             self.qtype = qtype
         }
 
@@ -1054,6 +1082,8 @@ extension Route53Resolver {
             try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
             try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
             try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.validate(self.firewallThreatProtectionId, name: "firewallThreatProtectionId", parent: name, max: 64)
+            try self.validate(self.firewallThreatProtectionId, name: "firewallThreatProtectionId", parent: name, min: 1)
             try self.validate(self.qtype, name: "qtype", parent: name, max: 16)
             try self.validate(self.qtype, name: "qtype", parent: name, min: 1)
         }
@@ -1061,6 +1091,7 @@ extension Route53Resolver {
         private enum CodingKeys: String, CodingKey {
             case firewallDomainListId = "FirewallDomainListId"
             case firewallRuleGroupId = "FirewallRuleGroupId"
+            case firewallThreatProtectionId = "FirewallThreatProtectionId"
             case qtype = "Qtype"
         }
     }
@@ -1541,7 +1572,7 @@ extension Route53Resolver {
     }
 
     public struct FirewallRule: AWSDecodableShape {
-        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
         public let action: Action?
         /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
         public let blockOverrideDnsType: BlockOverrideDnsType?
@@ -1551,19 +1582,31 @@ extension Route53Resolver {
         public let blockOverrideTtl: Int?
         /// The way that you want DNS Firewall to block the request. Used for the rule action setting BLOCK.    NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
         public let blockResponse: BlockResponse?
+        /// 			The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence
+        /// 			level values mean:
+        /// 		    LOW: Provides the highest detection rate for threats, but also increases false positives.    MEDIUM: Provides a balance between detecting threats and false positives.    HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+        public let confidenceThreshold: ConfidenceThreshold?
         /// The date and time that the rule was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
         /// A unique string defined by you to identify the request. This allows you to retry failed requests  without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
         public let creatorRequestId: String?
+        /// 			The type of the DNS Firewall Advanced rule. Valid values are:
+        /// 		    DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains
+        /// 				to to launch malware attacks.    DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without
+        /// 				making a network connection to the client.
+        public let dnsThreatProtection: DnsThreatProtection?
         /// The ID of the domain list that's used in the rule.
         public let firewallDomainListId: String?
         /// 			How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME.
-        /// 		  Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be
-        /// 			added to the domain list.  Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to
+        /// 		  INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be
+        /// 			added to the domain list.  TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to
         /// 			the domain list.
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
-        /// The unique identifier of the firewall rule group of the rule.
+        /// The unique identifier of the Firewall rule group of the rule.
         public let firewallRuleGroupId: String?
+        /// 			ID of the DNS Firewall Advanced rule.
+        ///
+        public let firewallThreatProtectionId: String?
         /// The date and time that the rule was last modified, in Unix time format and Coordinated Universal Time (UTC).
         public let modificationTime: String?
         /// The name of the rule.
@@ -1580,17 +1623,20 @@ extension Route53Resolver {
         public let qtype: String?
 
         @inlinable
-        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String? = nil, modificationTime: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
+        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String? = nil, firewallThreatProtectionId: String? = nil, modificationTime: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
             self.blockOverrideDomain = blockOverrideDomain
             self.blockOverrideTtl = blockOverrideTtl
             self.blockResponse = blockResponse
+            self.confidenceThreshold = confidenceThreshold
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
+            self.dnsThreatProtection = dnsThreatProtection
             self.firewallDomainListId = firewallDomainListId
             self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallThreatProtectionId = firewallThreatProtectionId
             self.modificationTime = modificationTime
             self.name = name
             self.priority = priority
@@ -1603,11 +1649,14 @@ extension Route53Resolver {
             case blockOverrideDomain = "BlockOverrideDomain"
             case blockOverrideTtl = "BlockOverrideTtl"
             case blockResponse = "BlockResponse"
+            case confidenceThreshold = "ConfidenceThreshold"
             case creationTime = "CreationTime"
             case creatorRequestId = "CreatorRequestId"
+            case dnsThreatProtection = "DnsThreatProtection"
             case firewallDomainListId = "FirewallDomainListId"
             case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
             case firewallRuleGroupId = "FirewallRuleGroupId"
+            case firewallThreatProtectionId = "FirewallThreatProtectionId"
             case modificationTime = "ModificationTime"
             case name = "Name"
             case priority = "Priority"
@@ -2681,7 +2730,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallRulesRequest: AWSEncodableShape {
-        /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
+        /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not availabe for DNS Firewall Advanced rules.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
         public let action: Action?
         /// The unique identifier of the firewall rule group that you want to retrieve the rules for.
         public let firewallRuleGroupId: String
@@ -3731,7 +3780,7 @@ extension Route53Resolver {
         public let resolverQueryLogConfigId: String?
         /// The ID of the Amazon VPC that is associated with the query logging configuration.
         public let resourceId: String?
-        /// The status of the specified query logging association. Valid values include the following:    CREATING: Resolver is creating an association between an Amazon VPC and a query logging configuration.    CREATED: The association between an Amazon VPC and a query logging configuration
+        /// The status of the specified query logging association. Valid values include the following:    CREATING: Resolver is creating an association between an Amazon VPC and a query logging configuration.    ACTIVE: The association between an Amazon VPC and a query logging configuration
         /// 				was successfully created. Resolver is logging queries that originate in the specified VPC.    DELETING: Resolver is deleting this query logging association.    FAILED: Resolver either couldn't create or couldn't delete the query logging association.
         public let status: ResolverQueryLogConfigAssociationStatus?
 
@@ -3968,9 +4017,7 @@ extension Route53Resolver {
         public let ipv6: String?
         /// The port at Ip that you want to forward DNS queries to.
         public let port: Int?
-        /// 			The protocols for the Resolver endpoints. DoH-FIPS is applicable for inbound endpoints only.
-        ///
-        /// 		 For an inbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53  and DoH-FIPS in combination.   Do53 alone.   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For an outbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53 alone.   DoH alone.   None, which is treated as Do53.
+        /// 			The protocols for the target address. The protocol you choose needs to be supported by the outbound endpoint of the Resolver rule.
         public let `protocol`: `Protocol`?
         /// 			The Server Name Indication of the DoH server that you want to forward queries to.
         /// 			This is only used if the Protocol of the TargetAddress is DoH.
@@ -4183,7 +4230,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateFirewallRuleRequest: AWSEncodableShape {
-        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
         public let action: Action?
         /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
         public let blockOverrideDnsType: BlockOverrideDnsType?
@@ -4193,15 +4240,27 @@ extension Route53Resolver {
         public let blockOverrideTtl: Int?
         /// The way that you want DNS Firewall to block the request. Used for the rule action setting BLOCK.    NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
         public let blockResponse: BlockResponse?
+        /// 			The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence
+        /// 			level values mean:
+        /// 		    LOW: Provides the highest detection rate for threats, but also increases false positives.    MEDIUM: Provides a balance between detecting threats and false positives.    HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+        public let confidenceThreshold: ConfidenceThreshold?
+        /// 			The type of the DNS Firewall Advanced rule. Valid values are:
+        /// 		    DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains
+        /// 				to to launch malware attacks.    DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without
+        /// 				making a network connection to the client.
+        public let dnsThreatProtection: DnsThreatProtection?
         /// The ID of the domain list to use in the rule.
-        public let firewallDomainListId: String
+        public let firewallDomainListId: String?
         /// 			How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME.
-        /// 		  Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be
-        /// 			added to the domain list.  Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to
+        /// 		  INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be
+        /// 			added to the domain list.  TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to
         /// 			the domain list.
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group for the rule.
         public let firewallRuleGroupId: String
+        /// 			The DNS Firewall Advanced rule ID.
+        ///
+        public let firewallThreatProtectionId: String?
         /// The name of the rule.
         public let name: String?
         /// The setting that determines the processing order of the rule in the rule group. DNS Firewall  processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group.  To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You  can change the priority setting for the rules in a rule group at any time.
@@ -4217,15 +4276,18 @@ extension Route53Resolver {
         public let qtype: String?
 
         @inlinable
-        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, firewallDomainListId: String, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
+        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, firewallThreatProtectionId: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
             self.blockOverrideDomain = blockOverrideDomain
             self.blockOverrideTtl = blockOverrideTtl
             self.blockResponse = blockResponse
+            self.confidenceThreshold = confidenceThreshold
+            self.dnsThreatProtection = dnsThreatProtection
             self.firewallDomainListId = firewallDomainListId
             self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallThreatProtectionId = firewallThreatProtectionId
             self.name = name
             self.priority = priority
             self.qtype = qtype
@@ -4240,6 +4302,8 @@ extension Route53Resolver {
             try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
             try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
             try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.validate(self.firewallThreatProtectionId, name: "firewallThreatProtectionId", parent: name, max: 64)
+            try self.validate(self.firewallThreatProtectionId, name: "firewallThreatProtectionId", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)$")
             try self.validate(self.qtype, name: "qtype", parent: name, max: 16)
@@ -4252,9 +4316,12 @@ extension Route53Resolver {
             case blockOverrideDomain = "BlockOverrideDomain"
             case blockOverrideTtl = "BlockOverrideTtl"
             case blockResponse = "BlockResponse"
+            case confidenceThreshold = "ConfidenceThreshold"
+            case dnsThreatProtection = "DnsThreatProtection"
             case firewallDomainListId = "FirewallDomainListId"
             case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
             case firewallRuleGroupId = "FirewallRuleGroupId"
+            case firewallThreatProtectionId = "FirewallThreatProtectionId"
             case name = "Name"
             case priority = "Priority"
             case qtype = "Qtype"

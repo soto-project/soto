@@ -135,6 +135,20 @@ extension ControlCatalog {
         }
     }
 
+    public struct ControlParameter: AWSDecodableShape {
+        /// The parameter name. This name is the parameter key when you call  EnableControl or  UpdateEnabledControl .
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct ControlSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the control.
         public let arn: String
@@ -230,20 +244,26 @@ extension ControlCatalog {
     public struct GetControlResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the control.
         public let arn: String
-        /// A term that identifies the control's functional behavior. One of Preventive, Deteictive, Proactive
+        /// A term that identifies the control's functional behavior. One of Preventive, Detective, Proactive
         public let behavior: ControlBehavior
         /// A description of what the control does.
         public let description: String
+        /// Returns information about the control, as an ImplementationDetails object that shows the underlying implementation type for a control.
+        public let implementation: ImplementationDetails?
         /// The display name of the control.
         public let name: String
+        /// Returns an array of ControlParameter objects that specify the parameters a control supports. An empty list is returned for controls that don’t support parameters.
+        public let parameters: [ControlParameter]?
         public let regionConfiguration: RegionConfiguration
 
         @inlinable
-        public init(arn: String, behavior: ControlBehavior, description: String, name: String, regionConfiguration: RegionConfiguration) {
+        public init(arn: String, behavior: ControlBehavior, description: String, implementation: ImplementationDetails? = nil, name: String, parameters: [ControlParameter]? = nil, regionConfiguration: RegionConfiguration) {
             self.arn = arn
             self.behavior = behavior
             self.description = description
+            self.implementation = implementation
             self.name = name
+            self.parameters = parameters
             self.regionConfiguration = regionConfiguration
         }
 
@@ -251,8 +271,24 @@ extension ControlCatalog {
             case arn = "Arn"
             case behavior = "Behavior"
             case description = "Description"
+            case implementation = "Implementation"
             case name = "Name"
+            case parameters = "Parameters"
             case regionConfiguration = "RegionConfiguration"
+        }
+    }
+
+    public struct ImplementationDetails: AWSDecodableShape {
+        /// A string that describes a control's implementation type.
+        public let type: String
+
+        @inlinable
+        public init(type: String) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
         }
     }
 

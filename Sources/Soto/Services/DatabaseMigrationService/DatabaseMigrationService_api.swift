@@ -4208,6 +4208,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - resultLocationBucket: Amazon S3 bucket where you want DMS to store the results of this assessment run.
     ///   - resultLocationFolder: Folder within an Amazon S3 bucket where you want DMS to store the results of this assessment run.
     ///   - serviceAccessRoleArn: ARN of the service role needed to start the assessment run. The role must allow the iam:PassRole action.
+    ///   - tags: One or more tags to be assigned to the premigration assessment run that you want to start.
     ///   - logger: Logger use during operation
     @inlinable
     public func startReplicationTaskAssessmentRun(
@@ -4220,6 +4221,7 @@ public struct DatabaseMigrationService: AWSService {
         resultLocationBucket: String,
         resultLocationFolder: String? = nil,
         serviceAccessRoleArn: String,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartReplicationTaskAssessmentRunResponse {
         let input = StartReplicationTaskAssessmentRunMessage(
@@ -4231,7 +4233,8 @@ public struct DatabaseMigrationService: AWSService {
             resultKmsKeyArn: resultKmsKeyArn, 
             resultLocationBucket: resultLocationBucket, 
             resultLocationFolder: resultLocationFolder, 
-            serviceAccessRoleArn: serviceAccessRoleArn
+            serviceAccessRoleArn: serviceAccessRoleArn, 
+            tags: tags
         )
         return try await self.startReplicationTaskAssessmentRun(input, logger: logger)
     }

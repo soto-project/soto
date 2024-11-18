@@ -225,18 +225,21 @@ public struct BedrockAgentRuntime: AWSService {
     /// Invokes an alias of a flow to run the inputs that you specify and return the output of each node as a stream. If there's an error, the error is returned. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeFlow.
     ///
     /// Parameters:
+    ///   - enableTrace: Specifies whether to return the trace for the flow or not. Traces track inputs and outputs for nodes in the flow. For more information, see Track each step in your prompt flow by viewing its trace in Amazon Bedrock.
     ///   - flowAliasIdentifier: The unique identifier of the flow alias.
     ///   - flowIdentifier: The unique identifier of the flow.
     ///   - inputs: A list of objects, each containing information about an input into the flow.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeFlow(
+        enableTrace: Bool? = nil,
         flowAliasIdentifier: String,
         flowIdentifier: String,
         inputs: [FlowInput],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeFlowResponse {
         let input = InvokeFlowRequest(
+            enableTrace: enableTrace, 
             flowAliasIdentifier: flowAliasIdentifier, 
             flowIdentifier: flowIdentifier, 
             inputs: inputs

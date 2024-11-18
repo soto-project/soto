@@ -79,6 +79,35 @@ public struct DataExchange: AWSService {
 
     // MARK: API Calls
 
+    /// This operation accepts a data grant.
+    @Sendable
+    @inlinable
+    public func acceptDataGrant(_ input: AcceptDataGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptDataGrantResponse {
+        try await self.client.execute(
+            operation: "AcceptDataGrant", 
+            path: "/v1/data-grants/{DataGrantArn}/accept", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation accepts a data grant.
+    ///
+    /// Parameters:
+    ///   - dataGrantArn: The Amazon Resource Name (ARN) of the data grant to accept.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func acceptDataGrant(
+        dataGrantArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AcceptDataGrantResponse {
+        let input = AcceptDataGrantRequest(
+            dataGrantArn: dataGrantArn
+        )
+        return try await self.acceptDataGrant(input, logger: logger)
+    }
+
     /// This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
     @Sendable
     @inlinable
@@ -106,6 +135,53 @@ public struct DataExchange: AWSService {
             jobId: jobId
         )
         return try await self.cancelJob(input, logger: logger)
+    }
+
+    /// This operation creates a data grant.
+    @Sendable
+    @inlinable
+    public func createDataGrant(_ input: CreateDataGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataGrantResponse {
+        try await self.client.execute(
+            operation: "CreateDataGrant", 
+            path: "/v1/data-grants", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation creates a data grant.
+    ///
+    /// Parameters:
+    ///   - description: The description of the data grant.
+    ///   - endsAt: The timestamp of when access to the associated data set ends.
+    ///   - grantDistributionScope: The distribution scope of the data grant.
+    ///   - name: The name of the data grant.
+    ///   - receiverPrincipal: The Amazon Web Services account ID of the data grant receiver.
+    ///   - sourceDataSetId: The ID of the data set used to create the data grant.
+    ///   - tags: The tags to add to the data grant. A tag is a key-value pair.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataGrant(
+        description: String? = nil,
+        endsAt: Date? = nil,
+        grantDistributionScope: GrantDistributionScope,
+        name: String,
+        receiverPrincipal: String,
+        sourceDataSetId: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDataGrantResponse {
+        let input = CreateDataGrantRequest(
+            description: description, 
+            endsAt: endsAt, 
+            grantDistributionScope: grantDistributionScope, 
+            name: name, 
+            receiverPrincipal: receiverPrincipal, 
+            sourceDataSetId: sourceDataSetId, 
+            tags: tags
+        )
+        return try await self.createDataGrant(input, logger: logger)
     }
 
     /// This operation creates a data set.
@@ -280,6 +356,35 @@ public struct DataExchange: AWSService {
         return try await self.deleteAsset(input, logger: logger)
     }
 
+    /// This operation deletes a data grant.
+    @Sendable
+    @inlinable
+    public func deleteDataGrant(_ input: DeleteDataGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteDataGrant", 
+            path: "/v1/data-grants/{DataGrantId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation deletes a data grant.
+    ///
+    /// Parameters:
+    ///   - dataGrantId: The ID of the data grant to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDataGrant(
+        dataGrantId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteDataGrantRequest(
+            dataGrantId: dataGrantId
+        )
+        return try await self.deleteDataGrant(input, logger: logger)
+    }
+
     /// This operation deletes a data set.
     @Sendable
     @inlinable
@@ -405,6 +510,35 @@ public struct DataExchange: AWSService {
         return try await self.getAsset(input, logger: logger)
     }
 
+    /// This operation returns information about a data grant.
+    @Sendable
+    @inlinable
+    public func getDataGrant(_ input: GetDataGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataGrantResponse {
+        try await self.client.execute(
+            operation: "GetDataGrant", 
+            path: "/v1/data-grants/{DataGrantId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation returns information about a data grant.
+    ///
+    /// Parameters:
+    ///   - dataGrantId: The ID of the data grant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataGrant(
+        dataGrantId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataGrantResponse {
+        let input = GetDataGrantRequest(
+            dataGrantId: dataGrantId
+        )
+        return try await self.getDataGrant(input, logger: logger)
+    }
+
     /// This operation returns information about a data set.
     @Sendable
     @inlinable
@@ -492,6 +626,35 @@ public struct DataExchange: AWSService {
         return try await self.getJob(input, logger: logger)
     }
 
+    /// This operation returns information about a received data grant.
+    @Sendable
+    @inlinable
+    public func getReceivedDataGrant(_ input: GetReceivedDataGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReceivedDataGrantResponse {
+        try await self.client.execute(
+            operation: "GetReceivedDataGrant", 
+            path: "/v1/received-data-grants/{DataGrantArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation returns information about a received data grant.
+    ///
+    /// Parameters:
+    ///   - dataGrantArn: The Amazon Resource Name (ARN) of the data grant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getReceivedDataGrant(
+        dataGrantArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetReceivedDataGrantResponse {
+        let input = GetReceivedDataGrantRequest(
+            dataGrantArn: dataGrantArn
+        )
+        return try await self.getReceivedDataGrant(input, logger: logger)
+    }
+
     /// This operation returns information about a revision.
     @Sendable
     @inlinable
@@ -522,6 +685,38 @@ public struct DataExchange: AWSService {
             revisionId: revisionId
         )
         return try await self.getRevision(input, logger: logger)
+    }
+
+    /// This operation returns information about all data grants.
+    @Sendable
+    @inlinable
+    public func listDataGrants(_ input: ListDataGrantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataGrantsResponse {
+        try await self.client.execute(
+            operation: "ListDataGrants", 
+            path: "/v1/data-grants", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation returns information about all data grants.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to be included in the next page.
+    ///   - nextToken: The pagination token used to retrieve the next page of results for this operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataGrants(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataGrantsResponse {
+        let input = ListDataGrantsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDataGrants(input, logger: logger)
     }
 
     /// This operation lists a data set's revisions sorted by CreatedAt in descending order.
@@ -559,7 +754,7 @@ public struct DataExchange: AWSService {
         return try await self.listDataSetRevisions(input, logger: logger)
     }
 
-    /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
+    /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order.
     @Sendable
     @inlinable
     public func listDataSets(_ input: ListDataSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSetsResponse {
@@ -572,7 +767,7 @@ public struct DataExchange: AWSService {
             logger: logger
         )
     }
-    /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
+    /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results returned by a single call.
@@ -665,6 +860,41 @@ public struct DataExchange: AWSService {
             revisionId: revisionId
         )
         return try await self.listJobs(input, logger: logger)
+    }
+
+    /// This operation returns information about all received data grants.
+    @Sendable
+    @inlinable
+    public func listReceivedDataGrants(_ input: ListReceivedDataGrantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReceivedDataGrantsResponse {
+        try await self.client.execute(
+            operation: "ListReceivedDataGrants", 
+            path: "/v1/received-data-grants", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation returns information about all received data grants.
+    ///
+    /// Parameters:
+    ///   - acceptanceState: The acceptance state of the data grants to list.
+    ///   - maxResults: The maximum number of results to be included in the next page.
+    ///   - nextToken: The pagination token used to retrieve the next page of results for this operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listReceivedDataGrants(
+        acceptanceState: [AcceptanceStateFilterValue]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListReceivedDataGrantsResponse {
+        let input = ListReceivedDataGrantsRequest(
+            acceptanceState: acceptanceState, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listReceivedDataGrants(input, logger: logger)
     }
 
     /// This operation lists a revision's assets sorted alphabetically in descending order.
@@ -1114,6 +1344,40 @@ extension DataExchange {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataExchange {
+    /// Return PaginatorSequence for operation ``listDataGrants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataGrantsPaginator(
+        _ input: ListDataGrantsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataGrantsRequest, ListDataGrantsResponse> {
+        return .init(
+            input: input,
+            command: self.listDataGrants,
+            inputKey: \ListDataGrantsRequest.nextToken,
+            outputKey: \ListDataGrantsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataGrants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to be included in the next page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataGrantsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataGrantsRequest, ListDataGrantsResponse> {
+        let input = ListDataGrantsRequest(
+            maxResults: maxResults
+        )
+        return self.listDataGrantsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDataSetRevisions(_:logger:)``.
     ///
     /// - Parameters:
@@ -1265,6 +1529,43 @@ extension DataExchange {
         return self.listJobsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listReceivedDataGrants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listReceivedDataGrantsPaginator(
+        _ input: ListReceivedDataGrantsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListReceivedDataGrantsRequest, ListReceivedDataGrantsResponse> {
+        return .init(
+            input: input,
+            command: self.listReceivedDataGrants,
+            inputKey: \ListReceivedDataGrantsRequest.nextToken,
+            outputKey: \ListReceivedDataGrantsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listReceivedDataGrants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acceptanceState: The acceptance state of the data grants to list.
+    ///   - maxResults: The maximum number of results to be included in the next page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listReceivedDataGrantsPaginator(
+        acceptanceState: [AcceptanceStateFilterValue]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListReceivedDataGrantsRequest, ListReceivedDataGrantsResponse> {
+        let input = ListReceivedDataGrantsRequest(
+            acceptanceState: acceptanceState, 
+            maxResults: maxResults
+        )
+        return self.listReceivedDataGrantsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listRevisionAssets(_:logger:)``.
     ///
     /// - Parameters:
@@ -1303,6 +1604,16 @@ extension DataExchange {
             revisionId: revisionId
         )
         return self.listRevisionAssetsPaginator(input, logger: logger)
+    }
+}
+
+extension DataExchange.ListDataGrantsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataExchange.ListDataGrantsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 
@@ -1347,6 +1658,17 @@ extension DataExchange.ListJobsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             revisionId: self.revisionId
+        )
+    }
+}
+
+extension DataExchange.ListReceivedDataGrantsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataExchange.ListReceivedDataGrantsRequest {
+        return .init(
+            acceptanceState: self.acceptanceState,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

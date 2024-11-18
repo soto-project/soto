@@ -61,6 +61,12 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum EnablePrefixForIpv6SourceNatEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case off = "off"
+        case on = "on"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "off"
         case on = "on"
@@ -490,15 +496,19 @@ extension ElasticLoadBalancingV2 {
         public var loadBalancerAddresses: [LoadBalancerAddress]?
         /// [Application Load Balancers on Outposts] The ID of the Outpost.
         public let outpostId: String?
+        /// [Network Load Balancers with UDP listeners] The IPv6 prefixes to use for source NAT. For each subnet, specify an IPv6 prefix (/80 netmask) from the subnet CIDR block or auto_assigned to use an IPv6 prefix selected at random from the subnet CIDR block.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var sourceNatIpv6Prefixes: [String]?
         /// The ID of the subnet. You can specify one subnet per Availability Zone.
         public let subnetId: String?
         /// The name of the Availability Zone.
         public let zoneName: String?
 
         @inlinable
-        public init(loadBalancerAddresses: [LoadBalancerAddress]? = nil, outpostId: String? = nil, subnetId: String? = nil, zoneName: String? = nil) {
+        public init(loadBalancerAddresses: [LoadBalancerAddress]? = nil, outpostId: String? = nil, sourceNatIpv6Prefixes: [String]? = nil, subnetId: String? = nil, zoneName: String? = nil) {
             self.loadBalancerAddresses = loadBalancerAddresses
             self.outpostId = outpostId
+            self.sourceNatIpv6Prefixes = sourceNatIpv6Prefixes
             self.subnetId = subnetId
             self.zoneName = zoneName
         }
@@ -506,6 +516,7 @@ extension ElasticLoadBalancingV2 {
         private enum CodingKeys: String, CodingKey {
             case loadBalancerAddresses = "LoadBalancerAddresses"
             case outpostId = "OutpostId"
+            case sourceNatIpv6Prefixes = "SourceNatIpv6Prefixes"
             case subnetId = "SubnetId"
             case zoneName = "ZoneName"
         }
@@ -561,9 +572,9 @@ extension ElasticLoadBalancingV2 {
         public let loadBalancerArn: String?
         /// The mutual authentication configuration information.
         public let mutualAuthentication: MutualAuthenticationAttributes?
-        /// The port on which the load balancer is listening. You cannot specify a port for a Gateway Load Balancer.
+        /// The port on which the load balancer is listening. You can't specify a port for a Gateway Load Balancer.
         public let port: Int?
-        /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
+        /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
         public let `protocol`: ProtocolEnum?
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security policies in the Application Load Balancers Guide and Security policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
@@ -627,19 +638,21 @@ extension ElasticLoadBalancingV2 {
     public struct CreateLoadBalancerInput: AWSEncodableShape {
         /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool (CoIP pool).
         public let customerOwnedIpv4Pool: String?
-        /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses), dualstack (for IPv4 and  IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public  addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses) and dualstack  (for IPv4 and IPv6 addresses). You can’t specify dualstack  for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses) and dualstack  (for IPv4 and IPv6 addresses).
+        /// [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6 prefix  from each subnet for source NAT. The IP address type must be dualstack.  The default value is off.
+        public let enablePrefixForIpv6SourceNat: EnablePrefixForIpv6SourceNatEnum?
+        /// The IP address type. Internal load balancers must use ipv4. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses),  dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4  (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4  (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
         public let ipAddressType: IpAddressType?
         /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
         public let name: String?
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer. You cannot specify a scheme for a Gateway Load Balancer.
+        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer. You can't specify a scheme for a Gateway Load Balancer.
         public let scheme: LoadBalancerSchemeEnum?
         /// [Application Load Balancers and Network Load Balancers] The IDs of the security groups for the load balancer.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]?
-        /// The IDs of the subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You cannot specify Elastic IP addresses for your subnets.
+        /// The IDs of the subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You can't specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You can't specify Elastic IP addresses for your subnets.
         @OptionalCustomCoding<StandardArrayCoder<SubnetMapping>>
         public var subnetMappings: [SubnetMapping]?
-        /// The IDs of the subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. To specify an Elastic IP address, specify subnet mappings instead of subnets. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
+        /// The IDs of the subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. To specify an Elastic IP address, specify subnet mappings instead of subnets. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers and Gateway Load Balancers] You can specify subnets from one or more  Availability Zones.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var subnets: [String]?
         /// The tags to assign to the load balancer.
@@ -649,8 +662,9 @@ extension ElasticLoadBalancingV2 {
         public let type: LoadBalancerTypeEnum?
 
         @inlinable
-        public init(customerOwnedIpv4Pool: String? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil, type: LoadBalancerTypeEnum? = nil) {
+        public init(customerOwnedIpv4Pool: String? = nil, enablePrefixForIpv6SourceNat: EnablePrefixForIpv6SourceNatEnum? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil, type: LoadBalancerTypeEnum? = nil) {
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
+            self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
             self.ipAddressType = ipAddressType
             self.name = name
             self.scheme = scheme
@@ -672,6 +686,7 @@ extension ElasticLoadBalancingV2 {
 
         private enum CodingKeys: String, CodingKey {
             case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
+            case enablePrefixForIpv6SourceNat = "EnablePrefixForIpv6SourceNat"
             case ipAddressType = "IpAddressType"
             case name = "Name"
             case scheme = "Scheme"
@@ -762,7 +777,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct CreateTargetGroupInput: AWSEncodableShape {
-        /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance, ip, or alb, health checks are always enabled and cannot be disabled.
+        /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance, ip, or alb, health checks are always enabled and can't be disabled.
         public let healthCheckEnabled: Bool?
         /// The approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. If the target group protocol is TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds.  If the target group protocol is GENEVE, the default is 10 seconds.  If the target type is lambda, the default is 35 seconds.
         public let healthCheckIntervalSeconds: Int?
@@ -776,7 +791,7 @@ extension ElasticLoadBalancingV2 {
         public let healthCheckTimeoutSeconds: Int?
         /// The number of consecutive health check successes required before considering a target healthy. The range is  2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5. For target groups  with a protocol of GENEVE, the default is 5. If the target type  is lambda, the default is 5.
         public let healthyThresholdCount: Int?
-        /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
+        /// The IP address type. The default value is ipv4.
         public let ipAddressType: TargetGroupIpAddressTypeEnum?
         /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful  response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP or TLS the range  is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target  groups with a protocol of GENEVE, the range is 200-399.
         public let matcher: Matcher?
@@ -881,7 +896,7 @@ extension ElasticLoadBalancingV2 {
         public let caCertificatesBundleS3Key: String?
         /// The Amazon S3 object version for the ca certificates bundle. If undefined the current version is used.
         public let caCertificatesBundleS3ObjectVersion: String?
-        /// The name of the trust store. This name must be unique per region and cannot be changed after creation.
+        /// The name of the trust store. This name must be unique per region and can't be changed after creation.
         public let name: String?
         /// The tags to assign to the trust store.
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
@@ -2048,9 +2063,11 @@ extension ElasticLoadBalancingV2 {
         public let customerOwnedIpv4Pool: String?
         /// The public DNS name of the load balancer.
         public let dnsName: String?
+        /// [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6 prefix  from each subnet for source NAT. The IP address type must be dualstack. The default value is off.
+        public let enablePrefixForIpv6SourceNat: EnablePrefixForIpv6SourceNatEnum?
         /// Indicates whether to evaluate inbound security group rules for traffic sent to a  Network Load Balancer through Amazon Web Services PrivateLink.
         public let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: String?
-        /// [Application Load Balancers] The type of IP addresses used for public or private  connections by the subnets attached to your load balancer. The possible values are  ipv4 (for only IPv4 addresses), dualstack (for IPv4 and  IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public  addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The type of IP addresses  used for public or private connections by the subnets attached to your load  balancer. The possible values are ipv4 (for only IPv4 addresses)  and dualstack (for IPv4 and IPv6 addresses).
+        /// The type of IP addresses used for public or private connections by the subnets  attached to your load balancer. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses),  dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4  (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4  (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
         public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
@@ -2069,12 +2086,13 @@ extension ElasticLoadBalancingV2 {
         public let vpcId: String?
 
         @inlinable
-        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, dnsName: String? = nil, enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, dnsName: String? = nil, enablePrefixForIpv6SourceNat: EnablePrefixForIpv6SourceNatEnum? = nil, enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: String? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: LoadBalancerTypeEnum? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
             self.createdTime = createdTime
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.dnsName = dnsName
+            self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
             self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
@@ -2092,6 +2110,7 @@ extension ElasticLoadBalancingV2 {
             case createdTime = "CreatedTime"
             case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
             case dnsName = "DNSName"
+            case enablePrefixForIpv6SourceNat = "EnablePrefixForIpv6SourceNat"
             case enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"
             case ipAddressType = "IpAddressType"
             case loadBalancerArn = "LoadBalancerArn"
@@ -2131,7 +2150,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct LoadBalancerAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the attribute. The following attributes are supported by all load balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false.  The default for Application Load Balancers is true, and cannot be changed.   The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    ipv6.deny_all_igw_traffic - Blocks internet gateway (IGW) access to the load balancer. It is set to false for internet-facing load balancers and true for internal load balancers, preventing unintended access to your internal load balancer through an internet gateway.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    client_keep_alive.seconds - The client keep alive value, in seconds. The  valid range is 60-604800 seconds. The default is 3600 seconds.    connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false. The default is false.    connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connection logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http.preserve_host_header.enabled - Indicates whether the Application Load Balancer should preserve the Host header in the HTTP request and send it to the target without any change. The possible values are true and false. The default is false.    routing.http.x_amzn_tls_version_and_cipher_suite.enabled - Indicates whether the two headers (x-amzn-tls-version and x-amzn-tls-cipher-suite), which contain information about the negotiated TLS version and cipher suite, are added to the client request before sending it to the target. The x-amzn-tls-version header has information about the TLS protocol version negotiated with the client, and the x-amzn-tls-cipher-suite header has information about the cipher suite negotiated with the client. Both headers are in OpenSSL format. The possible values for the attribute are true and false. The default is false.    routing.http.xff_client_port.enabled - Indicates whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer. The possible values are true and false. The default is false.    routing.http.xff_header_processing.mode - Enables you to modify, preserve, or remove the X-Forwarded-For header in the HTTP request before the Application Load Balancer sends the request to the target. The possible values are append, preserve, and remove. The default is append.   If the value is append, the Application Load Balancer adds the client IP address (of the last hop) to the X-Forwarded-For header in the HTTP request before it sends it to targets.   If the value is preserve the Application Load Balancer preserves the X-Forwarded-For header in the HTTP request, and sends it to targets without any change.   If the value is remove, the Application Load Balancer removes the X-Forwarded-For header in the HTTP request before it sends it to targets.      routing.http2.enabled - Indicates whether HTTP/2 is enabled. The possible values are true and false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.    waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.   The following attributes are supported by only Network Load Balancers:    dns_record.client_routing_policy - Indicates how traffic is  distributed among the load balancer Availability Zones. The possible values are  availability_zone_affinity with 100 percent zonal affinity,  partial_availability_zone_affinity with 85 percent zonal affinity,  and any_availability_zone with 0 percent zonal affinity.    zonal_shift.config.enabled - Indicates whether zonal shift is  enabled. The possible values are true and false. The  default is false.
+        /// The name of the attribute. The following attributes are supported by all load balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false.  The default for Application Load Balancers is true, and can't be changed.   The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    ipv6.deny_all_igw_traffic - Blocks internet gateway (IGW) access to the load balancer. It is set to false for internet-facing load balancers and true for internal load balancers, preventing unintended access to your internal load balancer through an internet gateway.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    client_keep_alive.seconds - The client keep alive value, in seconds. The  valid range is 60-604800 seconds. The default is 3600 seconds.    connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false. The default is false.    connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connection logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http.preserve_host_header.enabled - Indicates whether the Application Load Balancer should preserve the Host header in the HTTP request and send it to the target without any change. The possible values are true and false. The default is false.    routing.http.x_amzn_tls_version_and_cipher_suite.enabled - Indicates whether the two headers (x-amzn-tls-version and x-amzn-tls-cipher-suite), which contain information about the negotiated TLS version and cipher suite, are added to the client request before sending it to the target. The x-amzn-tls-version header has information about the TLS protocol version negotiated with the client, and the x-amzn-tls-cipher-suite header has information about the cipher suite negotiated with the client. Both headers are in OpenSSL format. The possible values for the attribute are true and false. The default is false.    routing.http.xff_client_port.enabled - Indicates whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer. The possible values are true and false. The default is false.    routing.http.xff_header_processing.mode - Enables you to modify, preserve, or remove the X-Forwarded-For header in the HTTP request before the Application Load Balancer sends the request to the target. The possible values are append, preserve, and remove. The default is append.   If the value is append, the Application Load Balancer adds the client IP address (of the last hop) to the X-Forwarded-For header in the HTTP request before it sends it to targets.   If the value is preserve the Application Load Balancer preserves the X-Forwarded-For header in the HTTP request, and sends it to targets without any change.   If the value is remove, the Application Load Balancer removes the X-Forwarded-For header in the HTTP request before it sends it to targets.      routing.http2.enabled - Indicates whether HTTP/2 is enabled. The possible values are true and false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.    waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.   The following attributes are supported by only Network Load Balancers:    dns_record.client_routing_policy - Indicates how traffic is  distributed among the load balancer Availability Zones. The possible values are  availability_zone_affinity with 100 percent zonal affinity,  partial_availability_zone_affinity with 85 percent zonal affinity,  and any_availability_zone with 0 percent zonal affinity.    zonal_shift.config.enabled - Indicates whether zonal shift is  enabled. The possible values are true and false. The  default is false.
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -2244,9 +2263,9 @@ extension ElasticLoadBalancingV2 {
         public let listenerArn: String?
         /// The mutual authentication configuration information.
         public let mutualAuthentication: MutualAuthenticationAttributes?
-        /// The port for connections from clients to the load balancer. You cannot specify a port for a Gateway Load Balancer.
+        /// The port for connections from clients to the load balancer. You can't specify a port for a Gateway Load Balancer.
         public let port: Int?
-        /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
+        /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
         public let `protocol`: ProtocolEnum?
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security policies in the Application Load Balancers Guide or Security policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
@@ -2627,7 +2646,7 @@ extension ElasticLoadBalancingV2 {
         public let path: String?
         /// The port. You can specify a value from 1 to 65535 or #{port}.
         public let port: String?
-        /// The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You cannot redirect HTTPS to HTTP.
+        /// The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You can't redirect HTTPS to HTTP.
         public let `protocol`: String?
         /// The query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading "?", as it is automatically added. You can specify any of the reserved keywords.
         public let query: String?
@@ -2899,7 +2918,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct SetIpAddressTypeInput: AWSEncodableShape {
-        /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses), dualstack (for IPv4 and  IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public  addresses, with private IPv4 and IPv6 addresses). Note: Application Load Balancer authentication only supports IPv4 addresses when  connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public  IPv4 address the load balancer cannot complete the authentication process, resulting  in HTTP 500 errors. [Network Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses) and dualstack  (for IPv4 and IPv6 addresses). You can’t specify dualstack  for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses) and dualstack  (for IPv4 and IPv6 addresses).
+        /// The IP address type. Internal load balancers must use ipv4. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses),  dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4  (public IPv6 addresses and private IPv4 and IPv6 addresses). Application Load Balancer authentication supports IPv4 addresses only when  connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public  IPv4 address the load balancer can't complete the authentication process, resulting  in HTTP 500 errors. [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4  (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
         public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
@@ -3009,19 +3028,22 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct SetSubnetsInput: AWSEncodableShape {
-        /// [Application Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses), dualstack (for IPv4 and  IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public  addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+        /// [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6 prefix  from each subnet for source NAT. The IP address type must be dualstack. The default value is off.
+        public let enablePrefixForIpv6SourceNat: EnablePrefixForIpv6SourceNatEnum?
+        /// The IP address type. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses),  dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4  (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4  (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
         public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
-        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You can't specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
         @OptionalCustomCoding<StandardArrayCoder<SubnetMapping>>
         public var subnetMappings: [SubnetMapping]?
-        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
+        /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers and Gateway Load Balancers] You can specify subnets from one or more  Availability Zones.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var subnets: [String]?
 
         @inlinable
-        public init(ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil) {
+        public init(enablePrefixForIpv6SourceNat: EnablePrefixForIpv6SourceNatEnum? = nil, ipAddressType: IpAddressType? = nil, loadBalancerArn: String? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil) {
+            self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
             self.subnetMappings = subnetMappings
@@ -3029,6 +3051,7 @@ extension ElasticLoadBalancingV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enablePrefixForIpv6SourceNat = "EnablePrefixForIpv6SourceNat"
             case ipAddressType = "IpAddressType"
             case loadBalancerArn = "LoadBalancerArn"
             case subnetMappings = "SubnetMappings"
@@ -3040,17 +3063,21 @@ extension ElasticLoadBalancingV2 {
         /// Information about the subnets.
         @OptionalCustomCoding<StandardArrayCoder<AvailabilityZone>>
         public var availabilityZones: [AvailabilityZone]?
-        /// [Application Load Balancers] The IP address type. [Network Load Balancers] The IP address type. [Gateway Load Balancers] The IP address type.
+        /// [Network Load Balancers] Indicates whether to use an IPv6 prefix from each subnet for source NAT.
+        public let enablePrefixForIpv6SourceNat: EnablePrefixForIpv6SourceNatEnum?
+        /// The IP address type.
         public let ipAddressType: IpAddressType?
 
         @inlinable
-        public init(availabilityZones: [AvailabilityZone]? = nil, ipAddressType: IpAddressType? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, enablePrefixForIpv6SourceNat: EnablePrefixForIpv6SourceNatEnum? = nil, ipAddressType: IpAddressType? = nil) {
             self.availabilityZones = availabilityZones
+            self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
             self.ipAddressType = ipAddressType
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
+            case enablePrefixForIpv6SourceNat = "EnablePrefixForIpv6SourceNat"
             case ipAddressType = "IpAddressType"
         }
     }
@@ -3106,14 +3133,17 @@ extension ElasticLoadBalancingV2 {
         public let iPv6Address: String?
         /// [Network Load Balancers] The private IPv4 address for an internal load balancer.
         public let privateIPv4Address: String?
+        /// [Network Load Balancers with UDP listeners] The IPv6 prefix to use for source NAT. Specify an IPv6 prefix (/80 netmask) from the subnet CIDR block or auto_assigned  to use an IPv6 prefix selected at random from the subnet CIDR block.
+        public let sourceNatIpv6Prefix: String?
         /// The ID of the subnet.
         public let subnetId: String?
 
         @inlinable
-        public init(allocationId: String? = nil, iPv6Address: String? = nil, privateIPv4Address: String? = nil, subnetId: String? = nil) {
+        public init(allocationId: String? = nil, iPv6Address: String? = nil, privateIPv4Address: String? = nil, sourceNatIpv6Prefix: String? = nil, subnetId: String? = nil) {
             self.allocationId = allocationId
             self.iPv6Address = iPv6Address
             self.privateIPv4Address = privateIPv4Address
+            self.sourceNatIpv6Prefix = sourceNatIpv6Prefix
             self.subnetId = subnetId
         }
 
@@ -3121,6 +3151,7 @@ extension ElasticLoadBalancingV2 {
             case allocationId = "AllocationId"
             case iPv6Address = "IPv6Address"
             case privateIPv4Address = "PrivateIPv4Address"
+            case sourceNatIpv6Prefix = "SourceNatIpv6Prefix"
             case subnetId = "SubnetId"
         }
     }
@@ -3212,7 +3243,7 @@ extension ElasticLoadBalancingV2 {
         public let healthCheckTimeoutSeconds: Int?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
         public let healthyThresholdCount: Int?
-        /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
+        /// The IP address type. The default value is ipv4.
         public let ipAddressType: TargetGroupIpAddressTypeEnum?
         /// The Amazon Resource Name (ARN) of the load balancer that routes traffic to this target group. You can use each target group with only one load balancer.
         @OptionalCustomCoding<StandardArrayCoder<String>>
@@ -3281,7 +3312,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct TargetGroupAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the attribute. The following attributes are supported by all load balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether target stickiness is enabled. The value is true or false. The default is false.    stickiness.type - Indicates the type of stickiness. The possible values are:    lb_cookie and app_cookie for Application Load Balancers.    source_ip for Network Load Balancers.    source_ip_dest_ip and source_ip_dest_ip_proto for Gateway Load Balancers.     The following attributes are supported by Application Load Balancers and  Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross zone load  balancing is enabled. The value is true, false or  use_load_balancer_configuration. The default is  use_load_balancer_configuration.    target_group_health.dns_failover.minimum_healthy_targets.count -  The minimum number of targets that must be healthy. If the number of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to the maximum number of targets. The default is off.    target_group_health.dns_failover.minimum_healthy_targets.percentage -  The minimum percentage of targets that must be healthy. If the percentage of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to 100. The default is off.    target_group_health.unhealthy_state_routing.minimum_healthy_targets.count -  The minimum number of targets that must be healthy.   If the number of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are 1 to the maximum number of targets. The default is 1.    target_group_health.unhealthy_state_routing.minimum_healthy_targets.percentage -  The minimum percentage of targets that must be healthy.  If the percentage of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are off or an integer from 1 to 100. The default is off.   The following attributes are supported only if the load balancer is an Application Load Balancer and the target is an instance or an IP address:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin, least_outstanding_requests, or weighted_random. The default is round_robin.    load_balancing.algorithm.anomaly_mitigation - Only available when load_balancing.algorithm.type  is weighted_random. Indicates whether anomaly mitigation is enabled. The value is on  or off. The default is off.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives an increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). The default is 0 seconds (disabled).    stickiness.app_cookie.cookie_name - Indicates the name of the application-based cookie. Names that start with the following prefixes are not allowed: AWSALB, AWSALBAPP, and AWSALBTG; they're reserved for use by the load balancer.    stickiness.app_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the application-based cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).    The following attribute is supported only if the load balancer is an Application Load Balancer and the target is a Lambda function:    lambda.multi_value_headers.enabled - Indicates whether the request and response headers that are exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attributes are supported only by Network Load Balancers:    deregistration_delay.connection_termination.enabled - Indicates whether the load balancer terminates connections at the end of the deregistration timeout. The value is true or false. For new UDP/TCP_UDP target groups the  default is true. Otherwise, the default is false.    preserve_client_ip.enabled - Indicates whether client IP preservation is enabled. The value is true or false. The default is disabled if the target group type is IP address and the target group protocol is TCP or TLS. Otherwise, the default is enabled. Client IP preservation cannot be disabled for UDP and TCP_UDP target groups.    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.     target_health_state.unhealthy.connection_termination.enabled - Indicates whether  the load balancer terminates connections to unhealthy targets. The value is true  or false. The default is true.    target_health_state.unhealthy.draining_interval_seconds - The amount of time  for Elastic Load Balancing to wait before changing the state of an unhealthy target from  unhealthy.draining to unhealthy. The range is 0-360000 seconds.  The default value is 0 seconds. Note: This attribute can only be configured when  target_health_state.unhealthy.connection_termination.enabled is false.   The following attributes are supported only by Gateway Load Balancers:    target_failover.on_deregistration - Indicates how the Gateway Load Balancer handles existing flows when a target is deregistered. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) can't be set independently. The value you set for both attributes must be the same.      target_failover.on_unhealthy - Indicates how the Gateway Load Balancer handles existing flows when a target is unhealthy. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) cannot be set independently. The value you set for both attributes must be the same.
+        /// The name of the attribute. The following attributes are supported by all load balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether target stickiness is enabled. The value is true or false. The default is false.    stickiness.type - Indicates the type of stickiness. The possible values are:    lb_cookie and app_cookie for Application Load Balancers.    source_ip for Network Load Balancers.    source_ip_dest_ip and source_ip_dest_ip_proto for Gateway Load Balancers.     The following attributes are supported by Application Load Balancers and  Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross zone load  balancing is enabled. The value is true, false or  use_load_balancer_configuration. The default is  use_load_balancer_configuration.    target_group_health.dns_failover.minimum_healthy_targets.count -  The minimum number of targets that must be healthy. If the number of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to the maximum number of targets. The default is off.    target_group_health.dns_failover.minimum_healthy_targets.percentage -  The minimum percentage of targets that must be healthy. If the percentage of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to 100. The default is off.    target_group_health.unhealthy_state_routing.minimum_healthy_targets.count -  The minimum number of targets that must be healthy.   If the number of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are 1 to the maximum number of targets. The default is 1.    target_group_health.unhealthy_state_routing.minimum_healthy_targets.percentage -  The minimum percentage of targets that must be healthy.  If the percentage of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are off or an integer from 1 to 100. The default is off.   The following attributes are supported only if the load balancer is an Application Load Balancer and the target is an instance or an IP address:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin, least_outstanding_requests, or weighted_random. The default is round_robin.    load_balancing.algorithm.anomaly_mitigation - Only available when load_balancing.algorithm.type  is weighted_random. Indicates whether anomaly mitigation is enabled. The value is on  or off. The default is off.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives an increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). The default is 0 seconds (disabled).    stickiness.app_cookie.cookie_name - Indicates the name of the application-based cookie. Names that start with the following prefixes are not allowed: AWSALB, AWSALBAPP, and AWSALBTG; they're reserved for use by the load balancer.    stickiness.app_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the application-based cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).    The following attribute is supported only if the load balancer is an Application Load Balancer and the target is a Lambda function:    lambda.multi_value_headers.enabled - Indicates whether the request and response headers that are exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attributes are supported only by Network Load Balancers:    deregistration_delay.connection_termination.enabled - Indicates whether the load balancer terminates connections at the end of the deregistration timeout. The value is true or false. For new UDP/TCP_UDP target groups the  default is true. Otherwise, the default is false.    preserve_client_ip.enabled - Indicates whether client IP preservation is enabled. The value is true or false. The default is disabled if the target group type is IP address and the target group protocol is TCP or TLS. Otherwise, the default is enabled. Client IP preservation can't be disabled for UDP and TCP_UDP target groups.    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.     target_health_state.unhealthy.connection_termination.enabled - Indicates whether  the load balancer terminates connections to unhealthy targets. The value is true  or false. The default is true.    target_health_state.unhealthy.draining_interval_seconds - The amount of time  for Elastic Load Balancing to wait before changing the state of an unhealthy target from  unhealthy.draining to unhealthy. The range is 0-360000 seconds.  The default value is 0 seconds. Note: This attribute can only be configured when  target_health_state.unhealthy.connection_termination.enabled is false.   The following attributes are supported only by Gateway Load Balancers:    target_failover.on_deregistration - Indicates how the Gateway Load Balancer handles existing flows when a target is deregistered. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) can't be set independently. The value you set for both attributes must be the same.      target_failover.on_unhealthy - Indicates how the Gateway Load Balancer handles existing flows when a target is unhealthy. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) can't be set independently. The value you set for both attributes must be the same.
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -3548,7 +3579,7 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     public static var caCertificatesBundleNotFoundException: Self { .init(.caCertificatesBundleNotFoundException) }
     /// The specified certificate does not exist.
     public static var certificateNotFoundException: Self { .init(.certificateNotFoundException) }
-    /// The specified association cannot be within the same account.
+    /// The specified association can't be within the same account.
     public static var deleteAssociationSameAccountException: Self { .init(.deleteAssociationSameAccountException) }
     /// A listener with the specified port already exists.
     public static var duplicateListenerException: Self { .init(.duplicateListenerException) }

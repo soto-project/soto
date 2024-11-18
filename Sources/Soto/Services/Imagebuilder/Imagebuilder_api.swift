@@ -239,7 +239,7 @@ public struct Imagebuilder: AWSService {
     ///   - dockerfileTemplateUri: The Amazon S3 URI for the Dockerfile that will be used to build your container
     ///   - imageOsVersionOverride: Specifies the operating system version for the base image.
     ///   - instanceConfiguration: A group of options that can be used to configure an instance for building and testing
-    ///   - kmsKeyId: Identifies which KMS key is used to encrypt the container image.
+    ///   - kmsKeyId: Identifies which KMS key is used to encrypt the Dockerfile template.
     ///   - name: The name of the container recipe.
     ///   - parentImage: The base image for the container recipe.
     ///   - platformOverride: Specifies the operating system platform when you use a custom base image.
@@ -554,11 +554,12 @@ public struct Imagebuilder: AWSService {
     ///   - keyPair: The key pair of the infrastructure configuration. You can use this to log on to and
     ///   - logging: The logging configuration of the infrastructure configuration.
     ///   - name: The name of the infrastructure configuration.
-    ///   - resourceTags: The tags attached to the resource created by Image Builder.
+    ///   - placement: The instance placement settings that define where the instances that are launched
+    ///   - resourceTags: The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during the build process.
     ///   - securityGroupIds: The security group IDs to associate with the instance used to customize your Amazon EC2
     ///   - snsTopicArn: The Amazon Resource Name (ARN) for the SNS topic to which we send image build event
     ///   - subnetId: The subnet ID in which to place the instance used to customize your Amazon EC2 AMI.
-    ///   - tags: The tags of the infrastructure configuration.
+    ///   - tags: The metadata tags to assign to the infrastructure configuration resource that Image Builder
     ///   - terminateInstanceOnFailure: The terminate instance on failure setting of the infrastructure configuration. Set to
     ///   - logger: Logger use during operation
     @inlinable
@@ -571,6 +572,7 @@ public struct Imagebuilder: AWSService {
         keyPair: String? = nil,
         logging: Logging? = nil,
         name: String,
+        placement: Placement? = nil,
         resourceTags: [String: String]? = nil,
         securityGroupIds: [String]? = nil,
         snsTopicArn: String? = nil,
@@ -588,6 +590,7 @@ public struct Imagebuilder: AWSService {
             keyPair: keyPair, 
             logging: logging, 
             name: name, 
+            placement: placement, 
             resourceTags: resourceTags, 
             securityGroupIds: securityGroupIds, 
             snsTopicArn: snsTopicArn, 
@@ -1570,12 +1573,8 @@ public struct Imagebuilder: AWSService {
         return try await self.importVmImage(input, logger: logger)
     }
 
-    /// Returns the list of component build versions for the specified semantic
-    /// 			version.  The semantic version has four nodes: ../.
-    /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-    /// 	to specify the most recent versions or nodes when selecting the base image or components for your
-    /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-    /// 	wildcards.
+    /// Returns the list of component build versions for the specified component
+    /// 			version Amazon Resource Name (ARN).
     @Sendable
     @inlinable
     public func listComponentBuildVersions(_ input: ListComponentBuildVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentBuildVersionsResponse {
@@ -1588,12 +1587,8 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Returns the list of component build versions for the specified semantic
-    /// 			version.  The semantic version has four nodes: ../.
-    /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-    /// 	to specify the most recent versions or nodes when selecting the base image or components for your
-    /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-    /// 	wildcards.
+    /// Returns the list of component build versions for the specified component
+    /// 			version Amazon Resource Name (ARN).
     ///
     /// Parameters:
     ///   - componentVersionArn: The component version Amazon Resource Name (ARN) whose versions you want to
@@ -2888,6 +2883,7 @@ public struct Imagebuilder: AWSService {
     ///   - instanceTypes: The instance types of the infrastructure configuration. You can specify one or more
     ///   - keyPair: The key pair of the infrastructure configuration. You can use this to log on to and
     ///   - logging: The logging configuration of the infrastructure configuration.
+    ///   - placement: The instance placement settings that define where the instances that are launched
     ///   - resourceTags: The tags attached to the resource created by Image Builder.
     ///   - securityGroupIds: The security group IDs to associate with the instance used to customize your Amazon EC2
     ///   - snsTopicArn: The Amazon Resource Name (ARN) for the SNS topic to which we send image build event
@@ -2904,6 +2900,7 @@ public struct Imagebuilder: AWSService {
         instanceTypes: [String]? = nil,
         keyPair: String? = nil,
         logging: Logging? = nil,
+        placement: Placement? = nil,
         resourceTags: [String: String]? = nil,
         securityGroupIds: [String]? = nil,
         snsTopicArn: String? = nil,
@@ -2920,6 +2917,7 @@ public struct Imagebuilder: AWSService {
             instanceTypes: instanceTypes, 
             keyPair: keyPair, 
             logging: logging, 
+            placement: placement, 
             resourceTags: resourceTags, 
             securityGroupIds: securityGroupIds, 
             snsTopicArn: snsTopicArn, 

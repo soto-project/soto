@@ -130,7 +130,7 @@ public struct Organizations: AWSService {
         return try await self.acceptHandshake(input, logger: logger)
     }
 
-    /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:    SERVICE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY    This operation can be called only from the organization's
+    /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY    This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     @Sendable
     @inlinable
@@ -144,7 +144,7 @@ public struct Organizations: AWSService {
             logger: logger
         )
     }
-    /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:    SERVICE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY    This operation can be called only from the organization's
+    /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY    This operation can be called only from the organization's
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// Parameters:
@@ -390,7 +390,7 @@ public struct Organizations: AWSService {
     ///   - description: An optional description to assign to the policy.
     ///   - name: The friendly name to assign to the policy. The regex pattern  that is used to validate this parameter is a string of any of the characters in the ASCII  character range.
     ///   - tags: A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging Organizations resources in the Organizations User Guide.  If any one of the tags is not valid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created.
-    ///   - type: The type of policy to create. You can specify one of the following values:    SERVICE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - type: The type of policy to create. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
     ///   - logger: Logger use during operation
     @inlinable
     public func createPolicy(
@@ -851,7 +851,7 @@ public struct Organizations: AWSService {
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service. To view the status of available policy types in the organization, use DescribeOrganization.
     ///
     /// Parameters:
-    ///   - policyType: The policy type that you want to disable in this root. You can specify one of the following values:    SERVICE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - policyType: The policy type that you want to disable in this root. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
     ///   - rootId: The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by  from 4 to 32 lowercase letters or digits.
     ///   - logger: Logger use during operation
     @inlinable
@@ -940,7 +940,7 @@ public struct Organizations: AWSService {
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use DescribeOrganization.
     ///
     /// Parameters:
-    ///   - policyType: The policy type that you want to enable. You can specify one of the following values:    SERVICE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - policyType: The policy type that you want to enable. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
     ///   - rootId: The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by  from 4 to 32 lowercase letters or digits.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1496,7 +1496,7 @@ public struct Organizations: AWSService {
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// Parameters:
-    ///   - filter: Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - filter: Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
     ///   - logger: Logger use during operation
@@ -1541,7 +1541,7 @@ public struct Organizations: AWSService {
     /// management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// Parameters:
-    ///   - filter: The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - filter: The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - nextToken: The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
     ///   - targetId: The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the  following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or  digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32  lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second  "-" dash and from 8 to 32 additional lowercase letters or digits.
@@ -2391,7 +2391,7 @@ extension Organizations {
     /// Return PaginatorSequence for operation ``listPolicies(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filter: Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - filter: Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2428,7 +2428,7 @@ extension Organizations {
     /// Return PaginatorSequence for operation ``listPoliciesForTarget(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filter: The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+    ///   - filter: The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
     ///   - maxResults: The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
     ///   - targetId: The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the  following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or  digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32  lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second  "-" dash and from 8 to 32 additional lowercase letters or digits.
     ///   - logger: Logger used for logging

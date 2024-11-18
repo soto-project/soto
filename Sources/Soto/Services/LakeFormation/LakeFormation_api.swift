@@ -358,6 +358,44 @@ public struct LakeFormation: AWSService {
         return try await self.createLFTag(input, logger: logger)
     }
 
+    /// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the caller’s account or if the underlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions:  CREATE_LF_TAG_EXPRESSION on the root catalog resource.  GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression.
+    @Sendable
+    @inlinable
+    public func createLFTagExpression(_ input: CreateLFTagExpressionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLFTagExpressionResponse {
+        try await self.client.execute(
+            operation: "CreateLFTagExpression", 
+            path: "/CreateLFTagExpression", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the caller’s account or if the underlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions:  CREATE_LF_TAG_EXPRESSION on the root catalog resource.  GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression.
+    ///
+    /// Parameters:
+    ///   - catalogId: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
+    ///   - description: A description with information about the LF-Tag expression.
+    ///   - expression: A list of LF-Tag conditions (key-value pairs).
+    ///   - name: A name for the expression.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createLFTagExpression(
+        catalogId: String? = nil,
+        description: String? = nil,
+        expression: [LFTag],
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateLFTagExpressionResponse {
+        let input = CreateLFTagExpressionRequest(
+            catalogId: catalogId, 
+            description: description, 
+            expression: expression, 
+            name: name
+        )
+        return try await self.createLFTagExpression(input, logger: logger)
+    }
+
     /// Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
     @Sendable
     @inlinable
@@ -496,6 +534,38 @@ public struct LakeFormation: AWSService {
             tagKey: tagKey
         )
         return try await self.deleteLFTag(input, logger: logger)
+    }
+
+    /// Deletes the LF-Tag expression. The caller must be a data lake admin or have DROP permissions on the LF-Tag expression. Deleting a LF-Tag expression will also delete all LFTagPolicy permissions referencing the LF-Tag expression.
+    @Sendable
+    @inlinable
+    public func deleteLFTagExpression(_ input: DeleteLFTagExpressionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLFTagExpressionResponse {
+        try await self.client.execute(
+            operation: "DeleteLFTagExpression", 
+            path: "/DeleteLFTagExpression", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the LF-Tag expression. The caller must be a data lake admin or have DROP permissions on the LF-Tag expression. Deleting a LF-Tag expression will also delete all LFTagPolicy permissions referencing the LF-Tag expression.
+    ///
+    /// Parameters:
+    ///   - catalogId: The identifier for the Data Catalog. By default, the account ID in which the LF-Tag expression is saved.
+    ///   - name: The name for the LF-Tag expression.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteLFTagExpression(
+        catalogId: String? = nil,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteLFTagExpressionResponse {
+        let input = DeleteLFTagExpressionRequest(
+            catalogId: catalogId, 
+            name: name
+        )
+        return try await self.deleteLFTagExpression(input, logger: logger)
     }
 
     /// Deletes an IAM Identity Center connection with Lake Formation.
@@ -908,6 +978,38 @@ public struct LakeFormation: AWSService {
         return try await self.getLFTag(input, logger: logger)
     }
 
+    /// Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have DESCRIBE permission on the LF-Tag expression resource.
+    @Sendable
+    @inlinable
+    public func getLFTagExpression(_ input: GetLFTagExpressionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLFTagExpressionResponse {
+        try await self.client.execute(
+            operation: "GetLFTagExpression", 
+            path: "/GetLFTagExpression", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have DESCRIBE permission on the LF-Tag expression resource.
+    ///
+    /// Parameters:
+    ///   - catalogId: The identifier for the Data Catalog. By default, the account ID.
+    ///   - name: The name for the LF-Tag expression
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getLFTagExpression(
+        catalogId: String? = nil,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetLFTagExpressionResponse {
+        let input = GetLFTagExpressionRequest(
+            catalogId: catalogId, 
+            name: name
+        )
+        return try await self.getLFTagExpression(input, logger: logger)
+    }
+
     /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning.
     @Sendable
     @inlinable
@@ -1097,7 +1199,7 @@ public struct LakeFormation: AWSService {
         return try await self.getTemporaryGluePartitionCredentials(input, logger: logger)
     }
 
-    /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix.
+    /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakeformation:GetDataAccess permission on the resource.
     @Sendable
     @inlinable
     public func getTemporaryGlueTableCredentials(_ input: GetTemporaryGlueTableCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTemporaryGlueTableCredentialsResponse {
@@ -1110,7 +1212,7 @@ public struct LakeFormation: AWSService {
             logger: logger
         )
     }
-    /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix.
+    /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakeformation:GetDataAccess permission on the resource.
     ///
     /// Parameters:
     ///   - auditContext: A structure representing context to access a resource (column names, query ID, etc).
@@ -1290,6 +1392,41 @@ public struct LakeFormation: AWSService {
             table: table
         )
         return try await self.listDataCellsFilter(input, logger: logger)
+    }
+
+    /// Returns the LF-Tag expressions in caller’s account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE permissions on tag expression.
+    @Sendable
+    @inlinable
+    public func listLFTagExpressions(_ input: ListLFTagExpressionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLFTagExpressionsResponse {
+        try await self.client.execute(
+            operation: "ListLFTagExpressions", 
+            path: "/ListLFTagExpressions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the LF-Tag expressions in caller’s account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE permissions on tag expression.
+    ///
+    /// Parameters:
+    ///   - catalogId: The identifier for the Data Catalog. By default, the account ID.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: A continuation token, if this is not the first call to retrieve this list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listLFTagExpressions(
+        catalogId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListLFTagExpressionsResponse {
+        let input = ListLFTagExpressionsRequest(
+            catalogId: catalogId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listLFTagExpressions(input, logger: logger)
     }
 
     /// Lists LF-tags that the requester has permission to view.
@@ -1564,7 +1701,7 @@ public struct LakeFormation: AWSService {
         return try await self.putDataLakeSettings(input, logger: logger)
     }
 
-    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.  ResourceArn = arn:aws:s3:::my-bucket
+    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.  ResourceArn = arn:aws:s3:::my-bucket/
     /// UseServiceLinkedRole = true  If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:  arn:aws:iam::12345:role/my-data-access-role
     @Sendable
     @inlinable
@@ -1578,7 +1715,7 @@ public struct LakeFormation: AWSService {
             logger: logger
         )
     }
-    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.  ResourceArn = arn:aws:s3:::my-bucket
+    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.  ResourceArn = arn:aws:s3:::my-bucket/
     /// UseServiceLinkedRole = true  If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:  arn:aws:iam::12345:role/my-data-access-role
     ///
     /// Parameters:
@@ -1888,6 +2025,44 @@ public struct LakeFormation: AWSService {
         return try await self.updateLFTag(input, logger: logger)
     }
 
+    /// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permission grants that reference the given LF-Tag expression.
+    @Sendable
+    @inlinable
+    public func updateLFTagExpression(_ input: UpdateLFTagExpressionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLFTagExpressionResponse {
+        try await self.client.execute(
+            operation: "UpdateLFTagExpression", 
+            path: "/UpdateLFTagExpression", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permission grants that reference the given LF-Tag expression.
+    ///
+    /// Parameters:
+    ///   - catalogId: The identifier for the Data Catalog. By default, the account ID.
+    ///   - description: The description with information about the saved LF-Tag expression.
+    ///   - expression: The LF-Tag expression body composed of one more LF-Tag key-value pairs.
+    ///   - name: The name for the LF-Tag expression.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLFTagExpression(
+        catalogId: String? = nil,
+        description: String? = nil,
+        expression: [LFTag],
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLFTagExpressionResponse {
+        let input = UpdateLFTagExpressionRequest(
+            catalogId: catalogId, 
+            description: description, 
+            expression: expression, 
+            name: name
+        )
+        return try await self.updateLFTagExpression(input, logger: logger)
+    }
+
     /// Updates the IAM Identity Center connection parameters.
     @Sendable
     @inlinable
@@ -2023,7 +2198,7 @@ public struct LakeFormation: AWSService {
     /// Parameters:
     ///   - catalogId: The Catalog ID of the table.
     ///   - databaseName: Name of the database where the table is present.
-    ///   - storageOptimizerConfig: Name of the table for which to enable the storage optimizer.
+    ///   - storageOptimizerConfig: Name of the configuration for the storage optimizer.
     ///   - tableName: Name of the table for which to enable the storage optimizer.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2221,6 +2396,43 @@ extension LakeFormation {
             table: table
         )
         return self.listDataCellsFilterPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listLFTagExpressions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLFTagExpressionsPaginator(
+        _ input: ListLFTagExpressionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLFTagExpressionsRequest, ListLFTagExpressionsResponse> {
+        return .init(
+            input: input,
+            command: self.listLFTagExpressions,
+            inputKey: \ListLFTagExpressionsRequest.nextToken,
+            outputKey: \ListLFTagExpressionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listLFTagExpressions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalogId: The identifier for the Data Catalog. By default, the account ID.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLFTagExpressionsPaginator(
+        catalogId: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListLFTagExpressionsRequest, ListLFTagExpressionsResponse> {
+        let input = ListLFTagExpressionsRequest(
+            catalogId: catalogId, 
+            maxResults: maxResults
+        )
+        return self.listLFTagExpressionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listLFTags(_:logger:)``.
@@ -2602,6 +2814,17 @@ extension LakeFormation.ListDataCellsFilterRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             table: self.table
+        )
+    }
+}
+
+extension LakeFormation.ListLFTagExpressionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LakeFormation.ListLFTagExpressionsRequest {
+        return .init(
+            catalogId: self.catalogId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

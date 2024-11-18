@@ -551,7 +551,7 @@ public struct Outposts: AWSService {
     public func getOutpostSupportedInstanceTypes(
         maxResults: Int? = nil,
         nextToken: String? = nil,
-        orderId: String,
+        orderId: String? = nil,
         outpostIdentifier: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetOutpostSupportedInstanceTypesOutput {
@@ -625,6 +625,53 @@ public struct Outposts: AWSService {
         return try await self.getSiteAddress(input, logger: logger)
     }
 
+    /// A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost. Does not include Amazon EBS or Amazon S3 instances.
+    @Sendable
+    @inlinable
+    public func listAssetInstances(_ input: ListAssetInstancesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetInstancesOutput {
+        try await self.client.execute(
+            operation: "ListAssetInstances", 
+            path: "/outposts/{OutpostIdentifier}/assetInstances", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost. Does not include Amazon EBS or Amazon S3 instances.
+    ///
+    /// Parameters:
+    ///   - accountIdFilter: Filters the results by account ID.
+    ///   - assetIdFilter: Filters the results by asset ID.
+    ///   - awsServiceFilter: Filters the results by Amazon Web Services service.
+    ///   - instanceTypeFilter: Filters the results by instance ID.
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - outpostIdentifier: The ID of the Outpost.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAssetInstances(
+        accountIdFilter: [String]? = nil,
+        assetIdFilter: [String]? = nil,
+        awsServiceFilter: [AWSServiceName]? = nil,
+        instanceTypeFilter: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        outpostIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAssetInstancesOutput {
+        let input = ListAssetInstancesInput(
+            accountIdFilter: accountIdFilter, 
+            assetIdFilter: assetIdFilter, 
+            awsServiceFilter: awsServiceFilter, 
+            instanceTypeFilter: instanceTypeFilter, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            outpostIdentifier: outpostIdentifier
+        )
+        return try await self.listAssetInstances(input, logger: logger)
+    }
+
     /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     @Sendable
     @inlinable
@@ -664,6 +711,44 @@ public struct Outposts: AWSService {
             statusFilter: statusFilter
         )
         return try await self.listAssets(input, logger: logger)
+    }
+
+    /// A list of Amazon EC2 instances running on the Outpost and belonging to the account that initiated the capacity task. Use this list to specify the instances you cannot stop to free up capacity to run the capacity task.
+    @Sendable
+    @inlinable
+    public func listBlockingInstancesForCapacityTask(_ input: ListBlockingInstancesForCapacityTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBlockingInstancesForCapacityTaskOutput {
+        try await self.client.execute(
+            operation: "ListBlockingInstancesForCapacityTask", 
+            path: "/outposts/{OutpostIdentifier}/capacity/{CapacityTaskId}/blockingInstances", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// A list of Amazon EC2 instances running on the Outpost and belonging to the account that initiated the capacity task. Use this list to specify the instances you cannot stop to free up capacity to run the capacity task.
+    ///
+    /// Parameters:
+    ///   - capacityTaskId: The ID of the capacity task.
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - outpostIdentifier: The ID or ARN of the Outpost associated with the specified capacity task.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBlockingInstancesForCapacityTask(
+        capacityTaskId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        outpostIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBlockingInstancesForCapacityTaskOutput {
+        let input = ListBlockingInstancesForCapacityTaskInput(
+            capacityTaskId: capacityTaskId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            outpostIdentifier: outpostIdentifier
+        )
+        return try await self.listBlockingInstancesForCapacityTask(input, logger: logger)
     }
 
     /// Lists the capacity tasks for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
@@ -891,7 +976,7 @@ public struct Outposts: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Starts the specified capacity task. You can have one active capacity task for an order.
+    /// Starts the specified capacity task. You can have one active capacity task per order or Outpost.
     @Sendable
     @inlinable
     public func startCapacityTask(_ input: StartCapacityTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCapacityTaskOutput {
@@ -904,27 +989,33 @@ public struct Outposts: AWSService {
             logger: logger
         )
     }
-    /// Starts the specified capacity task. You can have one active capacity task for an order.
+    /// Starts the specified capacity task. You can have one active capacity task per order or Outpost.
     ///
     /// Parameters:
     ///   - dryRun: You can request a dry run to determine if the instance type and instance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
     ///   - instancePools: The instance pools specified in the capacity task.
+    ///   - instancesToExclude: List of user-specified running instances that must not be stopped in order to free up the capacity needed to run the capacity task.
     ///   - orderId: The ID of the Amazon Web Services Outposts order associated with the specified capacity task.
     ///   - outpostIdentifier: The ID or ARN of the Outposts associated with the specified capacity task.
+    ///   - taskActionOnBlockingInstances: Specify one of the following options in case an instance is blocking the capacity task from running.    WAIT_FOR_EVACUATION - Checks every 10 minutes over 48 hours to determine if instances have stopped and capacity is available to complete the task.    FAIL_TASK - The capacity task fails.
     ///   - logger: Logger use during operation
     @inlinable
     public func startCapacityTask(
         dryRun: Bool? = nil,
         instancePools: [InstanceTypeCapacity],
-        orderId: String,
+        instancesToExclude: InstancesToExclude? = nil,
+        orderId: String? = nil,
         outpostIdentifier: String,
+        taskActionOnBlockingInstances: TaskActionOnBlockingInstances? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartCapacityTaskOutput {
         let input = StartCapacityTaskInput(
             dryRun: dryRun, 
             instancePools: instancePools, 
+            instancesToExclude: instancesToExclude, 
             orderId: orderId, 
-            outpostIdentifier: outpostIdentifier
+            outpostIdentifier: outpostIdentifier, 
+            taskActionOnBlockingInstances: taskActionOnBlockingInstances
         )
         return try await self.startCapacityTask(input, logger: logger)
     }
@@ -1277,7 +1368,7 @@ extension Outposts {
     @inlinable
     public func getOutpostSupportedInstanceTypesPaginator(
         maxResults: Int? = nil,
-        orderId: String,
+        orderId: String? = nil,
         outpostIdentifier: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetOutpostSupportedInstanceTypesInput, GetOutpostSupportedInstanceTypesOutput> {
@@ -1287,6 +1378,55 @@ extension Outposts {
             outpostIdentifier: outpostIdentifier
         )
         return self.getOutpostSupportedInstanceTypesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAssetInstances(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAssetInstancesPaginator(
+        _ input: ListAssetInstancesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssetInstancesInput, ListAssetInstancesOutput> {
+        return .init(
+            input: input,
+            command: self.listAssetInstances,
+            inputKey: \ListAssetInstancesInput.nextToken,
+            outputKey: \ListAssetInstancesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAssetInstances(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountIdFilter: Filters the results by account ID.
+    ///   - assetIdFilter: Filters the results by asset ID.
+    ///   - awsServiceFilter: Filters the results by Amazon Web Services service.
+    ///   - instanceTypeFilter: Filters the results by instance ID.
+    ///   - maxResults: 
+    ///   - outpostIdentifier: The ID of the Outpost.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAssetInstancesPaginator(
+        accountIdFilter: [String]? = nil,
+        assetIdFilter: [String]? = nil,
+        awsServiceFilter: [AWSServiceName]? = nil,
+        instanceTypeFilter: [String]? = nil,
+        maxResults: Int? = nil,
+        outpostIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAssetInstancesInput, ListAssetInstancesOutput> {
+        let input = ListAssetInstancesInput(
+            accountIdFilter: accountIdFilter, 
+            assetIdFilter: assetIdFilter, 
+            awsServiceFilter: awsServiceFilter, 
+            instanceTypeFilter: instanceTypeFilter, 
+            maxResults: maxResults, 
+            outpostIdentifier: outpostIdentifier
+        )
+        return self.listAssetInstancesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listAssets(_:logger:)``.
@@ -1330,6 +1470,46 @@ extension Outposts {
             statusFilter: statusFilter
         )
         return self.listAssetsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBlockingInstancesForCapacityTask(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBlockingInstancesForCapacityTaskPaginator(
+        _ input: ListBlockingInstancesForCapacityTaskInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBlockingInstancesForCapacityTaskInput, ListBlockingInstancesForCapacityTaskOutput> {
+        return .init(
+            input: input,
+            command: self.listBlockingInstancesForCapacityTask,
+            inputKey: \ListBlockingInstancesForCapacityTaskInput.nextToken,
+            outputKey: \ListBlockingInstancesForCapacityTaskOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBlockingInstancesForCapacityTask(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - capacityTaskId: The ID of the capacity task.
+    ///   - maxResults: 
+    ///   - outpostIdentifier: The ID or ARN of the Outpost associated with the specified capacity task.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBlockingInstancesForCapacityTaskPaginator(
+        capacityTaskId: String,
+        maxResults: Int? = nil,
+        outpostIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBlockingInstancesForCapacityTaskInput, ListBlockingInstancesForCapacityTaskOutput> {
+        let input = ListBlockingInstancesForCapacityTaskInput(
+            capacityTaskId: capacityTaskId, 
+            maxResults: maxResults, 
+            outpostIdentifier: outpostIdentifier
+        )
+        return self.listBlockingInstancesForCapacityTaskPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listCapacityTasks(_:logger:)``.
@@ -1562,6 +1742,21 @@ extension Outposts.GetOutpostSupportedInstanceTypesInput: AWSPaginateToken {
     }
 }
 
+extension Outposts.ListAssetInstancesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Outposts.ListAssetInstancesInput {
+        return .init(
+            accountIdFilter: self.accountIdFilter,
+            assetIdFilter: self.assetIdFilter,
+            awsServiceFilter: self.awsServiceFilter,
+            instanceTypeFilter: self.instanceTypeFilter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostIdentifier: self.outpostIdentifier
+        )
+    }
+}
+
 extension Outposts.ListAssetsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Outposts.ListAssetsInput {
@@ -1571,6 +1766,18 @@ extension Outposts.ListAssetsInput: AWSPaginateToken {
             nextToken: token,
             outpostIdentifier: self.outpostIdentifier,
             statusFilter: self.statusFilter
+        )
+    }
+}
+
+extension Outposts.ListBlockingInstancesForCapacityTaskInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Outposts.ListBlockingInstancesForCapacityTaskInput {
+        return .init(
+            capacityTaskId: self.capacityTaskId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostIdentifier: self.outpostIdentifier
         )
     }
 }

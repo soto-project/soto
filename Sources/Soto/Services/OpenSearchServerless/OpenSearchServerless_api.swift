@@ -343,6 +343,7 @@ public struct OpenSearchServerless: AWSService {
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - description: A description of the security configuration.
+    ///   - iamIdentityCenterOptions: Describes IAM Identity Center options in the form of a key-value map. This field is required if you specify iamidentitycenter for the type parameter.
     ///   - name: The name of the security configuration.
     ///   - samlOptions: Describes SAML options in in the form of a key-value map. This field is required if you specify saml for the type parameter.
     ///   - type: The type of security configuration.
@@ -351,6 +352,7 @@ public struct OpenSearchServerless: AWSService {
     public func createSecurityConfig(
         clientToken: String? = CreateSecurityConfigRequest.idempotencyToken(),
         description: String? = nil,
+        iamIdentityCenterOptions: CreateIamIdentityCenterConfigOptions? = nil,
         name: String,
         samlOptions: SamlConfigOptions? = nil,
         type: SecurityConfigType,
@@ -359,6 +361,7 @@ public struct OpenSearchServerless: AWSService {
         let input = CreateSecurityConfigRequest(
             clientToken: clientToken, 
             description: description, 
+            iamIdentityCenterOptions: iamIdentityCenterOptions, 
             name: name, 
             samlOptions: samlOptions, 
             type: type
@@ -1277,6 +1280,7 @@ public struct OpenSearchServerless: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - configVersion: The version of the security configuration to be updated. You can find the most recent version of a security configuration using the GetSecurityPolicy command.
     ///   - description: A description of the security configuration.
+    ///   - iamIdentityCenterOptionsUpdates: Describes IAM Identity Center options in the form of a key-value map.
     ///   - id: The security configuration identifier. For SAML the ID will be saml/&lt;accountId&gt;/&lt;idpProviderName&gt;. For example, saml/123456789123/OKTADev.
     ///   - samlOptions: SAML options in in the form of a key-value map.
     ///   - logger: Logger use during operation
@@ -1285,6 +1289,7 @@ public struct OpenSearchServerless: AWSService {
         clientToken: String? = UpdateSecurityConfigRequest.idempotencyToken(),
         configVersion: String,
         description: String? = nil,
+        iamIdentityCenterOptionsUpdates: UpdateIamIdentityCenterConfigOptions? = nil,
         id: String,
         samlOptions: SamlConfigOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1293,6 +1298,7 @@ public struct OpenSearchServerless: AWSService {
             clientToken: clientToken, 
             configVersion: configVersion, 
             description: description, 
+            iamIdentityCenterOptionsUpdates: iamIdentityCenterOptionsUpdates, 
             id: id, 
             samlOptions: samlOptions
         )

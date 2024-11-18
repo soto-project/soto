@@ -87,6 +87,7 @@ public struct Textract: AWSService {
             "ap-southeast-2": "textract.ap-southeast-2.api.aws",
             "ca-central-1": "textract.ca-central-1.api.aws",
             "eu-central-1": "textract.eu-central-1.api.aws",
+            "eu-south-2": "textract.eu-south-2.api.aws",
             "eu-west-1": "textract.eu-west-1.api.aws",
             "eu-west-2": "textract.eu-west-2.api.aws",
             "eu-west-3": "textract.eu-west-3.api.aws",

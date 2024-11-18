@@ -151,7 +151,7 @@ public struct Amp: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
-    ///   - logGroupArn: The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this API.
+    ///   - logGroupArn: The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation.
     ///   - workspaceId: The ID of the workspace to create the logging configuration for.
     ///   - logger: Logger use during operation
     @inlinable
@@ -210,7 +210,7 @@ public struct Amp: AWSService {
         return try await self.createRuleGroupsNamespace(input, logger: logger)
     }
 
-    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. You can configure the scraper to control what metrics are collected, and what transformations are applied prior to sending them to your workspace. If needed, an IAM role will be created for you that gives Amazon Managed Service for Prometheus access to the metrics in your cluster. For more information, see  Using roles for scraping metrics from EKS in the Amazon Managed Service for Prometheus User  Guide. You cannot update a scraper. If you want to change the configuration of the scraper, create a new scraper and delete the old one. The scrapeConfiguration parameter contains the base64-encoded version of the YAML configuration file.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Amazon Web Services managed collectors in the Amazon Managed Service for Prometheus User  Guide.
+    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are  flexible, and can be configured to control what metrics are collected, the  frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses  to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see  Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML  configuration for the scraper.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User  Guide.
     @Sendable
     @inlinable
     public func createScraper(_ input: CreateScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScraperResponse {
@@ -223,10 +223,10 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. You can configure the scraper to control what metrics are collected, and what transformations are applied prior to sending them to your workspace. If needed, an IAM role will be created for you that gives Amazon Managed Service for Prometheus access to the metrics in your cluster. For more information, see  Using roles for scraping metrics from EKS in the Amazon Managed Service for Prometheus User  Guide. You cannot update a scraper. If you want to change the configuration of the scraper, create a new scraper and delete the old one. The scrapeConfiguration parameter contains the base64-encoded version of the YAML configuration file.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Amazon Web Services managed collectors in the Amazon Managed Service for Prometheus User  Guide.
+    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are  flexible, and can be configured to control what metrics are collected, the  frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses  to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see  Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML  configuration for the scraper.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User  Guide.
     ///
     /// Parameters:
-    ///   - alias: (optional) a name to associate with the scraper. This is for your use, and does not need to be unique.
+    ///   - alias: (optional) An alias to associate with the scraper. This is for your use, and does not need to be unique.
     ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
     ///   - destination: The Amazon Managed Service for Prometheus workspace to send metrics to.
     ///   - scrapeConfiguration: The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User  Guide.
@@ -702,7 +702,7 @@ public struct Amp: AWSService {
         return try await self.listScrapers(input, logger: logger)
     }
 
-    /// The ListTagsForResource operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are workspaces and rule groups namespaces.
+    /// The ListTagsForResource operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are scrapers, workspaces, and rule groups namespaces.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -715,10 +715,10 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// The ListTagsForResource operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are workspaces and rule groups namespaces.
+    /// The ListTagsForResource operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are scrapers, workspaces, and rule groups namespaces.
     ///
     /// Parameters:
-    ///   - resourceArn: The ARN of the resource to list tages for. Must be a workspace or rule groups namespace resource.
+    ///   - resourceArn: The ARN of the resource to list tages for. Must be a workspace, scraper, or rule groups namespace resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -839,7 +839,7 @@ public struct Amp: AWSService {
         return try await self.putRuleGroupsNamespace(input, logger: logger)
     }
 
-    /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are workspaces and rule groups namespaces.  If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+    /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers,  and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -852,11 +852,11 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are workspaces and rule groups namespaces.  If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+    /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers,  and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource.
     ///
     /// Parameters:
-    ///   - resourceArn: The ARN of the workspace or rule groups namespace to apply tags to.
-    ///   - tags: The list of tag keys and values to associate with the resource. Keys may not begin with aws:.
+    ///   - resourceArn: The ARN of the resource to apply tags to.
+    ///   - tags: The list of tag keys and values to associate with the resource. Keys must not begin with aws:.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -871,7 +871,7 @@ public struct Amp: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are workspaces and rule groups namespaces.
+    /// Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -884,10 +884,10 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are workspaces and rule groups namespaces.
+    /// Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces.
     ///
     /// Parameters:
-    ///   - resourceArn: The ARN of the workspace or rule groups namespace.
+    ///   - resourceArn: The ARN of the resource from which to remove a tag.
     ///   - tagKeys: The keys of the tags to remove.
     ///   - logger: Logger use during operation
     @inlinable
@@ -936,6 +936,47 @@ public struct Amp: AWSService {
             workspaceId: workspaceId
         )
         return try await self.updateLoggingConfiguration(input, logger: logger)
+    }
+
+    /// Updates an existing scraper. You can't use this function to update the source from which the scraper is  collecting metrics. To change the source, delete the scraper and create a new one.
+    @Sendable
+    @inlinable
+    public func updateScraper(_ input: UpdateScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScraperResponse {
+        try await self.client.execute(
+            operation: "UpdateScraper", 
+            path: "/scrapers/{scraperId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing scraper. You can't use this function to update the source from which the scraper is  collecting metrics. To change the source, delete the scraper and create a new one.
+    ///
+    /// Parameters:
+    ///   - alias: The new alias of the scraper.
+    ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
+    ///   - destination: The new Amazon Managed Service for Prometheus workspace to send metrics to.
+    ///   - scrapeConfiguration: Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus  User Guide.
+    ///   - scraperId: The ID of the scraper to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateScraper(
+        alias: String? = nil,
+        clientToken: String? = UpdateScraperRequest.idempotencyToken(),
+        destination: Destination? = nil,
+        scrapeConfiguration: ScrapeConfiguration? = nil,
+        scraperId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateScraperResponse {
+        let input = UpdateScraperRequest(
+            alias: alias, 
+            clientToken: clientToken, 
+            destination: destination, 
+            scrapeConfiguration: scrapeConfiguration, 
+            scraperId: scraperId
+        )
+        return try await self.updateScraper(input, logger: logger)
     }
 
     /// Updates the alias of an existing workspace.

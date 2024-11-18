@@ -580,6 +580,38 @@ public struct CloudTrail: AWSService {
         return try await self.enableFederation(input, logger: logger)
     }
 
+    ///  Generates a query from a natural language prompt. This operation uses generative artificial intelligence (generative AI) to produce a ready-to-use SQL query from the prompt.  The prompt can be a question or a statement about the event data in your event data store. For example, you can enter prompts like "What are my top errors in the past month?" and “Give me a list of users that used SNS.” The prompt must be in English. For information about limitations, permissions, and supported Regions, see  Create CloudTrail Lake queries from natural language prompts  in the CloudTrail  user guide.  Do not include any personally identifying, confidential, or sensitive information in your prompts. This feature uses generative AI large language models (LLMs); we recommend double-checking the LLM response.
+    @Sendable
+    @inlinable
+    public func generateQuery(_ input: GenerateQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateQueryResponse {
+        try await self.client.execute(
+            operation: "GenerateQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Generates a query from a natural language prompt. This operation uses generative artificial intelligence (generative AI) to produce a ready-to-use SQL query from the prompt.  The prompt can be a question or a statement about the event data in your event data store. For example, you can enter prompts like "What are my top errors in the past month?" and “Give me a list of users that used SNS.” The prompt must be in English. For information about limitations, permissions, and supported Regions, see  Create CloudTrail Lake queries from natural language prompts  in the CloudTrail  user guide.  Do not include any personally identifying, confidential, or sensitive information in your prompts. This feature uses generative AI large language models (LLMs); we recommend double-checking the LLM response.
+    ///
+    /// Parameters:
+    ///   - eventDataStores:  The ARN (or ID suffix of the ARN) of the event data store that you want to query. You can only specify one event data store.
+    ///   - prompt:  The prompt that you want to use to generate the query. The prompt must be in English. For example prompts, see  Example prompts  in the CloudTrail  user guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func generateQuery(
+        eventDataStores: [String],
+        prompt: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GenerateQueryResponse {
+        let input = GenerateQueryRequest(
+            eventDataStores: eventDataStores, 
+            prompt: prompt
+        )
+        return try await self.generateQuery(input, logger: logger)
+    }
+
     ///  Returns information about a specific channel.
     @Sendable
     @inlinable

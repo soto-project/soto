@@ -237,11 +237,11 @@ extension Pipes {
             case .clientCertificateTlsAuth(let value):
                 try self.validate(value, name: "clientCertificateTlsAuth", parent: name, max: 1600)
                 try self.validate(value, name: "clientCertificateTlsAuth", parent: name, min: 1)
-                try self.validate(value, name: "clientCertificateTlsAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
+                try self.validate(value, name: "clientCertificateTlsAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):secret:.+)$")
             case .saslScram512Auth(let value):
                 try self.validate(value, name: "saslScram512Auth", parent: name, max: 1600)
                 try self.validate(value, name: "saslScram512Auth", parent: name, min: 1)
-                try self.validate(value, name: "saslScram512Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
+                try self.validate(value, name: "saslScram512Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):secret:.+)$")
             }
         }
 
@@ -305,19 +305,19 @@ extension Pipes {
             case .basicAuth(let value):
                 try self.validate(value, name: "basicAuth", parent: name, max: 1600)
                 try self.validate(value, name: "basicAuth", parent: name, min: 1)
-                try self.validate(value, name: "basicAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
+                try self.validate(value, name: "basicAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):secret:.+)$")
             case .clientCertificateTlsAuth(let value):
                 try self.validate(value, name: "clientCertificateTlsAuth", parent: name, max: 1600)
                 try self.validate(value, name: "clientCertificateTlsAuth", parent: name, min: 1)
-                try self.validate(value, name: "clientCertificateTlsAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
+                try self.validate(value, name: "clientCertificateTlsAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):secret:.+)$")
             case .saslScram256Auth(let value):
                 try self.validate(value, name: "saslScram256Auth", parent: name, max: 1600)
                 try self.validate(value, name: "saslScram256Auth", parent: name, min: 1)
-                try self.validate(value, name: "saslScram256Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
+                try self.validate(value, name: "saslScram256Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):secret:.+)$")
             case .saslScram512Auth(let value):
                 try self.validate(value, name: "saslScram512Auth", parent: name, max: 1600)
                 try self.validate(value, name: "saslScram512Auth", parent: name, min: 1)
-                try self.validate(value, name: "saslScram512Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
+                try self.validate(value, name: "saslScram512Auth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):secret:.+)$")
             }
         }
 
@@ -543,7 +543,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, max: 1600)
             try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, min: 1)
-            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:logs:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):log-group:[\\.\\-_/#A-Za-z0-9]{1,512}(:\\*)?)$")
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:logs:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):log-group:[\\.\\-_/#A-Za-z0-9]{1,512}(:\\*)?)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -618,7 +618,7 @@ extension Pipes {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.validate(self.enrichment, name: "enrichment", parent: name, max: 1600)
-            try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
+            try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?)?:(\\d{12})?:(.+)$")
             try self.enrichmentParameters?.validate(name: "\(name).enrichmentParameters")
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^[a-zA-Z0-9_\\-/:]*$")
@@ -631,7 +631,7 @@ extension Pipes {
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z0-9+=,.@\\-_/]+$")
             try self.validate(self.source, name: "source", parent: name, max: 1600)
             try self.validate(self.source, name: "source", parent: name, min: 1)
-            try self.validate(self.source, name: "source", parent: name, pattern: "^smk://(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9]):[0-9]{1,5}|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
+            try self.validate(self.source, name: "source", parent: name, pattern: "^smk://(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9]):[0-9]{1,5}|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?)?:(\\d{12})?:(.+)$")
             try self.sourceParameters?.validate(name: "\(name).sourceParameters")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -642,7 +642,7 @@ extension Pipes {
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
             try self.validate(self.target, name: "target", parent: name, max: 1600)
             try self.validate(self.target, name: "target", parent: name, min: 1)
-            try self.validate(self.target, name: "target", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
+            try self.validate(self.target, name: "target", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?)?:(\\d{12})?:(.+)$")
             try self.targetParameters?.validate(name: "\(name).targetParameters")
         }
 
@@ -708,7 +708,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?)?:(\\d{12})?:(.+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1073,10 +1073,10 @@ extension Pipes {
             try self.ephemeralStorage?.validate(name: "\(name).ephemeralStorage")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 1600)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
-            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?)?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             try self.validate(self.taskRoleArn, name: "taskRoleArn", parent: name, max: 1600)
             try self.validate(self.taskRoleArn, name: "taskRoleArn", parent: name, min: 1)
-            try self.validate(self.taskRoleArn, name: "taskRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.taskRoleArn, name: "taskRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?)?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1155,7 +1155,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, max: 1600)
             try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, min: 1)
-            try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:firehose:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):deliverystream/[a-zA-Z0-9_.-]{1,64})$")
+            try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:firehose:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):deliverystream/[a-zA-Z0-9_.-]{1,64})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1572,18 +1572,18 @@ extension Pipes {
         public let deadLetterConfig: DeadLetterConfig?
         /// The maximum length of a time to wait for events.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite.
+        /// Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite.
         /// When the value is set to infinite, EventBridge never discards old records.
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of
+        /// Discard records after the specified number of retries. The default value is -1, which sets the maximum number of
         /// retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
         public let maximumRetryAttempts: Int?
-        /// (Streams only) Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half
+        /// Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half
         /// until all the records are processed or there is one failed message left in the batch.
         public let onPartialBatchItemFailure: OnPartialBatchItemFailureStreams?
-        /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        /// The number of batches to process concurrently from each shard. The default value is 1.
         public let parallelizationFactor: Int?
-        /// (Streams only) The position in a stream from which to start reading.
+        /// The position in a stream from which to start reading.
         public let startingPosition: DynamoDBStreamStartPosition
 
         @inlinable
@@ -1631,18 +1631,18 @@ extension Pipes {
         public let deadLetterConfig: DeadLetterConfig?
         /// The maximum length of a time to wait for events.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite.
+        /// Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite.
         /// When the value is set to infinite, EventBridge never discards old records.
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of
+        /// Discard records after the specified number of retries. The default value is -1, which sets the maximum number of
         /// retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
         public let maximumRetryAttempts: Int?
-        /// (Streams only) Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half
+        /// Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half
         /// until all the records are processed or there is one failed message left in the batch.
         public let onPartialBatchItemFailure: OnPartialBatchItemFailureStreams?
-        /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        /// The number of batches to process concurrently from each shard. The default value is 1.
         public let parallelizationFactor: Int?
-        /// (Streams only) The position in a stream from which to start reading.
+        /// The position in a stream from which to start reading.
         public let startingPosition: KinesisStreamStartPosition
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading, in Unix time seconds.
         public let startingPositionTimestamp: Date?
@@ -1696,7 +1696,7 @@ extension Pipes {
         public let credentials: MSKAccessCredentials?
         /// The maximum length of a time to wait for events.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams only) The position in a stream from which to start reading.
+        /// The position in a stream from which to start reading.
         public let startingPosition: MSKStartPosition?
         /// The name of the topic that the pipe will read from.
         public let topicName: String
@@ -1845,7 +1845,7 @@ extension Pipes {
         public let maximumBatchingWindowInSeconds: Int?
         /// The ARN of the Secrets Manager secret used for certification.
         public let serverRootCaCertificate: String?
-        /// (Streams only) The position in a stream from which to start reading.
+        /// The position in a stream from which to start reading.
         public let startingPosition: SelfManagedKafkaStartPosition?
         /// The name of the topic that the pipe will read from.
         public let topicName: String
@@ -1882,7 +1882,7 @@ extension Pipes {
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, max: 1600)
             try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, min: 1)
-            try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
+            try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):secret:.+)$")
             try self.validate(self.topicName, name: "topicName", parent: name, max: 249)
             try self.validate(self.topicName, name: "topicName", parent: name, min: 1)
             try self.validate(self.topicName, name: "topicName", parent: name, pattern: "^[^.]([a-zA-Z0-9\\-_.]+)$")
@@ -2070,7 +2070,7 @@ extension Pipes {
             try self.validate(self.taskCount, name: "taskCount", parent: name, min: 1)
             try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, max: 1600)
             try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, min: 1)
-            try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?)?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2122,7 +2122,7 @@ extension Pipes {
             try self.resources?.forEach {
                 try validate($0, name: "resources[]", parent: name, max: 1600)
                 try validate($0, name: "resources[]", parent: name, min: 1)
-                try validate($0, name: "resources[]", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
+                try validate($0, name: "resources[]", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?)?:(\\d{12})?:(.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             }
             try self.validate(self.resources, name: "resources", parent: name, max: 10)
             try self.validate(self.source, name: "source", parent: name, max: 256)
@@ -2321,7 +2321,7 @@ extension Pipes {
             try self.validate(self.dbUser, name: "dbUser", parent: name, min: 1)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 1600)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, min: 1)
-            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
+            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):secret:.+)|(\\$(\\.[\\w/_-]+(\\[(\\d+|\\*)\\])*)*)$")
             try self.sqls.forEach {
                 try validate($0, name: "sqls[]", parent: name, max: 100000)
                 try validate($0, name: "sqls[]", parent: name, min: 1)
@@ -2411,7 +2411,7 @@ extension Pipes {
         public let singleMeasureMappings: [SingleMeasureMapping]?
         /// The type of time value used. The default is EPOCH.
         public let timeFieldType: TimeFieldType?
-        /// How to format the timestamps. For example, YYYY-MM-DDThh:mm:ss.sssTZD. Required if TimeFieldType is specified as TIMESTAMP_FORMAT.
+        /// How to format the timestamps. For example, yyyy-MM-dd'T'HH:mm:ss'Z'. Required if TimeFieldType is specified as TIMESTAMP_FORMAT.
         public let timestampFormat: String?
         /// Dynamic path to the source data field that represents the time value for your data.
         public let timeValue: String
@@ -2604,12 +2604,14 @@ extension Pipes {
                 try validate($0, name: "securityGroup[]", parent: name, pattern: "^sg-[0-9a-zA-Z]*$")
             }
             try self.validate(self.securityGroup, name: "securityGroup", parent: name, max: 5)
+            try self.validate(self.securityGroup, name: "securityGroup", parent: name, min: 1)
             try self.subnets?.forEach {
                 try validate($0, name: "subnets[]", parent: name, max: 1024)
                 try validate($0, name: "subnets[]", parent: name, min: 1)
                 try validate($0, name: "subnets[]", parent: name, pattern: "^subnet-[0-9a-z]*$")
             }
             try self.validate(self.subnets, name: "subnets", parent: name, max: 16)
+            try self.validate(self.subnets, name: "subnets", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2924,7 +2926,7 @@ extension Pipes {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.validate(self.enrichment, name: "enrichment", parent: name, max: 1600)
-            try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
+            try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?)?:(\\d{12})?:(.+)$")
             try self.enrichmentParameters?.validate(name: "\(name).enrichmentParameters")
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^[a-zA-Z0-9_\\-/:]*$")
@@ -2938,7 +2940,7 @@ extension Pipes {
             try self.sourceParameters?.validate(name: "\(name).sourceParameters")
             try self.validate(self.target, name: "target", parent: name, max: 1600)
             try self.validate(self.target, name: "target", parent: name, min: 1)
-            try self.validate(self.target, name: "target", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
+            try self.validate(self.target, name: "target", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?)?:(\\d{12})?:(.+)$")
             try self.targetParameters?.validate(name: "\(name).targetParameters")
         }
 
@@ -3027,16 +3029,16 @@ extension Pipes {
         public let deadLetterConfig: DeadLetterConfig?
         /// The maximum length of a time to wait for events.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite.
+        /// Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite.
         /// When the value is set to infinite, EventBridge never discards old records.
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of
+        /// Discard records after the specified number of retries. The default value is -1, which sets the maximum number of
         /// retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
         public let maximumRetryAttempts: Int?
-        /// (Streams only) Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half
+        /// Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half
         /// until all the records are processed or there is one failed message left in the batch.
         public let onPartialBatchItemFailure: OnPartialBatchItemFailureStreams?
-        /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        /// The number of batches to process concurrently from each shard. The default value is 1.
         public let parallelizationFactor: Int?
 
         @inlinable
@@ -3082,16 +3084,16 @@ extension Pipes {
         public let deadLetterConfig: DeadLetterConfig?
         /// The maximum length of a time to wait for events.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite.
+        /// Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite.
         /// When the value is set to infinite, EventBridge never discards old records.
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of
+        /// Discard records after the specified number of retries. The default value is -1, which sets the maximum number of
         /// retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
         public let maximumRetryAttempts: Int?
-        /// (Streams only) Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half
+        /// Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half
         /// until all the records are processed or there is one failed message left in the batch.
         public let onPartialBatchItemFailure: OnPartialBatchItemFailureStreams?
-        /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        /// The number of batches to process concurrently from each shard. The default value is 1.
         public let parallelizationFactor: Int?
 
         @inlinable
@@ -3272,7 +3274,7 @@ extension Pipes {
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, max: 1600)
             try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, min: 1)
-            try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
+            try self.validate(self.serverRootCaCertificate, name: "serverRootCaCertificate", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):secret:.+)$")
             try self.vpc?.validate(name: "\(name).vpc")
         }
 
@@ -3322,7 +3324,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.basicAuth, name: "basicAuth", parent: name, max: 1600)
             try self.validate(self.basicAuth, name: "basicAuth", parent: name, min: 1)
-            try self.validate(self.basicAuth, name: "basicAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):secret:.+)$")
+            try self.validate(self.basicAuth, name: "basicAuth", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:secretsmanager:([a-z]{2,4}((-gov)|(-de)|(-iso([a-z]?)))?-[a-z]+(-\\d{1})?):(\\d{12}):secret:.+)$")
         }
 
         private enum CodingKeys: String, CodingKey {

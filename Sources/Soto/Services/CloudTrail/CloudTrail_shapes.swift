@@ -194,7 +194,7 @@ extension CloudTrail {
         public let endsWith: [String]?
         ///  An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public let equals: [String]?
-        ///  A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For CloudTrail management events, supported fields include eventCategory (required), eventSource, and readOnly. For CloudTrail data events, supported fields include eventCategory (required), resources.type (required), eventName, readOnly, and resources.ARN. For CloudTrail network activity events, supported fields include eventCategory (required), eventSource (required), eventName, errorCode,  and vpcEndpointId. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.      readOnly - This is an optional field that is only used for management events and data events. This field can be set to Equals with a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.     eventSource - This field is only used for management events and network activity events. For management events, this is an optional field that can be set to NotEquals kms.amazonaws.com to exclude KMS management events, or NotEquals rdsdata.amazonaws.com to exclude RDS management events. For network activity events, this is a required field that only uses the Equals operator. Set this field to the event source for which you want to log network activity events. If you want to log network activity events for multiple event sources, you must create a separate field selector for each event source. The following are valid values for network activity events:    cloudtrail.amazonaws.com     ec2.amazonaws.com     kms.amazonaws.com     secretsmanager.amazonaws.com        eventName - This is an optional field that is only used for data events and network activity events. You can use any operator with  eventName. You can use it to ﬁlter in or ﬁlter out specific events. You can have multiple values for this ﬁeld, separated by commas.     eventCategory - This field is required and must be set to Equals.      For CloudTrail management events, the value must be Management.      For CloudTrail data events, the value must be Data.      For CloudTrail network activity events, the value must be NetworkActivity.     The following are used only for event data stores:    For CloudTrail Insights events, the value must be Insight.      For Config configuration items, the value must be ConfigurationItem.     For Audit Manager evidence, the value must be Evidence.     For non-Amazon Web Services events, the value must be ActivityAuditLog.        errorCode - This ﬁeld is only used to filter CloudTrail network activity events and is optional. This is the error code to filter on. Currently, the only valid errorCode is VpceAccessDenied.  errorCode can only use the Equals operator.     resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator. The value can be one of the following:    AWS::AppConfig::Configuration     AWS::B2BI::Transformer     AWS::Bedrock::AgentAlias     AWS::Bedrock::FlowAlias     AWS::Bedrock::Guardrail     AWS::Bedrock::KnowledgeBase     AWS::Cassandra::Table     AWS::CloudFront::KeyValueStore     AWS::CloudTrail::Channel     AWS::CloudWatch::Metric     AWS::CodeWhisperer::Customization     AWS::CodeWhisperer::Profile     AWS::Cognito::IdentityPool     AWS::DynamoDB::Stream     AWS::DynamoDB::Table     AWS::EC2::Snapshot     AWS::EMRWAL::Workspace     AWS::FinSpace::Environment     AWS::Glue::Table     AWS::GreengrassV2::ComponentVersion     AWS::GreengrassV2::Deployment     AWS::GuardDuty::Detector     AWS::IoT::Certificate     AWS::IoT::Thing     AWS::IoTSiteWise::Asset     AWS::IoTSiteWise::TimeSeries     AWS::IoTTwinMaker::Entity     AWS::IoTTwinMaker::Workspace     AWS::KendraRanking::ExecutionPlan     AWS::Kinesis::Stream     AWS::Kinesis::StreamConsumer     AWS::KinesisVideo::Stream     AWS::Lambda::Function     AWS::MachineLearning::MlModel     AWS::ManagedBlockchain::Network     AWS::ManagedBlockchain::Node     AWS::MedicalImaging::Datastore     AWS::NeptuneGraph::Graph     AWS::One::UKey     AWS::One::User     AWS::PaymentCryptography::Alias     AWS::PaymentCryptography::Key     AWS::PCAConnectorAD::Connector     AWS::PCAConnectorSCEP::Connector     AWS::QApps:QApp     AWS::QBusiness::Application     AWS::QBusiness::DataSource     AWS::QBusiness::Index     AWS::QBusiness::WebExperience     AWS::RDS::DBCluster     AWS::RUM::AppMonitor     AWS::S3::AccessPoint     AWS::S3::Object     AWS::S3Express::Object     AWS::S3ObjectLambda::AccessPoint     AWS::S3Outposts::Object     AWS::SageMaker::Endpoint     AWS::SageMaker::ExperimentTrialComponent     AWS::SageMaker::FeatureGroup     AWS::ServiceDiscovery::Namespace      AWS::ServiceDiscovery::Service     AWS::SCN::Instance     AWS::SNS::PlatformEndpoint     AWS::SNS::Topic     AWS::SQS::Queue     AWS::SSM::ManagedNode     AWS::SSMMessages::ControlChannel     AWS::StepFunctions::StateMachine     AWS::SWF::Domain     AWS::ThinClient::Device     AWS::ThinClient::Environment     AWS::Timestream::Database     AWS::Timestream::Table     AWS::VerifiedPermissions::PolicyStore     AWS::XRay::Trace    You can have only one resources.type ﬁeld per selector. To log events on more than one resource type, add another selector.     resources.ARN - The resources.ARN is an optional field for  data events. You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. To log all data events for all objects in a specific S3 bucket,  use the StartsWith operator, and include only the bucket ARN as the matching value. For information about filtering data events on the resources.ARN field, see  Filtering data  events by resources.ARN in the CloudTrail User Guide.  You can't use the resources.ARN field to filter resource types that do not have ARNs.      vpcEndpointId - This ﬁeld is only used to filter CloudTrail network activity events and is optional. This field identifies the VPC endpoint that the request passed through. You can use any operator with vpcEndpointId.
+        ///  A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For CloudTrail management events, supported fields include eventCategory (required), eventSource, and readOnly. The following additional fields are available for event data stores: eventName, eventType, sessionCredentialFromConsole, and userIdentity.arn. For CloudTrail data events, supported fields include eventCategory (required), resources.type (required), eventName, readOnly, and resources.ARN. The following additional fields are available for event data stores: eventSource, eventType, sessionCredentialFromConsole, and userIdentity.arn. For CloudTrail network activity events, supported fields include eventCategory (required), eventSource (required), eventName, errorCode,  and vpcEndpointId. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.      readOnly - This is an optional field that is only used for management events and data events. This field can be set to Equals with a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.     eventSource - This field is only used for management events, data events (for event data stores only), and network activity events. For management events for trails, this is an optional field that can be set to NotEquals kms.amazonaws.com to exclude KMS management events, or NotEquals rdsdata.amazonaws.com to exclude RDS management events. For management and data events for event data stores, you can use it to include or exclude any event source and can use any operator. For network activity events, this is a required field that only uses the Equals operator. Set this field to the event source for which you want to log network activity events. If you want to log network activity events for multiple event sources, you must create a separate field selector for each event source. The following are valid values for network activity events:    cloudtrail.amazonaws.com     ec2.amazonaws.com     kms.amazonaws.com     secretsmanager.amazonaws.com        eventName - This is an optional field that is only used for data events, management events (for event data stores only), and network activity events. You can use any operator with  eventName. You can use it to ﬁlter in or ﬁlter out specific events. You can have multiple values for this ﬁeld, separated by commas.     eventCategory - This field is required and must be set to Equals.      For CloudTrail management events, the value must be Management.      For CloudTrail data events, the value must be Data.      For CloudTrail network activity events, the value must be NetworkActivity.     The following are used only for event data stores:    For CloudTrail Insights events, the value must be Insight.      For Config configuration items, the value must be ConfigurationItem.     For Audit Manager evidence, the value must be Evidence.     For events outside of Amazon Web Services, the value must be ActivityAuditLog.        eventType - This is an optional field available only for event data stores, which is used to filter management and data events on the event type. For information about available event types, see CloudTrail record contents in the CloudTrail user guide.     errorCode - This ﬁeld is only used to filter CloudTrail network activity events and is optional. This is the error code to filter on. Currently, the only valid errorCode is VpceAccessDenied.  errorCode can only use the Equals operator.     sessionCredentialFromConsole - This is an optional field available only for event data stores, which is used to filter management and data events based on whether the events originated from an Amazon Web Services Management Console session. sessionCredentialFromConsole can only use the Equals and NotEquals operators.     resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator. For a list of available resource types for data events, see Data events in the CloudTrail User Guide. You can have only one resources.type ﬁeld per selector. To log events on more than one resource type, add another selector.     resources.ARN - The resources.ARN is an optional field for  data events. You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. To log all data events for all objects in a specific S3 bucket,  use the StartsWith operator, and include only the bucket ARN as the matching value. For information about filtering data events on the resources.ARN field, see  Filtering data  events by resources.ARN in the CloudTrail User Guide.  You can't use the resources.ARN field to filter resource types that do not have ARNs.      userIdentity.arn - This is an optional field available only for event data stores, which is used to filter management and data events on the userIdentity ARN. You can use any operator with userIdentity.arn. For more information on the userIdentity element, see CloudTrail userIdentity element in the CloudTrail User Guide.     vpcEndpointId - This ﬁeld is only used to filter CloudTrail network activity events and is optional. This field identifies the VPC endpoint that the request passed through. You can use any operator with vpcEndpointId.
         public let field: String
         ///  An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
         public let notEndsWith: [String]?
@@ -684,7 +684,7 @@ extension CloudTrail {
     }
 
     public struct DataResource: AWSEncodableShape & AWSDecodableShape {
-        /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object    Additional resource types are available through advanced event selectors. For more information about these additional resource types, see AdvancedFieldSelector.
+        /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object    Additional resource types are available through advanced event selectors. For more information, see AdvancedEventSelector.
         public let type: String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified resource type.   To log data events for all objects in all S3 buckets in your Amazon Web Services account, specify the prefix as arn:aws:s3.  This also enables logging of data event activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a bucket that belongs to another Amazon Web Services account.    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::amzn-s3-demo-bucket1/. The trail logs data events for all objects in this S3 bucket.   To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::amzn-s3-demo-bucket1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.   To log data events for all Lambda functions in your Amazon Web Services account, specify the prefix as arn:aws:lambda.  This also enables logging of Invoke activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a function that belongs to another Amazon Web Services account.     To log data events for a specific Lambda function, specify the function ARN.  Lambda function ARNs are exact. For example, if you specify a function ARN arn:aws:lambda:us-west-2:111111111111:function:helloworld, data events will only be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld. They will not be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld2.    To log data events for all DynamoDB tables in your Amazon Web Services account, specify the prefix as arn:aws:dynamodb.
         public let values: [String]?
@@ -864,6 +864,8 @@ extension CloudTrail {
         public let deliveryStatus: DeliveryStatus?
         /// The error message returned if a query failed.
         public let errorMessage: String?
+        ///  The prompt used for a generated query. For information about generated queries, see  Create CloudTrail Lake queries from natural language prompts  in the CloudTrail  user guide.
+        public let prompt: String?
         /// The ID of the query.
         public let queryId: String?
         /// Metadata about a query, including the number of events that were matched, the total number of events scanned, the query run time in milliseconds, and the query's creation time.
@@ -874,10 +876,11 @@ extension CloudTrail {
         public let queryString: String?
 
         @inlinable
-        public init(deliveryS3Uri: String? = nil, deliveryStatus: DeliveryStatus? = nil, errorMessage: String? = nil, queryId: String? = nil, queryStatistics: QueryStatisticsForDescribeQuery? = nil, queryStatus: QueryStatus? = nil, queryString: String? = nil) {
+        public init(deliveryS3Uri: String? = nil, deliveryStatus: DeliveryStatus? = nil, errorMessage: String? = nil, prompt: String? = nil, queryId: String? = nil, queryStatistics: QueryStatisticsForDescribeQuery? = nil, queryStatus: QueryStatus? = nil, queryString: String? = nil) {
             self.deliveryS3Uri = deliveryS3Uri
             self.deliveryStatus = deliveryStatus
             self.errorMessage = errorMessage
+            self.prompt = prompt
             self.queryId = queryId
             self.queryStatistics = queryStatistics
             self.queryStatus = queryStatus
@@ -888,6 +891,7 @@ extension CloudTrail {
             case deliveryS3Uri = "DeliveryS3Uri"
             case deliveryStatus = "DeliveryStatus"
             case errorMessage = "ErrorMessage"
+            case prompt = "Prompt"
             case queryId = "QueryId"
             case queryStatistics = "QueryStatistics"
             case queryStatus = "QueryStatus"
@@ -1172,6 +1176,55 @@ extension CloudTrail {
             case excludeManagementEventSources = "ExcludeManagementEventSources"
             case includeManagementEvents = "IncludeManagementEvents"
             case readWriteType = "ReadWriteType"
+        }
+    }
+
+    public struct GenerateQueryRequest: AWSEncodableShape {
+        ///  The ARN (or ID suffix of the ARN) of the event data store that you want to query. You can only specify one event data store.
+        public let eventDataStores: [String]
+        ///  The prompt that you want to use to generate the query. The prompt must be in English. For example prompts, see  Example prompts  in the CloudTrail  user guide.
+        public let prompt: String
+
+        @inlinable
+        public init(eventDataStores: [String], prompt: String) {
+            self.eventDataStores = eventDataStores
+            self.prompt = prompt
+        }
+
+        public func validate(name: String) throws {
+            try self.eventDataStores.forEach {
+                try validate($0, name: "eventDataStores[]", parent: name, max: 256)
+                try validate($0, name: "eventDataStores[]", parent: name, min: 3)
+                try validate($0, name: "eventDataStores[]", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            }
+            try self.validate(self.eventDataStores, name: "eventDataStores", parent: name, max: 1)
+            try self.validate(self.eventDataStores, name: "eventDataStores", parent: name, min: 1)
+            try self.validate(self.prompt, name: "prompt", parent: name, max: 500)
+            try self.validate(self.prompt, name: "prompt", parent: name, min: 3)
+            try self.validate(self.prompt, name: "prompt", parent: name, pattern: "^[ -~\\n]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStores = "EventDataStores"
+            case prompt = "Prompt"
+        }
+    }
+
+    public struct GenerateQueryResponse: AWSDecodableShape {
+        ///  An alias that identifies the prompt. When you run the StartQuery operation, you can pass in either the QueryAlias or  QueryStatement parameter.
+        public let queryAlias: String?
+        ///  The SQL query statement generated from the prompt.
+        public let queryStatement: String?
+
+        @inlinable
+        public init(queryAlias: String? = nil, queryStatement: String? = nil) {
+            self.queryAlias = queryAlias
+            self.queryStatement = queryStatement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryAlias = "QueryAlias"
+            case queryStatement = "QueryStatement"
         }
     }
 
@@ -3677,6 +3730,7 @@ public struct CloudTrailErrorType: AWSErrorType {
         case eventDataStoreMaxLimitExceededException = "EventDataStoreMaxLimitExceededException"
         case eventDataStoreNotFoundException = "EventDataStoreNotFoundException"
         case eventDataStoreTerminationProtectedException = "EventDataStoreTerminationProtectedException"
+        case generateResponseException = "GenerateResponseException"
         case importNotFoundException = "ImportNotFoundException"
         case inactiveEventDataStoreException = "InactiveEventDataStoreException"
         case inactiveQueryException = "InactiveQueryException"
@@ -3805,6 +3859,8 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var eventDataStoreNotFoundException: Self { .init(.eventDataStoreNotFoundException) }
     /// The event data store cannot be deleted because termination protection is enabled for it.
     public static var eventDataStoreTerminationProtectedException: Self { .init(.eventDataStoreTerminationProtectedException) }
+    ///  This exception is thrown when a valid query could not be generated for the provided prompt.
+    public static var generateResponseException: Self { .init(.generateResponseException) }
     ///  The specified import was not found.
     public static var importNotFoundException: Self { .init(.importNotFoundException) }
     /// The event data store is inactive.

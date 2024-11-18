@@ -188,6 +188,44 @@ public struct AppSync: AWSService {
         return try await self.associateSourceGraphqlApi(input, logger: logger)
     }
 
+    /// Creates an Api object. Use this operation to create an AppSync API with your preferred configuration, such as an Event API that provides real-time message publishing and message subscriptions over WebSockets.
+    @Sendable
+    @inlinable
+    public func createApi(_ input: CreateApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApiResponse {
+        try await self.client.execute(
+            operation: "CreateApi", 
+            path: "/v2/apis", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Api object. Use this operation to create an AppSync API with your preferred configuration, such as an Event API that provides real-time message publishing and message subscriptions over WebSockets.
+    ///
+    /// Parameters:
+    ///   - eventConfig: The Event API configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
+    ///   - name: The name for the Api.
+    ///   - ownerContact: The owner contact information for the Api.
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createApi(
+        eventConfig: EventConfig? = nil,
+        name: String,
+        ownerContact: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateApiResponse {
+        let input = CreateApiRequest(
+            eventConfig: eventConfig, 
+            name: name, 
+            ownerContact: ownerContact, 
+            tags: tags
+        )
+        return try await self.createApi(input, logger: logger)
+    }
+
     /// Creates a cache for the GraphQL API.
     @Sendable
     @inlinable
@@ -268,6 +306,50 @@ public struct AppSync: AWSService {
             expires: expires
         )
         return try await self.createApiKey(input, logger: logger)
+    }
+
+    /// Creates a ChannelNamespace for an Api.
+    @Sendable
+    @inlinable
+    public func createChannelNamespace(_ input: CreateChannelNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelNamespaceResponse {
+        try await self.client.execute(
+            operation: "CreateChannelNamespace", 
+            path: "/v2/apis/{apiId}/channelNamespaces", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a ChannelNamespace for an Api.
+    ///
+    /// Parameters:
+    ///   - apiId: The Api ID.
+    ///   - codeHandlers: The event handler functions that run custom business logic to process published events and subscribe requests.
+    ///   - name: The name of the ChannelNamespace. This name must be unique within the Api
+    ///   - publishAuthModes: The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+    ///   - subscribeAuthModes: The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createChannelNamespace(
+        apiId: String,
+        codeHandlers: String? = nil,
+        name: String,
+        publishAuthModes: [AuthMode]? = nil,
+        subscribeAuthModes: [AuthMode]? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateChannelNamespaceResponse {
+        let input = CreateChannelNamespaceRequest(
+            apiId: apiId, 
+            codeHandlers: codeHandlers, 
+            name: name, 
+            publishAuthModes: publishAuthModes, 
+            subscribeAuthModes: subscribeAuthModes, 
+            tags: tags
+        )
+        return try await self.createChannelNamespace(input, logger: logger)
     }
 
     /// Creates a DataSource object.
@@ -609,6 +691,35 @@ public struct AppSync: AWSService {
         return try await self.createType(input, logger: logger)
     }
 
+    /// Deletes an Api object
+    @Sendable
+    @inlinable
+    public func deleteApi(_ input: DeleteApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApiResponse {
+        try await self.client.execute(
+            operation: "DeleteApi", 
+            path: "/v2/apis/{apiId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Api object
+    ///
+    /// Parameters:
+    ///   - apiId: The Api ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteApi(
+        apiId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteApiResponse {
+        let input = DeleteApiRequest(
+            apiId: apiId
+        )
+        return try await self.deleteApi(input, logger: logger)
+    }
+
     /// Deletes an ApiCache object.
     @Sendable
     @inlinable
@@ -668,6 +779,38 @@ public struct AppSync: AWSService {
             id: id
         )
         return try await self.deleteApiKey(input, logger: logger)
+    }
+
+    /// Deletes a ChannelNamespace.
+    @Sendable
+    @inlinable
+    public func deleteChannelNamespace(_ input: DeleteChannelNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelNamespaceResponse {
+        try await self.client.execute(
+            operation: "DeleteChannelNamespace", 
+            path: "/v2/apis/{apiId}/channelNamespaces/{name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a ChannelNamespace.
+    ///
+    /// Parameters:
+    ///   - apiId: The ID of the Api associated with the ChannelNamespace.
+    ///   - name: The name of the ChannelNamespace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteChannelNamespace(
+        apiId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteChannelNamespaceResponse {
+        let input = DeleteChannelNamespaceRequest(
+            apiId: apiId, 
+            name: name
+        )
+        return try await self.deleteChannelNamespace(input, logger: logger)
     }
 
     /// Deletes a DataSource object.
@@ -1051,6 +1194,35 @@ public struct AppSync: AWSService {
         return try await self.flushApiCache(input, logger: logger)
     }
 
+    /// Retrieves an Api object.
+    @Sendable
+    @inlinable
+    public func getApi(_ input: GetApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApiResponse {
+        try await self.client.execute(
+            operation: "GetApi", 
+            path: "/v2/apis/{apiId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves an Api object.
+    ///
+    /// Parameters:
+    ///   - apiId: The Api ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getApi(
+        apiId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetApiResponse {
+        let input = GetApiRequest(
+            apiId: apiId
+        )
+        return try await self.getApi(input, logger: logger)
+    }
+
     /// Retrieves an ApiAssociation object.
     @Sendable
     @inlinable
@@ -1109,6 +1281,38 @@ public struct AppSync: AWSService {
         return try await self.getApiCache(input, logger: logger)
     }
 
+    /// Retrieves the channel namespace for a specified Api.
+    @Sendable
+    @inlinable
+    public func getChannelNamespace(_ input: GetChannelNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelNamespaceResponse {
+        try await self.client.execute(
+            operation: "GetChannelNamespace", 
+            path: "/v2/apis/{apiId}/channelNamespaces/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the channel namespace for a specified Api.
+    ///
+    /// Parameters:
+    ///   - apiId: The Api ID.
+    ///   - name: The name of the ChannelNamespace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getChannelNamespace(
+        apiId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetChannelNamespaceResponse {
+        let input = GetChannelNamespaceRequest(
+            apiId: apiId, 
+            name: name
+        )
+        return try await self.getChannelNamespace(input, logger: logger)
+    }
+
     /// Retrieves a DataSource object.
     @Sendable
     @inlinable
@@ -1157,7 +1361,7 @@ public struct AppSync: AWSService {
     /// Retrieves the record of an existing introspection. If the retrieval is successful, the result of the instrospection will also be returned. If the retrieval fails the operation, an error message will be returned instead.
     ///
     /// Parameters:
-    ///   - includeModelsSDL: A boolean flag that determines whether SDL should be generated for introspected types or not. If set to true, each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
+    ///   - includeModelsSDL: A boolean flag that determines whether SDL should be generated for introspected types. If set to true, each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
     ///   - introspectionId: The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
     ///   - maxResults: The maximum number of introspected types that will be returned in a single response.
     ///   - nextToken: Determines the number of types to be returned in a single response before paginating. This value is typically taken from nextToken value from the previous response.
@@ -1497,6 +1701,73 @@ public struct AppSync: AWSService {
             nextToken: nextToken
         )
         return try await self.listApiKeys(input, logger: logger)
+    }
+
+    /// Lists the APIs in your AppSync account.  ListApis returns only the high level API details. For more detailed information about an API, use GetApi.
+    @Sendable
+    @inlinable
+    public func listApis(_ input: ListApisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApisResponse {
+        try await self.client.execute(
+            operation: "ListApis", 
+            path: "/v2/apis", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the APIs in your AppSync account.  ListApis returns only the high level API details. For more detailed information about an API, use GetApi.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results that you want the request to return.
+    ///   - nextToken: An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listApis(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListApisResponse {
+        let input = ListApisRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listApis(input, logger: logger)
+    }
+
+    /// Lists the channel namespaces for a specified Api.  ListChannelNamespaces returns only high level details for the channel namespace. To retrieve code handlers, use GetChannelNamespace.
+    @Sendable
+    @inlinable
+    public func listChannelNamespaces(_ input: ListChannelNamespacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelNamespacesResponse {
+        try await self.client.execute(
+            operation: "ListChannelNamespaces", 
+            path: "/v2/apis/{apiId}/channelNamespaces", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the channel namespaces for a specified Api.  ListChannelNamespaces returns only high level details for the channel namespace. To retrieve code handlers, use GetChannelNamespace.
+    ///
+    /// Parameters:
+    ///   - apiId: The Api ID.
+    ///   - maxResults: The maximum number of results that you want the request to return.
+    ///   - nextToken: An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listChannelNamespaces(
+        apiId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListChannelNamespacesResponse {
+        let input = ListChannelNamespacesRequest(
+            apiId: apiId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listChannelNamespaces(input, logger: logger)
     }
 
     /// Lists the data sources for a given API.
@@ -2047,6 +2318,44 @@ public struct AppSync: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates an Api.
+    @Sendable
+    @inlinable
+    public func updateApi(_ input: UpdateApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApiResponse {
+        try await self.client.execute(
+            operation: "UpdateApi", 
+            path: "/v2/apis/{apiId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an Api.
+    ///
+    /// Parameters:
+    ///   - apiId: The Api ID.
+    ///   - eventConfig: The new event configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
+    ///   - name: The name of the Api.
+    ///   - ownerContact: The owner contact information for the Api.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateApi(
+        apiId: String,
+        eventConfig: EventConfig? = nil,
+        name: String,
+        ownerContact: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateApiResponse {
+        let input = UpdateApiRequest(
+            apiId: apiId, 
+            eventConfig: eventConfig, 
+            name: name, 
+            ownerContact: ownerContact
+        )
+        return try await self.updateApi(input, logger: logger)
+    }
+
     /// Updates the cache for the GraphQL API.
     @Sendable
     @inlinable
@@ -2124,6 +2433,47 @@ public struct AppSync: AWSService {
             id: id
         )
         return try await self.updateApiKey(input, logger: logger)
+    }
+
+    /// Updates a ChannelNamespace associated with an Api.
+    @Sendable
+    @inlinable
+    public func updateChannelNamespace(_ input: UpdateChannelNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelNamespaceResponse {
+        try await self.client.execute(
+            operation: "UpdateChannelNamespace", 
+            path: "/v2/apis/{apiId}/channelNamespaces/{name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a ChannelNamespace associated with an Api.
+    ///
+    /// Parameters:
+    ///   - apiId: The Api ID.
+    ///   - codeHandlers: The event handler functions that run custom business logic to process published events and subscribe requests.
+    ///   - name: The name of the ChannelNamespace.
+    ///   - publishAuthModes: The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+    ///   - subscribeAuthModes: The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateChannelNamespace(
+        apiId: String,
+        codeHandlers: String? = nil,
+        name: String,
+        publishAuthModes: [AuthMode]? = nil,
+        subscribeAuthModes: [AuthMode]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateChannelNamespaceResponse {
+        let input = UpdateChannelNamespaceRequest(
+            apiId: apiId, 
+            codeHandlers: codeHandlers, 
+            name: name, 
+            publishAuthModes: publishAuthModes, 
+            subscribeAuthModes: subscribeAuthModes
+        )
+        return try await self.updateChannelNamespace(input, logger: logger)
     }
 
     /// Updates a DataSource object.
@@ -2321,7 +2671,7 @@ public struct AppSync: AWSService {
     public func updateGraphqlApi(
         additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil,
         apiId: String,
-        authenticationType: AuthenticationType,
+        authenticationType: AuthenticationType? = nil,
         enhancedMetricsConfig: EnhancedMetricsConfig? = nil,
         introspectionConfig: GraphQLApiIntrospectionConfig? = nil,
         lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil,
@@ -2549,6 +2899,77 @@ extension AppSync {
             maxResults: maxResults
         )
         return self.listApiKeysPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listApis(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listApisPaginator(
+        _ input: ListApisRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApisRequest, ListApisResponse> {
+        return .init(
+            input: input,
+            command: self.listApis,
+            inputKey: \ListApisRequest.nextToken,
+            outputKey: \ListApisResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listApis(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results that you want the request to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listApisPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListApisRequest, ListApisResponse> {
+        let input = ListApisRequest(
+            maxResults: maxResults
+        )
+        return self.listApisPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listChannelNamespaces(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listChannelNamespacesPaginator(
+        _ input: ListChannelNamespacesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListChannelNamespacesRequest, ListChannelNamespacesResponse> {
+        return .init(
+            input: input,
+            command: self.listChannelNamespaces,
+            inputKey: \ListChannelNamespacesRequest.nextToken,
+            outputKey: \ListChannelNamespacesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listChannelNamespaces(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - apiId: The Api ID.
+    ///   - maxResults: The maximum number of results that you want the request to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listChannelNamespacesPaginator(
+        apiId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListChannelNamespacesRequest, ListChannelNamespacesResponse> {
+        let input = ListChannelNamespacesRequest(
+            apiId: apiId, 
+            maxResults: maxResults
+        )
+        return self.listChannelNamespacesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listDataSources(_:logger:)``.
@@ -2903,6 +3324,27 @@ extension AppSync {
 extension AppSync.ListApiKeysRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> AppSync.ListApiKeysRequest {
+        return .init(
+            apiId: self.apiId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppSync.ListApisRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> AppSync.ListApisRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppSync.ListChannelNamespacesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> AppSync.ListChannelNamespacesRequest {
         return .init(
             apiId: self.apiId,
             maxResults: self.maxResults,

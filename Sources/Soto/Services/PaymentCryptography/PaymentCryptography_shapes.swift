@@ -30,6 +30,8 @@ extension PaymentCryptography {
         case aes128 = "AES_128"
         case aes192 = "AES_192"
         case aes256 = "AES_256"
+        case eccNistP256 = "ECC_NIST_P256"
+        case eccNistP384 = "ECC_NIST_P384"
         case rsa2048 = "RSA_2048"
         case rsa3072 = "RSA_3072"
         case rsa4096 = "RSA_4096"
@@ -1152,18 +1154,24 @@ extension PaymentCryptography {
     }
 
     public struct ListAliasesInput: AWSEncodableShape {
+        /// The keyARN for which you want to list all aliases.
+        public let keyArn: String?
         /// Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
         public let maxResults: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the truncated response you just received.
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(keyArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.keyArn = keyArn
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.keyArn, name: "keyArn", parent: name, max: 150)
+            try self.validate(self.keyArn, name: "keyArn", parent: name, min: 70)
+            try self.validate(self.keyArn, name: "keyArn", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -1171,6 +1179,7 @@ extension PaymentCryptography {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case keyArn = "KeyArn"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -1433,6 +1442,7 @@ extension PaymentCryptography {
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

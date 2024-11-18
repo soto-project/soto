@@ -218,6 +218,38 @@ public struct SageMaker: AWSService {
         return try await self.associateTrialComponent(input, logger: logger)
     }
 
+    /// Deletes specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs.    To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod.    If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the UpdateClusterSoftware API. For more information about patching a cluster, see Update the SageMaker HyperPod platform software of a cluster.
+    @Sendable
+    @inlinable
+    public func batchDeleteClusterNodes(_ input: BatchDeleteClusterNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteClusterNodesResponse {
+        try await self.client.execute(
+            operation: "BatchDeleteClusterNodes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs.    To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod.    If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the UpdateClusterSoftware API. For more information about patching a cluster, see Update the SageMaker HyperPod platform software of a cluster.
+    ///
+    /// Parameters:
+    ///   - clusterName: The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
+    ///   - nodeIds: A list of node IDs to be deleted from the specified cluster.  For SageMaker HyperPod clusters using the Slurm workload manager,  you cannot remove instances that are configured as Slurm controller nodes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDeleteClusterNodes(
+        clusterName: String? = nil,
+        nodeIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDeleteClusterNodesResponse {
+        let input = BatchDeleteClusterNodesRequest(
+            clusterName: clusterName, 
+            nodeIds: nodeIds
+        )
+        return try await self.batchDeleteClusterNodes(input, logger: logger)
+    }
+
     /// This action batch describes a list of versioned model packages
     @Sendable
     @inlinable
@@ -883,7 +915,7 @@ public struct SageMaker: AWSService {
     ///   - appNetworkAccessType: Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All traffic is through the specified VPC and subnets
     ///   - appSecurityGroupManagement: The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided. If setting up the domain for use with RStudio, this value must be set to Service.
     ///   - authMode: The mode of authentication that members use to access the domain.
-    ///   - defaultSpaceSettings: The default settings used to create a space.
+    ///   - defaultSpaceSettings: The default settings for shared spaces that users create in the domain.
     ///   - defaultUserSettings: The default settings to use to create a user profile when UserSettings isn't specified in the call to the CreateUserProfile API.  SecurityGroups is aggregated when specified in both calls. For all other settings in UserSettings, the values specified in CreateUserProfile take precedence over those specified in CreateDomain.
     ///   - domainName: A name for the domain.
     ///   - domainSettings: A collection of Domain settings.
@@ -2080,6 +2112,7 @@ public struct SageMaker: AWSService {
     ///   - metadataProperties: 
     ///   - modelApprovalStatus: Whether the model is approved for deployment. This parameter is optional for versioned models, and does not apply to unversioned models. For versioned models, the value of this parameter must be set to Approved to deploy the model.
     ///   - modelCard: The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The  ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see Model package model card schema. For more information about the model card associated with the model package, see View the Details of a Model Version.
+    ///   - modelLifeCycle:  A structure describing the current state of the model in its life cycle.
     ///   - modelMetrics: A structure that contains model metrics reports.
     ///   - modelPackageDescription: A description of the model package.
     ///   - modelPackageGroupName: The name or Amazon Resource Name (ARN) of the model package group that this model version belongs to. This parameter is required for versioned models, and does not apply to unversioned models.
@@ -2105,6 +2138,7 @@ public struct SageMaker: AWSService {
         metadataProperties: MetadataProperties? = nil,
         modelApprovalStatus: ModelApprovalStatus? = nil,
         modelCard: ModelPackageModelCard? = nil,
+        modelLifeCycle: ModelLifeCycle? = nil,
         modelMetrics: ModelMetrics? = nil,
         modelPackageDescription: String? = nil,
         modelPackageGroupName: String? = nil,
@@ -2130,6 +2164,7 @@ public struct SageMaker: AWSService {
             metadataProperties: metadataProperties, 
             modelApprovalStatus: modelApprovalStatus, 
             modelCard: modelCard, 
+            modelLifeCycle: modelLifeCycle, 
             modelMetrics: modelMetrics, 
             modelPackageDescription: modelPackageDescription, 
             modelPackageGroupName: modelPackageGroupName, 
@@ -2288,7 +2323,7 @@ public struct SageMaker: AWSService {
     /// Creates an SageMaker notebook instance. A notebook instance is a machine learning (ML) compute instance running on a Jupyter notebook.  In a CreateNotebookInstance request, specify the type of ML compute instance that you want to run. SageMaker launches the instance, installs common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance.  SageMaker also provides a set of example notebooks. Each notebook demonstrates how to use SageMaker with a specific algorithm or with a machine learning framework.  After receiving the request, SageMaker does the following:   Creates a network interface in the SageMaker VPC.   (Option) If you specified SubnetId, SageMaker creates a network interface in your own VPC, which is inferred from the subnet ID that you provide in the input. When creating this network interface, SageMaker attaches the security group that you specified in the request to the network interface that it creates in your VPC.   Launches an EC2 instance of the type specified in the request in the SageMaker VPC. If you specified SubnetId of your VPC, SageMaker specifies both network interfaces when launching this instance. This enables inbound traffic from your own VPC to the notebook instance, assuming that the security groups allow it.   After creating the notebook instance, SageMaker returns its Amazon Resource Name (ARN). You can't change the name of a notebook instance after you create it. After SageMaker creates the notebook instance, you can connect to the Jupyter server and work in Jupyter notebooks. For example, you can write code to explore a dataset that you can use for model training, train a model, host models by creating SageMaker endpoints, and validate hosted models.  For more information, see How It Works.
     ///
     /// Parameters:
-    ///   - acceleratorTypes: A list of Elastic Inference (EI) instance types to associate with this notebook instance. Currently, only one instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
+    ///   - acceleratorTypes: This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of EI instance types to associate with this notebook instance.
     ///   - additionalCodeRepositories: An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
     ///   - defaultCodeRepository: A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
     ///   - directInternetAccess: Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
@@ -2490,7 +2525,7 @@ public struct SageMaker: AWSService {
         return try await self.createPipeline(input, logger: logger)
     }
 
-    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint .  The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.
+    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint .    The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.   The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
     @Sendable
     @inlinable
     public func createPresignedDomainUrl(_ input: CreatePresignedDomainUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresignedDomainUrlResponse {
@@ -2503,7 +2538,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint .  The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.
+    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint .    The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.   The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
     ///
     /// Parameters:
     ///   - domainId: The domain ID.
@@ -11976,7 +12011,7 @@ public struct SageMaker: AWSService {
         return try await self.updateCluster(input, logger: logger)
     }
 
-    /// Updates the platform software of a SageMaker HyperPod cluster for security patching. To learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster.
+    /// Updates the platform software of a SageMaker HyperPod cluster for security patching. To learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster.  The UpgradeClusterSoftware API call may impact your SageMaker HyperPod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads.
     @Sendable
     @inlinable
     public func updateClusterSoftware(_ input: UpdateClusterSoftwareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterSoftwareResponse {
@@ -11989,7 +12024,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Updates the platform software of a SageMaker HyperPod cluster for security patching. To learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster.
+    /// Updates the platform software of a SageMaker HyperPod cluster for security patching. To learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster.  The UpgradeClusterSoftware API call may impact your SageMaker HyperPod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads.
     ///
     /// Parameters:
     ///   - clusterName: Specify the name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster you want to update for security patching.
@@ -12166,7 +12201,7 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - appNetworkAccessType: Specifies the VPC used for non-EFS traffic.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access.    VpcOnly - All Studio traffic is through the specified VPC and subnets.   This configuration can only be modified if there are no apps in the InService, Pending, or Deleting state. The configuration cannot be updated if DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is already set or DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided as part of the same request.
     ///   - appSecurityGroupManagement: The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided. If setting up the domain for use with RStudio, this value must be set to Service.
-    ///   - defaultSpaceSettings: The default settings used to create a space within the domain.
+    ///   - defaultSpaceSettings: The default settings for shared spaces that users create in the domain.
     ///   - defaultUserSettings: A collection of settings.
     ///   - domainId: The ID of the domain to be updated.
     ///   - domainSettingsForUpdate: A collection of DomainSettings configuration values to update.
@@ -12734,11 +12769,13 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - additionalInferenceSpecificationsToAdd: An array of additional Inference Specification objects to be added to the  existing array additional Inference Specification. Total number of additional  Inference Specifications can not exceed 15. Each additional Inference Specification  specifies artifacts based on this model package that can be used on inference endpoints.  Generally used with SageMaker Neo to store the compiled artifacts.
     ///   - approvalDescription: A description for the approval status of the model.
+    ///   - clientToken:  A unique token that guarantees that the call to this API is idempotent.
     ///   - customerMetadataProperties: The metadata properties associated with the model package versions.
     ///   - customerMetadataPropertiesToRemove: The metadata properties associated with the model package versions to remove.
     ///   - inferenceSpecification: Specifies details about inference jobs that you can run with models based on this model package, including the following information:   The Amazon ECR paths of containers that contain the inference code and model artifacts.   The instance types that the model package supports for transform jobs and real-time endpoints used for inference.   The input and output content formats that the model package supports for inference.
     ///   - modelApprovalStatus: The approval status of the model.
     ///   - modelCard: The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The  ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see Model package model card schema. For more information about the model card associated with the model package, see View the Details of a Model Version.
+    ///   - modelLifeCycle:  A structure describing the current state of the model in its life cycle.
     ///   - modelPackageArn: The Amazon Resource Name (ARN) of the model package.
     ///   - sourceUri: The URI of the source for the model package.
     ///   - logger: Logger use during operation
@@ -12746,11 +12783,13 @@ public struct SageMaker: AWSService {
     public func updateModelPackage(
         additionalInferenceSpecificationsToAdd: [AdditionalInferenceSpecificationDefinition]? = nil,
         approvalDescription: String? = nil,
+        clientToken: String? = nil,
         customerMetadataProperties: [String: String]? = nil,
         customerMetadataPropertiesToRemove: [String]? = nil,
         inferenceSpecification: InferenceSpecification? = nil,
         modelApprovalStatus: ModelApprovalStatus? = nil,
         modelCard: ModelPackageModelCard? = nil,
+        modelLifeCycle: ModelLifeCycle? = nil,
         modelPackageArn: String? = nil,
         sourceUri: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -12758,11 +12797,13 @@ public struct SageMaker: AWSService {
         let input = UpdateModelPackageInput(
             additionalInferenceSpecificationsToAdd: additionalInferenceSpecificationsToAdd, 
             approvalDescription: approvalDescription, 
+            clientToken: clientToken, 
             customerMetadataProperties: customerMetadataProperties, 
             customerMetadataPropertiesToRemove: customerMetadataPropertiesToRemove, 
             inferenceSpecification: inferenceSpecification, 
             modelApprovalStatus: modelApprovalStatus, 
             modelCard: modelCard, 
+            modelLifeCycle: modelLifeCycle, 
             modelPackageArn: modelPackageArn, 
             sourceUri: sourceUri
         )
@@ -12855,10 +12896,10 @@ public struct SageMaker: AWSService {
     /// Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
     ///
     /// Parameters:
-    ///   - acceleratorTypes: A list of the Elastic Inference (EI) instance types to associate with this notebook instance. Currently only one EI instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
+    ///   - acceleratorTypes: This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to associate with this notebook instance.
     ///   - additionalCodeRepositories: An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
     ///   - defaultCodeRepository: The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
-    ///   - disassociateAcceleratorTypes: A list of the Elastic Inference (EI) instance types to remove from this notebook instance. This operation is idempotent. If you specify an accelerator type that is not associated with the notebook instance when you call this method, it does not throw an error.
+    ///   - disassociateAcceleratorTypes: This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to remove from this notebook instance.
     ///   - disassociateAdditionalCodeRepositories: A list of names or URLs of the default Git repositories to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
     ///   - disassociateDefaultCodeRepository: The name or URL of the default Git repository to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
     ///   - disassociateLifecycleConfig: Set to true to remove the notebook instance lifecycle configuration currently associated with the notebook instance. This operation is idempotent. If you specify a lifecycle configuration that is not associated with the notebook instance when you call this method, it does not throw an error.

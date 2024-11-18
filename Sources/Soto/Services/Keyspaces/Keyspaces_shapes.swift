@@ -77,6 +77,14 @@ extension Keyspaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum TypeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case restoring = "RESTORING"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AutoScalingPolicy: AWSEncodableShape & AWSDecodableShape {
@@ -412,6 +420,55 @@ extension Keyspaces {
         }
     }
 
+    public struct CreateTypeRequest: AWSEncodableShape {
+        ///  The field definitions, consisting of names and types, that define this type.
+        public let fieldDefinitions: [FieldDefinition]
+        ///  The name of the keyspace.
+        public let keyspaceName: String
+        ///  The name of the user-defined type.  UDT names must contain 48 characters or less, must begin with an alphabetic character, and  can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters automatically into lower case characters.  Alternatively, you can declare a UDT name in double quotes. When declaring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the  name when you create the UDT, but you must escape each double quote character with an additional  double quote character.
+        public let typeName: String
+
+        @inlinable
+        public init(fieldDefinitions: [FieldDefinition], keyspaceName: String, typeName: String) {
+            self.fieldDefinitions = fieldDefinitions
+            self.keyspaceName = keyspaceName
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldDefinitions, name: "fieldDefinitions", parent: name, min: 1)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, max: 48)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, min: 1)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]{0,47}$")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 48)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldDefinitions = "fieldDefinitions"
+            case keyspaceName = "keyspaceName"
+            case typeName = "typeName"
+        }
+    }
+
+    public struct CreateTypeResponse: AWSDecodableShape {
+        ///  The unique identifier of the keyspace that contains the new type in the format of an Amazon Resource Name (ARN).
+        public let keyspaceArn: String
+        ///  The formatted name of the user-defined type that was created. Note that Amazon Keyspaces requires the formatted name of the type for other operations, for example GetType.
+        public let typeName: String
+
+        @inlinable
+        public init(keyspaceArn: String, typeName: String) {
+            self.keyspaceArn = keyspaceArn
+            self.typeName = typeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyspaceArn = "keyspaceArn"
+            case typeName = "typeName"
+        }
+    }
+
     public struct DeleteKeyspaceRequest: AWSEncodableShape {
         /// The name of the keyspace to be deleted.
         public let keyspaceName: String
@@ -467,6 +524,50 @@ extension Keyspaces {
         public init() {}
     }
 
+    public struct DeleteTypeRequest: AWSEncodableShape {
+        ///  The name of the keyspace of the to be deleted type.
+        public let keyspaceName: String
+        ///  The name of the type to be deleted.
+        public let typeName: String
+
+        @inlinable
+        public init(keyspaceName: String, typeName: String) {
+            self.keyspaceName = keyspaceName
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, max: 48)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, min: 1)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]{0,47}$")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 48)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyspaceName = "keyspaceName"
+            case typeName = "typeName"
+        }
+    }
+
+    public struct DeleteTypeResponse: AWSDecodableShape {
+        ///  The unique identifier of the keyspace from which the type was deleted in the format of an Amazon Resource Name (ARN).
+        public let keyspaceArn: String
+        ///  The name of the type that was deleted.
+        public let typeName: String
+
+        @inlinable
+        public init(keyspaceArn: String, typeName: String) {
+            self.keyspaceArn = keyspaceArn
+            self.typeName = typeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyspaceArn = "keyspaceArn"
+            case typeName = "typeName"
+        }
+    }
+
     public struct EncryptionSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the customer managed KMS key, for example kms_key_identifier:ARN.
         public let kmsKeyIdentifier: String?
@@ -486,6 +587,24 @@ extension Keyspaces {
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyIdentifier = "kmsKeyIdentifier"
+            case type = "type"
+        }
+    }
+
+    public struct FieldDefinition: AWSEncodableShape & AWSDecodableShape {
+        ///  The identifier.
+        public let name: String
+        ///  Any supported Cassandra data type, including collections and other user-defined types that are  contained in the same keyspace.  For more information, see Cassandra data type support in the Amazon Keyspaces Developer Guide.
+        public let type: String
+
+        @inlinable
+        public init(name: String, type: String) {
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
             case type = "type"
         }
     }
@@ -686,6 +805,78 @@ extension Keyspaces {
         }
     }
 
+    public struct GetTypeRequest: AWSEncodableShape {
+        ///  The name of the keyspace that contains this type.
+        public let keyspaceName: String
+        /// The formatted name of the type. For example, if the name of the type was created without double quotes, Amazon Keyspaces saved the name in lower-case characters. If the name was created in double quotes, you must use double quotes to specify the type name.
+        public let typeName: String
+
+        @inlinable
+        public init(keyspaceName: String, typeName: String) {
+            self.keyspaceName = keyspaceName
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, max: 48)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, min: 1)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]{0,47}$")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 48)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyspaceName = "keyspaceName"
+            case typeName = "typeName"
+        }
+    }
+
+    public struct GetTypeResponse: AWSDecodableShape {
+        ///  The types that use this type.
+        public let directParentTypes: [String]?
+        ///  The tables that use this type.
+        public let directReferringTables: [String]?
+        ///  The names and types that define this type.
+        public let fieldDefinitions: [FieldDefinition]?
+        ///  The unique identifier of the keyspace that contains this type in the format of an Amazon Resource Name (ARN).
+        public let keyspaceArn: String
+        ///  The name of the keyspace that contains this type.
+        public let keyspaceName: String
+        ///  The timestamp that shows when this type was last modified.
+        public let lastModifiedTimestamp: Date?
+        ///  The level of nesting implemented for this type.
+        public let maxNestingDepth: Int?
+        ///  The status of this type.
+        public let status: TypeStatus?
+        ///  The name of the type.
+        public let typeName: String
+
+        @inlinable
+        public init(directParentTypes: [String]? = nil, directReferringTables: [String]? = nil, fieldDefinitions: [FieldDefinition]? = nil, keyspaceArn: String, keyspaceName: String, lastModifiedTimestamp: Date? = nil, maxNestingDepth: Int? = nil, status: TypeStatus? = nil, typeName: String) {
+            self.directParentTypes = directParentTypes
+            self.directReferringTables = directReferringTables
+            self.fieldDefinitions = fieldDefinitions
+            self.keyspaceArn = keyspaceArn
+            self.keyspaceName = keyspaceName
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.maxNestingDepth = maxNestingDepth
+            self.status = status
+            self.typeName = typeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directParentTypes = "directParentTypes"
+            case directReferringTables = "directReferringTables"
+            case fieldDefinitions = "fieldDefinitions"
+            case keyspaceArn = "keyspaceArn"
+            case keyspaceName = "keyspaceName"
+            case lastModifiedTimestamp = "lastModifiedTimestamp"
+            case maxNestingDepth = "maxNestingDepth"
+            case status = "status"
+            case typeName = "typeName"
+        }
+    }
+
     public struct KeyspaceSummary: AWSDecodableShape {
         /// The name of the keyspace.
         public let keyspaceName: String
@@ -852,6 +1043,56 @@ extension Keyspaces {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case tags = "tags"
+        }
+    }
+
+    public struct ListTypesRequest: AWSEncodableShape {
+        ///  The name of the keyspace that contains the listed types.
+        public let keyspaceName: String
+        ///  The total number of types to return in the output. If the total number of types available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an  argument of a subsequent API invocation.
+        public let maxResults: Int?
+        ///  The pagination token. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
+        public let nextToken: String?
+
+        @inlinable
+        public init(keyspaceName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.keyspaceName = keyspaceName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, max: 48)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, min: 1)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]{0,47}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyspaceName = "keyspaceName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListTypesResponse: AWSDecodableShape {
+        ///  The pagination token. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
+        public let nextToken: String?
+        ///  The list of types contained in the specified keyspace.
+        public let types: [String]
+
+        @inlinable
+        public init(nextToken: String? = nil, types: [String]) {
+            self.nextToken = nextToken
+            self.types = types
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case types = "types"
         }
     }
 
@@ -1414,7 +1655,7 @@ public struct KeyspacesErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// Amazon Keyspaces was unable to fully process this request because of an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
+    /// The operation tried to access a keyspace, table, or type that doesn't exist. The resource might not be specified correctly,  or its status might not be ACTIVE.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The operation exceeded the service quota for this resource.  For more information on service quotas, see Quotas in the Amazon Keyspaces Developer Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

@@ -426,7 +426,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.createRegistrationAssociation(input, logger: logger)
     }
 
-    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.
+    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
     @Sendable
     @inlinable
     public func createRegistrationAttachment(_ input: CreateRegistrationAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRegistrationAttachmentResult {
@@ -439,11 +439,11 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.
+    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
     ///
     /// Parameters:
-    ///   - attachmentBody: The registration file to upload. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG.
-    ///   - attachmentUrl: A URL to the required registration file.  For example, you can provide the S3 object URL.
+    ///   - attachmentBody: The registration file to upload. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG.
+    ///   - attachmentUrl: Registration files have to be stored in an Amazon S3 bucket. The URI to use when sending is in the format s3://BucketName/FileName.
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     ///   - tags: An array of tags (key and value pairs) to associate with the registration attachment.
     ///   - logger: Logger use during operation
@@ -850,6 +850,38 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.deleteProtectConfiguration(input, logger: logger)
     }
 
+    /// Permanently delete the protect configuration rule set number override.
+    @Sendable
+    @inlinable
+    public func deleteProtectConfigurationRuleSetNumberOverride(_ input: DeleteProtectConfigurationRuleSetNumberOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProtectConfigurationRuleSetNumberOverrideResult {
+        try await self.client.execute(
+            operation: "DeleteProtectConfigurationRuleSetNumberOverride", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Permanently delete the protect configuration rule set number override.
+    ///
+    /// Parameters:
+    ///   - destinationPhoneNumber: The destination phone number in E.164 format.
+    ///   - protectConfigurationId: The unique identifier for the protect configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteProtectConfigurationRuleSetNumberOverride(
+        destinationPhoneNumber: String,
+        protectConfigurationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteProtectConfigurationRuleSetNumberOverrideResult {
+        let input = DeleteProtectConfigurationRuleSetNumberOverrideRequest(
+            destinationPhoneNumber: destinationPhoneNumber, 
+            protectConfigurationId: protectConfigurationId
+        )
+        return try await self.deleteProtectConfigurationRuleSetNumberOverride(input, logger: logger)
+    }
+
     /// Permanently delete an existing registration from your account.
     @Sendable
     @inlinable
@@ -1231,7 +1263,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.describeOptOutLists(input, logger: logger)
     }
 
-    /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the output includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify an opted out number that isn't valid, an error is returned.
+    /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the output includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify an opted out number that isn't valid, an exception is returned.
     @Sendable
     @inlinable
     public func describeOptedOutNumbers(_ input: DescribeOptedOutNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOptedOutNumbersResult {
@@ -1244,13 +1276,13 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the output includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify an opted out number that isn't valid, an error is returned.
+    /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the output includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify an opted out number that isn't valid, an exception is returned.
     ///
     /// Parameters:
     ///   - filters: An array of OptedOutFilter objects to filter the results on.
     ///   - maxResults: The maximum number of results to return per each request.
     ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
-    ///   - optedOutNumbers: An array of phone numbers to search for in the OptOutList.
+    ///   - optedOutNumbers: An array of phone numbers to search for in the OptOutList. If you specify an opted out number that isn't valid, an exception is returned.
     ///   - optOutListName: The OptOutListName or OptOutListArn of the OptOutList. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
@@ -1743,7 +1775,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.describeSpendLimits(input, logger: logger)
     }
 
-    /// Retrieves the specified verified destiona numbers.
+    /// Retrieves the specified verified destination numbers.
     @Sendable
     @inlinable
     public func describeVerifiedDestinationNumbers(_ input: DescribeVerifiedDestinationNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVerifiedDestinationNumbersResult {
@@ -1756,14 +1788,14 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the specified verified destiona numbers.
+    /// Retrieves the specified verified destination numbers.
     ///
     /// Parameters:
     ///   - destinationPhoneNumbers: An array of verified destination phone number, in E.164 format.
     ///   - filters: An array of VerifiedDestinationNumberFilter objects to filter the results.
     ///   - maxResults: The maximum number of results to return per each request.
     ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
-    ///   - verifiedDestinationNumberIds: An array of VerifiedDestinationNumberid to retreive.
+    ///   - verifiedDestinationNumberIds: An array of VerifiedDestinationNumberid to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeVerifiedDestinationNumbers(
@@ -1982,7 +2014,45 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.listPoolOriginationIdentities(input, logger: logger)
     }
 
-    /// Retreive all of the origination identies that are associated with a registration.
+    /// Retrieve all of the protect configuration rule set number overrides that match the filters.
+    @Sendable
+    @inlinable
+    public func listProtectConfigurationRuleSetNumberOverrides(_ input: ListProtectConfigurationRuleSetNumberOverridesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProtectConfigurationRuleSetNumberOverridesResult {
+        try await self.client.execute(
+            operation: "ListProtectConfigurationRuleSetNumberOverrides", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieve all of the protect configuration rule set number overrides that match the filters.
+    ///
+    /// Parameters:
+    ///   - filters: An array of ProtectConfigurationRuleSetNumberOverrideFilterItem objects to filter the results.
+    ///   - maxResults: The maximum number of results to return per each request.
+    ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    ///   - protectConfigurationId: The unique identifier for the protect configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProtectConfigurationRuleSetNumberOverrides(
+        filters: [ProtectConfigurationRuleSetNumberOverrideFilterItem]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        protectConfigurationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListProtectConfigurationRuleSetNumberOverridesResult {
+        let input = ListProtectConfigurationRuleSetNumberOverridesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            protectConfigurationId: protectConfigurationId
+        )
+        return try await self.listProtectConfigurationRuleSetNumberOverrides(input, logger: logger)
+    }
+
+    /// Retrieve all of the origination identities that are associated with a registration.
     @Sendable
     @inlinable
     public func listRegistrationAssociations(_ input: ListRegistrationAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegistrationAssociationsResult {
@@ -1995,7 +2065,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Retreive all of the origination identies that are associated with a registration.
+    /// Retrieve all of the origination identities that are associated with a registration.
     ///
     /// Parameters:
     ///   - filters: An array of RegistrationAssociationFilter to apply to the results that are returned.
@@ -2087,6 +2157,38 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.putKeyword(input, logger: logger)
     }
 
+    /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId.   If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED; Otherwise, an hour after the message feedback record is set to FAILED.
+    @Sendable
+    @inlinable
+    public func putMessageFeedback(_ input: PutMessageFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutMessageFeedbackResult {
+        try await self.client.execute(
+            operation: "PutMessageFeedback", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId.   If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED; Otherwise, an hour after the message feedback record is set to FAILED.
+    ///
+    /// Parameters:
+    ///   - messageFeedbackStatus: Set the message feedback to be either RECEIVED or FAILED.
+    ///   - messageId: The unique identifier for the message.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putMessageFeedback(
+        messageFeedbackStatus: MessageFeedbackStatus,
+        messageId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutMessageFeedbackResult {
+        let input = PutMessageFeedbackRequest(
+            messageFeedbackStatus: messageFeedbackStatus, 
+            messageId: messageId
+        )
+        return try await self.putMessageFeedback(input, logger: logger)
+    }
+
     /// Creates an opted out destination phone number in the opt-out list. If the destination phone number isn't valid or if the specified opt-out list doesn't exist, an error is returned.
     @Sendable
     @inlinable
@@ -2117,6 +2219,47 @@ public struct PinpointSMSVoiceV2: AWSService {
             optOutListName: optOutListName
         )
         return try await self.putOptedOutNumber(input, logger: logger)
+    }
+
+    /// Create or update a RuleSetNumberOverride and associate it with a protect configuration.
+    @Sendable
+    @inlinable
+    public func putProtectConfigurationRuleSetNumberOverride(_ input: PutProtectConfigurationRuleSetNumberOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutProtectConfigurationRuleSetNumberOverrideResult {
+        try await self.client.execute(
+            operation: "PutProtectConfigurationRuleSetNumberOverride", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create or update a RuleSetNumberOverride and associate it with a protect configuration.
+    ///
+    /// Parameters:
+    ///   - action: The action for the rule to either block or allow messages to the destination phone number.
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    ///   - destinationPhoneNumber: The destination phone number in E.164 format.
+    ///   - expirationTimestamp: The time the rule will expire at. If ExpirationTimestamp is not set then the rule does not expire.
+    ///   - protectConfigurationId: The unique identifier for the protect configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putProtectConfigurationRuleSetNumberOverride(
+        action: ProtectConfigurationRuleOverrideAction,
+        clientToken: String? = PutProtectConfigurationRuleSetNumberOverrideRequest.idempotencyToken(),
+        destinationPhoneNumber: String,
+        expirationTimestamp: Date? = nil,
+        protectConfigurationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutProtectConfigurationRuleSetNumberOverrideResult {
+        let input = PutProtectConfigurationRuleSetNumberOverrideRequest(
+            action: action, 
+            clientToken: clientToken, 
+            destinationPhoneNumber: destinationPhoneNumber, 
+            expirationTimestamp: expirationTimestamp, 
+            protectConfigurationId: protectConfigurationId
+        )
+        return try await self.putProtectConfigurationRuleSetNumberOverride(input, logger: logger)
     }
 
     /// Creates or updates a field value for a registration.
@@ -2423,9 +2566,10 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - maxPrice: The maximum amount that you want to spend, in US dollars, per each MMS message.
     ///   - mediaUrls: An array of URLs to each media file to send.  The media files have to be stored in a publicly available S3 bucket. Supported media file formats are listed in MMS file types, size and character limits. For more information on creating an S3 bucket and managing objects, see Creating a bucket and Uploading objects in the S3 user guide.
     ///   - messageBody: The text body of the message.
+    ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
     ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     ///   - protectConfigurationId: The unique identifier of the protect configuration to use.
-    ///   - timeToLive: How long the text message is valid for. By default this is 72 hours.
+    ///   - timeToLive: How long the media message is valid for. By default this is 72 hours.
     ///   - logger: Logger use during operation
     @inlinable
     public func sendMediaMessage(
@@ -2436,6 +2580,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         maxPrice: String? = nil,
         mediaUrls: [String]? = nil,
         messageBody: String? = nil,
+        messageFeedbackEnabled: Bool? = nil,
         originationIdentity: String,
         protectConfigurationId: String? = nil,
         timeToLive: Int? = nil,
@@ -2449,6 +2594,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             maxPrice: maxPrice, 
             mediaUrls: mediaUrls, 
             messageBody: messageBody, 
+            messageFeedbackEnabled: messageFeedbackEnabled, 
             originationIdentity: originationIdentity, 
             protectConfigurationId: protectConfigurationId, 
             timeToLive: timeToLive
@@ -2480,6 +2626,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - keyword: When you register a short code in the US, you must specify a program name. If you don’t have a US short code, omit this attribute.
     ///   - maxPrice: The maximum amount that you want to spend, in US dollars, per each text message. If the calculated amount to send the text message is greater than MaxPrice, the message is not sent and an error is returned.
     ///   - messageBody: The body of the text message.
+    ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
     ///   - messageType: The type of message. Valid values are            for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     ///   - protectConfigurationId: The unique identifier for the protect configuration.
@@ -2495,6 +2642,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         keyword: String? = nil,
         maxPrice: String? = nil,
         messageBody: String? = nil,
+        messageFeedbackEnabled: Bool? = nil,
         messageType: MessageType? = nil,
         originationIdentity: String? = nil,
         protectConfigurationId: String? = nil,
@@ -2510,6 +2658,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             keyword: keyword, 
             maxPrice: maxPrice, 
             messageBody: messageBody, 
+            messageFeedbackEnabled: messageFeedbackEnabled, 
             messageType: messageType, 
             originationIdentity: originationIdentity, 
             protectConfigurationId: protectConfigurationId, 
@@ -2541,6 +2690,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - maxPricePerMinute: The maximum amount to spend per voice message, in US dollars.
     ///   - messageBody: The text to convert to a voice message.
     ///   - messageBodyTextType: Specifies if the MessageBody field contains text or speech synthesis markup language (SSML).   TEXT: This is the default value. When used the maximum character limit is 3000.   SSML: When used the maximum character limit is 6000 including SSML tagging.
+    ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
     ///   - originationIdentity: The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     ///   - protectConfigurationId: The unique identifier for the protect configuration.
     ///   - timeToLive: How long the voice message is valid for. By default this is 72 hours.
@@ -2555,6 +2705,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         maxPricePerMinute: String? = nil,
         messageBody: String? = nil,
         messageBodyTextType: VoiceMessageBodyTextType? = nil,
+        messageFeedbackEnabled: Bool? = nil,
         originationIdentity: String,
         protectConfigurationId: String? = nil,
         timeToLive: Int? = nil,
@@ -2569,6 +2720,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             maxPricePerMinute: maxPricePerMinute, 
             messageBody: messageBody, 
             messageBodyTextType: messageBodyTextType, 
+            messageFeedbackEnabled: messageFeedbackEnabled, 
             originationIdentity: originationIdentity, 
             protectConfigurationId: protectConfigurationId, 
             timeToLive: timeToLive, 
@@ -2604,6 +2756,38 @@ public struct PinpointSMSVoiceV2: AWSService {
             protectConfigurationId: protectConfigurationId
         )
         return try await self.setAccountDefaultProtectConfiguration(input, logger: logger)
+    }
+
+    /// Sets a configuration set's default for message feedback.
+    @Sendable
+    @inlinable
+    public func setDefaultMessageFeedbackEnabled(_ input: SetDefaultMessageFeedbackEnabledRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetDefaultMessageFeedbackEnabledResult {
+        try await self.client.execute(
+            operation: "SetDefaultMessageFeedbackEnabled", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets a configuration set's default for message feedback.
+    ///
+    /// Parameters:
+    ///   - configurationSetName: The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+    ///   - messageFeedbackEnabled: Set to true to enable message feedback.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func setDefaultMessageFeedbackEnabled(
+        configurationSetName: String,
+        messageFeedbackEnabled: Bool,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SetDefaultMessageFeedbackEnabledResult {
+        let input = SetDefaultMessageFeedbackEnabledRequest(
+            configurationSetName: configurationSetName, 
+            messageFeedbackEnabled: messageFeedbackEnabled
+        )
+        return try await self.setDefaultMessageFeedbackEnabled(input, logger: logger)
     }
 
     /// Sets the default message type on a configuration set. Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional. If you plan to send messages that contain marketing material or other promotional content, choose Promotional. This setting applies to your entire Amazon Web Services account.

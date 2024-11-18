@@ -3200,11 +3200,13 @@ public struct CloudFront: AWSService {
         return try await self.listKeyValueStores(input, logger: logger)
     }
 
-    /// Gets the list of CloudFront origin access controls in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
+    /// Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
     /// 			the total number of items in the list exceeds the maximum that you specify, or the
     /// 			default maximum, the response is paginated. To get the next page of items, send another
     /// 			request that specifies the NextMarker value from the current response as
-    /// 			the Marker value in the next request.
+    /// 			the Marker value in the next request.  If you're not using origin access controls for your Amazon Web Services account, the
+    /// 					ListOriginAccessControls operation doesn't return the
+    /// 					Items element in the response.
     @Sendable
     @inlinable
     public func listOriginAccessControls(_ input: ListOriginAccessControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOriginAccessControlsResult {
@@ -3217,11 +3219,13 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Gets the list of CloudFront origin access controls in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
+    /// Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
     /// 			the total number of items in the list exceeds the maximum that you specify, or the
     /// 			default maximum, the response is paginated. To get the next page of items, send another
     /// 			request that specifies the NextMarker value from the current response as
-    /// 			the Marker value in the next request.
+    /// 			the Marker value in the next request.  If you're not using origin access controls for your Amazon Web Services account, the
+    /// 					ListOriginAccessControls operation doesn't return the
+    /// 					Items element in the response.
     ///
     /// Parameters:
     ///   - marker: Use this field when paginating results to indicate where to begin in your list of
@@ -3763,10 +3767,8 @@ public struct CloudFront: AWSService {
     /// 			to make the updates.  To update a web distribution using the CloudFront
     /// 			API    Use GetDistributionConfig to get the current configuration,
     /// 					including the version identifier (ETag).   Update the distribution configuration that was returned in the response. Note
-    /// 					the following important requirements and restrictions:   You must rename the ETag field to IfMatch,
-    /// 							leaving the value unchanged. (Set the value of IfMatch to
-    /// 							the value of ETag, then remove the ETag
-    /// 							field.)   You can't change the value of CallerReference.     Submit an UpdateDistribution request, providing the distribution
+    /// 					the following important requirements and restrictions:   You must copy the ETag field value from the response. (You'll use it for the IfMatch parameter in your request.) Then, remove the ETag
+    /// 							field from the distribution configuration.   You can't change the value of CallerReference.     Submit an UpdateDistribution request, providing the updated distribution
     /// 					configuration. The new configuration replaces the existing configuration. The
     /// 					values that you specify in an UpdateDistribution request are not
     /// 					merged into your existing configuration. Make sure to include all fields: the
@@ -3788,10 +3790,8 @@ public struct CloudFront: AWSService {
     /// 			to make the updates.  To update a web distribution using the CloudFront
     /// 			API    Use GetDistributionConfig to get the current configuration,
     /// 					including the version identifier (ETag).   Update the distribution configuration that was returned in the response. Note
-    /// 					the following important requirements and restrictions:   You must rename the ETag field to IfMatch,
-    /// 							leaving the value unchanged. (Set the value of IfMatch to
-    /// 							the value of ETag, then remove the ETag
-    /// 							field.)   You can't change the value of CallerReference.     Submit an UpdateDistribution request, providing the distribution
+    /// 					the following important requirements and restrictions:   You must copy the ETag field value from the response. (You'll use it for the IfMatch parameter in your request.) Then, remove the ETag
+    /// 							field from the distribution configuration.   You can't change the value of CallerReference.     Submit an UpdateDistribution request, providing the updated distribution
     /// 					configuration. The new configuration replaces the existing configuration. The
     /// 					values that you specify in an UpdateDistribution request are not
     /// 					merged into your existing configuration. Make sure to include all fields: the
@@ -4474,6 +4474,40 @@ extension CloudFront {
         return self.listKeyValueStoresPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listPublicKeys(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPublicKeysPaginator(
+        _ input: ListPublicKeysRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPublicKeysRequest, ListPublicKeysResult> {
+        return .init(
+            input: input,
+            command: self.listPublicKeys,
+            inputKey: \ListPublicKeysRequest.marker,
+            outputKey: \ListPublicKeysResult.publicKeyList.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPublicKeys(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxItems: The maximum number of public keys you want in the response body.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPublicKeysPaginator(
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPublicKeysRequest, ListPublicKeysResult> {
+        let input = ListPublicKeysRequest(
+            maxItems: maxItems
+        )
+        return self.listPublicKeysPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listStreamingDistributions(_:logger:)``.
     ///
     /// - Parameters:
@@ -4551,6 +4585,16 @@ extension CloudFront.ListKeyValueStoresRequest: AWSPaginateToken {
     }
 }
 
+extension CloudFront.ListPublicKeysRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListPublicKeysRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
 extension CloudFront.ListStreamingDistributionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudFront.ListStreamingDistributionsRequest {
@@ -4581,6 +4625,7 @@ extension CloudFront {
                 .init(state: .success, matcher: try! JMESPathMatcher("distribution.status", expected: "Deployed")),
             ],
             minDelayTime: .seconds(60),
+            maxDelayTime: .seconds(2100),
             command: self.getDistribution
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
@@ -4617,6 +4662,7 @@ extension CloudFront {
                 .init(state: .success, matcher: try! JMESPathMatcher("invalidation.status", expected: "Completed")),
             ],
             minDelayTime: .seconds(20),
+            maxDelayTime: .seconds(600),
             command: self.getInvalidation
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
@@ -4656,6 +4702,7 @@ extension CloudFront {
                 .init(state: .success, matcher: try! JMESPathMatcher("streamingDistribution.status", expected: "Deployed")),
             ],
             minDelayTime: .seconds(60),
+            maxDelayTime: .seconds(1500),
             command: self.getStreamingDistribution
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)

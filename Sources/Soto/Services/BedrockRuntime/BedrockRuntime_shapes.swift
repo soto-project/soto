@@ -746,31 +746,34 @@ extension BedrockRuntime {
     }
 
     public struct ConverseRequest: AWSEncodableShape {
-        /// Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse supports in the inferenceConfig field. For more information, see Model parameters.
+        /// Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse and ConverseStream support in the inferenceConfig field. For more information, see Model parameters.
         public let additionalModelRequestFields: String?
-        /// Additional model parameters field paths to return in the response. Converse returns the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths.  [ "/stop_sequence" ]  For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation.  Converse rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by Converse.
+        /// Additional model parameters field paths to return in the response. Converse and ConverseStream return the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths.  [ "/stop_sequence" ]  For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation.  Converse and ConverseStream reject an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by Converse.
         public let additionalModelResponseFieldPaths: [String]?
-        /// Configuration information for a guardrail that you want to use in the request.
+        /// Configuration information for a guardrail that you want to use in the request. If you include guardContent blocks in the content field in the messages field, the guardrail operates only on those messages. If you include no guardContent blocks, the guardrail operates on all messages in the request body and in any included prompt resource.
         public let guardrailConfig: GuardrailConfiguration?
-        /// Inference parameters to pass to the model. Converse supports a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
+        /// Inference parameters to pass to the model. Converse and ConverseStream support a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
         public let inferenceConfig: InferenceConfiguration?
         /// The messages that you want to send to the model.
-        public let messages: [Message]
-        /// The identifier for the model that you want to call. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   The Converse API doesn't support imported models.
+        public let messages: [Message]?
+        /// Specifies the model or throughput with which to run inference, or the prompt resource to use in inference. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.   The Converse API doesn't support imported models.
         public let modelId: String
-        /// A system prompt to pass to the model.
+        /// Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
+        public let promptVariables: [String: PromptVariableValues]?
+        /// A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
         public let system: [SystemContentBlock]?
         /// Configuration information for the tools that the model can use when generating a response.   This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command R+, and Mistral Large models.
         public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message], modelId: String, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, promptVariables: [String: PromptVariableValues]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
             self.guardrailConfig = guardrailConfig
             self.inferenceConfig = inferenceConfig
             self.messages = messages
             self.modelId = modelId
+            self.promptVariables = promptVariables
             self.system = system
             self.toolConfig = toolConfig
         }
@@ -782,8 +785,9 @@ extension BedrockRuntime {
             try container.encodeIfPresent(self.additionalModelResponseFieldPaths, forKey: .additionalModelResponseFieldPaths)
             try container.encodeIfPresent(self.guardrailConfig, forKey: .guardrailConfig)
             try container.encodeIfPresent(self.inferenceConfig, forKey: .inferenceConfig)
-            try container.encode(self.messages, forKey: .messages)
+            try container.encodeIfPresent(self.messages, forKey: .messages)
             request.encodePath(self.modelId, key: "modelId")
+            try container.encodeIfPresent(self.promptVariables, forKey: .promptVariables)
             try container.encodeIfPresent(self.system, forKey: .system)
             try container.encodeIfPresent(self.toolConfig, forKey: .toolConfig)
         }
@@ -792,12 +796,12 @@ extension BedrockRuntime {
             try self.validate(self.additionalModelResponseFieldPaths, name: "additionalModelResponseFieldPaths", parent: name, max: 10)
             try self.guardrailConfig?.validate(name: "\(name).guardrailConfig")
             try self.inferenceConfig?.validate(name: "\(name).inferenceConfig")
-            try self.messages.forEach {
+            try self.messages?.forEach {
                 try $0.validate(name: "\(name).messages[]")
             }
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$")
             try self.system?.forEach {
                 try $0.validate(name: "\(name).system[]")
             }
@@ -810,6 +814,7 @@ extension BedrockRuntime {
             case guardrailConfig = "guardrailConfig"
             case inferenceConfig = "inferenceConfig"
             case messages = "messages"
+            case promptVariables = "promptVariables"
             case system = "system"
             case toolConfig = "toolConfig"
         }
@@ -886,31 +891,34 @@ extension BedrockRuntime {
     }
 
     public struct ConverseStreamRequest: AWSEncodableShape {
-        /// Additional inference parameters that the model supports, beyond the base set of inference parameters that ConverseStream supports in the inferenceConfig field.
+        /// Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse and ConverseStream support in the inferenceConfig field. For more information, see Model parameters.
         public let additionalModelRequestFields: String?
-        /// Additional model parameters field paths to return in the response. ConverseStream returns the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths.  [ "/stop_sequence" ]  For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation.  ConverseStream rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by ConverseStream.
+        /// Additional model parameters field paths to return in the response. Converse and ConverseStream return the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths.  [ "/stop_sequence" ]  For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation.  Converse and ConverseStream reject an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by Converse.
         public let additionalModelResponseFieldPaths: [String]?
-        /// Configuration information for a guardrail that you want to use in the request.
+        /// Configuration information for a guardrail that you want to use in the request. If you include guardContent blocks in the content field in the messages field, the guardrail operates only on those messages. If you include no guardContent blocks, the guardrail operates on all messages in the request body and in any included prompt resource.
         public let guardrailConfig: GuardrailStreamConfiguration?
-        /// Inference parameters to pass to the model. ConverseStream supports a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
+        /// Inference parameters to pass to the model. Converse and ConverseStream support a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
         public let inferenceConfig: InferenceConfiguration?
         /// The messages that you want to send to the model.
-        public let messages: [Message]
-        /// The ID for the model. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   The Converse API doesn't support imported models.
+        public let messages: [Message]?
+        /// Specifies the model or throughput with which to run inference, or the prompt resource to use in inference. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.   The Converse API doesn't support imported models.
         public let modelId: String
-        /// A system prompt to send to the model.
+        /// Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
+        public let promptVariables: [String: PromptVariableValues]?
+        /// A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
         public let system: [SystemContentBlock]?
         /// Configuration information for the tools that the model can use when generating a response.  This field is only supported by Anthropic Claude 3 models.
         public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message], modelId: String, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, promptVariables: [String: PromptVariableValues]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
             self.guardrailConfig = guardrailConfig
             self.inferenceConfig = inferenceConfig
             self.messages = messages
             self.modelId = modelId
+            self.promptVariables = promptVariables
             self.system = system
             self.toolConfig = toolConfig
         }
@@ -922,8 +930,9 @@ extension BedrockRuntime {
             try container.encodeIfPresent(self.additionalModelResponseFieldPaths, forKey: .additionalModelResponseFieldPaths)
             try container.encodeIfPresent(self.guardrailConfig, forKey: .guardrailConfig)
             try container.encodeIfPresent(self.inferenceConfig, forKey: .inferenceConfig)
-            try container.encode(self.messages, forKey: .messages)
+            try container.encodeIfPresent(self.messages, forKey: .messages)
             request.encodePath(self.modelId, key: "modelId")
+            try container.encodeIfPresent(self.promptVariables, forKey: .promptVariables)
             try container.encodeIfPresent(self.system, forKey: .system)
             try container.encodeIfPresent(self.toolConfig, forKey: .toolConfig)
         }
@@ -932,12 +941,12 @@ extension BedrockRuntime {
             try self.validate(self.additionalModelResponseFieldPaths, name: "additionalModelResponseFieldPaths", parent: name, max: 10)
             try self.guardrailConfig?.validate(name: "\(name).guardrailConfig")
             try self.inferenceConfig?.validate(name: "\(name).inferenceConfig")
-            try self.messages.forEach {
+            try self.messages?.forEach {
                 try $0.validate(name: "\(name).messages[]")
             }
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$")
             try self.system?.forEach {
                 try $0.validate(name: "\(name).system[]")
             }
@@ -950,6 +959,7 @@ extension BedrockRuntime {
             case guardrailConfig = "guardrailConfig"
             case inferenceConfig = "inferenceConfig"
             case messages = "messages"
+            case promptVariables = "promptVariables"
             case system = "system"
             case toolConfig = "toolConfig"
         }
@@ -1584,7 +1594,7 @@ extension BedrockRuntime {
         /// The desired MIME type of the inference body in the response. The default value is application/json.
         public let accept: String?
         /// The prompt and inference parameters in the format specified in the contentType in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to Inference parameters. For more information, see Run inference in the Bedrock User Guide.
-        public let body: AWSHTTPBody
+        public let body: AWSHTTPBody?
         /// The MIME type of the input data in the request. You must specify application/json.
         public let contentType: String?
         /// The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error will be thrown in the following situations.   You don't provide a guardrail identifier but you specify the amazon-bedrock-guardrailConfig field in the request body.   You enable the guardrail but the contentType isn't application/json.   You provide a guardrail identifier, but guardrailVersion isn't specified.
@@ -1597,7 +1607,7 @@ extension BedrockRuntime {
         public let trace: Trace?
 
         @inlinable
-        public init(accept: String? = nil, body: AWSHTTPBody, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, trace: Trace? = nil) {
+        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, trace: Trace? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
@@ -1626,7 +1636,7 @@ extension BedrockRuntime {
             try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1659,7 +1669,7 @@ extension BedrockRuntime {
         /// The desired MIME type of the inference body in the response. The default value is application/json.
         public let accept: String?
         /// The prompt and inference parameters in the format specified in the contentType in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to Inference parameters. For more information, see Run inference in the Bedrock User Guide.
-        public let body: AWSHTTPBody
+        public let body: AWSHTTPBody?
         /// The MIME type of the input data in the request. You must specify application/json.
         public let contentType: String?
         /// The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error is thrown in the following situations.   You don't provide a guardrail identifier but you specify the amazon-bedrock-guardrailConfig field in the request body.   You enable the guardrail but the contentType isn't application/json.   You provide a guardrail identifier, but guardrailVersion isn't specified.
@@ -1672,7 +1682,7 @@ extension BedrockRuntime {
         public let trace: Trace?
 
         @inlinable
-        public init(accept: String? = nil, body: AWSHTTPBody, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, trace: Trace? = nil) {
+        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, trace: Trace? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
@@ -1701,7 +1711,7 @@ extension BedrockRuntime {
             try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2141,6 +2151,20 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case bytes = "bytes"
+        }
+    }
+
+    public struct PromptVariableValues: AWSEncodableShape {
+        /// The text value that the variable maps to.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
         }
     }
 

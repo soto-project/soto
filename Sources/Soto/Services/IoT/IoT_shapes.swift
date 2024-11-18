@@ -593,6 +593,12 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum ThingPrincipalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exclusiveThing = "EXCLUSIVE_THING"
+        case nonExclusiveThing = "NON_EXCLUSIVE_THING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TopicRuleDestinationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case disabled = "DISABLED"
@@ -1390,11 +1396,16 @@ extension IoT {
         public let principal: String
         /// The name of the thing.
         public let thingName: String
+        /// The type of the relation you want to specify when you attach a principal to a thing.    EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively.
+        /// 						The thing will be the only thing that’s attached to the principal.      NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing.
+        /// 						Multiple things can be attached to the principal.
+        public let thingPrincipalType: ThingPrincipalType?
 
         @inlinable
-        public init(principal: String, thingName: String) {
+        public init(principal: String, thingName: String, thingPrincipalType: ThingPrincipalType? = nil) {
             self.principal = principal
             self.thingName = thingName
+            self.thingPrincipalType = thingPrincipalType
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1402,6 +1413,7 @@ extension IoT {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.principal, key: "x-amzn-principal")
             request.encodePath(self.thingName, key: "thingName")
+            request.encodeQuery(self.thingPrincipalType, key: "thingPrincipalType")
         }
 
         public func validate(name: String) throws {
@@ -1435,7 +1447,7 @@ extension IoT {
                 try validate($0.key, name: "attributes.key", parent: name, max: 128)
                 try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9_.,@/:#-]+$")
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 800)
-                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9_.,@/:#-]*$")
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9_.,@/:#=\\[\\]-]*$")
             }
         }
 
@@ -3428,6 +3440,7 @@ extension IoT {
                 try validate($0, name: "serverCertificateArns[]", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-b|-iso)?:acm:[a-z]{2}-(gov-|iso-|isob-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/[a-zA-Z0-9/-]+$")
             }
             try self.validate(self.serverCertificateArns, name: "serverCertificateArns", parent: name, max: 1)
+            try self.serverCertificateConfig?.validate(name: "\(name).serverCertificateConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -8198,7 +8211,7 @@ extension IoT {
         /// The name of the thing type.
         public let thingTypeName: String?
         /// The ThingTypeProperties contains information about the thing type including
-        /// 			description, and a list of searchable thing attribute names.
+        /// 			description, a list of searchable thing attribute names, and MQTT5 configuration.
         public let thingTypeProperties: ThingTypeProperties?
 
         @inlinable
@@ -12669,6 +12682,66 @@ extension IoT {
         }
     }
 
+    public struct ListPrincipalThingsV2Request: AWSEncodableShape {
+        /// The maximum number of results to return in this operation.
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken
+        /// 				value from a previous response; otherwise null to receive
+        /// 				the first set of results.
+        public let nextToken: String?
+        /// The principal. A principal can be an X.509 certificate or an Amazon Cognito ID.
+        public let principal: String
+        /// The type of the relation you want to filter in the response. If no value is provided in
+        /// 			this field, the response will list all things, including both the
+        /// 				EXCLUSIVE_THING and NON_EXCLUSIVE_THING attachment
+        /// 			types.    EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively.
+        /// 						The thing will be the only thing that’s attached to the principal.      NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing.
+        /// 						Multiple things can be attached to the principal.
+        public let thingPrincipalType: ThingPrincipalType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String, thingPrincipalType: ThingPrincipalType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.principal = principal
+            self.thingPrincipalType = thingPrincipalType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeHeader(self.principal, key: "x-amzn-principal")
+            request.encodeQuery(self.thingPrincipalType, key: "thingPrincipalType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPrincipalThingsV2Response: AWSDecodableShape {
+        /// The token to use to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of thingPrincipalObject that represents the principal and the type of relation it has with the thing.
+        public let principalThingObjects: [PrincipalThingObject]?
+
+        @inlinable
+        public init(nextToken: String? = nil, principalThingObjects: [PrincipalThingObject]? = nil) {
+            self.nextToken = nextToken
+            self.principalThingObjects = principalThingObjects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case principalThingObjects = "principalThingObjects"
+        }
+    }
+
     public struct ListProvisioningTemplateVersionsRequest: AWSEncodableShape {
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
@@ -13459,6 +13532,70 @@ extension IoT {
         }
     }
 
+    public struct ListThingPrincipalsV2Request: AWSEncodableShape {
+        /// The maximum number of results to return in this operation.
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken
+        /// 				value from a previous response; otherwise null to receive
+        /// 				the first set of results.
+        public let nextToken: String?
+        /// The name of the thing.
+        public let thingName: String
+        /// The type of the relation you want to filter in the response. If no value is provided in
+        /// 			this field, the response will list all principals, including both the
+        /// 				EXCLUSIVE_THING and NON_EXCLUSIVE_THING attachment
+        /// 			types.    EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively.
+        /// 						The thing will be the only thing that’s attached to the principal.      NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing.
+        /// 						Multiple things can be attached to the principal.
+        public let thingPrincipalType: ThingPrincipalType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, thingName: String, thingPrincipalType: ThingPrincipalType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.thingName = thingName
+            self.thingPrincipalType = thingPrincipalType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.thingName, key: "thingName")
+            request.encodeQuery(self.thingPrincipalType, key: "thingPrincipalType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
+            try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
+            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListThingPrincipalsV2Response: AWSDecodableShape {
+        /// The token to use to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of thingPrincipalObject that represents the principal and the type of relation it has
+        /// 				with the thing.
+        public let thingPrincipalObjects: [ThingPrincipalObject]?
+
+        @inlinable
+        public init(nextToken: String? = nil, thingPrincipalObjects: [ThingPrincipalObject]? = nil) {
+            self.nextToken = nextToken
+            self.thingPrincipalObjects = thingPrincipalObjects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case thingPrincipalObjects = "thingPrincipalObjects"
+        }
+    }
+
     public struct ListThingRegistrationTaskReportsRequest: AWSEncodableShape {
         /// The maximum number of results to return per request.
         public let maxResults: Int?
@@ -13780,7 +13917,7 @@ extension IoT {
             try self.validate(self.attributeName, name: "attributeName", parent: name, max: 128)
             try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[a-zA-Z0-9_.,@/:#-]+$")
             try self.validate(self.attributeValue, name: "attributeValue", parent: name, max: 800)
-            try self.validate(self.attributeValue, name: "attributeValue", parent: name, pattern: "^[a-zA-Z0-9_.,@/:#-]*$")
+            try self.validate(self.attributeValue, name: "attributeValue", parent: name, pattern: "^[a-zA-Z0-9_.,@/:#=\\[\\]-]*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
@@ -14437,6 +14574,26 @@ extension IoT {
         }
     }
 
+    public struct Mqtt5Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents the propagating thing attributes and the connection attributes.
+        public let propagatingAttributes: [PropagatingAttribute]?
+
+        @inlinable
+        public init(propagatingAttributes: [PropagatingAttribute]? = nil) {
+            self.propagatingAttributes = propagatingAttributes
+        }
+
+        public func validate(name: String) throws {
+            try self.propagatingAttributes?.forEach {
+                try $0.validate(name: "\(name).propagatingAttributes[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case propagatingAttributes = "propagatingAttributes"
+        }
+    }
+
     public struct MqttContext: AWSEncodableShape {
         /// The value of the clientId key in an MQTT authorization request.
         public let clientId: String?
@@ -14926,6 +15083,58 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case expiresInSec = "expiresInSec"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct PrincipalThingObject: AWSDecodableShape {
+        /// The name of the thing.
+        public let thingName: String
+        /// The type of the relation you want to specify when you attach a principal to a thing.
+        /// 				The value defaults to NON_EXCLUSIVE_THING.    EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively.
+        /// 						The thing will be the only thing that’s attached to the principal.      NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing.
+        /// 						Multiple things can be attached to the principal.
+        public let thingPrincipalType: ThingPrincipalType?
+
+        @inlinable
+        public init(thingName: String, thingPrincipalType: ThingPrincipalType? = nil) {
+            self.thingName = thingName
+            self.thingPrincipalType = thingPrincipalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+            case thingPrincipalType = "thingPrincipalType"
+        }
+    }
+
+    public struct PropagatingAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// The attribute associated with the connection between a device and Amazon Web Services IoT Core.
+        public let connectionAttribute: String?
+        /// The user-defined thing attribute that is propagating for MQTT 5 message enrichment.
+        public let thingAttribute: String?
+        /// The key of the user property key-value pair.
+        public let userPropertyKey: String?
+
+        @inlinable
+        public init(connectionAttribute: String? = nil, thingAttribute: String? = nil, userPropertyKey: String? = nil) {
+            self.connectionAttribute = connectionAttribute
+            self.thingAttribute = thingAttribute
+            self.userPropertyKey = userPropertyKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionAttribute, name: "connectionAttribute", parent: name, max: 128)
+            try self.validate(self.connectionAttribute, name: "connectionAttribute", parent: name, pattern: "^[a-zA-Z0-9:.]+$")
+            try self.validate(self.thingAttribute, name: "thingAttribute", parent: name, max: 128)
+            try self.validate(self.thingAttribute, name: "thingAttribute", parent: name, pattern: "^[a-zA-Z0-9_.,@/:#-]+$")
+            try self.validate(self.userPropertyKey, name: "userPropertyKey", parent: name, max: 128)
+            try self.validate(self.userPropertyKey, name: "userPropertyKey", parent: name, pattern: "^[a-zA-Z0-9:$.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionAttribute = "connectionAttribute"
+            case thingAttribute = "thingAttribute"
+            case userPropertyKey = "userPropertyKey"
         }
     }
 
@@ -16087,16 +16296,31 @@ extension IoT {
     }
 
     public struct ServerCertificateConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see Configuring OCSP server-certificate stapling in domain configuration from Amazon Web Services IoT Core Developer Guide.
+        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see  Server certificate configuration for OCSP stapling from Amazon Web Services IoT Core Developer Guide.
         public let enableOCSPCheck: Bool?
+        /// The Amazon Resource Name (ARN) for an X.509 certificate stored in Amazon Web Services Certificate Manager (ACM).  If provided, Amazon Web Services IoT Core will use this certificate to validate the signature of the received OCSP response.  The OCSP responder must sign responses using either this authorized responder certificate or the issuing certificate,  depending on whether the ARN is provided or not. The certificate must be in the same Amazon Web Services region and account as the domain configuration.
+        public let ocspAuthorizedResponderArn: String?
+        /// The Amazon Resource Name (ARN) for a Lambda function that acts as a Request for Comments (RFC) 6960-compliant Online Certificate Status Protocol (OCSP) responder, supporting basic OCSP responses.  The Lambda function accepts a JSON string that's Base64-encoded. Therefore, you must convert your OCSP response, which is typically in the Distinguished Encoding Rules (DER) format, into a JSON string that's Base64-encoded. The Lambda function's response is also a Base64-encoded JSON string and the response payload must not exceed 8 kilobytes (KiB) in size. The Lambda function must be in the same Amazon Web Services region and account as the domain configuration.
+        public let ocspLambdaArn: String?
 
         @inlinable
-        public init(enableOCSPCheck: Bool? = nil) {
+        public init(enableOCSPCheck: Bool? = nil, ocspAuthorizedResponderArn: String? = nil, ocspLambdaArn: String? = nil) {
             self.enableOCSPCheck = enableOCSPCheck
+            self.ocspAuthorizedResponderArn = ocspAuthorizedResponderArn
+            self.ocspLambdaArn = ocspLambdaArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ocspAuthorizedResponderArn, name: "ocspAuthorizedResponderArn", parent: name, max: 2048)
+            try self.validate(self.ocspAuthorizedResponderArn, name: "ocspAuthorizedResponderArn", parent: name, min: 1)
+            try self.validate(self.ocspAuthorizedResponderArn, name: "ocspAuthorizedResponderArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-b|-iso)?:acm:[a-z]{2}-(gov-|iso-|isob-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/[a-zA-Z0-9/-]+$")
+            try self.validate(self.ocspLambdaArn, name: "ocspLambdaArn", parent: name, max: 140)
         }
 
         private enum CodingKeys: String, CodingKey {
             case enableOCSPCheck = "enableOCSPCheck"
+            case ocspAuthorizedResponderArn = "ocspAuthorizedResponderArn"
+            case ocspLambdaArn = "ocspLambdaArn"
         }
     }
 
@@ -17349,6 +17573,27 @@ extension IoT {
         }
     }
 
+    public struct ThingPrincipalObject: AWSDecodableShape {
+        /// The principal of the thing principal object.
+        public let principal: String
+        /// The type of the relation you want to specify when you attach a principal to a thing.
+        /// 				The value defaults to NON_EXCLUSIVE_THING.    EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively.
+        /// 						The thing will be the only thing that’s attached to the principal.      NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing.
+        /// 						Multiple things can be attached to the principal.
+        public let thingPrincipalType: ThingPrincipalType?
+
+        @inlinable
+        public init(principal: String, thingPrincipalType: ThingPrincipalType? = nil) {
+            self.principal = principal
+            self.thingPrincipalType = thingPrincipalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal = "principal"
+            case thingPrincipalType = "thingPrincipalType"
+        }
+    }
+
     public struct ThingTypeDefinition: AWSDecodableShape {
         /// The thing type ARN.
         public let thingTypeArn: String?
@@ -17401,18 +17646,22 @@ extension IoT {
     }
 
     public struct ThingTypeProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration to add user-defined properties to enrich MQTT 5 messages.
+        public let mqtt5Configuration: Mqtt5Configuration?
         /// A list of searchable thing attribute names.
         public let searchableAttributes: [String]?
         /// The description of the thing type.
         public let thingTypeDescription: String?
 
         @inlinable
-        public init(searchableAttributes: [String]? = nil, thingTypeDescription: String? = nil) {
+        public init(mqtt5Configuration: Mqtt5Configuration? = nil, searchableAttributes: [String]? = nil, thingTypeDescription: String? = nil) {
+            self.mqtt5Configuration = mqtt5Configuration
             self.searchableAttributes = searchableAttributes
             self.thingTypeDescription = thingTypeDescription
         }
 
         public func validate(name: String) throws {
+            try self.mqtt5Configuration?.validate(name: "\(name).mqtt5Configuration")
             try self.searchableAttributes?.forEach {
                 try validate($0, name: "searchableAttributes[]", parent: name, max: 128)
                 try validate($0, name: "searchableAttributes[]", parent: name, pattern: "^[a-zA-Z0-9_.,@/:#-]+$")
@@ -17422,6 +17671,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case mqtt5Configuration = "mqtt5Configuration"
             case searchableAttributes = "searchableAttributes"
             case thingTypeDescription = "thingTypeDescription"
         }
@@ -18429,6 +18679,7 @@ extension IoT {
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, max: 128)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, min: 1)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, pattern: "^[\\w.:-]+$")
+            try self.serverCertificateConfig?.validate(name: "\(name).serverCertificateConfig")
             try self.tlsConfig?.validate(name: "\(name).tlsConfig")
         }
 
@@ -19537,6 +19788,40 @@ extension IoT {
     }
 
     public struct UpdateThingResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateThingTypeRequest: AWSEncodableShape {
+        /// The name of a thing type.
+        public let thingTypeName: String
+        public let thingTypeProperties: ThingTypeProperties?
+
+        @inlinable
+        public init(thingTypeName: String, thingTypeProperties: ThingTypeProperties? = nil) {
+            self.thingTypeName = thingTypeName
+            self.thingTypeProperties = thingTypeProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingTypeName, key: "thingTypeName")
+            try container.encodeIfPresent(self.thingTypeProperties, forKey: .thingTypeProperties)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
+            try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, min: 1)
+            try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+            try self.thingTypeProperties?.validate(name: "\(name).thingTypeProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeProperties = "thingTypeProperties"
+        }
+    }
+
+    public struct UpdateThingTypeResponse: AWSDecodableShape {
         public init() {}
     }
 

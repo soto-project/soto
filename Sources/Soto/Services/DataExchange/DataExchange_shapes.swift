@@ -26,6 +26,12 @@ import Foundation
 extension DataExchange {
     // MARK: Enums
 
+    public enum AcceptanceStateFilterValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accepted = "ACCEPTED"
+        case pendingReceiverAcceptance = "PENDING_RECEIVER_ACCEPTANCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case apiGatewayApi = "API_GATEWAY_API"
         case lakeFormationDataPermission = "LAKE_FORMATION_DATA_PERMISSION"
@@ -46,8 +52,20 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataGrantAcceptanceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accepted = "ACCEPTED"
+        case pendingReceiverAcceptance = "PENDING_RECEIVER_ACCEPTANCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DatabaseLFTagPolicyPermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case describe = "DESCRIBE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GrantDistributionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsOrganization = "AWS_ORGANIZATION"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -146,6 +164,94 @@ extension DataExchange {
     }
 
     // MARK: Shapes
+
+    public struct AcceptDataGrantRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the data grant to accept.
+        public let dataGrantArn: String
+
+        @inlinable
+        public init(dataGrantArn: String) {
+            self.dataGrantArn = dataGrantArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataGrantArn, key: "DataGrantArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataGrantArn, name: "dataGrantArn", parent: name, pattern: "^arn:aws:dataexchange:[\\-a-z0-9]*:(\\d{12}):data-grants\\/[a-zA-Z0-9]{30,40}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct AcceptDataGrantResponse: AWSDecodableShape {
+        /// The acceptance state of the data grant.
+        public let acceptanceState: DataGrantAcceptanceState
+        /// The timestamp of when the data grant was accepted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var acceptedAt: Date?
+        /// The Amazon Resource Name (ARN) of the accepted data grant.
+        public let arn: String
+        /// The timestamp of when the data grant was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ID of the data set associated to the data grant.
+        public let dataSetId: String
+        /// The description of the accepted data grant.
+        public let description: String?
+        /// The timestamp of when access to the associated data set ends.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endsAt: Date?
+        /// The distribution scope for the data grant.
+        public let grantDistributionScope: GrantDistributionScope
+        /// The ID of the data grant.
+        public let id: String
+        /// The name of the accepted data grant.
+        public let name: String
+        /// The Amazon Web Services account ID of the data grant receiver.
+        public let receiverPrincipal: String
+        /// The Amazon Web Services account ID of the data grant sender.
+        public let senderPrincipal: String?
+        /// The timestamp of when the data grant was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(acceptanceState: DataGrantAcceptanceState, acceptedAt: Date? = nil, arn: String, createdAt: Date, dataSetId: String, description: String? = nil, endsAt: Date? = nil, grantDistributionScope: GrantDistributionScope, id: String, name: String, receiverPrincipal: String, senderPrincipal: String? = nil, updatedAt: Date) {
+            self.acceptanceState = acceptanceState
+            self.acceptedAt = acceptedAt
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSetId = dataSetId
+            self.description = description
+            self.endsAt = endsAt
+            self.grantDistributionScope = grantDistributionScope
+            self.id = id
+            self.name = name
+            self.receiverPrincipal = receiverPrincipal
+            self.senderPrincipal = senderPrincipal
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceState = "AcceptanceState"
+            case acceptedAt = "AcceptedAt"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case dataSetId = "DataSetId"
+            case description = "Description"
+            case endsAt = "EndsAt"
+            case grantDistributionScope = "GrantDistributionScope"
+            case id = "Id"
+            case name = "Name"
+            case receiverPrincipal = "ReceiverPrincipal"
+            case senderPrincipal = "SenderPrincipal"
+            case updatedAt = "UpdatedAt"
+        }
+    }
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
         /// Details for the export revision to Amazon S3 action.
@@ -382,6 +488,125 @@ extension DataExchange {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateDataGrantRequest: AWSEncodableShape {
+        /// The description of the data grant.
+        public let description: String?
+        /// The timestamp of when access to the associated data set ends.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endsAt: Date?
+        /// The distribution scope of the data grant.
+        public let grantDistributionScope: GrantDistributionScope
+        /// The name of the data grant.
+        public let name: String
+        /// The Amazon Web Services account ID of the data grant receiver.
+        public let receiverPrincipal: String
+        /// The ID of the data set used to create the data grant.
+        public let sourceDataSetId: String
+        /// The tags to add to the data grant. A tag is a key-value pair.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, endsAt: Date? = nil, grantDistributionScope: GrantDistributionScope, name: String, receiverPrincipal: String, sourceDataSetId: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.endsAt = endsAt
+            self.grantDistributionScope = grantDistributionScope
+            self.name = name
+            self.receiverPrincipal = receiverPrincipal
+            self.sourceDataSetId = sourceDataSetId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.receiverPrincipal, name: "receiverPrincipal", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case endsAt = "EndsAt"
+            case grantDistributionScope = "GrantDistributionScope"
+            case name = "Name"
+            case receiverPrincipal = "ReceiverPrincipal"
+            case sourceDataSetId = "SourceDataSetId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDataGrantResponse: AWSDecodableShape {
+        /// The acceptance state of the data grant.
+        public let acceptanceState: DataGrantAcceptanceState
+        /// The timestamp of when the data grant was accepted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var acceptedAt: Date?
+        /// The Amazon Resource Name (ARN) of the data grant.
+        public let arn: String
+        /// The timestamp of when the data grant was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ID of the data set associated to the data grant.
+        public let dataSetId: String
+        /// The description of the data grant.
+        public let description: String?
+        /// The timestamp of when access to the associated data set ends.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endsAt: Date?
+        /// The distribution scope for the data grant.
+        public let grantDistributionScope: GrantDistributionScope
+        /// The ID of the data grant.
+        public let id: String
+        /// The name of the data grant.
+        public let name: String
+        /// The Amazon Web Services account ID of the data grant receiver.
+        public let receiverPrincipal: String
+        /// The Amazon Web Services account ID of the data grant sender.
+        public let senderPrincipal: String
+        /// The ID of the data set used to create the data grant.
+        public let sourceDataSetId: String
+        /// The tags associated to the data grant. A tag is a key-value pair.
+        public let tags: [String: String]?
+        /// The timestamp of when the data grant was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(acceptanceState: DataGrantAcceptanceState, acceptedAt: Date? = nil, arn: String, createdAt: Date, dataSetId: String, description: String? = nil, endsAt: Date? = nil, grantDistributionScope: GrantDistributionScope, id: String, name: String, receiverPrincipal: String, senderPrincipal: String, sourceDataSetId: String, tags: [String: String]? = nil, updatedAt: Date) {
+            self.acceptanceState = acceptanceState
+            self.acceptedAt = acceptedAt
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSetId = dataSetId
+            self.description = description
+            self.endsAt = endsAt
+            self.grantDistributionScope = grantDistributionScope
+            self.id = id
+            self.name = name
+            self.receiverPrincipal = receiverPrincipal
+            self.senderPrincipal = senderPrincipal
+            self.sourceDataSetId = sourceDataSetId
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceState = "AcceptanceState"
+            case acceptedAt = "AcceptedAt"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case dataSetId = "DataSetId"
+            case description = "Description"
+            case endsAt = "EndsAt"
+            case grantDistributionScope = "GrantDistributionScope"
+            case id = "Id"
+            case name = "Name"
+            case receiverPrincipal = "ReceiverPrincipal"
+            case senderPrincipal = "SenderPrincipal"
+            case sourceDataSetId = "SourceDataSetId"
+            case tags = "Tags"
+            case updatedAt = "UpdatedAt"
+        }
     }
 
     public struct CreateDataSetRequest: AWSEncodableShape {
@@ -728,6 +953,68 @@ extension DataExchange {
         }
     }
 
+    public struct DataGrantSummaryEntry: AWSDecodableShape {
+        /// The acceptance state of the data grant.
+        public let acceptanceState: DataGrantAcceptanceState
+        /// The timestamp of when the data grant was accepted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var acceptedAt: Date?
+        /// The Amazon Resource Name (ARN) of the data grant.
+        public let arn: String
+        /// The timestamp of when the data grant was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ID of the data set associated to the data grant.
+        public let dataSetId: String
+        /// The timestamp of when access to the associated data set ends.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endsAt: Date?
+        /// The ID of the data grant.
+        public let id: String
+        /// The name of the data grant.
+        public let name: String
+        /// The Amazon Web Services account ID of the data grant receiver.
+        public let receiverPrincipal: String
+        /// The Amazon Web Services account ID of the data grant sender.
+        public let senderPrincipal: String
+        /// The ID of the data set used to create the data grant.
+        public let sourceDataSetId: String
+        /// The timestamp of when the data grant was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(acceptanceState: DataGrantAcceptanceState, acceptedAt: Date? = nil, arn: String, createdAt: Date, dataSetId: String, endsAt: Date? = nil, id: String, name: String, receiverPrincipal: String, senderPrincipal: String, sourceDataSetId: String, updatedAt: Date) {
+            self.acceptanceState = acceptanceState
+            self.acceptedAt = acceptedAt
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSetId = dataSetId
+            self.endsAt = endsAt
+            self.id = id
+            self.name = name
+            self.receiverPrincipal = receiverPrincipal
+            self.senderPrincipal = senderPrincipal
+            self.sourceDataSetId = sourceDataSetId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceState = "AcceptanceState"
+            case acceptedAt = "AcceptedAt"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case dataSetId = "DataSetId"
+            case endsAt = "EndsAt"
+            case id = "Id"
+            case name = "Name"
+            case receiverPrincipal = "ReceiverPrincipal"
+            case senderPrincipal = "SenderPrincipal"
+            case sourceDataSetId = "SourceDataSetId"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct DataSetEntry: AWSDecodableShape {
         /// The ARN for the data set.
         public let arn: String
@@ -848,6 +1135,28 @@ extension DataExchange {
             request.encodePath(self.assetId, key: "AssetId")
             request.encodePath(self.dataSetId, key: "DataSetId")
             request.encodePath(self.revisionId, key: "RevisionId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataGrantRequest: AWSEncodableShape {
+        /// The ID of the data grant to delete.
+        public let dataGrantId: String
+
+        @inlinable
+        public init(dataGrantId: String) {
+            self.dataGrantId = dataGrantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataGrantId, key: "DataGrantId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataGrantId, name: "dataGrantId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$|^arn:aws:dataexchange:[\\-a-z0-9]*:(\\d{12}):data-grants\\/[a-zA-Z0-9]{30,40}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1243,6 +1552,102 @@ extension DataExchange {
         }
     }
 
+    public struct GetDataGrantRequest: AWSEncodableShape {
+        /// The ID of the data grant.
+        public let dataGrantId: String
+
+        @inlinable
+        public init(dataGrantId: String) {
+            self.dataGrantId = dataGrantId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataGrantId, key: "DataGrantId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataGrantId, name: "dataGrantId", parent: name, pattern: "^[a-zA-Z0-9]{30,40}$|^arn:aws:dataexchange:[\\-a-z0-9]*:(\\d{12}):data-grants\\/[a-zA-Z0-9]{30,40}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataGrantResponse: AWSDecodableShape {
+        /// The acceptance state of the data grant.
+        public let acceptanceState: DataGrantAcceptanceState
+        /// The timestamp of when the data grant was accepted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var acceptedAt: Date?
+        /// The Amazon Resource Name (ARN) of the data grant.
+        public let arn: String
+        /// The timestamp of when the data grant was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ID of the data set associated to the data grant.
+        public let dataSetId: String
+        /// The description of the data grant.
+        public let description: String?
+        /// The timestamp of when access to the associated data set ends.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endsAt: Date?
+        /// The distribution scope for the data grant.
+        public let grantDistributionScope: GrantDistributionScope
+        /// The ID of the data grant.
+        public let id: String
+        /// The name of the data grant.
+        public let name: String
+        /// The Amazon Web Services account ID of the data grant receiver.
+        public let receiverPrincipal: String
+        /// The Amazon Web Services account ID of the data grant sender.
+        public let senderPrincipal: String
+        /// The ID of the data set used to create the data grant.
+        public let sourceDataSetId: String
+        /// The tags associated to the data grant. A tag is a key-value pair.
+        public let tags: [String: String]?
+        /// The timestamp of when the data grant was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(acceptanceState: DataGrantAcceptanceState, acceptedAt: Date? = nil, arn: String, createdAt: Date, dataSetId: String, description: String? = nil, endsAt: Date? = nil, grantDistributionScope: GrantDistributionScope, id: String, name: String, receiverPrincipal: String, senderPrincipal: String, sourceDataSetId: String, tags: [String: String]? = nil, updatedAt: Date) {
+            self.acceptanceState = acceptanceState
+            self.acceptedAt = acceptedAt
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSetId = dataSetId
+            self.description = description
+            self.endsAt = endsAt
+            self.grantDistributionScope = grantDistributionScope
+            self.id = id
+            self.name = name
+            self.receiverPrincipal = receiverPrincipal
+            self.senderPrincipal = senderPrincipal
+            self.sourceDataSetId = sourceDataSetId
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceState = "AcceptanceState"
+            case acceptedAt = "AcceptedAt"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case dataSetId = "DataSetId"
+            case description = "Description"
+            case endsAt = "EndsAt"
+            case grantDistributionScope = "GrantDistributionScope"
+            case id = "Id"
+            case name = "Name"
+            case receiverPrincipal = "ReceiverPrincipal"
+            case senderPrincipal = "SenderPrincipal"
+            case sourceDataSetId = "SourceDataSetId"
+            case tags = "Tags"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct GetDataSetRequest: AWSEncodableShape {
         /// The unique identifier for a data set.
         public let dataSetId: String
@@ -1429,6 +1834,94 @@ extension DataExchange {
             case id = "Id"
             case state = "State"
             case type = "Type"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct GetReceivedDataGrantRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the data grant.
+        public let dataGrantArn: String
+
+        @inlinable
+        public init(dataGrantArn: String) {
+            self.dataGrantArn = dataGrantArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataGrantArn, key: "DataGrantArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataGrantArn, name: "dataGrantArn", parent: name, pattern: "^arn:aws:dataexchange:[\\-a-z0-9]*:(\\d{12}):data-grants\\/[a-zA-Z0-9]{30,40}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetReceivedDataGrantResponse: AWSDecodableShape {
+        /// The acceptance state of the data grant.
+        public let acceptanceState: DataGrantAcceptanceState
+        /// The timestamp of when the data grant was accepted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var acceptedAt: Date?
+        /// The Amazon Resource Name (ARN) of the data grant.
+        public let arn: String
+        /// The timestamp of when the data grant was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ID of the data set associated to the data grant.
+        public let dataSetId: String
+        /// The description of the data grant.
+        public let description: String?
+        /// The timestamp of when access to the associated data set ends.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endsAt: Date?
+        /// The distribution scope for the data grant.
+        public let grantDistributionScope: GrantDistributionScope
+        /// The ID of the data grant.
+        public let id: String
+        /// The name of the data grant.
+        public let name: String
+        /// The Amazon Web Services account ID of the data grant receiver.
+        public let receiverPrincipal: String
+        /// The Amazon Web Services account ID of the data grant sender.
+        public let senderPrincipal: String?
+        /// The timestamp of when the data grant was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(acceptanceState: DataGrantAcceptanceState, acceptedAt: Date? = nil, arn: String, createdAt: Date, dataSetId: String, description: String? = nil, endsAt: Date? = nil, grantDistributionScope: GrantDistributionScope, id: String, name: String, receiverPrincipal: String, senderPrincipal: String? = nil, updatedAt: Date) {
+            self.acceptanceState = acceptanceState
+            self.acceptedAt = acceptedAt
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSetId = dataSetId
+            self.description = description
+            self.endsAt = endsAt
+            self.grantDistributionScope = grantDistributionScope
+            self.id = id
+            self.name = name
+            self.receiverPrincipal = receiverPrincipal
+            self.senderPrincipal = senderPrincipal
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceState = "AcceptanceState"
+            case acceptedAt = "AcceptedAt"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case dataSetId = "DataSetId"
+            case description = "Description"
+            case endsAt = "EndsAt"
+            case grantDistributionScope = "GrantDistributionScope"
+            case id = "Id"
+            case name = "Name"
+            case receiverPrincipal = "ReceiverPrincipal"
+            case senderPrincipal = "SenderPrincipal"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -2084,6 +2577,51 @@ extension DataExchange {
         }
     }
 
+    public struct ListDataGrantsRequest: AWSEncodableShape {
+        /// The maximum number of results to be included in the next page.
+        public let maxResults: Int?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataGrantsResponse: AWSDecodableShape {
+        /// An object that contains a list of data grant information.
+        public let dataGrantSummaries: [DataGrantSummaryEntry]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dataGrantSummaries: [DataGrantSummaryEntry]? = nil, nextToken: String? = nil) {
+            self.dataGrantSummaries = dataGrantSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataGrantSummaries = "DataGrantSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListDataSetRevisionsRequest: AWSEncodableShape {
         /// The unique identifier for a data set.
         public let dataSetId: String
@@ -2284,6 +2822,55 @@ extension DataExchange {
         }
     }
 
+    public struct ListReceivedDataGrantsRequest: AWSEncodableShape {
+        /// The acceptance state of the data grants to list.
+        public let acceptanceState: [AcceptanceStateFilterValue]?
+        /// The maximum number of results to be included in the next page.
+        public let maxResults: Int?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        @inlinable
+        public init(acceptanceState: [AcceptanceStateFilterValue]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.acceptanceState = acceptanceState
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.acceptanceState, key: "acceptanceState")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListReceivedDataGrantsResponse: AWSDecodableShape {
+        /// An object that contains a list of received data grant information.
+        public let dataGrantSummaries: [ReceivedDataGrantSummariesEntry]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dataGrantSummaries: [ReceivedDataGrantSummariesEntry]? = nil, nextToken: String? = nil) {
+            self.dataGrantSummaries = dataGrantSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataGrantSummaries = "DataGrantSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListRevisionAssetsRequest: AWSEncodableShape {
         /// The unique identifier for a data set.
         public let dataSetId: String
@@ -2392,16 +2979,78 @@ extension DataExchange {
     }
 
     public struct OriginDetails: AWSDecodableShape {
+        /// The ID of the data grant.
+        public let dataGrantId: String?
         /// The product ID of the origin of the data set.
         public let productId: String?
 
         @inlinable
-        public init(productId: String? = nil) {
+        public init(dataGrantId: String? = nil, productId: String? = nil) {
+            self.dataGrantId = dataGrantId
             self.productId = productId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataGrantId = "DataGrantId"
             case productId = "ProductId"
+        }
+    }
+
+    public struct ReceivedDataGrantSummariesEntry: AWSDecodableShape {
+        /// The acceptance state of the data grant.
+        public let acceptanceState: DataGrantAcceptanceState
+        /// The timestamp of when the data grant was accepted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var acceptedAt: Date?
+        /// The Amazon Resource Name (ARN) of the data grant.
+        public let arn: String
+        /// The timestamp of when the data grant was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ID of the data set associated to the data grant.
+        public let dataSetId: String
+        /// The timestamp of when access to the associated data set ends.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endsAt: Date?
+        /// The ID of the data grant.
+        public let id: String
+        /// The name of the data grant.
+        public let name: String
+        /// The Amazon Web Services account ID of the data grant receiver.
+        public let receiverPrincipal: String
+        /// The Amazon Web Services account ID of the data grant sender.
+        public let senderPrincipal: String
+        /// The timestamp of when the data grant was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(acceptanceState: DataGrantAcceptanceState, acceptedAt: Date? = nil, arn: String, createdAt: Date, dataSetId: String, endsAt: Date? = nil, id: String, name: String, receiverPrincipal: String, senderPrincipal: String, updatedAt: Date) {
+            self.acceptanceState = acceptanceState
+            self.acceptedAt = acceptedAt
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSetId = dataSetId
+            self.endsAt = endsAt
+            self.id = id
+            self.name = name
+            self.receiverPrincipal = receiverPrincipal
+            self.senderPrincipal = senderPrincipal
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceState = "AcceptanceState"
+            case acceptedAt = "AcceptedAt"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case dataSetId = "DataSetId"
+            case endsAt = "EndsAt"
+            case id = "Id"
+            case name = "Name"
+            case receiverPrincipal = "ReceiverPrincipal"
+            case senderPrincipal = "SenderPrincipal"
+            case updatedAt = "UpdatedAt"
         }
     }
 

@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS QApps service.
 ///
-/// The Amazon Q Apps feature capability within Amazon Q Business allows web experience  users to create lightweight, purpose-built AI apps to fulfill specific tasks from  within their web experience. For example, users can create a Q App that exclusively  generates marketing-related content to improve your marketing team's productivity or a  Q App for writing customer emails and creating promotional content using a certain  style of voice, tone, and branding. For more information on the capabilities, see  Amazon Q Apps capabilities in the Amazon Q Business User Guide.   For an overview of the Amazon Q App APIs, see Overview of  Amazon Q Apps API operations. For information about the IAM access control permissions you need to use the Amazon Q Apps API, see  IAM role for the Amazon Q Business web experience including Amazon Q Apps in the Amazon Q Business User Guide.
+/// The Amazon Q Apps feature capability within Amazon Q Business allows web experience users to create lightweight, purpose-built AI apps to fulfill specific tasks from within their web experience. For example, users can create a Q App that exclusively generates marketing-related content to improve your marketing team's productivity or a Q App for writing customer emails and creating promotional content using a certain style of voice, tone, and branding. For more information on the capabilities, see Amazon Q Apps capabilities in the Amazon Q Business User Guide.  For an overview of the Amazon Q App APIs, see Overview of Amazon Q Apps API operations. For information about the IAM access control permissions you need to use the Amazon Q Apps API, see  IAM role for the Amazon Q Business web experience including Amazon Q Apps in the Amazon Q Business User Guide.
 public struct QApps: AWSService {
     // MARK: Member variables
 
@@ -80,7 +80,7 @@ public struct QApps: AWSService {
 
     // MARK: API Calls
 
-    /// Associates a rating or review for a library item with the user submitting  the request. This increments the rating count for the specified library item.
+    /// Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
     @Sendable
     @inlinable
     public func associateLibraryItemReview(_ input: AssociateLibraryItemReviewInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -93,7 +93,7 @@ public struct QApps: AWSService {
             logger: logger
         )
     }
-    /// Associates a rating or review for a library item with the user submitting  the request. This increments the rating count for the specified library item.
+    /// Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
     ///
     /// Parameters:
     ///   - instanceId: The unique identifier for the Amazon Q Business application environment instance.
@@ -144,7 +144,103 @@ public struct QApps: AWSService {
         return try await self.associateQAppWithUser(input, logger: logger)
     }
 
-    /// Creates a new library item for an Amazon Q App, allowing it to be discovered and  used by other allowed users.
+    /// Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+    @Sendable
+    @inlinable
+    public func batchCreateCategory(_ input: BatchCreateCategoryInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "BatchCreateCategory", 
+            path: "/catalog.createCategories", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+    ///
+    /// Parameters:
+    ///   - categories: The list of category objects to be created
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchCreateCategory(
+        categories: [BatchCreateCategoryInputCategory],
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = BatchCreateCategoryInput(
+            categories: categories, 
+            instanceId: instanceId
+        )
+        return try await self.batchCreateCategory(input, logger: logger)
+    }
+
+    /// Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+    @Sendable
+    @inlinable
+    public func batchDeleteCategory(_ input: BatchDeleteCategoryInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "BatchDeleteCategory", 
+            path: "/catalog.deleteCategories", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+    ///
+    /// Parameters:
+    ///   - categories: The list of IDs of the categories to be deleted.
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDeleteCategory(
+        categories: [String],
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = BatchDeleteCategoryInput(
+            categories: categories, 
+            instanceId: instanceId
+        )
+        return try await self.batchDeleteCategory(input, logger: logger)
+    }
+
+    /// Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+    @Sendable
+    @inlinable
+    public func batchUpdateCategory(_ input: BatchUpdateCategoryInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "BatchUpdateCategory", 
+            path: "/catalog.updateCategories", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
+    ///
+    /// Parameters:
+    ///   - categories: The list of categories to be updated with their new values.
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchUpdateCategory(
+        categories: [CategoryInput],
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = BatchUpdateCategoryInput(
+            categories: categories, 
+            instanceId: instanceId
+        )
+        return try await self.batchUpdateCategory(input, logger: logger)
+    }
+
+    /// Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
     @Sendable
     @inlinable
     public func createLibraryItem(_ input: CreateLibraryItemInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLibraryItemOutput {
@@ -157,7 +253,7 @@ public struct QApps: AWSService {
             logger: logger
         )
     }
-    /// Creates a new library item for an Amazon Q App, allowing it to be discovered and  used by other allowed users.
+    /// Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
     ///
     /// Parameters:
     ///   - appId: The unique identifier of the Amazon Q App to publish to the library.
@@ -223,7 +319,7 @@ public struct QApps: AWSService {
         return try await self.createQApp(input, logger: logger)
     }
 
-    /// Deletes a library item for an Amazon Q App, removing it from the library  so it can no longer be discovered or used by other users.
+    /// Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
     @Sendable
     @inlinable
     public func deleteLibraryItem(_ input: DeleteLibraryItemInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -236,7 +332,7 @@ public struct QApps: AWSService {
             logger: logger
         )
     }
-    /// Deletes a library item for an Amazon Q App, removing it from the library  so it can no longer be discovered or used by other users.
+    /// Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
     ///
     /// Parameters:
     ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
@@ -351,7 +447,7 @@ public struct QApps: AWSService {
         return try await self.disassociateQAppFromUser(input, logger: logger)
     }
 
-    /// Retrieves details about a library item for an Amazon Q App, including its metadata,  categories, ratings, and usage statistics.
+    /// Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
     @Sendable
     @inlinable
     public func getLibraryItem(_ input: GetLibraryItemInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLibraryItemOutput {
@@ -364,7 +460,7 @@ public struct QApps: AWSService {
             logger: logger
         )
     }
-    /// Retrieves details about a library item for an Amazon Q App, including its metadata,  categories, ratings, and usage statistics.
+    /// Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
     ///
     /// Parameters:
     ///   - appId: The unique identifier of the Amazon Q App associated with the library item.
@@ -450,7 +546,7 @@ public struct QApps: AWSService {
         return try await self.getQAppSession(input, logger: logger)
     }
 
-    /// Uploads a file that can then be used either as a default in a  FileUploadCard from Q App definition or as a file that  is used inside a single Q App run. The purpose of the document is  determined by a scope parameter that indicates whether it is at the  app definition level or at the app session level.
+    /// Uploads a file that can then be used either as a default in a FileUploadCard from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
     @Sendable
     @inlinable
     public func importDocument(_ input: ImportDocumentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportDocumentOutput {
@@ -463,7 +559,7 @@ public struct QApps: AWSService {
             logger: logger
         )
     }
-    /// Uploads a file that can then be used either as a default in a  FileUploadCard from Q App definition or as a file that  is used inside a single Q App run. The purpose of the document is  determined by a scope parameter that indicates whether it is at the  app definition level or at the app session level.
+    /// Uploads a file that can then be used either as a default in a FileUploadCard from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
     ///
     /// Parameters:
     ///   - appId: The unique identifier of the Q App the file is associated with.
@@ -495,6 +591,35 @@ public struct QApps: AWSService {
             sessionId: sessionId
         )
         return try await self.importDocument(input, logger: logger)
+    }
+
+    /// Lists the categories of a Amazon Q Business application environment instance. For more information, see Custom labels for Amazon Q Apps.
+    @Sendable
+    @inlinable
+    public func listCategories(_ input: ListCategoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCategoriesOutput {
+        try await self.client.execute(
+            operation: "ListCategories", 
+            path: "/catalog.listCategories", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the categories of a Amazon Q Business application environment instance. For more information, see Custom labels for Amazon Q Apps.
+    ///
+    /// Parameters:
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCategories(
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCategoriesOutput {
+        let input = ListCategoriesInput(
+            instanceId: instanceId
+        )
+        return try await self.listCategories(input, logger: logger)
     }
 
     /// Lists the library items for Amazon Q Apps that are published and available for users in your Amazon Web Services account.
@@ -535,7 +660,7 @@ public struct QApps: AWSService {
         return try await self.listLibraryItems(input, logger: logger)
     }
 
-    /// Lists the Amazon Q Apps owned by or associated with the user either because  they created it or because they used it from the library in the past. The user  identity is extracted from the credentials used to invoke this operation..
+    /// Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
     @Sendable
     @inlinable
     public func listQApps(_ input: ListQAppsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQAppsOutput {
@@ -548,7 +673,7 @@ public struct QApps: AWSService {
             logger: logger
         )
     }
-    /// Lists the Amazon Q Apps owned by or associated with the user either because  they created it or because they used it from the library in the past. The user  identity is extracted from the credentials used to invoke this operation..
+    /// Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
     ///
     /// Parameters:
     ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
@@ -599,7 +724,7 @@ public struct QApps: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Generates an Amazon Q App definition based on either a conversation or  a problem statement provided as input.The resulting app definition can be used to call CreateQApp. This API doesn't create  Amazon Q Apps directly.
+    /// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp. This API doesn't create Amazon Q Apps directly.
     @Sendable
     @inlinable
     public func predictQApp(_ input: PredictQAppInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PredictQAppOutput {
@@ -612,7 +737,7 @@ public struct QApps: AWSService {
             logger: logger
         )
     }
-    /// Generates an Amazon Q App definition based on either a conversation or  a problem statement provided as input.The resulting app definition can be used to call CreateQApp. This API doesn't create  Amazon Q Apps directly.
+    /// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp. This API doesn't create Amazon Q Apps directly.
     ///
     /// Parameters:
     ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
@@ -631,7 +756,7 @@ public struct QApps: AWSService {
         return try await self.predictQApp(input, logger: logger)
     }
 
-    /// Starts a new session for an Amazon Q App, allowing inputs to be provided  and the app to be run.  Each Q App session will be condensed into a single conversation  in the web experience.
+    /// Starts a new session for an Amazon Q App, allowing inputs to be provided and the app to be run.  Each Q App session will be condensed into a single conversation in the web experience.
     @Sendable
     @inlinable
     public func startQAppSession(_ input: StartQAppSessionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQAppSessionOutput {
@@ -644,7 +769,7 @@ public struct QApps: AWSService {
             logger: logger
         )
     }
-    /// Starts a new session for an Amazon Q App, allowing inputs to be provided  and the app to be run.  Each Q App session will be condensed into a single conversation  in the web experience.
+    /// Starts a new session for an Amazon Q App, allowing inputs to be provided and the app to be run.  Each Q App session will be condensed into a single conversation in the web experience.
     ///
     /// Parameters:
     ///   - appId: The unique identifier of the Q App to start a session for.
@@ -672,7 +797,7 @@ public struct QApps: AWSService {
         return try await self.startQAppSession(input, logger: logger)
     }
 
-    /// Stops an active session for an Amazon Q App.This deletes all data  related to the session and makes it invalid for future uses. The  results of the session will be persisted as part of the conversation.
+    /// Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
     @Sendable
     @inlinable
     public func stopQAppSession(_ input: StopQAppSessionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -685,7 +810,7 @@ public struct QApps: AWSService {
             logger: logger
         )
     }
-    /// Stops an active session for an Amazon Q App.This deletes all data  related to the session and makes it invalid for future uses. The  results of the session will be persisted as part of the conversation.
+    /// Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
     ///
     /// Parameters:
     ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
@@ -882,7 +1007,7 @@ public struct QApps: AWSService {
         return try await self.updateQApp(input, logger: logger)
     }
 
-    /// Updates the session for a given Q App sessionId. This is only  valid when at least one card of the session is in the WAITING state.  Data for each WAITING card can be provided as input. If inputs  are not provided, the call will be accepted but session will not move forward.  Inputs for cards that are not in the WAITING status will be ignored.
+    /// Updates the session for a given Q App sessionId. This is only valid when at least one card of the session is in the WAITING state. Data for each WAITING card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the WAITING status will be ignored.
     @Sendable
     @inlinable
     public func updateQAppSession(_ input: UpdateQAppSessionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQAppSessionOutput {
@@ -895,7 +1020,7 @@ public struct QApps: AWSService {
             logger: logger
         )
     }
-    /// Updates the session for a given Q App sessionId. This is only  valid when at least one card of the session is in the WAITING state.  Data for each WAITING card can be provided as input. If inputs  are not provided, the call will be accepted but session will not move forward.  Inputs for cards that are not in the WAITING status will be ignored.
+    /// Updates the session for a given Q App sessionId. This is only valid when at least one card of the session is in the WAITING state. Data for each WAITING card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the WAITING status will be ignored.
     ///
     /// Parameters:
     ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.

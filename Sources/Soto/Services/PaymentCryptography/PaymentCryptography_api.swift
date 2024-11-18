@@ -439,7 +439,7 @@ public struct PaymentCryptography: AWSService {
         return try await self.importKey(input, logger: logger)
     }
 
-    /// Lists the aliases for all keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the list of aliases. For more information, see Using aliases in the Amazon Web Services Payment Cryptography User Guide. This is a paginated operation, which means that each response might contain only a subset of all the aliases. When the response contains only a subset of aliases, it includes a NextToken value. Use this value in a subsequent ListAliases request to get more aliases. When you receive a response with no NextToken (or an empty or null value), that means there are no more aliases to get.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateAlias     DeleteAlias     GetAlias     UpdateAlias
+    /// Lists the aliases for all keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the aliases by keyARN. For more information, see Using aliases in the Amazon Web Services Payment Cryptography User Guide. This is a paginated operation, which means that each response might contain only a subset of all the aliases. When the response contains only a subset of aliases, it includes a NextToken value. Use this value in a subsequent ListAliases request to get more aliases. When you receive a response with no NextToken (or an empty or null value), that means there are no more aliases to get.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateAlias     DeleteAlias     GetAlias     UpdateAlias
     @Sendable
     @inlinable
     public func listAliases(_ input: ListAliasesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAliasesOutput {
@@ -452,19 +452,22 @@ public struct PaymentCryptography: AWSService {
             logger: logger
         )
     }
-    /// Lists the aliases for all keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the list of aliases. For more information, see Using aliases in the Amazon Web Services Payment Cryptography User Guide. This is a paginated operation, which means that each response might contain only a subset of all the aliases. When the response contains only a subset of aliases, it includes a NextToken value. Use this value in a subsequent ListAliases request to get more aliases. When you receive a response with no NextToken (or an empty or null value), that means there are no more aliases to get.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateAlias     DeleteAlias     GetAlias     UpdateAlias
+    /// Lists the aliases for all keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the aliases by keyARN. For more information, see Using aliases in the Amazon Web Services Payment Cryptography User Guide. This is a paginated operation, which means that each response might contain only a subset of all the aliases. When the response contains only a subset of aliases, it includes a NextToken value. Use this value in a subsequent ListAliases request to get more aliases. When you receive a response with no NextToken (or an empty or null value), that means there are no more aliases to get.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateAlias     DeleteAlias     GetAlias     UpdateAlias
     ///
     /// Parameters:
+    ///   - keyArn: The keyARN for which you want to list all aliases.
     ///   - maxResults: Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
     ///   - nextToken: Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the truncated response you just received.
     ///   - logger: Logger use during operation
     @inlinable
     public func listAliases(
+        keyArn: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListAliasesOutput {
         let input = ListAliasesInput(
+            keyArn: keyArn, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -759,14 +762,17 @@ extension PaymentCryptography {
     /// Return PaginatorSequence for operation ``listAliases(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - keyArn: The keyARN for which you want to list all aliases.
     ///   - maxResults: Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
     ///   - logger: Logger used for logging
     @inlinable
     public func listAliasesPaginator(
+        keyArn: String? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListAliasesInput, ListAliasesOutput> {
         let input = ListAliasesInput(
+            keyArn: keyArn, 
             maxResults: maxResults
         )
         return self.listAliasesPaginator(input, logger: logger)
@@ -851,6 +857,7 @@ extension PaymentCryptography.ListAliasesInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> PaymentCryptography.ListAliasesInput {
         return .init(
+            keyArn: self.keyArn,
             maxResults: self.maxResults,
             nextToken: token
         )

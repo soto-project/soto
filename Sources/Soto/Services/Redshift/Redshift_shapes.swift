@@ -267,6 +267,47 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceIntegrationsUnion: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A list of scopes set up for Lake Formation integration.
+        case lakeFormation([LakeFormationScopeUnion])
+        /// A list of scopes set up for S3 Access Grants integration.
+        case s3AccessGrants([S3AccessGrantsScopeUnion])
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .lakeFormation:
+                let value = try container.decode([LakeFormationScopeUnion].self, forKey: .lakeFormation)
+                self = .lakeFormation(value)
+            case .s3AccessGrants:
+                let value = try container.decode([S3AccessGrantsScopeUnion].self, forKey: .s3AccessGrants)
+                self = .s3AccessGrants(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .lakeFormation(let value):
+                try container.encode(value, forKey: .lakeFormation)
+            case .s3AccessGrants(let value):
+                try container.encode(value, forKey: .s3AccessGrants)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lakeFormation = "LakeFormation"
+            case s3AccessGrants = "S3AccessGrants"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AcceptReservedNodeExchangeInputMessage: AWSEncodableShape {
@@ -2435,11 +2476,15 @@ extension Redshift {
             try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
             try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2147483647)
-            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 2147483647)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 255)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 1)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:(s3|dynamodb):.*:.*:[a-zA-Z0-9._\\-\\/]+$")
             try self.tagList?.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
-            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2147483647)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, min: 20)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "^arn:aws[a-z\\-]*:redshift(-serverless)?:[a-z0-9\\-]+:[0-9]{12}:(namespace\\/|namespace:)[a-z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4335,9 +4380,13 @@ extension Redshift {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.integrationArn, name: "integrationArn", parent: name, max: 2147483647)
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, max: 255)
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, min: 1)
+            try self.validate(self.integrationArn, name: "integrationArn", parent: name, pattern: "^arn:aws[a-z\\-]*:.+:[a-z0-9\\-]*:[0-9]*:integration:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.marker, name: "marker", parent: name, max: 2147483647)
-            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2147483647)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, min: 20)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "^arn:aws[a-z\\-]*:redshift(-serverless)?:[a-z0-9\\-]+:[0-9]{12}:(namespace\\/|namespace:)[a-z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4959,7 +5008,7 @@ extension Redshift {
         public let maxRecords: Int?
         /// The Amazon Resource Name (ARN) for which you want to describe the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1.
         public let resourceName: String?
-        /// The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   Integration (zero-ETL integration)  To describe the tags associated with an integration, don't specify ResourceType,  instead specify the ResourceName of the integration.    For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide.
+        /// The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   Integration (zero-ETL integration or S3 event integration)  To describe the tags associated with an integration, don't specify ResourceType,  instead specify the ResourceName of the integration.    For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide.
         public let resourceType: String?
         /// A tag key or keys for which you want to return all matching resources that are associated with the specified key or keys. For example, suppose that you have resources tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with all resources that have either or both of these tag keys associated with them.
         @OptionalCustomCoding<ArrayCoder<_TagKeysEncoding, String>>
@@ -7734,6 +7783,20 @@ extension Redshift {
         }
     }
 
+    public struct ReadWriteAccess: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether the read/write scope is enabled or disabled.
+        public let authorization: ServiceAuthorization?
+
+        @inlinable
+        public init(authorization: ServiceAuthorization? = nil) {
+            self.authorization = authorization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "Authorization"
+        }
+    }
+
     public struct RebootClusterMessage: AWSEncodableShape {
         /// The cluster identifier.
         public let clusterIdentifier: String?
@@ -9798,18 +9861,17 @@ extension Redshift {
         }
     }
 
-    public struct ServiceIntegrationsUnion: AWSEncodableShape & AWSDecodableShape {
-        /// A list of scopes set up for Lake Formation integration.
-        @OptionalCustomCoding<StandardArrayCoder<LakeFormationScopeUnion>>
-        public var lakeFormation: [LakeFormationScopeUnion]?
+    public struct S3AccessGrantsScopeUnion: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 Access Grants scope.
+        public let readWriteAccess: ReadWriteAccess?
 
         @inlinable
-        public init(lakeFormation: [LakeFormationScopeUnion]? = nil) {
-            self.lakeFormation = lakeFormation
+        public init(readWriteAccess: ReadWriteAccess? = nil) {
+            self.readWriteAccess = readWriteAccess
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lakeFormation = "LakeFormation"
+            case readWriteAccess = "ReadWriteAccess"
         }
     }
 }
@@ -10111,7 +10173,7 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var integrationConflictStateFault: Self { .init(.integrationConflictStateFault) }
     /// The integration can't be found.
     public static var integrationNotFoundFault: Self { .init(.integrationNotFoundFault) }
-    /// You can't create any more zero-ETL integrations because the quota has been reached.
+    /// You can't create any more zero-ETL or S3 event integrations because the quota has been reached.
     public static var integrationQuotaExceededFault: Self { .init(.integrationQuotaExceededFault) }
     /// The specified integration source can't be found.
     public static var integrationSourceNotFoundFault: Self { .init(.integrationSourceNotFoundFault) }

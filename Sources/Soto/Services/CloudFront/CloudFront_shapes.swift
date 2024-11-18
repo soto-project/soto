@@ -9514,7 +9514,7 @@ extension CloudFront {
         /// 			configuration.
         public let id: String
         /// The current versions (ETag values) of both primary and staging distributions.
-        /// 			Provide these in the following format:  ,
+        /// 			Provide these in the following format:  &lt;primary ETag&gt;, &lt;staging ETag&gt;
         public let ifMatch: String?
         /// The identifier of the staging distribution whose configuration you are copying to the primary distribution.
         public let stagingDistributionId: String?

@@ -147,6 +147,7 @@ public struct Synthetics: AWSService {
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:PutLogEvents
     ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days.
     ///   - name: The name for this canary. Be sure to give it a descriptive name  that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see Security Considerations for Synthetics Canaries.
+    ///   - provisionedResourceCleanup: Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If you omit this parameter, the default of AUTOMATIC is used, which means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
     ///   - resourcesToReplicateTags: To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function. If you specify this parameter and don't specify any tags in the Tags parameter, the canary creation fails.
     ///   - runConfig: A structure that contains the configuration for individual canary runs,  such as timeout value and environment variables.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
     ///   - runtimeVersion: Specifies the runtime version to use for the canary. For a list of valid runtime versions and more information about runtime versions, see  Canary Runtime Versions.
@@ -163,6 +164,7 @@ public struct Synthetics: AWSService {
         executionRoleArn: String,
         failureRetentionPeriodInDays: Int? = nil,
         name: String,
+        provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil,
         resourcesToReplicateTags: [ResourceToTag]? = nil,
         runConfig: CanaryRunConfigInput? = nil,
         runtimeVersion: String,
@@ -179,6 +181,7 @@ public struct Synthetics: AWSService {
             executionRoleArn: executionRoleArn, 
             failureRetentionPeriodInDays: failureRetentionPeriodInDays, 
             name: name, 
+            provisionedResourceCleanup: provisionedResourceCleanup, 
             resourcesToReplicateTags: resourcesToReplicateTags, 
             runConfig: runConfig, 
             runtimeVersion: runtimeVersion, 
@@ -222,7 +225,7 @@ public struct Synthetics: AWSService {
         return try await self.createGroup(input, logger: logger)
     }
 
-    /// Permanently deletes the specified canary. If you specify DeleteLambda to true, CloudWatch Synthetics also deletes the Lambda functions and layers that are used by the canary. Other resources used and created by the canary are not automatically deleted.  After you delete a canary that you do not intend to use again, you should also delete the following:   The CloudWatch alarms created for this canary. These alarms have a name of Synthetics-Alarm-first-198-characters-of-canary-name-canaryId-alarm number     Amazon S3 objects and buckets, such as the canary's artifact location.   IAM roles created for the canary. If they were created in the console, these roles have the name  role/service-role/CloudWatchSyntheticsRole-First-21-Characters-of-CanaryName     CloudWatch Logs log groups created for the canary. These logs groups have the name /aws/lambda/cwsyn-First-21-Characters-of-CanaryName     Before you delete a canary, you might want to use GetCanary to display the information about this canary. Make note of the information returned by this operation so that you can delete these resources after you delete the canary.
+    /// Permanently deletes the specified canary. If the canary's ProvisionedResourceCleanup field is set to AUTOMATIC  or you specify DeleteLambda in this operation as true, CloudWatch Synthetics also deletes the Lambda functions and layers that are used by the canary. Other resources used and created by the canary are not automatically deleted.  After you delete a canary, you should also delete the following:   The CloudWatch alarms created for this canary. These alarms have a name of Synthetics-Alarm-first-198-characters-of-canary-name-canaryId-alarm number     Amazon S3 objects and buckets, such as the canary's artifact location.   IAM roles created for the canary. If they were created in the console, these roles have the name  role/service-role/CloudWatchSyntheticsRole-First-21-Characters-of-CanaryName     CloudWatch Logs log groups created for the canary. These logs groups have the name /aws/lambda/cwsyn-First-21-Characters-of-CanaryName     Before you delete a canary, you might want to use GetCanary to display the information about this canary. Make note of the information returned by this operation so that you can delete these resources after you delete the canary.
     @Sendable
     @inlinable
     public func deleteCanary(_ input: DeleteCanaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCanaryResponse {
@@ -235,10 +238,10 @@ public struct Synthetics: AWSService {
             logger: logger
         )
     }
-    /// Permanently deletes the specified canary. If you specify DeleteLambda to true, CloudWatch Synthetics also deletes the Lambda functions and layers that are used by the canary. Other resources used and created by the canary are not automatically deleted.  After you delete a canary that you do not intend to use again, you should also delete the following:   The CloudWatch alarms created for this canary. These alarms have a name of Synthetics-Alarm-first-198-characters-of-canary-name-canaryId-alarm number     Amazon S3 objects and buckets, such as the canary's artifact location.   IAM roles created for the canary. If they were created in the console, these roles have the name  role/service-role/CloudWatchSyntheticsRole-First-21-Characters-of-CanaryName     CloudWatch Logs log groups created for the canary. These logs groups have the name /aws/lambda/cwsyn-First-21-Characters-of-CanaryName     Before you delete a canary, you might want to use GetCanary to display the information about this canary. Make note of the information returned by this operation so that you can delete these resources after you delete the canary.
+    /// Permanently deletes the specified canary. If the canary's ProvisionedResourceCleanup field is set to AUTOMATIC  or you specify DeleteLambda in this operation as true, CloudWatch Synthetics also deletes the Lambda functions and layers that are used by the canary. Other resources used and created by the canary are not automatically deleted.  After you delete a canary, you should also delete the following:   The CloudWatch alarms created for this canary. These alarms have a name of Synthetics-Alarm-first-198-characters-of-canary-name-canaryId-alarm number     Amazon S3 objects and buckets, such as the canary's artifact location.   IAM roles created for the canary. If they were created in the console, these roles have the name  role/service-role/CloudWatchSyntheticsRole-First-21-Characters-of-CanaryName     CloudWatch Logs log groups created for the canary. These logs groups have the name /aws/lambda/cwsyn-First-21-Characters-of-CanaryName     Before you delete a canary, you might want to use GetCanary to display the information about this canary. Make note of the information returned by this operation so that you can delete these resources after you delete the canary.
     ///
     /// Parameters:
-    ///   - deleteLambda: Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false. Type: Boolean
+    ///   - deleteLambda: Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false. Your setting for this parameter is used only if the canary doesn't have AUTOMATIC for its  ProvisionedResourceCleanup field. If that field is set to AUTOMATIC, then the  Lambda functions and layers will be deleted when this canary is deleted.  Type: Boolean
     ///   - name: The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries.
     ///   - logger: Logger use during operation
     @inlinable
@@ -785,6 +788,7 @@ public struct Synthetics: AWSService {
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:CreateLogStream
     ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary.
     ///   - name: The name of the canary that you want to update. To find the names of your  canaries, use DescribeCanaries. You cannot change the name of a canary that has already been created.
+    ///   - provisionedResourceCleanup: Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
     ///   - runConfig: A structure that contains the timeout value that is used for each individual run of the  canary.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
     ///   - runtimeVersion: Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
     ///   - schedule: A structure that contains information about how often the canary is to run, and when these runs are to stop.
@@ -800,6 +804,7 @@ public struct Synthetics: AWSService {
         executionRoleArn: String? = nil,
         failureRetentionPeriodInDays: Int? = nil,
         name: String,
+        provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil,
         runConfig: CanaryRunConfigInput? = nil,
         runtimeVersion: String? = nil,
         schedule: CanaryScheduleInput? = nil,
@@ -815,6 +820,7 @@ public struct Synthetics: AWSService {
             executionRoleArn: executionRoleArn, 
             failureRetentionPeriodInDays: failureRetentionPeriodInDays, 
             name: name, 
+            provisionedResourceCleanup: provisionedResourceCleanup, 
             runConfig: runConfig, 
             runtimeVersion: runtimeVersion, 
             schedule: schedule, 

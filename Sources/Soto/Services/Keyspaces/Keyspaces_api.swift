@@ -96,7 +96,7 @@ public struct Keyspaces: AWSService {
 
     // MARK: API Calls
 
-    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.  CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace  by using the GetKeyspace operation. For more information, see Creating keyspaces in the Amazon Keyspaces Developer Guide.
+    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.  CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace  by using the GetKeyspace operation. For more information, see Create a keyspace in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func createKeyspace(_ input: CreateKeyspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeyspaceResponse {
@@ -109,7 +109,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.  CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace  by using the GetKeyspace operation. For more information, see Creating keyspaces in the Amazon Keyspaces Developer Guide.
+    /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.  CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace  by using the GetKeyspace operation. For more information, see Create a keyspace in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - keyspaceName: The name of the keyspace to be created.
@@ -131,7 +131,7 @@ public struct Keyspaces: AWSService {
         return try await self.createKeyspace(input, logger: logger)
     }
 
-    /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique.  CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable  operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see Creating tables in the Amazon Keyspaces Developer Guide.
+    /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique.  CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable  operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see Create a table in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func createTable(_ input: CreateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableResponse {
@@ -144,7 +144,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique.  CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable  operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see Creating tables in the Amazon Keyspaces Developer Guide.
+    /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique.  CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable  operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see Create a table in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - autoScalingSpecification: The optional auto scaling settings for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity  automatically on your behalf. Auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide. By default, auto scaling is disabled for a table.
@@ -194,6 +194,41 @@ public struct Keyspaces: AWSService {
             ttl: ttl
         )
         return try await self.createTable(input, logger: logger)
+    }
+
+    ///  The CreateType operation creates a new user-defined type in the specified keyspace.  For more information, see User-defined types (UDTs) in the Amazon Keyspaces Developer Guide.
+    @Sendable
+    @inlinable
+    public func createType(_ input: CreateTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTypeResponse {
+        try await self.client.execute(
+            operation: "CreateType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  The CreateType operation creates a new user-defined type in the specified keyspace.  For more information, see User-defined types (UDTs) in the Amazon Keyspaces Developer Guide.
+    ///
+    /// Parameters:
+    ///   - fieldDefinitions:  The field definitions, consisting of names and types, that define this type.
+    ///   - keyspaceName:  The name of the keyspace.
+    ///   - typeName:  The name of the user-defined type.  UDT names must contain 48 characters or less, must begin with an alphabetic character, and  can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters automatically into lower case characters.  Alternatively, you can declare a UDT name in double quotes. When declaring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the  name when you create the UDT, but you must escape each double quote character with an additional  double quote character.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createType(
+        fieldDefinitions: [FieldDefinition],
+        keyspaceName: String,
+        typeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTypeResponse {
+        let input = CreateTypeRequest(
+            fieldDefinitions: fieldDefinitions, 
+            keyspaceName: keyspaceName, 
+            typeName: typeName
+        )
+        return try await self.createType(input, logger: logger)
     }
 
     /// The DeleteKeyspace operation deletes a keyspace and all of its tables.
@@ -257,6 +292,38 @@ public struct Keyspaces: AWSService {
         return try await self.deleteTable(input, logger: logger)
     }
 
+    ///  The DeleteType operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT.
+    @Sendable
+    @inlinable
+    public func deleteType(_ input: DeleteTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTypeResponse {
+        try await self.client.execute(
+            operation: "DeleteType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  The DeleteType operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT.
+    ///
+    /// Parameters:
+    ///   - keyspaceName:  The name of the keyspace of the to be deleted type.
+    ///   - typeName:  The name of the type to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteType(
+        keyspaceName: String,
+        typeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTypeResponse {
+        let input = DeleteTypeRequest(
+            keyspaceName: keyspaceName, 
+            typeName: typeName
+        )
+        return try await self.deleteType(input, logger: logger)
+    }
+
     /// Returns the name and the Amazon Resource Name (ARN) of the specified table.
     @Sendable
     @inlinable
@@ -286,7 +353,7 @@ public struct Keyspaces: AWSService {
         return try await self.getKeyspace(input, logger: logger)
     }
 
-    /// Returns information about the table, including the table's name and current status, the keyspace name,  configuration settings, and metadata. To read table metadata using GetTable, Select action  permissions for the table and system tables are required to complete the operation.
+    /// Returns information about the table, including the table's name and current status, the keyspace name,  configuration settings, and metadata. To read table metadata using GetTable, the  IAM principal needs Select action  permissions for the table and the system keyspace.
     @Sendable
     @inlinable
     public func getTable(_ input: GetTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableResponse {
@@ -299,7 +366,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Returns information about the table, including the table's name and current status, the keyspace name,  configuration settings, and metadata. To read table metadata using GetTable, Select action  permissions for the table and system tables are required to complete the operation.
+    /// Returns information about the table, including the table's name and current status, the keyspace name,  configuration settings, and metadata. To read table metadata using GetTable, the  IAM principal needs Select action  permissions for the table and the system keyspace.
     ///
     /// Parameters:
     ///   - keyspaceName: The name of the keyspace that the table is stored in.
@@ -350,7 +417,39 @@ public struct Keyspaces: AWSService {
         return try await self.getTableAutoScalingSettings(input, logger: logger)
     }
 
-    /// Returns a list of keyspaces.
+    ///  The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.  To read keyspace metadata using GetType, the  IAM principal needs Select action  permissions for the system keyspace.
+    @Sendable
+    @inlinable
+    public func getType(_ input: GetTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTypeResponse {
+        try await self.client.execute(
+            operation: "GetType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.  To read keyspace metadata using GetType, the  IAM principal needs Select action  permissions for the system keyspace.
+    ///
+    /// Parameters:
+    ///   - keyspaceName:  The name of the keyspace that contains this type.
+    ///   - typeName: The formatted name of the type. For example, if the name of the type was created without double quotes, Amazon Keyspaces saved the name in lower-case characters. If the name was created in double quotes, you must use double quotes to specify the type name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getType(
+        keyspaceName: String,
+        typeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTypeResponse {
+        let input = GetTypeRequest(
+            keyspaceName: keyspaceName, 
+            typeName: typeName
+        )
+        return try await self.getType(input, logger: logger)
+    }
+
+    /// The ListKeyspaces operation returns a list of keyspaces.
     @Sendable
     @inlinable
     public func listKeyspaces(_ input: ListKeyspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeyspacesResponse {
@@ -363,7 +462,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of keyspaces.
+    /// The ListKeyspaces operation returns a list of keyspaces.
     ///
     /// Parameters:
     ///   - maxResults: The total number of keyspaces to return in the output. If the total number of keyspaces available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
@@ -382,7 +481,7 @@ public struct Keyspaces: AWSService {
         return try await self.listKeyspaces(input, logger: logger)
     }
 
-    /// Returns a list of tables for a specified keyspace.
+    /// The ListTables operation returns a list of tables for a specified keyspace. To read keyspace metadata using ListTables, the  IAM principal needs Select action  permissions for the system keyspace.
     @Sendable
     @inlinable
     public func listTables(_ input: ListTablesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTablesResponse {
@@ -395,7 +494,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of tables for a specified keyspace.
+    /// The ListTables operation returns a list of tables for a specified keyspace. To read keyspace metadata using ListTables, the  IAM principal needs Select action  permissions for the system keyspace.
     ///
     /// Parameters:
     ///   - keyspaceName: The name of the keyspace.
@@ -417,7 +516,7 @@ public struct Keyspaces: AWSService {
         return try await self.listTables(input, logger: logger)
     }
 
-    /// Returns a list of all tags associated with the specified Amazon Keyspaces resource.
+    /// Returns a list of all tags associated with the specified Amazon Keyspaces resource. To read keyspace metadata using ListTagsForResource, the  IAM principal needs Select action  permissions for the specified resource and the system keyspace.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -430,7 +529,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of all tags associated with the specified Amazon Keyspaces resource.
+    /// Returns a list of all tags associated with the specified Amazon Keyspaces resource. To read keyspace metadata using ListTagsForResource, the  IAM principal needs Select action  permissions for the specified resource and the system keyspace.
     ///
     /// Parameters:
     ///   - maxResults: The total number of tags to return in the output. If the total number of tags available  is more than the value specified, a NextToken is provided in the output. To resume pagination,  provide the NextToken value as an argument of a subsequent API invocation.
@@ -450,6 +549,41 @@ public struct Keyspaces: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    ///  The ListTypes operation returns a list of types for a specified keyspace.  To read keyspace metadata using ListTypes, the  IAM principal needs Select action  permissions for the system keyspace.
+    @Sendable
+    @inlinable
+    public func listTypes(_ input: ListTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTypesResponse {
+        try await self.client.execute(
+            operation: "ListTypes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  The ListTypes operation returns a list of types for a specified keyspace.  To read keyspace metadata using ListTypes, the  IAM principal needs Select action  permissions for the system keyspace.
+    ///
+    /// Parameters:
+    ///   - keyspaceName:  The name of the keyspace that contains the listed types.
+    ///   - maxResults:  The total number of types to return in the output. If the total number of types available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an  argument of a subsequent API invocation.
+    ///   - nextToken:  The pagination token. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTypes(
+        keyspaceName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTypesResponse {
+        let input = ListTypesRequest(
+            keyspaceName: keyspaceName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listTypes(input, logger: logger)
     }
 
     /// Restores the table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see   Time window for PITR continuous backups in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state  based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, auto scaling settings, encryption settings, and point-in-time recovery settings from the source table.  Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp,  these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:   Read/write capacity mode   Provisioned throughput capacity units   Auto scaling settings   Point-in-time (PITR) settings   Tags   For more  information, see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that the following settings are not restored, and you must configure them manually for the new table:   Identity and Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
@@ -755,6 +889,43 @@ extension Keyspaces {
         )
         return self.listTagsForResourcePaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTypesPaginator(
+        _ input: ListTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTypesRequest, ListTypesResponse> {
+        return .init(
+            input: input,
+            command: self.listTypes,
+            inputKey: \ListTypesRequest.nextToken,
+            outputKey: \ListTypesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - keyspaceName:  The name of the keyspace that contains the listed types.
+    ///   - maxResults:  The total number of types to return in the output. If the total number of types available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an  argument of a subsequent API invocation.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTypesPaginator(
+        keyspaceName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTypesRequest, ListTypesResponse> {
+        let input = ListTypesRequest(
+            keyspaceName: keyspaceName, 
+            maxResults: maxResults
+        )
+        return self.listTypesPaginator(input, logger: logger)
+    }
 }
 
 extension Keyspaces.ListKeyspacesRequest: AWSPaginateToken {
@@ -785,6 +956,17 @@ extension Keyspaces.ListTagsForResourceRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             resourceArn: self.resourceArn
+        )
+    }
+}
+
+extension Keyspaces.ListTypesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Keyspaces.ListTypesRequest {
+        return .init(
+            keyspaceName: self.keyspaceName,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -49,6 +49,7 @@ extension AppConfig {
         case deploymentCompleted = "DEPLOYMENT_COMPLETED"
         case deploymentStarted = "DEPLOYMENT_STARTED"
         case percentageUpdated = "PERCENTAGE_UPDATED"
+        case revertCompleted = "REVERT_COMPLETED"
         case rollbackCompleted = "ROLLBACK_COMPLETED"
         case rollbackStarted = "ROLLBACK_STARTED"
         public var description: String { return self.rawValue }
@@ -58,6 +59,7 @@ extension AppConfig {
         case baking = "BAKING"
         case complete = "COMPLETE"
         case deploying = "DEPLOYING"
+        case reverted = "REVERTED"
         case rolledBack = "ROLLED_BACK"
         case rollingBack = "ROLLING_BACK"
         case validating = "VALIDATING"
@@ -67,6 +69,7 @@ extension AppConfig {
     public enum EnvironmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deploying = "DEPLOYING"
         case readyForDeployment = "READY_FOR_DEPLOYMENT"
+        case reverted = "REVERTED"
         case rolledBack = "ROLLED_BACK"
         case rollingBack = "ROLLING_BACK"
         public var description: String { return self.rawValue }
@@ -1529,7 +1532,7 @@ extension AppConfig {
     public struct GetConfigurationRequest: AWSEncodableShape {
         /// The application to get. Specify either the application name or the application ID.
         public let application: String
-        /// The configuration version returned in the most recent GetConfiguration response.  AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend you use the StartConfigurationSession and GetLatestConfiguration APIs, which track the client configuration version on your behalf. If you choose to continue using GetConfiguration, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. The value to use for ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by GetConfiguration when there is new or updated data, and should be saved for subsequent calls to GetConfiguration.  For more information about working with configurations, see Retrieving the Configuration in the AppConfig User Guide.
+        /// The configuration version returned in the most recent GetConfiguration response.  AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend you use the StartConfigurationSession and GetLatestConfiguration APIs, which track the client configuration version on your behalf. If you choose to continue using GetConfiguration, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. The value to use for ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by GetConfiguration when there is new or updated data, and should be saved for subsequent calls to GetConfiguration.  For more information about working with configurations, see Retrieving feature flags and configuration data in AppConfig in the AppConfig User Guide.
         public let clientConfigurationVersion: String?
         /// The clientId parameter in the following command is a unique, user-specified ID to identify the client for the configuration. This ID enables AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.
         public let clientId: String
@@ -2306,6 +2309,8 @@ extension AppConfig {
     }
 
     public struct StopDeploymentRequest: AWSEncodableShape {
+        /// A Boolean that enables AppConfig to rollback a COMPLETED deployment to the previous configuration version. This action moves the deployment to a status of REVERTED.
+        public let allowRevert: Bool?
         /// The application ID.
         public let applicationId: String
         /// The sequence number of the deployment.
@@ -2314,7 +2319,8 @@ extension AppConfig {
         public let environmentId: String
 
         @inlinable
-        public init(applicationId: String, deploymentNumber: Int, environmentId: String) {
+        public init(allowRevert: Bool? = nil, applicationId: String, deploymentNumber: Int, environmentId: String) {
+            self.allowRevert = allowRevert
             self.applicationId = applicationId
             self.deploymentNumber = deploymentNumber
             self.environmentId = environmentId
@@ -2323,6 +2329,7 @@ extension AppConfig {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.allowRevert, key: "Allow-Revert")
             request.encodePath(self.applicationId, key: "ApplicationId")
             request.encodePath(self.deploymentNumber, key: "DeploymentNumber")
             request.encodePath(self.environmentId, key: "EnvironmentId")

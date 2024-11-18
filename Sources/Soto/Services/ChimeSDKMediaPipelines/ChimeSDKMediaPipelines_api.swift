@@ -107,9 +107,11 @@ public struct ChimeSDKMediaPipelines: AWSService {
     ///   - chimeSdkMeetingConfiguration: The configuration for a specified media pipeline. SourceType must be ChimeSdkMeeting.
     ///   - clientRequestToken: The unique identifier for the client request. The token makes the API request idempotent. Use a unique token for each media pipeline request.
     ///   - sinkArn: The ARN of the sink type.
+    ///   - sinkIamRoleArn: The Amazon Resource Name (ARN) of the sink role to be used with AwsKmsKeyId in SseAwsKeyManagementParams. Can only interact with S3Bucket sink type. The role must belong to the caller’s account and be able to act on behalf of the caller during the API call. All minimum policy permissions requirements for the caller to perform sink-related actions are the same for SinkIamRoleArn. Additionally, the role must have permission to kms:GenerateDataKey using KMS key supplied as AwsKmsKeyId in SseAwsKeyManagementParams. If media concatenation will be required later, the role must also have permission to kms:Decrypt for the same KMS key.
     ///   - sinkType: Destination type to which the media artifacts are saved. You must use an S3 bucket.
     ///   - sourceArn: ARN of the source from which the media artifacts are captured.
     ///   - sourceType: Source type from which the media artifacts are captured. A Chime SDK Meeting is the only supported source.
+    ///   - sseAwsKeyManagementParams: An object that contains server side encryption parameters to be used by media capture pipeline. The parameters can also be used by media concatenation pipeline taking media capture pipeline as a media source.
     ///   - tags: The tag key-value pairs.
     ///   - logger: Logger use during operation
     @inlinable
@@ -117,9 +119,11 @@ public struct ChimeSDKMediaPipelines: AWSService {
         chimeSdkMeetingConfiguration: ChimeSdkMeetingConfiguration? = nil,
         clientRequestToken: String? = CreateMediaCapturePipelineRequest.idempotencyToken(),
         sinkArn: String,
+        sinkIamRoleArn: String? = nil,
         sinkType: MediaPipelineSinkType,
         sourceArn: String,
         sourceType: MediaPipelineSourceType,
+        sseAwsKeyManagementParams: SseAwsKeyManagementParams? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateMediaCapturePipelineResponse {
@@ -127,9 +131,11 @@ public struct ChimeSDKMediaPipelines: AWSService {
             chimeSdkMeetingConfiguration: chimeSdkMeetingConfiguration, 
             clientRequestToken: clientRequestToken, 
             sinkArn: sinkArn, 
+            sinkIamRoleArn: sinkIamRoleArn, 
             sinkType: sinkType, 
             sourceArn: sourceArn, 
             sourceType: sourceType, 
+            sseAwsKeyManagementParams: sseAwsKeyManagementParams, 
             tags: tags
         )
         return try await self.createMediaCapturePipeline(input, logger: logger)

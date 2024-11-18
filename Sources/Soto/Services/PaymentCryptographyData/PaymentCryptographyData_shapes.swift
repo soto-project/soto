@@ -78,6 +78,19 @@ extension PaymentCryptographyData {
         public var description: String { return self.rawValue }
     }
 
+    public enum KeyDerivationFunction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ansiX963 = "ANSI_X963"
+        case nistSp800 = "NIST_SP800"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyDerivationHashAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sha256 = "SHA_256"
+        case sha384 = "SHA_384"
+        case sha512 = "SHA_512"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MacAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmac = "CMAC"
         case hmacSha224 = "HMAC_SHA224"
@@ -103,9 +116,29 @@ extension PaymentCryptographyData {
         public var description: String { return self.rawValue }
     }
 
+    public enum PinBlockFormatForEmvPinChange: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case isoFormat0 = "ISO_FORMAT_0"
+        case isoFormat1 = "ISO_FORMAT_1"
+        case isoFormat3 = "ISO_FORMAT_3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PinBlockFormatForPinData: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case isoFormat0 = "ISO_FORMAT_0"
         case isoFormat3 = "ISO_FORMAT_3"
+        case isoFormat4 = "ISO_FORMAT_4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PinBlockLengthPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case frontOfPinBlock = "FRONT_OF_PIN_BLOCK"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PinBlockPaddingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case isoIec78164 = "ISO_IEC_7816_4"
+        case noPadding = "NO_PADDING"
         public var description: String { return self.rawValue }
     }
 
@@ -115,6 +148,15 @@ extension PaymentCryptographyData {
         case emvCommonSessionKey = "EMV_COMMON_SESSION_KEY"
         case mastercardSessionKey = "MASTERCARD_SESSION_KEY"
         case visa = "VISA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SymmetricKeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aes128 = "AES_128"
+        case aes192 = "AES_192"
+        case aes256 = "AES_256"
+        case tdes2Key = "TDES_2KEY"
+        case tdes3Key = "TDES_3KEY"
         public var description: String { return self.rawValue }
     }
 
@@ -283,6 +325,58 @@ extension PaymentCryptographyData {
         private enum CodingKeys: String, CodingKey {
             case arpcMethod1 = "ArpcMethod1"
             case arpcMethod2 = "ArpcMethod2"
+        }
+    }
+
+    public enum DerivationMethodAttributes: AWSEncodableShape, Sendable {
+        /// Parameters to derive the confidentiality and integrity keys for a payment card using Amex derivation method.
+        case amex(AmexAttributes)
+        /// Parameters to derive the confidentiality and integrity keys for a payment card using Emv2000 derivation method.
+        case emv2000(Emv2000Attributes)
+        /// Parameters to derive the confidentiality and integrity keys for a payment card using Emv common derivation method.
+        case emvCommon(EmvCommonAttributes)
+        /// Parameters to derive the confidentiality and integrity keys for a payment card using Mastercard derivation method.
+        case mastercard(MasterCardAttributes)
+        /// Parameters to derive the confidentiality and integrity keys for a a payment card using Visa derivation method.
+        case visa(VisaAttributes)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .amex(let value):
+                try container.encode(value, forKey: .amex)
+            case .emv2000(let value):
+                try container.encode(value, forKey: .emv2000)
+            case .emvCommon(let value):
+                try container.encode(value, forKey: .emvCommon)
+            case .mastercard(let value):
+                try container.encode(value, forKey: .mastercard)
+            case .visa(let value):
+                try container.encode(value, forKey: .visa)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .amex(let value):
+                try value.validate(name: "\(name).amex")
+            case .emv2000(let value):
+                try value.validate(name: "\(name).emv2000")
+            case .emvCommon(let value):
+                try value.validate(name: "\(name).emvCommon")
+            case .mastercard(let value):
+                try value.validate(name: "\(name).mastercard")
+            case .visa(let value):
+                try value.validate(name: "\(name).visa")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amex = "Amex"
+            case emv2000 = "Emv2000"
+            case emvCommon = "EmvCommon"
+            case mastercard = "Mastercard"
+            case visa = "Visa"
         }
     }
 
@@ -608,7 +702,7 @@ extension PaymentCryptographyData {
                 try self.validate(value, name: "applicationCryptogram", parent: name, pattern: "^[0-9a-fA-F]+$")
             case .applicationTransactionCounter(let value):
                 try self.validate(value, name: "applicationTransactionCounter", parent: name, max: 4)
-                try self.validate(value, name: "applicationTransactionCounter", parent: name, min: 2)
+                try self.validate(value, name: "applicationTransactionCounter", parent: name, min: 4)
                 try self.validate(value, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
             }
         }
@@ -664,7 +758,90 @@ extension PaymentCryptographyData {
         }
     }
 
+    public enum WrappedKeyMaterial: AWSEncodableShape, Sendable {
+        /// The parameter information for deriving a ECDH shared key.
+        case diffieHellmanSymmetricKey(EcdhDerivationAttributes)
+        /// The TR-31 wrapped key block.
+        case tr31KeyBlock(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .diffieHellmanSymmetricKey(let value):
+                try container.encode(value, forKey: .diffieHellmanSymmetricKey)
+            case .tr31KeyBlock(let value):
+                try container.encode(value, forKey: .tr31KeyBlock)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .diffieHellmanSymmetricKey(let value):
+                try value.validate(name: "\(name).diffieHellmanSymmetricKey")
+            case .tr31KeyBlock(let value):
+                try self.validate(value, name: "tr31KeyBlock", parent: name, max: 9984)
+                try self.validate(value, name: "tr31KeyBlock", parent: name, min: 56)
+                try self.validate(value, name: "tr31KeyBlock", parent: name, pattern: "^[0-9A-Z]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diffieHellmanSymmetricKey = "DiffieHellmanSymmetricKey"
+            case tr31KeyBlock = "Tr31KeyBlock"
+        }
+    }
+
     // MARK: Shapes
+
+    public struct AmexAttributes: AWSEncodableShape {
+        /// The transaction counter of the current transaction that is provided by the terminal during transaction processing.
+        public let applicationTransactionCounter: String
+        /// The keyArn of the issuer master key for cryptogram (IMK-AC) for the payment card.
+        public let authorizationRequestKeyIdentifier: String
+        /// The encrypted pinblock of the old pin stored on the chip card.
+        public let currentPinAttributes: CurrentPinAttributes?
+        /// The method to use when deriving the master key for a payment card using Amex derivation.
+        public let majorKeyDerivationMode: MajorKeyDerivationMode
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
+        public let panSequenceNumber: String
+        /// The Primary Account Number (PAN) of the cardholder.
+        public let primaryAccountNumber: String
+
+        @inlinable
+        public init(applicationTransactionCounter: String, authorizationRequestKeyIdentifier: String, currentPinAttributes: CurrentPinAttributes? = nil, majorKeyDerivationMode: MajorKeyDerivationMode, panSequenceNumber: String, primaryAccountNumber: String) {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.authorizationRequestKeyIdentifier = authorizationRequestKeyIdentifier
+            self.currentPinAttributes = currentPinAttributes
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, max: 4)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, min: 4)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.authorizationRequestKeyIdentifier, name: "authorizationRequestKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.authorizationRequestKeyIdentifier, name: "authorizationRequestKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.authorizationRequestKeyIdentifier, name: "authorizationRequestKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.currentPinAttributes?.validate(name: "\(name).currentPinAttributes")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationTransactionCounter = "ApplicationTransactionCounter"
+            case authorizationRequestKeyIdentifier = "AuthorizationRequestKeyIdentifier"
+            case currentPinAttributes = "CurrentPinAttributes"
+            case majorKeyDerivationMode = "MajorKeyDerivationMode"
+            case panSequenceNumber = "PanSequenceNumber"
+            case primaryAccountNumber = "PrimaryAccountNumber"
+        }
+    }
 
     public struct AmexCardSecurityCodeVersion1: AWSEncodableShape {
         /// The expiry date of a payment card.
@@ -855,6 +1032,33 @@ extension PaymentCryptographyData {
         }
     }
 
+    public struct CurrentPinAttributes: AWSEncodableShape {
+        /// The encrypted pinblock of the current pin stored on the chip card.
+        public let currentEncryptedPinBlock: String
+        /// The keyArn of the current PIN PEK.
+        public let currentPinPekIdentifier: String
+
+        @inlinable
+        public init(currentEncryptedPinBlock: String, currentPinPekIdentifier: String) {
+            self.currentEncryptedPinBlock = currentEncryptedPinBlock
+            self.currentPinPekIdentifier = currentPinPekIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.currentEncryptedPinBlock, name: "currentEncryptedPinBlock", parent: name, max: 16)
+            try self.validate(self.currentEncryptedPinBlock, name: "currentEncryptedPinBlock", parent: name, min: 16)
+            try self.validate(self.currentEncryptedPinBlock, name: "currentEncryptedPinBlock", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.currentPinPekIdentifier, name: "currentPinPekIdentifier", parent: name, max: 322)
+            try self.validate(self.currentPinPekIdentifier, name: "currentPinPekIdentifier", parent: name, min: 7)
+            try self.validate(self.currentPinPekIdentifier, name: "currentPinPekIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentEncryptedPinBlock = "CurrentEncryptedPinBlock"
+            case currentPinPekIdentifier = "CurrentPinPekIdentifier"
+        }
+    }
+
     public struct DecryptDataInput: AWSEncodableShape {
         /// The ciphertext to decrypt.
         public let cipherText: String
@@ -884,7 +1088,7 @@ extension PaymentCryptographyData {
 
         public func validate(name: String) throws {
             try self.validate(self.cipherText, name: "cipherText", parent: name, max: 4096)
-            try self.validate(self.cipherText, name: "cipherText", parent: name, min: 16)
+            try self.validate(self.cipherText, name: "cipherText", parent: name, min: 2)
             try self.validate(self.cipherText, name: "cipherText", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.decryptionAttributes.validate(name: "\(name).decryptionAttributes")
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, max: 322)
@@ -1129,6 +1333,140 @@ extension PaymentCryptographyData {
         }
     }
 
+    public struct EcdhDerivationAttributes: AWSEncodableShape {
+        /// The keyArn of the certificate that signed the client's PublicKeyCertificate.
+        public let certificateAuthorityPublicKeyIdentifier: String
+        /// The key algorithm of the derived ECDH key.
+        public let keyAlgorithm: SymmetricKeyAlgorithm
+        /// The key derivation function to use for deriving a key using ECDH.
+        public let keyDerivationFunction: KeyDerivationFunction
+        /// The hash type to use for deriving a key using ECDH.
+        public let keyDerivationHashAlgorithm: KeyDerivationHashAlgorithm
+        /// The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation.
+        public let publicKeyCertificate: String
+        /// A byte string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes, and re-using shared information for multiple ECDH key derivations is not recommended.
+        public let sharedInformation: String
+
+        @inlinable
+        public init(certificateAuthorityPublicKeyIdentifier: String, keyAlgorithm: SymmetricKeyAlgorithm, keyDerivationFunction: KeyDerivationFunction, keyDerivationHashAlgorithm: KeyDerivationHashAlgorithm, publicKeyCertificate: String, sharedInformation: String) {
+            self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
+            self.keyAlgorithm = keyAlgorithm
+            self.keyDerivationFunction = keyDerivationFunction
+            self.keyDerivationHashAlgorithm = keyDerivationHashAlgorithm
+            self.publicKeyCertificate = publicKeyCertificate
+            self.sharedInformation = sharedInformation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, max: 32768)
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, min: 1)
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, pattern: "^[^\\[;\\]<>]+$")
+            try self.validate(self.sharedInformation, name: "sharedInformation", parent: name, max: 2048)
+            try self.validate(self.sharedInformation, name: "sharedInformation", parent: name, min: 2)
+            try self.validate(self.sharedInformation, name: "sharedInformation", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityPublicKeyIdentifier = "CertificateAuthorityPublicKeyIdentifier"
+            case keyAlgorithm = "KeyAlgorithm"
+            case keyDerivationFunction = "KeyDerivationFunction"
+            case keyDerivationHashAlgorithm = "KeyDerivationHashAlgorithm"
+            case publicKeyCertificate = "PublicKeyCertificate"
+            case sharedInformation = "SharedInformation"
+        }
+    }
+
+    public struct Emv2000Attributes: AWSEncodableShape {
+        /// The transaction counter of the current transaction that is provided by the terminal during transaction processing.
+        public let applicationTransactionCounter: String
+        /// The method to use when deriving the master key for the payment card.
+        public let majorKeyDerivationMode: MajorKeyDerivationMode
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
+        public let panSequenceNumber: String
+        /// The Primary Account Number (PAN) of the cardholder.
+        public let primaryAccountNumber: String
+
+        @inlinable
+        public init(applicationTransactionCounter: String, majorKeyDerivationMode: MajorKeyDerivationMode, panSequenceNumber: String, primaryAccountNumber: String) {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, max: 4)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, min: 4)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationTransactionCounter = "ApplicationTransactionCounter"
+            case majorKeyDerivationMode = "MajorKeyDerivationMode"
+            case panSequenceNumber = "PanSequenceNumber"
+            case primaryAccountNumber = "PrimaryAccountNumber"
+        }
+    }
+
+    public struct EmvCommonAttributes: AWSEncodableShape {
+        /// The application cryptogram for the current transaction that is provided by the terminal during transaction processing.
+        public let applicationCryptogram: String
+        /// The method to use when deriving the master key for the payment card.
+        public let majorKeyDerivationMode: MajorKeyDerivationMode
+        /// The block cipher method to use for encryption.
+        public let mode: EmvEncryptionMode
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
+        public let panSequenceNumber: String
+        /// Specifies if PIN block length should be added to front of the pin block.  If value is set to FRONT_OF_PIN_BLOCK, then PIN block padding type should be ISO_IEC_7816_4.
+        public let pinBlockLengthPosition: PinBlockLengthPosition
+        /// The padding to be added to the PIN block prior to encryption. Padding type should be ISO_IEC_7816_4, if PinBlockLengthPosition is set to FRONT_OF_PIN_BLOCK. No padding is required, if PinBlockLengthPosition is set to NONE.
+        public let pinBlockPaddingType: PinBlockPaddingType
+        /// The Primary Account Number (PAN) of the cardholder.
+        public let primaryAccountNumber: String
+
+        @inlinable
+        public init(applicationCryptogram: String, majorKeyDerivationMode: MajorKeyDerivationMode, mode: EmvEncryptionMode, panSequenceNumber: String, pinBlockLengthPosition: PinBlockLengthPosition, pinBlockPaddingType: PinBlockPaddingType, primaryAccountNumber: String) {
+            self.applicationCryptogram = applicationCryptogram
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.mode = mode
+            self.panSequenceNumber = panSequenceNumber
+            self.pinBlockLengthPosition = pinBlockLengthPosition
+            self.pinBlockPaddingType = pinBlockPaddingType
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationCryptogram, name: "applicationCryptogram", parent: name, max: 16)
+            try self.validate(self.applicationCryptogram, name: "applicationCryptogram", parent: name, min: 16)
+            try self.validate(self.applicationCryptogram, name: "applicationCryptogram", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationCryptogram = "ApplicationCryptogram"
+            case majorKeyDerivationMode = "MajorKeyDerivationMode"
+            case mode = "Mode"
+            case panSequenceNumber = "PanSequenceNumber"
+            case pinBlockLengthPosition = "PinBlockLengthPosition"
+            case pinBlockPaddingType = "PinBlockPaddingType"
+            case primaryAccountNumber = "PrimaryAccountNumber"
+        }
+    }
+
     public struct EmvEncryptionAttributes: AWSEncodableShape {
         /// An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero.
         public let initializationVector: String?
@@ -1136,7 +1474,7 @@ extension PaymentCryptographyData {
         public let majorKeyDerivationMode: EmvMajorKeyDerivationMode
         /// The block cipher method to use for encryption.
         public let mode: EmvEncryptionMode?
-        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
         public let panSequenceNumber: String
         /// The Primary Account Number (PAN), a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
         public let primaryAccountNumber: String
@@ -1211,7 +1549,7 @@ extension PaymentCryptographyData {
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, min: 7)
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
             try self.validate(self.plainText, name: "plainText", parent: name, max: 4064)
-            try self.validate(self.plainText, name: "plainText", parent: name, min: 16)
+            try self.validate(self.plainText, name: "plainText", parent: name, min: 2)
             try self.validate(self.plainText, name: "plainText", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.wrappedKey?.validate(name: "\(name).wrappedKey")
         }
@@ -1305,6 +1643,109 @@ extension PaymentCryptographyData {
         }
     }
 
+    public struct GenerateMacEmvPinChangeInput: AWSEncodableShape {
+        /// The attributes and data values to derive payment card specific confidentiality and integrity keys.
+        public let derivationMethodAttributes: DerivationMethodAttributes
+        /// The message data is the APDU command from the card reader or terminal. The target encrypted PIN block, after translation to ISO2 format, is appended to this message data to generate an issuer script response.
+        public let messageData: String
+        /// The incoming new encrypted PIN block data for offline pin change on an EMV card.
+        public let newEncryptedPinBlock: String
+        /// The keyARN of the PEK protecting the incoming new encrypted PIN block.
+        public let newPinPekIdentifier: String
+        /// The PIN encoding format of the incoming new encrypted PIN block as specified in ISO 9564.
+        public let pinBlockFormat: PinBlockFormatForEmvPinChange
+        /// The keyARN of the issuer master key (IMK-SMC) used to protect the PIN block data in the issuer script response.
+        public let secureMessagingConfidentialityKeyIdentifier: String
+        /// The keyARN of the issuer master key (IMK-SMI) used to authenticate the issuer script response.
+        public let secureMessagingIntegrityKeyIdentifier: String
+
+        @inlinable
+        public init(derivationMethodAttributes: DerivationMethodAttributes, messageData: String, newEncryptedPinBlock: String, newPinPekIdentifier: String, pinBlockFormat: PinBlockFormatForEmvPinChange, secureMessagingConfidentialityKeyIdentifier: String, secureMessagingIntegrityKeyIdentifier: String) {
+            self.derivationMethodAttributes = derivationMethodAttributes
+            self.messageData = messageData
+            self.newEncryptedPinBlock = newEncryptedPinBlock
+            self.newPinPekIdentifier = newPinPekIdentifier
+            self.pinBlockFormat = pinBlockFormat
+            self.secureMessagingConfidentialityKeyIdentifier = secureMessagingConfidentialityKeyIdentifier
+            self.secureMessagingIntegrityKeyIdentifier = secureMessagingIntegrityKeyIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.derivationMethodAttributes.validate(name: "\(name).derivationMethodAttributes")
+            try self.validate(self.messageData, name: "messageData", parent: name, max: 1024)
+            try self.validate(self.messageData, name: "messageData", parent: name, min: 16)
+            try self.validate(self.messageData, name: "messageData", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
+            try self.validate(self.newEncryptedPinBlock, name: "newEncryptedPinBlock", parent: name, max: 16)
+            try self.validate(self.newEncryptedPinBlock, name: "newEncryptedPinBlock", parent: name, min: 16)
+            try self.validate(self.newEncryptedPinBlock, name: "newEncryptedPinBlock", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.newPinPekIdentifier, name: "newPinPekIdentifier", parent: name, max: 322)
+            try self.validate(self.newPinPekIdentifier, name: "newPinPekIdentifier", parent: name, min: 7)
+            try self.validate(self.newPinPekIdentifier, name: "newPinPekIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.validate(self.secureMessagingConfidentialityKeyIdentifier, name: "secureMessagingConfidentialityKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.secureMessagingConfidentialityKeyIdentifier, name: "secureMessagingConfidentialityKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.secureMessagingConfidentialityKeyIdentifier, name: "secureMessagingConfidentialityKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.validate(self.secureMessagingIntegrityKeyIdentifier, name: "secureMessagingIntegrityKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.secureMessagingIntegrityKeyIdentifier, name: "secureMessagingIntegrityKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.secureMessagingIntegrityKeyIdentifier, name: "secureMessagingIntegrityKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case derivationMethodAttributes = "DerivationMethodAttributes"
+            case messageData = "MessageData"
+            case newEncryptedPinBlock = "NewEncryptedPinBlock"
+            case newPinPekIdentifier = "NewPinPekIdentifier"
+            case pinBlockFormat = "PinBlockFormat"
+            case secureMessagingConfidentialityKeyIdentifier = "SecureMessagingConfidentialityKeyIdentifier"
+            case secureMessagingIntegrityKeyIdentifier = "SecureMessagingIntegrityKeyIdentifier"
+        }
+    }
+
+    public struct GenerateMacEmvPinChangeOutput: AWSDecodableShape {
+        /// Returns the incoming new encrpted PIN block.
+        public let encryptedPinBlock: String
+        /// Returns the mac of the issuer script containing message data and appended target encrypted pin block in ISO2 format.
+        public let mac: String
+        /// Returns the keyArn of the PEK protecting the incoming new encrypted PIN block.
+        public let newPinPekArn: String
+        /// The key check value (KCV) of the PEK uprotecting the incoming new encrypted PIN block.
+        public let newPinPekKeyCheckValue: String
+        /// Returns the keyArn of the IMK-SMC used by the operation.
+        public let secureMessagingConfidentialityKeyArn: String
+        /// The key check value (KCV) of the SMC issuer master key used by the operation.
+        public let secureMessagingConfidentialityKeyCheckValue: String
+        /// Returns the keyArn of the IMK-SMI used by the operation.
+        public let secureMessagingIntegrityKeyArn: String
+        /// The key check value (KCV) of the SMI issuer master key used by the operation.
+        public let secureMessagingIntegrityKeyCheckValue: String
+        /// The attribute values used for Amex and Visa derivation methods.
+        public let visaAmexDerivationOutputs: VisaAmexDerivationOutputs?
+
+        @inlinable
+        public init(encryptedPinBlock: String, mac: String, newPinPekArn: String, newPinPekKeyCheckValue: String, secureMessagingConfidentialityKeyArn: String, secureMessagingConfidentialityKeyCheckValue: String, secureMessagingIntegrityKeyArn: String, secureMessagingIntegrityKeyCheckValue: String, visaAmexDerivationOutputs: VisaAmexDerivationOutputs? = nil) {
+            self.encryptedPinBlock = encryptedPinBlock
+            self.mac = mac
+            self.newPinPekArn = newPinPekArn
+            self.newPinPekKeyCheckValue = newPinPekKeyCheckValue
+            self.secureMessagingConfidentialityKeyArn = secureMessagingConfidentialityKeyArn
+            self.secureMessagingConfidentialityKeyCheckValue = secureMessagingConfidentialityKeyCheckValue
+            self.secureMessagingIntegrityKeyArn = secureMessagingIntegrityKeyArn
+            self.secureMessagingIntegrityKeyCheckValue = secureMessagingIntegrityKeyCheckValue
+            self.visaAmexDerivationOutputs = visaAmexDerivationOutputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptedPinBlock = "EncryptedPinBlock"
+            case mac = "Mac"
+            case newPinPekArn = "NewPinPekArn"
+            case newPinPekKeyCheckValue = "NewPinPekKeyCheckValue"
+            case secureMessagingConfidentialityKeyArn = "SecureMessagingConfidentialityKeyArn"
+            case secureMessagingConfidentialityKeyCheckValue = "SecureMessagingConfidentialityKeyCheckValue"
+            case secureMessagingIntegrityKeyArn = "SecureMessagingIntegrityKeyArn"
+            case secureMessagingIntegrityKeyCheckValue = "SecureMessagingIntegrityKeyCheckValue"
+            case visaAmexDerivationOutputs = "VisaAmexDerivationOutputs"
+        }
+    }
+
     public struct GenerateMacInput: AWSEncodableShape {
         /// The attributes and data values to use for MAC generation within Amazon Web Services Payment Cryptography.
         public let generationAttributes: MacAttributes
@@ -1366,8 +1807,9 @@ extension PaymentCryptographyData {
     }
 
     public struct GeneratePinDataInput: AWSEncodableShape {
-        /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses to encrypt the PIN Block.
+        /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses to encrypt the PIN Block. For ECDH, it is the keyARN of the asymmetric ECC key.
         public let encryptionKeyIdentifier: String
+        public let encryptionWrappedKey: WrappedKey?
         /// The attributes and values to use for PIN, PVV, or PIN Offset generation.
         public let generationAttributes: PinGenerationAttributes
         /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for pin data generation.
@@ -1380,8 +1822,9 @@ extension PaymentCryptographyData {
         public let primaryAccountNumber: String
 
         @inlinable
-        public init(encryptionKeyIdentifier: String, generationAttributes: PinGenerationAttributes, generationKeyIdentifier: String, pinBlockFormat: PinBlockFormatForPinData, pinDataLength: Int? = nil, primaryAccountNumber: String) {
+        public init(encryptionKeyIdentifier: String, encryptionWrappedKey: WrappedKey? = nil, generationAttributes: PinGenerationAttributes, generationKeyIdentifier: String, pinBlockFormat: PinBlockFormatForPinData, pinDataLength: Int? = nil, primaryAccountNumber: String) {
             self.encryptionKeyIdentifier = encryptionKeyIdentifier
+            self.encryptionWrappedKey = encryptionWrappedKey
             self.generationAttributes = generationAttributes
             self.generationKeyIdentifier = generationKeyIdentifier
             self.pinBlockFormat = pinBlockFormat
@@ -1393,6 +1836,7 @@ extension PaymentCryptographyData {
             try self.validate(self.encryptionKeyIdentifier, name: "encryptionKeyIdentifier", parent: name, max: 322)
             try self.validate(self.encryptionKeyIdentifier, name: "encryptionKeyIdentifier", parent: name, min: 7)
             try self.validate(self.encryptionKeyIdentifier, name: "encryptionKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.encryptionWrappedKey?.validate(name: "\(name).encryptionWrappedKey")
             try self.generationAttributes.validate(name: "\(name).generationAttributes")
             try self.validate(self.generationKeyIdentifier, name: "generationKeyIdentifier", parent: name, max: 322)
             try self.validate(self.generationKeyIdentifier, name: "generationKeyIdentifier", parent: name, min: 7)
@@ -1406,6 +1850,7 @@ extension PaymentCryptographyData {
 
         private enum CodingKeys: String, CodingKey {
             case encryptionKeyIdentifier = "EncryptionKeyIdentifier"
+            case encryptionWrappedKey = "EncryptionWrappedKey"
             case generationAttributes = "GenerationAttributes"
             case generationKeyIdentifier = "GenerationKeyIdentifier"
             case pinBlockFormat = "PinBlockFormat"
@@ -1417,7 +1862,7 @@ extension PaymentCryptographyData {
     public struct GeneratePinDataOutput: AWSDecodableShape {
         /// The PIN block encrypted under PEK from Amazon Web Services Payment Cryptography. The encrypted PIN block is a composite of PAN (Primary Account Number) and PIN (Personal Identification Number), generated in accordance with ISO 9564 standard.
         public let encryptedPinBlock: String
-        /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for encrypted pin block generation.
+        /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for encrypted pin block generation. For ECDH, it is the keyARN of the asymmetric ECC key.
         public let encryptionKeyArn: String
         /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
         public let encryptionKeyCheckValue: String
@@ -1707,6 +2152,44 @@ extension PaymentCryptographyData {
         }
     }
 
+    public struct MasterCardAttributes: AWSEncodableShape {
+        /// The application cryptogram for the current transaction that is provided by the terminal during transaction processing.
+        public let applicationCryptogram: String
+        /// The method to use when deriving the master key for the payment card.
+        public let majorKeyDerivationMode: MajorKeyDerivationMode
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
+        public let panSequenceNumber: String
+        /// The Primary Account Number (PAN) of the cardholder.
+        public let primaryAccountNumber: String
+
+        @inlinable
+        public init(applicationCryptogram: String, majorKeyDerivationMode: MajorKeyDerivationMode, panSequenceNumber: String, primaryAccountNumber: String) {
+            self.applicationCryptogram = applicationCryptogram
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationCryptogram, name: "applicationCryptogram", parent: name, max: 16)
+            try self.validate(self.applicationCryptogram, name: "applicationCryptogram", parent: name, min: 16)
+            try self.validate(self.applicationCryptogram, name: "applicationCryptogram", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationCryptogram = "ApplicationCryptogram"
+            case majorKeyDerivationMode = "MajorKeyDerivationMode"
+            case panSequenceNumber = "PanSequenceNumber"
+            case primaryAccountNumber = "PrimaryAccountNumber"
+        }
+    }
+
     public struct ReEncryptDataInput: AWSEncodableShape {
         /// Ciphertext to be encrypted. The minimum allowed length is 16 bytes and maximum allowed length is 4096 bytes.
         public let cipherText: String
@@ -1748,7 +2231,7 @@ extension PaymentCryptographyData {
 
         public func validate(name: String) throws {
             try self.validate(self.cipherText, name: "cipherText", parent: name, max: 4096)
-            try self.validate(self.cipherText, name: "cipherText", parent: name, min: 16)
+            try self.validate(self.cipherText, name: "cipherText", parent: name, min: 2)
             try self.validate(self.cipherText, name: "cipherText", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.incomingEncryptionAttributes.validate(name: "\(name).incomingEncryptionAttributes")
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, max: 322)
@@ -1838,7 +2321,7 @@ extension PaymentCryptographyData {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, max: 4)
-            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, min: 2)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, min: 4)
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
@@ -1872,7 +2355,7 @@ extension PaymentCryptographyData {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, max: 4)
-            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, min: 2)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, min: 4)
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
@@ -1909,7 +2392,7 @@ extension PaymentCryptographyData {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, max: 4)
-            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, min: 2)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, min: 4)
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
@@ -1990,7 +2473,7 @@ extension PaymentCryptographyData {
         public let encryptedPinBlock: String
         /// The attributes and values to use for incoming DUKPT encryption key for PIN block translation.
         public let incomingDukptAttributes: DukptDerivationAttributes?
-        /// The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK. When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping key for PIN block. Otherwise, it is the key identifier used to perform the operation.
+        /// The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK. For dynamic keys, it is the keyARN of KEK of the TR-31 wrapped PEK. For ECDH, it is the keyARN of the asymmetric ECC key.
         public let incomingKeyIdentifier: String
         /// The format of the incoming PIN block data for translation within Amazon Web Services Payment Cryptography.
         public let incomingTranslationAttributes: TranslationIsoFormats
@@ -1998,7 +2481,7 @@ extension PaymentCryptographyData {
         public let incomingWrappedKey: WrappedKey?
         /// The attributes and values to use for outgoing DUKPT encryption key after PIN block translation.
         public let outgoingDukptAttributes: DukptDerivationAttributes?
-        /// The keyARN of the encryption key for encrypting outgoing PIN block data. This key type can be PEK or BDK.
+        /// The keyARN of the encryption key for encrypting outgoing PIN block data. This key type can be PEK or BDK. For ECDH, it is the keyARN of the asymmetric ECC key.
         public let outgoingKeyIdentifier: String
         /// The format of the outgoing PIN block data after translation by Amazon Web Services Payment Cryptography.
         public let outgoingTranslationAttributes: TranslationIsoFormats
@@ -2292,6 +2775,7 @@ extension PaymentCryptographyData {
         public let encryptedPinBlock: String
         /// The keyARN of the encryption key under which the PIN block data is encrypted. This key type can be PEK or BDK.
         public let encryptionKeyIdentifier: String
+        public let encryptionWrappedKey: WrappedKey?
         /// The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0 and ISO_Format_3. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15.
         public let pinBlockFormat: PinBlockFormatForPinData
         /// The length of PIN being verified.
@@ -2304,10 +2788,11 @@ extension PaymentCryptographyData {
         public let verificationKeyIdentifier: String
 
         @inlinable
-        public init(dukptAttributes: DukptAttributes? = nil, encryptedPinBlock: String, encryptionKeyIdentifier: String, pinBlockFormat: PinBlockFormatForPinData, pinDataLength: Int? = nil, primaryAccountNumber: String, verificationAttributes: PinVerificationAttributes, verificationKeyIdentifier: String) {
+        public init(dukptAttributes: DukptAttributes? = nil, encryptedPinBlock: String, encryptionKeyIdentifier: String, encryptionWrappedKey: WrappedKey? = nil, pinBlockFormat: PinBlockFormatForPinData, pinDataLength: Int? = nil, primaryAccountNumber: String, verificationAttributes: PinVerificationAttributes, verificationKeyIdentifier: String) {
             self.dukptAttributes = dukptAttributes
             self.encryptedPinBlock = encryptedPinBlock
             self.encryptionKeyIdentifier = encryptionKeyIdentifier
+            self.encryptionWrappedKey = encryptionWrappedKey
             self.pinBlockFormat = pinBlockFormat
             self.pinDataLength = pinDataLength
             self.primaryAccountNumber = primaryAccountNumber
@@ -2323,6 +2808,7 @@ extension PaymentCryptographyData {
             try self.validate(self.encryptionKeyIdentifier, name: "encryptionKeyIdentifier", parent: name, max: 322)
             try self.validate(self.encryptionKeyIdentifier, name: "encryptionKeyIdentifier", parent: name, min: 7)
             try self.validate(self.encryptionKeyIdentifier, name: "encryptionKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.encryptionWrappedKey?.validate(name: "\(name).encryptionWrappedKey")
             try self.validate(self.pinDataLength, name: "pinDataLength", parent: name, max: 12)
             try self.validate(self.pinDataLength, name: "pinDataLength", parent: name, min: 4)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
@@ -2338,6 +2824,7 @@ extension PaymentCryptographyData {
             case dukptAttributes = "DukptAttributes"
             case encryptedPinBlock = "EncryptedPinBlock"
             case encryptionKeyIdentifier = "EncryptionKeyIdentifier"
+            case encryptionWrappedKey = "EncryptionWrappedKey"
             case pinBlockFormat = "PinBlockFormat"
             case pinDataLength = "PinDataLength"
             case primaryAccountNumber = "PrimaryAccountNumber"
@@ -2369,6 +2856,82 @@ extension PaymentCryptographyData {
             case encryptionKeyCheckValue = "EncryptionKeyCheckValue"
             case verificationKeyArn = "VerificationKeyArn"
             case verificationKeyCheckValue = "VerificationKeyCheckValue"
+        }
+    }
+
+    public struct VisaAmexDerivationOutputs: AWSDecodableShape {
+        /// The keyArn of the issuer master key for cryptogram (IMK-AC) used by the operation.
+        public let authorizationRequestKeyArn: String
+        /// The key check value (KCV) of the issuer master key for cryptogram (IMK-AC) used by the operation.
+        public let authorizationRequestKeyCheckValue: String
+        /// The keyArn of the current PIN PEK.
+        public let currentPinPekArn: String?
+        /// The key check value (KCV) of the current PIN PEK.
+        public let currentPinPekKeyCheckValue: String?
+
+        @inlinable
+        public init(authorizationRequestKeyArn: String, authorizationRequestKeyCheckValue: String, currentPinPekArn: String? = nil, currentPinPekKeyCheckValue: String? = nil) {
+            self.authorizationRequestKeyArn = authorizationRequestKeyArn
+            self.authorizationRequestKeyCheckValue = authorizationRequestKeyCheckValue
+            self.currentPinPekArn = currentPinPekArn
+            self.currentPinPekKeyCheckValue = currentPinPekKeyCheckValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationRequestKeyArn = "AuthorizationRequestKeyArn"
+            case authorizationRequestKeyCheckValue = "AuthorizationRequestKeyCheckValue"
+            case currentPinPekArn = "CurrentPinPekArn"
+            case currentPinPekKeyCheckValue = "CurrentPinPekKeyCheckValue"
+        }
+    }
+
+    public struct VisaAttributes: AWSEncodableShape {
+        /// The transaction counter of the current transaction that is provided by the terminal during transaction processing.
+        public let applicationTransactionCounter: String
+        /// The keyArn of the issuer master key for cryptogram (IMK-AC) for the payment card.
+        public let authorizationRequestKeyIdentifier: String
+        /// The encrypted pinblock of the old pin stored on the chip card.
+        public let currentPinAttributes: CurrentPinAttributes?
+        /// The method to use when deriving the master key for the payment card.
+        public let majorKeyDerivationMode: MajorKeyDerivationMode
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
+        public let panSequenceNumber: String
+        /// The Primary Account Number (PAN) of the cardholder.
+        public let primaryAccountNumber: String
+
+        @inlinable
+        public init(applicationTransactionCounter: String, authorizationRequestKeyIdentifier: String, currentPinAttributes: CurrentPinAttributes? = nil, majorKeyDerivationMode: MajorKeyDerivationMode, panSequenceNumber: String, primaryAccountNumber: String) {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.authorizationRequestKeyIdentifier = authorizationRequestKeyIdentifier
+            self.currentPinAttributes = currentPinAttributes
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, max: 4)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, min: 4)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.authorizationRequestKeyIdentifier, name: "authorizationRequestKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.authorizationRequestKeyIdentifier, name: "authorizationRequestKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.authorizationRequestKeyIdentifier, name: "authorizationRequestKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.currentPinAttributes?.validate(name: "\(name).currentPinAttributes")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationTransactionCounter = "ApplicationTransactionCounter"
+            case authorizationRequestKeyIdentifier = "AuthorizationRequestKeyIdentifier"
+            case currentPinAttributes = "CurrentPinAttributes"
+            case majorKeyDerivationMode = "MajorKeyDerivationMode"
+            case panSequenceNumber = "PanSequenceNumber"
+            case primaryAccountNumber = "PrimaryAccountNumber"
         }
     }
 
@@ -2462,26 +3025,6 @@ extension PaymentCryptographyData {
         private enum CodingKeys: String, CodingKey {
             case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
             case wrappedKeyMaterial = "WrappedKeyMaterial"
-        }
-    }
-
-    public struct WrappedKeyMaterial: AWSEncodableShape {
-        /// The TR-31 wrapped key block.
-        public let tr31KeyBlock: String?
-
-        @inlinable
-        public init(tr31KeyBlock: String? = nil) {
-            self.tr31KeyBlock = tr31KeyBlock
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.tr31KeyBlock, name: "tr31KeyBlock", parent: name, max: 9984)
-            try self.validate(self.tr31KeyBlock, name: "tr31KeyBlock", parent: name, min: 56)
-            try self.validate(self.tr31KeyBlock, name: "tr31KeyBlock", parent: name, pattern: "^[0-9A-Z]+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tr31KeyBlock = "Tr31KeyBlock"
         }
     }
 }

@@ -927,6 +927,59 @@ public struct Glue: AWSService {
         return try await self.createClassifier(input, logger: logger)
     }
 
+    /// Creates settings for a column statistics task.
+    @Sendable
+    @inlinable
+    public func createColumnStatisticsTaskSettings(_ input: CreateColumnStatisticsTaskSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateColumnStatisticsTaskSettingsResponse {
+        try await self.client.execute(
+            operation: "CreateColumnStatisticsTaskSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates settings for a column statistics task.
+    ///
+    /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog in which the database resides.
+    ///   - columnNameList: A list of column names for which to run statistics.
+    ///   - databaseName: The name of the database where the table resides.
+    ///   - role: The role used for running the column statistics.
+    ///   - sampleSize: The percentage of data to sample.
+    ///   - schedule: A schedule for running the column statistics, specified in CRON syntax.
+    ///   - securityConfiguration: Name of the security configuration that is used to encrypt CloudWatch logs.
+    ///   - tableName: The name of the table for which to generate column statistics.
+    ///   - tags: A map of tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createColumnStatisticsTaskSettings(
+        catalogID: String? = nil,
+        columnNameList: [String]? = nil,
+        databaseName: String,
+        role: String,
+        sampleSize: Double? = nil,
+        schedule: String? = nil,
+        securityConfiguration: String? = nil,
+        tableName: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateColumnStatisticsTaskSettingsResponse {
+        let input = CreateColumnStatisticsTaskSettingsRequest(
+            catalogID: catalogID, 
+            columnNameList: columnNameList, 
+            databaseName: databaseName, 
+            role: role, 
+            sampleSize: sampleSize, 
+            schedule: schedule, 
+            securityConfiguration: securityConfiguration, 
+            tableName: tableName, 
+            tags: tags
+        )
+        return try await self.createColumnStatisticsTaskSettings(input, logger: logger)
+    }
+
     /// Creates a connection definition in the Data Catalog. Connections used for creating federated resources require the IAM glue:PassConnection permission.
     @Sendable
     @inlinable
@@ -2075,6 +2128,38 @@ public struct Glue: AWSService {
         return try await self.deleteColumnStatisticsForTable(input, logger: logger)
     }
 
+    /// Deletes settings for a column statistics task.
+    @Sendable
+    @inlinable
+    public func deleteColumnStatisticsTaskSettings(_ input: DeleteColumnStatisticsTaskSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteColumnStatisticsTaskSettingsResponse {
+        try await self.client.execute(
+            operation: "DeleteColumnStatisticsTaskSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes settings for a column statistics task.
+    ///
+    /// Parameters:
+    ///   - databaseName: The name of the database where the table resides.
+    ///   - tableName: The name of the table for which to delete column statistics.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteColumnStatisticsTaskSettings(
+        databaseName: String,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteColumnStatisticsTaskSettingsResponse {
+        let input = DeleteColumnStatisticsTaskSettingsRequest(
+            databaseName: databaseName, 
+            tableName: tableName
+        )
+        return try await self.deleteColumnStatisticsTaskSettings(input, logger: logger)
+    }
+
     /// Deletes a connection from the Data Catalog.
     @Sendable
     @inlinable
@@ -3144,6 +3229,38 @@ public struct Glue: AWSService {
             tableName: tableName
         )
         return try await self.getColumnStatisticsTaskRuns(input, logger: logger)
+    }
+
+    /// Gets settings for a column statistics task.
+    @Sendable
+    @inlinable
+    public func getColumnStatisticsTaskSettings(_ input: GetColumnStatisticsTaskSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetColumnStatisticsTaskSettingsResponse {
+        try await self.client.execute(
+            operation: "GetColumnStatisticsTaskSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets settings for a column statistics task.
+    ///
+    /// Parameters:
+    ///   - databaseName: The name of the database where the table resides.
+    ///   - tableName: The name of the table for which to retrieve column statistics.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getColumnStatisticsTaskSettings(
+        databaseName: String,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetColumnStatisticsTaskSettingsResponse {
+        let input = GetColumnStatisticsTaskSettingsRequest(
+            databaseName: databaseName, 
+            tableName: tableName
+        )
+        return try await self.getColumnStatisticsTaskSettings(input, logger: logger)
     }
 
     /// Retrieves a connection definition from the Data Catalog.
@@ -6689,6 +6806,38 @@ public struct Glue: AWSService {
         return try await self.startColumnStatisticsTaskRun(input, logger: logger)
     }
 
+    /// Starts a column statistics task run schedule.
+    @Sendable
+    @inlinable
+    public func startColumnStatisticsTaskRunSchedule(_ input: StartColumnStatisticsTaskRunScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartColumnStatisticsTaskRunScheduleResponse {
+        try await self.client.execute(
+            operation: "StartColumnStatisticsTaskRunSchedule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a column statistics task run schedule.
+    ///
+    /// Parameters:
+    ///   - databaseName: The name of the database where the table resides.
+    ///   - tableName: The name of the table for which to start a column statistic task run schedule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startColumnStatisticsTaskRunSchedule(
+        databaseName: String,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartColumnStatisticsTaskRunScheduleResponse {
+        let input = StartColumnStatisticsTaskRunScheduleRequest(
+            databaseName: databaseName, 
+            tableName: tableName
+        )
+        return try await self.startColumnStatisticsTaskRunSchedule(input, logger: logger)
+    }
+
     /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a CrawlerRunningException.
     @Sendable
     @inlinable
@@ -7124,6 +7273,38 @@ public struct Glue: AWSService {
         return try await self.stopColumnStatisticsTaskRun(input, logger: logger)
     }
 
+    /// Stops a column statistics task run schedule.
+    @Sendable
+    @inlinable
+    public func stopColumnStatisticsTaskRunSchedule(_ input: StopColumnStatisticsTaskRunScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopColumnStatisticsTaskRunScheduleResponse {
+        try await self.client.execute(
+            operation: "StopColumnStatisticsTaskRunSchedule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a column statistics task run schedule.
+    ///
+    /// Parameters:
+    ///   - databaseName: The name of the database where the table resides.
+    ///   - tableName: The name of the table for which to stop a column statistic task run schedule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopColumnStatisticsTaskRunSchedule(
+        databaseName: String,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopColumnStatisticsTaskRunScheduleResponse {
+        let input = StopColumnStatisticsTaskRunScheduleRequest(
+            databaseName: databaseName, 
+            tableName: tableName
+        )
+        return try await self.stopColumnStatisticsTaskRunSchedule(input, logger: logger)
+    }
+
     /// If the specified crawler is running, stops the crawl.
     @Sendable
     @inlinable
@@ -7521,6 +7702,56 @@ public struct Glue: AWSService {
             tableName: tableName
         )
         return try await self.updateColumnStatisticsForTable(input, logger: logger)
+    }
+
+    /// Updates settings for a column statistics task.
+    @Sendable
+    @inlinable
+    public func updateColumnStatisticsTaskSettings(_ input: UpdateColumnStatisticsTaskSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateColumnStatisticsTaskSettingsResponse {
+        try await self.client.execute(
+            operation: "UpdateColumnStatisticsTaskSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates settings for a column statistics task.
+    ///
+    /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog in which the database resides.
+    ///   - columnNameList: A list of column names for which to run statistics.
+    ///   - databaseName: The name of the database where the table resides.
+    ///   - role: The role used for running the column statistics.
+    ///   - sampleSize: The percentage of data to sample.
+    ///   - schedule: A schedule for running the column statistics, specified in CRON syntax.
+    ///   - securityConfiguration: Name of the security configuration that is used to encrypt CloudWatch logs.
+    ///   - tableName: The name of the table for which to generate column statistics.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateColumnStatisticsTaskSettings(
+        catalogID: String? = nil,
+        columnNameList: [String]? = nil,
+        databaseName: String,
+        role: String? = nil,
+        sampleSize: Double? = nil,
+        schedule: String? = nil,
+        securityConfiguration: String? = nil,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateColumnStatisticsTaskSettingsResponse {
+        let input = UpdateColumnStatisticsTaskSettingsRequest(
+            catalogID: catalogID, 
+            columnNameList: columnNameList, 
+            databaseName: databaseName, 
+            role: role, 
+            sampleSize: sampleSize, 
+            schedule: schedule, 
+            securityConfiguration: securityConfiguration, 
+            tableName: tableName
+        )
+        return try await self.updateColumnStatisticsTaskSettings(input, logger: logger)
     }
 
     /// Updates a connection definition in the Data Catalog.
