@@ -12,14 +12,15 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if canImport(Darwin)
-    import Darwin.C
-#elseif canImport(Glibc)
-    import Glibc
+
+#if canImport(Glibc)
+import Glibc
 #elseif canImport(Musl)
-    import Musl
+import Musl
+#elseif canImport(Darwin)
+import Darwin.C
 #else
-    #error("The Soto module was unable to identify your C library.")
+#error("The Soto module was unable to identify your C library.")
 #endif
 
 enum Environment {
