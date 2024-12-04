@@ -97,6 +97,8 @@ public struct ElasticBeanstalk: AWSService {
             "ap-southeast-2": "elasticbeanstalk.ap-southeast-2.api.aws",
             "ap-southeast-3": "elasticbeanstalk.ap-southeast-3.api.aws",
             "ca-central-1": "elasticbeanstalk.ca-central-1.api.aws",
+            "cn-north-1": "elasticbeanstalk.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "elasticbeanstalk.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "elasticbeanstalk.eu-central-1.api.aws",
             "eu-north-1": "elasticbeanstalk.eu-north-1.api.aws",
             "eu-south-1": "elasticbeanstalk.eu-south-1.api.aws",

@@ -667,7 +667,7 @@ extension Transfer {
         public let endpointType: EndpointType?
         /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice.  If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.  For more information, see Manage host keys for your SFTP-enabled server in the Transfer Family User Guide.
         public let hostKey: String?
-        /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
+        /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Cannot be specified when IdentityProviderType is set to SERVICE_MANAGED.
         public let identityProviderDetails: IdentityProviderDetails?
         /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider.  If you choose this value, you must specify the ARN for the Lambda function in the Function parameter  for the IdentityProviderDetails data type.
         public let identityProviderType: IdentityProviderType?
@@ -871,6 +871,58 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case serverId = "ServerId"
             case userName = "UserName"
+        }
+    }
+
+    public struct CreateWebAppRequest: AWSEncodableShape {
+        /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+        public let accessEndpoint: String?
+        /// You can provide a structure that contains the details for the identity provider to use with your web app.
+        public let identityProviderDetails: WebAppIdentityProviderDetails
+        /// Key-value pairs that can be used to group and search for web apps.
+        public let tags: [Tag]?
+        /// A union that contains the value for number of concurrent connections or the user sessions on your web app.
+        public let webAppUnits: WebAppUnits?
+
+        @inlinable
+        public init(accessEndpoint: String? = nil, identityProviderDetails: WebAppIdentityProviderDetails, tags: [Tag]? = nil, webAppUnits: WebAppUnits? = nil) {
+            self.accessEndpoint = accessEndpoint
+            self.identityProviderDetails = identityProviderDetails
+            self.tags = tags
+            self.webAppUnits = webAppUnits
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessEndpoint, name: "accessEndpoint", parent: name, max: 1024)
+            try self.validate(self.accessEndpoint, name: "accessEndpoint", parent: name, min: 1)
+            try self.identityProviderDetails.validate(name: "\(name).identityProviderDetails")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.webAppUnits?.validate(name: "\(name).webAppUnits")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoint = "AccessEndpoint"
+            case identityProviderDetails = "IdentityProviderDetails"
+            case tags = "Tags"
+            case webAppUnits = "WebAppUnits"
+        }
+    }
+
+    public struct CreateWebAppResponse: AWSDecodableShape {
+        /// Returns a unique identifier for the web app.
+        public let webAppId: String
+
+        @inlinable
+        public init(webAppId: String) {
+            self.webAppId = webAppId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webAppId = "WebAppId"
         }
     }
 
@@ -1251,6 +1303,46 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case serverId = "ServerId"
             case userName = "UserName"
+        }
+    }
+
+    public struct DeleteWebAppCustomizationRequest: AWSEncodableShape {
+        /// Provide the unique identifier for the web app that contains the customizations that you are deleting.
+        public let webAppId: String
+
+        @inlinable
+        public init(webAppId: String) {
+            self.webAppId = webAppId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.webAppId, name: "webAppId", parent: name, max: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, min: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, pattern: "^webapp-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webAppId = "WebAppId"
+        }
+    }
+
+    public struct DeleteWebAppRequest: AWSEncodableShape {
+        /// Provide the unique identifier for the web app that you are deleting.
+        public let webAppId: String
+
+        @inlinable
+        public init(webAppId: String) {
+            self.webAppId = webAppId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.webAppId, name: "webAppId", parent: name, max: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, min: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, pattern: "^webapp-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webAppId = "WebAppId"
         }
     }
 
@@ -1660,6 +1752,74 @@ extension Transfer {
         }
     }
 
+    public struct DescribeWebAppCustomizationRequest: AWSEncodableShape {
+        /// Provide the unique identifier for the web app.
+        public let webAppId: String
+
+        @inlinable
+        public init(webAppId: String) {
+            self.webAppId = webAppId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.webAppId, name: "webAppId", parent: name, max: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, min: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, pattern: "^webapp-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webAppId = "WebAppId"
+        }
+    }
+
+    public struct DescribeWebAppCustomizationResponse: AWSDecodableShape {
+        /// Returns a structure that contains the details of the web app customizations.
+        public let webAppCustomization: DescribedWebAppCustomization
+
+        @inlinable
+        public init(webAppCustomization: DescribedWebAppCustomization) {
+            self.webAppCustomization = webAppCustomization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webAppCustomization = "WebAppCustomization"
+        }
+    }
+
+    public struct DescribeWebAppRequest: AWSEncodableShape {
+        /// Provide the unique identifier for the web app.
+        public let webAppId: String
+
+        @inlinable
+        public init(webAppId: String) {
+            self.webAppId = webAppId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.webAppId, name: "webAppId", parent: name, max: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, min: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, pattern: "^webapp-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webAppId = "WebAppId"
+        }
+    }
+
+    public struct DescribeWebAppResponse: AWSDecodableShape {
+        /// Returns a structure that contains the details of the web app.
+        public let webApp: DescribedWebApp
+
+        @inlinable
+        public init(webApp: DescribedWebApp) {
+            self.webApp = webApp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webApp = "WebApp"
+        }
+    }
+
     public struct DescribeWorkflowRequest: AWSEncodableShape {
         /// A unique identifier for the workflow.
         public let workflowId: String
@@ -1976,6 +2136,28 @@ extension Transfer {
         }
     }
 
+    public struct DescribedIdentityCenterConfig: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center application: this value is set automatically when you create your web app.
+        public let applicationArn: String?
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app.
+        public let instanceArn: String?
+        /// The IAM role in IAM Identity Center used for the web app.
+        public let role: String?
+
+        @inlinable
+        public init(applicationArn: String? = nil, instanceArn: String? = nil, role: String? = nil) {
+            self.applicationArn = applicationArn
+            self.instanceArn = instanceArn
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case instanceArn = "InstanceArn"
+            case role = "Role"
+        }
+    }
+
     public struct DescribedProfile: AWSDecodableShape {
         /// The unique Amazon Resource Name (ARN) for the profile.
         public let arn: String
@@ -2204,6 +2386,74 @@ extension Transfer {
         }
     }
 
+    public struct DescribedWebApp: AWSDecodableShape {
+        /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+        public let accessEndpoint: String?
+        /// The Amazon Resource Name (ARN) of the web app.
+        public let arn: String
+        /// A structure that contains the details for the identity provider used by the web app.
+        public let describedIdentityProviderDetails: DescribedWebAppIdentityProviderDetails?
+        /// Key-value pairs that can be used to group and search for web apps. Tags are metadata attached to web apps for any purpose.
+        public let tags: [Tag]?
+        /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
+        public let webAppEndpoint: String?
+        /// The unique identifier for the web app.
+        public let webAppId: String
+        /// A union that contains the value for number of concurrent connections or the user sessions on your web app.
+        public let webAppUnits: WebAppUnits?
+
+        @inlinable
+        public init(accessEndpoint: String? = nil, arn: String, describedIdentityProviderDetails: DescribedWebAppIdentityProviderDetails? = nil, tags: [Tag]? = nil, webAppEndpoint: String? = nil, webAppId: String, webAppUnits: WebAppUnits? = nil) {
+            self.accessEndpoint = accessEndpoint
+            self.arn = arn
+            self.describedIdentityProviderDetails = describedIdentityProviderDetails
+            self.tags = tags
+            self.webAppEndpoint = webAppEndpoint
+            self.webAppId = webAppId
+            self.webAppUnits = webAppUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoint = "AccessEndpoint"
+            case arn = "Arn"
+            case describedIdentityProviderDetails = "DescribedIdentityProviderDetails"
+            case tags = "Tags"
+            case webAppEndpoint = "WebAppEndpoint"
+            case webAppId = "WebAppId"
+            case webAppUnits = "WebAppUnits"
+        }
+    }
+
+    public struct DescribedWebAppCustomization: AWSDecodableShape {
+        /// Returns the Amazon Resource Name (ARN) for the web app.
+        public let arn: String
+        /// Returns a icon file data string (in base64 encoding).
+        public let faviconFile: AWSBase64Data?
+        /// Returns a logo file data string (in base64 encoding).
+        public let logoFile: AWSBase64Data?
+        /// Returns the page title that you defined for your web app.
+        public let title: String?
+        /// Returns the unique identifier for your web app.
+        public let webAppId: String
+
+        @inlinable
+        public init(arn: String, faviconFile: AWSBase64Data? = nil, logoFile: AWSBase64Data? = nil, title: String? = nil, webAppId: String) {
+            self.arn = arn
+            self.faviconFile = faviconFile
+            self.logoFile = logoFile
+            self.title = title
+            self.webAppId = webAppId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case faviconFile = "FaviconFile"
+            case logoFile = "LogoFile"
+            case title = "Title"
+            case webAppId = "WebAppId"
+        }
+    }
+
     public struct DescribedWorkflow: AWSDecodableShape {
         /// Specifies the unique Amazon Resource Name (ARN) for the workflow.
         public let arn: String
@@ -2407,6 +2657,33 @@ extension Transfer {
             case entry = "Entry"
             case target = "Target"
             case type = "Type"
+        }
+    }
+
+    public struct IdentityCenterConfig: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app.
+        public let instanceArn: String?
+        /// The IAM role in IAM Identity Center used for the web app.
+        public let role: String?
+
+        @inlinable
+        public init(instanceArn: String? = nil, role: String? = nil) {
+            self.instanceArn = instanceArn
+            self.role = role
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:[\\w-]+:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.role, name: "role", parent: name, max: 2048)
+            try self.validate(self.role, name: "role", parent: name, min: 20)
+            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:.*role/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case role = "Role"
         }
     }
 
@@ -2666,7 +2943,7 @@ extension Transfer {
     }
 
     public struct ListAccessesRequest: AWSEncodableShape {
-        /// Specifies the maximum number of access SIDs to return.
+        /// The maximum number of items to return.
         public let maxResults: Int?
         /// When you can get additional results from the ListAccesses call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional accesses.
         public let nextToken: String?
@@ -2720,7 +2997,7 @@ extension Transfer {
     }
 
     public struct ListAgreementsRequest: AWSEncodableShape {
-        /// The maximum number of agreements to return.
+        /// The maximum number of items to return.
         public let maxResults: Int?
         /// When you can get additional results from the ListAgreements call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional agreements.
         public let nextToken: String?
@@ -2770,7 +3047,7 @@ extension Transfer {
     }
 
     public struct ListCertificatesRequest: AWSEncodableShape {
-        /// The maximum number of certificates to return.
+        /// The maximum number of items to return.
         public let maxResults: Int?
         /// When you can get additional results from the ListCertificates call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional certificates.
         public let nextToken: String?
@@ -2813,7 +3090,7 @@ extension Transfer {
     }
 
     public struct ListConnectorsRequest: AWSEncodableShape {
-        /// The maximum number of connectors to return.
+        /// The maximum number of items to return.
         public let maxResults: Int?
         /// When you can get additional results from the ListConnectors call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional connectors.
         public let nextToken: String?
@@ -2856,7 +3133,7 @@ extension Transfer {
     }
 
     public struct ListExecutionsRequest: AWSEncodableShape {
-        /// Specifies the maximum number of executions to return.
+        /// The maximum number of items to return.
         public let maxResults: Int?
         ///  ListExecutions returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional executions.  This is useful for pagination, for instance. If you have 100 executions for a workflow, you might only want to list first 10. If so, call the API by specifying the max-results:   aws transfer list-executions --max-results 10   This returns details for the first 10 executions, as well as the pointer (NextToken) to the eleventh execution. You can now call the API again, supplying the NextToken value you received:   aws transfer list-executions --max-results 10 --next-token $somePointerReturnedFromPreviousListResult   This call returns the next 10 executions, the 11th through the 20th. You can then repeat the call until the details for all 100 executions have been returned.
         public let nextToken: String?
@@ -2967,7 +3244,7 @@ extension Transfer {
     }
 
     public struct ListHostKeysRequest: AWSEncodableShape {
-        /// The maximum number of host keys to return.
+        /// The maximum number of items to return.
         public let maxResults: Int?
         /// When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListHostKeys to continue listing results.
         public let nextToken: String?
@@ -3021,7 +3298,7 @@ extension Transfer {
     }
 
     public struct ListProfilesRequest: AWSEncodableShape {
-        /// The maximum number of profiles to return.
+        /// The maximum number of items to return.
         public let maxResults: Int?
         /// When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListProfiles to continue listing results.
         public let nextToken: String?
@@ -3261,8 +3538,51 @@ extension Transfer {
         }
     }
 
+    public struct ListWebAppsRequest: AWSEncodableShape {
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// Returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional web apps.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListWebAppsResponse: AWSDecodableShape {
+        /// Provide this value for the NextToken parameter in a subsequent command to continue listing additional web apps.
+        public let nextToken: String?
+        /// Returns, for each listed web app, a structure that contains details for the web app.
+        public let webApps: [ListedWebApp]
+
+        @inlinable
+        public init(nextToken: String? = nil, webApps: [ListedWebApp]) {
+            self.nextToken = nextToken
+            self.webApps = webApps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case webApps = "WebApps"
+        }
+    }
+
     public struct ListWorkflowsRequest: AWSEncodableShape {
-        /// Specifies the maximum number of workflows to return.
+        /// The maximum number of items to return.
         public let maxResults: Int?
         ///  ListWorkflows returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional workflows.
         public let nextToken: String?
@@ -3591,6 +3911,32 @@ extension Transfer {
             case role = "Role"
             case sshPublicKeyCount = "SshPublicKeyCount"
             case userName = "UserName"
+        }
+    }
+
+    public struct ListedWebApp: AWSDecodableShape {
+        /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+        public let accessEndpoint: String?
+        /// The Amazon Resource Name (ARN) for the web app.
+        public let arn: String
+        /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
+        public let webAppEndpoint: String?
+        /// The unique identifier for the web app.
+        public let webAppId: String
+
+        @inlinable
+        public init(accessEndpoint: String? = nil, arn: String, webAppEndpoint: String? = nil, webAppId: String) {
+            self.accessEndpoint = accessEndpoint
+            self.arn = arn
+            self.webAppEndpoint = webAppEndpoint
+            self.webAppId = webAppId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoint = "AccessEndpoint"
+            case arn = "Arn"
+            case webAppEndpoint = "WebAppEndpoint"
+            case webAppId = "WebAppId"
         }
     }
 
@@ -4856,6 +5202,127 @@ extension Transfer {
         }
     }
 
+    public struct UpdateWebAppCustomizationRequest: AWSEncodableShape {
+        /// Specify icon file data string (in base64 encoding).
+        public let faviconFile: AWSBase64Data?
+        /// Specify logo file data string (in base64 encoding).
+        public let logoFile: AWSBase64Data?
+        /// Provide an updated title.
+        public let title: String?
+        /// Provide the identifier of the web app that you are updating.
+        public let webAppId: String
+
+        @inlinable
+        public init(faviconFile: AWSBase64Data? = nil, logoFile: AWSBase64Data? = nil, title: String? = nil, webAppId: String) {
+            self.faviconFile = faviconFile
+            self.logoFile = logoFile
+            self.title = title
+            self.webAppId = webAppId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.faviconFile, name: "faviconFile", parent: name, max: 20960)
+            try self.validate(self.faviconFile, name: "faviconFile", parent: name, min: 1)
+            try self.validate(self.logoFile, name: "logoFile", parent: name, max: 51200)
+            try self.validate(self.logoFile, name: "logoFile", parent: name, min: 1)
+            try self.validate(self.title, name: "title", parent: name, max: 100)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, max: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, min: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, pattern: "^webapp-[0-9a-f]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faviconFile = "FaviconFile"
+            case logoFile = "LogoFile"
+            case title = "Title"
+            case webAppId = "WebAppId"
+        }
+    }
+
+    public struct UpdateWebAppCustomizationResponse: AWSDecodableShape {
+        /// Returns the unique identifier for the web app being updated.
+        public let webAppId: String
+
+        @inlinable
+        public init(webAppId: String) {
+            self.webAppId = webAppId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webAppId = "WebAppId"
+        }
+    }
+
+    public struct UpdateWebAppIdentityCenterConfig: AWSEncodableShape {
+        /// The IAM role used to access IAM Identity Center.
+        public let role: String?
+
+        @inlinable
+        public init(role: String? = nil) {
+            self.role = role
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.role, name: "role", parent: name, max: 2048)
+            try self.validate(self.role, name: "role", parent: name, min: 20)
+            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:.*role/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
+        }
+    }
+
+    public struct UpdateWebAppRequest: AWSEncodableShape {
+        /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+        public let accessEndpoint: String?
+        /// Provide updated identity provider values in a WebAppIdentityProviderDetails object.
+        public let identityProviderDetails: UpdateWebAppIdentityProviderDetails?
+        /// Provide the identifier of the web app that you are updating.
+        public let webAppId: String
+        /// A union that contains the value for number of concurrent connections or the user sessions on your web app.
+        public let webAppUnits: WebAppUnits?
+
+        @inlinable
+        public init(accessEndpoint: String? = nil, identityProviderDetails: UpdateWebAppIdentityProviderDetails? = nil, webAppId: String, webAppUnits: WebAppUnits? = nil) {
+            self.accessEndpoint = accessEndpoint
+            self.identityProviderDetails = identityProviderDetails
+            self.webAppId = webAppId
+            self.webAppUnits = webAppUnits
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessEndpoint, name: "accessEndpoint", parent: name, max: 1024)
+            try self.validate(self.accessEndpoint, name: "accessEndpoint", parent: name, min: 1)
+            try self.identityProviderDetails?.validate(name: "\(name).identityProviderDetails")
+            try self.validate(self.webAppId, name: "webAppId", parent: name, max: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, min: 24)
+            try self.validate(self.webAppId, name: "webAppId", parent: name, pattern: "^webapp-[0-9a-f]{17}$")
+            try self.webAppUnits?.validate(name: "\(name).webAppUnits")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessEndpoint = "AccessEndpoint"
+            case identityProviderDetails = "IdentityProviderDetails"
+            case webAppId = "WebAppId"
+            case webAppUnits = "WebAppUnits"
+        }
+    }
+
+    public struct UpdateWebAppResponse: AWSDecodableShape {
+        /// Returns the unique identifier for the web app being updated.
+        public let webAppId: String
+
+        @inlinable
+        public init(webAppId: String) {
+            self.webAppId = webAppId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webAppId = "WebAppId"
+        }
+    }
+
     public struct UserDetails: AWSDecodableShape {
         /// The system-assigned unique identifier for a Transfer server instance.
         public let serverId: String
@@ -4973,6 +5440,74 @@ extension Transfer {
             case deleteStepDetails = "DeleteStepDetails"
             case tagStepDetails = "TagStepDetails"
             case type = "Type"
+        }
+    }
+
+    public struct DescribedWebAppIdentityProviderDetails: AWSDecodableShape {
+        /// Returns a structure for your identity provider details. This structure contains the instance ARN and role being used for the web app.
+        public let identityCenterConfig: DescribedIdentityCenterConfig?
+
+        @inlinable
+        public init(identityCenterConfig: DescribedIdentityCenterConfig? = nil) {
+            self.identityCenterConfig = identityCenterConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityCenterConfig = "IdentityCenterConfig"
+        }
+    }
+
+    public struct UpdateWebAppIdentityProviderDetails: AWSEncodableShape {
+        /// A structure that describes the values to use for the IAM Identity Center settings when you update a web app.
+        public let identityCenterConfig: UpdateWebAppIdentityCenterConfig?
+
+        @inlinable
+        public init(identityCenterConfig: UpdateWebAppIdentityCenterConfig? = nil) {
+            self.identityCenterConfig = identityCenterConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.identityCenterConfig?.validate(name: "\(name).identityCenterConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityCenterConfig = "IdentityCenterConfig"
+        }
+    }
+
+    public struct WebAppIdentityProviderDetails: AWSEncodableShape {
+        /// A structure that describes the values to use for the IAM Identity Center settings when you create a web app.
+        public let identityCenterConfig: IdentityCenterConfig?
+
+        @inlinable
+        public init(identityCenterConfig: IdentityCenterConfig? = nil) {
+            self.identityCenterConfig = identityCenterConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.identityCenterConfig?.validate(name: "\(name).identityCenterConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityCenterConfig = "IdentityCenterConfig"
+        }
+    }
+
+    public struct WebAppUnits: AWSEncodableShape & AWSDecodableShape {
+        /// An integer that represents the number of units for your desired number of concurrent connections, or the number of user sessions on your web app at the same time. Each increment allows an additional 250 concurrent sessions: a value of 1 sets the number of concurrent sessions to 250; 2 sets a value of 500, and so on.
+        public let provisioned: Int?
+
+        @inlinable
+        public init(provisioned: Int? = nil) {
+            self.provisioned = provisioned
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.provisioned, name: "provisioned", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisioned = "Provisioned"
         }
     }
 }

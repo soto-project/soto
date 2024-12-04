@@ -27,6 +27,7 @@ extension CostOptimizationHub {
     // MARK: Enums
 
     public enum ActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delete = "Delete"
         case migrateToGraviton = "MigrateToGraviton"
         case purchaseReservedInstances = "PurchaseReservedInstances"
         case purchaseSavingsPlans = "PurchaseSavingsPlans"

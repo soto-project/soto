@@ -46,6 +46,11 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum DefaultForUnmappedSignalsType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customDecoding = "CUSTOM_DECODING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DiagnosticsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "OFF"
         case sendActiveDtcs = "SEND_ACTIVE_DTCS"
@@ -81,6 +86,7 @@ extension IoTFleetWise {
 
     public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canInterface = "CAN_INTERFACE"
+        case customDecodingInterface = "CUSTOM_DECODING_INTERFACE"
         case obdInterface = "OBD_INTERFACE"
         case vehicleMiddleware = "VEHICLE_MIDDLEWARE"
         public var description: String { return self.rawValue }
@@ -153,6 +159,7 @@ extension IoTFleetWise {
 
     public enum SignalDecoderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canSignal = "CAN_SIGNAL"
+        case customDecodingSignal = "CUSTOM_DECODING_SIGNAL"
         case messageSignal = "MESSAGE_SIGNAL"
         case obdSignal = "OBD_SIGNAL"
         public var description: String { return self.rawValue }
@@ -180,10 +187,32 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum StorageMaximumSizeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gb = "GB"
+        case mb = "MB"
+        case tb = "TB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageMinimumTimeToLiveUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case days = "DAYS"
+        case hours = "HOURS"
+        case weeks = "WEEKS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StructuredMessageListType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dynamicBoundedCapacity = "DYNAMIC_BOUNDED_CAPACITY"
         case dynamicUnboundedCapacity = "DYNAMIC_UNBOUNDED_CAPACITY"
         case fixedCapacity = "FIXED_CAPACITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hour = "HOUR"
+        case millisecond = "MILLISECOND"
+        case minute = "MINUTE"
+        case second = "SECOND"
         public var description: String { return self.rawValue }
     }
 
@@ -278,6 +307,8 @@ extension IoTFleetWise {
     }
 
     public enum DataDestinationConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The MQTT topic to which the Amazon Web Services IoT FleetWise campaign routes data.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+        case mqttTopicConfig(MqttTopicConfig)
         /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign sends data.
         case s3Config(S3Config)
         /// The Amazon Timestream table where the campaign sends data.
@@ -293,6 +324,9 @@ extension IoTFleetWise {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .mqttTopicConfig:
+                let value = try container.decode(MqttTopicConfig.self, forKey: .mqttTopicConfig)
+                self = .mqttTopicConfig(value)
             case .s3Config:
                 let value = try container.decode(S3Config.self, forKey: .s3Config)
                 self = .s3Config(value)
@@ -305,6 +339,8 @@ extension IoTFleetWise {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .mqttTopicConfig(let value):
+                try container.encode(value, forKey: .mqttTopicConfig)
             case .s3Config(let value):
                 try container.encode(value, forKey: .s3Config)
             case .timestreamConfig(let value):
@@ -314,6 +350,8 @@ extension IoTFleetWise {
 
         public func validate(name: String) throws {
             switch self {
+            case .mqttTopicConfig(let value):
+                try value.validate(name: "\(name).mqttTopicConfig")
             case .s3Config(let value):
                 try value.validate(name: "\(name).s3Config")
             case .timestreamConfig(let value):
@@ -322,6 +360,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case mqttTopicConfig = "mqttTopicConfig"
             case s3Config = "s3Config"
             case timestreamConfig = "timestreamConfig"
         }
@@ -413,6 +452,104 @@ extension IoTFleetWise {
             case property = "property"
             case sensor = "sensor"
             case `struct` = "struct"
+        }
+    }
+
+    public enum SignalFetchConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration of a condition-based signal fetch operation.
+        case conditionBased(ConditionBasedSignalFetchConfig)
+        /// The configuration of a time-based signal fetch operation.
+        case timeBased(TimeBasedSignalFetchConfig)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .conditionBased:
+                let value = try container.decode(ConditionBasedSignalFetchConfig.self, forKey: .conditionBased)
+                self = .conditionBased(value)
+            case .timeBased:
+                let value = try container.decode(TimeBasedSignalFetchConfig.self, forKey: .timeBased)
+                self = .timeBased(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .conditionBased(let value):
+                try container.encode(value, forKey: .conditionBased)
+            case .timeBased(let value):
+                try container.encode(value, forKey: .timeBased)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .conditionBased(let value):
+                try value.validate(name: "\(name).conditionBased")
+            case .timeBased(let value):
+                try value.validate(name: "\(name).timeBased")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionBased = "conditionBased"
+            case timeBased = "timeBased"
+        }
+    }
+
+    public enum StateTemplateUpdateStrategy: AWSEncodableShape & AWSDecodableShape, Sendable {
+        case onChange(OnChangeStateTemplateUpdateStrategy)
+        case periodic(PeriodicStateTemplateUpdateStrategy)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .onChange:
+                let value = try container.decode(OnChangeStateTemplateUpdateStrategy.self, forKey: .onChange)
+                self = .onChange(value)
+            case .periodic:
+                let value = try container.decode(PeriodicStateTemplateUpdateStrategy.self, forKey: .periodic)
+                self = .periodic(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .onChange(let value):
+                try container.encode(value, forKey: .onChange)
+            case .periodic(let value):
+                try container.encode(value, forKey: .periodic)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .periodic(let value):
+                try value.validate(name: "\(name).periodic")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onChange = "onChange"
+            case periodic = "periodic"
         }
     }
 
@@ -1018,34 +1155,61 @@ extension IoTFleetWise {
         }
     }
 
+    public struct ConditionBasedSignalFetchConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The condition that must be satisfied to trigger a signal fetch.
+        public let conditionExpression: String
+        /// Indicates the mode in which the signal fetch is triggered.
+        public let triggerMode: TriggerMode
+
+        @inlinable
+        public init(conditionExpression: String, triggerMode: TriggerMode) {
+            self.conditionExpression = conditionExpression
+            self.triggerMode = triggerMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.conditionExpression, name: "conditionExpression", parent: name, max: 400)
+            try self.validate(self.conditionExpression, name: "conditionExpression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionExpression = "conditionExpression"
+            case triggerMode = "triggerMode"
+        }
+    }
+
     public struct CreateCampaignRequest: AWSEncodableShape {
         ///  The data collection scheme associated with the campaign. You can specify a scheme that collects data based on time or an event.
         public let collectionScheme: CollectionScheme
-        ///  (Optional) Whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used.  Default: SNAPPY
+        /// Determines whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used.  Default: SNAPPY
         public let compression: Compression?
-        /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. Amazon Web Services IoT FleetWise supports at-least-once file delivery to S3. Your vehicle data is stored on multiple Amazon Web Services IoT FleetWise servers for redundancy and high availability. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
+        /// The destination where the campaign sends data. You can send data to an MQTT topic, or store it in Amazon S3 or Amazon Timestream. MQTT is the publish/subscribe messaging protocol used by Amazon Web Services IoT to communicate with your devices. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle  data, such as data lakes, centralized data storage, data processing pipelines, and analytics.  Amazon Web Services IoT FleetWise supports at-least-once file delivery to S3. Your vehicle data is stored on multiple  Amazon Web Services IoT FleetWise servers for redundancy and high availability. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
         public let dataDestinationConfigs: [DataDestinationConfig]?
-        ///  (Optional) A list of vehicle attributes to associate with a campaign.  Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model. Default: An empty array
+        /// A list of vehicle attributes to associate with a campaign.  Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model. Default: An empty array
         public let dataExtraDimensions: [String]?
+        /// The data partitions associated with the signals collected from the vehicle.
+        public let dataPartitions: [DataPartition]?
         /// An optional description of the campaign to help identify its purpose.
         public let description: String?
-        ///  (Optional) Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
+        /// Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
         public let diagnosticsMode: DiagnosticsMode?
-        ///  (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires.  Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
+        /// The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires.  Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
         public let expiryTime: Date?
         ///  The name of the campaign to create.
         public let name: String
-        ///  (Optional) How long (in milliseconds) to collect raw data after a triggering event initiates the collection. If it's not specified, 0 is used. Default: 0
+        /// How long (in milliseconds) to collect raw data after a triggering event initiates the collection. If it's not specified, 0 is used. Default: 0
         public let postTriggerCollectionDuration: Int64?
-        /// (Optional) A number indicating the priority of one campaign over another campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed to vehicles before any other campaigns. If it's not specified, 0 is used.  Default: 0
+        /// A number indicating the priority of one campaign over another campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed to vehicles before any other campaigns. If it's not specified, 0 is used.  Default: 0
         public let priority: Int?
         /// The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.
         public let signalCatalogArn: String
-        /// (Optional) A list of information about signals to collect.
+        /// A list of information about signals to collect.   If you upload a signal as a condition in a data partition for a campaign, then those same signals must be included in signalsToCollect.
         public let signalsToCollect: [SignalInformation]?
-        /// (Optional) Whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise. If you want to store collected data when a vehicle loses connection with the cloud, use TO_DISK. If it's not specified, OFF is used. Default: OFF
+        /// A list of information about signals to fetch.
+        public let signalsToFetch: [SignalFetchInformation]?
+        /// Determines whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise. If you want to store collected data when a vehicle loses connection with the cloud, use TO_DISK. If it's not specified, OFF is used. Default: OFF
         public let spoolingMode: SpoolingMode?
-        /// (Optional) The time, in milliseconds, to deliver a campaign after it was approved. If it's not specified, 0 is used. Default: 0
+        /// The time, in milliseconds, to deliver a campaign after it was approved. If it's not specified, 0 is used. Default: 0
         public let startTime: Date?
         /// Metadata that can be used to manage the campaign.
         public let tags: [Tag]?
@@ -1053,11 +1217,12 @@ extension IoTFleetWise {
         public let targetArn: String
 
         @inlinable
-        public init(collectionScheme: CollectionScheme, compression: Compression? = nil, dataDestinationConfigs: [DataDestinationConfig]? = nil, dataExtraDimensions: [String]? = nil, description: String? = nil, diagnosticsMode: DiagnosticsMode? = nil, expiryTime: Date? = nil, name: String, postTriggerCollectionDuration: Int64? = nil, signalCatalogArn: String, signalsToCollect: [SignalInformation]? = nil, spoolingMode: SpoolingMode? = nil, startTime: Date? = nil, tags: [Tag]? = nil, targetArn: String) {
+        public init(collectionScheme: CollectionScheme, compression: Compression? = nil, dataDestinationConfigs: [DataDestinationConfig]? = nil, dataExtraDimensions: [String]? = nil, dataPartitions: [DataPartition]? = nil, description: String? = nil, diagnosticsMode: DiagnosticsMode? = nil, expiryTime: Date? = nil, name: String, postTriggerCollectionDuration: Int64? = nil, signalCatalogArn: String, signalsToCollect: [SignalInformation]? = nil, signalsToFetch: [SignalFetchInformation]? = nil, spoolingMode: SpoolingMode? = nil, startTime: Date? = nil, tags: [Tag]? = nil, targetArn: String) {
             self.collectionScheme = collectionScheme
             self.compression = compression
             self.dataDestinationConfigs = dataDestinationConfigs
             self.dataExtraDimensions = dataExtraDimensions
+            self.dataPartitions = dataPartitions
             self.description = description
             self.diagnosticsMode = diagnosticsMode
             self.expiryTime = expiryTime
@@ -1066,6 +1231,7 @@ extension IoTFleetWise {
             self.priority = nil
             self.signalCatalogArn = signalCatalogArn
             self.signalsToCollect = signalsToCollect
+            self.signalsToFetch = signalsToFetch
             self.spoolingMode = spoolingMode
             self.startTime = startTime
             self.tags = tags
@@ -1074,11 +1240,12 @@ extension IoTFleetWise {
 
         @available(*, deprecated, message: "Members priority have been deprecated")
         @inlinable
-        public init(collectionScheme: CollectionScheme, compression: Compression? = nil, dataDestinationConfigs: [DataDestinationConfig]? = nil, dataExtraDimensions: [String]? = nil, description: String? = nil, diagnosticsMode: DiagnosticsMode? = nil, expiryTime: Date? = nil, name: String, postTriggerCollectionDuration: Int64? = nil, priority: Int? = nil, signalCatalogArn: String, signalsToCollect: [SignalInformation]? = nil, spoolingMode: SpoolingMode? = nil, startTime: Date? = nil, tags: [Tag]? = nil, targetArn: String) {
+        public init(collectionScheme: CollectionScheme, compression: Compression? = nil, dataDestinationConfigs: [DataDestinationConfig]? = nil, dataExtraDimensions: [String]? = nil, dataPartitions: [DataPartition]? = nil, description: String? = nil, diagnosticsMode: DiagnosticsMode? = nil, expiryTime: Date? = nil, name: String, postTriggerCollectionDuration: Int64? = nil, priority: Int? = nil, signalCatalogArn: String, signalsToCollect: [SignalInformation]? = nil, signalsToFetch: [SignalFetchInformation]? = nil, spoolingMode: SpoolingMode? = nil, startTime: Date? = nil, tags: [Tag]? = nil, targetArn: String) {
             self.collectionScheme = collectionScheme
             self.compression = compression
             self.dataDestinationConfigs = dataDestinationConfigs
             self.dataExtraDimensions = dataExtraDimensions
+            self.dataPartitions = dataPartitions
             self.description = description
             self.diagnosticsMode = diagnosticsMode
             self.expiryTime = expiryTime
@@ -1087,6 +1254,7 @@ extension IoTFleetWise {
             self.priority = priority
             self.signalCatalogArn = signalCatalogArn
             self.signalsToCollect = signalsToCollect
+            self.signalsToFetch = signalsToFetch
             self.spoolingMode = spoolingMode
             self.startTime = startTime
             self.tags = tags
@@ -1100,6 +1268,7 @@ extension IoTFleetWise {
             try container.encodeIfPresent(self.compression, forKey: .compression)
             try container.encodeIfPresent(self.dataDestinationConfigs, forKey: .dataDestinationConfigs)
             try container.encodeIfPresent(self.dataExtraDimensions, forKey: .dataExtraDimensions)
+            try container.encodeIfPresent(self.dataPartitions, forKey: .dataPartitions)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.diagnosticsMode, forKey: .diagnosticsMode)
             try container.encodeIfPresent(self.expiryTime, forKey: .expiryTime)
@@ -1108,6 +1277,7 @@ extension IoTFleetWise {
             try container.encodeIfPresent(self.priority, forKey: .priority)
             try container.encode(self.signalCatalogArn, forKey: .signalCatalogArn)
             try container.encodeIfPresent(self.signalsToCollect, forKey: .signalsToCollect)
+            try container.encodeIfPresent(self.signalsToFetch, forKey: .signalsToFetch)
             try container.encodeIfPresent(self.spoolingMode, forKey: .spoolingMode)
             try container.encodeIfPresent(self.startTime, forKey: .startTime)
             try container.encodeIfPresent(self.tags, forKey: .tags)
@@ -1127,6 +1297,11 @@ extension IoTFleetWise {
                 try validate($0, name: "dataExtraDimensions[]", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
             }
             try self.validate(self.dataExtraDimensions, name: "dataExtraDimensions", parent: name, max: 5)
+            try self.dataPartitions?.forEach {
+                try $0.validate(name: "\(name).dataPartitions[]")
+            }
+            try self.validate(self.dataPartitions, name: "dataPartitions", parent: name, max: 20)
+            try self.validate(self.dataPartitions, name: "dataPartitions", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -1140,6 +1315,11 @@ extension IoTFleetWise {
                 try $0.validate(name: "\(name).signalsToCollect[]")
             }
             try self.validate(self.signalsToCollect, name: "signalsToCollect", parent: name, max: 1000)
+            try self.signalsToFetch?.forEach {
+                try $0.validate(name: "\(name).signalsToFetch[]")
+            }
+            try self.validate(self.signalsToFetch, name: "signalsToFetch", parent: name, max: 2)
+            try self.validate(self.signalsToFetch, name: "signalsToFetch", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1151,6 +1331,7 @@ extension IoTFleetWise {
             case compression = "compression"
             case dataDestinationConfigs = "dataDestinationConfigs"
             case dataExtraDimensions = "dataExtraDimensions"
+            case dataPartitions = "dataPartitions"
             case description = "description"
             case diagnosticsMode = "diagnosticsMode"
             case expiryTime = "expiryTime"
@@ -1158,6 +1339,7 @@ extension IoTFleetWise {
             case priority = "priority"
             case signalCatalogArn = "signalCatalogArn"
             case signalsToCollect = "signalsToCollect"
+            case signalsToFetch = "signalsToFetch"
             case spoolingMode = "spoolingMode"
             case startTime = "startTime"
             case tags = "tags"
@@ -1184,7 +1366,9 @@ extension IoTFleetWise {
     }
 
     public struct CreateDecoderManifestRequest: AWSEncodableShape {
-        ///  A brief description of the decoder manifest.
+        /// Use default decoders for all unmapped signals in the model. You don't need to provide any detailed decoding information.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+        public let defaultForUnmappedSignals: DefaultForUnmappedSignalsType?
+        /// A brief description of the decoder manifest.
         public let description: String?
         ///  The Amazon Resource Name (ARN) of the vehicle model (model manifest).
         public let modelManifestArn: String
@@ -1198,7 +1382,8 @@ extension IoTFleetWise {
         public let tags: [Tag]?
 
         @inlinable
-        public init(description: String? = nil, modelManifestArn: String, name: String, networkInterfaces: [NetworkInterface]? = nil, signalDecoders: [SignalDecoder]? = nil, tags: [Tag]? = nil) {
+        public init(defaultForUnmappedSignals: DefaultForUnmappedSignalsType? = nil, description: String? = nil, modelManifestArn: String, name: String, networkInterfaces: [NetworkInterface]? = nil, signalDecoders: [SignalDecoder]? = nil, tags: [Tag]? = nil) {
+            self.defaultForUnmappedSignals = defaultForUnmappedSignals
             self.description = description
             self.modelManifestArn = modelManifestArn
             self.name = name
@@ -1210,6 +1395,7 @@ extension IoTFleetWise {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.defaultForUnmappedSignals, forKey: .defaultForUnmappedSignals)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encode(self.modelManifestArn, forKey: .modelManifestArn)
             request.encodePath(self.name, key: "name")
@@ -1242,6 +1428,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultForUnmappedSignals = "defaultForUnmappedSignals"
             case description = "description"
             case modelManifestArn = "modelManifestArn"
             case networkInterfaces = "networkInterfaces"
@@ -1472,6 +1659,109 @@ extension IoTFleetWise {
         }
     }
 
+    public struct CreateStateTemplateRequest: AWSEncodableShape {
+        /// A list of vehicle attributes to associate with the payload published on the state template's  MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will enrich the protobuf encoded payload with those attributes in the extraDimensions field.
+        public let dataExtraDimensions: [String]?
+        /// A brief description of the state template.
+        public let description: String?
+        /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will include these attributes as User Properties with the MQTT message. Default: An empty array
+        public let metadataExtraDimensions: [String]?
+        /// The name of the state template.
+        public let name: String
+        /// The ARN of the signal catalog associated with the state template.
+        public let signalCatalogArn: String
+        /// A list of signals from which data is collected. The state template properties contain the fully qualified names of the signals.
+        public let stateTemplateProperties: [String]
+        /// Metadata that can be used to manage the state template.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(dataExtraDimensions: [String]? = nil, description: String? = nil, metadataExtraDimensions: [String]? = nil, name: String, signalCatalogArn: String, stateTemplateProperties: [String], tags: [Tag]? = nil) {
+            self.dataExtraDimensions = dataExtraDimensions
+            self.description = description
+            self.metadataExtraDimensions = metadataExtraDimensions
+            self.name = name
+            self.signalCatalogArn = signalCatalogArn
+            self.stateTemplateProperties = stateTemplateProperties
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataExtraDimensions, forKey: .dataExtraDimensions)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.metadataExtraDimensions, forKey: .metadataExtraDimensions)
+            request.encodePath(self.name, key: "name")
+            try container.encode(self.signalCatalogArn, forKey: .signalCatalogArn)
+            try container.encode(self.stateTemplateProperties, forKey: .stateTemplateProperties)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.dataExtraDimensions?.forEach {
+                try validate($0, name: "dataExtraDimensions[]", parent: name, max: 150)
+                try validate($0, name: "dataExtraDimensions[]", parent: name, min: 1)
+                try validate($0, name: "dataExtraDimensions[]", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+            }
+            try self.validate(self.dataExtraDimensions, name: "dataExtraDimensions", parent: name, max: 5)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.metadataExtraDimensions?.forEach {
+                try validate($0, name: "metadataExtraDimensions[]", parent: name, max: 150)
+                try validate($0, name: "metadataExtraDimensions[]", parent: name, min: 1)
+                try validate($0, name: "metadataExtraDimensions[]", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+            }
+            try self.validate(self.metadataExtraDimensions, name: "metadataExtraDimensions", parent: name, max: 5)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
+            try self.stateTemplateProperties.forEach {
+                try validate($0, name: "stateTemplateProperties[]", parent: name, max: 150)
+                try validate($0, name: "stateTemplateProperties[]", parent: name, min: 1)
+                try validate($0, name: "stateTemplateProperties[]", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+            }
+            try self.validate(self.stateTemplateProperties, name: "stateTemplateProperties", parent: name, max: 500)
+            try self.validate(self.stateTemplateProperties, name: "stateTemplateProperties", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataExtraDimensions = "dataExtraDimensions"
+            case description = "description"
+            case metadataExtraDimensions = "metadataExtraDimensions"
+            case signalCatalogArn = "signalCatalogArn"
+            case stateTemplateProperties = "stateTemplateProperties"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateStateTemplateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the state template.
+        public let arn: String?
+        /// The unique ID of the state template.
+        public let id: String?
+        /// The name of the state template.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+        }
+    }
+
     public struct CreateVehicleError: AWSDecodableShape {
         /// An HTTP error code.
         public let code: String?
@@ -1497,23 +1787,26 @@ extension IoTFleetWise {
     public struct CreateVehicleRequest: AWSEncodableShape {
         ///  An option to create a new Amazon Web Services IoT thing when creating a vehicle, or to validate an existing Amazon Web Services IoT thing as a vehicle.  Default:
         public let associationBehavior: VehicleAssociationBehavior?
-        /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"  A campaign must include the keys (attribute names) in dataExtraDimensions for them to display in Amazon Timestream.
+        /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"  To use attributes with Campaigns or State Templates, you must include them using the  request parameters dataExtraDimensions and/or metadataExtraDimensions  (for state templates only) when creating your campaign/state template.
         public let attributes: [String: String]?
         ///  The ARN of a decoder manifest.
         public let decoderManifestArn: String
         ///  The Amazon Resource Name ARN of a vehicle model.
         public let modelManifestArn: String
+        /// Associate state templates with the vehicle. You can monitor the last known state of the vehicle in near real time.
+        public let stateTemplates: [StateTemplateAssociation]?
         /// Metadata that can be used to manage the vehicle.
         public let tags: [Tag]?
         ///  The unique ID of the vehicle to create.
         public let vehicleName: String
 
         @inlinable
-        public init(associationBehavior: VehicleAssociationBehavior? = nil, attributes: [String: String]? = nil, decoderManifestArn: String, modelManifestArn: String, tags: [Tag]? = nil, vehicleName: String) {
+        public init(associationBehavior: VehicleAssociationBehavior? = nil, attributes: [String: String]? = nil, decoderManifestArn: String, modelManifestArn: String, stateTemplates: [StateTemplateAssociation]? = nil, tags: [Tag]? = nil, vehicleName: String) {
             self.associationBehavior = associationBehavior
             self.attributes = attributes
             self.decoderManifestArn = decoderManifestArn
             self.modelManifestArn = modelManifestArn
+            self.stateTemplates = stateTemplates
             self.tags = tags
             self.vehicleName = vehicleName
         }
@@ -1525,6 +1818,7 @@ extension IoTFleetWise {
             try container.encodeIfPresent(self.attributes, forKey: .attributes)
             try container.encode(self.decoderManifestArn, forKey: .decoderManifestArn)
             try container.encode(self.modelManifestArn, forKey: .modelManifestArn)
+            try container.encodeIfPresent(self.stateTemplates, forKey: .stateTemplates)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             request.encodePath(self.vehicleName, key: "vehicleName")
         }
@@ -1535,6 +1829,11 @@ extension IoTFleetWise {
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
                 try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             }
+            try self.stateTemplates?.forEach {
+                try $0.validate(name: "\(name).stateTemplates[]")
+            }
+            try self.validate(self.stateTemplates, name: "stateTemplates", parent: name, max: 20)
+            try self.validate(self.stateTemplates, name: "stateTemplates", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1549,6 +1848,7 @@ extension IoTFleetWise {
             case attributes = "attributes"
             case decoderManifestArn = "decoderManifestArn"
             case modelManifestArn = "modelManifestArn"
+            case stateTemplates = "stateTemplates"
             case tags = "tags"
         }
     }
@@ -1562,17 +1862,20 @@ extension IoTFleetWise {
         public let decoderManifestArn: String
         /// The ARN of the vehicle model (model manifest) to create the vehicle from.
         public let modelManifestArn: String
+        /// Associate state templates to track the state of the vehicle. State templates determine which signal updates the vehicle sends to the cloud.
+        public let stateTemplates: [StateTemplateAssociation]?
         /// Metadata which can be used to manage the vehicle.
         public let tags: [Tag]?
         /// The unique ID of the vehicle to create.
         public let vehicleName: String
 
         @inlinable
-        public init(associationBehavior: VehicleAssociationBehavior? = nil, attributes: [String: String]? = nil, decoderManifestArn: String, modelManifestArn: String, tags: [Tag]? = nil, vehicleName: String) {
+        public init(associationBehavior: VehicleAssociationBehavior? = nil, attributes: [String: String]? = nil, decoderManifestArn: String, modelManifestArn: String, stateTemplates: [StateTemplateAssociation]? = nil, tags: [Tag]? = nil, vehicleName: String) {
             self.associationBehavior = associationBehavior
             self.attributes = attributes
             self.decoderManifestArn = decoderManifestArn
             self.modelManifestArn = modelManifestArn
+            self.stateTemplates = stateTemplates
             self.tags = tags
             self.vehicleName = vehicleName
         }
@@ -1583,6 +1886,11 @@ extension IoTFleetWise {
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
                 try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             }
+            try self.stateTemplates?.forEach {
+                try $0.validate(name: "\(name).stateTemplates[]")
+            }
+            try self.validate(self.stateTemplates, name: "stateTemplates", parent: name, max: 20)
+            try self.validate(self.stateTemplates, name: "stateTemplates", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1597,6 +1905,7 @@ extension IoTFleetWise {
             case attributes = "attributes"
             case decoderManifestArn = "decoderManifestArn"
             case modelManifestArn = "modelManifestArn"
+            case stateTemplates = "stateTemplates"
             case tags = "tags"
             case vehicleName = "vehicleName"
         }
@@ -1643,6 +1952,46 @@ extension IoTFleetWise {
             case arn = "arn"
             case thingArn = "thingArn"
             case vehicleName = "vehicleName"
+        }
+    }
+
+    public struct CustomDecodingInterface: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the interface.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct CustomDecodingSignal: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the signal.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 150)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?!.*\\.\\.)[a-zA-Z0-9_\\-#:.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
         }
     }
 
@@ -1734,6 +2083,90 @@ extension IoTFleetWise {
             case deprecationMessage = "deprecationMessage"
             case description = "description"
             case fullyQualifiedName = "fullyQualifiedName"
+        }
+    }
+
+    public struct DataPartition: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the data partition. The data partition ID must be unique within a campaign. You can establish a data partition as the default partition for a campaign by using default as the ID.
+        public let id: String
+        /// The storage options for a data partition.
+        public let storageOptions: DataPartitionStorageOptions
+        /// The upload options for the data partition.
+        public let uploadOptions: DataPartitionUploadOptions?
+
+        @inlinable
+        public init(id: String, storageOptions: DataPartitionStorageOptions, uploadOptions: DataPartitionUploadOptions? = nil) {
+            self.id = id
+            self.storageOptions = storageOptions
+            self.uploadOptions = uploadOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 128)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.storageOptions.validate(name: "\(name).storageOptions")
+            try self.uploadOptions?.validate(name: "\(name).uploadOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case storageOptions = "storageOptions"
+            case uploadOptions = "uploadOptions"
+        }
+    }
+
+    public struct DataPartitionStorageOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum storage size of the data stored in the data partition.  Newer data overwrites older data when the partition reaches the maximum size.
+        public let maximumSize: StorageMaximumSize
+        /// The amount of time that data in this partition will be kept on disk.   After the designated amount of time passes, the data can be removed, but it's not guaranteed to be removed.   Before the time expires, data in this partition can still be deleted if the partition reaches its configured maximum size.   Newer data will overwrite older data when the partition reaches the maximum size.
+        public let minimumTimeToLive: StorageMinimumTimeToLive
+        /// The folder name for the data partition under the campaign storage folder.
+        public let storageLocation: String
+
+        @inlinable
+        public init(maximumSize: StorageMaximumSize, minimumTimeToLive: StorageMinimumTimeToLive, storageLocation: String) {
+            self.maximumSize = maximumSize
+            self.minimumTimeToLive = minimumTimeToLive
+            self.storageLocation = storageLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.maximumSize.validate(name: "\(name).maximumSize")
+            try self.minimumTimeToLive.validate(name: "\(name).minimumTimeToLive")
+            try self.validate(self.storageLocation, name: "storageLocation", parent: name, max: 4096)
+            try self.validate(self.storageLocation, name: "storageLocation", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumSize = "maximumSize"
+            case minimumTimeToLive = "minimumTimeToLive"
+            case storageLocation = "storageLocation"
+        }
+    }
+
+    public struct DataPartitionUploadOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The version of the condition language. Defaults to the most recent condition language version.
+        public let conditionLanguageVersion: Int?
+        /// The logical expression used to recognize what data to collect. For example, $variable.`Vehicle.OutsideAirTemperature` &gt;= 105.0.
+        public let expression: String
+
+        @inlinable
+        public init(conditionLanguageVersion: Int? = nil, expression: String) {
+            self.conditionLanguageVersion = conditionLanguageVersion
+            self.expression = expression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.conditionLanguageVersion, name: "conditionLanguageVersion", parent: name, max: 1)
+            try self.validate(self.conditionLanguageVersion, name: "conditionLanguageVersion", parent: name, min: 1)
+            try self.validate(self.expression, name: "expression", parent: name, max: 2048)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionLanguageVersion = "conditionLanguageVersion"
+            case expression = "expression"
         }
     }
 
@@ -1989,6 +2422,52 @@ extension IoTFleetWise {
         }
     }
 
+    public struct DeleteStateTemplateRequest: AWSEncodableShape {
+        /// A unique, service-generated identifier.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 100)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteStateTemplateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the state template.
+        public let arn: String?
+        /// The unique ID of the state template.
+        public let id: String?
+        /// The name of the state template.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+        }
+    }
+
     public struct DeleteVehicleRequest: AWSEncodableShape {
         /// The ID of the vehicle to delete.
         public let vehicleName: String
@@ -2135,10 +2614,12 @@ extension IoTFleetWise {
         public let compression: Compression?
         ///  The time the campaign was created in seconds since epoch (January 1, 1970 at midnight UTC time).
         public let creationTime: Date?
-        /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics.  You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
+        /// The destination where the campaign sends data. You can send data to an MQTT topic, or store it in Amazon S3 or Amazon Timestream. MQTT is the publish/subscribe messaging protocol used by Amazon Web Services IoT to communicate with your devices. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data,  such as data lakes, centralized data storage, data processing pipelines, and analytics.  You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
         public let dataDestinationConfigs: [DataDestinationConfig]?
         ///  A list of vehicle attributes associated with the campaign.
         public let dataExtraDimensions: [String]?
+        /// The data partitions associated with the signals collected from the vehicle.
+        public let dataPartitions: [DataPartition]?
         /// The description of the campaign.
         public let description: String?
         ///  Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise.
@@ -2157,6 +2638,8 @@ extension IoTFleetWise {
         public let signalCatalogArn: String?
         ///  Information about a list of signals to collect data on.
         public let signalsToCollect: [SignalInformation]?
+        /// Information about a list of signals to fetch data from.
+        public let signalsToFetch: [SignalFetchInformation]?
         ///  Whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise.
         public let spoolingMode: SpoolingMode?
         ///  The time, in milliseconds, to deliver a campaign after it was approved.
@@ -2167,13 +2650,14 @@ extension IoTFleetWise {
         public let targetArn: String?
 
         @inlinable
-        public init(arn: String? = nil, collectionScheme: CollectionScheme? = nil, compression: Compression? = nil, creationTime: Date? = nil, dataDestinationConfigs: [DataDestinationConfig]? = nil, dataExtraDimensions: [String]? = nil, description: String? = nil, diagnosticsMode: DiagnosticsMode? = nil, expiryTime: Date? = nil, lastModificationTime: Date? = nil, name: String? = nil, postTriggerCollectionDuration: Int64? = nil, priority: Int? = nil, signalCatalogArn: String? = nil, signalsToCollect: [SignalInformation]? = nil, spoolingMode: SpoolingMode? = nil, startTime: Date? = nil, status: CampaignStatus? = nil, targetArn: String? = nil) {
+        public init(arn: String? = nil, collectionScheme: CollectionScheme? = nil, compression: Compression? = nil, creationTime: Date? = nil, dataDestinationConfigs: [DataDestinationConfig]? = nil, dataExtraDimensions: [String]? = nil, dataPartitions: [DataPartition]? = nil, description: String? = nil, diagnosticsMode: DiagnosticsMode? = nil, expiryTime: Date? = nil, lastModificationTime: Date? = nil, name: String? = nil, postTriggerCollectionDuration: Int64? = nil, priority: Int? = nil, signalCatalogArn: String? = nil, signalsToCollect: [SignalInformation]? = nil, signalsToFetch: [SignalFetchInformation]? = nil, spoolingMode: SpoolingMode? = nil, startTime: Date? = nil, status: CampaignStatus? = nil, targetArn: String? = nil) {
             self.arn = arn
             self.collectionScheme = collectionScheme
             self.compression = compression
             self.creationTime = creationTime
             self.dataDestinationConfigs = dataDestinationConfigs
             self.dataExtraDimensions = dataExtraDimensions
+            self.dataPartitions = dataPartitions
             self.description = description
             self.diagnosticsMode = diagnosticsMode
             self.expiryTime = expiryTime
@@ -2183,6 +2667,7 @@ extension IoTFleetWise {
             self.priority = priority
             self.signalCatalogArn = signalCatalogArn
             self.signalsToCollect = signalsToCollect
+            self.signalsToFetch = signalsToFetch
             self.spoolingMode = spoolingMode
             self.startTime = startTime
             self.status = status
@@ -2196,6 +2681,7 @@ extension IoTFleetWise {
             case creationTime = "creationTime"
             case dataDestinationConfigs = "dataDestinationConfigs"
             case dataExtraDimensions = "dataExtraDimensions"
+            case dataPartitions = "dataPartitions"
             case description = "description"
             case diagnosticsMode = "diagnosticsMode"
             case expiryTime = "expiryTime"
@@ -2205,6 +2691,7 @@ extension IoTFleetWise {
             case priority = "priority"
             case signalCatalogArn = "signalCatalogArn"
             case signalsToCollect = "signalsToCollect"
+            case signalsToFetch = "signalsToFetch"
             case spoolingMode = "spoolingMode"
             case startTime = "startTime"
             case status = "status"
@@ -2550,6 +3037,80 @@ extension IoTFleetWise {
         }
     }
 
+    public struct GetStateTemplateRequest: AWSEncodableShape {
+        /// A unique, service-generated identifier.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 100)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetStateTemplateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the state template.
+        public let arn: String?
+        /// The time the state template was created in seconds since epoch (January 1, 1970 at midnight UTC time).
+        public let creationTime: Date?
+        /// A list of vehicle attributes associated with the payload published on the state template's  MQTT topic.  Default: An empty array
+        public let dataExtraDimensions: [String]?
+        /// A brief description of the state template.
+        public let description: String?
+        /// The unique ID of the state template.
+        public let id: String?
+        /// The time the state template was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
+        public let lastModificationTime: Date?
+        /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. Default: An empty array
+        public let metadataExtraDimensions: [String]?
+        /// The name of the state template.
+        public let name: String?
+        /// The ARN of the signal catalog associated with the state template.
+        public let signalCatalogArn: String?
+        /// A list of signals from which data is collected. The state template properties contain the fully qualified names of the signals.
+        public let stateTemplateProperties: [String]?
+
+        @inlinable
+        public init(arn: String? = nil, creationTime: Date? = nil, dataExtraDimensions: [String]? = nil, description: String? = nil, id: String? = nil, lastModificationTime: Date? = nil, metadataExtraDimensions: [String]? = nil, name: String? = nil, signalCatalogArn: String? = nil, stateTemplateProperties: [String]? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.dataExtraDimensions = dataExtraDimensions
+            self.description = description
+            self.id = id
+            self.lastModificationTime = lastModificationTime
+            self.metadataExtraDimensions = metadataExtraDimensions
+            self.name = name
+            self.signalCatalogArn = signalCatalogArn
+            self.stateTemplateProperties = stateTemplateProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case dataExtraDimensions = "dataExtraDimensions"
+            case description = "description"
+            case id = "id"
+            case lastModificationTime = "lastModificationTime"
+            case metadataExtraDimensions = "metadataExtraDimensions"
+            case name = "name"
+            case signalCatalogArn = "signalCatalogArn"
+            case stateTemplateProperties = "stateTemplateProperties"
+        }
+    }
+
     public struct GetVehicleRequest: AWSEncodableShape {
         ///  The ID of the vehicle to retrieve information about.
         public let vehicleName: String
@@ -2587,17 +3148,20 @@ extension IoTFleetWise {
         public let lastModificationTime: Date?
         ///  The ARN of a vehicle model (model manifest) associated with the vehicle.
         public let modelManifestArn: String?
+        /// State templates associated with the vehicle.
+        public let stateTemplates: [StateTemplateAssociation]?
         /// The ID of the vehicle.
         public let vehicleName: String?
 
         @inlinable
-        public init(arn: String? = nil, attributes: [String: String]? = nil, creationTime: Date? = nil, decoderManifestArn: String? = nil, lastModificationTime: Date? = nil, modelManifestArn: String? = nil, vehicleName: String? = nil) {
+        public init(arn: String? = nil, attributes: [String: String]? = nil, creationTime: Date? = nil, decoderManifestArn: String? = nil, lastModificationTime: Date? = nil, modelManifestArn: String? = nil, stateTemplates: [StateTemplateAssociation]? = nil, vehicleName: String? = nil) {
             self.arn = arn
             self.attributes = attributes
             self.creationTime = creationTime
             self.decoderManifestArn = decoderManifestArn
             self.lastModificationTime = lastModificationTime
             self.modelManifestArn = modelManifestArn
+            self.stateTemplates = stateTemplates
             self.vehicleName = vehicleName
         }
 
@@ -2608,14 +3172,15 @@ extension IoTFleetWise {
             case decoderManifestArn = "decoderManifestArn"
             case lastModificationTime = "lastModificationTime"
             case modelManifestArn = "modelManifestArn"
+            case stateTemplates = "stateTemplates"
             case vehicleName = "vehicleName"
         }
     }
 
     public struct GetVehicleStatusRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive. This parameter is only  supported for resources of type CAMPAIGN.
         public let maxResults: Int?
-        /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+        /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a  nextToken pagination token is returned in the response. To retrieve the next  set of results, reissue the search request and include the returned token. When all results  have been returned, the response does not contain a pagination token value. This parameter  is only supported for resources of type CAMPAIGN.
         public let nextToken: String?
         ///  The ID of the vehicle to retrieve information about.
         public let vehicleName: String
@@ -2825,11 +3390,11 @@ extension IoTFleetWise {
     }
 
     public struct ListCampaignsRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
-        /// Optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
+        /// An optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
         public let status: String?
 
         @inlinable
@@ -2879,7 +3444,7 @@ extension IoTFleetWise {
     }
 
     public struct ListDecoderManifestNetworkInterfacesRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The name of the decoder manifest to list information about.
         public let name: String
@@ -2933,7 +3498,7 @@ extension IoTFleetWise {
     }
 
     public struct ListDecoderManifestSignalsRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The name of the decoder manifest to list information about.
         public let name: String
@@ -2987,7 +3552,7 @@ extension IoTFleetWise {
     }
 
     public struct ListDecoderManifestsRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The Amazon Resource Name (ARN) of a vehicle model (model manifest) associated with the decoder manifest.
         public let modelManifestArn: String?
@@ -3038,7 +3603,7 @@ extension IoTFleetWise {
     }
 
     public struct ListFleetsForVehicleRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
@@ -3092,7 +3657,7 @@ extension IoTFleetWise {
     }
 
     public struct ListFleetsRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
@@ -3139,7 +3704,7 @@ extension IoTFleetWise {
     }
 
     public struct ListModelManifestNodesRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The name of the vehicle model to list information about.
         public let name: String
@@ -3193,7 +3758,7 @@ extension IoTFleetWise {
     }
 
     public struct ListModelManifestsRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
@@ -3244,7 +3809,7 @@ extension IoTFleetWise {
     }
 
     public struct ListSignalCatalogNodesRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The name of the signal catalog to list information about.
         public let name: String
@@ -3302,7 +3867,7 @@ extension IoTFleetWise {
     }
 
     public struct ListSignalCatalogsRequest: AWSEncodableShape {
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
@@ -3338,6 +3903,53 @@ extension IoTFleetWise {
 
         @inlinable
         public init(nextToken: String? = nil, summaries: [SignalCatalogSummary]? = nil) {
+            self.nextToken = nextToken
+            self.summaries = summaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case summaries = "summaries"
+        }
+    }
+
+    public struct ListStateTemplatesRequest: AWSEncodableShape {
+        /// The maximum number of items to return, between 1 and 100, inclusive.
+        public let maxResults: Int?
+        ///  The token to retrieve the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListStateTemplatesResponse: AWSDecodableShape {
+        ///  The token to retrieve the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// A list of information about each state template.
+        public let summaries: [StateTemplateSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, summaries: [StateTemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
         }
@@ -3389,7 +4001,7 @@ extension IoTFleetWise {
     public struct ListVehiclesInFleetRequest: AWSEncodableShape {
         ///  The ID of a fleet.
         public let fleetId: String
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
@@ -3441,11 +4053,11 @@ extension IoTFleetWise {
     }
 
     public struct ListVehiclesRequest: AWSEncodableShape {
-        /// The fully qualified names of the attributes. For example, the fully qualified name of an attribute might be Vehicle.Body.Engine.Type.
+        /// The fully qualified names of the attributes. You can use this optional parameter to list the  vehicles containing all the attributes in the request. For example, attributeNames  could be "Vehicle.Body.Engine.Type, Vehicle.Color" and the corresponding  attributeValues could be "1.3 L R2, Blue" . In this case, the API  will filter vehicles with an attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the attributeNames  filter and the matching number of attributeValues filters to return the subset  of vehicles that match the attributes filter condition.
         public let attributeNames: [String]?
-        /// Static information about a vehicle attribute value in string format. For example:  "1.3 L R2"
+        /// Static information about a vehicle attribute value in string format. You can use this optional  parameter in conjunction with attributeNames to list the vehicles containing all  the attributeValues corresponding to the attributeNames filter. For  example, attributeValues could be "1.3 L R2, Blue" and the corresponding  attributeNames filter could be "Vehicle.Body.Engine.Type, Vehicle.Color".  In this case, the API will filter vehicles with attribute name Vehicle.Body.Engine.Type  that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the  attributeNames filter and the matching number of attributeValues  filter to return the subset of vehicles that match the attributes filter condition.
         public let attributeValues: [String]?
-        ///  The maximum number of items to return, between 1 and 100, inclusive.
+        /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
         public let modelManifestArn: String?
@@ -3571,12 +4183,41 @@ extension IoTFleetWise {
         }
     }
 
+    public struct MqttTopicConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the role that grants Amazon Web Services IoT FleetWise permission to access and act on messages sent to  the MQTT topic.
+        public let executionRoleArn: String
+        /// The ARN of the MQTT topic.
+        public let mqttTopicArn: String
+
+        @inlinable
+        public init(executionRoleArn: String, mqttTopicArn: String) {
+            self.executionRoleArn = executionRoleArn
+            self.mqttTopicArn = mqttTopicArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
+            try self.validate(self.mqttTopicArn, name: "mqttTopicArn", parent: name, max: 2048)
+            try self.validate(self.mqttTopicArn, name: "mqttTopicArn", parent: name, min: 20)
+            try self.validate(self.mqttTopicArn, name: "mqttTopicArn", parent: name, pattern: "^arn:.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionRoleArn = "executionRoleArn"
+            case mqttTopicArn = "mqttTopicArn"
+        }
+    }
+
     public struct NetworkInterface: AWSEncodableShape & AWSDecodableShape {
         /// Information about a network interface specified by the Controller Area Network (CAN) protocol.
         public let canInterface: CanInterface?
+        /// Information about a custom network  interface.
+        public let customDecodingInterface: CustomDecodingInterface?
         /// The ID of the network interface.
         public let interfaceId: String
-        /// Information about a network interface specified by the On-board diagnostic (OBD) II protocol.
+        /// Information about a network interface specified by the on-board diagnostic (OBD) II protocol.
         public let obdInterface: ObdInterface?
         /// The network protocol for the vehicle. For example, CAN_SIGNAL specifies a protocol that defines how data is communicated between electronic control units (ECUs). OBD_SIGNAL specifies a protocol that defines how self-diagnostic data is communicated between ECUs.
         public let type: NetworkInterfaceType
@@ -3584,8 +4225,9 @@ extension IoTFleetWise {
         public let vehicleMiddleware: VehicleMiddleware?
 
         @inlinable
-        public init(canInterface: CanInterface? = nil, interfaceId: String, obdInterface: ObdInterface? = nil, type: NetworkInterfaceType, vehicleMiddleware: VehicleMiddleware? = nil) {
+        public init(canInterface: CanInterface? = nil, customDecodingInterface: CustomDecodingInterface? = nil, interfaceId: String, obdInterface: ObdInterface? = nil, type: NetworkInterfaceType, vehicleMiddleware: VehicleMiddleware? = nil) {
             self.canInterface = canInterface
+            self.customDecodingInterface = customDecodingInterface
             self.interfaceId = interfaceId
             self.obdInterface = obdInterface
             self.type = type
@@ -3594,6 +4236,7 @@ extension IoTFleetWise {
 
         public func validate(name: String) throws {
             try self.canInterface?.validate(name: "\(name).canInterface")
+            try self.customDecodingInterface?.validate(name: "\(name).customDecodingInterface")
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, max: 50)
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, min: 1)
             try self.obdInterface?.validate(name: "\(name).obdInterface")
@@ -3602,6 +4245,7 @@ extension IoTFleetWise {
 
         private enum CodingKeys: String, CodingKey {
             case canInterface = "canInterface"
+            case customDecodingInterface = "customDecodingInterface"
             case interfaceId = "interfaceId"
             case obdInterface = "obdInterface"
             case type = "type"
@@ -3753,6 +4397,27 @@ extension IoTFleetWise {
         }
     }
 
+    public struct OnChangeStateTemplateUpdateStrategy: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PeriodicStateTemplateUpdateStrategy: AWSEncodableShape & AWSDecodableShape {
+        public let stateTemplateUpdateRate: TimePeriod
+
+        @inlinable
+        public init(stateTemplateUpdateRate: TimePeriod) {
+            self.stateTemplateUpdateRate = stateTemplateUpdateRate
+        }
+
+        public func validate(name: String) throws {
+            try self.stateTemplateUpdateRate.validate(name: "\(name).stateTemplateUpdateRate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stateTemplateUpdateRate = "stateTemplateUpdateRate"
+        }
+    }
+
     public struct PutEncryptionConfigurationRequest: AWSEncodableShape {
         /// The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key.
         public let encryptionType: EncryptionType
@@ -3774,7 +4439,7 @@ extension IoTFleetWise {
     public struct PutEncryptionConfigurationResponse: AWSDecodableShape {
         /// The encryption status.
         public let encryptionStatus: EncryptionStatus
-        /// The type of encryption. Set to KMS_BASED_ENCRYPTION to use an KMS key that you own and manage. Set to FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key that is owned by the Amazon Web Services IoT FleetWise service account.
+        /// The type of encryption. Set to KMS_BASED_ENCRYPTION to use an KMS key that  you own and manage. Set to FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed  key that is owned by the Amazon Web Services IoT FleetWise service account.
         public let encryptionType: EncryptionType
         /// The ID of the KMS key that is used for encryption.
         public let kmsKeyId: String?
@@ -3909,7 +4574,7 @@ extension IoTFleetWise {
         public let bucketArn: String
         /// Specify the format that files are saved in the Amazon S3 bucket. You can save files in an Apache Parquet or JSON format.   Parquet - Store data in a columnar storage file format. Parquet is optimal for fast data retrieval and can reduce costs. This option is selected by default.   JSON - Store data in a standard text-based JSON file format.
         public let dataFormat: DataFormat?
-        /// (Optional) Enter an S3 bucket prefix. The prefix is the string of characters after the bucket name and before the object name. You can use the prefix to organize data stored in Amazon S3 buckets. For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide. By default, Amazon Web Services IoT FleetWise sets the prefix processed-data/year=YY/month=MM/date=DD/hour=HH/ (in UTC) to data it delivers to Amazon S3. You can enter a prefix to append it to this default prefix. For example, if you enter the prefix vehicles, the prefix will be vehicles/processed-data/year=YY/month=MM/date=DD/hour=HH/.
+        /// Enter an S3 bucket prefix. The prefix is the string of characters after the bucket name and before the object name. You can use the prefix to organize data stored in Amazon S3 buckets. For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide. By default, Amazon Web Services IoT FleetWise sets the prefix processed-data/year=YY/month=MM/date=DD/hour=HH/ (in UTC) to data it delivers to Amazon S3. You can enter a prefix to append it to this default prefix. For example, if you enter the prefix vehicles, the prefix will be vehicles/processed-data/year=YY/month=MM/date=DD/hour=HH/.
         public let prefix: String?
         /// By default, stored data is compressed as a .gzip file. Compressed files have a reduced file size, which can optimize the cost of data storage.
         public let storageCompressionFormat: StorageCompressionFormat?
@@ -4033,20 +4698,23 @@ extension IoTFleetWise {
     public struct SignalDecoder: AWSEncodableShape & AWSDecodableShape {
         /// Information about signal decoder using the Controller Area Network (CAN) protocol.
         public let canSignal: CanSignal?
+        /// Information about a custom signal  decoder.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+        public let customDecodingSignal: CustomDecodingSignal?
         /// The fully qualified name of a signal decoder as defined in a vehicle model.
         public let fullyQualifiedName: String
         /// The ID of a network interface that specifies what network protocol a vehicle follows.
         public let interfaceId: String
         /// The decoding information for a specific message which supports higher order data types.
         public let messageSignal: MessageSignal?
-        /// Information about signal decoder using the On-board diagnostic (OBD) II protocol.
+        /// Information about signal decoder using the on-board diagnostic (OBD) II protocol.
         public let obdSignal: ObdSignal?
         /// The network protocol for the vehicle. For example, CAN_SIGNAL specifies a protocol that defines how data is communicated between electronic control units (ECUs). OBD_SIGNAL specifies a protocol that defines how self-diagnostic data is communicated between ECUs.
         public let type: SignalDecoderType
 
         @inlinable
-        public init(canSignal: CanSignal? = nil, fullyQualifiedName: String, interfaceId: String, messageSignal: MessageSignal? = nil, obdSignal: ObdSignal? = nil, type: SignalDecoderType) {
+        public init(canSignal: CanSignal? = nil, customDecodingSignal: CustomDecodingSignal? = nil, fullyQualifiedName: String, interfaceId: String, messageSignal: MessageSignal? = nil, obdSignal: ObdSignal? = nil, type: SignalDecoderType) {
             self.canSignal = canSignal
+            self.customDecodingSignal = customDecodingSignal
             self.fullyQualifiedName = fullyQualifiedName
             self.interfaceId = interfaceId
             self.messageSignal = messageSignal
@@ -4056,6 +4724,7 @@ extension IoTFleetWise {
 
         public func validate(name: String) throws {
             try self.canSignal?.validate(name: "\(name).canSignal")
+            try self.customDecodingSignal?.validate(name: "\(name).customDecodingSignal")
             try self.validate(self.fullyQualifiedName, name: "fullyQualifiedName", parent: name, max: 150)
             try self.validate(self.fullyQualifiedName, name: "fullyQualifiedName", parent: name, min: 1)
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, max: 50)
@@ -4066,6 +4735,7 @@ extension IoTFleetWise {
 
         private enum CodingKeys: String, CodingKey {
             case canSignal = "canSignal"
+            case customDecodingSignal = "customDecodingSignal"
             case fullyQualifiedName = "fullyQualifiedName"
             case interfaceId = "interfaceId"
             case messageSignal = "messageSignal"
@@ -4074,7 +4744,50 @@ extension IoTFleetWise {
         }
     }
 
+    public struct SignalFetchInformation: AWSEncodableShape & AWSDecodableShape {
+        /// The actions to be performed by the signal fetch.
+        public let actions: [String]
+        /// The version of the condition language used.
+        public let conditionLanguageVersion: Int?
+        /// The fully qualified name of the signal to be fetched.
+        public let fullyQualifiedName: String
+        /// The configuration of the signal fetch operation.
+        public let signalFetchConfig: SignalFetchConfig
+
+        @inlinable
+        public init(actions: [String], conditionLanguageVersion: Int? = nil, fullyQualifiedName: String, signalFetchConfig: SignalFetchConfig) {
+            self.actions = actions
+            self.conditionLanguageVersion = conditionLanguageVersion
+            self.fullyQualifiedName = fullyQualifiedName
+            self.signalFetchConfig = signalFetchConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.actions.forEach {
+                try validate($0, name: "actions[]", parent: name, max: 100)
+                try validate($0, name: "actions[]", parent: name, min: 1)
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 2)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.validate(self.conditionLanguageVersion, name: "conditionLanguageVersion", parent: name, max: 1)
+            try self.validate(self.conditionLanguageVersion, name: "conditionLanguageVersion", parent: name, min: 1)
+            try self.validate(self.fullyQualifiedName, name: "fullyQualifiedName", parent: name, max: 150)
+            try self.validate(self.fullyQualifiedName, name: "fullyQualifiedName", parent: name, min: 1)
+            try self.validate(self.fullyQualifiedName, name: "fullyQualifiedName", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+            try self.signalFetchConfig.validate(name: "\(name).signalFetchConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case conditionLanguageVersion = "conditionLanguageVersion"
+            case fullyQualifiedName = "fullyQualifiedName"
+            case signalFetchConfig = "signalFetchConfig"
+        }
+    }
+
     public struct SignalInformation: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the data partition this signal is associated with. The ID must match one of the IDs provided in dataPartitions. This is accomplished either by specifying a particular data partition ID or by using default for an established default partition. You can establish a default partition in the DataPartition data type.  If you upload a signal as a condition for a campaign's data partition, the same signal must be included in signalsToCollect.   Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+        public let dataPartitionId: String?
         /// The maximum number of samples to collect.
         public let maxSampleCount: Int64?
         /// The minimum duration of time (in milliseconds) between two triggering events to collect data.  If a signal changes often, you might want to collect data at a slower rate.
@@ -4083,13 +4796,17 @@ extension IoTFleetWise {
         public let name: String
 
         @inlinable
-        public init(maxSampleCount: Int64? = nil, minimumSamplingIntervalMs: Int64? = nil, name: String) {
+        public init(dataPartitionId: String? = nil, maxSampleCount: Int64? = nil, minimumSamplingIntervalMs: Int64? = nil, name: String) {
+            self.dataPartitionId = dataPartitionId
             self.maxSampleCount = maxSampleCount
             self.minimumSamplingIntervalMs = minimumSamplingIntervalMs
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataPartitionId, name: "dataPartitionId", parent: name, max: 128)
+            try self.validate(self.dataPartitionId, name: "dataPartitionId", parent: name, min: 1)
+            try self.validate(self.dataPartitionId, name: "dataPartitionId", parent: name, pattern: "^[a-zA-Z0-9]+$")
             try self.validate(self.maxSampleCount, name: "maxSampleCount", parent: name, max: 4294967295)
             try self.validate(self.maxSampleCount, name: "maxSampleCount", parent: name, min: 1)
             try self.validate(self.minimumSamplingIntervalMs, name: "minimumSamplingIntervalMs", parent: name, max: 4294967295)
@@ -4100,9 +4817,118 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataPartitionId = "dataPartitionId"
             case maxSampleCount = "maxSampleCount"
             case minimumSamplingIntervalMs = "minimumSamplingIntervalMs"
             case name = "name"
+        }
+    }
+
+    public struct StateTemplateAssociation: AWSEncodableShape & AWSDecodableShape {
+        /// A unique, service-generated identifier.
+        public let identifier: String
+        public let stateTemplateUpdateStrategy: StateTemplateUpdateStrategy
+
+        @inlinable
+        public init(identifier: String, stateTemplateUpdateStrategy: StateTemplateUpdateStrategy) {
+            self.identifier = identifier
+            self.stateTemplateUpdateStrategy = stateTemplateUpdateStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 100)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
+            try self.stateTemplateUpdateStrategy.validate(name: "\(name).stateTemplateUpdateStrategy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+            case stateTemplateUpdateStrategy = "stateTemplateUpdateStrategy"
+        }
+    }
+
+    public struct StateTemplateSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the state template.
+        public let arn: String?
+        /// The time the state template was created, in seconds since epoch (January 1, 1970 at midnight UTC time).
+        public let creationTime: Date?
+        /// A brief description of the state template.
+        public let description: String?
+        /// The unique ID of the state template.
+        public let id: String?
+        /// The time the state template was last updated, in seconds since epoch (January 1, 1970 at midnight UTC time).
+        public let lastModificationTime: Date?
+        /// The name of the state template.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the signal catalog associated with the state template.
+        public let signalCatalogArn: String?
+
+        @inlinable
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastModificationTime: Date? = nil, name: String? = nil, signalCatalogArn: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.id = id
+            self.lastModificationTime = lastModificationTime
+            self.name = name
+            self.signalCatalogArn = signalCatalogArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastModificationTime = "lastModificationTime"
+            case name = "name"
+            case signalCatalogArn = "signalCatalogArn"
+        }
+    }
+
+    public struct StorageMaximumSize: AWSEncodableShape & AWSDecodableShape {
+        /// The data type of the data to store.
+        public let unit: StorageMaximumSizeUnit
+        /// The maximum amount of time to store data.
+        public let value: Int
+
+        @inlinable
+        public init(unit: StorageMaximumSizeUnit, value: Int) {
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 1073741824)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "unit"
+            case value = "value"
+        }
+    }
+
+    public struct StorageMinimumTimeToLive: AWSEncodableShape & AWSDecodableShape {
+        /// The time increment type.
+        public let unit: StorageMinimumTimeToLiveUnit
+        /// The minimum amount of time to store the data.
+        public let value: Int
+
+        @inlinable
+        public init(unit: StorageMinimumTimeToLiveUnit, value: Int) {
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 876600)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "unit"
+            case value = "value"
         }
     }
 
@@ -4241,6 +5067,46 @@ extension IoTFleetWise {
 
         private enum CodingKeys: String, CodingKey {
             case periodMs = "periodMs"
+        }
+    }
+
+    public struct TimeBasedSignalFetchConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The frequency with which the signal fetch will be executed.
+        public let executionFrequencyMs: Int64
+
+        @inlinable
+        public init(executionFrequencyMs: Int64) {
+            self.executionFrequencyMs = executionFrequencyMs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionFrequencyMs, name: "executionFrequencyMs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionFrequencyMs = "executionFrequencyMs"
+        }
+    }
+
+    public struct TimePeriod: AWSEncodableShape & AWSDecodableShape {
+        /// A unit of time.
+        public let unit: TimeUnit
+        /// A number of time units.
+        public let value: Int
+
+        @inlinable
+        public init(unit: TimeUnit, value: Int) {
+            self.unit = unit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "unit"
+            case value = "value"
         }
     }
 
@@ -4441,6 +5307,8 @@ extension IoTFleetWise {
     }
 
     public struct UpdateDecoderManifestRequest: AWSEncodableShape {
+        /// Use default decoders for all unmapped signals in the model. You don't need to provide any detailed decoding information.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+        public let defaultForUnmappedSignals: DefaultForUnmappedSignalsType?
         ///  A brief description of the decoder manifest to update.
         public let description: String?
         ///  The name of the decoder manifest to update.
@@ -4461,7 +5329,8 @@ extension IoTFleetWise {
         public let status: ManifestStatus?
 
         @inlinable
-        public init(description: String? = nil, name: String, networkInterfacesToAdd: [NetworkInterface]? = nil, networkInterfacesToRemove: [String]? = nil, networkInterfacesToUpdate: [NetworkInterface]? = nil, signalDecodersToAdd: [SignalDecoder]? = nil, signalDecodersToRemove: [String]? = nil, signalDecodersToUpdate: [SignalDecoder]? = nil, status: ManifestStatus? = nil) {
+        public init(defaultForUnmappedSignals: DefaultForUnmappedSignalsType? = nil, description: String? = nil, name: String, networkInterfacesToAdd: [NetworkInterface]? = nil, networkInterfacesToRemove: [String]? = nil, networkInterfacesToUpdate: [NetworkInterface]? = nil, signalDecodersToAdd: [SignalDecoder]? = nil, signalDecodersToRemove: [String]? = nil, signalDecodersToUpdate: [SignalDecoder]? = nil, status: ManifestStatus? = nil) {
+            self.defaultForUnmappedSignals = defaultForUnmappedSignals
             self.description = description
             self.name = name
             self.networkInterfacesToAdd = networkInterfacesToAdd
@@ -4476,6 +5345,7 @@ extension IoTFleetWise {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.defaultForUnmappedSignals, forKey: .defaultForUnmappedSignals)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.name, key: "name")
             try container.encodeIfPresent(self.networkInterfacesToAdd, forKey: .networkInterfacesToAdd)
@@ -4529,6 +5399,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultForUnmappedSignals = "defaultForUnmappedSignals"
             case description = "description"
             case networkInterfacesToAdd = "networkInterfacesToAdd"
             case networkInterfacesToRemove = "networkInterfacesToRemove"
@@ -4770,6 +5641,107 @@ extension IoTFleetWise {
         }
     }
 
+    public struct UpdateStateTemplateRequest: AWSEncodableShape {
+        /// A list of vehicle attributes to associate with the payload published on the state template's  MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will enrich the protobuf encoded payload with those attributes in the extraDimensions field. Default: An empty array
+        public let dataExtraDimensions: [String]?
+        /// A brief description of the state template.
+        public let description: String?
+        /// A unique, service-generated identifier.
+        public let identifier: String
+        /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will include these attributes as User Properties with the MQTT message.
+        public let metadataExtraDimensions: [String]?
+        /// Add signals from which data is collected as part of the state template.
+        public let stateTemplatePropertiesToAdd: [String]?
+        /// Remove signals from which data is collected as part of the state template.
+        public let stateTemplatePropertiesToRemove: [String]?
+
+        @inlinable
+        public init(dataExtraDimensions: [String]? = nil, description: String? = nil, identifier: String, metadataExtraDimensions: [String]? = nil, stateTemplatePropertiesToAdd: [String]? = nil, stateTemplatePropertiesToRemove: [String]? = nil) {
+            self.dataExtraDimensions = dataExtraDimensions
+            self.description = description
+            self.identifier = identifier
+            self.metadataExtraDimensions = metadataExtraDimensions
+            self.stateTemplatePropertiesToAdd = stateTemplatePropertiesToAdd
+            self.stateTemplatePropertiesToRemove = stateTemplatePropertiesToRemove
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataExtraDimensions, forKey: .dataExtraDimensions)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.metadataExtraDimensions, forKey: .metadataExtraDimensions)
+            try container.encodeIfPresent(self.stateTemplatePropertiesToAdd, forKey: .stateTemplatePropertiesToAdd)
+            try container.encodeIfPresent(self.stateTemplatePropertiesToRemove, forKey: .stateTemplatePropertiesToRemove)
+        }
+
+        public func validate(name: String) throws {
+            try self.dataExtraDimensions?.forEach {
+                try validate($0, name: "dataExtraDimensions[]", parent: name, max: 150)
+                try validate($0, name: "dataExtraDimensions[]", parent: name, min: 1)
+                try validate($0, name: "dataExtraDimensions[]", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+            }
+            try self.validate(self.dataExtraDimensions, name: "dataExtraDimensions", parent: name, max: 5)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 100)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
+            try self.metadataExtraDimensions?.forEach {
+                try validate($0, name: "metadataExtraDimensions[]", parent: name, max: 150)
+                try validate($0, name: "metadataExtraDimensions[]", parent: name, min: 1)
+                try validate($0, name: "metadataExtraDimensions[]", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+            }
+            try self.validate(self.metadataExtraDimensions, name: "metadataExtraDimensions", parent: name, max: 5)
+            try self.stateTemplatePropertiesToAdd?.forEach {
+                try validate($0, name: "stateTemplatePropertiesToAdd[]", parent: name, max: 150)
+                try validate($0, name: "stateTemplatePropertiesToAdd[]", parent: name, min: 1)
+                try validate($0, name: "stateTemplatePropertiesToAdd[]", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+            }
+            try self.validate(self.stateTemplatePropertiesToAdd, name: "stateTemplatePropertiesToAdd", parent: name, max: 500)
+            try self.validate(self.stateTemplatePropertiesToAdd, name: "stateTemplatePropertiesToAdd", parent: name, min: 1)
+            try self.stateTemplatePropertiesToRemove?.forEach {
+                try validate($0, name: "stateTemplatePropertiesToRemove[]", parent: name, max: 150)
+                try validate($0, name: "stateTemplatePropertiesToRemove[]", parent: name, min: 1)
+                try validate($0, name: "stateTemplatePropertiesToRemove[]", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+            }
+            try self.validate(self.stateTemplatePropertiesToRemove, name: "stateTemplatePropertiesToRemove", parent: name, max: 500)
+            try self.validate(self.stateTemplatePropertiesToRemove, name: "stateTemplatePropertiesToRemove", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataExtraDimensions = "dataExtraDimensions"
+            case description = "description"
+            case metadataExtraDimensions = "metadataExtraDimensions"
+            case stateTemplatePropertiesToAdd = "stateTemplatePropertiesToAdd"
+            case stateTemplatePropertiesToRemove = "stateTemplatePropertiesToRemove"
+        }
+    }
+
+    public struct UpdateStateTemplateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the state template.
+        public let arn: String?
+        /// The unique ID of the state template.
+        public let id: String?
+        /// The name of the state template.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+        }
+    }
+
     public struct UpdateVehicleError: AWSDecodableShape {
         /// The relevant HTTP error code (400+).
         public let code: Int?
@@ -4801,15 +5773,21 @@ extension IoTFleetWise {
         public let decoderManifestArn: String?
         /// The ARN of a vehicle model (model manifest) associated with the vehicle.
         public let modelManifestArn: String?
+        /// Associate state templates with the vehicle.
+        public let stateTemplatesToAdd: [StateTemplateAssociation]?
+        /// Remove state templates from the vehicle.
+        public let stateTemplatesToRemove: [String]?
         /// The unique ID of the vehicle to update.
         public let vehicleName: String
 
         @inlinable
-        public init(attributes: [String: String]? = nil, attributeUpdateMode: UpdateMode? = nil, decoderManifestArn: String? = nil, modelManifestArn: String? = nil, vehicleName: String) {
+        public init(attributes: [String: String]? = nil, attributeUpdateMode: UpdateMode? = nil, decoderManifestArn: String? = nil, modelManifestArn: String? = nil, stateTemplatesToAdd: [StateTemplateAssociation]? = nil, stateTemplatesToRemove: [String]? = nil, vehicleName: String) {
             self.attributes = attributes
             self.attributeUpdateMode = attributeUpdateMode
             self.decoderManifestArn = decoderManifestArn
             self.modelManifestArn = modelManifestArn
+            self.stateTemplatesToAdd = stateTemplatesToAdd
+            self.stateTemplatesToRemove = stateTemplatesToRemove
             self.vehicleName = vehicleName
         }
 
@@ -4820,6 +5798,8 @@ extension IoTFleetWise {
             try container.encodeIfPresent(self.attributeUpdateMode, forKey: .attributeUpdateMode)
             try container.encodeIfPresent(self.decoderManifestArn, forKey: .decoderManifestArn)
             try container.encodeIfPresent(self.modelManifestArn, forKey: .modelManifestArn)
+            try container.encodeIfPresent(self.stateTemplatesToAdd, forKey: .stateTemplatesToAdd)
+            try container.encodeIfPresent(self.stateTemplatesToRemove, forKey: .stateTemplatesToRemove)
             request.encodePath(self.vehicleName, key: "vehicleName")
         }
 
@@ -4829,6 +5809,18 @@ extension IoTFleetWise {
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
                 try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             }
+            try self.stateTemplatesToAdd?.forEach {
+                try $0.validate(name: "\(name).stateTemplatesToAdd[]")
+            }
+            try self.validate(self.stateTemplatesToAdd, name: "stateTemplatesToAdd", parent: name, max: 20)
+            try self.validate(self.stateTemplatesToAdd, name: "stateTemplatesToAdd", parent: name, min: 1)
+            try self.stateTemplatesToRemove?.forEach {
+                try validate($0, name: "stateTemplatesToRemove[]", parent: name, max: 100)
+                try validate($0, name: "stateTemplatesToRemove[]", parent: name, min: 1)
+                try validate($0, name: "stateTemplatesToRemove[]", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
+            }
+            try self.validate(self.stateTemplatesToRemove, name: "stateTemplatesToRemove", parent: name, max: 20)
+            try self.validate(self.stateTemplatesToRemove, name: "stateTemplatesToRemove", parent: name, min: 1)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, max: 100)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, min: 1)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
@@ -4839,6 +5831,8 @@ extension IoTFleetWise {
             case attributeUpdateMode = "attributeUpdateMode"
             case decoderManifestArn = "decoderManifestArn"
             case modelManifestArn = "modelManifestArn"
+            case stateTemplatesToAdd = "stateTemplatesToAdd"
+            case stateTemplatesToRemove = "stateTemplatesToRemove"
         }
     }
 
@@ -4851,15 +5845,21 @@ extension IoTFleetWise {
         public let decoderManifestArn: String?
         /// The ARN of the vehicle model (model manifest) associated with the vehicle to update.
         public let modelManifestArn: String?
+        /// Associate additional state templates to track the state of the vehicle. State templates determine which signal updates the vehicle sends to the cloud.
+        public let stateTemplatesToAdd: [StateTemplateAssociation]?
+        /// Remove existing state template associations from the vehicle.
+        public let stateTemplatesToRemove: [String]?
         /// The unique ID of the vehicle to update.
         public let vehicleName: String
 
         @inlinable
-        public init(attributes: [String: String]? = nil, attributeUpdateMode: UpdateMode? = nil, decoderManifestArn: String? = nil, modelManifestArn: String? = nil, vehicleName: String) {
+        public init(attributes: [String: String]? = nil, attributeUpdateMode: UpdateMode? = nil, decoderManifestArn: String? = nil, modelManifestArn: String? = nil, stateTemplatesToAdd: [StateTemplateAssociation]? = nil, stateTemplatesToRemove: [String]? = nil, vehicleName: String) {
             self.attributes = attributes
             self.attributeUpdateMode = attributeUpdateMode
             self.decoderManifestArn = decoderManifestArn
             self.modelManifestArn = modelManifestArn
+            self.stateTemplatesToAdd = stateTemplatesToAdd
+            self.stateTemplatesToRemove = stateTemplatesToRemove
             self.vehicleName = vehicleName
         }
 
@@ -4869,6 +5869,18 @@ extension IoTFleetWise {
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
                 try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             }
+            try self.stateTemplatesToAdd?.forEach {
+                try $0.validate(name: "\(name).stateTemplatesToAdd[]")
+            }
+            try self.validate(self.stateTemplatesToAdd, name: "stateTemplatesToAdd", parent: name, max: 20)
+            try self.validate(self.stateTemplatesToAdd, name: "stateTemplatesToAdd", parent: name, min: 1)
+            try self.stateTemplatesToRemove?.forEach {
+                try validate($0, name: "stateTemplatesToRemove[]", parent: name, max: 100)
+                try validate($0, name: "stateTemplatesToRemove[]", parent: name, min: 1)
+                try validate($0, name: "stateTemplatesToRemove[]", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
+            }
+            try self.validate(self.stateTemplatesToRemove, name: "stateTemplatesToRemove", parent: name, max: 20)
+            try self.validate(self.stateTemplatesToRemove, name: "stateTemplatesToRemove", parent: name, min: 1)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, max: 100)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, min: 1)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
@@ -4879,6 +5891,8 @@ extension IoTFleetWise {
             case attributeUpdateMode = "attributeUpdateMode"
             case decoderManifestArn = "decoderManifestArn"
             case modelManifestArn = "modelManifestArn"
+            case stateTemplatesToAdd = "stateTemplatesToAdd"
+            case stateTemplatesToRemove = "stateTemplatesToRemove"
             case vehicleName = "vehicleName"
         }
     }
@@ -4945,7 +5959,7 @@ extension IoTFleetWise {
     public struct VehicleStatus: AWSDecodableShape {
         /// The name of a campaign.
         public let campaignName: String?
-        /// The state of a vehicle, which can be one of the following:    CREATED - Amazon Web Services IoT FleetWise sucessfully created the vehicle.     READY - The vehicle is ready to receive a campaign deployment.     HEALTHY - A campaign deployment was delivered to the vehicle.     SUSPENDED - A campaign associated with the vehicle was suspended and data collection was paused.     DELETING - Amazon Web Services IoT FleetWise is removing a campaign from the vehicle.
+        /// The status of a campaign, which can be one of the following:    CREATED - The campaign has been created successfully but has not been approved.     READY - The campaign has been approved but has not been deployed to the vehicle.    HEALTHY - The campaign has been deployed to the vehicle.      SUSPENDED - The campaign has been suspended and data collection is  paused.     DELETING - The campaign is being removed from the vehicle.
         public let status: VehicleState?
         /// The unique ID of the vehicle.
         public let vehicleName: String?

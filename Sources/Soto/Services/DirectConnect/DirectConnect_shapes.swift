@@ -462,6 +462,28 @@ extension DirectConnect {
         }
     }
 
+    public struct AssociatedCoreNetwork: AWSDecodableShape {
+        /// the ID of the Direct Connect attachment
+        public let attachmentId: String?
+        /// The ID of the Cloud WAN core network.
+        public let id: String?
+        /// The account owner of the Cloud WAN core network.
+        public let ownerAccount: String?
+
+        @inlinable
+        public init(attachmentId: String? = nil, id: String? = nil, ownerAccount: String? = nil) {
+            self.attachmentId = attachmentId
+            self.id = id
+            self.ownerAccount = ownerAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "attachmentId"
+            case id = "id"
+            case ownerAccount = "ownerAccount"
+        }
+    }
+
     public struct AssociatedGateway: AWSDecodableShape {
         /// The ID of the associated gateway.
         public let id: String?
@@ -1909,6 +1931,8 @@ extension DirectConnect {
     public struct DirectConnectGatewayAssociation: AWSDecodableShape {
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
+        /// The ID of the Cloud WAN core network associated with the Direct Connect attachment.
+        public let associatedCoreNetwork: AssociatedCoreNetwork?
         /// Information about the associated gateway.
         public let associatedGateway: AssociatedGateway?
         /// The ID of the Direct Connect gateway association.
@@ -1929,8 +1953,9 @@ extension DirectConnect {
         public let virtualGatewayRegion: String?
 
         @inlinable
-        public init(allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, associatedGateway: AssociatedGateway? = nil, associationId: String? = nil, associationState: DirectConnectGatewayAssociationState? = nil, directConnectGatewayId: String? = nil, directConnectGatewayOwnerAccount: String? = nil, stateChangeError: String? = nil, virtualGatewayId: String? = nil, virtualGatewayOwnerAccount: String? = nil, virtualGatewayRegion: String? = nil) {
+        public init(allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, associatedCoreNetwork: AssociatedCoreNetwork? = nil, associatedGateway: AssociatedGateway? = nil, associationId: String? = nil, associationState: DirectConnectGatewayAssociationState? = nil, directConnectGatewayId: String? = nil, directConnectGatewayOwnerAccount: String? = nil, stateChangeError: String? = nil, virtualGatewayId: String? = nil, virtualGatewayOwnerAccount: String? = nil, virtualGatewayRegion: String? = nil) {
             self.allowedPrefixesToDirectConnectGateway = allowedPrefixesToDirectConnectGateway
+            self.associatedCoreNetwork = associatedCoreNetwork
             self.associatedGateway = associatedGateway
             self.associationId = associationId
             self.associationState = associationState
@@ -1944,6 +1969,7 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case allowedPrefixesToDirectConnectGateway = "allowedPrefixesToDirectConnectGateway"
+            case associatedCoreNetwork = "associatedCoreNetwork"
             case associatedGateway = "associatedGateway"
             case associationId = "associationId"
             case associationState = "associationState"

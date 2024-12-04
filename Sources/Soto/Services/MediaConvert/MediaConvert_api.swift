@@ -335,6 +335,7 @@ public struct MediaConvert: AWSService {
     /// Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
     ///
     /// Parameters:
+    ///   - concurrentJobs: Specify the maximum number of jobs your queue can process concurrently. For on-demand queues, the value you enter is constrained by your service quotas for Maximum concurrent jobs, per on-demand queue and Maximum concurrent jobs, per account. For reserved queues, specify the number of jobs you can process concurrently in your reservation plan instead.
     ///   - description: Optional. A description of the queue that you are creating.
     ///   - name: The name of the queue that you are creating.
     ///   - pricingPlan: Specifies whether the pricing plan for the queue is on-demand or reserved. For on-demand, you pay per minute, billed in increments of .01 minute. For reserved, you pay for the transcoding capacity of the entire queue, regardless of how much or how little you use it. Reserved pricing requires a 12-month commitment. When you use the API to create a queue, the default is on-demand.
@@ -344,6 +345,7 @@ public struct MediaConvert: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createQueue(
+        concurrentJobs: Int? = nil,
         description: String? = nil,
         name: String? = nil,
         pricingPlan: PricingPlan? = nil,
@@ -353,6 +355,7 @@ public struct MediaConvert: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateQueueResponse {
         let input = CreateQueueRequest(
+            concurrentJobs: concurrentJobs, 
             description: description, 
             name: name, 
             pricingPlan: pricingPlan, 
@@ -1150,6 +1153,7 @@ public struct MediaConvert: AWSService {
     /// Modify one of your existing queues.
     ///
     /// Parameters:
+    ///   - concurrentJobs: Specify the maximum number of jobs your queue can process concurrently. For on-demand queues, the value you enter is constrained by your service quotas for Maximum concurrent jobs, per on-demand queue and Maximum concurrent jobs, per account. For reserved queues, update your reservation plan instead in order to increase your yearly commitment.
     ///   - description: The new description for the queue, if you are changing it.
     ///   - name: The name of the queue that you are modifying.
     ///   - reservationPlanSettings: The new details of your pricing plan for your reserved queue. When you set up a new pricing plan to replace an expired one, you enter into another 12-month commitment. When you add capacity to your queue by increasing the number of RTS, you extend the term of your commitment to 12 months from when you add capacity. After you make these commitments, you can't cancel them.
@@ -1157,6 +1161,7 @@ public struct MediaConvert: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateQueue(
+        concurrentJobs: Int? = nil,
         description: String? = nil,
         name: String,
         reservationPlanSettings: ReservationPlanSettings? = nil,
@@ -1164,6 +1169,7 @@ public struct MediaConvert: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateQueueResponse {
         let input = UpdateQueueRequest(
+            concurrentJobs: concurrentJobs, 
             description: description, 
             name: name, 
             reservationPlanSettings: reservationPlanSettings, 

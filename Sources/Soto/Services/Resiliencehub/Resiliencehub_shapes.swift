@@ -86,6 +86,16 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConditionOperatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "Equals"
+        case greaterOrEquals = "GreaterOrEquals"
+        case greaterThen = "GreaterThen"
+        case lessOrEquals = "LessOrEquals"
+        case lessThen = "LessThen"
+        case notEquals = "NotEquals"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigRecommendationOptimizationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bestAttainable = "BestAttainable"
         case bestAzRecovery = "BestAZRecovery"
@@ -160,6 +170,15 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
+    public enum FieldAggregationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case avg = "Avg"
+        case count = "Count"
+        case max = "Max"
+        case min = "Min"
+        case sum = "Sum"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GroupingRecommendationConfidenceLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "High"
         case medium = "Medium"
@@ -187,6 +206,14 @@ extension Resiliencehub {
         case noRecoveryPlan = "NoRecoveryPlan"
         case pilotLight = "PilotLight"
         case warmStandby = "WarmStandby"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricsExportStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case pending = "Pending"
+        case success = "Success"
         public var description: String { return self.rawValue }
     }
 
@@ -349,7 +376,7 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
-        /// Indicates the list of resource grouping recommendations you want to include in your application.
+        /// List of resource grouping recommendations you want to include in your application.
         public let entries: [AcceptGroupingRecommendationEntry]
 
         @inlinable
@@ -378,7 +405,7 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
-        /// Indicates the list of resource grouping recommendations that could not be included in your application.
+        /// List of resource grouping recommendations that could not be included in your application.
         public let failedEntries: [FailedGroupingRecommendationEntry]
 
         @inlinable
@@ -521,7 +548,7 @@ extension Resiliencehub {
         public let awsApplicationArn: String?
         /// Current status of compliance for the resiliency policy.
         public let complianceStatus: AppComplianceStatusType?
-        /// Date and time when the app was created.
+        /// Date and time when the application was created.
         public let creationTime: Date
         /// Optional description for an application.
         public let description: String?
@@ -1161,6 +1188,35 @@ extension Resiliencehub {
         }
     }
 
+    public struct Condition: AWSEncodableShape {
+        /// Indicates the field in the metric.
+        public let field: String
+        /// Indicates the type of operator or comparison to be used when evaluating a condition against the specified field.
+        public let `operator`: ConditionOperatorType
+        /// Indicates the value or data against which a condition is evaluated.
+        public let value: String?
+
+        @inlinable
+        public init(field: String, operator: ConditionOperatorType, value: String? = nil) {
+            self.field = field
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.field, name: "field", parent: name, max: 255)
+            try self.validate(self.field, name: "field", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case field = "field"
+            case `operator` = "operator"
+            case value = "value"
+        }
+    }
+
     public struct ConfigRecommendation: AWSDecodableShape {
         /// Name of the Application Component.
         public let appComponentName: String?
@@ -1275,7 +1331,7 @@ extension Resiliencehub {
             try self.validate(self.awsApplicationArn, name: "awsApplicationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.eventSubscriptions?.forEach {
                 try $0.validate(name: "\(name).eventSubscriptions[]")
@@ -1358,7 +1414,7 @@ extension Resiliencehub {
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.validate(self.id, name: "id", parent: name, max: 255)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 255)
@@ -1455,7 +1511,7 @@ extension Resiliencehub {
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.logicalResourceId.validate(name: "\(name).logicalResourceId")
             try self.validate(self.physicalResourceId, name: "physicalResourceId", parent: name, max: 2048)
             try self.validate(self.physicalResourceId, name: "physicalResourceId", parent: name, min: 1)
@@ -1541,7 +1597,7 @@ extension Resiliencehub {
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
             try self.recommendationIds?.forEach {
                 try validate($0, name: "recommendationIds[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$")
@@ -1595,9 +1651,9 @@ extension Resiliencehub {
         public let dataLocationConstraint: DataLocationConstraint?
         /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
         public let policy: [DisruptionType: FailurePolicy]
-        /// The description for the policy.
+        /// Description of the resiliency policy.
         public let policyDescription: String?
-        /// The name of the policy
+        /// Name of the resiliency policy.
         public let policyName: String
         /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource.
         /// Each tag consists of a key/value pair.
@@ -1619,7 +1675,7 @@ extension Resiliencehub {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.policy.forEach {
                 try $0.value.validate(name: "\(name).policy[\"\($0.key)\"]")
             }
@@ -1680,7 +1736,7 @@ extension Resiliencehub {
             try self.validate(self.assessmentArn, name: "assessmentArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1738,7 +1794,7 @@ extension Resiliencehub {
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.eksSourceClusterNamespace?.validate(name: "\(name).eksSourceClusterNamespace")
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
             try self.terraformSource?.validate(name: "\(name).terraformSource")
@@ -1795,7 +1851,7 @@ extension Resiliencehub {
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1843,7 +1899,7 @@ extension Resiliencehub {
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.validate(self.id, name: "id", parent: name, max: 255)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -1915,7 +1971,7 @@ extension Resiliencehub {
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.logicalResourceId?.validate(name: "\(name).logicalResourceId")
             try self.validate(self.physicalResourceId, name: "physicalResourceId", parent: name, max: 2048)
             try self.validate(self.physicalResourceId, name: "physicalResourceId", parent: name, min: 1)
@@ -1973,7 +2029,7 @@ extension Resiliencehub {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.validate(self.recommendationTemplateArn, name: "recommendationTemplateArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
         }
 
@@ -2019,7 +2075,7 @@ extension Resiliencehub {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
         }
 
@@ -2460,6 +2516,51 @@ extension Resiliencehub {
         }
     }
 
+    public struct DescribeMetricsExportRequest: AWSEncodableShape {
+        /// Identifier of the metrics export task.
+        public let metricsExportId: String
+
+        @inlinable
+        public init(metricsExportId: String) {
+            self.metricsExportId = metricsExportId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricsExportId, name: "metricsExportId", parent: name, max: 255)
+            try self.validate(self.metricsExportId, name: "metricsExportId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricsExportId = "metricsExportId"
+        }
+    }
+
+    public struct DescribeMetricsExportResponse: AWSDecodableShape {
+        /// Explains the error that occurred while exporting the metrics.
+        public let errorMessage: String?
+        /// Specifies the name of the Amazon S3 bucket where the exported metrics is stored.
+        public let exportLocation: S3Location?
+        /// Identifier for the metrics export task.
+        public let metricsExportId: String
+        /// Indicates the status of the metrics export task.
+        public let status: MetricsExportStatusType
+
+        @inlinable
+        public init(errorMessage: String? = nil, exportLocation: S3Location? = nil, metricsExportId: String, status: MetricsExportStatusType) {
+            self.errorMessage = errorMessage
+            self.exportLocation = exportLocation
+            self.metricsExportId = metricsExportId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case exportLocation = "exportLocation"
+            case metricsExportId = "metricsExportId"
+            case status = "status"
+        }
+    }
+
     public struct DescribeResiliencyPolicyRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
@@ -2499,7 +2600,7 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
-        /// Indicates the identifier of the grouping recommendation task.
+        /// Identifier of the grouping recommendation task.
         public let groupingId: String?
 
         @inlinable
@@ -2521,9 +2622,9 @@ extension Resiliencehub {
     }
 
     public struct DescribeResourceGroupingRecommendationTaskResponse: AWSDecodableShape {
-        /// Indicates the error that occurred while generating a grouping recommendation.
+        /// Error that occurred while generating a grouping recommendation.
         public let errorMessage: String?
-        /// Indicates the identifier of the grouping recommendation task.
+        /// Identifier of the grouping recommendation task.
         public let groupingId: String
         /// Status of the action.
         public let status: ResourcesGroupingRecGenStatusType
@@ -2729,6 +2830,29 @@ extension Resiliencehub {
         private enum CodingKeys: String, CodingKey {
             case rpoInSecs = "rpoInSecs"
             case rtoInSecs = "rtoInSecs"
+        }
+    }
+
+    public struct Field: AWSEncodableShape {
+        /// (Optional) Indicates the type of aggregation or summary operation (such as Sum, Average, and so on) to be performed on a particular field or set of data.
+        public let aggregation: FieldAggregationType?
+        /// Name of the field.
+        public let name: String
+
+        @inlinable
+        public init(aggregation: FieldAggregationType? = nil, name: String) {
+            self.aggregation = aggregation
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "aggregation"
+            case name = "name"
         }
     }
 
@@ -2966,7 +3090,7 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let assessmentArn: String
-        /// Indicates the maximum number of compliance drifts requested.
+        /// Maximum number of compliance drifts requested.
         public let maxResults: Int?
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
@@ -3015,7 +3139,7 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let assessmentArn: String
-        /// Indicates the maximum number of drift results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+        /// Maximum number of drift results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
@@ -3541,7 +3665,7 @@ extension Resiliencehub {
         /// Amazon Resource Name (ARN) of  Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let awsApplicationArn: String?
-        /// Indicates the lower limit of the range that is used to filter applications based on their last assessment times.
+        /// Lower limit of the range that is used to filter applications based on their last assessment times.
         public let fromLastAssessmentTime: Date?
         /// Maximum number of results to include in the response. If more results exist than the specified
         /// MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -3552,7 +3676,7 @@ extension Resiliencehub {
         public let nextToken: String?
         /// The application list is sorted based on the values of lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending order. To sort the application list in descending order, set this field to True.
         public let reverseOrder: Bool?
-        /// Indicates the upper limit of the range that is used to filter the applications based on their last assessment times.
+        /// Upper limit of the range that is used to filter the applications based on their last assessment times.
         public let toLastAssessmentTime: Date?
 
         @inlinable
@@ -3607,6 +3731,79 @@ extension Resiliencehub {
         private enum CodingKeys: String, CodingKey {
             case appSummaries = "appSummaries"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListMetricsRequest: AWSEncodableShape {
+        /// Indicates the list of all the conditions that were applied on the metrics.
+        public let conditions: [Condition]?
+        /// Indicates the data source of the metrics.
+        public let dataSource: String?
+        /// Indicates the list of fields in the data source.
+        public let fields: [Field]?
+        /// Maximum number of results to include in the response. If more results exist than the specified
+        /// MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// Null, or the token from a previous call to get the next set of results.
+        public let nextToken: String?
+        /// (Optional) Indicates the order in which you want to sort the fields in the metrics. By default, the fields are sorted in the ascending order.
+        public let sorts: [Sort]?
+
+        @inlinable
+        public init(conditions: [Condition]? = nil, dataSource: String? = nil, fields: [Field]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sorts: [Sort]? = nil) {
+            self.conditions = conditions
+            self.dataSource = dataSource
+            self.fields = fields
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sorts = sorts
+        }
+
+        public func validate(name: String) throws {
+            try self.conditions?.forEach {
+                try $0.validate(name: "\(name).conditions[]")
+            }
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 50)
+            try self.validate(self.dataSource, name: "dataSource", parent: name, max: 255)
+            try self.validate(self.dataSource, name: "dataSource", parent: name, min: 1)
+            try self.fields?.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+            try self.validate(self.fields, name: "fields", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
+            try self.sorts?.forEach {
+                try $0.validate(name: "\(name).sorts[]")
+            }
+            try self.validate(self.sorts, name: "sorts", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
+            case dataSource = "dataSource"
+            case fields = "fields"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sorts = "sorts"
+        }
+    }
+
+    public struct ListMetricsResponse: AWSDecodableShape {
+        /// Token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// Specifies all the list of metric values for each row of metrics.
+        public let rows: [[String]]
+
+        @inlinable
+        public init(nextToken: String? = nil, rows: [[String]]) {
+            self.nextToken = nextToken
+            self.rows = rows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case rows = "rows"
         }
     }
 
@@ -3691,7 +3888,7 @@ extension Resiliencehub {
         public let maxResults: Int?
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
-        /// The name of the policy
+        /// Name of the resiliency policy.
         public let policyName: String?
 
         @inlinable
@@ -4452,7 +4649,7 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
-        /// Indicates the list of resource grouping recommendations you have selected to exclude from your application.
+        /// List of resource grouping recommendations you have selected to exclude from your application.
         public let entries: [RejectGroupingRecommendationEntry]
 
         @inlinable
@@ -4481,7 +4678,7 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
-        /// Indicates the list of resource grouping recommendations that failed to get excluded in your application.
+        /// List of resource grouping recommendations that failed to get excluded in your application.
         public let failedEntries: [FailedGroupingRecommendationEntry]
 
         @inlinable
@@ -4594,7 +4791,7 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let policyArn: String?
-        /// The description for the policy.
+        /// Description of the resiliency policy.
         public let policyDescription: String?
         /// The name of the policy
         public let policyName: String?
@@ -4940,6 +5137,29 @@ extension Resiliencehub {
         }
     }
 
+    public struct Sort: AWSEncodableShape {
+        /// Indicates the name or identifier of the field or attribute that should be used as the basis for sorting the metrics.
+        public let ascending: Bool?
+        /// Indicates the order in which you want to sort the metrics. By default, the list is sorted in ascending order. To sort the list in descending order, set this field to False.
+        public let field: String
+
+        @inlinable
+        public init(ascending: Bool? = nil, field: String) {
+            self.ascending = ascending
+            self.field = field
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.field, name: "field", parent: name, max: 255)
+            try self.validate(self.field, name: "field", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ascending = "ascending"
+            case field = "field"
+        }
+    }
+
     public struct StartAppAssessmentRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
@@ -4971,7 +5191,7 @@ extension Resiliencehub {
             try self.validate(self.assessmentName, name: "assessmentName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -5006,6 +5226,50 @@ extension Resiliencehub {
         }
     }
 
+    public struct StartMetricsExportRequest: AWSEncodableShape {
+        /// (Optional) Specifies the name of the Amazon Simple Storage Service bucket where the exported metrics will be stored.
+        public let bucketName: String?
+        /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters.
+        /// You should not reuse the same client token for other API requests.
+        public let clientToken: String?
+
+        @inlinable
+        public init(bucketName: String? = nil, clientToken: String? = StartMetricsExportRequest.idempotencyToken()) {
+            self.bucketName = bucketName
+            self.clientToken = clientToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9_.-]{0,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case clientToken = "clientToken"
+        }
+    }
+
+    public struct StartMetricsExportResponse: AWSDecodableShape {
+        /// Identifier of the metrics export task.
+        public let metricsExportId: String
+        /// Indicates the status of the metrics export task.
+        public let status: MetricsExportStatusType
+
+        @inlinable
+        public init(metricsExportId: String, status: MetricsExportStatusType) {
+            self.metricsExportId = metricsExportId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricsExportId = "metricsExportId"
+            case status = "status"
+        }
+    }
+
     public struct StartResourceGroupingRecommendationTaskRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
@@ -5031,9 +5295,9 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
-        /// Indicates the error that occurred while executing a grouping recommendation task.
+        /// Error that occurred while executing a grouping recommendation task.
         public let errorMessage: String?
-        /// Indicates the identifier of the grouping recommendation task.
+        /// Identifier of the grouping recommendation task.
         public let groupingId: String
         /// Status of the action.
         public let status: ResourcesGroupingRecGenStatusType
@@ -5593,15 +5857,15 @@ extension Resiliencehub {
     public struct UpdateResiliencyPolicyRequest: AWSEncodableShape {
         /// Specifies a high-level geographical location constraint for where your resilience policy data can be stored.
         public let dataLocationConstraint: DataLocationConstraint?
-        /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
+        /// Resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
         public let policy: [DisruptionType: FailurePolicy]?
         /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let policyArn: String
-        /// The description for the policy.
+        /// Description of the resiliency policy.
         public let policyDescription: String?
-        /// The name of the policy
+        /// Name of the resiliency policy.
         public let policyName: String?
         /// The tier for this resiliency policy, ranging from the highest severity (MissionCritical) to lowest (NonCritical).
         public let tier: ResiliencyPolicyTier?
@@ -5636,7 +5900,7 @@ extension Resiliencehub {
     }
 
     public struct UpdateResiliencyPolicyResponse: AWSDecodableShape {
-        /// The type of resiliency policy that was updated, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
+        /// The resiliency policy that was updated, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
         public let policy: ResiliencyPolicy
 
         @inlinable

@@ -584,18 +584,21 @@ public struct ControlTower: AWSService {
     ///
     /// Parameters:
     ///   - filter: A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
+    ///   - includeChildren: A value that can be  set to include the child enabled baselines in responses. The default value is false.
     ///   - maxResults: The maximum number of results to be shown.
     ///   - nextToken: A pagination token.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEnabledBaselines(
         filter: EnabledBaselineFilter? = nil,
+        includeChildren: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListEnabledBaselinesOutput {
         let input = ListEnabledBaselinesInput(
             filter: filter, 
+            includeChildren: includeChildren, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -1096,16 +1099,19 @@ extension ControlTower {
     ///
     /// - Parameters:
     ///   - filter: A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
+    ///   - includeChildren: A value that can be  set to include the child enabled baselines in responses. The default value is false.
     ///   - maxResults: The maximum number of results to be shown.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEnabledBaselinesPaginator(
         filter: EnabledBaselineFilter? = nil,
+        includeChildren: Bool? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListEnabledBaselinesInput, ListEnabledBaselinesOutput> {
         let input = ListEnabledBaselinesInput(
             filter: filter, 
+            includeChildren: includeChildren, 
             maxResults: maxResults
         )
         return self.listEnabledBaselinesPaginator(input, logger: logger)
@@ -1249,6 +1255,7 @@ extension ControlTower.ListEnabledBaselinesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ControlTower.ListEnabledBaselinesInput {
         return .init(
             filter: self.filter,
+            includeChildren: self.includeChildren,
             maxResults: self.maxResults,
             nextToken: token
         )

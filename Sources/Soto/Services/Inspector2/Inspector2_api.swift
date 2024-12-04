@@ -91,7 +91,7 @@ public struct Inspector2: AWSService {
 
     // MARK: API Calls
 
-    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.   An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account.
+    ///  Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.  An HTTP 200 response indicates the association was started but doesn’t indicate whether it completed.  You can check if the association completed using ListMembers for multiple accounts or GetMembers for a single account.  An HTTP 402 response indicates the association failed because the organization size exceeded its limit.  For information on limits, see Amazon Inspector quotas.
     @Sendable
     @inlinable
     public func associateMember(_ input: AssociateMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateMemberResponse {
@@ -104,7 +104,7 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.   An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account.
+    ///  Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.  An HTTP 200 response indicates the association was started but doesn’t indicate whether it completed.  You can check if the association completed using ListMembers for multiple accounts or GetMembers for a single account.  An HTTP 402 response indicates the association failed because the organization size exceeded its limit.  For information on limits, see Amazon Inspector quotas.
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the member account to be associated.

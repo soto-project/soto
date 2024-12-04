@@ -80,6 +80,37 @@ public struct Polly: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "polly.af-south-1.api.aws",
+            "ap-east-1": "polly.ap-east-1.api.aws",
+            "ap-northeast-1": "polly.ap-northeast-1.api.aws",
+            "ap-northeast-2": "polly.ap-northeast-2.api.aws",
+            "ap-northeast-3": "polly.ap-northeast-3.api.aws",
+            "ap-south-1": "polly.ap-south-1.api.aws",
+            "ap-southeast-1": "polly.ap-southeast-1.api.aws",
+            "ap-southeast-2": "polly.ap-southeast-2.api.aws",
+            "ca-central-1": "polly.ca-central-1.api.aws",
+            "cn-northwest-1": "polly.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "polly.eu-central-1.api.aws",
+            "eu-north-1": "polly.eu-north-1.api.aws",
+            "eu-west-1": "polly.eu-west-1.api.aws",
+            "eu-west-2": "polly.eu-west-2.api.aws",
+            "eu-west-3": "polly.eu-west-3.api.aws",
+            "me-south-1": "polly.me-south-1.api.aws",
+            "sa-east-1": "polly.sa-east-1.api.aws",
+            "us-east-1": "polly.us-east-1.api.aws",
+            "us-east-2": "polly.us-east-2.api.aws",
+            "us-gov-west-1": "polly.us-gov-west-1.api.aws",
+            "us-west-1": "polly.us-west-1.api.aws",
+            "us-west-2": "polly.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "polly-fips.us-east-1.api.aws",
+            "us-east-2": "polly-fips.us-east-2.api.aws",
+            "us-gov-west-1": "polly-fips.us-gov-west-1.api.aws",
+            "us-west-1": "polly-fips.us-west-1.api.aws",
+            "us-west-2": "polly-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "polly-fips.us-east-1.amazonaws.com",
             "us-east-2": "polly-fips.us-east-2.amazonaws.com",

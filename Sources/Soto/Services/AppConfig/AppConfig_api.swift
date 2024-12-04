@@ -141,7 +141,7 @@ public struct AppConfig: AWSService {
     ///   - applicationId: The application ID.
     ///   - description: A description of the configuration profile.
     ///   - kmsKeyIdentifier: The identifier for an Key Management Service key to encrypt new configuration data versions in the AppConfig hosted configuration store. This attribute is only used for hosted configuration types. The identifier can be an KMS key ID, alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed in other configuration stores, see the documentation for how to specify an KMS key for that particular service.
-    ///   - locationUri: A URI to locate the configuration. You can specify the following:   For the AppConfig hosted configuration store and for feature flags, specify hosted.   For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.   For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline://.   For an Secrets Manager secret, specify the URI in the following format: secretsmanager://.   For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
+    ///   - locationUri: A URI to locate the configuration. You can specify the following:   For the AppConfig hosted configuration store and for feature flags, specify hosted.   For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.   For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline://.   For an Secrets Manager secret, specify the URI in the following format: secretsmanager://.   For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
     ///   - name: A name for the configuration profile.
     ///   - retrievalRoleArn: The ARN of an IAM role with permission to access the configuration at the specified LocationUri.  A retrieval role ARN is not required for configurations stored in the AppConfig hosted configuration store. It is required for all other sources that store your configuration.
     ///   - tags: Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
@@ -1200,7 +1200,7 @@ public struct AppConfig: AWSService {
     /// Parameters:
     ///   - applicationId: The application ID.
     ///   - configurationProfileId: The configuration profile ID.
-    ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - maxResults: The maximum number of items to return for this call. If MaxResults is not provided in the call, AppConfig returns the maximum of 50. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     ///   - nextToken: A token to start the list. Use this token to get the next set of results.
     ///   - versionLabel: An optional filter that can be used to specify the version label of an AppConfig hosted configuration version. This parameter supports filtering by prefix using a wildcard, for example "v2*". If you don't specify an asterisk at the end of the value, only an exact match is returned.
     ///   - logger: Logger use during operation
@@ -2013,7 +2013,7 @@ extension AppConfig {
     /// - Parameters:
     ///   - applicationId: The application ID.
     ///   - configurationProfileId: The configuration profile ID.
-    ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - maxResults: The maximum number of items to return for this call. If MaxResults is not provided in the call, AppConfig returns the maximum of 50. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     ///   - versionLabel: An optional filter that can be used to specify the version label of an AppConfig hosted configuration version. This parameter supports filtering by prefix using a wildcard, for example "v2*". If you don't specify an asterisk at the end of the value, only an exact match is returned.
     ///   - logger: Logger used for logging
     @inlinable

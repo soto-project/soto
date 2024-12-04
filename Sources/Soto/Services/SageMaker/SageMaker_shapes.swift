@@ -2128,6 +2128,14 @@ extension SageMaker {
         case mlG648Xlarge = "ml.g6.48xlarge"
         case mlG64Xlarge = "ml.g6.4xlarge"
         case mlG68Xlarge = "ml.g6.8xlarge"
+        case mlG6E12Xlarge = "ml.g6e.12xlarge"
+        case mlG6E16Xlarge = "ml.g6e.16xlarge"
+        case mlG6E24Xlarge = "ml.g6e.24xlarge"
+        case mlG6E2Xlarge = "ml.g6e.2xlarge"
+        case mlG6E48Xlarge = "ml.g6e.48xlarge"
+        case mlG6E4Xlarge = "ml.g6e.4xlarge"
+        case mlG6E8Xlarge = "ml.g6e.8xlarge"
+        case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
         case mlInf124Xlarge = "ml.inf1.24xlarge"
         case mlInf12Xlarge = "ml.inf1.2xlarge"
@@ -2168,6 +2176,15 @@ extension SageMaker {
         case mlM6Gd8Xlarge = "ml.m6gd.8xlarge"
         case mlM6GdLarge = "ml.m6gd.large"
         case mlM6GdXlarge = "ml.m6gd.xlarge"
+        case mlM6I12Xlarge = "ml.m6i.12xlarge"
+        case mlM6I16Xlarge = "ml.m6i.16xlarge"
+        case mlM6I24Xlarge = "ml.m6i.24xlarge"
+        case mlM6I2Xlarge = "ml.m6i.2xlarge"
+        case mlM6I32Xlarge = "ml.m6i.32xlarge"
+        case mlM6I4Xlarge = "ml.m6i.4xlarge"
+        case mlM6I8Xlarge = "ml.m6i.8xlarge"
+        case mlM6ILarge = "ml.m6i.large"
+        case mlM6IXlarge = "ml.m6i.xlarge"
         case mlM7I12Xlarge = "ml.m7i.12xlarge"
         case mlM7I16Xlarge = "ml.m7i.16xlarge"
         case mlM7I24Xlarge = "ml.m7i.24xlarge"
@@ -2186,6 +2203,7 @@ extension SageMaker {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
         case mlR52Xlarge = "ml.r5.2xlarge"
@@ -2212,6 +2230,15 @@ extension SageMaker {
         case mlR6Gd8Xlarge = "ml.r6gd.8xlarge"
         case mlR6GdLarge = "ml.r6gd.large"
         case mlR6GdXlarge = "ml.r6gd.xlarge"
+        case mlR6I12Xlarge = "ml.r6i.12xlarge"
+        case mlR6I16Xlarge = "ml.r6i.16xlarge"
+        case mlR6I24Xlarge = "ml.r6i.24xlarge"
+        case mlR6I2Xlarge = "ml.r6i.2xlarge"
+        case mlR6I32Xlarge = "ml.r6i.32xlarge"
+        case mlR6I4Xlarge = "ml.r6i.4xlarge"
+        case mlR6I8Xlarge = "ml.r6i.8xlarge"
+        case mlR6ILarge = "ml.r6i.large"
+        case mlR6IXlarge = "ml.r6i.xlarge"
         case mlR7I12Xlarge = "ml.r7i.12xlarge"
         case mlR7I16Xlarge = "ml.r7i.16xlarge"
         case mlR7I24Xlarge = "ml.r7i.24xlarge"
@@ -2228,6 +2255,7 @@ extension SageMaker {
         case mlTrn12Xlarge = "ml.trn1.2xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn1N32Xlarge = "ml.trn1n.32xlarge"
+        case mlTrn248Xlarge = "ml.trn2.48xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -3252,6 +3280,8 @@ extension SageMaker {
         case modelCompilationConfig(ModelCompilationConfig)
         /// Settings for the model quantization technique that's applied by a model optimization job.
         case modelQuantizationConfig(ModelQuantizationConfig)
+        /// Settings for the model sharding technique that's applied by a model optimization job.
+        case modelShardingConfig(ModelShardingConfig)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -3269,6 +3299,9 @@ extension SageMaker {
             case .modelQuantizationConfig:
                 let value = try container.decode(ModelQuantizationConfig.self, forKey: .modelQuantizationConfig)
                 self = .modelQuantizationConfig(value)
+            case .modelShardingConfig:
+                let value = try container.decode(ModelShardingConfig.self, forKey: .modelShardingConfig)
+                self = .modelShardingConfig(value)
             }
         }
 
@@ -3279,6 +3312,8 @@ extension SageMaker {
                 try container.encode(value, forKey: .modelCompilationConfig)
             case .modelQuantizationConfig(let value):
                 try container.encode(value, forKey: .modelQuantizationConfig)
+            case .modelShardingConfig(let value):
+                try container.encode(value, forKey: .modelShardingConfig)
             }
         }
 
@@ -3288,12 +3323,15 @@ extension SageMaker {
                 try value.validate(name: "\(name).modelCompilationConfig")
             case .modelQuantizationConfig(let value):
                 try value.validate(name: "\(name).modelQuantizationConfig")
+            case .modelShardingConfig(let value):
+                try value.validate(name: "\(name).modelShardingConfig")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case modelCompilationConfig = "ModelCompilationConfig"
             case modelQuantizationConfig = "ModelQuantizationConfig"
+            case modelShardingConfig = "ModelShardingConfig"
         }
     }
 
@@ -6016,13 +6054,14 @@ extension SageMaker {
         public let lifeCycleConfig: ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public let onStartDeepHealthChecks: [DeepHealthCheckType]?
+        public let overrideVpcConfig: VpcConfig?
         /// The number of instances you specified to add to the instance group of a SageMaker HyperPod cluster.
         public let targetCount: Int?
         /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
         public let threadsPerCore: Int?
 
         @inlinable
-        public init(currentCount: Int? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, targetCount: Int? = nil, threadsPerCore: Int? = nil) {
+        public init(currentCount: Int? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, targetCount: Int? = nil, threadsPerCore: Int? = nil) {
             self.currentCount = currentCount
             self.executionRole = executionRole
             self.instanceGroupName = instanceGroupName
@@ -6030,6 +6069,7 @@ extension SageMaker {
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
+            self.overrideVpcConfig = overrideVpcConfig
             self.targetCount = targetCount
             self.threadsPerCore = threadsPerCore
         }
@@ -6042,6 +6082,7 @@ extension SageMaker {
             case instanceType = "InstanceType"
             case lifeCycleConfig = "LifeCycleConfig"
             case onStartDeepHealthChecks = "OnStartDeepHealthChecks"
+            case overrideVpcConfig = "OverrideVpcConfig"
             case targetCount = "TargetCount"
             case threadsPerCore = "ThreadsPerCore"
         }
@@ -6062,11 +6103,12 @@ extension SageMaker {
         public let lifeCycleConfig: ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public let onStartDeepHealthChecks: [DeepHealthCheckType]?
+        public let overrideVpcConfig: VpcConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
         public let threadsPerCore: Int?
 
         @inlinable
-        public init(executionRole: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, threadsPerCore: Int? = nil) {
+        public init(executionRole: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, threadsPerCore: Int? = nil) {
             self.executionRole = executionRole
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
@@ -6074,6 +6116,7 @@ extension SageMaker {
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
+            self.overrideVpcConfig = overrideVpcConfig
             self.threadsPerCore = threadsPerCore
         }
 
@@ -6092,6 +6135,7 @@ extension SageMaker {
             try self.lifeCycleConfig?.validate(name: "\(name).lifeCycleConfig")
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 2)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, min: 1)
+            try self.overrideVpcConfig?.validate(name: "\(name).overrideVpcConfig")
             try self.validate(self.threadsPerCore, name: "threadsPerCore", parent: name, max: 2)
             try self.validate(self.threadsPerCore, name: "threadsPerCore", parent: name, min: 1)
         }
@@ -6104,6 +6148,7 @@ extension SageMaker {
             case instanceType = "InstanceType"
             case lifeCycleConfig = "LifeCycleConfig"
             case onStartDeepHealthChecks = "OnStartDeepHealthChecks"
+            case overrideVpcConfig = "OverrideVpcConfig"
             case threadsPerCore = "ThreadsPerCore"
         }
     }
@@ -6185,6 +6230,7 @@ extension SageMaker {
         public let launchTime: Date?
         /// The LifeCycle configuration applied to the instance.
         public let lifeCycleConfig: ClusterLifeCycleConfig?
+        public let overrideVpcConfig: VpcConfig?
         /// The placement details of the SageMaker HyperPod cluster node.
         public let placement: ClusterInstancePlacement?
         /// The private DNS hostname of the SageMaker HyperPod cluster node.
@@ -6195,7 +6241,7 @@ extension SageMaker {
         public let threadsPerCore: Int?
 
         @inlinable
-        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, threadsPerCore: Int? = nil) {
+        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, overrideVpcConfig: VpcConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, threadsPerCore: Int? = nil) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
@@ -6203,6 +6249,7 @@ extension SageMaker {
             self.instanceType = instanceType
             self.launchTime = launchTime
             self.lifeCycleConfig = lifeCycleConfig
+            self.overrideVpcConfig = overrideVpcConfig
             self.placement = placement
             self.privateDnsHostname = privateDnsHostname
             self.privatePrimaryIp = privatePrimaryIp
@@ -6217,6 +6264,7 @@ extension SageMaker {
             case instanceType = "InstanceType"
             case launchTime = "LaunchTime"
             case lifeCycleConfig = "LifeCycleConfig"
+            case overrideVpcConfig = "OverrideVpcConfig"
             case placement = "Placement"
             case privateDnsHostname = "PrivateDnsHostname"
             case privatePrimaryIp = "PrivatePrimaryIp"
@@ -22452,7 +22500,9 @@ extension SageMaker {
     }
 
     public struct InferenceComponentSpecification: AWSEncodableShape {
-        /// The compute resources allocated to run the model assigned  to the inference component.
+        /// The name of an existing inference component that is to contain the inference component that you're creating with your request. Specify this parameter only if your request is meant to create an adapter inference component. An adapter inference component contains the path to an adapter model. The purpose of the adapter model is to tailor the inference output of a base foundation model, which is hosted by the base inference component. The adapter inference component uses the compute resources that you assigned to the base inference component. When you create an adapter inference component, use the Container parameter to specify the location of the adapter artifacts. In the parameter value, use the ArtifactUrl parameter of the InferenceComponentContainerSpecification data type. Before you can create an adapter inference component, you must have an existing inference component that contains the foundation model that you want to adapt.
+        public let baseInferenceComponentName: String?
+        /// The compute resources allocated to run the model, plus any  adapter models, that you assign to the inference component. Omit this parameter if your request is meant to create an adapter inference component. An adapter inference component is loaded by a base inference component, and it uses the compute resources of the base inference component.
         public let computeResourceRequirements: InferenceComponentComputeResourceRequirements?
         /// Defines a container that provides the runtime environment for a model that you deploy with an inference component.
         public let container: InferenceComponentContainerSpecification?
@@ -22462,7 +22512,8 @@ extension SageMaker {
         public let startupParameters: InferenceComponentStartupParameters?
 
         @inlinable
-        public init(computeResourceRequirements: InferenceComponentComputeResourceRequirements? = nil, container: InferenceComponentContainerSpecification? = nil, modelName: String? = nil, startupParameters: InferenceComponentStartupParameters? = nil) {
+        public init(baseInferenceComponentName: String? = nil, computeResourceRequirements: InferenceComponentComputeResourceRequirements? = nil, container: InferenceComponentContainerSpecification? = nil, modelName: String? = nil, startupParameters: InferenceComponentStartupParameters? = nil) {
+            self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
             self.modelName = modelName
@@ -22470,6 +22521,8 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.baseInferenceComponentName, name: "baseInferenceComponentName", parent: name, max: 63)
+            try self.validate(self.baseInferenceComponentName, name: "baseInferenceComponentName", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
             try self.computeResourceRequirements?.validate(name: "\(name).computeResourceRequirements")
             try self.container?.validate(name: "\(name).container")
             try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
@@ -22478,6 +22531,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case baseInferenceComponentName = "BaseInferenceComponentName"
             case computeResourceRequirements = "ComputeResourceRequirements"
             case container = "Container"
             case modelName = "ModelName"
@@ -22486,7 +22540,9 @@ extension SageMaker {
     }
 
     public struct InferenceComponentSpecificationSummary: AWSDecodableShape {
-        /// The compute resources allocated to run the model assigned  to the inference component.
+        /// The name of the base inference component that contains this inference component.
+        public let baseInferenceComponentName: String?
+        /// The compute resources allocated to run the model, plus any  adapter models, that you assign to the inference component.
         public let computeResourceRequirements: InferenceComponentComputeResourceRequirements?
         /// Details about the container that provides the runtime environment for the model that is deployed with the inference component.
         public let container: InferenceComponentContainerSpecificationSummary?
@@ -22496,7 +22552,8 @@ extension SageMaker {
         public let startupParameters: InferenceComponentStartupParameters?
 
         @inlinable
-        public init(computeResourceRequirements: InferenceComponentComputeResourceRequirements? = nil, container: InferenceComponentContainerSpecificationSummary? = nil, modelName: String? = nil, startupParameters: InferenceComponentStartupParameters? = nil) {
+        public init(baseInferenceComponentName: String? = nil, computeResourceRequirements: InferenceComponentComputeResourceRequirements? = nil, container: InferenceComponentContainerSpecificationSummary? = nil, modelName: String? = nil, startupParameters: InferenceComponentStartupParameters? = nil) {
+            self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
             self.modelName = modelName
@@ -22504,6 +22561,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case baseInferenceComponentName = "BaseInferenceComponentName"
             case computeResourceRequirements = "ComputeResourceRequirements"
             case container = "Container"
             case modelName = "ModelName"
@@ -30956,6 +31014,35 @@ extension SageMaker {
         }
     }
 
+    public struct ModelShardingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization.
+        public let image: String?
+        /// Environment variables that override the default ones in the model container.
+        public let overrideEnvironment: [String: String]?
+
+        @inlinable
+        public init(image: String? = nil, overrideEnvironment: [String: String]? = nil) {
+            self.image = image
+            self.overrideEnvironment = overrideEnvironment
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.image, name: "image", parent: name, max: 255)
+            try self.validate(self.image, name: "image", parent: name, pattern: "^[\\S]+$")
+            try self.overrideEnvironment?.forEach {
+                try validate($0.key, name: "overrideEnvironment.key", parent: name, max: 256)
+                try validate($0.key, name: "overrideEnvironment.key", parent: name, pattern: "^(?!\\s*$).+$")
+                try validate($0.value, name: "overrideEnvironment[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.overrideEnvironment, name: "overrideEnvironment", parent: name, max: 25)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case overrideEnvironment = "OverrideEnvironment"
+        }
+    }
+
     public struct ModelStepMetadata: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the created model.
         public let arn: String?
@@ -33781,7 +33868,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.maxInstanceCount, name: "maxInstanceCount", parent: name, min: 1)
-            try self.validate(self.minInstanceCount, name: "minInstanceCount", parent: name, min: 1)
+            try self.validate(self.minInstanceCount, name: "minInstanceCount", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -35423,7 +35510,7 @@ extension SageMaker {
             try self.validate(self.sageMakerImageVersionAlias, name: "sageMakerImageVersionAlias", parent: name, min: 1)
             try self.validate(self.sageMakerImageVersionAlias, name: "sageMakerImageVersionAlias", parent: name, pattern: "^(^\\d+$)|(^\\d+.\\d+$)|(^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$)$")
             try self.validate(self.sageMakerImageVersionArn, name: "sageMakerImageVersionArn", parent: name, max: 256)
-            try self.validate(self.sageMakerImageVersionArn, name: "sageMakerImageVersionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:image-version/[a-z0-9]([-.]?[a-z0-9])*/[0-9]+$")
+            try self.validate(self.sageMakerImageVersionArn, name: "sageMakerImageVersionArn", parent: name, pattern: "^(arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:image-version/[a-z0-9]([-.]?[a-z0-9])*/[0-9]+|None)$")
         }
 
         private enum CodingKeys: String, CodingKey {

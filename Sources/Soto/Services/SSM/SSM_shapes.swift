@@ -319,6 +319,14 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExecutionPreviewStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case pending = "Pending"
+        case success = "Success"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExternalAlarmState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alarm = "ALARM"
         case unknown = "UNKNOWN"
@@ -329,6 +337,13 @@ extension SSM {
         case client = "Client"
         case server = "Server"
         case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImpactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mutating = "Mutating"
+        case nonMutating = "NonMutating"
+        case undetermined = "Undetermined"
         public var description: String { return self.rawValue }
     }
 
@@ -438,6 +453,59 @@ extension SSM {
         case lambda = "LAMBDA"
         case runCommand = "RUN_COMMAND"
         case stepFunctions = "STEP_FUNCTIONS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManagedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "All"
+        case managed = "Managed"
+        case unmanaged = "Unmanaged"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeAggregatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case count = "Count"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agentVersion = "AgentVersion"
+        case platformName = "PlatformName"
+        case platformType = "PlatformType"
+        case platformVersion = "PlatformVersion"
+        case region = "Region"
+        case resourceType = "ResourceType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountId = "AccountId"
+        case agentType = "AgentType"
+        case agentVersion = "AgentVersion"
+        case computerName = "ComputerName"
+        case instanceId = "InstanceId"
+        case instanceStatus = "InstanceStatus"
+        case ipAddress = "IpAddress"
+        case managedStatus = "ManagedStatus"
+        case organizationalUnitId = "OrganizationalUnitId"
+        case organizationalUnitPath = "OrganizationalUnitPath"
+        case platformName = "PlatformName"
+        case platformType = "PlatformType"
+        case platformVersion = "PlatformVersion"
+        case region = "Region"
+        case resourceType = "ResourceType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeFilterOperatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case beginWith = "BeginWith"
+        case equal = "Equal"
+        case notEqual = "NotEqual"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeTypeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case instance = "Instance"
         public var description: String { return self.rawValue }
     }
 
@@ -1751,6 +1819,67 @@ extension SSM {
         }
     }
 
+    public struct AutomationExecutionInputs: AWSEncodableShape {
+        /// Information about parameters that can be specified for the preview operation.
+        public let parameters: [String: [String]]?
+        /// Information about the Amazon Web Services Regions and Amazon Web Services accounts targeted by the Automation execution preview operation.
+        public let targetLocations: [TargetLocation]?
+        /// A publicly accessible URL for a file that contains the TargetLocations body. Currently, only files in presigned Amazon S3 buckets are supported.
+        public let targetLocationsURL: String?
+        /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
+        public let targetMaps: [[String: [String]]]?
+        /// The name of the parameter used as the target resource for the rate-controlled execution. Required if you specify targets.
+        public let targetParameterName: String?
+        /// Information about the resources that would be included in the actual runbook execution, if it were to be run. Both Targets and TargetMaps can't be specified together.
+        public let targets: [Target]?
+
+        @inlinable
+        public init(parameters: [String: [String]]? = nil, targetLocations: [TargetLocation]? = nil, targetLocationsURL: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+            self.parameters = parameters
+            self.targetLocations = targetLocations
+            self.targetLocationsURL = targetLocationsURL
+            self.targetMaps = targetMaps
+            self.targetParameterName = targetParameterName
+            self.targets = targets
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 50)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 50)
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 200)
+            try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
+            try self.targetLocations?.forEach {
+                try $0.validate(name: "\(name).targetLocations[]")
+            }
+            try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
+            try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
+            try self.validate(self.targetLocationsURL, name: "targetLocationsURL", parent: name, pattern: "^https:\\/\\/[-a-zA-Z0-9@:%._\\+~#=]{1,253}\\.s3(\\.[a-z\\d-]{9,16})?\\.amazonaws\\.com\\/.{1,2000}$")
+            try self.targetMaps?.forEach {
+                try validate($0, name: "targetMaps[]", parent: name, max: 20)
+                try validate($0, name: "targetMaps[]", parent: name, min: 1)
+            }
+            try self.validate(self.targetMaps, name: "targetMaps", parent: name, max: 300)
+            try self.validate(self.targetParameterName, name: "targetParameterName", parent: name, max: 50)
+            try self.validate(self.targetParameterName, name: "targetParameterName", parent: name, min: 1)
+            try self.targets?.forEach {
+                try $0.validate(name: "\(name).targets[]")
+            }
+            try self.validate(self.targets, name: "targets", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case targetLocations = "TargetLocations"
+            case targetLocationsURL = "TargetLocationsURL"
+            case targetMaps = "TargetMaps"
+            case targetParameterName = "TargetParameterName"
+            case targets = "Targets"
+        }
+    }
+
     public struct AutomationExecutionMetadata: AWSDecodableShape {
         /// The details for the CloudWatch alarm applied to your automation.
         public let alarmConfiguration: AlarmConfiguration?
@@ -1882,6 +2011,32 @@ extension SSM {
             case targetParameterName = "TargetParameterName"
             case targets = "Targets"
             case triggeredAlarms = "TriggeredAlarms"
+        }
+    }
+
+    public struct AutomationExecutionPreview: AWSDecodableShape {
+        /// Information about the Amazon Web Services Regions targeted by the execution preview.
+        public let regions: [String]?
+        /// Information about the type of impact a runbook step would have on a resource.    Mutating: The runbook step would make changes to the targets through actions that create, modify, or delete resources.    Non_Mutating: The runbook step would retrieve data about resources but not make changes to them. This category generally includes Describe*, List*, Get*, and similar read-only API actions.    Undetermined: An undetermined step invokes executions performed by another orchestration service like Lambda, Step Functions, or Amazon Web Services Systems Manager Run Command. An undetermined step might also call a third-party API. Systems Manager Automation doesn't know the outcome of the orchestration processes or third-party API executions, so the results of the steps are undetermined.
+        public let stepPreviews: [ImpactType: Int]?
+        /// Information that provides a preview of what the impact of running the specified Automation runbook would be.
+        public let targetPreviews: [TargetPreview]?
+        /// Information about the Amazon Web Services accounts that were included in the execution preview.
+        public let totalAccounts: Int?
+
+        @inlinable
+        public init(regions: [String]? = nil, stepPreviews: [ImpactType: Int]? = nil, targetPreviews: [TargetPreview]? = nil, totalAccounts: Int? = nil) {
+            self.regions = regions
+            self.stepPreviews = stepPreviews
+            self.targetPreviews = targetPreviews
+            self.totalAccounts = totalAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regions = "Regions"
+            case stepPreviews = "StepPreviews"
+            case targetPreviews = "TargetPreviews"
+            case totalAccounts = "TotalAccounts"
         }
     }
 
@@ -3241,7 +3396,7 @@ extension SSM {
         public let clientToken: String?
         /// A description of the patch baseline.
         public let description: String?
-        /// A set of global filters used to include patches in the baseline.
+        /// A set of global filters used to include patches in the baseline.  The GlobalFilters parameter can be configured only by using the CLI or an Amazon Web Services SDK. It can't be configured from the Patch Manager console, and its value isn't displayed in the console.
         public let globalFilters: PatchFilterGroup?
         /// The name of the patch baseline.
         public let name: String
@@ -6659,6 +6814,55 @@ extension SSM {
         }
     }
 
+    public struct GetExecutionPreviewRequest: AWSEncodableShape {
+        /// The ID of the existing execution preview.
+        public let executionPreviewId: String
+
+        @inlinable
+        public init(executionPreviewId: String) {
+            self.executionPreviewId = executionPreviewId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionPreviewId, name: "executionPreviewId", parent: name, max: 36)
+            try self.validate(self.executionPreviewId, name: "executionPreviewId", parent: name, min: 36)
+            try self.validate(self.executionPreviewId, name: "executionPreviewId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionPreviewId = "ExecutionPreviewId"
+        }
+    }
+
+    public struct GetExecutionPreviewResponse: AWSDecodableShape {
+        /// A UTC timestamp indicating when the execution preview operation ended.
+        public let endedAt: Date?
+        public let executionPreview: ExecutionPreview?
+        /// The generated ID for the existing execution preview.
+        public let executionPreviewId: String?
+        /// The current status of the execution preview operation.
+        public let status: ExecutionPreviewStatus?
+        /// Supplemental information about the current status of the execution preview.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(endedAt: Date? = nil, executionPreview: ExecutionPreview? = nil, executionPreviewId: String? = nil, status: ExecutionPreviewStatus? = nil, statusMessage: String? = nil) {
+            self.endedAt = endedAt
+            self.executionPreview = executionPreview
+            self.executionPreviewId = executionPreviewId
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endedAt = "EndedAt"
+            case executionPreview = "ExecutionPreview"
+            case executionPreviewId = "ExecutionPreviewId"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct GetInventoryRequest: AWSEncodableShape {
         /// Returns counts of inventory types based on one or more expressions. For example, if you aggregate by using an expression that uses the AWS:InstanceInformation.PlatformType type, you can see a count of how many Windows and Linux managed nodes exist in your inventoried fleet.
         public let aggregators: [InventoryAggregator]?
@@ -7780,7 +7984,7 @@ extension SSM {
     }
 
     public struct GetServiceSettingRequest: AWSEncodableShape {
-        /// The ID of the service setting to get. The setting ID can be one of the following.    /ssm/managed-instance/default-ec2-instance-management-role     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled
+        /// The ID of the service setting to get. The setting ID can be one of the following.    /ssm/appmanager/appmanager-enabled     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name    /ssm/automation/enable-adaptive-concurrency    /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/managed-instance/default-ec2-instance-management-role     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled
         public let settingId: String
 
         @inlinable
@@ -7943,6 +8147,56 @@ extension SSM {
             case name = "Name"
             case outputUrl = "OutputUrl"
             case status = "Status"
+        }
+    }
+
+    public struct InstanceInfo: AWSDecodableShape {
+        /// The type of agent installed on the node.
+        public let agentType: String?
+        /// The version number of the agent installed on the node.
+        public let agentVersion: String?
+        /// The fully qualified host name of the managed node.
+        public let computerName: String?
+        /// The current status of the managed node.
+        public let instanceStatus: String?
+        /// The IP address of the managed node.
+        public let ipAddress: String?
+        /// Indicates whether the node is managed by Systems Manager.
+        public let managedStatus: ManagedStatus?
+        /// The name of the operating system platform running on your managed node.
+        public let platformName: String?
+        /// The operating system platform type of the managed node.
+        public let platformType: PlatformType?
+        /// The version of the OS platform running on your managed node.
+        public let platformVersion: String?
+        /// The type of instance, either an EC2 instance or another supported machine type in a hybrid fleet.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(agentType: String? = nil, agentVersion: String? = nil, computerName: String? = nil, instanceStatus: String? = nil, ipAddress: String? = nil, managedStatus: ManagedStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, resourceType: ResourceType? = nil) {
+            self.agentType = agentType
+            self.agentVersion = agentVersion
+            self.computerName = computerName
+            self.instanceStatus = instanceStatus
+            self.ipAddress = ipAddress
+            self.managedStatus = managedStatus
+            self.platformName = platformName
+            self.platformType = platformType
+            self.platformVersion = platformVersion
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentType = "AgentType"
+            case agentVersion = "AgentVersion"
+            case computerName = "ComputerName"
+            case instanceStatus = "InstanceStatus"
+            case ipAddress = "IpAddress"
+            case managedStatus = "ManagedStatus"
+            case platformName = "PlatformName"
+            case platformType = "PlatformType"
+            case platformVersion = "PlatformVersion"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -8260,7 +8514,7 @@ extension SSM {
         public let pingStatus: PingStatus?
         /// The name of the operating system platform running on your managed node.
         public let platformName: String?
-        /// The operating system platform type of the managed node. For example, Windows.
+        /// The operating system platform type of the managed node. For example, Windows Server or Amazon Linux 2.
         public let platformType: PlatformType?
         /// The version of the OS platform running on your managed node.
         public let platformVersion: String?
@@ -9351,6 +9605,127 @@ extension SSM {
         }
     }
 
+    public struct ListNodesRequest: AWSEncodableShape {
+        /// One or more filters. Use a filter to return a more specific list of managed nodes.
+        public let filters: [NodeFilter]?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configurations. Optional for single account/single-Region configurations.
+        public let syncName: String?
+
+        @inlinable
+        public init(filters: [NodeFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, syncName: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.syncName = syncName
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 5)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.syncName, name: "syncName", parent: name, max: 64)
+            try self.validate(self.syncName, name: "syncName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case syncName = "SyncName"
+        }
+    }
+
+    public struct ListNodesResult: AWSDecodableShape {
+        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        public let nextToken: String?
+        /// A list of managed nodes that match the specified filter criteria.
+        public let nodes: [Node]?
+
+        @inlinable
+        public init(nextToken: String? = nil, nodes: [Node]? = nil) {
+            self.nextToken = nextToken
+            self.nodes = nodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case nodes = "Nodes"
+        }
+    }
+
+    public struct ListNodesSummaryRequest: AWSEncodableShape {
+        /// Specify one or more aggregators to return a count of managed nodes that match that expression. For example, a count of managed nodes by operating system.
+        public let aggregators: [NodeAggregator]
+        /// One or more filters. Use a filter to generate a summary that matches your specified filter criteria.
+        public let filters: [NodeFilter]?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// The token for the next set of items to return. (You received this token from a previous call.) The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let nextToken: String?
+        /// The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configuration. Optional for single account/single-Region configurations.
+        public let syncName: String?
+
+        @inlinable
+        public init(aggregators: [NodeAggregator], filters: [NodeFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, syncName: String? = nil) {
+            self.aggregators = aggregators
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.syncName = syncName
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregators.forEach {
+                try $0.validate(name: "\(name).aggregators[]")
+            }
+            try self.validate(self.aggregators, name: "aggregators", parent: name, max: 2)
+            try self.validate(self.aggregators, name: "aggregators", parent: name, min: 1)
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 5)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.syncName, name: "syncName", parent: name, max: 64)
+            try self.validate(self.syncName, name: "syncName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregators = "Aggregators"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case syncName = "SyncName"
+        }
+    }
+
+    public struct ListNodesSummaryResult: AWSDecodableShape {
+        /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+        public let nextToken: String?
+        /// A collection of objects reporting information about your managed nodes, such as the count of nodes by operating system.
+        public let summary: [[String: String]]?
+
+        @inlinable
+        public init(nextToken: String? = nil, summary: [[String: String]]? = nil) {
+            self.nextToken = nextToken
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case summary = "Summary"
+        }
+    }
+
     public struct ListOpsItemEventsRequest: AWSEncodableShape {
         /// One or more OpsItem filters. Use a filter to return a more specific list of results.
         public let filters: [OpsItemEventFilter]?
@@ -10277,6 +10652,123 @@ extension SSM {
         public init() {}
     }
 
+    public struct Node: AWSDecodableShape {
+        /// The UTC timestamp for when the managed node data was last captured.
+        public let captureTime: Date?
+        /// The ID of the managed node.
+        public let id: String?
+        /// Information about the type of node.
+        public let nodeType: NodeType?
+        /// Information about the ownership of the managed node.
+        public let owner: NodeOwnerInfo?
+        /// The Amazon Web Services Region that a managed node was created in or assigned to.
+        public let region: String?
+
+        @inlinable
+        public init(captureTime: Date? = nil, id: String? = nil, nodeType: NodeType? = nil, owner: NodeOwnerInfo? = nil, region: String? = nil) {
+            self.captureTime = captureTime
+            self.id = id
+            self.nodeType = nodeType
+            self.owner = owner
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captureTime = "CaptureTime"
+            case id = "Id"
+            case nodeType = "NodeType"
+            case owner = "Owner"
+            case region = "Region"
+        }
+    }
+
+    public struct NodeAggregator: AWSEncodableShape {
+        /// Information about aggregators used to refine a node summary.
+        public let aggregators: [NodeAggregator]?
+        /// The aggregator type for limiting a node summary. Currently, only Count is supported.
+        public let aggregatorType: NodeAggregatorType
+        /// The name of a node attribute on which to limit the count of nodes.
+        public let attributeName: NodeAttributeName
+        /// The data type name to use for viewing counts of nodes. Currently, only Instance is supported.
+        public let typeName: NodeTypeName
+
+        @inlinable
+        public init(aggregators: [NodeAggregator]? = nil, aggregatorType: NodeAggregatorType, attributeName: NodeAttributeName, typeName: NodeTypeName) {
+            self.aggregators = aggregators
+            self.aggregatorType = aggregatorType
+            self.attributeName = attributeName
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregators?.forEach {
+                try $0.validate(name: "\(name).aggregators[]")
+            }
+            try self.validate(self.aggregators, name: "aggregators", parent: name, max: 2)
+            try self.validate(self.aggregators, name: "aggregators", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregators = "Aggregators"
+            case aggregatorType = "AggregatorType"
+            case attributeName = "AttributeName"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct NodeFilter: AWSEncodableShape {
+        /// The name of the filter.
+        public let key: NodeFilterKey
+        /// The type of filter operator.
+        public let type: NodeFilterOperatorType?
+        /// A filter value supported by the specified key. For example, for the key PlatformType, supported values include Linux and Windows.
+        public let values: [String]
+
+        @inlinable
+        public init(key: NodeFilterKey, type: NodeFilterOperatorType? = nil, values: [String]) {
+            self.key = key
+            self.type = type
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 512)
+                try validate($0, name: "values[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 5)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case type = "Type"
+            case values = "Values"
+        }
+    }
+
+    public struct NodeOwnerInfo: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account that owns the managed node.
+        public let accountId: String?
+        /// The ID of the organization unit (OU) that the account is part of.
+        public let organizationalUnitId: String?
+        /// The path for the organizational unit (OU) that owns the managed node. The path for the OU is built using the IDs of the organization, root, and all OUs in the path down to and including the OU. For example:  o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-ghi0-awsccccc/ou-jkl0-awsddddd/
+        public let organizationalUnitPath: String?
+
+        @inlinable
+        public init(accountId: String? = nil, organizationalUnitId: String? = nil, organizationalUnitPath: String? = nil) {
+            self.accountId = accountId
+            self.organizationalUnitId = organizationalUnitId
+            self.organizationalUnitPath = organizationalUnitPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case organizationalUnitId = "OrganizationalUnitId"
+            case organizationalUnitPath = "OrganizationalUnitPath"
+        }
+    }
+
     public struct NonCompliantSummary: AWSDecodableShape {
         /// The total number of compliance items that aren't compliant.
         public let nonCompliantCount: Int?
@@ -11059,7 +11551,7 @@ extension SSM {
     public struct ParameterMetadata: AWSDecodableShape {
         /// A parameter name can include only the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
-        /// The (ARN) of the last user to update the parameter.
+        /// The Amazon Resource Name (ARN) of the parameter.
         public let arn: String?
         /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
         public let dataType: String?
@@ -12201,7 +12693,7 @@ extension SSM {
     }
 
     public struct ResetServiceSettingRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following.    /ssm/managed-instance/default-ec2-instance-management-role     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled
+        /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following.    /ssm/appmanager/appmanager-enabled     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name    /ssm/automation/enable-adaptive-concurrency    /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/managed-instance/default-ec2-instance-management-role     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled
         public let settingId: String
 
         @inlinable
@@ -13334,6 +13826,48 @@ extension SSM {
         }
     }
 
+    public struct StartExecutionPreviewRequest: AWSEncodableShape {
+        /// The name of the Automation runbook to run. The result of the execution preview indicates what the impact would be of running this runbook.
+        public let documentName: String
+        /// The version of the Automation runbook to run. The default value is $DEFAULT.
+        public let documentVersion: String?
+        /// Information about the inputs that can be specified for the preview operation.
+        public let executionInputs: ExecutionInputs?
+
+        @inlinable
+        public init(documentName: String, documentVersion: String? = nil, executionInputs: ExecutionInputs? = nil) {
+            self.documentName = documentName
+            self.documentVersion = documentVersion
+            self.executionInputs = executionInputs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "^([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)$")
+            try self.executionInputs?.validate(name: "\(name).executionInputs")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentName = "DocumentName"
+            case documentVersion = "DocumentVersion"
+            case executionInputs = "ExecutionInputs"
+        }
+    }
+
+    public struct StartExecutionPreviewResponse: AWSDecodableShape {
+        /// The ID of the execution preview generated by the system.
+        public let executionPreviewId: String?
+
+        @inlinable
+        public init(executionPreviewId: String? = nil) {
+            self.executionPreviewId = executionPreviewId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionPreviewId = "ExecutionPreviewId"
+        }
+    }
+
     public struct StartSessionRequest: AWSEncodableShape {
         /// The name of the SSM document you want to use to define the type of session, input parameters, or preferences for the session. For example, SSM-SessionManagerRunShell. You can call the GetDocument API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the managed node is launched by default. For more information, see Start a session in the Amazon Web Services Systems Manager User Guide.
         public let documentName: String?
@@ -13692,6 +14226,24 @@ extension SSM {
             case targets = "Targets"
             case targetsMaxConcurrency = "TargetsMaxConcurrency"
             case targetsMaxErrors = "TargetsMaxErrors"
+        }
+    }
+
+    public struct TargetPreview: AWSDecodableShape {
+        /// The number of resources of a certain type included in an execution preview.
+        public let count: Int?
+        /// A type of resource that was included in the execution preview.
+        public let targetType: String?
+
+        @inlinable
+        public init(count: Int? = nil, targetType: String? = nil) {
+            self.count = count
+            self.targetType = targetType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case targetType = "TargetType"
         }
     }
 
@@ -14720,7 +15272,7 @@ extension SSM {
         public let baselineId: String
         /// A description of the patch baseline.
         public let description: String?
-        /// A set of global filters used to include patches in the baseline.
+        /// A set of global filters used to include patches in the baseline.  The GlobalFilters parameter can be configured only by using the CLI or an Amazon Web Services SDK. It can't be configured from the Patch Manager console, and its value isn't displayed in the console.
         public let globalFilters: PatchFilterGroup?
         /// The name of the patch baseline.
         public let name: String?
@@ -14893,9 +15445,9 @@ extension SSM {
     }
 
     public struct UpdateServiceSettingRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the service setting to update. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/managed-instance/default-ec2-instance-management-role     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     Permissions to update the /ssm/managed-instance/default-ec2-instance-management-role setting should only be provided to administrators. Implement least privilege access when allowing individuals to configure or modify the Default Host Management Configuration.
+        /// The Amazon Resource Name (ARN) of the service setting to update. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/appmanager/appmanager-enabled     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name    /ssm/automation/enable-adaptive-concurrency    /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/managed-instance/default-ec2-instance-management-role     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     Permissions to update the /ssm/managed-instance/default-ec2-instance-management-role setting should only be provided to administrators. Implement least privilege access when allowing individuals to configure or modify the Default Host Management Configuration.
         public let settingId: String
-        /// The new value to specify for the service setting. The following list specifies the available values for each setting.   For /ssm/managed-instance/default-ec2-instance-management-role, enter the name of an IAM role.    For /ssm/automation/customer-script-log-destination, enter CloudWatch.   For /ssm/automation/customer-script-log-group-name, enter the name of an Amazon CloudWatch Logs log group.   For /ssm/documents/console/public-sharing-permission, enter Enable or Disable.   For /ssm/managed-instance/activation-tier, enter standard or advanced.   For /ssm/opsinsights/opscenter, enter Enabled or Disabled.    For /ssm/parameter-store/default-parameter-tier, enter Standard, Advanced, or Intelligent-Tiering    For /ssm/parameter-store/high-throughput-enabled, enter true or false.
+        /// The new value to specify for the service setting. The following list specifies the available values for each setting.   For /ssm/appmanager/appmanager-enabled, enter True or False.   For /ssm/automation/customer-script-log-destination, enter CloudWatch.   For /ssm/automation/customer-script-log-group-name, enter the name of an Amazon CloudWatch Logs log group.   For /ssm/documents/console/public-sharing-permission, enter Enable or Disable.   For /ssm/managed-instance/activation-tier, enter standard or advanced.   For /ssm/managed-instance/default-ec2-instance-management-role, enter the name of an IAM role.    For /ssm/opsinsights/opscenter, enter Enabled or Disabled.    For /ssm/parameter-store/default-parameter-tier, enter Standard, Advanced, or Intelligent-Tiering    For /ssm/parameter-store/high-throughput-enabled, enter true or false.
         public let settingValue: String
 
         @inlinable
@@ -14919,6 +15471,52 @@ extension SSM {
 
     public struct UpdateServiceSettingResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ExecutionInputs: AWSEncodableShape {
+        /// Information about the optional inputs that can be specified for an automation execution preview.
+        public let automation: AutomationExecutionInputs?
+
+        @inlinable
+        public init(automation: AutomationExecutionInputs? = nil) {
+            self.automation = automation
+        }
+
+        public func validate(name: String) throws {
+            try self.automation?.validate(name: "\(name).automation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automation = "Automation"
+        }
+    }
+
+    public struct ExecutionPreview: AWSDecodableShape {
+        /// Information about the changes that would be made if an Automation workflow were run.
+        public let automation: AutomationExecutionPreview?
+
+        @inlinable
+        public init(automation: AutomationExecutionPreview? = nil) {
+            self.automation = automation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automation = "Automation"
+        }
+    }
+
+    public struct NodeType: AWSDecodableShape {
+        /// Information about a specific managed node.
+        public let instance: InstanceInfo?
+
+        @inlinable
+        public init(instance: InstanceInfo? = nil) {
+            self.instance = instance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instance = "Instance"
+        }
     }
 }
 
@@ -15058,8 +15656,10 @@ public struct SSMErrorType: AWSErrorType {
         case unsupportedInventoryItemContextException = "UnsupportedInventoryItemContextException"
         case unsupportedInventorySchemaVersionException = "UnsupportedInventorySchemaVersionException"
         case unsupportedOperatingSystem = "UnsupportedOperatingSystem"
+        case unsupportedOperationException = "UnsupportedOperationException"
         case unsupportedParameterType = "UnsupportedParameterType"
         case unsupportedPlatformType = "UnsupportedPlatformType"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -15140,9 +15740,9 @@ public struct SSMErrorType: AWSErrorType {
     public static var internalServerError: Self { .init(.internalServerError) }
     /// The activation isn't valid. The activation might have been deleted, or the ActivationId and the ActivationCode don't match.
     public static var invalidActivation: Self { .init(.invalidActivation) }
-    /// The activation ID isn't valid. Verify the you entered the correct ActivationId or ActivationCode and try again.
+    /// The activation ID isn't valid. Verify that you entered the correct ActivationId or ActivationCode and try again.
     public static var invalidActivationId: Self { .init(.invalidActivationId) }
-    /// The specified aggregator isn't valid for inventory groups. Verify that the aggregator uses a valid inventory type such as AWS:Application or AWS:InstanceInformation.
+    /// The specified aggregator isn't valid for the group type. Verify that the aggregator you provided is supported.
     public static var invalidAggregatorException: Self { .init(.invalidAggregatorException) }
     /// The request doesn't meet the regular expression requirement.
     public static var invalidAllowedPatternException: Self { .init(.invalidAllowedPatternException) }
@@ -15174,7 +15774,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var invalidDocumentType: Self { .init(.invalidDocumentType) }
     /// The document version isn't valid or doesn't exist.
     public static var invalidDocumentVersion: Self { .init(.invalidDocumentVersion) }
-    /// The filter name isn't valid. Verify the you entered the correct name and try again.
+    /// The filter name isn't valid. Verify that you entered the correct name and try again.
     public static var invalidFilter: Self { .init(.invalidFilter) }
     /// The specified key isn't valid.
     public static var invalidFilterKey: Self { .init(.invalidFilterKey) }
@@ -15342,10 +15942,14 @@ public struct SSMErrorType: AWSErrorType {
     public static var unsupportedInventorySchemaVersionException: Self { .init(.unsupportedInventorySchemaVersionException) }
     /// The operating systems you specified isn't supported, or the operation isn't supported for the operating system.
     public static var unsupportedOperatingSystem: Self { .init(.unsupportedOperatingSystem) }
+    /// This operation is not supported for the current account. You must first enable the Systems Manager integrated experience in your account.
+    public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
     /// The parameter type isn't supported.
     public static var unsupportedParameterType: Self { .init(.unsupportedParameterType) }
     /// The document doesn't support the platform type of the given managed node IDs. For example, you sent an document for a Windows managed node to a Linux node.
     public static var unsupportedPlatformType: Self { .init(.unsupportedPlatformType) }
+    /// The request isn't valid. Verify that you entered valid contents for the command and try again.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension SSMErrorType: Equatable {

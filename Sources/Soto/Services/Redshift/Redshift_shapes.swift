@@ -78,6 +78,11 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataShareType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `internal` = "INTERNAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DescribeIntegrationsFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case integrationArn = "integration-arn"
         case sourceArn = "source-arn"
@@ -102,6 +107,12 @@ extension Redshift {
     public enum Mode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case highPerformance = "high-performance"
         case standard = "standard"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NamespaceRegistrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deregistering = "Deregistering"
+        case registering = "Registering"
         public var description: String { return self.rawValue }
     }
 
@@ -265,6 +276,37 @@ extension Redshift {
         case needsAttention = "needs_attention"
         case syncing = "syncing"
         public var description: String { return self.rawValue }
+    }
+
+    public enum NamespaceIdentifierUnion: AWSEncodableShape, Sendable {
+        /// The identifier for a provisioned cluster.
+        case provisionedIdentifier(ProvisionedIdentifier)
+        /// The identifier for a serverless namespace.
+        case serverlessIdentifier(ServerlessIdentifier)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .provisionedIdentifier(let value):
+                try container.encode(value, forKey: .provisionedIdentifier)
+            case .serverlessIdentifier(let value):
+                try container.encode(value, forKey: .serverlessIdentifier)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .provisionedIdentifier(let value):
+                try value.validate(name: "\(name).provisionedIdentifier")
+            case .serverlessIdentifier(let value):
+                try value.validate(name: "\(name).serverlessIdentifier")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedIdentifier = "ProvisionedIdentifier"
+            case serverlessIdentifier = "ServerlessIdentifier"
+        }
     }
 
     public enum ServiceIntegrationsUnion: AWSEncodableShape & AWSDecodableShape, Sendable {
@@ -2835,16 +2877,19 @@ extension Redshift {
         /// A value that specifies when the datashare has an association between producer and data consumers.
         @OptionalCustomCoding<StandardArrayCoder<DataShareAssociation>>
         public var dataShareAssociations: [DataShareAssociation]?
+        ///  The type of the datashare created by RegisterNamespace.
+        public let dataShareType: DataShareType?
         /// The identifier of a datashare to show its managing entity.
         public let managedBy: String?
         /// The Amazon Resource Name (ARN) of the producer namespace.
         public let producerArn: String?
 
         @inlinable
-        public init(allowPubliclyAccessibleConsumers: Bool? = nil, dataShareArn: String? = nil, dataShareAssociations: [DataShareAssociation]? = nil, managedBy: String? = nil, producerArn: String? = nil) {
+        public init(allowPubliclyAccessibleConsumers: Bool? = nil, dataShareArn: String? = nil, dataShareAssociations: [DataShareAssociation]? = nil, dataShareType: DataShareType? = nil, managedBy: String? = nil, producerArn: String? = nil) {
             self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
             self.dataShareArn = dataShareArn
             self.dataShareAssociations = dataShareAssociations
+            self.dataShareType = dataShareType
             self.managedBy = managedBy
             self.producerArn = producerArn
         }
@@ -2853,6 +2898,7 @@ extension Redshift {
             case allowPubliclyAccessibleConsumers = "AllowPubliclyAccessibleConsumers"
             case dataShareArn = "DataShareArn"
             case dataShareAssociations = "DataShareAssociations"
+            case dataShareType = "DataShareType"
             case managedBy = "ManagedBy"
             case producerArn = "ProducerArn"
         }
@@ -3417,6 +3463,48 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case usageLimitId = "UsageLimitId"
+        }
+    }
+
+    public struct DeregisterNamespaceInputMessage: AWSEncodableShape {
+        /// An array containing the ID of the consumer account  that you want to deregister the cluster or serverless namespace from.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var consumerIdentifiers: [String]?
+        /// The unique identifier of the cluster or  serverless namespace that you want to deregister.
+        public let namespaceIdentifier: NamespaceIdentifierUnion?
+
+        @inlinable
+        public init(consumerIdentifiers: [String]? = nil, namespaceIdentifier: NamespaceIdentifierUnion? = nil) {
+            self.consumerIdentifiers = consumerIdentifiers
+            self.namespaceIdentifier = namespaceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.consumerIdentifiers?.forEach {
+                try validate($0, name: "consumerIdentifiers[]", parent: name, max: 2147483647)
+            }
+            try self.validate(self.consumerIdentifiers, name: "consumerIdentifiers", parent: name, max: 1)
+            try self.validate(self.consumerIdentifiers, name: "consumerIdentifiers", parent: name, min: 1)
+            try self.namespaceIdentifier?.validate(name: "\(name).namespaceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumerIdentifiers = "ConsumerIdentifiers"
+            case namespaceIdentifier = "NamespaceIdentifier"
+        }
+    }
+
+    public struct DeregisterNamespaceOutputMessage: AWSDecodableShape {
+        /// The registration status of the cluster or  serverless namespace.
+        public let status: NamespaceRegistrationStatus?
+
+        @inlinable
+        public init(status: NamespaceRegistrationStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
@@ -7711,6 +7799,24 @@ extension Redshift {
         }
     }
 
+    public struct ProvisionedIdentifier: AWSEncodableShape {
+        /// The unique identifier for the provisioned cluster.
+        public let clusterIdentifier: String?
+
+        @inlinable
+        public init(clusterIdentifier: String? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2147483647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+        }
+    }
+
     public struct PurchaseReservedNodeOfferingMessage: AWSEncodableShape {
         /// The number of reserved nodes that you want to purchase. Default: 1
         public let nodeCount: Int?
@@ -8002,6 +8108,48 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case link = "Link"
             case text = "Text"
+        }
+    }
+
+    public struct RegisterNamespaceInputMessage: AWSEncodableShape {
+        /// An array containing the ID of the consumer account  that you want to register the namespace to.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var consumerIdentifiers: [String]?
+        /// The unique identifier of the cluster or  serverless namespace that you want to register.
+        public let namespaceIdentifier: NamespaceIdentifierUnion?
+
+        @inlinable
+        public init(consumerIdentifiers: [String]? = nil, namespaceIdentifier: NamespaceIdentifierUnion? = nil) {
+            self.consumerIdentifiers = consumerIdentifiers
+            self.namespaceIdentifier = namespaceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.consumerIdentifiers?.forEach {
+                try validate($0, name: "consumerIdentifiers[]", parent: name, max: 2147483647)
+            }
+            try self.validate(self.consumerIdentifiers, name: "consumerIdentifiers", parent: name, max: 1)
+            try self.validate(self.consumerIdentifiers, name: "consumerIdentifiers", parent: name, min: 1)
+            try self.namespaceIdentifier?.validate(name: "\(name).namespaceIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumerIdentifiers = "ConsumerIdentifiers"
+            case namespaceIdentifier = "NamespaceIdentifier"
+        }
+    }
+
+    public struct RegisterNamespaceOutputMessage: AWSDecodableShape {
+        /// The registration status of the cluster or  serverless namespace.
+        public let status: NamespaceRegistrationStatus?
+
+        @inlinable
+        public init(status: NamespaceRegistrationStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
@@ -9120,6 +9268,29 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case clusterNodes = "ClusterNodes"
+        }
+    }
+
+    public struct ServerlessIdentifier: AWSEncodableShape {
+        /// The unique identifier for the serverless namespace.
+        public let namespaceIdentifier: String?
+        /// The unique identifier for the workgroup  associated with the serverless namespace.
+        public let workgroupIdentifier: String?
+
+        @inlinable
+        public init(namespaceIdentifier: String? = nil, workgroupIdentifier: String? = nil) {
+            self.namespaceIdentifier = namespaceIdentifier
+            self.workgroupIdentifier = workgroupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespaceIdentifier, name: "namespaceIdentifier", parent: name, max: 2147483647)
+            try self.validate(self.workgroupIdentifier, name: "workgroupIdentifier", parent: name, max: 2147483647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespaceIdentifier = "NamespaceIdentifier"
+            case workgroupIdentifier = "WorkgroupIdentifier"
         }
     }
 

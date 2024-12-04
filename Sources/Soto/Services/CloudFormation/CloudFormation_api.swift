@@ -1939,6 +1939,41 @@ public struct CloudFormation: AWSService {
         return try await self.listGeneratedTemplates(input, logger: logger)
     }
 
+    /// Returns summaries of invoked Hooks when a change set or Cloud Control API operation target is provided.
+    @Sendable
+    @inlinable
+    public func listHookResults(_ input: ListHookResultsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHookResultsOutput {
+        try await self.client.execute(
+            operation: "ListHookResults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns summaries of invoked Hooks when a change set or Cloud Control API operation target is provided.
+    ///
+    /// Parameters:
+    ///   - nextToken: A string that identifies the next page of events that you want to retrieve.
+    ///   - targetId: The logical ID of the target the operation is acting on by the Hook. If the target is a change set,  it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HookRequestToken returned by the Cloud Control API  operation request. For more information on the HookRequestToken, see ProgressEvent.
+    ///   - targetType: The type of operation being targeted by the Hook.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listHookResults(
+        nextToken: String? = nil,
+        targetId: String? = nil,
+        targetType: ListHookResultsTargetType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListHookResultsOutput {
+        let input = ListHookResultsInput(
+            nextToken: nextToken, 
+            targetId: targetId, 
+            targetType: targetType
+        )
+        return try await self.listHookResults(input, logger: logger)
+    }
+
     /// Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see ListExports. For more information about importing an exported output value, see the Fn::ImportValue function.
     @Sendable
     @inlinable

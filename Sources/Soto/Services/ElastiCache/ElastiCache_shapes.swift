@@ -4470,6 +4470,8 @@ extension ElastiCache {
     }
 
     public struct ModifyUserGroupMessage: AWSEncodableShape {
+        /// The engine for a user group.
+        public let engine: String?
         /// The ID of the user group.
         public let userGroupId: String?
         /// The list of user IDs to add to the user group.
@@ -4480,13 +4482,15 @@ extension ElastiCache {
         public var userIdsToRemove: [String]?
 
         @inlinable
-        public init(userGroupId: String? = nil, userIdsToAdd: [String]? = nil, userIdsToRemove: [String]? = nil) {
+        public init(engine: String? = nil, userGroupId: String? = nil, userIdsToAdd: [String]? = nil, userIdsToRemove: [String]? = nil) {
+            self.engine = engine
             self.userGroupId = userGroupId
             self.userIdsToAdd = userIdsToAdd
             self.userIdsToRemove = userIdsToRemove
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.engine, name: "engine", parent: name, pattern: "^[a-zA-Z]*$")
             try self.userIdsToAdd?.forEach {
                 try validate($0, name: "userIdsToAdd[]", parent: name, min: 1)
                 try validate($0, name: "userIdsToAdd[]", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9\\-]*$")
@@ -4500,6 +4504,7 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case engine = "Engine"
             case userGroupId = "UserGroupId"
             case userIdsToAdd = "UserIdsToAdd"
             case userIdsToRemove = "UserIdsToRemove"
@@ -4513,6 +4518,8 @@ extension ElastiCache {
         public let appendAccessString: String?
         /// Specifies how to authenticate the user.
         public let authenticationMode: AuthenticationMode?
+        /// The engine for a specific user.
+        public let engine: String?
         /// Indicates no password is required for the user.
         public let noPasswordRequired: Bool?
         /// The passwords belonging to the user. You are allowed up to two.
@@ -4522,10 +4529,11 @@ extension ElastiCache {
         public let userId: String?
 
         @inlinable
-        public init(accessString: String? = nil, appendAccessString: String? = nil, authenticationMode: AuthenticationMode? = nil, noPasswordRequired: Bool? = nil, passwords: [String]? = nil, userId: String? = nil) {
+        public init(accessString: String? = nil, appendAccessString: String? = nil, authenticationMode: AuthenticationMode? = nil, engine: String? = nil, noPasswordRequired: Bool? = nil, passwords: [String]? = nil, userId: String? = nil) {
             self.accessString = accessString
             self.appendAccessString = appendAccessString
             self.authenticationMode = authenticationMode
+            self.engine = engine
             self.noPasswordRequired = noPasswordRequired
             self.passwords = passwords
             self.userId = userId
@@ -4535,6 +4543,7 @@ extension ElastiCache {
             try self.validate(self.accessString, name: "accessString", parent: name, pattern: "\\S")
             try self.validate(self.appendAccessString, name: "appendAccessString", parent: name, pattern: "\\S")
             try self.authenticationMode?.validate(name: "\(name).authenticationMode")
+            try self.validate(self.engine, name: "engine", parent: name, pattern: "^[a-zA-Z]*$")
             try self.validate(self.passwords, name: "passwords", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9\\-]*$")
@@ -4544,6 +4553,7 @@ extension ElastiCache {
             case accessString = "AccessString"
             case appendAccessString = "AppendAccessString"
             case authenticationMode = "AuthenticationMode"
+            case engine = "Engine"
             case noPasswordRequired = "NoPasswordRequired"
             case passwords = "Passwords"
             case userId = "UserId"

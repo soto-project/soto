@@ -37,6 +37,14 @@ extension Keyspaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum KeyspaceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -632,6 +640,8 @@ extension Keyspaces {
     public struct GetKeyspaceResponse: AWSDecodableShape {
         /// The name of the keyspace.
         public let keyspaceName: String
+        ///  A list of all Regions the keyspace is replicated in after the update keyspace operation and their status.
+        public let replicationGroupStatuses: [ReplicationGroupStatus]?
         ///  If the replicationStrategy of the keyspace is MULTI_REGION, a list of replication Regions is returned.
         public let replicationRegions: [String]?
         ///  Returns the replication strategy of the keyspace. The options are SINGLE_REGION or MULTI_REGION.
@@ -640,8 +650,9 @@ extension Keyspaces {
         public let resourceArn: String
 
         @inlinable
-        public init(keyspaceName: String, replicationRegions: [String]? = nil, replicationStrategy: Rs, resourceArn: String) {
+        public init(keyspaceName: String, replicationGroupStatuses: [ReplicationGroupStatus]? = nil, replicationRegions: [String]? = nil, replicationStrategy: Rs, resourceArn: String) {
             self.keyspaceName = keyspaceName
+            self.replicationGroupStatuses = replicationGroupStatuses
             self.replicationRegions = replicationRegions
             self.replicationStrategy = replicationStrategy
             self.resourceArn = resourceArn
@@ -649,6 +660,7 @@ extension Keyspaces {
 
         private enum CodingKeys: String, CodingKey {
             case keyspaceName = "keyspaceName"
+            case replicationGroupStatuses = "replicationGroupStatuses"
             case replicationRegions = "replicationRegions"
             case replicationStrategy = "replicationStrategy"
             case resourceArn = "resourceArn"
@@ -1210,6 +1222,28 @@ extension Keyspaces {
         }
     }
 
+    public struct ReplicationGroupStatus: AWSDecodableShape {
+        ///  The status of the keyspace.
+        public let keyspaceStatus: KeyspaceStatus
+        ///  The name of the Region that was added to the keyspace.
+        public let region: String
+        ///  This shows the replication progress of tables in the keyspace. The value is expressed as a percentage of the newly replicated tables  with status Active compared to the total number of tables in the keyspace.
+        public let tablesReplicationProgress: String?
+
+        @inlinable
+        public init(keyspaceStatus: KeyspaceStatus, region: String, tablesReplicationProgress: String? = nil) {
+            self.keyspaceStatus = keyspaceStatus
+            self.region = region
+            self.tablesReplicationProgress = tablesReplicationProgress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyspaceStatus = "keyspaceStatus"
+            case region = "region"
+            case tablesReplicationProgress = "tablesReplicationProgress"
+        }
+    }
+
     public struct ReplicationSpecification: AWSEncodableShape {
         ///  The regionList can contain up to six Amazon Web Services Regions where the keyspace is replicated in.
         public let regionList: [String]?
@@ -1528,6 +1562,47 @@ extension Keyspaces {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateKeyspaceRequest: AWSEncodableShape {
+        public let clientSideTimestamps: ClientSideTimestamps?
+        ///  The name of the keyspace.
+        public let keyspaceName: String
+        public let replicationSpecification: ReplicationSpecification
+
+        @inlinable
+        public init(clientSideTimestamps: ClientSideTimestamps? = nil, keyspaceName: String, replicationSpecification: ReplicationSpecification) {
+            self.clientSideTimestamps = clientSideTimestamps
+            self.keyspaceName = keyspaceName
+            self.replicationSpecification = replicationSpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, max: 48)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, min: 1)
+            try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]{0,47}$")
+            try self.replicationSpecification.validate(name: "\(name).replicationSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientSideTimestamps = "clientSideTimestamps"
+            case keyspaceName = "keyspaceName"
+            case replicationSpecification = "replicationSpecification"
+        }
+    }
+
+    public struct UpdateKeyspaceResponse: AWSDecodableShape {
+        ///  The unique identifier of the keyspace in the format of an Amazon Resource Name (ARN).
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
     }
 
     public struct UpdateTableRequest: AWSEncodableShape {

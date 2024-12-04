@@ -564,6 +564,8 @@ extension CodePipeline {
         public let lastStatusChange: Date?
         /// The ARN of the user who last changed the pipeline.
         public let lastUpdatedBy: String?
+        /// The Amazon Resource Name (ARN) of the log stream for the action compute.
+        public let logStreamARN: String?
         /// A percentage of completeness of the action as it runs.
         public let percentComplete: Int?
         /// The status of the action, or for a completed action, the last status of the action.
@@ -574,13 +576,14 @@ extension CodePipeline {
         public let token: String?
 
         @inlinable
-        public init(actionExecutionId: String? = nil, errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: Date? = nil, lastUpdatedBy: String? = nil, percentComplete: Int? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
+        public init(actionExecutionId: String? = nil, errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: Date? = nil, lastUpdatedBy: String? = nil, logStreamARN: String? = nil, percentComplete: Int? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
             self.actionExecutionId = actionExecutionId
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionUrl = externalExecutionUrl
             self.lastStatusChange = lastStatusChange
             self.lastUpdatedBy = lastUpdatedBy
+            self.logStreamARN = logStreamARN
             self.percentComplete = percentComplete
             self.status = status
             self.summary = summary
@@ -594,6 +597,7 @@ extension CodePipeline {
             case externalExecutionUrl = "externalExecutionUrl"
             case lastStatusChange = "lastStatusChange"
             case lastUpdatedBy = "lastUpdatedBy"
+            case logStreamARN = "logStreamARN"
             case percentComplete = "percentComplete"
             case status = "status"
             case summary = "summary"
@@ -745,13 +749,16 @@ extension CodePipeline {
         public let externalExecutionSummary: String?
         /// The deepest external link to the external resource (for example, a repository URL or deployment endpoint) that is used when running the action.
         public let externalExecutionUrl: String?
+        /// The Amazon Resource Name (ARN) of the log stream for the action compute.
+        public let logStreamARN: String?
 
         @inlinable
-        public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionSummary: String? = nil, externalExecutionUrl: String? = nil) {
+        public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionSummary: String? = nil, externalExecutionUrl: String? = nil, logStreamARN: String? = nil) {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionSummary = externalExecutionSummary
             self.externalExecutionUrl = externalExecutionUrl
+            self.logStreamARN = logStreamARN
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -759,6 +766,7 @@ extension CodePipeline {
             case externalExecutionId = "externalExecutionId"
             case externalExecutionSummary = "externalExecutionSummary"
             case externalExecutionUrl = "externalExecutionUrl"
+            case logStreamARN = "logStreamARN"
         }
     }
 
@@ -3612,7 +3620,7 @@ extension CodePipeline {
         public let result: ApprovalResult
         /// The name of the stage that contains the action.
         public let stageName: String
-        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.
+        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.  For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject approval request as detailed above is not available. Instead, use the externalExecutionId from the GetPipelineState action as the token in the approval request.
         public let token: String
 
         @inlinable

@@ -100,6 +100,14 @@ extension ApplicationDiscoveryService {
         public var description: String { return self.rawValue }
     }
 
+    public enum FileClassification: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case importTemplate = "IMPORT_TEMPLATE"
+        case modelizeitExport = "MODELIZEIT_EXPORT"
+        case rvtoolsExport = "RVTOOLS_EXPORT"
+        case vmwareNsxExport = "VMWARE_NSX_EXPORT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleteComplete = "DELETE_COMPLETE"
         case deleteFailed = "DELETE_FAILED"
@@ -110,12 +118,14 @@ extension ApplicationDiscoveryService {
         case importFailed = "IMPORT_FAILED"
         case importFailedRecordLimitExceeded = "IMPORT_FAILED_RECORD_LIMIT_EXCEEDED"
         case importFailedServerLimitExceeded = "IMPORT_FAILED_SERVER_LIMIT_EXCEEDED"
+        case importFailedUnsupportedFileType = "IMPORT_FAILED_UNSUPPORTED_FILE_TYPE"
         case importInProgress = "IMPORT_IN_PROGRESS"
         case internalError = "INTERNAL_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum ImportTaskFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fileClassification = "FILE_CLASSIFICATION"
         case importTaskId = "IMPORT_TASK_ID"
         case name = "NAME"
         case status = "STATUS"
@@ -516,15 +526,18 @@ extension ApplicationDiscoveryService {
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
-        /// Description of the application to be created.
+        /// The description of the application to be created.
         public let description: String?
-        /// Name of the application to be created.
+        /// The name of the application to be created.
         public let name: String
+        /// The name of the migration wave of the application to be created.
+        public let wave: String?
 
         @inlinable
-        public init(description: String? = nil, name: String) {
+        public init(description: String? = nil, name: String, wave: String? = nil) {
             self.description = description
             self.name = name
+            self.wave = wave
         }
 
         public func validate(name: String) throws {
@@ -532,16 +545,19 @@ extension ApplicationDiscoveryService {
             try self.validate(self.description, name: "description", parent: name, pattern: "^(^$|[\\s\\S]*\\S[\\s\\S]*)$")
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\s\\S]*\\S[\\s\\S]*$")
+            try self.validate(self.wave, name: "wave", parent: name, max: 256)
+            try self.validate(self.wave, name: "wave", parent: name, pattern: "^($|[^\\s\\x00]( *[^\\s\\x00])*$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
+            case wave = "wave"
         }
     }
 
     public struct CreateApplicationResponse: AWSDecodableShape {
-        /// Configuration ID of an application to be created.
+        /// The configuration ID of an application to be created.
         public let configurationId: String?
 
         @inlinable
@@ -1481,6 +1497,8 @@ extension ApplicationDiscoveryService {
         public let clientRequestToken: String?
         /// A link to a compressed archive folder (in the ZIP format) that contains an error log and a file of failed records. You can use these two files to quickly identify records that failed, why they failed, and correct those records. Afterward, you can upload the corrected file to your Amazon S3 bucket and create another import task request. This field also includes authorization information so you can confirm the authenticity of the compressed archive before you download it. If some records failed to be imported we recommend that you correct the records in the failed entries file and then imports that failed entries file. This prevents you from having to correct and update the larger original file and attempt importing it again.
         public let errorsAndFailedEntriesZip: String?
+        /// The type of file detected by the import task.
+        public let fileClassification: FileClassification?
         /// The time that the import task request finished, presented in the Unix time stamp format.
         public let importCompletionTime: Date?
         /// The time that the import task request was deleted, presented in the Unix time stamp format.
@@ -1501,11 +1519,12 @@ extension ApplicationDiscoveryService {
         public let status: ImportStatus?
 
         @inlinable
-        public init(applicationImportFailure: Int? = nil, applicationImportSuccess: Int? = nil, clientRequestToken: String? = nil, errorsAndFailedEntriesZip: String? = nil, importCompletionTime: Date? = nil, importDeletedTime: Date? = nil, importRequestTime: Date? = nil, importTaskId: String? = nil, importUrl: String? = nil, name: String? = nil, serverImportFailure: Int? = nil, serverImportSuccess: Int? = nil, status: ImportStatus? = nil) {
+        public init(applicationImportFailure: Int? = nil, applicationImportSuccess: Int? = nil, clientRequestToken: String? = nil, errorsAndFailedEntriesZip: String? = nil, fileClassification: FileClassification? = nil, importCompletionTime: Date? = nil, importDeletedTime: Date? = nil, importRequestTime: Date? = nil, importTaskId: String? = nil, importUrl: String? = nil, name: String? = nil, serverImportFailure: Int? = nil, serverImportSuccess: Int? = nil, status: ImportStatus? = nil) {
             self.applicationImportFailure = applicationImportFailure
             self.applicationImportSuccess = applicationImportSuccess
             self.clientRequestToken = clientRequestToken
             self.errorsAndFailedEntriesZip = errorsAndFailedEntriesZip
+            self.fileClassification = fileClassification
             self.importCompletionTime = importCompletionTime
             self.importDeletedTime = importDeletedTime
             self.importRequestTime = importRequestTime
@@ -1522,6 +1541,7 @@ extension ApplicationDiscoveryService {
             case applicationImportSuccess = "applicationImportSuccess"
             case clientRequestToken = "clientRequestToken"
             case errorsAndFailedEntriesZip = "errorsAndFailedEntriesZip"
+            case fileClassification = "fileClassification"
             case importCompletionTime = "importCompletionTime"
             case importDeletedTime = "importDeletedTime"
             case importRequestTime = "importRequestTime"
@@ -2088,12 +2108,15 @@ extension ApplicationDiscoveryService {
         public let description: String?
         /// New name of the application to be updated.
         public let name: String?
+        /// The new migration wave of the application that you want to update.
+        public let wave: String?
 
         @inlinable
-        public init(configurationId: String, description: String? = nil, name: String? = nil) {
+        public init(configurationId: String, description: String? = nil, name: String? = nil, wave: String? = nil) {
             self.configurationId = configurationId
             self.description = description
             self.name = name
+            self.wave = wave
         }
 
         public func validate(name: String) throws {
@@ -2103,12 +2126,15 @@ extension ApplicationDiscoveryService {
             try self.validate(self.description, name: "description", parent: name, pattern: "^(^$|[\\s\\S]*\\S[\\s\\S]*)$")
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\s\\S]*\\S[\\s\\S]*$")
+            try self.validate(self.wave, name: "wave", parent: name, max: 256)
+            try self.validate(self.wave, name: "wave", parent: name, pattern: "^($|[^\\s\\x00]( *[^\\s\\x00])*$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationId = "configurationId"
             case description = "description"
             case name = "name"
+            case wave = "wave"
         }
     }
 

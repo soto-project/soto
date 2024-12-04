@@ -88,14 +88,45 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
+    public enum FlattenedElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case first = "first"
+        case last = "last"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IndexSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "ACCOUNT"
+        case logGroup = "LOG_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InheritedProperty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountDataProtection = "ACCOUNT_DATA_PROTECTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case provisioning = "PROVISIONING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case opensearch = "OPENSEARCH"
         public var description: String { return self.rawValue }
     }
 
     public enum LogGroupClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case infrequentAccess = "INFREQUENT_ACCESS"
         case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpenSearchResourceStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case error = "ERROR"
+        case notFound = "NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -116,7 +147,16 @@ extension CloudWatchLogs {
 
     public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dataProtectionPolicy = "DATA_PROTECTION_POLICY"
+        case fieldIndexPolicy = "FIELD_INDEX_POLICY"
         case subscriptionFilterPolicy = "SUBSCRIPTION_FILTER_POLICY"
+        case transformerPolicy = "TRANSFORMER_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cwli = "CWLI"
+        case ppl = "PPL"
+        case sql = "SQL"
         public var description: String { return self.rawValue }
     }
 
@@ -193,6 +233,14 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case boolean = "boolean"
+        case double = "double"
+        case integer = "integer"
+        case string = "string"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StartLiveTailResponseStream: AWSDecodableShape, Sendable {
         /// This object contains information about this Live Tail session, including the log groups included and the  log stream filters, if any.
         case sessionStart(LiveTailSessionStart)
@@ -251,7 +299,7 @@ extension CloudWatchLogs {
         public let policyType: PolicyType?
         /// The scope of the account policy.
         public let scope: Scope?
-        /// The log group selection criteria for this subscription filter policy.
+        /// The log group selection criteria that is used for this policy.
         public let selectionCriteria: String?
 
         @inlinable
@@ -273,6 +321,57 @@ extension CloudWatchLogs {
             case policyType = "policyType"
             case scope = "scope"
             case selectionCriteria = "selectionCriteria"
+        }
+    }
+
+    public struct AddKeyEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the new entry to be added to the log event
+        public let key: String
+        /// Specifies whether to overwrite the value if the key already exists in the log event. If you omit this, the default is false.
+        public let overwriteIfExists: Bool?
+        /// The value of the new entry to be added to the log event
+        public let value: String
+
+        @inlinable
+        public init(key: String, overwriteIfExists: Bool? = nil, value: String) {
+            self.key = key
+            self.overwriteIfExists = overwriteIfExists
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case overwriteIfExists = "overwriteIfExists"
+            case value = "value"
+        }
+    }
+
+    public struct AddKeys: AWSEncodableShape & AWSDecodableShape {
+        /// An array of objects, where each object contains the information about one key to add to the log event.
+        public let entries: [AddKeyEntry]
+
+        @inlinable
+        public init(entries: [AddKeyEntry]) {
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 5)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
         }
     }
 
@@ -443,6 +542,46 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct CSV: AWSEncodableShape & AWSDecodableShape {
+        /// An array of names to use for the columns in the transformed log event. If you omit this, default column names ([column_1, column_2 ...]) are used.
+        public let columns: [String]?
+        /// The character used to separate each column in the original comma-separated value log event. If you omit this, the processor looks for the comma , character as the delimiter.
+        public let delimiter: String?
+        /// The character used used as a text qualifier for a single column of data. If you omit this,  the double quotation mark " character is used.
+        public let quoteCharacter: String?
+        /// The path to the field in the log event that has the comma separated values to be parsed. If you omit this value, the whole log message is processed.
+        public let source: String?
+
+        @inlinable
+        public init(columns: [String]? = nil, delimiter: String? = nil, quoteCharacter: String? = nil, source: String? = nil) {
+            self.columns = columns
+            self.delimiter = delimiter
+            self.quoteCharacter = quoteCharacter
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.columns?.forEach {
+                try validate($0, name: "columns[]", parent: name, max: 128)
+                try validate($0, name: "columns[]", parent: name, min: 1)
+            }
+            try self.validate(self.columns, name: "columns", parent: name, max: 100)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
+            try self.validate(self.quoteCharacter, name: "quoteCharacter", parent: name, max: 1)
+            try self.validate(self.quoteCharacter, name: "quoteCharacter", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "columns"
+            case delimiter = "delimiter"
+            case quoteCharacter = "quoteCharacter"
+            case source = "source"
+        }
+    }
+
     public struct CancelExportTaskRequest: AWSEncodableShape {
         /// The ID of the export task.
         public let taskId: String
@@ -531,6 +670,57 @@ extension CloudWatchLogs {
             case fieldDelimiter = "fieldDelimiter"
             case recordFields = "recordFields"
             case s3DeliveryConfiguration = "s3DeliveryConfiguration"
+        }
+    }
+
+    public struct CopyValue: AWSEncodableShape & AWSDecodableShape {
+        /// An array of CopyValueEntry objects, where each object contains the information about one field value to copy.
+        public let entries: [CopyValueEntry]
+
+        @inlinable
+        public init(entries: [CopyValueEntry]) {
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 5)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
+        }
+    }
+
+    public struct CopyValueEntry: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to overwrite the value if the destination key already exists.  If you omit this, the default is false.
+        public let overwriteIfExists: Bool?
+        /// The key to copy.
+        public let source: String
+        /// The key of the field to copy the value to.
+        public let target: String
+
+        @inlinable
+        public init(overwriteIfExists: Bool? = nil, source: String, target: String) {
+            self.overwriteIfExists = overwriteIfExists
+            self.source = source
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.validate(self.target, name: "target", parent: name, max: 128)
+            try self.validate(self.target, name: "target", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overwriteIfExists = "overwriteIfExists"
+            case source = "source"
+            case target = "target"
         }
     }
 
@@ -814,6 +1004,61 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct DateTimeConverter: AWSEncodableShape & AWSDecodableShape {
+        /// The locale of the source field. If you omit this, the default of locale.ROOT is used.
+        public let locale: String?
+        /// A list of patterns to match against the source field.
+        public let matchPatterns: [String]
+        /// The key to apply the date conversion to.
+        public let source: String
+        /// The time zone of the source field. If you omit this, the default used is the UTC zone.
+        public let sourceTimezone: String?
+        /// The JSON field to store the result in.
+        public let target: String
+        /// The datetime format to use for the converted data in the target field. If you omit this, the default of  yyyy-MM-dd'T'HH:mm:ss.SSS'Z is used.
+        public let targetFormat: String?
+        /// The time zone of the target field. If you omit this, the default used is the UTC zone.
+        public let targetTimezone: String?
+
+        @inlinable
+        public init(locale: String? = nil, matchPatterns: [String], source: String, sourceTimezone: String? = nil, target: String, targetFormat: String? = nil, targetTimezone: String? = nil) {
+            self.locale = locale
+            self.matchPatterns = matchPatterns
+            self.source = source
+            self.sourceTimezone = sourceTimezone
+            self.target = target
+            self.targetFormat = targetFormat
+            self.targetTimezone = targetTimezone
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.matchPatterns.forEach {
+                try validate($0, name: "matchPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.matchPatterns, name: "matchPatterns", parent: name, max: 5)
+            try self.validate(self.matchPatterns, name: "matchPatterns", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.validate(self.sourceTimezone, name: "sourceTimezone", parent: name, min: 1)
+            try self.validate(self.target, name: "target", parent: name, max: 128)
+            try self.validate(self.target, name: "target", parent: name, min: 1)
+            try self.validate(self.targetFormat, name: "targetFormat", parent: name, max: 64)
+            try self.validate(self.targetFormat, name: "targetFormat", parent: name, min: 1)
+            try self.validate(self.targetTimezone, name: "targetTimezone", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
+            case matchPatterns = "matchPatterns"
+            case source = "source"
+            case sourceTimezone = "sourceTimezone"
+            case target = "target"
+            case targetFormat = "targetFormat"
+            case targetTimezone = "targetTimezone"
+        }
+    }
+
     public struct DeleteAccountPolicyRequest: AWSEncodableShape {
         /// The name of the policy to delete.
         public let policyName: String
@@ -949,6 +1194,80 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case destinationName = "destinationName"
+        }
+    }
+
+    public struct DeleteIndexPolicyRequest: AWSEncodableShape {
+        /// The log group to delete the index policy for. You can specify either the name or the ARN of the log group.
+        public let logGroupIdentifier: String
+
+        @inlinable
+        public init(logGroupIdentifier: String) {
+            self.logGroupIdentifier = logGroupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier = "logGroupIdentifier"
+        }
+    }
+
+    public struct DeleteIndexPolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteIntegrationRequest: AWSEncodableShape {
+        /// Specify true to force the deletion of the integration even if vended logs dashboards currently exist. The default is false.
+        public let force: Bool?
+        /// The name of the integration to delete. To find the name of your integration, use  ListIntegrations.
+        public let integrationName: String
+
+        @inlinable
+        public init(force: Bool? = nil, integrationName: String) {
+            self.force = force
+            self.integrationName = integrationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 256)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case force = "force"
+            case integrationName = "integrationName"
+        }
+    }
+
+    public struct DeleteIntegrationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteKeys: AWSEncodableShape & AWSDecodableShape {
+        /// The list of keys to delete.
+        public let withKeys: [String]
+
+        @inlinable
+        public init(withKeys: [String]) {
+            self.withKeys = withKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.withKeys.forEach {
+                try validate($0, name: "withKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.withKeys, name: "withKeys", parent: name, max: 5)
+            try self.validate(self.withKeys, name: "withKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case withKeys = "withKeys"
         }
     }
 
@@ -1138,6 +1457,26 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct DeleteTransformerRequest: AWSEncodableShape {
+        /// Specify either the name or ARN of the log group to delete the transformer for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.
+        public let logGroupIdentifier: String
+
+        @inlinable
+        public init(logGroupIdentifier: String) {
+            self.logGroupIdentifier = logGroupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier = "logGroupIdentifier"
+        }
+    }
+
     public struct Delivery: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) that uniquely identifies this delivery.
         public let arn: String?
@@ -1269,14 +1608,17 @@ extension CloudWatchLogs {
     public struct DescribeAccountPoliciesRequest: AWSEncodableShape {
         /// If you are using an account that is set up as a monitoring account for CloudWatch unified cross-account observability, you can use this to specify the account ID of a source account. If you do,  the operation returns the account policy for the specified account. Currently, you can specify only one account ID in this parameter. If you omit this parameter, only the policy in the current account is returned.
         public let accountIdentifiers: [String]?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
         /// Use this parameter to limit the returned policies to only the policy with the name that you specify.
         public let policyName: String?
         /// Use this parameter to limit the returned policies to only the policies that match the policy type that you specify.
         public let policyType: PolicyType
 
         @inlinable
-        public init(accountIdentifiers: [String]? = nil, policyName: String? = nil, policyType: PolicyType) {
+        public init(accountIdentifiers: [String]? = nil, nextToken: String? = nil, policyName: String? = nil, policyType: PolicyType) {
             self.accountIdentifiers = accountIdentifiers
+            self.nextToken = nextToken
             self.policyName = policyName
             self.policyType = policyType
         }
@@ -1288,10 +1630,12 @@ extension CloudWatchLogs {
                 try validate($0, name: "accountIdentifiers[]", parent: name, pattern: "^\\d{12}$")
             }
             try self.validate(self.accountIdentifiers, name: "accountIdentifiers", parent: name, max: 20)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountIdentifiers = "accountIdentifiers"
+            case nextToken = "nextToken"
             case policyName = "policyName"
             case policyType = "policyType"
         }
@@ -1300,14 +1644,18 @@ extension CloudWatchLogs {
     public struct DescribeAccountPoliciesResponse: AWSDecodableShape {
         /// An array of structures that contain information about the CloudWatch Logs account policies that match  the specified filters.
         public let accountPolicies: [AccountPolicy]?
+        /// The token to use when requesting the next set of items. The token expires after 24 hours.
+        public let nextToken: String?
 
         @inlinable
-        public init(accountPolicies: [AccountPolicy]? = nil) {
+        public init(accountPolicies: [AccountPolicy]? = nil, nextToken: String? = nil) {
             self.accountPolicies = accountPolicies
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountPolicies = "accountPolicies"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1605,6 +1953,96 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct DescribeFieldIndexesRequest: AWSEncodableShape {
+        /// An array containing the names or ARNs of the log groups that you want to retrieve field indexes for.
+        public let logGroupIdentifiers: [String]
+        public let nextToken: String?
+
+        @inlinable
+        public init(logGroupIdentifiers: [String], nextToken: String? = nil) {
+            self.logGroupIdentifiers = logGroupIdentifiers
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.logGroupIdentifiers.forEach {
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, max: 2048)
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, min: 1)
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            }
+            try self.validate(self.logGroupIdentifiers, name: "logGroupIdentifiers", parent: name, max: 100)
+            try self.validate(self.logGroupIdentifiers, name: "logGroupIdentifiers", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifiers = "logGroupIdentifiers"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeFieldIndexesResponse: AWSDecodableShape {
+        /// An array containing the field index information.
+        public let fieldIndexes: [FieldIndex]?
+        public let nextToken: String?
+
+        @inlinable
+        public init(fieldIndexes: [FieldIndex]? = nil, nextToken: String? = nil) {
+            self.fieldIndexes = fieldIndexes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldIndexes = "fieldIndexes"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeIndexPoliciesRequest: AWSEncodableShape {
+        /// An array containing the name or ARN of the log group that you want to retrieve field index policies for.
+        public let logGroupIdentifiers: [String]
+        public let nextToken: String?
+
+        @inlinable
+        public init(logGroupIdentifiers: [String], nextToken: String? = nil) {
+            self.logGroupIdentifiers = logGroupIdentifiers
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.logGroupIdentifiers.forEach {
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, max: 2048)
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, min: 1)
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            }
+            try self.validate(self.logGroupIdentifiers, name: "logGroupIdentifiers", parent: name, max: 1)
+            try self.validate(self.logGroupIdentifiers, name: "logGroupIdentifiers", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifiers = "logGroupIdentifiers"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeIndexPoliciesResponse: AWSDecodableShape {
+        /// An array containing the field index policies.
+        public let indexPolicies: [IndexPolicy]?
+        public let nextToken: String?
+
+        @inlinable
+        public init(indexPolicies: [IndexPolicy]? = nil, nextToken: String? = nil) {
+            self.indexPolicies = indexPolicies
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexPolicies = "indexPolicies"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeLogGroupsRequest: AWSEncodableShape {
         /// When includeLinkedAccounts is set to True, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
         public let accountIdentifiers: [String]?
@@ -1824,14 +2262,17 @@ extension CloudWatchLogs {
         /// Limits the number of returned queries to the specified number.
         public let maxResults: Int?
         public let nextToken: String?
+        /// Limits the returned queries to only the queries that use the specified query language.
+        public let queryLanguage: QueryLanguage?
         /// Limits the returned queries to only those that have the specified status. Valid values are Cancelled,  Complete, Failed, Running, and Scheduled.
         public let status: QueryStatus?
 
         @inlinable
-        public init(logGroupName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: QueryStatus? = nil) {
+        public init(logGroupName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryLanguage: QueryLanguage? = nil, status: QueryStatus? = nil) {
             self.logGroupName = logGroupName
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.queryLanguage = queryLanguage
             self.status = status
         }
 
@@ -1848,6 +2289,7 @@ extension CloudWatchLogs {
             case logGroupName = "logGroupName"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
+            case queryLanguage = "queryLanguage"
             case status = "status"
         }
     }
@@ -1875,12 +2317,15 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// Use this parameter to filter your results to only the query definitions that have names that start with the prefix you specify.
         public let queryDefinitionNamePrefix: String?
+        /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports,  see Supported query languages.
+        public let queryLanguage: QueryLanguage?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, queryDefinitionNamePrefix: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, queryDefinitionNamePrefix: String? = nil, queryLanguage: QueryLanguage? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.queryDefinitionNamePrefix = queryDefinitionNamePrefix
+            self.queryLanguage = queryLanguage
         }
 
         public func validate(name: String) throws {
@@ -1895,6 +2340,7 @@ extension CloudWatchLogs {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case queryDefinitionNamePrefix = "queryDefinitionNamePrefix"
+            case queryLanguage = "queryLanguage"
         }
     }
 
@@ -2072,9 +2518,9 @@ extension CloudWatchLogs {
     }
 
     public struct Entity: AWSEncodableShape {
-        /// Reserved for internal use.
+        /// Additional attributes of the entity that are not used to specify the identity of the entity. A list of key-value pairs. For details about how to use the attributes, see How  to add related information to telemetry in the CloudWatch User Guide.
         public let attributes: [String: String]?
-        /// Reserved for internal use.
+        /// The attributes of the entity which identify the specific entity, as a list of  key-value pairs. Entities with the same keyAttributes are considered to  be the same entity. There are five allowed attributes (key names): Type,  ResourceType, Identifier Name, and  Environment. For details about how to use the key attributes, see How  to add related information to telemetry in the CloudWatch User Guide.
         public let keyAttributes: [String: String]?
 
         @inlinable
@@ -2186,6 +2632,36 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case message = "message"
+        }
+    }
+
+    public struct FieldIndex: AWSDecodableShape {
+        /// The string that this field index matches.
+        public let fieldIndexName: String?
+        /// The time and date of the earliest log event that matches this field index, after the index policy that contains it was created.
+        public let firstEventTime: Int64?
+        /// The time and date of the most recent log event that matches this field index.
+        public let lastEventTime: Int64?
+        /// The most recent time that CloudWatch Logs scanned ingested log events to search for this field index to improve the speed of future  CloudWatch Logs Insights queries that search for this field index.
+        public let lastScanTime: Int64?
+        /// If this field index appears in an index policy that applies only to a  single log group, the ARN of that log group is displayed here.
+        public let logGroupIdentifier: String?
+
+        @inlinable
+        public init(fieldIndexName: String? = nil, firstEventTime: Int64? = nil, lastEventTime: Int64? = nil, lastScanTime: Int64? = nil, logGroupIdentifier: String? = nil) {
+            self.fieldIndexName = fieldIndexName
+            self.firstEventTime = firstEventTime
+            self.lastEventTime = lastEventTime
+            self.lastScanTime = lastScanTime
+            self.logGroupIdentifier = logGroupIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldIndexName = "fieldIndexName"
+            case firstEventTime = "firstEventTime"
+            case lastEventTime = "lastEventTime"
+            case lastScanTime = "lastScanTime"
+            case logGroupIdentifier = "logGroupIdentifier"
         }
     }
 
@@ -2514,6 +2990,52 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct GetIntegrationRequest: AWSEncodableShape {
+        /// The name of the integration that you want to find information about. To find the name of your integration, use  ListIntegrations
+        public let integrationName: String
+
+        @inlinable
+        public init(integrationName: String) {
+            self.integrationName = integrationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 256)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationName = "integrationName"
+        }
+    }
+
+    public struct GetIntegrationResponse: AWSDecodableShape {
+        /// A structure that contains information about the integration configuration. For an integration  with OpenSearch Service, this includes information about OpenSearch Service resources such as the collection, the workspace,  and policies.
+        public let integrationDetails: IntegrationDetails?
+        /// The name of the integration.
+        public let integrationName: String?
+        /// The current status of this integration.
+        public let integrationStatus: IntegrationStatus?
+        /// The type of integration. Integrations with OpenSearch Service have the type OPENSEARCH.
+        public let integrationType: IntegrationType?
+
+        @inlinable
+        public init(integrationDetails: IntegrationDetails? = nil, integrationName: String? = nil, integrationStatus: IntegrationStatus? = nil, integrationType: IntegrationType? = nil) {
+            self.integrationDetails = integrationDetails
+            self.integrationName = integrationName
+            self.integrationStatus = integrationStatus
+            self.integrationType = integrationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationDetails = "integrationDetails"
+            case integrationName = "integrationName"
+            case integrationStatus = "integrationStatus"
+            case integrationType = "integrationType"
+        }
+    }
+
     public struct GetLogAnomalyDetectorRequest: AWSEncodableShape {
         /// The ARN of the anomaly detector to retrieve information about. You can find the ARNs of log anomaly detectors  in your account by using the ListLogAnomalyDetectors operation.
         public let anomalyDetectorArn: String
@@ -2762,6 +3284,8 @@ extension CloudWatchLogs {
     public struct GetQueryResultsResponse: AWSDecodableShape {
         /// If you associated an KMS key with the CloudWatch Logs Insights query results in this account, this field displays the ARN of the key that's used to encrypt the query results when StartQuery stores them.
         public let encryptionKey: String?
+        /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports,  see Supported query languages.
+        public let queryLanguage: QueryLanguage?
         /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
         public let results: [[ResultField]]?
         /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the scanned log events. These values reflect the full raw results of the query.
@@ -2770,8 +3294,9 @@ extension CloudWatchLogs {
         public let status: QueryStatus?
 
         @inlinable
-        public init(encryptionKey: String? = nil, results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
+        public init(encryptionKey: String? = nil, queryLanguage: QueryLanguage? = nil, results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
             self.encryptionKey = encryptionKey
+            self.queryLanguage = queryLanguage
             self.results = results
             self.statistics = statistics
             self.status = status
@@ -2779,9 +3304,111 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case encryptionKey = "encryptionKey"
+            case queryLanguage = "queryLanguage"
             case results = "results"
             case statistics = "statistics"
             case status = "status"
+        }
+    }
+
+    public struct GetTransformerRequest: AWSEncodableShape {
+        /// Specify either the name or ARN of the log group to return transformer information for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.
+        public let logGroupIdentifier: String
+
+        @inlinable
+        public init(logGroupIdentifier: String) {
+            self.logGroupIdentifier = logGroupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier = "logGroupIdentifier"
+        }
+    }
+
+    public struct GetTransformerResponse: AWSDecodableShape {
+        /// The creation time of the transformer, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let creationTime: Int64?
+        /// The date and time when this transformer was most recently modified, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let lastModifiedTime: Int64?
+        /// The ARN of the log group that you specified in your request.
+        public let logGroupIdentifier: String?
+        /// This sructure contains the configuration of the requested transformer.
+        public let transformerConfig: [Processor]?
+
+        @inlinable
+        public init(creationTime: Int64? = nil, lastModifiedTime: Int64? = nil, logGroupIdentifier: String? = nil, transformerConfig: [Processor]? = nil) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.logGroupIdentifier = logGroupIdentifier
+            self.transformerConfig = transformerConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case lastModifiedTime = "lastModifiedTime"
+            case logGroupIdentifier = "logGroupIdentifier"
+            case transformerConfig = "transformerConfig"
+        }
+    }
+
+    public struct Grok: AWSEncodableShape & AWSDecodableShape {
+        /// The grok pattern to match against the log event. For a list of  supported grok patterns, see Supported grok patterns.
+        public let match: String
+        /// The path to the field in the log event that you want to parse. If you omit this value, the whole log message is parsed.
+        public let source: String?
+
+        @inlinable
+        public init(match: String, source: String? = nil) {
+            self.match = match
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.match, name: "match", parent: name, max: 128)
+            try self.validate(self.match, name: "match", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case match = "match"
+            case source = "source"
+        }
+    }
+
+    public struct IndexPolicy: AWSDecodableShape {
+        /// The date and time that this index policy was most recently updated.
+        public let lastUpdateTime: Int64?
+        /// The ARN of the log group that this index policy applies to.
+        public let logGroupIdentifier: String?
+        /// The policy document for this index policy, in JSON format.
+        public let policyDocument: String?
+        /// The name of this policy. Responses about log group-level field index policies don't have this field, because those policies don't have names.
+        public let policyName: String?
+        /// This field indicates whether this is an account-level index policy or an index policy that applies only to a single log group.
+        public let source: IndexSource?
+
+        @inlinable
+        public init(lastUpdateTime: Int64? = nil, logGroupIdentifier: String? = nil, policyDocument: String? = nil, policyName: String? = nil, source: IndexSource? = nil) {
+            self.lastUpdateTime = lastUpdateTime
+            self.logGroupIdentifier = logGroupIdentifier
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdateTime = "lastUpdateTime"
+            case logGroupIdentifier = "logGroupIdentifier"
+            case policyDocument = "policyDocument"
+            case policyName = "policyName"
+            case source = "source"
         }
     }
 
@@ -2805,6 +3432,28 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case timestamp = "timestamp"
+        }
+    }
+
+    public struct IntegrationSummary: AWSDecodableShape {
+        /// The name of this integration.
+        public let integrationName: String?
+        /// The current status of this integration.
+        public let integrationStatus: IntegrationStatus?
+        /// The type of integration. Integrations with OpenSearch Service have the type OPENSEARCH.
+        public let integrationType: IntegrationType?
+
+        @inlinable
+        public init(integrationName: String? = nil, integrationStatus: IntegrationStatus? = nil, integrationType: IntegrationType? = nil) {
+            self.integrationName = integrationName
+            self.integrationStatus = integrationStatus
+            self.integrationType = integrationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationName = "integrationName"
+            case integrationStatus = "integrationStatus"
+            case integrationType = "integrationType"
         }
     }
 
@@ -2858,6 +3507,48 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct ListIntegrationsRequest: AWSEncodableShape {
+        /// To limit the results to integrations that start with a certain name prefix, specify that name prefix here.
+        public let integrationNamePrefix: String?
+        /// To limit the results to integrations with a certain status, specify that status here.
+        public let integrationStatus: IntegrationStatus?
+        /// To limit the results to integrations of a certain type, specify that type here.
+        public let integrationType: IntegrationType?
+
+        @inlinable
+        public init(integrationNamePrefix: String? = nil, integrationStatus: IntegrationStatus? = nil, integrationType: IntegrationType? = nil) {
+            self.integrationNamePrefix = integrationNamePrefix
+            self.integrationStatus = integrationStatus
+            self.integrationType = integrationType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.integrationNamePrefix, name: "integrationNamePrefix", parent: name, max: 256)
+            try self.validate(self.integrationNamePrefix, name: "integrationNamePrefix", parent: name, min: 1)
+            try self.validate(self.integrationNamePrefix, name: "integrationNamePrefix", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationNamePrefix = "integrationNamePrefix"
+            case integrationStatus = "integrationStatus"
+            case integrationType = "integrationType"
+        }
+    }
+
+    public struct ListIntegrationsResponse: AWSDecodableShape {
+        /// An array, where each object in the array contains information about one CloudWatch Logs integration in this account.
+        public let integrationSummaries: [IntegrationSummary]?
+
+        @inlinable
+        public init(integrationSummaries: [IntegrationSummary]? = nil) {
+            self.integrationSummaries = integrationSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationSummaries = "integrationSummaries"
+        }
+    }
+
     public struct ListLogAnomalyDetectorsRequest: AWSEncodableShape {
         /// Use this to optionally filter the results to only include anomaly detectors that are associated with the  specified log group.
         public let filterLogGroupArn: String?
@@ -2901,6 +3592,51 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case anomalyDetectors = "anomalyDetectors"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLogGroupsForQueryRequest: AWSEncodableShape {
+        /// Limits the number of returned log groups to the specified number.
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The ID of the query to use. This query ID is from the response to your StartQuery operation.
+        public let queryId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, queryId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queryId = queryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 50)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case queryId = "queryId"
+        }
+    }
+
+    public struct ListLogGroupsForQueryResponse: AWSDecodableShape {
+        /// An array of the names and ARNs of the log groups that were processed in the query.
+        public let logGroupIdentifiers: [String]?
+        public let nextToken: String?
+
+        @inlinable
+        public init(logGroupIdentifiers: [String]? = nil, nextToken: String? = nil) {
+            self.logGroupIdentifiers = logGroupIdentifiers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifiers = "logGroupIdentifiers"
             case nextToken = "nextToken"
         }
     }
@@ -2970,6 +3706,51 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct ListToMap: AWSEncodableShape & AWSDecodableShape {
+        /// A Boolean value to indicate whether the list will be flattened into single items. Specify true to flatten the list. The default is false
+        public let flatten: Bool?
+        /// If you set flatten to true, use flattenedElement to specify which element, first or last, to keep.  You must specify this parameter if flatten is true
+        public let flattenedElement: FlattenedElement?
+        /// The key of the field to be extracted as keys in the generated map
+        public let key: String
+        /// The key in the log event that has a list of objects that will be converted to a map.
+        public let source: String
+        /// The key of the field that will hold the generated map
+        public let target: String?
+        /// If this is specified, the values that you specify in this parameter will be extracted from the source objects and put into the values of the generated map. Otherwise, original objects in the source list will be put into the values of the generated map.
+        public let valueKey: String?
+
+        @inlinable
+        public init(flatten: Bool? = nil, flattenedElement: FlattenedElement? = nil, key: String, source: String, target: String? = nil, valueKey: String? = nil) {
+            self.flatten = flatten
+            self.flattenedElement = flattenedElement
+            self.key = key
+            self.source = source
+            self.target = target
+            self.valueKey = valueKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.validate(self.target, name: "target", parent: name, max: 128)
+            try self.validate(self.target, name: "target", parent: name, min: 1)
+            try self.validate(self.valueKey, name: "valueKey", parent: name, max: 128)
+            try self.validate(self.valueKey, name: "valueKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flatten = "flatten"
+            case flattenedElement = "flattenedElement"
+            case key = "key"
+            case source = "source"
+            case target = "target"
+            case valueKey = "valueKey"
         }
     }
 
@@ -3213,7 +3994,31 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct LowerCaseString: AWSEncodableShape & AWSDecodableShape {
+        /// The array caontaining the keys of the fields to convert to lowercase.
+        public let withKeys: [String]
+
+        @inlinable
+        public init(withKeys: [String]) {
+            self.withKeys = withKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.withKeys.forEach {
+                try validate($0, name: "withKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.withKeys, name: "withKeys", parent: name, max: 10)
+            try self.validate(self.withKeys, name: "withKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case withKeys = "withKeys"
+        }
+    }
+
     public struct MetricFilter: AWSDecodableShape {
+        /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see PutTransformer. If this value is true, the metric filter is applied on the transformed version of the log events instead of the original ingested log events.
+        public let applyOnTransformedLogs: Bool?
         /// The creation time of the metric filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
         /// The name of the metric filter.
@@ -3225,7 +4030,8 @@ extension CloudWatchLogs {
         public let metricTransformations: [MetricTransformation]?
 
         @inlinable
-        public init(creationTime: Int64? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, metricTransformations: [MetricTransformation]? = nil) {
+        public init(applyOnTransformedLogs: Bool? = nil, creationTime: Int64? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, metricTransformations: [MetricTransformation]? = nil) {
+            self.applyOnTransformedLogs = applyOnTransformedLogs
             self.creationTime = creationTime
             self.filterName = filterName
             self.filterPattern = filterPattern
@@ -3234,6 +4040,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnTransformedLogs = "applyOnTransformedLogs"
             case creationTime = "creationTime"
             case filterName = "filterName"
             case filterPattern = "filterPattern"
@@ -3310,6 +4117,308 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct MoveKeyEntry: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to overwrite the value if the destination key already exists. If you omit this, the default is false.
+        public let overwriteIfExists: Bool?
+        /// The key to move.
+        public let source: String
+        /// The key to move to.
+        public let target: String
+
+        @inlinable
+        public init(overwriteIfExists: Bool? = nil, source: String, target: String) {
+            self.overwriteIfExists = overwriteIfExists
+            self.source = source
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.validate(self.target, name: "target", parent: name, max: 128)
+            try self.validate(self.target, name: "target", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overwriteIfExists = "overwriteIfExists"
+            case source = "source"
+            case target = "target"
+        }
+    }
+
+    public struct MoveKeys: AWSEncodableShape & AWSDecodableShape {
+        /// An array of objects, where each object contains the information about one key to move.
+        public let entries: [MoveKeyEntry]
+
+        @inlinable
+        public init(entries: [MoveKeyEntry]) {
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 5)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
+        }
+    }
+
+    public struct OpenSearchApplication: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the application.
+        public let applicationArn: String?
+        /// The endpoint of the application.
+        public let applicationEndpoint: String?
+        /// The ID of the application.
+        public let applicationId: String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public let status: OpenSearchResourceStatus?
+
+        @inlinable
+        public init(applicationArn: String? = nil, applicationEndpoint: String? = nil, applicationId: String? = nil, status: OpenSearchResourceStatus? = nil) {
+            self.applicationArn = applicationArn
+            self.applicationEndpoint = applicationEndpoint
+            self.applicationId = applicationId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "applicationArn"
+            case applicationEndpoint = "applicationEndpoint"
+            case applicationId = "applicationId"
+            case status = "status"
+        }
+    }
+
+    public struct OpenSearchCollection: AWSDecodableShape {
+        /// The ARN of the collection.
+        public let collectionArn: String?
+        /// The endpoint of the collection.
+        public let collectionEndpoint: String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public let status: OpenSearchResourceStatus?
+
+        @inlinable
+        public init(collectionArn: String? = nil, collectionEndpoint: String? = nil, status: OpenSearchResourceStatus? = nil) {
+            self.collectionArn = collectionArn
+            self.collectionEndpoint = collectionEndpoint
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionArn = "collectionArn"
+            case collectionEndpoint = "collectionEndpoint"
+            case status = "status"
+        }
+    }
+
+    public struct OpenSearchDataAccessPolicy: AWSDecodableShape {
+        /// The name of the data access policy.
+        public let policyName: String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public let status: OpenSearchResourceStatus?
+
+        @inlinable
+        public init(policyName: String? = nil, status: OpenSearchResourceStatus? = nil) {
+            self.policyName = policyName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case status = "status"
+        }
+    }
+
+    public struct OpenSearchDataSource: AWSDecodableShape {
+        /// The name of the OpenSearch Service data source.
+        public let dataSourceName: String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public let status: OpenSearchResourceStatus?
+
+        @inlinable
+        public init(dataSourceName: String? = nil, status: OpenSearchResourceStatus? = nil) {
+            self.dataSourceName = dataSourceName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceName = "dataSourceName"
+            case status = "status"
+        }
+    }
+
+    public struct OpenSearchEncryptionPolicy: AWSDecodableShape {
+        /// The name of the encryption policy.
+        public let policyName: String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public let status: OpenSearchResourceStatus?
+
+        @inlinable
+        public init(policyName: String? = nil, status: OpenSearchResourceStatus? = nil) {
+            self.policyName = policyName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case status = "status"
+        }
+    }
+
+    public struct OpenSearchIntegrationDetails: AWSDecodableShape {
+        /// This structure contains information about the OpenSearch Service data access policy used for this integration. The access  policy defines the access controls for the collection. This data access policy was automatically created as part of the integration setup. For more information about OpenSearch Service data access policies, see Data access control for Amazon OpenSearch Serverless in the OpenSearch Service Developer Guide.
+        public let accessPolicy: OpenSearchDataAccessPolicy?
+        /// This structure contains information about the OpenSearch Service application used for this integration. An OpenSearch Service application is the web application that was created by the integration with CloudWatch Logs. It hosts the vended logs dashboards.
+        public let application: OpenSearchApplication?
+        /// This structure contains information about the OpenSearch Service collection used for this integration. This collection was  created as part of the integration setup. An OpenSearch Service collection is a logical grouping of one or more indexes that represent an analytics workload.  For more information, see Creating and managing OpenSearch Service Serverless collections.
+        public let collection: OpenSearchCollection?
+        /// This structure contains information about the OpenSearch Service data source used for this integration. This data source was  created as part of the integration setup. An OpenSearch Service data source defines the source and destination for OpenSearch Service queries. It includes the role required to execute queries and write to collections. For more information about OpenSearch Service data sources , see Creating OpenSearch Service data source integrations with Amazon S3.
+        public let dataSource: OpenSearchDataSource?
+        /// This structure contains information about the OpenSearch Service encryption policy used for this integration. The encryption policy was created automatically when you created the integration. For more information, see Encryption policies in the OpenSearch Service Developer Guide.
+        public let encryptionPolicy: OpenSearchEncryptionPolicy?
+        /// This structure contains information about the OpenSearch Service data lifecycle policy used for this integration. The lifecycle policy determines the lifespan of the data in the collection. It was automatically created as part of the integration setup. For more information, see Using data lifecycle policies with OpenSearch Service Serverless  in the OpenSearch Service Developer Guide.
+        public let lifecyclePolicy: OpenSearchLifecyclePolicy?
+        /// This structure contains information about the OpenSearch Service network policy used for this integration. The network  policy assigns network access settings to collections.  For more information, see Network policies in the OpenSearch Service Developer Guide.
+        public let networkPolicy: OpenSearchNetworkPolicy?
+        /// This structure contains information about the OpenSearch Service workspace used for this integration. An OpenSearch Service workspace is the collection of dashboards along with other OpenSearch Service tools. This workspace was created automatically as part of the integration setup. For more information, see Centralized OpenSearch user interface (Dashboards) with  OpenSearch Service.
+        public let workspace: OpenSearchWorkspace?
+
+        @inlinable
+        public init(accessPolicy: OpenSearchDataAccessPolicy? = nil, application: OpenSearchApplication? = nil, collection: OpenSearchCollection? = nil, dataSource: OpenSearchDataSource? = nil, encryptionPolicy: OpenSearchEncryptionPolicy? = nil, lifecyclePolicy: OpenSearchLifecyclePolicy? = nil, networkPolicy: OpenSearchNetworkPolicy? = nil, workspace: OpenSearchWorkspace? = nil) {
+            self.accessPolicy = accessPolicy
+            self.application = application
+            self.collection = collection
+            self.dataSource = dataSource
+            self.encryptionPolicy = encryptionPolicy
+            self.lifecyclePolicy = lifecyclePolicy
+            self.networkPolicy = networkPolicy
+            self.workspace = workspace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPolicy = "accessPolicy"
+            case application = "application"
+            case collection = "collection"
+            case dataSource = "dataSource"
+            case encryptionPolicy = "encryptionPolicy"
+            case lifecyclePolicy = "lifecyclePolicy"
+            case networkPolicy = "networkPolicy"
+            case workspace = "workspace"
+        }
+    }
+
+    public struct OpenSearchLifecyclePolicy: AWSDecodableShape {
+        /// The name of the lifecycle policy.
+        public let policyName: String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public let status: OpenSearchResourceStatus?
+
+        @inlinable
+        public init(policyName: String? = nil, status: OpenSearchResourceStatus? = nil) {
+            self.policyName = policyName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case status = "status"
+        }
+    }
+
+    public struct OpenSearchNetworkPolicy: AWSDecodableShape {
+        /// The name of the network policy.
+        public let policyName: String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public let status: OpenSearchResourceStatus?
+
+        @inlinable
+        public init(policyName: String? = nil, status: OpenSearchResourceStatus? = nil) {
+            self.policyName = policyName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case status = "status"
+        }
+    }
+
+    public struct OpenSearchResourceConfig: AWSEncodableShape {
+        /// If you want to use an existing OpenSearch Service application for your integration with OpenSearch Service, specify it here. If you  omit this, a new application will be created.
+        public let applicationArn: String?
+        /// Specify the ARNs of IAM roles and IAM users who you want to grant permission to for viewing the dashboards.  In addition to specifying these users here, you must also grant them the CloudWatchOpenSearchDashboardsAccess  IAM policy. For more information, see
+        public let dashboardViewerPrincipals: [String]
+        /// Specify the ARN of an IAM role that CloudWatch Logs will use to create the integration. This role must have the permissions necessary to access the OpenSearch Service collection to be able to create the dashboards. For more information about the permissions needed, see  Create an IAM role to access the OpenSearch Service collection in the CloudWatch Logs User Guide.
+        public let dataSourceRoleArn: String
+        /// To have the vended dashboard data encrypted with KMS instead of the CloudWatch Logs default  encryption method, specify the ARN of the KMS key that you want to use.
+        public let kmsKeyArn: String?
+        /// Specify how many days that you want the data derived by OpenSearch Service to be retained in the index that the dashboard refers to.  This also sets the maximum time period that you can choose when viewing data in the dashboard. Choosing a longer time frame will incur additional costs.
+        public let retentionDays: Int
+
+        @inlinable
+        public init(applicationArn: String? = nil, dashboardViewerPrincipals: [String], dataSourceRoleArn: String, kmsKeyArn: String? = nil, retentionDays: Int) {
+            self.applicationArn = applicationArn
+            self.dashboardViewerPrincipals = dashboardViewerPrincipals
+            self.dataSourceRoleArn = dataSourceRoleArn
+            self.kmsKeyArn = kmsKeyArn
+            self.retentionDays = retentionDays
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retentionDays, name: "retentionDays", parent: name, max: 30)
+            try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "applicationArn"
+            case dashboardViewerPrincipals = "dashboardViewerPrincipals"
+            case dataSourceRoleArn = "dataSourceRoleArn"
+            case kmsKeyArn = "kmsKeyArn"
+            case retentionDays = "retentionDays"
+        }
+    }
+
+    public struct OpenSearchResourceStatus: AWSDecodableShape {
+        /// The current status of this resource.
+        public let status: OpenSearchResourceStatusType?
+        /// A message with additional information about the status of this resource.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(status: OpenSearchResourceStatusType? = nil, statusMessage: String? = nil) {
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case statusMessage = "statusMessage"
+        }
+    }
+
+    public struct OpenSearchWorkspace: AWSDecodableShape {
+        /// This structure contains information about the status of an OpenSearch Service resource.
+        public let status: OpenSearchResourceStatus?
+        /// The ID of this workspace.
+        public let workspaceId: String?
+
+        @inlinable
+        public init(status: OpenSearchResourceStatus? = nil, workspaceId: String? = nil) {
+            self.status = status
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case workspaceId = "workspaceId"
+        }
+    }
+
     public struct OutputLogEvent: AWSDecodableShape {
         /// The time the event was ingested, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let ingestionTime: Int64?
@@ -3329,6 +4438,179 @@ extension CloudWatchLogs {
             case ingestionTime = "ingestionTime"
             case message = "message"
             case timestamp = "timestamp"
+        }
+    }
+
+    public struct ParseCloudfront: AWSEncodableShape & AWSDecodableShape {
+        /// Omit this parameter and the whole log message will be processed by this processor. No other value than @message is allowed for source.
+        public let source: String?
+
+        @inlinable
+        public init(source: String? = nil) {
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+        }
+    }
+
+    public struct ParseJSON: AWSEncodableShape & AWSDecodableShape {
+        /// The location to put the parsed key value pair into. If you  omit this parameter, it is placed under the root node.
+        public let destination: String?
+        /// Path to the field in the log event that will be parsed. Use dot notation to access child fields. For example, store.book
+        public let source: String?
+
+        @inlinable
+        public init(destination: String? = nil, source: String? = nil) {
+            self.destination = destination
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destination, name: "destination", parent: name, max: 128)
+            try self.validate(self.destination, name: "destination", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case source = "source"
+        }
+    }
+
+    public struct ParseKeyValue: AWSEncodableShape & AWSDecodableShape {
+        /// The destination field to put the extracted key-value pairs into
+        public let destination: String?
+        /// The field delimiter string that is used between key-value pairs in the original log events. If you omit this,  the ampersand & character is used.
+        public let fieldDelimiter: String?
+        /// If you want to add a prefix to all transformed keys, specify it here.
+        public let keyPrefix: String?
+        /// The delimiter string to use between the key and value in each pair in the transformed log event. If you omit this,  the equal = character is used.
+        public let keyValueDelimiter: String?
+        /// A value to insert into the value field in the result, when a key-value pair is not successfully split.
+        public let nonMatchValue: String?
+        /// Specifies whether to overwrite the value if the destination key already exists. If you omit this, the default is false.
+        public let overwriteIfExists: Bool?
+        /// Path to the field in the log event that will be parsed. Use dot notation to access child fields. For example, store.book
+        public let source: String?
+
+        @inlinable
+        public init(destination: String? = nil, fieldDelimiter: String? = nil, keyPrefix: String? = nil, keyValueDelimiter: String? = nil, nonMatchValue: String? = nil, overwriteIfExists: Bool? = nil, source: String? = nil) {
+            self.destination = destination
+            self.fieldDelimiter = fieldDelimiter
+            self.keyPrefix = keyPrefix
+            self.keyValueDelimiter = keyValueDelimiter
+            self.nonMatchValue = nonMatchValue
+            self.overwriteIfExists = overwriteIfExists
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destination, name: "destination", parent: name, max: 128)
+            try self.validate(self.destination, name: "destination", parent: name, min: 1)
+            try self.validate(self.fieldDelimiter, name: "fieldDelimiter", parent: name, max: 128)
+            try self.validate(self.fieldDelimiter, name: "fieldDelimiter", parent: name, min: 1)
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, max: 128)
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, min: 1)
+            try self.validate(self.keyValueDelimiter, name: "keyValueDelimiter", parent: name, max: 128)
+            try self.validate(self.keyValueDelimiter, name: "keyValueDelimiter", parent: name, min: 1)
+            try self.validate(self.nonMatchValue, name: "nonMatchValue", parent: name, max: 128)
+            try self.validate(self.nonMatchValue, name: "nonMatchValue", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case fieldDelimiter = "fieldDelimiter"
+            case keyPrefix = "keyPrefix"
+            case keyValueDelimiter = "keyValueDelimiter"
+            case nonMatchValue = "nonMatchValue"
+            case overwriteIfExists = "overwriteIfExists"
+            case source = "source"
+        }
+    }
+
+    public struct ParsePostgres: AWSEncodableShape & AWSDecodableShape {
+        /// Omit this parameter and the whole log message will be processed by this processor. No other value than @message is allowed for source.
+        public let source: String?
+
+        @inlinable
+        public init(source: String? = nil) {
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+        }
+    }
+
+    public struct ParseRoute53: AWSEncodableShape & AWSDecodableShape {
+        /// Omit this parameter and the whole log message will be processed by this processor. No other value than @message is allowed for source.
+        public let source: String?
+
+        @inlinable
+        public init(source: String? = nil) {
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+        }
+    }
+
+    public struct ParseVPC: AWSEncodableShape & AWSDecodableShape {
+        /// Omit this parameter and the whole log message will be processed by this processor. No other value than @message is allowed for source.
+        public let source: String?
+
+        @inlinable
+        public init(source: String? = nil) {
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+        }
+    }
+
+    public struct ParseWAF: AWSEncodableShape & AWSDecodableShape {
+        /// Omit this parameter and the whole log message will be processed by this processor. No other value than @message is allowed for source.
+        public let source: String?
+
+        @inlinable
+        public init(source: String? = nil) {
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
         }
     }
 
@@ -3376,8 +4658,131 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct Processor: AWSEncodableShape & AWSDecodableShape {
+        /// Use this parameter to include the  addKeys processor in your transformer.
+        public let addKeys: AddKeys?
+        /// Use this parameter to include the  copyValue processor in your transformer.
+        public let copyValue: CopyValue?
+        /// Use this parameter to include the  CSV processor in your transformer.
+        public let csv: CSV?
+        /// Use this parameter to include the  datetimeConverter processor in your transformer.
+        public let dateTimeConverter: DateTimeConverter?
+        /// Use this parameter to include the  deleteKeys processor in your transformer.
+        public let deleteKeys: DeleteKeys?
+        /// Use this parameter to include the  grok processor in your transformer.
+        public let grok: Grok?
+        /// Use this parameter to include the  listToMap processor in your transformer.
+        public let listToMap: ListToMap?
+        /// Use this parameter to include the  lowerCaseString processor in your transformer.
+        public let lowerCaseString: LowerCaseString?
+        /// Use this parameter to include the  moveKeys processor in your transformer.
+        public let moveKeys: MoveKeys?
+        /// Use this parameter to include the  parseCloudfront processor in your transformer. If you use this processor, it must be the first processor in your transformer.
+        public let parseCloudfront: ParseCloudfront?
+        /// Use this parameter to include the  parseJSON processor in your transformer.
+        public let parseJSON: ParseJSON?
+        /// Use this parameter to include the  parseKeyValue processor in your transformer.
+        public let parseKeyValue: ParseKeyValue?
+        /// Use this parameter to include the  parsePostGres processor in your transformer. If you use this processor, it must be the first processor in your transformer.
+        public let parsePostgres: ParsePostgres?
+        /// Use this parameter to include the  parseRoute53 processor in your transformer. If you use this processor, it must be the first processor in your transformer.
+        public let parseRoute53: ParseRoute53?
+        /// Use this parameter to include the  parseVPC processor in your transformer. If you use this processor, it must be the first processor in your transformer.
+        public let parseVPC: ParseVPC?
+        /// Use this parameter to include the  parseWAF processor in your transformer. If you use this processor, it must be the first processor in your transformer.
+        public let parseWAF: ParseWAF?
+        /// Use this parameter to include the  renameKeys processor in your transformer.
+        public let renameKeys: RenameKeys?
+        /// Use this parameter to include the  splitString processor in your transformer.
+        public let splitString: SplitString?
+        /// Use this parameter to include the  substituteString processor in your transformer.
+        public let substituteString: SubstituteString?
+        /// Use this parameter to include the  trimString processor in your transformer.
+        public let trimString: TrimString?
+        /// Use this parameter to include the  typeConverter processor in your transformer.
+        public let typeConverter: TypeConverter?
+        /// Use this parameter to include the  upperCaseString processor in your transformer.
+        public let upperCaseString: UpperCaseString?
+
+        @inlinable
+        public init(addKeys: AddKeys? = nil, copyValue: CopyValue? = nil, csv: CSV? = nil, dateTimeConverter: DateTimeConverter? = nil, deleteKeys: DeleteKeys? = nil, grok: Grok? = nil, listToMap: ListToMap? = nil, lowerCaseString: LowerCaseString? = nil, moveKeys: MoveKeys? = nil, parseCloudfront: ParseCloudfront? = nil, parseJSON: ParseJSON? = nil, parseKeyValue: ParseKeyValue? = nil, parsePostgres: ParsePostgres? = nil, parseRoute53: ParseRoute53? = nil, parseVPC: ParseVPC? = nil, parseWAF: ParseWAF? = nil, renameKeys: RenameKeys? = nil, splitString: SplitString? = nil, substituteString: SubstituteString? = nil, trimString: TrimString? = nil, typeConverter: TypeConverter? = nil, upperCaseString: UpperCaseString? = nil) {
+            self.addKeys = addKeys
+            self.copyValue = copyValue
+            self.csv = csv
+            self.dateTimeConverter = dateTimeConverter
+            self.deleteKeys = deleteKeys
+            self.grok = grok
+            self.listToMap = listToMap
+            self.lowerCaseString = lowerCaseString
+            self.moveKeys = moveKeys
+            self.parseCloudfront = parseCloudfront
+            self.parseJSON = parseJSON
+            self.parseKeyValue = parseKeyValue
+            self.parsePostgres = parsePostgres
+            self.parseRoute53 = parseRoute53
+            self.parseVPC = parseVPC
+            self.parseWAF = parseWAF
+            self.renameKeys = renameKeys
+            self.splitString = splitString
+            self.substituteString = substituteString
+            self.trimString = trimString
+            self.typeConverter = typeConverter
+            self.upperCaseString = upperCaseString
+        }
+
+        public func validate(name: String) throws {
+            try self.addKeys?.validate(name: "\(name).addKeys")
+            try self.copyValue?.validate(name: "\(name).copyValue")
+            try self.csv?.validate(name: "\(name).csv")
+            try self.dateTimeConverter?.validate(name: "\(name).dateTimeConverter")
+            try self.deleteKeys?.validate(name: "\(name).deleteKeys")
+            try self.grok?.validate(name: "\(name).grok")
+            try self.listToMap?.validate(name: "\(name).listToMap")
+            try self.lowerCaseString?.validate(name: "\(name).lowerCaseString")
+            try self.moveKeys?.validate(name: "\(name).moveKeys")
+            try self.parseCloudfront?.validate(name: "\(name).parseCloudfront")
+            try self.parseJSON?.validate(name: "\(name).parseJSON")
+            try self.parseKeyValue?.validate(name: "\(name).parseKeyValue")
+            try self.parsePostgres?.validate(name: "\(name).parsePostgres")
+            try self.parseRoute53?.validate(name: "\(name).parseRoute53")
+            try self.parseVPC?.validate(name: "\(name).parseVPC")
+            try self.parseWAF?.validate(name: "\(name).parseWAF")
+            try self.renameKeys?.validate(name: "\(name).renameKeys")
+            try self.splitString?.validate(name: "\(name).splitString")
+            try self.substituteString?.validate(name: "\(name).substituteString")
+            try self.trimString?.validate(name: "\(name).trimString")
+            try self.typeConverter?.validate(name: "\(name).typeConverter")
+            try self.upperCaseString?.validate(name: "\(name).upperCaseString")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addKeys = "addKeys"
+            case copyValue = "copyValue"
+            case csv = "csv"
+            case dateTimeConverter = "dateTimeConverter"
+            case deleteKeys = "deleteKeys"
+            case grok = "grok"
+            case listToMap = "listToMap"
+            case lowerCaseString = "lowerCaseString"
+            case moveKeys = "moveKeys"
+            case parseCloudfront = "parseCloudfront"
+            case parseJSON = "parseJSON"
+            case parseKeyValue = "parseKeyValue"
+            case parsePostgres = "parsePostgres"
+            case parseRoute53 = "parseRoute53"
+            case parseVPC = "parseVPC"
+            case parseWAF = "parseWAF"
+            case renameKeys = "renameKeys"
+            case splitString = "splitString"
+            case substituteString = "substituteString"
+            case trimString = "trimString"
+            case typeConverter = "typeConverter"
+            case upperCaseString = "upperCaseString"
+        }
+    }
+
     public struct PutAccountPolicyRequest: AWSEncodableShape {
-        /// Specify the policy, in JSON.  Data protection policy  A data protection policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an  Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see  Types of data that you can mask. The Operation property with an Audit action is required to find the  sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more  destinations to send audit findings to. If you specify destinations such as log groups,  Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the  data, and it must  contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the  operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters long.  Subscription filter policy  A subscription filter policy can include the following attributes in a JSON block:    DestinationArn The ARN of the destination to deliver log events to. Supported destinations are:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.      RoleArn The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.    FilterPattern A filter pattern for subscribing to a  filtered stream of log events.    Distribution The method used to distribute log data to the destination.  By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.
+        /// Specify the policy, in JSON.  Data protection policy  A data protection policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an  Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see  Types of data that you can mask. The Operation property with an Audit action is required to find the  sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more  destinations to send audit findings to. If you specify destinations such as log groups,  Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the  data, and it must  contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the  operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters long.  Subscription filter policy  A subscription filter policy can include the following attributes in a JSON block:    DestinationArn The ARN of the destination to deliver log events to. Supported destinations are:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.      RoleArn The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.    FilterPattern A filter pattern for subscribing to a  filtered stream of log events.    Distribution The method used to distribute log data to the destination.  By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.    Transformer policy  A transformer policy must include one JSON block with the array of processors and their configurations. For more information about available processors, see  Processors that you can use.   Field index policy  A field index filter policy can include the following attribute in a JSON block:    Fields The array of field indexes to create.   It must contain at least one field index. The following is an example of an index policy document that creates two indexes, RequestId and TransactionId.  "policyDocument": "{ \"Fields\": [ \"RequestId\", \"TransactionId\" ] }"
         public let policyDocument: String
         /// A name for the policy. This must be unique within the account.
         public let policyName: String
@@ -3385,7 +4790,7 @@ extension CloudWatchLogs {
         public let policyType: PolicyType
         /// Currently the only valid value for this parameter is ALL, which specifies that the data  protection policy applies to all log groups in the account. If you omit this parameter, the default of ALL is used.
         public let scope: Scope?
-        /// Use this parameter to apply the subscription filter policy to a subset of log groups in the account. Currently, the only supported filter is LogGroupName NOT IN []. The selectionCriteria string can be up to 25KB in length. The length is determined by using its UTF-8 bytes. Using the selectionCriteria parameter is useful to help prevent infinite loops.  For more information, see Log recursion prevention. Specifing selectionCriteria is valid only when you specify  SUBSCRIPTION_FILTER_POLICY for policyType.
+        /// Use this parameter to apply the new policy to a subset of log groups in the account. Specifing selectionCriteria is valid only when you specify SUBSCRIPTION_FILTER_POLICY, FIELD_INDEX_POLICY or TRANSFORMER_POLICYfor policyType. If policyType is SUBSCRIPTION_FILTER_POLICY, the only supported  selectionCriteria filter is LogGroupName NOT IN []  If policyType is FIELD_INDEX_POLICY or TRANSFORMER_POLICY, the only supported  selectionCriteria filter is LogGroupNamePrefix  The selectionCriteria string can be up to 25KB in length. The length is determined by using its UTF-8 bytes. Using the selectionCriteria parameter with SUBSCRIPTION_FILTER_POLICY is useful to help prevent infinite loops.  For more information, see Log recursion prevention.
         public let selectionCriteria: String?
 
         @inlinable
@@ -3705,8 +5110,95 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct PutIndexPolicyRequest: AWSEncodableShape {
+        /// Specify either the log group name or log group ARN to apply this field index policy to. If you specify an ARN, use the format arn:aws:logs:region:account-id:log-group:log_group_name Don't include an * at the end.
+        public let logGroupIdentifier: String
+        /// The index policy document, in JSON format. The following is an example of an index policy document that creates two indexes, RequestId and TransactionId.  "policyDocument": "{ "Fields": [ "RequestId", "TransactionId" ] }"  The policy document must include at least one field index. For more information about the fields that can be included and other restrictions, see Field index syntax and quotas.
+        public let policyDocument: String
+
+        @inlinable
+        public init(logGroupIdentifier: String, policyDocument: String) {
+            self.logGroupIdentifier = logGroupIdentifier
+            self.policyDocument = policyDocument
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 5120)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier = "logGroupIdentifier"
+            case policyDocument = "policyDocument"
+        }
+    }
+
+    public struct PutIndexPolicyResponse: AWSDecodableShape {
+        /// The index policy that you just created or updated.
+        public let indexPolicy: IndexPolicy?
+
+        @inlinable
+        public init(indexPolicy: IndexPolicy? = nil) {
+            self.indexPolicy = indexPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexPolicy = "indexPolicy"
+        }
+    }
+
+    public struct PutIntegrationRequest: AWSEncodableShape {
+        /// A name for the integration.
+        public let integrationName: String
+        /// The type of integration. Currently, the only supported type is OPENSEARCH.
+        public let integrationType: IntegrationType
+        /// A structure that contains configuration information for the integration that you are creating.
+        public let resourceConfig: ResourceConfig
+
+        @inlinable
+        public init(integrationName: String, integrationType: IntegrationType, resourceConfig: ResourceConfig) {
+            self.integrationName = integrationName
+            self.integrationType = integrationType
+            self.resourceConfig = resourceConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 256)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.resourceConfig.validate(name: "\(name).resourceConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationName = "integrationName"
+            case integrationType = "integrationType"
+            case resourceConfig = "resourceConfig"
+        }
+    }
+
+    public struct PutIntegrationResponse: AWSDecodableShape {
+        /// The name of the integration that you just created.
+        public let integrationName: String?
+        /// The status of the integration that you just created. After you create an integration, it takes a few minutes to complete. During this time, you'll see the status as PROVISIONING.
+        public let integrationStatus: IntegrationStatus?
+
+        @inlinable
+        public init(integrationName: String? = nil, integrationStatus: IntegrationStatus? = nil) {
+            self.integrationName = integrationName
+            self.integrationStatus = integrationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationName = "integrationName"
+            case integrationStatus = "integrationStatus"
+        }
+    }
+
     public struct PutLogEventsRequest: AWSEncodableShape {
-        /// Reserved for internal use.
+        /// The entity associated with the log events.
         public let entity: Entity?
         /// The log events.
         public let logEvents: [InputLogEvent]
@@ -3754,7 +5246,7 @@ extension CloudWatchLogs {
     public struct PutLogEventsResponse: AWSDecodableShape {
         /// The next sequence token.  This field has been deprecated. The sequence token is now ignored in PutLogEvents actions. PutLogEvents actions are always accepted even if the sequence token is not valid. You can use parallel PutLogEvents actions on the same log stream and you do not need to wait for the response of a previous PutLogEvents action to obtain  the nextSequenceToken value.
         public let nextSequenceToken: String?
-        /// Reserved for internal use.
+        /// Information about why the entity is rejected when calling  PutLogEvents. Only returned when the entity is rejected.  When the entity is rejected, the events may still be accepted.
         public let rejectedEntityInfo: RejectedEntityInfo?
         /// The rejected events.
         public let rejectedLogEventsInfo: RejectedLogEventsInfo?
@@ -3774,6 +5266,8 @@ extension CloudWatchLogs {
     }
 
     public struct PutMetricFilterRequest: AWSEncodableShape {
+        /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see PutTransformer. If the log group uses either a log-group level or account-level transformer, and you specify true, the metric filter will be applied on the transformed version of the log events instead of the original ingested log events.
+        public let applyOnTransformedLogs: Bool?
         /// A name for the metric filter.
         public let filterName: String
         /// A filter pattern for extracting metric data out of ingested log events.
@@ -3784,7 +5278,8 @@ extension CloudWatchLogs {
         public let metricTransformations: [MetricTransformation]
 
         @inlinable
-        public init(filterName: String, filterPattern: String, logGroupName: String, metricTransformations: [MetricTransformation]) {
+        public init(applyOnTransformedLogs: Bool? = nil, filterName: String, filterPattern: String, logGroupName: String, metricTransformations: [MetricTransformation]) {
+            self.applyOnTransformedLogs = applyOnTransformedLogs
             self.filterName = filterName
             self.filterPattern = filterPattern
             self.logGroupName = logGroupName
@@ -3807,6 +5302,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnTransformedLogs = "applyOnTransformedLogs"
             case filterName = "filterName"
             case filterPattern = "filterPattern"
             case logGroupName = "logGroupName"
@@ -3818,21 +5314,24 @@ extension CloudWatchLogs {
         /// Used as an idempotency token, to avoid returning an exception if the service receives the same  request twice because of a network
         ///  error.
         public let clientToken: String?
-        /// Use this parameter to include specific log groups as part of your query definition. If you are updating a query definition and you omit this parameter, then the updated definition will contain no log groups.
+        /// Use this parameter to include specific log groups as part of your query definition. If your query uses the OpenSearch Service query language, you specify the log group names inside the querystring instead of here. If you are updating an existing query definition for the Logs Insights QL or OpenSearch Service PPL and you omit this parameter, then the updated definition will contain no log groups.
         public let logGroupNames: [String]?
         /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions.
         public let name: String
         /// If you are updating a query definition, use this parameter to specify the ID of the query definition that you want to update. You can use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parameter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation.
         public let queryDefinitionId: String?
+        /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information about the query languages that CloudWatch Logs supports,  see Supported query languages.
+        public let queryLanguage: QueryLanguage?
         /// The query string to use for this definition.  For more information, see CloudWatch Logs Insights Query Syntax.
         public let queryString: String
 
         @inlinable
-        public init(clientToken: String? = PutQueryDefinitionRequest.idempotencyToken(), logGroupNames: [String]? = nil, name: String, queryDefinitionId: String? = nil, queryString: String) {
+        public init(clientToken: String? = PutQueryDefinitionRequest.idempotencyToken(), logGroupNames: [String]? = nil, name: String, queryDefinitionId: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String) {
             self.clientToken = clientToken
             self.logGroupNames = logGroupNames
             self.name = name
             self.queryDefinitionId = queryDefinitionId
+            self.queryLanguage = queryLanguage
             self.queryString = queryString
         }
 
@@ -3857,6 +5356,7 @@ extension CloudWatchLogs {
             case logGroupNames = "logGroupNames"
             case name = "name"
             case queryDefinitionId = "queryDefinitionId"
+            case queryLanguage = "queryLanguage"
             case queryString = "queryString"
         }
     }
@@ -3938,6 +5438,8 @@ extension CloudWatchLogs {
     }
 
     public struct PutSubscriptionFilterRequest: AWSEncodableShape {
+        /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see PutTransformer. If the log group uses either a log-group level or account-level transformer, and you specify true, the subscription filter will be applied on the transformed version of the log events instead of the original ingested log events.
+        public let applyOnTransformedLogs: Bool?
         /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account,  for cross-account delivery. If you're setting up a cross-account subscription, the destination must have an IAM policy associated with it. The IAM policy must allow the sender to send logs to the destination. For more information, see PutDestinationPolicy.   A Kinesis Data Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   A Lambda function belonging to the same account as the subscription filter, for same-account delivery.
         public let destinationArn: String
         /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis data stream.
@@ -3952,7 +5454,8 @@ extension CloudWatchLogs {
         public let roleArn: String?
 
         @inlinable
-        public init(destinationArn: String, distribution: Distribution? = nil, filterName: String, filterPattern: String, logGroupName: String, roleArn: String? = nil) {
+        public init(applyOnTransformedLogs: Bool? = nil, destinationArn: String, distribution: Distribution? = nil, filterName: String, filterPattern: String, logGroupName: String, roleArn: String? = nil) {
+            self.applyOnTransformedLogs = applyOnTransformedLogs
             self.destinationArn = destinationArn
             self.distribution = distribution
             self.filterName = filterName
@@ -3974,12 +5477,42 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnTransformedLogs = "applyOnTransformedLogs"
             case destinationArn = "destinationArn"
             case distribution = "distribution"
             case filterName = "filterName"
             case filterPattern = "filterPattern"
             case logGroupName = "logGroupName"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct PutTransformerRequest: AWSEncodableShape {
+        /// Specify either the name or ARN of the log group to create the transformer for.
+        public let logGroupIdentifier: String
+        /// This structure contains the configuration of this log transformer. A log transformer is an array of processors, where each processor applies one type of transformation to the log events that are ingested.
+        public let transformerConfig: [Processor]
+
+        @inlinable
+        public init(logGroupIdentifier: String, transformerConfig: [Processor]) {
+            self.logGroupIdentifier = logGroupIdentifier
+            self.transformerConfig = transformerConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.transformerConfig.forEach {
+                try $0.validate(name: "\(name).transformerConfig[]")
+            }
+            try self.validate(self.transformerConfig, name: "transformerConfig", parent: name, max: 20)
+            try self.validate(self.transformerConfig, name: "transformerConfig", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier = "logGroupIdentifier"
+            case transformerConfig = "transformerConfig"
         }
     }
 
@@ -3992,15 +5525,18 @@ extension CloudWatchLogs {
         public let name: String?
         /// The unique ID of the query definition.
         public let queryDefinitionId: String?
+        /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports,  see Supported query languages.
+        public let queryLanguage: QueryLanguage?
         /// The query string to use for this definition. For more information, see CloudWatch Logs Insights Query Syntax.
         public let queryString: String?
 
         @inlinable
-        public init(lastModified: Int64? = nil, logGroupNames: [String]? = nil, name: String? = nil, queryDefinitionId: String? = nil, queryString: String? = nil) {
+        public init(lastModified: Int64? = nil, logGroupNames: [String]? = nil, name: String? = nil, queryDefinitionId: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String? = nil) {
             self.lastModified = lastModified
             self.logGroupNames = logGroupNames
             self.name = name
             self.queryDefinitionId = queryDefinitionId
+            self.queryLanguage = queryLanguage
             self.queryString = queryString
         }
 
@@ -4009,6 +5545,7 @@ extension CloudWatchLogs {
             case logGroupNames = "logGroupNames"
             case name = "name"
             case queryDefinitionId = "queryDefinitionId"
+            case queryLanguage = "queryLanguage"
             case queryString = "queryString"
         }
     }
@@ -4020,16 +5557,19 @@ extension CloudWatchLogs {
         public let logGroupName: String?
         /// The unique ID number of this query.
         public let queryId: String?
+        /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports,  see Supported query languages.
+        public let queryLanguage: QueryLanguage?
         /// The query string used in this query.
         public let queryString: String?
         /// The status of this query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, and Unknown.
         public let status: QueryStatus?
 
         @inlinable
-        public init(createTime: Int64? = nil, logGroupName: String? = nil, queryId: String? = nil, queryString: String? = nil, status: QueryStatus? = nil) {
+        public init(createTime: Int64? = nil, logGroupName: String? = nil, queryId: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String? = nil, status: QueryStatus? = nil) {
             self.createTime = createTime
             self.logGroupName = logGroupName
             self.queryId = queryId
+            self.queryLanguage = queryLanguage
             self.queryString = queryString
             self.status = status
         }
@@ -4038,6 +5578,7 @@ extension CloudWatchLogs {
             case createTime = "createTime"
             case logGroupName = "logGroupName"
             case queryId = "queryId"
+            case queryLanguage = "queryLanguage"
             case queryString = "queryString"
             case status = "status"
         }
@@ -4046,20 +5587,32 @@ extension CloudWatchLogs {
     public struct QueryStatistics: AWSDecodableShape {
         /// The total number of bytes in the log events scanned during the query.
         public let bytesScanned: Double?
+        /// An estimate of the number of bytes in the log events that were skipped when processing this query,  because the query contained an indexed field.  Skipping these entries lowers query costs and improves the query performance time. For more information about field indexes, see  PutIndexPolicy.
+        public let estimatedBytesSkipped: Double?
+        /// An estimate of the number of log events that were skipped when processing this query,  because the query contained an indexed field. Skipping these entries lowers query costs and  improves the query performance time. For more information about field indexes, see  PutIndexPolicy.
+        public let estimatedRecordsSkipped: Double?
+        /// The number of log groups that were scanned by this query.
+        public let logGroupsScanned: Double?
         /// The number of log events that matched the query string.
         public let recordsMatched: Double?
         /// The total number of log events scanned during the query.
         public let recordsScanned: Double?
 
         @inlinable
-        public init(bytesScanned: Double? = nil, recordsMatched: Double? = nil, recordsScanned: Double? = nil) {
+        public init(bytesScanned: Double? = nil, estimatedBytesSkipped: Double? = nil, estimatedRecordsSkipped: Double? = nil, logGroupsScanned: Double? = nil, recordsMatched: Double? = nil, recordsScanned: Double? = nil) {
             self.bytesScanned = bytesScanned
+            self.estimatedBytesSkipped = estimatedBytesSkipped
+            self.estimatedRecordsSkipped = estimatedRecordsSkipped
+            self.logGroupsScanned = logGroupsScanned
             self.recordsMatched = recordsMatched
             self.recordsScanned = recordsScanned
         }
 
         private enum CodingKeys: String, CodingKey {
             case bytesScanned = "bytesScanned"
+            case estimatedBytesSkipped = "estimatedBytesSkipped"
+            case estimatedRecordsSkipped = "estimatedRecordsSkipped"
+            case logGroupsScanned = "logGroupsScanned"
             case recordsMatched = "recordsMatched"
             case recordsScanned = "recordsScanned"
         }
@@ -4084,7 +5637,7 @@ extension CloudWatchLogs {
     }
 
     public struct RejectedEntityInfo: AWSDecodableShape {
-        /// Reserved for internal use.
+        /// The type of error that caused the rejection of the entity when calling PutLogEvents.
         public let errorType: EntityRejectionErrorType
 
         @inlinable
@@ -4116,6 +5669,57 @@ extension CloudWatchLogs {
             case expiredLogEventEndIndex = "expiredLogEventEndIndex"
             case tooNewLogEventStartIndex = "tooNewLogEventStartIndex"
             case tooOldLogEventEndIndex = "tooOldLogEventEndIndex"
+        }
+    }
+
+    public struct RenameKeyEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The key to rename
+        public let key: String
+        /// Specifies whether to overwrite the existing value if the destination key already exists. The default is false
+        public let overwriteIfExists: Bool?
+        /// The string to use for the new key name
+        public let renameTo: String
+
+        @inlinable
+        public init(key: String, overwriteIfExists: Bool? = nil, renameTo: String) {
+            self.key = key
+            self.overwriteIfExists = overwriteIfExists
+            self.renameTo = renameTo
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.renameTo, name: "renameTo", parent: name, max: 128)
+            try self.validate(self.renameTo, name: "renameTo", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case overwriteIfExists = "overwriteIfExists"
+            case renameTo = "renameTo"
+        }
+    }
+
+    public struct RenameKeys: AWSEncodableShape & AWSDecodableShape {
+        /// An array of RenameKeyEntry objects, where each object contains the information about a single key to rename.
+        public let entries: [RenameKeyEntry]
+
+        @inlinable
+        public init(entries: [RenameKeyEntry]) {
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 5)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
         }
     }
 
@@ -4226,6 +5830,53 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct SplitString: AWSEncodableShape & AWSDecodableShape {
+        /// An array of SplitStringEntry objects, where each object contains the information about one field to split.
+        public let entries: [SplitStringEntry]
+
+        @inlinable
+        public init(entries: [SplitStringEntry]) {
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 10)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
+        }
+    }
+
+    public struct SplitStringEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The separator characters to split the string entry on.
+        public let delimiter: String
+        /// The key of the field to split.
+        public let source: String
+
+        @inlinable
+        public init(delimiter: String, source: String) {
+            self.delimiter = delimiter
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delimiter = "delimiter"
+            case source = "source"
+        }
+    }
+
     public struct StartLiveTailRequest: AWSEncodableShape {
         /// An optional pattern to use to filter the results to include only log events that match the pattern. For example, a filter pattern of error 404 causes only log events that include both error  and 404 to be included in the Live Tail stream. Regular expression filter patterns are supported. For more information about filter pattern syntax, see Filter and Pattern Syntax.
         public let logEventFilterPattern: String?
@@ -4299,24 +5950,27 @@ extension CloudWatchLogs {
         public let endTime: Int64
         /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 10,000.
         public let limit: Int?
-        /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
+        /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, use the format arn:aws:logs:region:account-id:log-group:log_group_name Don't include an * at the end. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers. The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here.
         public let logGroupIdentifiers: [String]?
-        /// The log group on which to perform the query.  A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
+        /// The log group on which to perform the query.  A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers. The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here.
         public let logGroupName: String?
-        /// The list of log groups to be queried. You can include up to 50 log groups.  A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
+        /// The list of log groups to be queried. You can include up to 50 log groups.  A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers. The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here.
         public let logGroupNames: [String]?
+        /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information about the query languages that CloudWatch Logs supports,  see Supported query languages.
+        public let queryLanguage: QueryLanguage?
         /// The query string to use. For more information, see CloudWatch Logs Insights Query Syntax.
         public let queryString: String
         /// The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let startTime: Int64
 
         @inlinable
-        public init(endTime: Int64, limit: Int? = nil, logGroupIdentifiers: [String]? = nil, logGroupName: String? = nil, logGroupNames: [String]? = nil, queryString: String, startTime: Int64) {
+        public init(endTime: Int64, limit: Int? = nil, logGroupIdentifiers: [String]? = nil, logGroupName: String? = nil, logGroupNames: [String]? = nil, queryLanguage: QueryLanguage? = nil, queryString: String, startTime: Int64) {
             self.endTime = endTime
             self.limit = limit
             self.logGroupIdentifiers = logGroupIdentifiers
             self.logGroupName = logGroupName
             self.logGroupNames = logGroupNames
+            self.queryLanguage = queryLanguage
             self.queryString = queryString
             self.startTime = startTime
         }
@@ -4348,6 +6002,7 @@ extension CloudWatchLogs {
             case logGroupIdentifiers = "logGroupIdentifiers"
             case logGroupName = "logGroupName"
             case logGroupNames = "logGroupNames"
+            case queryLanguage = "queryLanguage"
             case queryString = "queryString"
             case startTime = "startTime"
         }
@@ -4400,6 +6055,8 @@ extension CloudWatchLogs {
     }
 
     public struct SubscriptionFilter: AWSDecodableShape {
+        /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see PutTransformer. If this value is true, the subscription filter is applied on the transformed version of the log events instead of the original ingested log events.
+        public let applyOnTransformedLogs: Bool?
         /// The creation time of the subscription filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
         /// The Amazon Resource Name (ARN) of the destination.
@@ -4413,7 +6070,8 @@ extension CloudWatchLogs {
         public let roleArn: String?
 
         @inlinable
-        public init(creationTime: Int64? = nil, destinationArn: String? = nil, distribution: Distribution? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, roleArn: String? = nil) {
+        public init(applyOnTransformedLogs: Bool? = nil, creationTime: Int64? = nil, destinationArn: String? = nil, distribution: Distribution? = nil, filterName: String? = nil, filterPattern: String? = nil, logGroupName: String? = nil, roleArn: String? = nil) {
+            self.applyOnTransformedLogs = applyOnTransformedLogs
             self.creationTime = creationTime
             self.destinationArn = destinationArn
             self.distribution = distribution
@@ -4424,6 +6082,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyOnTransformedLogs = "applyOnTransformedLogs"
             case creationTime = "creationTime"
             case destinationArn = "destinationArn"
             case distribution = "distribution"
@@ -4431,6 +6090,59 @@ extension CloudWatchLogs {
             case filterPattern = "filterPattern"
             case logGroupName = "logGroupName"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct SubstituteString: AWSEncodableShape & AWSDecodableShape {
+        /// An array of objects, where each object contains the information about one key to match and replace.
+        public let entries: [SubstituteStringEntry]
+
+        @inlinable
+        public init(entries: [SubstituteStringEntry]) {
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 10)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
+        }
+    }
+
+    public struct SubstituteStringEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The regular expression string to be replaced. Special regex characters such as [ and ] must be escaped using \\  when using double quotes and with \ when using single quotes. For more information,  see  Class Pattern on the Oracle web site.
+        public let from: String
+        /// The key to modify
+        public let source: String
+        /// The string to be substituted for each match of from
+        public let to: String
+
+        @inlinable
+        public init(from: String, source: String, to: String) {
+            self.from = from
+            self.source = source
+            self.to = to
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.from, name: "from", parent: name, max: 128)
+            try self.validate(self.from, name: "from", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, max: 128)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.validate(self.to, name: "to", parent: name, max: 128)
+            try self.validate(self.to, name: "to", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case from = "from"
+            case source = "source"
+            case to = "to"
         }
     }
 
@@ -4555,6 +6267,140 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case matches = "matches"
+        }
+    }
+
+    public struct TestTransformerRequest: AWSEncodableShape {
+        /// An array of the raw log events that you want to use to test this transformer.
+        public let logEventMessages: [String]
+        /// This structure contains the configuration of this log transformer that you want to test. A log transformer is an array of processors, where each processor applies one type of transformation to the log events that are ingested.
+        public let transformerConfig: [Processor]
+
+        @inlinable
+        public init(logEventMessages: [String], transformerConfig: [Processor]) {
+            self.logEventMessages = logEventMessages
+            self.transformerConfig = transformerConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.logEventMessages.forEach {
+                try validate($0, name: "logEventMessages[]", parent: name, min: 1)
+            }
+            try self.validate(self.logEventMessages, name: "logEventMessages", parent: name, max: 50)
+            try self.validate(self.logEventMessages, name: "logEventMessages", parent: name, min: 1)
+            try self.transformerConfig.forEach {
+                try $0.validate(name: "\(name).transformerConfig[]")
+            }
+            try self.validate(self.transformerConfig, name: "transformerConfig", parent: name, max: 20)
+            try self.validate(self.transformerConfig, name: "transformerConfig", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logEventMessages = "logEventMessages"
+            case transformerConfig = "transformerConfig"
+        }
+    }
+
+    public struct TestTransformerResponse: AWSDecodableShape {
+        /// An array where each member of the array includes both the original version and the transformed version of one of the log events that you input.
+        public let transformedLogs: [TransformedLogRecord]?
+
+        @inlinable
+        public init(transformedLogs: [TransformedLogRecord]? = nil) {
+            self.transformedLogs = transformedLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformedLogs = "transformedLogs"
+        }
+    }
+
+    public struct TransformedLogRecord: AWSDecodableShape {
+        /// The original log event message before it was transformed.
+        public let eventMessage: String?
+        /// The event number.
+        public let eventNumber: Int64?
+        /// The log event message after being transformed.
+        public let transformedEventMessage: String?
+
+        @inlinable
+        public init(eventMessage: String? = nil, eventNumber: Int64? = nil, transformedEventMessage: String? = nil) {
+            self.eventMessage = eventMessage
+            self.eventNumber = eventNumber
+            self.transformedEventMessage = transformedEventMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventMessage = "eventMessage"
+            case eventNumber = "eventNumber"
+            case transformedEventMessage = "transformedEventMessage"
+        }
+    }
+
+    public struct TrimString: AWSEncodableShape & AWSDecodableShape {
+        /// The array containing the keys of the fields to trim.
+        public let withKeys: [String]
+
+        @inlinable
+        public init(withKeys: [String]) {
+            self.withKeys = withKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.withKeys.forEach {
+                try validate($0, name: "withKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.withKeys, name: "withKeys", parent: name, max: 10)
+            try self.validate(self.withKeys, name: "withKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case withKeys = "withKeys"
+        }
+    }
+
+    public struct TypeConverter: AWSEncodableShape & AWSDecodableShape {
+        /// An array of TypeConverterEntry objects, where each object contains the information about one field to change the type of.
+        public let entries: [TypeConverterEntry]
+
+        @inlinable
+        public init(entries: [TypeConverterEntry]) {
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 5)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
+        }
+    }
+
+    public struct TypeConverterEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The key with the value that is to be converted to a different type.
+        public let key: String
+        /// The type to convert the field value to. Valid values are integer,  double, string and boolean.
+        public let type: `Type`
+
+        @inlinable
+        public init(key: String, type: `Type`) {
+            self.key = key
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case type = "type"
         }
     }
 
@@ -4738,6 +6584,60 @@ extension CloudWatchLogs {
             case enabled = "enabled"
             case evaluationFrequency = "evaluationFrequency"
             case filterPattern = "filterPattern"
+        }
+    }
+
+    public struct UpperCaseString: AWSEncodableShape & AWSDecodableShape {
+        /// The array of containing the keys of the field to convert to uppercase.
+        public let withKeys: [String]
+
+        @inlinable
+        public init(withKeys: [String]) {
+            self.withKeys = withKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.withKeys.forEach {
+                try validate($0, name: "withKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.withKeys, name: "withKeys", parent: name, max: 10)
+            try self.validate(self.withKeys, name: "withKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case withKeys = "withKeys"
+        }
+    }
+
+    public struct IntegrationDetails: AWSDecodableShape {
+        /// This structure contains complete information about one integration between CloudWatch Logs and OpenSearch Service.
+        public let openSearchIntegrationDetails: OpenSearchIntegrationDetails?
+
+        @inlinable
+        public init(openSearchIntegrationDetails: OpenSearchIntegrationDetails? = nil) {
+            self.openSearchIntegrationDetails = openSearchIntegrationDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openSearchIntegrationDetails = "openSearchIntegrationDetails"
+        }
+    }
+
+    public struct ResourceConfig: AWSEncodableShape {
+        /// This structure contains configuration details about an integration between CloudWatch Logs and OpenSearch Service.
+        public let openSearchResourceConfig: OpenSearchResourceConfig?
+
+        @inlinable
+        public init(openSearchResourceConfig: OpenSearchResourceConfig? = nil) {
+            self.openSearchResourceConfig = openSearchResourceConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.openSearchResourceConfig?.validate(name: "\(name).openSearchResourceConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openSearchResourceConfig = "openSearchResourceConfig"
         }
     }
 }

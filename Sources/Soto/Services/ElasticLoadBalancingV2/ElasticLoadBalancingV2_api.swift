@@ -697,6 +697,35 @@ public struct ElasticLoadBalancingV2: AWSService {
         return try await self.describeAccountLimits(input, logger: logger)
     }
 
+    /// Describes the capacity reservation status for the specified load balancer.
+    @Sendable
+    @inlinable
+    public func describeCapacityReservation(_ input: DescribeCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityReservationOutput {
+        try await self.client.execute(
+            operation: "DescribeCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the capacity reservation status for the specified load balancer.
+    ///
+    /// Parameters:
+    ///   - loadBalancerArn: The Amazon Resource Name (ARN) of the load balancer.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCapacityReservation(
+        loadBalancerArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCapacityReservationOutput {
+        let input = DescribeCapacityReservationInput(
+            loadBalancerArn: loadBalancerArn
+        )
+        return try await self.describeCapacityReservation(input, logger: logger)
+    }
+
     /// Describes the attributes for the specified listener.
     @Sendable
     @inlinable
@@ -1275,6 +1304,41 @@ public struct ElasticLoadBalancingV2: AWSService {
             trustStoreArn: trustStoreArn
         )
         return try await self.getTrustStoreRevocationContent(input, logger: logger)
+    }
+
+    /// Modifies the capacity reservation of the specified load balancer. When modifying capacity reservation, you must include at least one MinimumLoadBalancerCapacity  or ResetCapacityReservation.
+    @Sendable
+    @inlinable
+    public func modifyCapacityReservation(_ input: ModifyCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyCapacityReservationOutput {
+        try await self.client.execute(
+            operation: "ModifyCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the capacity reservation of the specified load balancer. When modifying capacity reservation, you must include at least one MinimumLoadBalancerCapacity  or ResetCapacityReservation.
+    ///
+    /// Parameters:
+    ///   - loadBalancerArn: The Amazon Resource Name (ARN) of the load balancer.
+    ///   - minimumLoadBalancerCapacity: The minimum load balancer capacity reserved.
+    ///   - resetCapacityReservation: Resets the capacity reservation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyCapacityReservation(
+        loadBalancerArn: String? = nil,
+        minimumLoadBalancerCapacity: MinimumLoadBalancerCapacity? = nil,
+        resetCapacityReservation: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyCapacityReservationOutput {
+        let input = ModifyCapacityReservationInput(
+            loadBalancerArn: loadBalancerArn, 
+            minimumLoadBalancerCapacity: minimumLoadBalancerCapacity, 
+            resetCapacityReservation: resetCapacityReservation
+        )
+        return try await self.modifyCapacityReservation(input, logger: logger)
     }
 
     /// Replaces the specified properties of the specified listener. Any properties that you do not specify remain unchanged. Changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy and default certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP to TLS, you must add the security policy and default certificate properties. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an action, specify a list with the current actions plus the new action.

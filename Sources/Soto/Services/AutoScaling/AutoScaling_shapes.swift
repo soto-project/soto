@@ -72,10 +72,24 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacityReservationPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
+        case capacityReservationsFirst = "capacity-reservations-first"
+        case capacityReservationsOnly = "capacity-reservations-only"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CpuManufacturer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonWebServices = "amazon-web-services"
         case amd = "amd"
         case intel = "intel"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImpairedZoneHealthCheckBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ignoreUnhealthy = "IgnoreUnhealthy"
+        case replaceUnhealthy = "ReplaceUnhealthy"
         public var description: String { return self.rawValue }
     }
 
@@ -551,13 +565,16 @@ extension AutoScaling {
     public struct AttachTrafficSourcesType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
+        ///  If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see Auto Scaling group zonal shift in the Amazon EC2 Auto Scaling User Guide.
+        public let skipZonalShiftValidation: Bool?
         /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources.
         @OptionalCustomCoding<StandardArrayCoder<TrafficSourceIdentifier>>
         public var trafficSources: [TrafficSourceIdentifier]?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, trafficSources: [TrafficSourceIdentifier]? = nil) {
+        public init(autoScalingGroupName: String? = nil, skipZonalShiftValidation: Bool? = nil, trafficSources: [TrafficSourceIdentifier]? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
+            self.skipZonalShiftValidation = skipZonalShiftValidation
             self.trafficSources = trafficSources
         }
 
@@ -572,6 +589,7 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
+            case skipZonalShiftValidation = "SkipZonalShiftValidation"
             case trafficSources = "TrafficSources"
         }
     }
@@ -583,11 +601,15 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         ///  The instance capacity distribution across Availability Zones.
         public let availabilityZoneDistribution: AvailabilityZoneDistribution?
+        ///  The Availability Zone impairment policy.
+        public let availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy?
         /// One or more Availability Zones for the group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var availabilityZones: [String]?
         /// Indicates whether Capacity Rebalancing is enabled.
         public let capacityRebalance: Bool?
+        ///  The capacity reservation specification.
+        public let capacityReservationSpecification: CapacityReservationSpecification?
         /// Reserved.
         public let context: String?
         /// The date and time the group was created.
@@ -660,12 +682,14 @@ extension AutoScaling {
         public let warmPoolSize: Int?
 
         @inlinable
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, createdTime: Date? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, createdTime: Date? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
+            self.capacityReservationSpecification = capacityReservationSpecification
             self.context = context
             self.createdTime = createdTime
             self.defaultCooldown = defaultCooldown
@@ -703,8 +727,10 @@ extension AutoScaling {
             case autoScalingGroupARN = "AutoScalingGroupARN"
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZoneDistribution = "AvailabilityZoneDistribution"
+            case availabilityZoneImpairmentPolicy = "AvailabilityZoneImpairmentPolicy"
             case availabilityZones = "AvailabilityZones"
             case capacityRebalance = "CapacityRebalance"
+            case capacityReservationSpecification = "CapacityReservationSpecification"
             case context = "Context"
             case createdTime = "CreatedTime"
             case defaultCooldown = "DefaultCooldown"
@@ -881,6 +907,24 @@ extension AutoScaling {
         }
     }
 
+    public struct AvailabilityZoneImpairmentPolicy: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies the health check behavior for the impaired Availability Zone in an active zonal shift. If you select Replace unhealthy, instances that appear unhealthy will be replaced in all Availability Zones.  If you select Ignore unhealthy, instances will not be replaced in the Availability Zone with the active zonal shift. For more information, see Auto Scaling group zonal shift  in the Amazon EC2 Auto Scaling User Guide.
+        public let impairedZoneHealthCheckBehavior: ImpairedZoneHealthCheckBehavior?
+        ///  If true, enable zonal shift for your Auto Scaling group.
+        public let zonalShiftEnabled: Bool?
+
+        @inlinable
+        public init(impairedZoneHealthCheckBehavior: ImpairedZoneHealthCheckBehavior? = nil, zonalShiftEnabled: Bool? = nil) {
+            self.impairedZoneHealthCheckBehavior = impairedZoneHealthCheckBehavior
+            self.zonalShiftEnabled = zonalShiftEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impairedZoneHealthCheckBehavior = "ImpairedZoneHealthCheckBehavior"
+            case zonalShiftEnabled = "ZonalShiftEnabled"
+        }
+    }
+
     public struct BaselineEbsBandwidthMbpsRequest: AWSEncodableShape & AWSDecodableShape {
         /// The maximum value in Mbps.
         public let max: Int?
@@ -901,6 +945,20 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case max = "Max"
             case min = "Min"
+        }
+    }
+
+    public struct BaselinePerformanceFactorsRequest: AWSEncodableShape & AWSDecodableShape {
+        ///  The CPU performance to consider, using an instance family as the baseline reference.
+        public let cpu: CpuPerformanceFactorRequest?
+
+        @inlinable
+        public init(cpu: CpuPerformanceFactorRequest? = nil) {
+            self.cpu = cpu
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpu = "Cpu"
         }
     }
 
@@ -1082,6 +1140,61 @@ extension AutoScaling {
         }
     }
 
+    public struct CapacityReservationSpecification: AWSEncodableShape & AWSDecodableShape {
+        ///  The capacity reservation preference. The following options are available:     capacity-reservations-only - Auto Scaling will only launch instances into a Capacity Reservation or Capacity Reservation resource group. If capacity isn't available, instances will fail to launch.    capacity-reservations-first - Auto Scaling will try to launch instances into a Capacity Reservation or Capacity Reservation resource group first. If capacity isn't available, instances will run in On-Demand capacity.    none - Auto Scaling will not launch instances into a Capacity Reservation. Instances will run in On-Demand capacity.     default - Auto Scaling uses the Capacity Reservation preference from your launch template or an open Capacity Reservation.
+        public let capacityReservationPreference: CapacityReservationPreference?
+        ///  Describes a target Capacity Reservation or Capacity Reservation resource group.
+        public let capacityReservationTarget: CapacityReservationTarget?
+
+        @inlinable
+        public init(capacityReservationPreference: CapacityReservationPreference? = nil, capacityReservationTarget: CapacityReservationTarget? = nil) {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.capacityReservationTarget = capacityReservationTarget
+        }
+
+        public func validate(name: String) throws {
+            try self.capacityReservationTarget?.validate(name: "\(name).capacityReservationTarget")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationPreference = "CapacityReservationPreference"
+            case capacityReservationTarget = "CapacityReservationTarget"
+        }
+    }
+
+    public struct CapacityReservationTarget: AWSEncodableShape & AWSDecodableShape {
+        ///  The Capacity Reservation IDs to launch instances into.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var capacityReservationIds: [String]?
+        ///  The resource group ARNs of the Capacity Reservation to launch instances into.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var capacityReservationResourceGroupArns: [String]?
+
+        @inlinable
+        public init(capacityReservationIds: [String]? = nil, capacityReservationResourceGroupArns: [String]? = nil) {
+            self.capacityReservationIds = capacityReservationIds
+            self.capacityReservationResourceGroupArns = capacityReservationResourceGroupArns
+        }
+
+        public func validate(name: String) throws {
+            try self.capacityReservationIds?.forEach {
+                try validate($0, name: "capacityReservationIds[]", parent: name, max: 255)
+                try validate($0, name: "capacityReservationIds[]", parent: name, min: 1)
+                try validate($0, name: "capacityReservationIds[]", parent: name, pattern: "^[A-Za-z0-9\\-_\\/]+$")
+            }
+            try self.capacityReservationResourceGroupArns?.forEach {
+                try validate($0, name: "capacityReservationResourceGroupArns[]", parent: name, max: 1600)
+                try validate($0, name: "capacityReservationResourceGroupArns[]", parent: name, min: 1)
+                try validate($0, name: "capacityReservationResourceGroupArns[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationIds = "CapacityReservationIds"
+            case capacityReservationResourceGroupArns = "CapacityReservationResourceGroupArns"
+        }
+    }
+
     public struct CompleteLifecycleActionAnswer: AWSDecodableShape {
         public init() {}
     }
@@ -1130,16 +1243,37 @@ extension AutoScaling {
         }
     }
 
+    public struct CpuPerformanceFactorRequest: AWSEncodableShape & AWSDecodableShape {
+        public struct _ReferencesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        ///  Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture differences.   Currently only one instance family can be specified in the list.
+        @OptionalCustomCoding<ArrayCoder<_ReferencesEncoding, PerformanceFactorReferenceRequest>>
+        public var references: [PerformanceFactorReferenceRequest]?
+
+        @inlinable
+        public init(references: [PerformanceFactorReferenceRequest]? = nil) {
+            self.references = references
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case references = "Reference"
+        }
+    }
+
     public struct CreateAutoScalingGroupType: AWSEncodableShape {
         /// The name of the Auto Scaling group. This name must be unique per Region per account. The name can contain any ASCII character 33 to 126 including most punctuation characters, digits, and upper and lowercased letters.  You cannot use a colon (:) in the name.
         public let autoScalingGroupName: String?
         /// The instance capacity distribution across Availability Zones.
         public let availabilityZoneDistribution: AvailabilityZoneDistribution?
+        ///  The policy for Availability Zone impairment.
+        public let availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy?
         /// A list of Availability Zones where instances in the Auto Scaling group can be created. Used for launching into the default VPC subnet in each Availability Zone when not using the VPCZoneIdentifier property, or for attaching a network interface when an existing network interface ID is specified in a launch template.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var availabilityZones: [String]?
         /// Indicates whether Capacity Rebalancing is enabled. Otherwise, Capacity Rebalancing is disabled. When you turn on Capacity Rebalancing, Amazon EC2 Auto Scaling attempts to launch a Spot Instance whenever Amazon EC2 notifies that a Spot Instance is at an elevated risk of interruption. After launching a new instance, it then terminates an old instance. For more information, see Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions in the in the Amazon EC2 Auto Scaling User Guide.
         public let capacityRebalance: Bool?
+        ///  The capacity reservation specification for the Auto Scaling group.
+        public let capacityReservationSpecification: CapacityReservationSpecification?
         /// Reserved.
         public let context: String?
         ///  Only needed if you use simple scaling policies.  The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Default: 300 seconds
@@ -1182,6 +1316,8 @@ extension AutoScaling {
         public let placementGroup: String?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
+        ///  If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see Auto Scaling group zonal shift in the Amazon EC2 Auto Scaling User Guide.
+        public let skipZonalShiftValidation: Bool?
         /// One or more tags. You can tag your Auto Scaling group and propagate the tags to the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the launch template specifies an instance tag with a key that is also specified for the Auto Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the value specified by the Auto Scaling group. For more information, see Tag Auto Scaling groups and instances in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
@@ -1198,11 +1334,13 @@ extension AutoScaling {
         public let vpcZoneIdentifier: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
+            self.capacityReservationSpecification = capacityReservationSpecification
             self.context = context
             self.defaultCooldown = defaultCooldown
             self.defaultInstanceWarmup = defaultInstanceWarmup
@@ -1223,6 +1361,7 @@ extension AutoScaling {
             self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
             self.placementGroup = placementGroup
             self.serviceLinkedRoleARN = serviceLinkedRoleARN
+            self.skipZonalShiftValidation = skipZonalShiftValidation
             self.tags = tags
             self.targetGroupARNs = targetGroupARNs
             self.terminationPolicies = terminationPolicies
@@ -1239,6 +1378,7 @@ extension AutoScaling {
                 try validate($0, name: "availabilityZones[]", parent: name, min: 1)
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
+            try self.capacityReservationSpecification?.validate(name: "\(name).capacityReservationSpecification")
             try self.validate(self.desiredCapacityType, name: "desiredCapacityType", parent: name, max: 255)
             try self.validate(self.desiredCapacityType, name: "desiredCapacityType", parent: name, min: 1)
             try self.validate(self.desiredCapacityType, name: "desiredCapacityType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -1292,8 +1432,10 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZoneDistribution = "AvailabilityZoneDistribution"
+            case availabilityZoneImpairmentPolicy = "AvailabilityZoneImpairmentPolicy"
             case availabilityZones = "AvailabilityZones"
             case capacityRebalance = "CapacityRebalance"
+            case capacityReservationSpecification = "CapacityReservationSpecification"
             case context = "Context"
             case defaultCooldown = "DefaultCooldown"
             case defaultInstanceWarmup = "DefaultInstanceWarmup"
@@ -1314,6 +1456,7 @@ extension AutoScaling {
             case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
             case placementGroup = "PlacementGroup"
             case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
+            case skipZonalShiftValidation = "SkipZonalShiftValidation"
             case tags = "Tags"
             case targetGroupARNs = "TargetGroupARNs"
             case terminationPolicies = "TerminationPolicies"
@@ -1492,17 +1635,20 @@ extension AutoScaling {
         public var metrics: [TargetTrackingMetricDataQuery]?
         /// The namespace of the metric.
         public let namespace: String?
+        ///  The period of the metric in seconds. The default value is 60. Accepted values are 10, 30, and 60. For high resolution metric, set the value to less than 60. For more information, see Create a target tracking policy using high-resolution metrics for faster response.
+        public let period: Int?
         /// The statistic of the metric.
         public let statistic: MetricStatistic?
         /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
         public let unit: String?
 
         @inlinable
-        public init(dimensions: [MetricDimension]? = nil, metricName: String? = nil, metrics: [TargetTrackingMetricDataQuery]? = nil, namespace: String? = nil, statistic: MetricStatistic? = nil, unit: String? = nil) {
+        public init(dimensions: [MetricDimension]? = nil, metricName: String? = nil, metrics: [TargetTrackingMetricDataQuery]? = nil, namespace: String? = nil, period: Int? = nil, statistic: MetricStatistic? = nil, unit: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.metrics = metrics
             self.namespace = namespace
+            self.period = period
             self.statistic = statistic
             self.unit = unit
         }
@@ -1511,6 +1657,7 @@ extension AutoScaling {
             try self.metrics?.forEach {
                 try $0.validate(name: "\(name).metrics[]")
             }
+            try self.validate(self.period, name: "period", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1518,6 +1665,7 @@ extension AutoScaling {
             case metricName = "MetricName"
             case metrics = "Metrics"
             case namespace = "Namespace"
+            case period = "Period"
             case statistic = "Statistic"
             case unit = "Unit"
         }
@@ -3164,6 +3312,8 @@ extension AutoScaling {
         public let bareMetal: BareMetal?
         /// The minimum and maximum baseline bandwidth performance for an instance type, in Mbps. For more information, see Amazon EBS–optimized instances in the Amazon EC2 User Guide for Linux Instances. Default: No minimum or maximum limits
         public let baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest?
+        ///  The baseline performance factors for the instance requirements.
+        public let baselinePerformanceFactors: BaselinePerformanceFactorsRequest?
         /// Indicates whether burstable performance instance types are included, excluded, or required. For more information, see Burstable performance instances in the Amazon EC2 User Guide for Linux Instances. Default: excluded
         public let burstablePerformance: BurstablePerformance?
         /// Lists which specific CPU manufacturers to include.   For instance types with Intel CPUs, specify intel.   For instance types with AMD CPUs, specify amd.   For instance types with Amazon Web Services CPUs, specify amazon-web-services.    Don't confuse the CPU hardware manufacturer with the CPU hardware architecture. Instances will be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you specify in your launch template.   Default: Any manufacturer
@@ -3202,7 +3352,7 @@ extension AutoScaling {
         public let vCpuCount: VCpuCountRequest?
 
         @inlinable
-        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Int? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest? = nil, networkBandwidthGbps: NetworkBandwidthGbpsRequest? = nil, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRequest? = nil) {
+        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, baselinePerformanceFactors: BaselinePerformanceFactorsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Int? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest? = nil, networkBandwidthGbps: NetworkBandwidthGbpsRequest? = nil, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRequest? = nil) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
             self.acceleratorNames = acceleratorNames
@@ -3211,6 +3361,7 @@ extension AutoScaling {
             self.allowedInstanceTypes = allowedInstanceTypes
             self.bareMetal = bareMetal
             self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.baselinePerformanceFactors = baselinePerformanceFactors
             self.burstablePerformance = burstablePerformance
             self.cpuManufacturers = cpuManufacturers
             self.excludedInstanceTypes = excludedInstanceTypes
@@ -3265,6 +3416,7 @@ extension AutoScaling {
             case allowedInstanceTypes = "AllowedInstanceTypes"
             case bareMetal = "BareMetal"
             case baselineEbsBandwidthMbps = "BaselineEbsBandwidthMbps"
+            case baselinePerformanceFactors = "BaselinePerformanceFactors"
             case burstablePerformance = "BurstablePerformance"
             case cpuManufacturers = "CpuManufacturers"
             case excludedInstanceTypes = "ExcludedInstanceTypes"
@@ -4030,6 +4182,20 @@ extension AutoScaling {
             case autoScalingGroupName = "AutoScalingGroupName"
             case notificationType = "NotificationType"
             case topicARN = "TopicARN"
+        }
+    }
+
+    public struct PerformanceFactorReferenceRequest: AWSEncodableShape & AWSDecodableShape {
+        ///  The instance family to use as a baseline reference.   Make sure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance c6i.large, the instance family is c6i, not c6. For more information, see Amazon EC2 instance type naming conventions in  Amazon EC2 Instance Types.  The following instance types are not supported for performance protection.    c1     g3| g3s     hpc7g     m1| m2     mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro     p3dn | p4d | p5     t1     u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb    If you performance protection by specifying a supported instance family, the returned instance types will exclude the preceding unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response.
+        public let instanceFamily: String?
+
+        @inlinable
+        public init(instanceFamily: String? = nil) {
+            self.instanceFamily = instanceFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceFamily = "InstanceFamily"
         }
     }
 
@@ -5367,15 +5533,18 @@ extension AutoScaling {
         public let label: String?
         /// Information about the metric data to return. Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
         public let metricStat: TargetTrackingMetricStat?
+        ///  The period of the metric in seconds. The default value is 60. Accepted values are 10, 30, and 60. For high resolution metric, set the value to less than 60. For more information, see Create a target tracking policy using high-resolution metrics for faster response.
+        public let period: Int?
         /// Indicates whether to return the timestamps and raw data values of this metric.  If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
         public let returnData: Bool?
 
         @inlinable
-        public init(expression: String? = nil, id: String? = nil, label: String? = nil, metricStat: TargetTrackingMetricStat? = nil, returnData: Bool? = nil) {
+        public init(expression: String? = nil, id: String? = nil, label: String? = nil, metricStat: TargetTrackingMetricStat? = nil, period: Int? = nil, returnData: Bool? = nil) {
             self.expression = expression
             self.id = id
             self.label = label
             self.metricStat = metricStat
+            self.period = period
             self.returnData = returnData
         }
 
@@ -5389,6 +5558,7 @@ extension AutoScaling {
             try self.validate(self.label, name: "label", parent: name, max: 2047)
             try self.validate(self.label, name: "label", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.metricStat?.validate(name: "\(name).metricStat")
+            try self.validate(self.period, name: "period", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5396,6 +5566,7 @@ extension AutoScaling {
             case id = "Id"
             case label = "Label"
             case metricStat = "MetricStat"
+            case period = "Period"
             case returnData = "ReturnData"
         }
     }
@@ -5403,19 +5574,23 @@ extension AutoScaling {
     public struct TargetTrackingMetricStat: AWSEncodableShape & AWSDecodableShape {
         /// The metric to use.
         public let metric: Metric?
+        ///  The period of the metric in seconds. The default value is 60. Accepted values are 10, 30, and 60. For high resolution metric, set the value to less than 60. For more information, see Create a target tracking policy using high-resolution metrics for faster response.
+        public let period: Int?
         /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in Statistics in the Amazon CloudWatch User Guide. The most commonly used metric for scaling is Average.
         public let stat: String?
         /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
         public let unit: String?
 
         @inlinable
-        public init(metric: Metric? = nil, stat: String? = nil, unit: String? = nil) {
+        public init(metric: Metric? = nil, period: Int? = nil, stat: String? = nil, unit: String? = nil) {
             self.metric = metric
+            self.period = period
             self.stat = stat
             self.unit = unit
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.period, name: "period", parent: name, min: 1)
             try self.validate(self.stat, name: "stat", parent: name, max: 100)
             try self.validate(self.stat, name: "stat", parent: name, min: 1)
             try self.validate(self.stat, name: "stat", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -5423,6 +5598,7 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case metric = "Metric"
+            case period = "Period"
             case stat = "Stat"
             case unit = "Unit"
         }
@@ -5542,11 +5718,15 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         ///  The instance capacity distribution across Availability Zones.
         public let availabilityZoneDistribution: AvailabilityZoneDistribution?
+        ///  The policy for Availability Zone impairment.
+        public let availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy?
         /// One or more Availability Zones for the group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var availabilityZones: [String]?
         /// Enables or disables Capacity Rebalancing. For more information, see Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions in the Amazon EC2 Auto Scaling User Guide.
         public let capacityRebalance: Bool?
+        ///  The capacity reservation specification for the Auto Scaling group.
+        public let capacityReservationSpecification: CapacityReservationSpecification?
         /// Reserved.
         public let context: String?
         ///  Only needed if you use simple scaling policies.  The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
@@ -5581,6 +5761,8 @@ extension AutoScaling {
         public let placementGroup: String?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
+        ///  If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see Auto Scaling group zonal shift in the Amazon EC2 Auto Scaling User Guide.
+        public let skipZonalShiftValidation: Bool?
         /// A policy or a list of policies that are used to select the instances to terminate. The policies are executed in the order that you list them. For more information, see Configure termination policies for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var terminationPolicies: [String]?
@@ -5588,11 +5770,13 @@ extension AutoScaling {
         public let vpcZoneIdentifier: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
+            self.capacityReservationSpecification = capacityReservationSpecification
             self.context = context
             self.defaultCooldown = defaultCooldown
             self.defaultInstanceWarmup = defaultInstanceWarmup
@@ -5610,6 +5794,7 @@ extension AutoScaling {
             self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
             self.placementGroup = placementGroup
             self.serviceLinkedRoleARN = serviceLinkedRoleARN
+            self.skipZonalShiftValidation = skipZonalShiftValidation
             self.terminationPolicies = terminationPolicies
             self.vpcZoneIdentifier = vpcZoneIdentifier
         }
@@ -5623,6 +5808,7 @@ extension AutoScaling {
                 try validate($0, name: "availabilityZones[]", parent: name, min: 1)
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
+            try self.capacityReservationSpecification?.validate(name: "\(name).capacityReservationSpecification")
             try self.validate(self.desiredCapacityType, name: "desiredCapacityType", parent: name, max: 255)
             try self.validate(self.desiredCapacityType, name: "desiredCapacityType", parent: name, min: 1)
             try self.validate(self.desiredCapacityType, name: "desiredCapacityType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -5653,8 +5839,10 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZoneDistribution = "AvailabilityZoneDistribution"
+            case availabilityZoneImpairmentPolicy = "AvailabilityZoneImpairmentPolicy"
             case availabilityZones = "AvailabilityZones"
             case capacityRebalance = "CapacityRebalance"
+            case capacityReservationSpecification = "CapacityReservationSpecification"
             case context = "Context"
             case defaultCooldown = "DefaultCooldown"
             case defaultInstanceWarmup = "DefaultInstanceWarmup"
@@ -5672,6 +5860,7 @@ extension AutoScaling {
             case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
             case placementGroup = "PlacementGroup"
             case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
+            case skipZonalShiftValidation = "SkipZonalShiftValidation"
             case terminationPolicies = "TerminationPolicies"
             case vpcZoneIdentifier = "VPCZoneIdentifier"
         }

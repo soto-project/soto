@@ -104,7 +104,7 @@ public struct Resiliencehub: AWSService {
     ///
     /// Parameters:
     ///   - appArn: Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
-    ///   - entries: Indicates the list of resource grouping recommendations you want to include in your application.
+    ///   - entries: List of resource grouping recommendations you want to include in your application.
     ///   - logger: Logger use during operation
     @inlinable
     public func acceptResourceGroupingRecommendations(
@@ -405,8 +405,8 @@ public struct Resiliencehub: AWSService {
     ///   - clientToken: Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters.
     ///   - dataLocationConstraint: Specifies a high-level geographical location constraint for where your resilience policy data can be stored.
     ///   - policy: The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
-    ///   - policyDescription: The description for the policy.
-    ///   - policyName: The name of the policy
+    ///   - policyDescription: Description of the resiliency policy.
+    ///   - policyName: Name of the resiliency policy.
     ///   - tags: Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource.
     ///   - tier: The tier for this resiliency policy, ranging from the highest severity (MissionCritical) to lowest (NonCritical).
     ///   - logger: Logger use during operation
@@ -955,6 +955,35 @@ public struct Resiliencehub: AWSService {
         return try await self.describeDraftAppVersionResourcesImportStatus(input, logger: logger)
     }
 
+    /// Describes the metrics of the application configuration being exported.
+    @Sendable
+    @inlinable
+    public func describeMetricsExport(_ input: DescribeMetricsExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetricsExportResponse {
+        try await self.client.execute(
+            operation: "DescribeMetricsExport", 
+            path: "/describe-metrics-export", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the metrics of the application configuration being exported.
+    ///
+    /// Parameters:
+    ///   - metricsExportId: Identifier of the metrics export task.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeMetricsExport(
+        metricsExportId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeMetricsExportResponse {
+        let input = DescribeMetricsExportRequest(
+            metricsExportId: metricsExportId
+        )
+        return try await self.describeMetricsExport(input, logger: logger)
+    }
+
     /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
     @Sendable
     @inlinable
@@ -1001,7 +1030,7 @@ public struct Resiliencehub: AWSService {
     ///
     /// Parameters:
     ///   - appArn: Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
-    ///   - groupingId: Indicates the identifier of the grouping recommendation task.
+    ///   - groupingId: Identifier of the grouping recommendation task.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeResourceGroupingRecommendationTask(
@@ -1092,7 +1121,7 @@ public struct Resiliencehub: AWSService {
         return try await self.listAlarmRecommendations(input, logger: logger)
     }
 
-    /// Indicates the list of compliance drifts that were detected while running an assessment.
+    /// List of compliance drifts that were detected while running an assessment.
     @Sendable
     @inlinable
     public func listAppAssessmentComplianceDrifts(_ input: ListAppAssessmentComplianceDriftsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppAssessmentComplianceDriftsResponse {
@@ -1105,11 +1134,11 @@ public struct Resiliencehub: AWSService {
             logger: logger
         )
     }
-    /// Indicates the list of compliance drifts that were detected while running an assessment.
+    /// List of compliance drifts that were detected while running an assessment.
     ///
     /// Parameters:
     ///   - assessmentArn: Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-    ///   - maxResults: Indicates the maximum number of compliance drifts requested.
+    ///   - maxResults: Maximum number of compliance drifts requested.
     ///   - nextToken: Null, or the token from a previous call to get the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1127,7 +1156,7 @@ public struct Resiliencehub: AWSService {
         return try await self.listAppAssessmentComplianceDrifts(input, logger: logger)
     }
 
-    /// Indicates the list of resource drifts that were detected while running an assessment.
+    /// List of resource drifts that were detected while running an assessment.
     @Sendable
     @inlinable
     public func listAppAssessmentResourceDrifts(_ input: ListAppAssessmentResourceDriftsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppAssessmentResourceDriftsResponse {
@@ -1140,11 +1169,11 @@ public struct Resiliencehub: AWSService {
             logger: logger
         )
     }
-    /// Indicates the list of resource drifts that were detected while running an assessment.
+    /// List of resource drifts that were detected while running an assessment.
     ///
     /// Parameters:
     ///   - assessmentArn: Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-    ///   - maxResults: Indicates the maximum number of drift results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    ///   - maxResults: Maximum number of drift results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - nextToken: Null, or the token from a previous call to get the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1496,12 +1525,12 @@ public struct Resiliencehub: AWSService {
     /// Parameters:
     ///   - appArn: Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
     ///   - awsApplicationArn: Amazon Resource Name (ARN) of  Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs,
-    ///   - fromLastAssessmentTime: Indicates the lower limit of the range that is used to filter applications based on their last assessment times.
+    ///   - fromLastAssessmentTime: Lower limit of the range that is used to filter applications based on their last assessment times.
     ///   - maxResults: Maximum number of results to include in the response. If more results exist than the specified
     ///   - name: The name for the one of the listed applications.
     ///   - nextToken: Null, or the token from a previous call to get the next set of results.
     ///   - reverseOrder: The application list is sorted based on the values of lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending order. To sort the application list in descending order, set this field to True.
-    ///   - toLastAssessmentTime: Indicates the upper limit of the range that is used to filter the applications based on their last assessment times.
+    ///   - toLastAssessmentTime: Upper limit of the range that is used to filter the applications based on their last assessment times.
     ///   - logger: Logger use during operation
     @inlinable
     public func listApps(
@@ -1526,6 +1555,50 @@ public struct Resiliencehub: AWSService {
             toLastAssessmentTime: toLastAssessmentTime
         )
         return try await self.listApps(input, logger: logger)
+    }
+
+    /// Lists the metrics that can be exported.
+    @Sendable
+    @inlinable
+    public func listMetrics(_ input: ListMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetricsResponse {
+        try await self.client.execute(
+            operation: "ListMetrics", 
+            path: "/list-metrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the metrics that can be exported.
+    ///
+    /// Parameters:
+    ///   - conditions: Indicates the list of all the conditions that were applied on the metrics.
+    ///   - dataSource: Indicates the data source of the metrics.
+    ///   - fields: Indicates the list of fields in the data source.
+    ///   - maxResults: Maximum number of results to include in the response. If more results exist than the specified
+    ///   - nextToken: Null, or the token from a previous call to get the next set of results.
+    ///   - sorts: (Optional) Indicates the order in which you want to sort the fields in the metrics. By default, the fields are sorted in the ascending order.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMetrics(
+        conditions: [Condition]? = nil,
+        dataSource: String? = nil,
+        fields: [Field]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sorts: [Sort]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMetricsResponse {
+        let input = ListMetricsRequest(
+            conditions: conditions, 
+            dataSource: dataSource, 
+            fields: fields, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sorts: sorts
+        )
+        return try await self.listMetrics(input, logger: logger)
     }
 
     /// Lists the recommendation templates for the Resilience Hub applications.
@@ -1593,7 +1666,7 @@ public struct Resiliencehub: AWSService {
     /// Parameters:
     ///   - maxResults: Maximum number of results to include in the response. If more results exist than the specified
     ///   - nextToken: Null, or the token from a previous call to get the next set of results.
-    ///   - policyName: The name of the policy
+    ///   - policyName: Name of the resiliency policy.
     ///   - logger: Logger use during operation
     @inlinable
     public func listResiliencyPolicies(
@@ -1898,7 +1971,7 @@ public struct Resiliencehub: AWSService {
     ///
     /// Parameters:
     ///   - appArn: Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
-    ///   - entries: Indicates the list of resource grouping recommendations you have selected to exclude from your application.
+    ///   - entries: List of resource grouping recommendations you have selected to exclude from your application.
     ///   - logger: Logger use during operation
     @inlinable
     public func rejectResourceGroupingRecommendations(
@@ -2031,6 +2104,38 @@ public struct Resiliencehub: AWSService {
             tags: tags
         )
         return try await self.startAppAssessment(input, logger: logger)
+    }
+
+    /// Initiates the export task of metrics.
+    @Sendable
+    @inlinable
+    public func startMetricsExport(_ input: StartMetricsExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetricsExportResponse {
+        try await self.client.execute(
+            operation: "StartMetricsExport", 
+            path: "/start-metrics-export", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates the export task of metrics.
+    ///
+    /// Parameters:
+    ///   - bucketName: (Optional) Specifies the name of the Amazon Simple Storage Service bucket where the exported metrics will be stored.
+    ///   - clientToken: Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startMetricsExport(
+        bucketName: String? = nil,
+        clientToken: String? = StartMetricsExportRequest.idempotencyToken(),
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartMetricsExportResponse {
+        let input = StartMetricsExportRequest(
+            bucketName: bucketName, 
+            clientToken: clientToken
+        )
+        return try await self.startMetricsExport(input, logger: logger)
     }
 
     /// Starts grouping recommendation task.
@@ -2319,10 +2424,10 @@ public struct Resiliencehub: AWSService {
     ///
     /// Parameters:
     ///   - dataLocationConstraint: Specifies a high-level geographical location constraint for where your resilience policy data can be stored.
-    ///   - policy: The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
+    ///   - policy: Resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
     ///   - policyArn: Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
-    ///   - policyDescription: The description for the policy.
-    ///   - policyName: The name of the policy
+    ///   - policyDescription: Description of the resiliency policy.
+    ///   - policyName: Name of the resiliency policy.
     ///   - tier: The tier for this resiliency policy, ranging from the highest severity (MissionCritical) to lowest (NonCritical).
     ///   - logger: Logger use during operation
     @inlinable
@@ -2419,7 +2524,7 @@ extension Resiliencehub {
     ///
     /// - Parameters:
     ///   - assessmentArn: Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-    ///   - maxResults: Indicates the maximum number of compliance drifts requested.
+    ///   - maxResults: Maximum number of compliance drifts requested.
     ///   - logger: Logger used for logging
     @inlinable
     public func listAppAssessmentComplianceDriftsPaginator(
@@ -2456,7 +2561,7 @@ extension Resiliencehub {
     ///
     /// - Parameters:
     ///   - assessmentArn: Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-    ///   - maxResults: Indicates the maximum number of drift results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    ///   - maxResults: Maximum number of drift results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger used for logging
     @inlinable
     public func listAppAssessmentResourceDriftsPaginator(
@@ -2826,11 +2931,11 @@ extension Resiliencehub {
     /// - Parameters:
     ///   - appArn: Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
     ///   - awsApplicationArn: Amazon Resource Name (ARN) of  Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs,
-    ///   - fromLastAssessmentTime: Indicates the lower limit of the range that is used to filter applications based on their last assessment times.
+    ///   - fromLastAssessmentTime: Lower limit of the range that is used to filter applications based on their last assessment times.
     ///   - maxResults: Maximum number of results to include in the response. If more results exist than the specified
     ///   - name: The name for the one of the listed applications.
     ///   - reverseOrder: The application list is sorted based on the values of lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending order. To sort the application list in descending order, set this field to True.
-    ///   - toLastAssessmentTime: Indicates the upper limit of the range that is used to filter the applications based on their last assessment times.
+    ///   - toLastAssessmentTime: Upper limit of the range that is used to filter the applications based on their last assessment times.
     ///   - logger: Logger used for logging
     @inlinable
     public func listAppsPaginator(
@@ -2853,6 +2958,52 @@ extension Resiliencehub {
             toLastAssessmentTime: toLastAssessmentTime
         )
         return self.listAppsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listMetrics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMetricsPaginator(
+        _ input: ListMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMetricsRequest, ListMetricsResponse> {
+        return .init(
+            input: input,
+            command: self.listMetrics,
+            inputKey: \ListMetricsRequest.nextToken,
+            outputKey: \ListMetricsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMetrics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - conditions: Indicates the list of all the conditions that were applied on the metrics.
+    ///   - dataSource: Indicates the data source of the metrics.
+    ///   - fields: Indicates the list of fields in the data source.
+    ///   - maxResults: Maximum number of results to include in the response. If more results exist than the specified
+    ///   - sorts: (Optional) Indicates the order in which you want to sort the fields in the metrics. By default, the fields are sorted in the ascending order.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMetricsPaginator(
+        conditions: [Condition]? = nil,
+        dataSource: String? = nil,
+        fields: [Field]? = nil,
+        maxResults: Int? = nil,
+        sorts: [Sort]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMetricsRequest, ListMetricsResponse> {
+        let input = ListMetricsRequest(
+            conditions: conditions, 
+            dataSource: dataSource, 
+            fields: fields, 
+            maxResults: maxResults, 
+            sorts: sorts
+        )
+        return self.listMetricsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listRecommendationTemplates(_:logger:)``.
@@ -2926,7 +3077,7 @@ extension Resiliencehub {
     ///
     /// - Parameters:
     ///   - maxResults: Maximum number of results to include in the response. If more results exist than the specified
-    ///   - policyName: The name of the policy
+    ///   - policyName: Name of the resiliency policy.
     ///   - logger: Logger used for logging
     @inlinable
     public func listResiliencyPoliciesPaginator(
@@ -3275,6 +3426,20 @@ extension Resiliencehub.ListAppsRequest: AWSPaginateToken {
             nextToken: token,
             reverseOrder: self.reverseOrder,
             toLastAssessmentTime: self.toLastAssessmentTime
+        )
+    }
+}
+
+extension Resiliencehub.ListMetricsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Resiliencehub.ListMetricsRequest {
+        return .init(
+            conditions: self.conditions,
+            dataSource: self.dataSource,
+            fields: self.fields,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sorts: self.sorts
         )
     }
 }

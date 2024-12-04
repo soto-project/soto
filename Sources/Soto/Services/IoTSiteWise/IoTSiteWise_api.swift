@@ -654,7 +654,7 @@ public struct IoTSiteWise: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
-    ///   - dashboardDefinition: The dashboard definition specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the IoT SiteWise User Guide.
+    ///   - dashboardDefinition: The dashboard definition specified in a JSON literal.   IoT SiteWise Monitor (Classic) see Create dashboards (CLI)    IoT SiteWise Monitor (AI-aware) see Create dashboards (CLI)    in the IoT SiteWise User Guide
     ///   - dashboardDescription: A description for the dashboard.
     ///   - dashboardName: A friendly name for the dashboard.
     ///   - projectId: The ID of the project in which to create the dashboard.
@@ -679,6 +679,51 @@ public struct IoTSiteWise: AWSService {
             tags: tags
         )
         return try await self.createDashboard(input, logger: logger)
+    }
+
+    /// Creates a dataset to connect an external datasource.
+    @Sendable
+    @inlinable
+    public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetResponse {
+        try await self.client.execute(
+            operation: "CreateDataset", 
+            path: "/datasets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Creates a dataset to connect an external datasource.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - datasetDescription: A description about the dataset, and its functionality.
+    ///   - datasetId: The ID of the dataset.
+    ///   - datasetName: The name of the dataset.
+    ///   - datasetSource: The data source for the dataset.
+    ///   - tags: A list of key-value pairs that contain metadata for the access policy. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataset(
+        clientToken: String? = CreateDatasetRequest.idempotencyToken(),
+        datasetDescription: String? = nil,
+        datasetId: String? = nil,
+        datasetName: String,
+        datasetSource: DatasetSource,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDatasetResponse {
+        let input = CreateDatasetRequest(
+            clientToken: clientToken, 
+            datasetDescription: datasetDescription, 
+            datasetId: datasetId, 
+            datasetName: datasetName, 
+            datasetSource: datasetSource, 
+            tags: tags
+        )
+        return try await self.createDataset(input, logger: logger)
     }
 
     /// Creates a gateway, which is a virtual or edge device that delivers industrial data streams from local servers to IoT SiteWise. For more information, see Ingesting data using a gateway in the IoT SiteWise User Guide.
@@ -742,6 +787,8 @@ public struct IoTSiteWise: AWSService {
     ///   - portalDescription: A description for the portal.
     ///   - portalLogoImageFile: A logo image to display in the portal. Upload a square, high-resolution image. The image is displayed on a dark background.
     ///   - portalName: A friendly name for the portal.
+    ///   - portalType: Define the type of portal. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
+    ///   - portalTypeConfiguration: The configuration entry associated with the specific portal type. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
     ///   - roleArn: The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
     ///   - tags: A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
     ///   - logger: Logger use during operation
@@ -755,6 +802,8 @@ public struct IoTSiteWise: AWSService {
         portalDescription: String? = nil,
         portalLogoImageFile: ImageFile? = nil,
         portalName: String,
+        portalType: PortalType? = nil,
+        portalTypeConfiguration: [String: PortalTypeEntry]? = nil,
         roleArn: String,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -768,6 +817,8 @@ public struct IoTSiteWise: AWSService {
             portalDescription: portalDescription, 
             portalLogoImageFile: portalLogoImageFile, 
             portalName: portalName, 
+            portalType: portalType, 
+            portalTypeConfiguration: portalTypeConfiguration, 
             roleArn: roleArn, 
             tags: tags
         )
@@ -1000,6 +1051,39 @@ public struct IoTSiteWise: AWSService {
             dashboardId: dashboardId
         )
         return try await self.deleteDashboard(input, logger: logger)
+    }
+
+    /// Deletes a dataset. This cannot be undone.
+    @Sendable
+    @inlinable
+    public func deleteDataset(_ input: DeleteDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDatasetResponse {
+        try await self.client.execute(
+            operation: "DeleteDataset", 
+            path: "/datasets/{datasetId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Deletes a dataset. This cannot be undone.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - datasetId: The ID of the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDataset(
+        clientToken: String? = DeleteDatasetRequest.idempotencyToken(),
+        datasetId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDatasetResponse {
+        let input = DeleteDatasetRequest(
+            clientToken: clientToken, 
+            datasetId: datasetId
+        )
+        return try await self.deleteDataset(input, logger: logger)
     }
 
     /// Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain in your gateway's file system.
@@ -1428,6 +1512,36 @@ public struct IoTSiteWise: AWSService {
         return try await self.describeDashboard(input, logger: logger)
     }
 
+    /// Retrieves information about a dataset.
+    @Sendable
+    @inlinable
+    public func describeDataset(_ input: DescribeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDatasetResponse {
+        try await self.client.execute(
+            operation: "DescribeDataset", 
+            path: "/datasets/{datasetId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a dataset.
+    ///
+    /// Parameters:
+    ///   - datasetId: The ID of the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDataset(
+        datasetId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDatasetResponse {
+        let input = DescribeDatasetRequest(
+            datasetId: datasetId
+        )
+        return try await self.describeDataset(input, logger: logger)
+    }
+
     /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see Key management in the IoT SiteWise User Guide.
     @Sendable
     @inlinable
@@ -1802,18 +1916,21 @@ public struct IoTSiteWise: AWSService {
     /// Run SQL queries to retrieve metadata and time-series data from asset models, assets, measurements, metrics, transforms, and aggregates.
     ///
     /// Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     ///   - maxResults: The maximum number of results to return at one time. The default is 25.
     ///   - nextToken: The string that specifies the next page of results.
     ///   - queryStatement: The IoT SiteWise query statement.
     ///   - logger: Logger use during operation
     @inlinable
     public func executeQuery(
+        clientToken: String? = ExecuteQueryRequest.idempotencyToken(),
         maxResults: Int? = nil,
         nextToken: String? = nil,
         queryStatement: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ExecuteQueryResponse {
         let input = ExecuteQueryRequest(
+            clientToken: clientToken, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             queryStatement: queryStatement
@@ -2037,6 +2154,42 @@ public struct IoTSiteWise: AWSService {
         return try await self.getInterpolatedAssetPropertyValues(input, logger: logger)
     }
 
+    /// Invokes SiteWise Assistant to start or continue a conversation.
+    @Sendable
+    @inlinable
+    public func invokeAssistant(_ input: InvokeAssistantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAssistantResponse {
+        try await self.client.execute(
+            operation: "InvokeAssistant", 
+            path: "/assistant/invocation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Invokes SiteWise Assistant to start or continue a conversation.
+    ///
+    /// Parameters:
+    ///   - conversationId: The ID assigned to a conversation. IoT SiteWise automatically generates a unique ID for you, and this parameter is never required.  However, if you prefer to have your own ID, you must specify it here in UUID format. If you specify your own ID, it must be globally unique.
+    ///   - enableTrace: Specifies if to turn trace on or not. It is used to track the SiteWise Assistant's  reasoning, and data access process.
+    ///   - message: A text message sent to the SiteWise Assistant by the user.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeAssistant(
+        conversationId: String? = nil,
+        enableTrace: Bool? = nil,
+        message: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeAssistantResponse {
+        let input = InvokeAssistantRequest(
+            conversationId: conversationId, 
+            enableTrace: enableTrace, 
+            message: message
+        )
+        return try await self.invokeAssistant(input, logger: logger)
+    }
+
     /// Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
     @Sendable
     @inlinable
@@ -2222,7 +2375,7 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves a paginated list of summaries of all asset models.
     ///
     /// Parameters:
-    ///   - assetModelTypes: The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. 		Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite 		models of other asset models. You can't create assets directly from this type of asset model.
+    ///   - assetModelTypes: The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
     ///   - assetModelVersion: The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
     ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50
     ///   - nextToken: The token to be used for the next set of paginated results.
@@ -2379,7 +2532,7 @@ public struct IoTSiteWise: AWSService {
     ///
     /// Parameters:
     ///   - assetId: The ID of the asset to query. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
-    ///   - hierarchyId: (Optional) If you don't provide a hierarchyId, all the immediate assets in the traversalDirection will be returned.   The ID of the hierarchy by which child assets are associated to the asset. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.) For more information, see Asset hierarchies in the IoT SiteWise User Guide.
+    ///   - hierarchyId: (Optional) If you don't provide a hierarchyId, all the immediate assets in the traversalDirection will be returned.  The ID of the hierarchy by which child assets are associated to the asset. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.) For more information, see Asset hierarchies in the IoT SiteWise User Guide.
     ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50
     ///   - nextToken: The token to be used for the next set of paginated results.
     ///   - traversalDirection: The direction to list associated assets. Choose one of the following options:    CHILD – The list includes all child assets associated to the asset.    PARENT – The list includes the asset's parent asset.   Default: CHILD
@@ -2509,6 +2662,42 @@ public struct IoTSiteWise: AWSService {
             projectId: projectId
         )
         return try await self.listDashboards(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of datasets for a specific target resource.
+    @Sendable
+    @inlinable
+    public func listDatasets(_ input: ListDatasetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetsResponse {
+        try await self.client.execute(
+            operation: "ListDatasets", 
+            path: "/datasets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of datasets for a specific target resource.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - nextToken: The token for the next set of results, or null if there are no additional results.
+    ///   - sourceType: The type of data source for the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDatasets(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sourceType: DatasetSourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDatasetsResponse {
+        let input = ListDatasetsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sourceType: sourceType
+        )
+        return try await self.listDatasets(input, logger: logger)
     }
 
     /// Retrieves a paginated list of gateways.
@@ -3159,7 +3348,7 @@ public struct IoTSiteWise: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
-    ///   - dashboardDefinition: The new dashboard definition, as specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the IoT SiteWise User Guide.
+    ///   - dashboardDefinition: The new dashboard definition, as specified in a JSON literal.   IoT SiteWise Monitor (Classic) see Create dashboards (CLI)    IoT SiteWise Monitor (AI-aware) see Create dashboards (CLI)    in the IoT SiteWise User Guide
     ///   - dashboardDescription: A new description for the dashboard.
     ///   - dashboardId: The ID of the dashboard to update.
     ///   - dashboardName: A new friendly name for the dashboard.
@@ -3181,6 +3370,48 @@ public struct IoTSiteWise: AWSService {
             dashboardName: dashboardName
         )
         return try await self.updateDashboard(input, logger: logger)
+    }
+
+    /// Updates a dataset.
+    @Sendable
+    @inlinable
+    public func updateDataset(_ input: UpdateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDatasetResponse {
+        try await self.client.execute(
+            operation: "UpdateDataset", 
+            path: "/datasets/{datasetId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Updates a dataset.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - datasetDescription: A description about the dataset, and its functionality.
+    ///   - datasetId: The ID of the dataset.
+    ///   - datasetName: The name of the dataset.
+    ///   - datasetSource: The data source for the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDataset(
+        clientToken: String? = UpdateDatasetRequest.idempotencyToken(),
+        datasetDescription: String? = nil,
+        datasetId: String,
+        datasetName: String,
+        datasetSource: DatasetSource,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDatasetResponse {
+        let input = UpdateDatasetRequest(
+            clientToken: clientToken, 
+            datasetDescription: datasetDescription, 
+            datasetId: datasetId, 
+            datasetName: datasetName, 
+            datasetSource: datasetSource
+        )
+        return try await self.updateDataset(input, logger: logger)
     }
 
     /// Updates a gateway's name.
@@ -3277,6 +3508,8 @@ public struct IoTSiteWise: AWSService {
     ///   - portalId: The ID of the portal to update.
     ///   - portalLogoImage: 
     ///   - portalName: A new friendly name for the portal.
+    ///   - portalType: Define the type of portal. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
+    ///   - portalTypeConfiguration: The configuration entry associated with the specific portal type. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
     ///   - roleArn: The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3289,6 +3522,8 @@ public struct IoTSiteWise: AWSService {
         portalId: String,
         portalLogoImage: Image? = nil,
         portalName: String,
+        portalType: PortalType? = nil,
+        portalTypeConfiguration: [String: PortalTypeEntry]? = nil,
         roleArn: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePortalResponse {
@@ -3301,6 +3536,8 @@ public struct IoTSiteWise: AWSService {
             portalId: portalId, 
             portalLogoImage: portalLogoImage, 
             portalName: portalName, 
+            portalType: portalType, 
+            portalTypeConfiguration: portalTypeConfiguration, 
             roleArn: roleArn
         )
         return try await self.updatePortal(input, logger: logger)
@@ -3488,16 +3725,19 @@ extension IoTSiteWise {
     /// Return PaginatorSequence for operation ``executeQuery(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     ///   - maxResults: The maximum number of results to return at one time. The default is 25.
     ///   - queryStatement: The IoT SiteWise query statement.
     ///   - logger: Logger used for logging
     @inlinable
     public func executeQueryPaginator(
+        clientToken: String? = ExecuteQueryRequest.idempotencyToken(),
         maxResults: Int? = nil,
         queryStatement: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ExecuteQueryRequest, ExecuteQueryResponse> {
         let input = ExecuteQueryRequest(
+            clientToken: clientToken, 
             maxResults: maxResults, 
             queryStatement: queryStatement
         )
@@ -3840,7 +4080,7 @@ extension IoTSiteWise {
     /// Return PaginatorSequence for operation ``listAssetModels(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - assetModelTypes: The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. 		Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite 		models of other asset models. You can't create assets directly from this type of asset model.
+    ///   - assetModelTypes: The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
     ///   - assetModelVersion: The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
     ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50
     ///   - logger: Logger used for logging
@@ -4001,7 +4241,7 @@ extension IoTSiteWise {
     ///
     /// - Parameters:
     ///   - assetId: The ID of the asset to query. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
-    ///   - hierarchyId: (Optional) If you don't provide a hierarchyId, all the immediate assets in the traversalDirection will be returned.   The ID of the hierarchy by which child assets are associated to the asset. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.) For more information, see Asset hierarchies in the IoT SiteWise User Guide.
+    ///   - hierarchyId: (Optional) If you don't provide a hierarchyId, all the immediate assets in the traversalDirection will be returned.  The ID of the hierarchy by which child assets are associated to the asset. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.) For more information, see Asset hierarchies in the IoT SiteWise User Guide.
     ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50
     ///   - traversalDirection: The direction to list associated assets. Choose one of the following options:    CHILD – The list includes all child assets associated to the asset.    PARENT – The list includes the asset's parent asset.   Default: CHILD
     ///   - logger: Logger used for logging
@@ -4131,6 +4371,43 @@ extension IoTSiteWise {
             projectId: projectId
         )
         return self.listDashboardsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDatasets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetsPaginator(
+        _ input: ListDatasetsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDatasetsRequest, ListDatasetsResponse> {
+        return .init(
+            input: input,
+            command: self.listDatasets,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDatasets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - sourceType: The type of data source for the dataset.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetsPaginator(
+        maxResults: Int? = nil,
+        sourceType: DatasetSourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDatasetsRequest, ListDatasetsResponse> {
+        let input = ListDatasetsRequest(
+            maxResults: maxResults, 
+            sourceType: sourceType
+        )
+        return self.listDatasetsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listGateways(_:logger:)``.
@@ -4355,6 +4632,7 @@ extension IoTSiteWise.ExecuteQueryRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ExecuteQueryRequest {
         return .init(
+            clientToken: self.clientToken,
             maxResults: self.maxResults,
             nextToken: token,
             queryStatement: self.queryStatement
@@ -4549,6 +4827,17 @@ extension IoTSiteWise.ListDashboardsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             projectId: self.projectId
+        )
+    }
+}
+
+extension IoTSiteWise.ListDatasetsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListDatasetsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sourceType: self.sourceType
         )
     }
 }

@@ -259,7 +259,7 @@ public struct IoT: AWSService {
     /// Parameters:
     ///   - comment: An optional comment string describing why the job was associated with the targets.
     ///   - jobId: The unique identifier you assigned to this job when it was created.
-    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
     ///   - targets: A list of thing group ARNs that define the targets of the job.
     ///   - logger: Logger use during operation
     @inlinable
@@ -545,7 +545,7 @@ public struct IoT: AWSService {
     ///
     /// Parameters:
     ///   - comment: An optional comment string describing why the job was canceled.
-    ///   - force: (Optional) If true job executions with status "IN_PROGRESS" and "QUEUED"  are canceled, otherwise only job executions with status "QUEUED" are canceled. The default  is false. Canceling a job which is "IN_PROGRESS", will cause a device which is executing  the job to be unable to update the job execution status.  Use caution and ensure that each  device executing a job which is canceled is able to recover to a valid state.
+    ///   - force: (Optional) If true job executions with status "IN_PROGRESS" and "QUEUED" are canceled, otherwise only job executions with status "QUEUED" are canceled. The default is false. Canceling a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to update the job execution status. Use caution and ensure that each device executing a job which is canceled is able to recover to a valid state.
     ///   - jobId: The unique identifier you assigned to this job when it was created.
     ///   - reasonCode: (Optional)A reason code string that explains why the job was canceled.
     ///   - logger: Logger use during operation
@@ -582,10 +582,10 @@ public struct IoT: AWSService {
     /// Cancels the execution of a job for a given thing. Requires permission to access the CancelJobExecution action.
     ///
     /// Parameters:
-    ///   - expectedVersion: (Optional) The expected current version of the job execution. Each time you update the job  execution, its version is incremented. If the version of the job execution stored in Jobs does  not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that  contains the current job execution status data is returned. (This makes it unnecessary to  perform a separate DescribeJobExecution request in order to obtain the job execution status  data.)
-    ///   - force: (Optional) If true the job execution will be canceled if it has status  IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status  QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set  force to true, then an InvalidStateTransitionException  will be thrown. The default is false. Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable  to update the job execution status.  Use caution and ensure that the device is able to  recover to a valid state.
+    ///   - expectedVersion: (Optional) The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
+    ///   - force: (Optional) If true the job execution will be canceled if it has status IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set force to true, then an InvalidStateTransitionException will be thrown. The default is false. Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable to update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
     ///   - jobId: The ID of the job to be canceled.
-    ///   - statusDetails: A collection of name/value pairs that describe the status of the job execution. If not  specified, the statusDetails are unchanged. You can specify at most 10 name/value pairs.
+    ///   - statusDetails: A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. You can specify at most 10 name/value pairs.
     ///   - thingName: The name of the thing whose execution of the job will be canceled.
     ///   - logger: Logger use during operation
     @inlinable
@@ -868,6 +868,56 @@ public struct IoT: AWSService {
         return try await self.createCertificateProvider(input, logger: logger)
     }
 
+    /// Creates a command. A command contains reusable configurations that can be applied before they are sent to the devices.
+    @Sendable
+    @inlinable
+    public func createCommand(_ input: CreateCommandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCommandResponse {
+        try await self.client.execute(
+            operation: "CreateCommand", 
+            path: "/commands/{commandId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a command. A command contains reusable configurations that can be applied before they are sent to the devices.
+    ///
+    /// Parameters:
+    ///   - commandId: A unique identifier for the command. We recommend using UUID. Alpha-numeric characters, hyphens, and underscores are valid for use here.
+    ///   - description: A short text decription of the command.
+    ///   - displayName: The user-friendly name in the console for the command. This name doesn't have to be unique. You can update the user-friendly name after you define it.
+    ///   - mandatoryParameters: A list of parameters that are required by the StartCommandExecution API. These parameters need to be specified only when using the AWS-IoT-FleetWise namespace. You can either specify them here or when running the command using the StartCommandExecution API.
+    ///   - namespace: The namespace of the command. The MQTT reserved topics and validations will be used for command executions according to the namespace setting.
+    ///   - payload: The payload object for the command. You must specify this information when using the AWS-IoT namespace. You can upload a static payload file from your local storage that contains the  instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
+    ///   - roleArn: The IAM role that allows access to create the command.
+    ///   - tags: Name-value pairs that are used as metadata to manage a command.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCommand(
+        commandId: String,
+        description: String? = nil,
+        displayName: String? = nil,
+        mandatoryParameters: [CommandParameter]? = nil,
+        namespace: CommandNamespace? = nil,
+        payload: CommandPayload? = nil,
+        roleArn: String? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCommandResponse {
+        let input = CreateCommandRequest(
+            commandId: commandId, 
+            description: description, 
+            displayName: displayName, 
+            mandatoryParameters: mandatoryParameters, 
+            namespace: namespace, 
+            payload: payload, 
+            roleArn: roleArn, 
+            tags: tags
+        )
+        return try await self.createCommand(input, logger: logger)
+    }
+
     ///  Use this API to define a Custom Metric published by your devices to Device Defender.  Requires permission to access the CreateCustomMetric action.
     @Sendable
     @inlinable
@@ -1130,21 +1180,21 @@ public struct IoT: AWSService {
     /// Parameters:
     ///   - abortConfig: Allows you to create the criteria to abort a job.
     ///   - description: A short text description of the job.
-    ///   - destinationPackageVersions: The package version Amazon Resource Names (ARNs) that are installed on the device when the  job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.   Note:The following Length Constraints relates to a single ARN.  Up to 25  package version ARNs are allowed.
+    ///   - destinationPackageVersions: The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.   Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
     ///   - document: The job document. Required if you don't specify a value for documentSource.
-    ///   - documentParameters: Parameters of an Amazon Web Services managed template that you can specify to create the job document.   documentParameters can only be used when creating jobs from Amazon Web Services  managed templates. This parameter can't be used with custom job templates or to  create jobs from them.
+    ///   - documentParameters: Parameters of an Amazon Web Services managed template that you can specify to create the job document.   documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
     ///   - documentSource: An S3 link, or S3 object URL, to the job document. The link is an Amazon S3 object URL and is required if you don't specify a value for document. For example, --document-source https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0  For more information, see Methods for accessing a bucket.
     ///   - jobExecutionsRetryConfig: Allows you to create the criteria to retry a job.
     ///   - jobExecutionsRolloutConfig: Allows you to create a staged rollout of the job.
-    ///   - jobId: A job identifier which must be unique for your Amazon Web Services account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
+    ///   - jobId: A job identifier which must be unique for your account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
     ///   - jobTemplateArn: The ARN of the job template used to create the job.
-    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
     ///   - presignedUrlConfig: Configuration information for pre-signed S3 URLs.
     ///   - schedulingConfig: The configuration that allows you to schedule a job for a future date and time in addition to specifying the end behavior for each job execution.
     ///   - tags: Metadata which can be used to manage the job.
     ///   - targets: A list of things and thing groups to which the job should be sent.
-    ///   - targetSelection: Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.  We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets.  By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
-    ///   - timeoutConfig: Specifies the amount of time each device has to finish its execution of the job. The timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the time expires, it will be  automatically set to TIMED_OUT.
+    ///   - targetSelection: Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.  We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
+    ///   - timeoutConfig: Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
     ///   - logger: Logger use during operation
     @inlinable
     public func createJob(
@@ -1207,13 +1257,13 @@ public struct IoT: AWSService {
     /// Parameters:
     ///   - abortConfig: 
     ///   - description: A description of the job document.
-    ///   - destinationPackageVersions: The package version Amazon Resource Names (ARNs) that are installed on the device when the  job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.  Note:The following Length Constraints relates to a single ARN.  Up to 25  package version ARNs are allowed.
+    ///   - destinationPackageVersions: The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.  Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
     ///   - document: The job document. Required if you don't specify a value for documentSource.
     ///   - documentSource: An S3 link, or S3 object URL, to the job document. The link is an Amazon S3 object URL and is required if you don't specify a value for document. For example, --document-source https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0  For more information, see Methods for accessing a bucket.
     ///   - jobArn: The ARN of the job to use as the basis for the job template.
     ///   - jobExecutionsRetryConfig: Allows you to create the criteria to retry a job.
     ///   - jobExecutionsRolloutConfig: 
-    ///   - jobTemplateId: A unique identifier for the job template. We recommend using a UUID. Alpha-numeric  characters, "-", and "_" are valid for use here.
+    ///   - jobTemplateId: A unique identifier for the job template. We recommend using a UUID. Alpha-numeric characters, "-", and "_" are valid for use here.
     ///   - maintenanceWindows: Allows you to configure an optional maintenance window for the rollout of a job document to all devices in the target group for a job.
     ///   - presignedUrlConfig: 
     ///   - tags: Metadata that can be used to manage the job template.
@@ -2235,6 +2285,67 @@ public struct IoT: AWSService {
         return try await self.deleteCertificateProvider(input, logger: logger)
     }
 
+    /// Delete a command resource.
+    @Sendable
+    @inlinable
+    public func deleteCommand(_ input: DeleteCommandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCommandResponse {
+        try await self.client.execute(
+            operation: "DeleteCommand", 
+            path: "/commands/{commandId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete a command resource.
+    ///
+    /// Parameters:
+    ///   - commandId: The unique identifier of the command to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCommand(
+        commandId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCommandResponse {
+        let input = DeleteCommandRequest(
+            commandId: commandId
+        )
+        return try await self.deleteCommand(input, logger: logger)
+    }
+
+    /// Delete a command execution.  Only command executions that enter a terminal state can be deleted from your account.
+    @Sendable
+    @inlinable
+    public func deleteCommandExecution(_ input: DeleteCommandExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCommandExecutionResponse {
+        try await self.client.execute(
+            operation: "DeleteCommandExecution", 
+            path: "/command-executions/{executionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete a command execution.  Only command executions that enter a terminal state can be deleted from your account.
+    ///
+    /// Parameters:
+    ///   - executionId: The unique identifier of the command execution that you want to delete from your account.
+    ///   - targetArn: The Amazon Resource Number (ARN) of the target device for which you want to delete command executions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCommandExecution(
+        executionId: String,
+        targetArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCommandExecutionResponse {
+        let input = DeleteCommandExecutionRequest(
+            executionId: executionId, 
+            targetArn: targetArn
+        )
+        return try await self.deleteCommandExecution(input, logger: logger)
+    }
+
     ///  Deletes a Device Defender detect custom metric.  Requires permission to access the DeleteCustomMetric action.  Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the ListSecurityProfiles API with metricName set to your custom metric name.
     @Sendable
     @inlinable
@@ -2386,7 +2497,7 @@ public struct IoT: AWSService {
         return try await self.deleteFleetMetric(input, logger: logger)
     }
 
-    /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as  "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status  is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission to access the DeleteJob action.
+    /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission to access the DeleteJob action.
     @Sendable
     @inlinable
     public func deleteJob(_ input: DeleteJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2399,12 +2510,12 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as  "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status  is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission to access the DeleteJob action.
+    /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission to access the DeleteJob action.
     ///
     /// Parameters:
-    ///   - force: (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception  will occur. The default is false.  Deleting a job which is "IN_PROGRESS", will cause a device which is executing  the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to  a valid state.
-    ///   - jobId: The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job.  However, this is not recommended, and you must ensure that your devices are not using the  jobId to refer to the deleted job.
-    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+    ///   - force: (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to a valid state.
+    ///   - jobId: The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job. However, this is not recommended, and you must ensure that your devices are not using the jobId to refer to the deleted job.
+    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteJob(
@@ -2437,10 +2548,10 @@ public struct IoT: AWSService {
     /// Deletes a job execution. Requires permission to access the DeleteJobExecution action.
     ///
     /// Parameters:
-    ///   - executionNumber: The ID of the job execution to be deleted. The executionNumber refers to the  execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused  by IoT, so be sure you get and use the correct value here.
-    ///   - force: (Optional) When true, you can delete a job execution which is "IN_PROGRESS". Otherwise,  you can only delete a job execution which is in a terminal state ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job execution which is "IN_PROGRESS", will cause the device  to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
+    ///   - executionNumber: The ID of the job execution to be deleted. The executionNumber refers to the execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused by IoT, so be sure you get and use the correct value here.
+    ///   - force: (Optional) When true, you can delete a job execution which is "IN_PROGRESS". Otherwise, you can only delete a job execution which is in a terminal state ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job execution which is "IN_PROGRESS", will cause the device to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
     ///   - jobId: The ID of the job whose execution on a particular device will be deleted.
-    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
     ///   - thingName: The name of the thing whose job execution will be deleted.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3673,7 +3784,7 @@ public struct IoT: AWSService {
     /// Describes a job. Requires permission to access the DescribeJob action.
     ///
     /// Parameters:
-    ///   - beforeSubstitution: A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+    ///   - beforeSubstitution: Provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
     ///   - jobId: The unique identifier you assigned to this job when it was created.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3770,7 +3881,7 @@ public struct IoT: AWSService {
     ///
     /// Parameters:
     ///   - templateName: The unique name of a managed job template, which is required.
-    ///   - templateVersion: An optional parameter to specify version of a managed template. If not specified, the  pre-defined default version is returned.
+    ///   - templateVersion: An optional parameter to specify version of a managed template. If not specified, the pre-defined default version is returned.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeManagedJobTemplate(
@@ -4448,6 +4559,70 @@ public struct IoT: AWSService {
         return try await self.getCardinality(input, logger: logger)
     }
 
+    /// Gets information about the specified command.
+    @Sendable
+    @inlinable
+    public func getCommand(_ input: GetCommandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommandResponse {
+        try await self.client.execute(
+            operation: "GetCommand", 
+            path: "/commands/{commandId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about the specified command.
+    ///
+    /// Parameters:
+    ///   - commandId: The unique identifier of the command for which you want to retrieve information.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCommand(
+        commandId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCommandResponse {
+        let input = GetCommandRequest(
+            commandId: commandId
+        )
+        return try await self.getCommand(input, logger: logger)
+    }
+
+    /// Gets information about the specific command execution on a single device.
+    @Sendable
+    @inlinable
+    public func getCommandExecution(_ input: GetCommandExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommandExecutionResponse {
+        try await self.client.execute(
+            operation: "GetCommandExecution", 
+            path: "/command-executions/{executionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about the specific command execution on a single device.
+    ///
+    /// Parameters:
+    ///   - executionId: The unique identifier for the command execution. This information is returned as a response of the StartCommandExecution API request.
+    ///   - includeResult: Can be used to specify whether to include the result of the command execution in the GetCommandExecution API response. Your device can use this field to provide additional information about the command execution. You only need to specify this field when using the AWS-IoT namespace.
+    ///   - targetArn: The Amazon Resource Number (ARN) of the device on which the command execution is being performed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCommandExecution(
+        executionId: String,
+        includeResult: Bool? = nil,
+        targetArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCommandExecutionResponse {
+        let input = GetCommandExecutionRequest(
+            executionId: executionId, 
+            includeResult: includeResult, 
+            targetArn: targetArn
+        )
+        return try await self.getCommandExecution(input, logger: logger)
+    }
+
     /// Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the IoT device gateway. Requires permission to access the GetEffectivePolicies action.
     @Sendable
     @inlinable
@@ -4525,7 +4700,7 @@ public struct IoT: AWSService {
     /// Gets a job document. Requires permission to access the GetJobDocument action.
     ///
     /// Parameters:
-    ///   - beforeSubstitution: A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+    ///   - beforeSubstitution: Provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
     ///   - jobId: The unique identifier you assigned to this job when it was created.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5457,6 +5632,100 @@ public struct IoT: AWSService {
         return try await self.listCertificatesByCA(input, logger: logger)
     }
 
+    /// List all command executions.  You must provide only the startedTimeFilter or the completedTimeFilter information. If you  provide both time filters, the API will generate an error. You can use this information to find command executions that started within a specific timeframe.
+    @Sendable
+    @inlinable
+    public func listCommandExecutions(_ input: ListCommandExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCommandExecutionsResponse {
+        try await self.client.execute(
+            operation: "ListCommandExecutions", 
+            path: "/command-executions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all command executions.  You must provide only the startedTimeFilter or the completedTimeFilter information. If you  provide both time filters, the API will generate an error. You can use this information to find command executions that started within a specific timeframe.
+    ///
+    /// Parameters:
+    ///   - commandArn: The Amazon Resource Number (ARN) of the command. You can use this information to list all command executions for a particular command.
+    ///   - completedTimeFilter: List all command executions that completed any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm.
+    ///   - maxResults: The maximum number of results to return in this operation.
+    ///   - namespace: The namespace of the command.
+    ///   - nextToken: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    ///   - sortOrder: Specify whether to list the command executions that were created in the ascending or descending order. By default, the API returns all commands in the descending order based on the start time or completion time of the executions, that are determined by the startTimeFilter and completeTimeFilter parameters.
+    ///   - startedTimeFilter: List all command executions that started any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm.
+    ///   - status: List all command executions for the device that have a particular status. For example, you can filter the list to display only command executions that have failed or timed out.
+    ///   - targetArn: The Amazon Resource Number (ARN) of the target device. You can use this information to list all command executions for a particular device.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCommandExecutions(
+        commandArn: String? = nil,
+        completedTimeFilter: TimeFilter? = nil,
+        maxResults: Int? = nil,
+        namespace: CommandNamespace? = nil,
+        nextToken: String? = nil,
+        sortOrder: SortOrder? = nil,
+        startedTimeFilter: TimeFilter? = nil,
+        status: CommandExecutionStatus? = nil,
+        targetArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCommandExecutionsResponse {
+        let input = ListCommandExecutionsRequest(
+            commandArn: commandArn, 
+            completedTimeFilter: completedTimeFilter, 
+            maxResults: maxResults, 
+            namespace: namespace, 
+            nextToken: nextToken, 
+            sortOrder: sortOrder, 
+            startedTimeFilter: startedTimeFilter, 
+            status: status, 
+            targetArn: targetArn
+        )
+        return try await self.listCommandExecutions(input, logger: logger)
+    }
+
+    /// List all commands in your account.
+    @Sendable
+    @inlinable
+    public func listCommands(_ input: ListCommandsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCommandsResponse {
+        try await self.client.execute(
+            operation: "ListCommands", 
+            path: "/commands", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all commands in your account.
+    ///
+    /// Parameters:
+    ///   - commandParameterName: A filter that can be used to display the list of commands that have a specific command parameter name.
+    ///   - maxResults: The maximum number of results to return in this operation. By default, the API returns up to a maximum of 25 results. You can override this default value to return up to a maximum of 100 results for this operation.
+    ///   - namespace: The namespace of the command. By default, the API returns all commands that have been created for both AWS-IoT and AWS-IoT-FleetWise namespaces. You can override this default value if you want to return all commands that have been created only for a specific namespace.
+    ///   - nextToken: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    ///   - sortOrder: Specify whether to list the commands that you have created in the ascending or descending order. By default, the API returns all commands in the descending order based on the time that they were created.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCommands(
+        commandParameterName: String? = nil,
+        maxResults: Int? = nil,
+        namespace: CommandNamespace? = nil,
+        nextToken: String? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCommandsResponse {
+        let input = ListCommandsRequest(
+            commandParameterName: commandParameterName, 
+            maxResults: maxResults, 
+            namespace: namespace, 
+            nextToken: nextToken, 
+            sortOrder: sortOrder
+        )
+        return try await self.listCommands(input, logger: logger)
+    }
+
     ///  Lists your Device Defender detect custom metrics.  Requires permission to access the ListCustomMetrics action.
     @Sendable
     @inlinable
@@ -5761,7 +6030,7 @@ public struct IoT: AWSService {
     /// Parameters:
     ///   - jobId: The unique identifier you assigned to this job when it was created.
     ///   - maxResults: The maximum number of results to be returned per request.
-    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
     ///   - nextToken: The token to retrieve the next set of results.
     ///   - status: An optional filter that lets you search for jobs that have the specified status.
     ///   - thingName: The thing name.
@@ -5836,10 +6105,10 @@ public struct IoT: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return per request.
-    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
     ///   - nextToken: The token to retrieve the next set of results.
     ///   - status: An optional filter that lets you search for jobs that have the specified status.
-    ///   - targetSelection: Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.   We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets.  By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
+    ///   - targetSelection: Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.   We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
     ///   - thingGroupId: A filter that limits the returned jobs to those for the specified group.
     ///   - thingGroupName: A filter that limits the returned jobs to those for the specified group.
     ///   - logger: Logger use during operation
@@ -8474,6 +8743,44 @@ public struct IoT: AWSService {
         return try await self.updateCertificateProvider(input, logger: logger)
     }
 
+    /// Update information about a command or mark a command for deprecation.
+    @Sendable
+    @inlinable
+    public func updateCommand(_ input: UpdateCommandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCommandResponse {
+        try await self.client.execute(
+            operation: "UpdateCommand", 
+            path: "/commands/{commandId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update information about a command or mark a command for deprecation.
+    ///
+    /// Parameters:
+    ///   - commandId: The unique identifier of the command to be updated.
+    ///   - deprecated: A boolean that you can use to specify whether to deprecate a command.
+    ///   - description: A short text description of the command.
+    ///   - displayName: The new user-friendly name to use in the console for the command.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCommand(
+        commandId: String,
+        deprecated: Bool? = nil,
+        description: String? = nil,
+        displayName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCommandResponse {
+        let input = UpdateCommandRequest(
+            commandId: commandId, 
+            deprecated: deprecated, 
+            description: description, 
+            displayName: displayName
+        )
+        return try await self.updateCommand(input, logger: logger)
+    }
+
     /// Updates a Device Defender detect custom metric.  Requires permission to access the UpdateCustomMetric action.
     @Sendable
     @inlinable
@@ -8773,9 +9080,9 @@ public struct IoT: AWSService {
     ///   - jobExecutionsRetryConfig: Allows you to create the criteria to retry a job.
     ///   - jobExecutionsRolloutConfig: Allows you to create a staged rollout of the job.
     ///   - jobId: The ID of the job to be updated.
-    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
     ///   - presignedUrlConfig: Configuration information for pre-signed S3 URLs.
-    ///   - timeoutConfig: Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS.  If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
+    ///   - timeoutConfig: Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateJob(
@@ -9954,6 +10261,104 @@ extension IoT {
         return self.listCertificatesByCAPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCommandExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCommandExecutionsPaginator(
+        _ input: ListCommandExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCommandExecutionsRequest, ListCommandExecutionsResponse> {
+        return .init(
+            input: input,
+            command: self.listCommandExecutions,
+            inputKey: \ListCommandExecutionsRequest.nextToken,
+            outputKey: \ListCommandExecutionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCommandExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - commandArn: The Amazon Resource Number (ARN) of the command. You can use this information to list all command executions for a particular command.
+    ///   - completedTimeFilter: List all command executions that completed any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm.
+    ///   - maxResults: The maximum number of results to return in this operation.
+    ///   - namespace: The namespace of the command.
+    ///   - sortOrder: Specify whether to list the command executions that were created in the ascending or descending order. By default, the API returns all commands in the descending order based on the start time or completion time of the executions, that are determined by the startTimeFilter and completeTimeFilter parameters.
+    ///   - startedTimeFilter: List all command executions that started any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm.
+    ///   - status: List all command executions for the device that have a particular status. For example, you can filter the list to display only command executions that have failed or timed out.
+    ///   - targetArn: The Amazon Resource Number (ARN) of the target device. You can use this information to list all command executions for a particular device.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCommandExecutionsPaginator(
+        commandArn: String? = nil,
+        completedTimeFilter: TimeFilter? = nil,
+        maxResults: Int? = nil,
+        namespace: CommandNamespace? = nil,
+        sortOrder: SortOrder? = nil,
+        startedTimeFilter: TimeFilter? = nil,
+        status: CommandExecutionStatus? = nil,
+        targetArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCommandExecutionsRequest, ListCommandExecutionsResponse> {
+        let input = ListCommandExecutionsRequest(
+            commandArn: commandArn, 
+            completedTimeFilter: completedTimeFilter, 
+            maxResults: maxResults, 
+            namespace: namespace, 
+            sortOrder: sortOrder, 
+            startedTimeFilter: startedTimeFilter, 
+            status: status, 
+            targetArn: targetArn
+        )
+        return self.listCommandExecutionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCommands(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCommandsPaginator(
+        _ input: ListCommandsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCommandsRequest, ListCommandsResponse> {
+        return .init(
+            input: input,
+            command: self.listCommands,
+            inputKey: \ListCommandsRequest.nextToken,
+            outputKey: \ListCommandsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCommands(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - commandParameterName: A filter that can be used to display the list of commands that have a specific command parameter name.
+    ///   - maxResults: The maximum number of results to return in this operation. By default, the API returns up to a maximum of 25 results. You can override this default value to return up to a maximum of 100 results for this operation.
+    ///   - namespace: The namespace of the command. By default, the API returns all commands that have been created for both AWS-IoT and AWS-IoT-FleetWise namespaces. You can override this default value if you want to return all commands that have been created only for a specific namespace.
+    ///   - sortOrder: Specify whether to list the commands that you have created in the ascending or descending order. By default, the API returns all commands in the descending order based on the time that they were created.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCommandsPaginator(
+        commandParameterName: String? = nil,
+        maxResults: Int? = nil,
+        namespace: CommandNamespace? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCommandsRequest, ListCommandsResponse> {
+        let input = ListCommandsRequest(
+            commandParameterName: commandParameterName, 
+            maxResults: maxResults, 
+            namespace: namespace, 
+            sortOrder: sortOrder
+        )
+        return self.listCommandsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCustomMetrics(_:logger:)``.
     ///
     /// - Parameters:
@@ -10279,7 +10684,7 @@ extension IoT {
     /// - Parameters:
     ///   - jobId: The unique identifier you assigned to this job when it was created.
     ///   - maxResults: The maximum number of results to be returned per request.
-    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
     ///   - status: An optional filter that lets you search for jobs that have the specified status.
     ///   - thingName: The thing name.
     ///   - logger: Logger used for logging
@@ -10358,9 +10763,9 @@ extension IoT {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return per request.
-    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+    ///   - namespaceId: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
     ///   - status: An optional filter that lets you search for jobs that have the specified status.
-    ///   - targetSelection: Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.   We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets.  By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
+    ///   - targetSelection: Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.   We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
     ///   - thingGroupId: A filter that limits the returned jobs to those for the specified group.
     ///   - thingGroupName: A filter that limits the returned jobs to those for the specified group.
     ///   - logger: Logger used for logging
@@ -12024,6 +12429,36 @@ extension IoT.ListCertificatesRequest: AWSPaginateToken {
             ascendingOrder: self.ascendingOrder,
             marker: token,
             pageSize: self.pageSize
+        )
+    }
+}
+
+extension IoT.ListCommandExecutionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoT.ListCommandExecutionsRequest {
+        return .init(
+            commandArn: self.commandArn,
+            completedTimeFilter: self.completedTimeFilter,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token,
+            sortOrder: self.sortOrder,
+            startedTimeFilter: self.startedTimeFilter,
+            status: self.status,
+            targetArn: self.targetArn
+        )
+    }
+}
+
+extension IoT.ListCommandsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoT.ListCommandsRequest {
+        return .init(
+            commandParameterName: self.commandParameterName,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token,
+            sortOrder: self.sortOrder
         )
     }
 }

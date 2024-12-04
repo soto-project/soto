@@ -372,18 +372,24 @@ extension MediaPackageV2 {
         public let clientToken: String?
         /// Enter any descriptive text that helps you to identify the channel.
         public let description: String?
+        /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+        public let inputSwitchConfiguration: InputSwitchConfiguration?
         /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
         public let inputType: InputType?
+        /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+        public let outputHeaderConfiguration: OutputHeaderConfiguration?
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateChannelRequest.idempotencyToken(), description: String? = nil, inputType: InputType? = nil, tags: [String: String]? = nil) {
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateChannelRequest.idempotencyToken(), description: String? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, tags: [String: String]? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.clientToken = clientToken
             self.description = description
+            self.inputSwitchConfiguration = inputSwitchConfiguration
             self.inputType = inputType
+            self.outputHeaderConfiguration = outputHeaderConfiguration
             self.tags = tags
         }
 
@@ -394,7 +400,9 @@ extension MediaPackageV2 {
             try container.encode(self.channelName, forKey: .channelName)
             request.encodeHeader(self.clientToken, key: "x-amzn-client-token")
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.inputSwitchConfiguration, forKey: .inputSwitchConfiguration)
             try container.encodeIfPresent(self.inputType, forKey: .inputType)
+            try container.encodeIfPresent(self.outputHeaderConfiguration, forKey: .outputHeaderConfiguration)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -414,7 +422,9 @@ extension MediaPackageV2 {
         private enum CodingKeys: String, CodingKey {
             case channelName = "ChannelName"
             case description = "Description"
+            case inputSwitchConfiguration = "InputSwitchConfiguration"
             case inputType = "InputType"
+            case outputHeaderConfiguration = "OutputHeaderConfiguration"
             case tags = "tags"
         }
     }
@@ -433,15 +443,19 @@ extension MediaPackageV2 {
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
         public let eTag: String?
         public let ingestEndpoints: [IngestEndpoint]?
+        /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+        public let inputSwitchConfiguration: InputSwitchConfiguration?
         /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
         public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
+        /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+        public let outputHeaderConfiguration: OutputHeaderConfiguration?
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputType: InputType? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -449,8 +463,10 @@ extension MediaPackageV2 {
             self.description = description
             self.eTag = eTag
             self.ingestEndpoints = ingestEndpoints
+            self.inputSwitchConfiguration = inputSwitchConfiguration
             self.inputType = inputType
             self.modifiedAt = modifiedAt
+            self.outputHeaderConfiguration = outputHeaderConfiguration
             self.tags = tags
         }
 
@@ -462,8 +478,10 @@ extension MediaPackageV2 {
             case description = "Description"
             case eTag = "ETag"
             case ingestEndpoints = "IngestEndpoints"
+            case inputSwitchConfiguration = "InputSwitchConfiguration"
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
+            case outputHeaderConfiguration = "OutputHeaderConfiguration"
             case tags = "Tags"
         }
     }
@@ -688,7 +706,7 @@ extension MediaPackageV2 {
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
         public let manifestWindowSeconds: Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
         public let startTag: StartTag?
@@ -732,7 +750,7 @@ extension MediaPackageV2 {
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
         public let manifestWindowSeconds: Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
         public let startTag: StartTag?
@@ -1433,15 +1451,19 @@ extension MediaPackageV2 {
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
         public let eTag: String?
         public let ingestEndpoints: [IngestEndpoint]?
+        /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+        public let inputSwitchConfiguration: InputSwitchConfiguration?
         /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
         public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
+        /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+        public let outputHeaderConfiguration: OutputHeaderConfiguration?
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputType: InputType? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1449,8 +1471,10 @@ extension MediaPackageV2 {
             self.description = description
             self.eTag = eTag
             self.ingestEndpoints = ingestEndpoints
+            self.inputSwitchConfiguration = inputSwitchConfiguration
             self.inputType = inputType
             self.modifiedAt = modifiedAt
+            self.outputHeaderConfiguration = outputHeaderConfiguration
             self.tags = tags
         }
 
@@ -1462,8 +1486,10 @@ extension MediaPackageV2 {
             case description = "Description"
             case eTag = "ETag"
             case ingestEndpoints = "IngestEndpoints"
+            case inputSwitchConfiguration = "InputSwitchConfiguration"
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
+            case outputHeaderConfiguration = "OutputHeaderConfiguration"
             case tags = "Tags"
         }
     }
@@ -1648,7 +1674,7 @@ extension MediaPackageV2 {
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
         public let manifestWindowSeconds: Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
         public let startTag: StartTag?
@@ -1687,7 +1713,7 @@ extension MediaPackageV2 {
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
         public let manifestWindowSeconds: Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
         public let startTag: StartTag?
@@ -2089,6 +2115,20 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct InputSwitchConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is true. This setting is valid only when InputType is CMAF.
+        public let mqcsInputSwitching: Bool?
+
+        @inlinable
+        public init(mqcsInputSwitching: Bool? = nil) {
+            self.mqcsInputSwitching = mqcsInputSwitching
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mqcsInputSwitching = "MQCSInputSwitching"
+        }
+    }
+
     public struct ListChannelGroupsRequest: AWSEncodableShape {
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -2464,6 +2504,20 @@ extension MediaPackageV2 {
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case modifiedAt = "ModifiedAt"
             case originEndpointName = "OriginEndpointName"
+        }
+    }
+
+    public struct OutputHeaderConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// When true, AWS Elemental MediaPackage includes the MQCS in responses to the CDN. This setting is valid only when InputType is CMAF.
+        public let publishMQCS: Bool?
+
+        @inlinable
+        public init(publishMQCS: Bool? = nil) {
+            self.publishMQCS = publishMQCS
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publishMQCS = "PublishMQCS"
         }
     }
 
@@ -2854,13 +2908,19 @@ extension MediaPackageV2 {
         public let description: String?
         /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
         public let eTag: String?
+        /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+        public let inputSwitchConfiguration: InputSwitchConfiguration?
+        /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+        public let outputHeaderConfiguration: OutputHeaderConfiguration?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, description: String? = nil, eTag: String? = nil) {
+        public init(channelGroupName: String, channelName: String, description: String? = nil, eTag: String? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.description = description
             self.eTag = eTag
+            self.inputSwitchConfiguration = inputSwitchConfiguration
+            self.outputHeaderConfiguration = outputHeaderConfiguration
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2870,6 +2930,8 @@ extension MediaPackageV2 {
             request.encodePath(self.channelName, key: "ChannelName")
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodeHeader(self.eTag, key: "x-amzn-update-if-match")
+            try container.encodeIfPresent(self.inputSwitchConfiguration, forKey: .inputSwitchConfiguration)
+            try container.encodeIfPresent(self.outputHeaderConfiguration, forKey: .outputHeaderConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -2887,6 +2949,8 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case inputSwitchConfiguration = "InputSwitchConfiguration"
+            case outputHeaderConfiguration = "OutputHeaderConfiguration"
         }
     }
 
@@ -2904,15 +2968,19 @@ extension MediaPackageV2 {
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
         public let eTag: String?
         public let ingestEndpoints: [IngestEndpoint]?
+        /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+        public let inputSwitchConfiguration: InputSwitchConfiguration?
         /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
         public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
+        /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+        public let outputHeaderConfiguration: OutputHeaderConfiguration?
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputType: InputType? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2920,8 +2988,10 @@ extension MediaPackageV2 {
             self.description = description
             self.eTag = eTag
             self.ingestEndpoints = ingestEndpoints
+            self.inputSwitchConfiguration = inputSwitchConfiguration
             self.inputType = inputType
             self.modifiedAt = modifiedAt
+            self.outputHeaderConfiguration = outputHeaderConfiguration
             self.tags = tags
         }
 
@@ -2933,8 +3003,10 @@ extension MediaPackageV2 {
             case description = "Description"
             case eTag = "ETag"
             case ingestEndpoints = "IngestEndpoints"
+            case inputSwitchConfiguration = "InputSwitchConfiguration"
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
+            case outputHeaderConfiguration = "OutputHeaderConfiguration"
             case tags = "tags"
         }
     }

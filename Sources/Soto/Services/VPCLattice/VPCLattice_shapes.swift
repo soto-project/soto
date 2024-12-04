@@ -72,6 +72,104 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Resource Configuration protocol type TCP
+        case tcp = "TCP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceConfigurationIpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Dualstack ip address type for dns type resource configs
+        case dualstack = "DUALSTACK"
+        /// Ipv4 ip address type for dns type resource configs
+        case ipv4 = "IPV4"
+        /// IPv6 ip address type for dns type resource configs
+        case ipv6 = "IPV6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Resource Configuration is active.
+        case active = "ACTIVE"
+        /// Resource Configuration creation failed
+        case createFailed = "CREATE_FAILED"
+        /// Resource Configuration creation in progress.
+        case createInProgress = "CREATE_IN_PROGRESS"
+        /// Resource Configuration deletion failed.
+        case deleteFailed = "DELETE_FAILED"
+        /// Resource Configuration deletion in progress
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        /// Resource Configuration update failed
+        case updateFailed = "UPDATE_FAILED"
+        /// Resource Configuration update in progress.
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Resource Configuration of type ARN
+        case arn = "ARN"
+        /// Resource Configuration of type CHILD
+        case child = "CHILD"
+        /// Resource Configuration of type GROUP
+        case group = "GROUP"
+        /// Resource Configuration of type SINGLE
+        case single = "SINGLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceGatewayIpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Dualstack ip address type for resource gateway
+        case dualstack = "DUALSTACK"
+        /// Ipv4 ip address type for resource gateway
+        case ipv4 = "IPV4"
+        /// IPv6 ip address type for resource gateway
+        case ipv6 = "IPV6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceGatewayStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Resource Gateway is active.
+        case active = "ACTIVE"
+        /// Resource Gateway creation failed
+        case createFailed = "CREATE_FAILED"
+        /// Resource Gateway creation in progress.
+        case createInProgress = "CREATE_IN_PROGRESS"
+        /// Resource Gateway deletion failed.
+        case deleteFailed = "DELETE_FAILED"
+        /// Resource Gateway deletion in progress
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        /// Reosurce Gateway update failed
+        case updateFailed = "UPDATE_FAILED"
+        /// Resource Gateway update in progress.
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceNetworkLogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Indicates logs for Lattice resource configurations.
+        case resource = "RESOURCE"
+        /// Indicates logs for Lattice services.
+        case service = "SERVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceNetworkResourceAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// ServiceNetwork and Service association is active
+        case active = "ACTIVE"
+        /// ServiceNetwork and Service association creation failed.
+        case createFailed = "CREATE_FAILED"
+        /// ServiceNetwork and Service association creation in progress
+        case createInProgress = "CREATE_IN_PROGRESS"
+        /// ServiceNetwork and Service association deletion failed
+        case deleteFailed = "DELETE_FAILED"
+        /// ServiceNetwork and Service association deletion in progress
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        /// ServiceNetwork and Service association is partial
+        case partial = "PARTIAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceNetworkServiceAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// ServiceNetwork and Service association is active
         case active = "ACTIVE"
@@ -297,6 +395,66 @@ extension VPCLattice {
         }
     }
 
+    public enum ResourceConfigurationDefinition: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Amazon Resource Name (ARN) of the resource.
+        case arnResource(ArnResource)
+        /// The DNS name of the resource.
+        case dnsResource(DnsResource)
+        /// The IP resource.
+        case ipResource(IpResource)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .arnResource:
+                let value = try container.decode(ArnResource.self, forKey: .arnResource)
+                self = .arnResource(value)
+            case .dnsResource:
+                let value = try container.decode(DnsResource.self, forKey: .dnsResource)
+                self = .dnsResource(value)
+            case .ipResource:
+                let value = try container.decode(IpResource.self, forKey: .ipResource)
+                self = .ipResource(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .arnResource(let value):
+                try container.encode(value, forKey: .arnResource)
+            case .dnsResource(let value):
+                try container.encode(value, forKey: .dnsResource)
+            case .ipResource(let value):
+                try container.encode(value, forKey: .ipResource)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .arnResource(let value):
+                try value.validate(name: "\(name).arnResource")
+            case .dnsResource(let value):
+                try value.validate(name: "\(name).dnsResource")
+            case .ipResource(let value):
+                try value.validate(name: "\(name).ipResource")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arnResource = "arnResource"
+            case dnsResource = "dnsResource"
+            case ipResource = "ipResource"
+        }
+    }
+
     public enum RuleAction: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The fixed response action. The rule returns a custom HTTP response.
         case fixedResponse(FixedResponseAction)
@@ -352,23 +510,25 @@ extension VPCLattice {
     public struct AccessLogSubscriptionSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the access log subscription
         public let arn: String
-        /// The date and time that the access log subscription was created, specified in ISO-8601 format.
+        /// The date and time that the access log subscription was created, in ISO-8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
         /// The Amazon Resource Name (ARN) of the destination.
         public let destinationArn: String
         /// The ID of the access log subscription.
         public let id: String
-        /// The date and time that the access log subscription was last updated, specified in ISO-8601 format.
+        /// The date and time that the access log subscription was last updated, in ISO-8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date
         /// The Amazon Resource Name (ARN) of the service or service network.
         public let resourceArn: String
         /// The ID of the service or service network.
         public let resourceId: String
+        /// Log type of the service network.
+        public let serviceNetworkLogType: ServiceNetworkLogType?
 
         @inlinable
-        public init(arn: String, createdAt: Date, destinationArn: String, id: String, lastUpdatedAt: Date, resourceArn: String, resourceId: String) {
+        public init(arn: String, createdAt: Date, destinationArn: String, id: String, lastUpdatedAt: Date, resourceArn: String, resourceId: String, serviceNetworkLogType: ServiceNetworkLogType? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.destinationArn = destinationArn
@@ -376,6 +536,7 @@ extension VPCLattice {
             self.lastUpdatedAt = lastUpdatedAt
             self.resourceArn = resourceArn
             self.resourceId = resourceId
+            self.serviceNetworkLogType = serviceNetworkLogType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -386,15 +547,36 @@ extension VPCLattice {
             case lastUpdatedAt = "lastUpdatedAt"
             case resourceArn = "resourceArn"
             case resourceId = "resourceId"
+            case serviceNetworkLogType = "serviceNetworkLogType"
+        }
+    }
+
+    public struct ArnResource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 20)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z0-9][-.a-z0-9]{0,62}:[a-z0-9][-.a-z0-9]{0,62}:([a-z0-9][-.a-z0-9]{0,62})?:\\d{12}?:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct BatchUpdateRuleRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the listener.
+        /// The ID or ARN of the listener.
         public let listenerIdentifier: String
         /// The rules for the specified listener.
         public let rules: [RuleUpdate]
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -454,16 +636,19 @@ extension VPCLattice {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the destination. The supported destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams, and Amazon S3 buckets.
         public let destinationArn: String
-        /// The ID or Amazon Resource Name (ARN) of the service network or service.
+        /// The ID or ARN of the service network or service.
         public let resourceIdentifier: String
+        /// The type of log that monitors your Amazon VPC Lattice service networks.
+        public let serviceNetworkLogType: ServiceNetworkLogType?
         /// The tags for the access log subscription.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateAccessLogSubscriptionRequest.idempotencyToken(), destinationArn: String, resourceIdentifier: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateAccessLogSubscriptionRequest.idempotencyToken(), destinationArn: String, resourceIdentifier: String, serviceNetworkLogType: ServiceNetworkLogType? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.destinationArn = destinationArn
             self.resourceIdentifier = resourceIdentifier
+            self.serviceNetworkLogType = serviceNetworkLogType
             self.tags = tags
         }
 
@@ -476,7 +661,7 @@ extension VPCLattice {
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?$")
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 200)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 17)
-            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc))-[0-9a-z]{17}))$")
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(resourceconfiguration/rcfg)|(service/svc))-[0-9a-z]{17}))$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -489,6 +674,7 @@ extension VPCLattice {
             case clientToken = "clientToken"
             case destinationArn = "destinationArn"
             case resourceIdentifier = "resourceIdentifier"
+            case serviceNetworkLogType = "serviceNetworkLogType"
             case tags = "tags"
         }
     }
@@ -504,14 +690,17 @@ extension VPCLattice {
         public let resourceArn: String
         /// The ID of the service network or service.
         public let resourceId: String
+        /// The type of log that monitors your Amazon VPC Lattice service networks.
+        public let serviceNetworkLogType: ServiceNetworkLogType?
 
         @inlinable
-        public init(arn: String, destinationArn: String, id: String, resourceArn: String, resourceId: String) {
+        public init(arn: String, destinationArn: String, id: String, resourceArn: String, resourceId: String, serviceNetworkLogType: ServiceNetworkLogType? = nil) {
             self.arn = arn
             self.destinationArn = destinationArn
             self.id = id
             self.resourceArn = resourceArn
             self.resourceId = resourceId
+            self.serviceNetworkLogType = serviceNetworkLogType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -520,13 +709,14 @@ extension VPCLattice {
             case id = "id"
             case resourceArn = "resourceArn"
             case resourceId = "resourceId"
+            case serviceNetworkLogType = "serviceNetworkLogType"
         }
     }
 
     public struct CreateListenerRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
-        /// The action for the default rule. Each listener has a default rule. The default rule is used  if no other rules match.
+        /// The action for the default rule. Each listener has a default rule. The default rule is used if no other rules match.
         public let defaultAction: RuleAction
         /// The name of the listener. A listener name must be unique within a service. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
@@ -534,7 +724,7 @@ extension VPCLattice {
         public let port: Int?
         /// The listener protocol.
         public let `protocol`: ListenerProtocol
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
         /// The tags for the listener.
         public let tags: [String: String]?
@@ -635,12 +825,259 @@ extension VPCLattice {
         }
     }
 
+    public struct CreateResourceConfigurationRequest: AWSEncodableShape {
+        /// (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with  a sharable service network. The default is false.
+        public let allowAssociationToShareableServiceNetwork: Bool?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+        public let clientToken: String?
+        /// The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
+        public let name: String
+        /// (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration  (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
+        public let portRanges: [String]?
+        /// (SINGLE, GROUP) The protocol accepted by the resource configuration.
+        public let `protocol`: ProtocolType?
+        /// (SINGLE, CHILD, ARN) The resource configuration.
+        public let resourceConfigurationDefinition: ResourceConfigurationDefinition?
+        /// (CHILD) The ID or ARN of the parent resource configuration (type is GROUP).  This is used to associate a child resource configuration with a group resource configuration.
+        public let resourceConfigurationGroupIdentifier: String?
+        /// (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration.
+        public let resourceGatewayIdentifier: String?
+        /// The tags for the resource configuration.
+        public let tags: [String: String]?
+        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        public let type: ResourceConfigurationType
+
+        @inlinable
+        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, clientToken: String? = CreateResourceConfigurationRequest.idempotencyToken(), name: String, portRanges: [String]? = nil, protocol: ProtocolType? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationGroupIdentifier: String? = nil, resourceGatewayIdentifier: String? = nil, tags: [String: String]? = nil, type: ResourceConfigurationType) {
+            self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
+            self.clientToken = clientToken
+            self.name = name
+            self.portRanges = portRanges
+            self.`protocol` = `protocol`
+            self.resourceConfigurationDefinition = resourceConfigurationDefinition
+            self.resourceConfigurationGroupIdentifier = resourceConfigurationGroupIdentifier
+            self.resourceGatewayIdentifier = resourceGatewayIdentifier
+            self.tags = tags
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.name, name: "name", parent: name, max: 40)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!rcfg-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+$")
+            try self.portRanges?.forEach {
+                try validate($0, name: "portRanges[]", parent: name, max: 11)
+                try validate($0, name: "portRanges[]", parent: name, min: 1)
+                try validate($0, name: "portRanges[]", parent: name, pattern: "^((\\d{1,5}\\-\\d{1,5})|(\\d+))$")
+            }
+            try self.resourceConfigurationDefinition?.validate(name: "\(name).resourceConfigurationDefinition")
+            try self.validate(self.resourceConfigurationGroupIdentifier, name: "resourceConfigurationGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationGroupIdentifier, name: "resourceConfigurationGroupIdentifier", parent: name, min: 20)
+            try self.validate(self.resourceConfigurationGroupIdentifier, name: "resourceConfigurationGroupIdentifier", parent: name, pattern: "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$")
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, min: 17)
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, pattern: "^((rgw-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourcegateway/rgw-[0-9a-z]{17}))$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowAssociationToShareableServiceNetwork = "allowAssociationToShareableServiceNetwork"
+            case clientToken = "clientToken"
+            case name = "name"
+            case portRanges = "portRanges"
+            case `protocol` = "protocol"
+            case resourceConfigurationDefinition = "resourceConfigurationDefinition"
+            case resourceConfigurationGroupIdentifier = "resourceConfigurationGroupIdentifier"
+            case resourceGatewayIdentifier = "resourceGatewayIdentifier"
+            case tags = "tags"
+            case type = "type"
+        }
+    }
+
+    public struct CreateResourceConfigurationResponse: AWSDecodableShape {
+        /// Specifies whether the resource configuration can be associated with a sharable service network.
+        public let allowAssociationToShareableServiceNetwork: Bool?
+        /// The Amazon Resource Name (ARN) of the resource configuration.
+        public let arn: String?
+        /// The date and time that the resource configuration was created, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The reason that the request failed.
+        public let failureReason: String?
+        /// The ID of the resource configuration.
+        public let id: String?
+        /// The name of the resource configuration.
+        public let name: String?
+        /// The port range.
+        public let portRanges: [String]?
+        /// The protocol.
+        public let `protocol`: ProtocolType?
+        /// The resource configuration.
+        public let resourceConfigurationDefinition: ResourceConfigurationDefinition?
+        /// The ID of the parent resource configuration (type is GROUP).
+        public let resourceConfigurationGroupId: String?
+        /// The ID of the resource gateway associated with the resource configuration.
+        public let resourceGatewayId: String?
+        /// The current status of the resource configuration.
+        public let status: ResourceConfigurationStatus?
+        /// The type of resource configuration.
+        public let type: ResourceConfigurationType?
+
+        @inlinable
+        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, arn: String? = nil, createdAt: Date? = nil, failureReason: String? = nil, id: String? = nil, name: String? = nil, portRanges: [String]? = nil, protocol: ProtocolType? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationGroupId: String? = nil, resourceGatewayId: String? = nil, status: ResourceConfigurationStatus? = nil, type: ResourceConfigurationType? = nil) {
+            self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
+            self.arn = arn
+            self.createdAt = createdAt
+            self.failureReason = failureReason
+            self.id = id
+            self.name = name
+            self.portRanges = portRanges
+            self.`protocol` = `protocol`
+            self.resourceConfigurationDefinition = resourceConfigurationDefinition
+            self.resourceConfigurationGroupId = resourceConfigurationGroupId
+            self.resourceGatewayId = resourceGatewayId
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowAssociationToShareableServiceNetwork = "allowAssociationToShareableServiceNetwork"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case failureReason = "failureReason"
+            case id = "id"
+            case name = "name"
+            case portRanges = "portRanges"
+            case `protocol` = "protocol"
+            case resourceConfigurationDefinition = "resourceConfigurationDefinition"
+            case resourceConfigurationGroupId = "resourceConfigurationGroupId"
+            case resourceGatewayId = "resourceGatewayId"
+            case status = "status"
+            case type = "type"
+        }
+    }
+
+    public struct CreateResourceGatewayRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+        public let clientToken: String?
+        /// The type of IP address used by the resource gateway.
+        public let ipAddressType: ResourceGatewayIpAddressType?
+        /// The name of the resource gateway.
+        public let name: String
+        /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
+        public let securityGroupIds: [String]?
+        /// The IDs of the VPC subnets in which to create the resource gateway.
+        public let subnetIds: [String]
+        /// The tags for the resource gateway.
+        public let tags: [String: String]?
+        /// The ID of the VPC for the resource gateway.
+        public let vpcIdentifier: String
+
+        @inlinable
+        public init(clientToken: String? = CreateResourceGatewayRequest.idempotencyToken(), ipAddressType: ResourceGatewayIpAddressType? = nil, name: String, securityGroupIds: [String]? = nil, subnetIds: [String], tags: [String: String]? = nil, vpcIdentifier: String) {
+            self.clientToken = clientToken
+            self.ipAddressType = ipAddressType
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcIdentifier = vpcIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.name, name: "name", parent: name, max: 40)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!rgw-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+$")
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 200)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 5)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-(([0-9a-z]{8})|([0-9a-z]{17}))$")
+            }
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 200)
+                try validate($0, name: "subnetIds[]", parent: name, min: 5)
+            }
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.vpcIdentifier, name: "vpcIdentifier", parent: name, max: 50)
+            try self.validate(self.vpcIdentifier, name: "vpcIdentifier", parent: name, min: 5)
+            try self.validate(self.vpcIdentifier, name: "vpcIdentifier", parent: name, pattern: "^vpc-(([0-9a-z]{8})|([0-9a-z]{17}))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case ipAddressType = "ipAddressType"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcIdentifier = "vpcIdentifier"
+        }
+    }
+
+    public struct CreateResourceGatewayResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource gateway.
+        public let arn: String?
+        /// The ID of the resource gateway.
+        public let id: String?
+        /// The type of IP address for the resource gateway.
+        public let ipAddressType: ResourceGatewayIpAddressType?
+        /// The name of the resource gateway.
+        public let name: String?
+        /// The IDs of the security groups for the resource gateway.
+        public let securityGroupIds: [String]?
+        /// The status of the resource gateway.
+        public let status: ResourceGatewayStatus?
+        /// The IDs of the resource gateway subnets.
+        public let subnetIds: [String]?
+        /// The ID of the VPC.
+        public let vpcIdentifier: String?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcIdentifier: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.ipAddressType = ipAddressType
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.subnetIds = subnetIds
+            self.vpcIdentifier = vpcIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case ipAddressType = "ipAddressType"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case status = "status"
+            case subnetIds = "subnetIds"
+            case vpcIdentifier = "vpcIdentifier"
+        }
+    }
+
     public struct CreateRuleRequest: AWSEncodableShape {
         /// The action for the default rule.
         public let action: RuleAction
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
-        /// The ID or Amazon Resource Name (ARN) of the listener.
+        /// The ID or ARN of the listener.
         public let listenerIdentifier: String
         /// The rule match.
         public let match: RuleMatch
@@ -648,7 +1085,7 @@ extension VPCLattice {
         public let name: String
         /// The priority assigned to the rule. Each rule for a specific listener must have a unique priority. The lower the priority number the higher the priority.
         public let priority: Int
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
         /// The tags for the rule.
         public let tags: [String: String]?
@@ -754,14 +1191,17 @@ extension VPCLattice {
         public let clientToken: String?
         /// The name of the service network. The name must be unique to the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
+        /// Specify if the service network should be enabled for sharing.
+        public let sharingConfig: SharingConfig?
         /// The tags for the service network.
         public let tags: [String: String]?
 
         @inlinable
-        public init(authType: AuthType? = nil, clientToken: String? = CreateServiceNetworkRequest.idempotencyToken(), name: String, tags: [String: String]? = nil) {
+        public init(authType: AuthType? = nil, clientToken: String? = CreateServiceNetworkRequest.idempotencyToken(), name: String, sharingConfig: SharingConfig? = nil, tags: [String: String]? = nil) {
             self.authType = authType
             self.clientToken = clientToken
             self.name = name
+            self.sharingConfig = sharingConfig
             self.tags = tags
         }
 
@@ -784,7 +1224,77 @@ extension VPCLattice {
             case authType = "authType"
             case clientToken = "clientToken"
             case name = "name"
+            case sharingConfig = "sharingConfig"
             case tags = "tags"
+        }
+    }
+
+    public struct CreateServiceNetworkResourceAssociationRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+        public let clientToken: String?
+        /// The ID of the resource configuration to associate with the service network.
+        public let resourceConfigurationIdentifier: String
+        /// The ID of the service network to associate with the resource configuration.
+        public let serviceNetworkIdentifier: String
+        /// The tags for the association.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateServiceNetworkResourceAssociationRequest.idempotencyToken(), resourceConfigurationIdentifier: String, serviceNetworkIdentifier: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+            self.serviceNetworkIdentifier = serviceNetworkIdentifier
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, min: 20)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, pattern: "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$")
+            try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, max: 2048)
+            try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, min: 3)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case resourceConfigurationIdentifier = "resourceConfigurationIdentifier"
+            case serviceNetworkIdentifier = "serviceNetworkIdentifier"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateServiceNetworkResourceAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the association.
+        public let arn: String?
+        /// The ID of the account that created the association.
+        public let createdBy: String?
+        /// The ID of the association.
+        public let id: String?
+        /// The status of the association.
+        public let status: ServiceNetworkResourceAssociationStatus?
+
+        @inlinable
+        public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, status: ServiceNetworkResourceAssociationStatus? = nil) {
+            self.arn = arn
+            self.createdBy = createdBy
+            self.id = id
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdBy = "createdBy"
+            case id = "id"
+            case status = "status"
         }
     }
 
@@ -797,13 +1307,16 @@ extension VPCLattice {
         public let id: String?
         /// The name of the service network.
         public let name: String?
+        /// Specifies if the service network is enabled for sharing.
+        public let sharingConfig: SharingConfig?
 
         @inlinable
-        public init(arn: String? = nil, authType: AuthType? = nil, id: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, authType: AuthType? = nil, id: String? = nil, name: String? = nil, sharingConfig: SharingConfig? = nil) {
             self.arn = arn
             self.authType = authType
             self.id = id
             self.name = name
+            self.sharingConfig = sharingConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -811,15 +1324,16 @@ extension VPCLattice {
             case authType = "authType"
             case id = "id"
             case name = "name"
+            case sharingConfig = "sharingConfig"
         }
     }
 
     public struct CreateServiceNetworkServiceAssociationRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
-        /// The ID or Amazon Resource Name (ARN) of the service network. You must use the ARN if the resources specified in the operation are in different accounts.
+        /// The ID or ARN of the service network. You must use an ARN if the resources are in different accounts.
         public let serviceNetworkIdentifier: String
         /// The tags for the association.
         public let tags: [String: String]?
@@ -897,7 +1411,7 @@ extension VPCLattice {
         public let clientToken: String?
         /// The IDs of the security groups. Security groups aren't added by default. You can add a security group to apply network level controls to control which resources in a VPC are allowed to access the service network and its services. For more information, see Control traffic to resources using security groups in the Amazon VPC User Guide.
         public let securityGroupIds: [String]?
-        /// The ID or Amazon Resource Name (ARN) of the service network. You must use the ARN when the resources specified in the operation are in different accounts.
+        /// The ID or ARN of the service network. You must use an ARN if the resources are in different accounts.
         public let serviceNetworkIdentifier: String
         /// The tags for the association.
         public let tags: [String: String]?
@@ -1125,7 +1639,7 @@ extension VPCLattice {
         public let id: String?
         /// The name of the target group.
         public let name: String?
-        /// The status. You can retry the operation if the status is CREATE_FAILED.  However, if you retry it while the status is CREATE_IN_PROGRESS, there is  no change in the status.
+        /// The status. You can retry the operation if the status is CREATE_FAILED. However, if you retry it while the status is CREATE_IN_PROGRESS, there is no change in the status.
         public let status: TargetGroupStatus?
         /// The type of target group.
         public let type: TargetGroupType?
@@ -1151,7 +1665,7 @@ extension VPCLattice {
     }
 
     public struct DeleteAccessLogSubscriptionRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the access log subscription.
+        /// The ID or ARN of the access log subscription.
         public let accessLogSubscriptionIdentifier: String
 
         @inlinable
@@ -1179,7 +1693,7 @@ extension VPCLattice {
     }
 
     public struct DeleteAuthPolicyRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the resource.
+        /// The ID or ARN of the resource.
         public let resourceIdentifier: String
 
         @inlinable
@@ -1196,7 +1710,7 @@ extension VPCLattice {
         public func validate(name: String) throws {
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 200)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 17)
-            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc))-[0-9a-z]{17}))$")
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(resourceconfiguration/rcfg)|(service/svc))-[0-9a-z]{17}))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1207,9 +1721,9 @@ extension VPCLattice {
     }
 
     public struct DeleteListenerRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the listener.
+        /// The ID or ARN of the listener.
         public let listenerIdentifier: String
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -1241,6 +1755,138 @@ extension VPCLattice {
         public init() {}
     }
 
+    public struct DeleteResourceConfigurationRequest: AWSEncodableShape {
+        /// The ID or ARN of the resource configuration.
+        public let resourceConfigurationIdentifier: String
+
+        @inlinable
+        public init(resourceConfigurationIdentifier: String) {
+            self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceConfigurationIdentifier, key: "resourceConfigurationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, min: 20)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, pattern: "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourceConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteResourceEndpointAssociationRequest: AWSEncodableShape {
+        /// The ID or ARN of the association.
+        public let resourceEndpointAssociationIdentifier: String
+
+        @inlinable
+        public init(resourceEndpointAssociationIdentifier: String) {
+            self.resourceEndpointAssociationIdentifier = resourceEndpointAssociationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceEndpointAssociationIdentifier, key: "resourceEndpointAssociationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceEndpointAssociationIdentifier, name: "resourceEndpointAssociationIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceEndpointAssociationIdentifier, name: "resourceEndpointAssociationIdentifier", parent: name, min: 21)
+            try self.validate(self.resourceEndpointAssociationIdentifier, name: "resourceEndpointAssociationIdentifier", parent: name, pattern: "^((rea-[0-9a-f]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceendpointassociation/rea-[0-9a-f]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourceEndpointAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the association.
+        public let arn: String?
+        /// The ID of the association.
+        public let id: String?
+        /// The Amazon Resource Name (ARN) of the resource configuration associated with the VPC endpoint of type resource.
+        public let resourceConfigurationArn: String?
+        /// The ID of the resource configuration.
+        public let resourceConfigurationId: String?
+        /// The ID of the resource VPC endpoint that is associated with the resource configuration.
+        public let vpcEndpointId: String?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, resourceConfigurationArn: String? = nil, resourceConfigurationId: String? = nil, vpcEndpointId: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.resourceConfigurationArn = resourceConfigurationArn
+            self.resourceConfigurationId = resourceConfigurationId
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case resourceConfigurationArn = "resourceConfigurationArn"
+            case resourceConfigurationId = "resourceConfigurationId"
+            case vpcEndpointId = "vpcEndpointId"
+        }
+    }
+
+    public struct DeleteResourceGatewayRequest: AWSEncodableShape {
+        /// The ID or ARN of the resource gateway.
+        public let resourceGatewayIdentifier: String
+
+        @inlinable
+        public init(resourceGatewayIdentifier: String) {
+            self.resourceGatewayIdentifier = resourceGatewayIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceGatewayIdentifier, key: "resourceGatewayIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, min: 17)
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, pattern: "^((rgw-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourcegateway/rgw-[0-9a-z]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourceGatewayResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource gateway.
+        public let arn: String?
+        /// The ID of the resource gateway.
+        public let id: String?
+        /// The name of the resource gateway.
+        public let name: String?
+        /// The status of the resource gateway.
+        public let status: ResourceGatewayStatus?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil, status: ResourceGatewayStatus? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -1259,7 +1905,7 @@ extension VPCLattice {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc))-[0-9a-z]{17}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc)|(resourceconfiguration/rcfg))-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1270,11 +1916,11 @@ extension VPCLattice {
     }
 
     public struct DeleteRuleRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the listener.
+        /// The ID or ARN of the listener.
         public let listenerIdentifier: String
-        /// The ID or Amazon Resource Name (ARN) of the rule.
+        /// The ID or ARN of the rule.
         public let ruleIdentifier: String
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -1312,7 +1958,7 @@ extension VPCLattice {
     }
 
     public struct DeleteServiceNetworkRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) or ID of the service network.
+        /// The ID or ARN of the service network.
         public let serviceNetworkIdentifier: String
 
         @inlinable
@@ -1335,12 +1981,58 @@ extension VPCLattice {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteServiceNetworkResourceAssociationRequest: AWSEncodableShape {
+        /// The ID of the association.
+        public let serviceNetworkResourceAssociationIdentifier: String
+
+        @inlinable
+        public init(serviceNetworkResourceAssociationIdentifier: String) {
+            self.serviceNetworkResourceAssociationIdentifier = serviceNetworkResourceAssociationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceNetworkResourceAssociationIdentifier, key: "serviceNetworkResourceAssociationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceNetworkResourceAssociationIdentifier, name: "serviceNetworkResourceAssociationIdentifier", parent: name, max: 2048)
+            try self.validate(self.serviceNetworkResourceAssociationIdentifier, name: "serviceNetworkResourceAssociationIdentifier", parent: name, min: 22)
+            try self.validate(self.serviceNetworkResourceAssociationIdentifier, name: "serviceNetworkResourceAssociationIdentifier", parent: name, pattern: "^((snra-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:servicenetworkresourceassociation/snra-[0-9a-f]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteServiceNetworkResourceAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the association.
+        public let arn: String?
+        /// The ID of the association.
+        public let id: String?
+        /// The status of the association.
+        public let status: ServiceNetworkResourceAssociationStatus?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, status: ServiceNetworkResourceAssociationStatus? = nil) {
+            self.arn = arn
+            self.id = id
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case status = "status"
+        }
+    }
+
     public struct DeleteServiceNetworkResponse: AWSDecodableShape {
         public init() {}
     }
 
     public struct DeleteServiceNetworkServiceAssociationRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the association.
+        /// The ID or ARN of the association.
         public let serviceNetworkServiceAssociationIdentifier: String
 
         @inlinable
@@ -1368,7 +2060,7 @@ extension VPCLattice {
         public let arn: String?
         /// The ID of the association.
         public let id: String?
-        /// The status. You can retry the operation if the status is DELETE_FAILED.  However, if you retry it when the status is DELETE_IN_PROGRESS, there is no  change in the status.
+        /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it when the status is DELETE_IN_PROGRESS, there is no change in the status.
         public let status: ServiceNetworkServiceAssociationStatus?
 
         @inlinable
@@ -1386,7 +2078,7 @@ extension VPCLattice {
     }
 
     public struct DeleteServiceNetworkVpcAssociationRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the association.
+        /// The ID or ARN of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
 
         @inlinable
@@ -1432,7 +2124,7 @@ extension VPCLattice {
     }
 
     public struct DeleteServiceRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -1482,7 +2174,7 @@ extension VPCLattice {
     }
 
     public struct DeleteTargetGroupRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the target group.
+        /// The ID or ARN of the target group.
         public let targetGroupIdentifier: String
 
         @inlinable
@@ -1528,7 +2220,7 @@ extension VPCLattice {
     }
 
     public struct DeregisterTargetsRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the target group.
+        /// The ID or ARN of the target group.
         public let targetGroupIdentifier: String
         /// The targets to deregister.
         public let targets: [Target]
@@ -1596,6 +2288,29 @@ extension VPCLattice {
         }
     }
 
+    public struct DnsResource: AWSEncodableShape & AWSDecodableShape {
+        /// The domain name of the resource.
+        public let domainName: String?
+        /// The type of IP address.
+        public let ipAddressType: ResourceConfigurationIpAddressType?
+
+        @inlinable
+        public init(domainName: String? = nil, ipAddressType: ResourceConfigurationIpAddressType? = nil) {
+            self.domainName = domainName
+            self.ipAddressType = ipAddressType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+            case ipAddressType = "ipAddressType"
+        }
+    }
+
     public struct FixedResponseAction: AWSEncodableShape & AWSDecodableShape {
         /// The HTTP response code.
         public let statusCode: Int
@@ -1638,7 +2353,7 @@ extension VPCLattice {
     }
 
     public struct GetAccessLogSubscriptionRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the access log subscription.
+        /// The ID or ARN of the access log subscription.
         public let accessLogSubscriptionIdentifier: String
 
         @inlinable
@@ -1664,23 +2379,25 @@ extension VPCLattice {
     public struct GetAccessLogSubscriptionResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the access log subscription.
         public let arn: String
-        /// The date and time that the access log subscription was created, specified in ISO-8601 format.
+        /// The date and time that the access log subscription was created, in ISO-8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
         /// The Amazon Resource Name (ARN) of the access log destination.
         public let destinationArn: String
         /// The ID of the access log subscription.
         public let id: String
-        /// The date and time that the access log subscription was last updated, specified in ISO-8601 format.
+        /// The date and time that the access log subscription was last updated, in ISO-8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date
         /// The Amazon Resource Name (ARN) of the service network or service.
         public let resourceArn: String
         /// The ID of the service network or service.
         public let resourceId: String
+        /// The log type for the service network.
+        public let serviceNetworkLogType: ServiceNetworkLogType?
 
         @inlinable
-        public init(arn: String, createdAt: Date, destinationArn: String, id: String, lastUpdatedAt: Date, resourceArn: String, resourceId: String) {
+        public init(arn: String, createdAt: Date, destinationArn: String, id: String, lastUpdatedAt: Date, resourceArn: String, resourceId: String, serviceNetworkLogType: ServiceNetworkLogType? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.destinationArn = destinationArn
@@ -1688,6 +2405,7 @@ extension VPCLattice {
             self.lastUpdatedAt = lastUpdatedAt
             self.resourceArn = resourceArn
             self.resourceId = resourceId
+            self.serviceNetworkLogType = serviceNetworkLogType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1698,11 +2416,12 @@ extension VPCLattice {
             case lastUpdatedAt = "lastUpdatedAt"
             case resourceArn = "resourceArn"
             case resourceId = "resourceId"
+            case serviceNetworkLogType = "serviceNetworkLogType"
         }
     }
 
     public struct GetAuthPolicyRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the service network or service.
+        /// The ID or ARN of the service network or service.
         public let resourceIdentifier: String
 
         @inlinable
@@ -1719,17 +2438,17 @@ extension VPCLattice {
         public func validate(name: String) throws {
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 200)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 17)
-            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc))-[0-9a-z]{17}))$")
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(resourceconfiguration/rcfg)|(service/svc))-[0-9a-z]{17}))$")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAuthPolicyResponse: AWSDecodableShape {
-        /// The date and time that the auth policy was created, specified in ISO-8601 format.
+        /// The date and time that the auth policy was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        /// The date and time that the auth policy was last updated, specified in ISO-8601 format.
+        /// The date and time that the auth policy was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The auth policy.
@@ -1754,9 +2473,9 @@ extension VPCLattice {
     }
 
     public struct GetListenerRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the listener.
+        /// The ID or ARN of the listener.
         public let listenerIdentifier: String
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -1787,14 +2506,14 @@ extension VPCLattice {
     public struct GetListenerResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the listener.
         public let arn: String?
-        /// The date and time that the listener was created, specified in ISO-8601 format.
+        /// The date and time that the listener was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The actions for the default listener rule.
         public let defaultAction: RuleAction?
         /// The ID of the listener.
         public let id: String?
-        /// The date and time that the listener was last updated, specified in ISO-8601 format.
+        /// The date and time that the listener was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the listener.
@@ -1836,6 +2555,182 @@ extension VPCLattice {
         }
     }
 
+    public struct GetResourceConfigurationRequest: AWSEncodableShape {
+        /// The ID of the resource configuration.
+        public let resourceConfigurationIdentifier: String
+
+        @inlinable
+        public init(resourceConfigurationIdentifier: String) {
+            self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceConfigurationIdentifier, key: "resourceConfigurationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, min: 20)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, pattern: "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourceConfigurationResponse: AWSDecodableShape {
+        /// Specifies whether the resource configuration is associated with a sharable service network.
+        public let allowAssociationToShareableServiceNetwork: Bool?
+        /// Indicates whether the resource configuration was created and is managed by Amazon.
+        public let amazonManaged: Bool?
+        /// The Amazon Resource Name (ARN) of the resource configuration.
+        public let arn: String?
+        /// The date and time that the resource configuration was created, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The custom domain name of the resource configuration.
+        public let customDomainName: String?
+        /// The reason the create-resource-configuration request failed.
+        public let failureReason: String?
+        /// The ID of the resource configuration.
+        public let id: String?
+        /// The most recent date and time that the resource configuration was updated, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date?
+        /// The name of the resource configuration.
+        public let name: String?
+        /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
+        public let portRanges: [String]?
+        /// The TCP protocol accepted by the specified resource configuration.
+        public let `protocol`: ProtocolType?
+        /// The resource configuration.
+        public let resourceConfigurationDefinition: ResourceConfigurationDefinition?
+        /// The ID of the group resource configuration.
+        public let resourceConfigurationGroupId: String?
+        /// The ID of the resource gateway used to connect to the resource configuration in a given VPC. You can specify the resource gateway identifier only for resource configurations with type SINGLE, GROUP, or ARN.
+        public let resourceGatewayId: String?
+        /// The status of the resource configuration.
+        public let status: ResourceConfigurationStatus?
+        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        public let type: ResourceConfigurationType?
+
+        @inlinable
+        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, amazonManaged: Bool? = nil, arn: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, failureReason: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, portRanges: [String]? = nil, protocol: ProtocolType? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationGroupId: String? = nil, resourceGatewayId: String? = nil, status: ResourceConfigurationStatus? = nil, type: ResourceConfigurationType? = nil) {
+            self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
+            self.amazonManaged = amazonManaged
+            self.arn = arn
+            self.createdAt = createdAt
+            self.customDomainName = customDomainName
+            self.failureReason = failureReason
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.portRanges = portRanges
+            self.`protocol` = `protocol`
+            self.resourceConfigurationDefinition = resourceConfigurationDefinition
+            self.resourceConfigurationGroupId = resourceConfigurationGroupId
+            self.resourceGatewayId = resourceGatewayId
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowAssociationToShareableServiceNetwork = "allowAssociationToShareableServiceNetwork"
+            case amazonManaged = "amazonManaged"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case customDomainName = "customDomainName"
+            case failureReason = "failureReason"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case portRanges = "portRanges"
+            case `protocol` = "protocol"
+            case resourceConfigurationDefinition = "resourceConfigurationDefinition"
+            case resourceConfigurationGroupId = "resourceConfigurationGroupId"
+            case resourceGatewayId = "resourceGatewayId"
+            case status = "status"
+            case type = "type"
+        }
+    }
+
+    public struct GetResourceGatewayRequest: AWSEncodableShape {
+        /// The ID of the resource gateway.
+        public let resourceGatewayIdentifier: String
+
+        @inlinable
+        public init(resourceGatewayIdentifier: String) {
+            self.resourceGatewayIdentifier = resourceGatewayIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceGatewayIdentifier, key: "resourceGatewayIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, min: 17)
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, pattern: "^((rgw-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourcegateway/rgw-[0-9a-z]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourceGatewayResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource gateway.
+        public let arn: String?
+        /// The date and time that the resource gateway was created, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The ID of the resource gateway.
+        public let id: String?
+        /// The type of IP address for the resource gateway.
+        public let ipAddressType: ResourceGatewayIpAddressType?
+        /// The date and time that the resource gateway was last updated, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date?
+        /// The name of the resource gateway.
+        public let name: String?
+        /// The security group IDs associated with the resource gateway.
+        public let securityGroupIds: [String]?
+        /// The status for the resource gateway.
+        public let status: ResourceGatewayStatus?
+        /// The IDs of the VPC subnets for resource gateway.
+        public let subnetIds: [String]?
+        /// The ID of the VPC for the resource gateway.
+        public let vpcId: String?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.ipAddressType = ipAddressType
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case ipAddressType = "ipAddressType"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case status = "status"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
+        }
+    }
+
     public struct GetResourcePolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the service network or service.
         public let resourceArn: String
@@ -1854,7 +2749,7 @@ extension VPCLattice {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc))-[0-9a-z]{17}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc)|(resourceconfiguration/rcfg))-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1875,11 +2770,11 @@ extension VPCLattice {
     }
 
     public struct GetRuleRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the listener.
+        /// The ID or ARN of the listener.
         public let listenerIdentifier: String
-        /// The ID or Amazon Resource Name (ARN) of the listener rule.
+        /// The ID or ARN of the listener rule.
         public let ruleIdentifier: String
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -1917,14 +2812,14 @@ extension VPCLattice {
         public let action: RuleAction?
         /// The Amazon Resource Name (ARN) of the listener.
         public let arn: String?
-        /// The date and time that the listener rule was created, specified in ISO-8601 format.
+        /// The date and time that the listener rule was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The ID of the listener.
         public let id: String?
         /// Indicates whether this is the default rule.
         public let isDefault: Bool?
-        /// The date and time that the listener rule was last updated, specified in ISO-8601 format.
+        /// The date and time that the listener rule was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The rule match.
@@ -1961,7 +2856,7 @@ extension VPCLattice {
     }
 
     public struct GetServiceNetworkRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the service network.
+        /// The ID or ARN of the service network.
         public let serviceNetworkIdentifier: String
 
         @inlinable
@@ -1984,17 +2879,121 @@ extension VPCLattice {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetServiceNetworkResourceAssociationRequest: AWSEncodableShape {
+        /// The ID of the association.
+        public let serviceNetworkResourceAssociationIdentifier: String
+
+        @inlinable
+        public init(serviceNetworkResourceAssociationIdentifier: String) {
+            self.serviceNetworkResourceAssociationIdentifier = serviceNetworkResourceAssociationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceNetworkResourceAssociationIdentifier, key: "serviceNetworkResourceAssociationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceNetworkResourceAssociationIdentifier, name: "serviceNetworkResourceAssociationIdentifier", parent: name, max: 2048)
+            try self.validate(self.serviceNetworkResourceAssociationIdentifier, name: "serviceNetworkResourceAssociationIdentifier", parent: name, min: 22)
+            try self.validate(self.serviceNetworkResourceAssociationIdentifier, name: "serviceNetworkResourceAssociationIdentifier", parent: name, pattern: "^((snra-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:servicenetworkresourceassociation/snra-[0-9a-f]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetServiceNetworkResourceAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the association.
+        public let arn: String?
+        /// The date and time that the association was created, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The account that created the association.
+        public let createdBy: String?
+        /// The DNS entry for the service.
+        public let dnsEntry: DnsEntry?
+        /// The failure code.
+        public let failureCode: String?
+        /// The reason the association request failed.
+        public let failureReason: String?
+        /// The ID of the association.
+        public let id: String?
+        /// Indicates whether the association is managed by Amazon.
+        public let isManagedAssociation: Bool?
+        /// The most recent date and time that the association was updated, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date?
+        /// The private DNS entry for the service.
+        public let privateDnsEntry: DnsEntry?
+        /// The Amazon Resource Name (ARN) of the association.
+        public let resourceConfigurationArn: String?
+        /// The ID of the resource configuration that is associated with the service network.
+        public let resourceConfigurationId: String?
+        /// The name of the resource configuration that is associated with the service network.
+        public let resourceConfigurationName: String?
+        /// The Amazon Resource Name (ARN) of the service network that is associated with the resource configuration.
+        public let serviceNetworkArn: String?
+        /// The ID of the service network that is associated with the resource configuration.
+        public let serviceNetworkId: String?
+        /// The name of the service network that is associated with the resource configuration.
+        public let serviceNetworkName: String?
+        /// The status of the association.
+        public let status: ServiceNetworkResourceAssociationStatus?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, dnsEntry: DnsEntry? = nil, failureCode: String? = nil, failureReason: String? = nil, id: String? = nil, isManagedAssociation: Bool? = nil, lastUpdatedAt: Date? = nil, privateDnsEntry: DnsEntry? = nil, resourceConfigurationArn: String? = nil, resourceConfigurationId: String? = nil, resourceConfigurationName: String? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkResourceAssociationStatus? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.dnsEntry = dnsEntry
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.id = id
+            self.isManagedAssociation = isManagedAssociation
+            self.lastUpdatedAt = lastUpdatedAt
+            self.privateDnsEntry = privateDnsEntry
+            self.resourceConfigurationArn = resourceConfigurationArn
+            self.resourceConfigurationId = resourceConfigurationId
+            self.resourceConfigurationName = resourceConfigurationName
+            self.serviceNetworkArn = serviceNetworkArn
+            self.serviceNetworkId = serviceNetworkId
+            self.serviceNetworkName = serviceNetworkName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case dnsEntry = "dnsEntry"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case id = "id"
+            case isManagedAssociation = "isManagedAssociation"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case privateDnsEntry = "privateDnsEntry"
+            case resourceConfigurationArn = "resourceConfigurationArn"
+            case resourceConfigurationId = "resourceConfigurationId"
+            case resourceConfigurationName = "resourceConfigurationName"
+            case serviceNetworkArn = "serviceNetworkArn"
+            case serviceNetworkId = "serviceNetworkId"
+            case serviceNetworkName = "serviceNetworkName"
+            case status = "status"
+        }
+    }
+
     public struct GetServiceNetworkResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the service network.
         public let arn: String?
         /// The type of IAM policy.
         public let authType: AuthType?
-        /// The date and time that the service network was created, specified in ISO-8601 format.
+        /// The date and time that the service network was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The ID of the service network.
         public let id: String?
-        /// The date and time of the last update, specified in ISO-8601 format.
+        /// The date and time of the last update, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the service network.
@@ -2003,9 +3002,11 @@ extension VPCLattice {
         public let numberOfAssociatedServices: Int64?
         /// The number of VPCs associated with the service network.
         public let numberOfAssociatedVPCs: Int64?
+        /// Specifies if the service network is enabled for sharing.
+        public let sharingConfig: SharingConfig?
 
         @inlinable
-        public init(arn: String? = nil, authType: AuthType? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, numberOfAssociatedServices: Int64? = nil, numberOfAssociatedVPCs: Int64? = nil) {
+        public init(arn: String? = nil, authType: AuthType? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, numberOfAssociatedServices: Int64? = nil, numberOfAssociatedVPCs: Int64? = nil, sharingConfig: SharingConfig? = nil) {
             self.arn = arn
             self.authType = authType
             self.createdAt = createdAt
@@ -2014,6 +3015,7 @@ extension VPCLattice {
             self.name = name
             self.numberOfAssociatedServices = numberOfAssociatedServices
             self.numberOfAssociatedVPCs = numberOfAssociatedVPCs
+            self.sharingConfig = sharingConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2025,11 +3027,12 @@ extension VPCLattice {
             case name = "name"
             case numberOfAssociatedServices = "numberOfAssociatedServices"
             case numberOfAssociatedVPCs = "numberOfAssociatedVPCs"
+            case sharingConfig = "sharingConfig"
         }
     }
 
     public struct GetServiceNetworkServiceAssociationRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the association.
+        /// The ID or ARN of the association.
         public let serviceNetworkServiceAssociationIdentifier: String
 
         @inlinable
@@ -2055,7 +3058,7 @@ extension VPCLattice {
     public struct GetServiceNetworkServiceAssociationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the association.
         public let arn: String?
-        /// The date and time that the association was created, specified in ISO-8601 format.
+        /// The date and time that the association was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The account that created the association.
@@ -2124,7 +3127,7 @@ extension VPCLattice {
     }
 
     public struct GetServiceNetworkVpcAssociationRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the association.
+        /// The ID or ARN of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
 
         @inlinable
@@ -2150,7 +3153,7 @@ extension VPCLattice {
     public struct GetServiceNetworkVpcAssociationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the association.
         public let arn: String?
-        /// The date and time that the association was created, specified in ISO-8601 format.
+        /// The date and time that the association was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The account that created the association.
@@ -2159,9 +3162,9 @@ extension VPCLattice {
         public let failureCode: String?
         /// The failure message.
         public let failureMessage: String?
-        /// The ID of the specified association between the service network and the VPC.
+        /// The ID of the association.
         public let id: String?
-        /// The date and time that the association was last updated, specified in ISO-8601 format.
+        /// The date and time that the association was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The IDs of the security groups.
@@ -2212,7 +3215,7 @@ extension VPCLattice {
     }
 
     public struct GetServiceRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -2242,7 +3245,7 @@ extension VPCLattice {
         public let authType: AuthType?
         /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String?
-        /// The date and time that the service was created, specified in ISO-8601 format.
+        /// The date and time that the service was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The custom domain name of the service.
@@ -2255,7 +3258,7 @@ extension VPCLattice {
         public let failureMessage: String?
         /// The ID of the service.
         public let id: String?
-        /// The date and time that the service was last updated, specified in ISO-8601 format.
+        /// The date and time that the service was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the service.
@@ -2296,7 +3299,7 @@ extension VPCLattice {
     }
 
     public struct GetTargetGroupRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the target group.
+        /// The ID or ARN of the target group.
         public let targetGroupIdentifier: String
 
         @inlinable
@@ -2324,7 +3327,7 @@ extension VPCLattice {
         public let arn: String?
         /// The target group configuration.
         public let config: TargetGroupConfig?
-        /// The date and time that the target group was created, specified in ISO-8601 format.
+        /// The date and time that the target group was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The failure code.
@@ -2333,7 +3336,7 @@ extension VPCLattice {
         public let failureMessage: String?
         /// The ID of the target group.
         public let id: String?
-        /// The date and time that the target group was last updated, specified in ISO-8601 format.
+        /// The date and time that the target group was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the target group.
@@ -2501,12 +3504,31 @@ extension VPCLattice {
         }
     }
 
+    public struct IpResource: AWSEncodableShape & AWSDecodableShape {
+        /// The IP address of the IP resource.
+        public let ipAddress: String?
+
+        @inlinable
+        public init(ipAddress: String? = nil) {
+            self.ipAddress = ipAddress
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 39)
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, min: 4)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "ipAddress"
+        }
+    }
+
     public struct ListAccessLogSubscriptionsRequest: AWSEncodableShape {
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
         public let nextToken: String?
-        /// The ID or Amazon Resource Name (ARN) of the service network or service.
+        /// The ID or ARN of the service network or service.
         public let resourceIdentifier: String
 
         @inlinable
@@ -2531,7 +3553,7 @@ extension VPCLattice {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 200)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 17)
-            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc))-[0-9a-z]{17}))$")
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(resourceconfiguration/rcfg)|(service/svc))-[0-9a-z]{17}))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2560,7 +3582,7 @@ extension VPCLattice {
         public let maxResults: Int?
         /// A pagination token for the next page of results.
         public let nextToken: String?
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -2609,14 +3631,197 @@ extension VPCLattice {
         }
     }
 
+    public struct ListResourceConfigurationsRequest: AWSEncodableShape {
+        /// The maximum page size.
+        public let maxResults: Int?
+        /// A pagination token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the group resource configuration.
+        public let resourceConfigurationGroupIdentifier: String?
+        /// The ID of the resource gateway for the resource configuration.
+        public let resourceGatewayIdentifier: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceConfigurationGroupIdentifier: String? = nil, resourceGatewayIdentifier: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceConfigurationGroupIdentifier = resourceConfigurationGroupIdentifier
+            self.resourceGatewayIdentifier = resourceGatewayIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceConfigurationGroupIdentifier, key: "resourceConfigurationGroupIdentifier")
+            request.encodeQuery(self.resourceGatewayIdentifier, key: "resourceGatewayIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.resourceConfigurationGroupIdentifier, name: "resourceConfigurationGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationGroupIdentifier, name: "resourceConfigurationGroupIdentifier", parent: name, min: 20)
+            try self.validate(self.resourceConfigurationGroupIdentifier, name: "resourceConfigurationGroupIdentifier", parent: name, pattern: "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$")
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, min: 17)
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, pattern: "^((rgw-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourcegateway/rgw-[0-9a-z]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListResourceConfigurationsResponse: AWSDecodableShape {
+        /// Information about the resource configurations.
+        public let items: [ResourceConfigurationSummary]?
+        /// If there are additional results, a pagination token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ResourceConfigurationSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListResourceEndpointAssociationsRequest: AWSEncodableShape {
+        /// The maximum page size.
+        public let maxResults: Int?
+        /// A pagination token for the next page of results.
+        public let nextToken: String?
+        /// The ID for the resource configuration associated with the VPC endpoint.
+        public let resourceConfigurationIdentifier: String
+        /// The ID of the association.
+        public let resourceEndpointAssociationIdentifier: String?
+        /// The ID of the VPC endpoint in the association.
+        public let vpcEndpointId: String?
+        /// The owner of the VPC endpoint in the association.
+        public let vpcEndpointOwner: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceConfigurationIdentifier: String, resourceEndpointAssociationIdentifier: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+            self.resourceEndpointAssociationIdentifier = resourceEndpointAssociationIdentifier
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwner = vpcEndpointOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceConfigurationIdentifier, key: "resourceConfigurationIdentifier")
+            request.encodeQuery(self.resourceEndpointAssociationIdentifier, key: "resourceEndpointAssociationIdentifier")
+            request.encodeQuery(self.vpcEndpointId, key: "vpcEndpointId")
+            request.encodeQuery(self.vpcEndpointOwner, key: "vpcEndpointOwner")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, min: 20)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, pattern: "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$")
+            try self.validate(self.resourceEndpointAssociationIdentifier, name: "resourceEndpointAssociationIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceEndpointAssociationIdentifier, name: "resourceEndpointAssociationIdentifier", parent: name, min: 21)
+            try self.validate(self.resourceEndpointAssociationIdentifier, name: "resourceEndpointAssociationIdentifier", parent: name, pattern: "^((rea-[0-9a-f]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceendpointassociation/rea-[0-9a-f]{17}))$")
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 22)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 22)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{17}$")
+            try self.validate(self.vpcEndpointOwner, name: "vpcEndpointOwner", parent: name, max: 12)
+            try self.validate(self.vpcEndpointOwner, name: "vpcEndpointOwner", parent: name, min: 12)
+            try self.validate(self.vpcEndpointOwner, name: "vpcEndpointOwner", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListResourceEndpointAssociationsResponse: AWSDecodableShape {
+        /// Information about the VPC endpoint associations.
+        public let items: [ResourceEndpointAssociationSummary]
+        /// If there are additional results, a pagination token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ResourceEndpointAssociationSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListResourceGatewaysRequest: AWSEncodableShape {
+        /// The maximum page size.
+        public let maxResults: Int?
+        /// If there are additional results, a pagination token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListResourceGatewaysResponse: AWSDecodableShape {
+        /// Information about the resource gateways.
+        public let items: [ResourceGatewaySummary]?
+        /// If there are additional results, a pagination token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ResourceGatewaySummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListRulesRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the listener.
+        /// The ID or ARN of the listener.
         public let listenerIdentifier: String
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
         public let nextToken: String?
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -2670,14 +3875,75 @@ extension VPCLattice {
         }
     }
 
+    public struct ListServiceNetworkResourceAssociationsRequest: AWSEncodableShape {
+        /// The maximum page size.
+        public let maxResults: Int?
+        /// If there are additional results, a pagination token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the resource configurationk.
+        public let resourceConfigurationIdentifier: String?
+        /// The ID of the service network.
+        public let serviceNetworkIdentifier: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceConfigurationIdentifier: String? = nil, serviceNetworkIdentifier: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+            self.serviceNetworkIdentifier = serviceNetworkIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceConfigurationIdentifier, key: "resourceConfigurationIdentifier")
+            request.encodeQuery(self.serviceNetworkIdentifier, key: "serviceNetworkIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, min: 20)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, pattern: "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$")
+            try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, max: 2048)
+            try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, min: 3)
+            try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, pattern: "^((sn-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:servicenetwork/sn-[0-9a-z]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListServiceNetworkResourceAssociationsResponse: AWSDecodableShape {
+        /// Information about the associations.
+        public let items: [ServiceNetworkResourceAssociationSummary]
+        /// If there are additional results, a pagination token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ServiceNetworkResourceAssociationSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListServiceNetworkServiceAssociationsRequest: AWSEncodableShape {
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
         public let nextToken: String?
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String?
-        /// The ID or Amazon Resource Name (ARN) of the service network.
+        /// The ID or ARN of the service network.
         public let serviceNetworkIdentifier: String?
 
         @inlinable
@@ -2736,9 +4002,9 @@ extension VPCLattice {
         public let maxResults: Int?
         /// A pagination token for the next page of results.
         public let nextToken: String?
-        /// The ID or Amazon Resource Name (ARN) of the service network.
+        /// The ID or ARN of the service network.
         public let serviceNetworkIdentifier: String?
-        /// The ID or Amazon Resource Name (ARN) of the VPC.
+        /// The ID or ARN of the VPC.
         public let vpcIdentifier: String?
 
         @inlinable
@@ -2782,6 +4048,60 @@ extension VPCLattice {
 
         @inlinable
         public init(items: [ServiceNetworkVpcAssociationSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListServiceNetworkVpcEndpointAssociationsRequest: AWSEncodableShape {
+        /// The maximum page size.
+        public let maxResults: Int?
+        /// If there are additional results, a pagination token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the service network associated with the VPC endpoint.
+        public let serviceNetworkIdentifier: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceNetworkIdentifier: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceNetworkIdentifier = serviceNetworkIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceNetworkIdentifier, key: "serviceNetworkIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, max: 2048)
+            try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, min: 3)
+            try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, pattern: "^((sn-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:servicenetwork/sn-[0-9a-z]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListServiceNetworkVpcEndpointAssociationsResponse: AWSDecodableShape {
+        /// Information about the association between the VPC endpoint and service network.
+        public let items: [ServiceNetworkEndpointAssociation]
+        /// If there are additional results, a pagination token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ServiceNetworkEndpointAssociation], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -2930,7 +4250,7 @@ extension VPCLattice {
         public let nextToken: String?
         /// The target group type.
         public let targetGroupType: TargetGroupType?
-        /// The ID or Amazon Resource Name (ARN) of the VPC.
+        /// The ID or ARN of the VPC.
         public let vpcIdentifier: String?
 
         @inlinable
@@ -2986,7 +4306,7 @@ extension VPCLattice {
         public let maxResults: Int?
         /// A pagination token for the next page of results.
         public let nextToken: String?
-        /// The ID or Amazon Resource Name (ARN) of the target group.
+        /// The ID or ARN of the target group.
         public let targetGroupIdentifier: String
         /// The targets.
         public let targets: [Target]?
@@ -3047,12 +4367,12 @@ extension VPCLattice {
     public struct ListenerSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the listener.
         public let arn: String?
-        /// The date and time that the listener was created, specified in ISO-8601 format.
+        /// The date and time that the listener was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The ID of the listener.
         public let id: String?
-        /// The date and time that the listener was last updated, specified in ISO-8601 format.
+        /// The date and time that the listener was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the listener.
@@ -3109,7 +4429,7 @@ extension VPCLattice {
     public struct PutAuthPolicyRequest: AWSEncodableShape {
         /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
         public let policy: String
-        /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
+        /// The ID or ARN of the service network or service for which the policy is created.
         public let resourceIdentifier: String
 
         @inlinable
@@ -3129,7 +4449,7 @@ extension VPCLattice {
             try self.validate(self.policy, name: "policy", parent: name, max: 10000)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 200)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 17)
-            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc))-[0-9a-z]{17}))$")
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^((((sn)|(svc)|(rcfg))-[0-9a-z]{17})|(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(resourceconfiguration/rcfg)|(service/svc))-[0-9a-z]{17}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3158,7 +4478,7 @@ extension VPCLattice {
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         /// An IAM policy. The policy string in JSON must not contain newlines or blank lines.
         public let policy: String
-        /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
+        /// The ID or ARN of the service network or service for which the policy is created.
         public let resourceArn: String
 
         @inlinable
@@ -3180,7 +4500,7 @@ extension VPCLattice {
             try self.validate(self.policy, name: "policy", parent: name, pattern: "^.*\\S.*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc))-[0-9a-z]{17}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:((servicenetwork/sn)|(service/svc)|(resourceconfiguration/rcfg))-[0-9a-z]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3193,7 +4513,7 @@ extension VPCLattice {
     }
 
     public struct RegisterTargetsRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the target group.
+        /// The ID or ARN of the target group.
         public let targetGroupIdentifier: String
         /// The targets.
         public let targets: [Target]
@@ -3243,17 +4563,168 @@ extension VPCLattice {
         }
     }
 
+    public struct ResourceConfigurationSummary: AWSDecodableShape {
+        /// Indicates whether the resource configuration was created and is managed by Amazon.
+        public let amazonManaged: Bool?
+        /// The Amazon Resource Name (ARN) of the resource configuration.
+        public let arn: String?
+        /// The date and time that the resource configuration was created, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The ID of the resource configuration.
+        public let id: String?
+        /// The most recent date and time that the resource configuration was updated, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date?
+        /// The name of the resource configuration.
+        public let name: String?
+        /// The ID of the group resource configuration.
+        public let resourceConfigurationGroupId: String?
+        /// The ID of the resource gateway.
+        public let resourceGatewayId: String?
+        /// The status of the resource configuration.
+        public let status: ResourceConfigurationStatus?
+        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        public let type: ResourceConfigurationType?
+
+        @inlinable
+        public init(amazonManaged: Bool? = nil, arn: String? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, resourceConfigurationGroupId: String? = nil, resourceGatewayId: String? = nil, status: ResourceConfigurationStatus? = nil, type: ResourceConfigurationType? = nil) {
+            self.amazonManaged = amazonManaged
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.resourceConfigurationGroupId = resourceConfigurationGroupId
+            self.resourceGatewayId = resourceGatewayId
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amazonManaged = "amazonManaged"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case resourceConfigurationGroupId = "resourceConfigurationGroupId"
+            case resourceGatewayId = "resourceGatewayId"
+            case status = "status"
+            case type = "type"
+        }
+    }
+
+    public struct ResourceEndpointAssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the VPC endpoint association.
+        public let arn: String?
+        /// The date and time that the VPC endpoint association was created, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The account that created the association.
+        public let createdBy: String?
+        /// The ID of the VPC endpoint association.
+        public let id: String?
+        /// The Amazon Resource Name (ARN) of the resource configuration.
+        public let resourceConfigurationArn: String?
+        /// The ID of the resource configuration.
+        public let resourceConfigurationId: String?
+        /// The name of the resource configuration.
+        public let resourceConfigurationName: String?
+        /// The ID of the VPC endpoint.
+        public let vpcEndpointId: String?
+        /// The owner of the VPC endpoint.
+        public let vpcEndpointOwner: String?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, id: String? = nil, resourceConfigurationArn: String? = nil, resourceConfigurationId: String? = nil, resourceConfigurationName: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.id = id
+            self.resourceConfigurationArn = resourceConfigurationArn
+            self.resourceConfigurationId = resourceConfigurationId
+            self.resourceConfigurationName = resourceConfigurationName
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwner = vpcEndpointOwner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case id = "id"
+            case resourceConfigurationArn = "resourceConfigurationArn"
+            case resourceConfigurationId = "resourceConfigurationId"
+            case resourceConfigurationName = "resourceConfigurationName"
+            case vpcEndpointId = "vpcEndpointId"
+            case vpcEndpointOwner = "vpcEndpointOwner"
+        }
+    }
+
+    public struct ResourceGatewaySummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource gateway.
+        public let arn: String?
+        /// The date and time that the VPC endpoint association was created, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The ID of the resource gateway.
+        public let id: String?
+        /// The type of IP address used by the resource gateway.
+        public let ipAddressType: ResourceGatewayIpAddressType?
+        /// The most recent date and time that the resource gateway was updated, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date?
+        /// The name of the resource gateway.
+        public let name: String?
+        /// The IDs of the security groups applied to the resource gateway.
+        public let securityGroupIds: [String]?
+        /// The name of the resource gateway.
+        public let status: ResourceGatewayStatus?
+        /// The IDs of the VPC subnets for the resource gateway.
+        public let subnetIds: [String]?
+        /// The ID of the VPC for the resource gateway.
+        public let vpcIdentifier: String?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcIdentifier: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.ipAddressType = ipAddressType
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.subnetIds = subnetIds
+            self.vpcIdentifier = vpcIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case ipAddressType = "ipAddressType"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case status = "status"
+            case subnetIds = "subnetIds"
+            case vpcIdentifier = "vpcIdentifier"
+        }
+    }
+
     public struct RuleSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
-        /// The date and time that the listener rule was created, specified in ISO-8601 format.
+        /// The date and time that the listener rule was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The ID of the rule.
         public let id: String?
         /// Indicates whether this is the default listener rule.
         public let isDefault: Bool?
-        /// The date and time that the listener rule was last updated, specified in ISO-8601 format.
+        /// The date and time that the listener rule was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the rule.
@@ -3290,7 +4761,7 @@ extension VPCLattice {
         public let match: RuleMatch?
         /// The rule priority. A listener can't have multiple rules with the same priority.
         public let priority: Int?
-        /// The ID or Amazon Resource Name (ARN) of the rule.
+        /// The ID or ARN of the rule.
         public let ruleIdentifier: String
 
         @inlinable
@@ -3324,7 +4795,7 @@ extension VPCLattice {
         public let failureCode: String?
         /// The failure message.
         public let failureMessage: String?
-        /// The ID or Amazon Resource Name (ARN) of the rule.
+        /// The ID or ARN of the rule.
         public let ruleIdentifier: String?
 
         @inlinable
@@ -3379,10 +4850,120 @@ extension VPCLattice {
         }
     }
 
+    public struct ServiceNetworkEndpointAssociation: AWSDecodableShape {
+        /// The date and time that the association was created, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The ID of the association.
+        public let id: String?
+        /// The Amazon Resource Name (ARN) of the service network.
+        public let serviceNetworkArn: String?
+        /// The state of the association.
+        public let state: String?
+        /// The ID of the VPC endpoint associated with the service network.
+        public let vpcEndpointId: String?
+        /// The owner of the VPC endpoint associated with the service network.
+        public let vpcEndpointOwnerId: String?
+        /// The ID of the VPC for the association.
+        public let vpcId: String?
+
+        @inlinable
+        public init(createdAt: Date? = nil, id: String? = nil, serviceNetworkArn: String? = nil, state: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwnerId: String? = nil, vpcId: String? = nil) {
+            self.createdAt = createdAt
+            self.id = id
+            self.serviceNetworkArn = serviceNetworkArn
+            self.state = state
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwnerId = vpcEndpointOwnerId
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case id = "id"
+            case serviceNetworkArn = "serviceNetworkArn"
+            case state = "state"
+            case vpcEndpointId = "vpcEndpointId"
+            case vpcEndpointOwnerId = "vpcEndpointOwnerId"
+            case vpcId = "vpcId"
+        }
+    }
+
+    public struct ServiceNetworkResourceAssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the association.
+        public let arn: String?
+        /// The date and time that the association was created, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The account that created the association.
+        public let createdBy: String?
+        /// The DNS entry for the service.
+        public let dnsEntry: DnsEntry?
+        /// The failure code.
+        public let failureCode: String?
+        /// The ID of the association between the service network and resource configuration.
+        public let id: String?
+        /// Specifies whether the association is managed by Amazon.
+        public let isManagedAssociation: Bool?
+        /// The private DNS entry for the service.
+        public let privateDnsEntry: DnsEntry?
+        /// The Amazon Resource Name (ARN) of the association.
+        public let resourceConfigurationArn: String?
+        /// The ID of the resource configuration associated with the service network.
+        public let resourceConfigurationId: String?
+        /// The name of the resource configuration associated with the service network.
+        public let resourceConfigurationName: String?
+        /// The Amazon Resource Name (ARN) of the service network associated with the resource configuration.
+        public let serviceNetworkArn: String?
+        /// The ID of the service network associated with the resource configuration.
+        public let serviceNetworkId: String?
+        /// The name of the service network associated with the resource configuration.
+        public let serviceNetworkName: String?
+        /// The status of the service network associated with the resource configuration.
+        public let status: ServiceNetworkResourceAssociationStatus?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, dnsEntry: DnsEntry? = nil, failureCode: String? = nil, id: String? = nil, isManagedAssociation: Bool? = nil, privateDnsEntry: DnsEntry? = nil, resourceConfigurationArn: String? = nil, resourceConfigurationId: String? = nil, resourceConfigurationName: String? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkResourceAssociationStatus? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.dnsEntry = dnsEntry
+            self.failureCode = failureCode
+            self.id = id
+            self.isManagedAssociation = isManagedAssociation
+            self.privateDnsEntry = privateDnsEntry
+            self.resourceConfigurationArn = resourceConfigurationArn
+            self.resourceConfigurationId = resourceConfigurationId
+            self.resourceConfigurationName = resourceConfigurationName
+            self.serviceNetworkArn = serviceNetworkArn
+            self.serviceNetworkId = serviceNetworkId
+            self.serviceNetworkName = serviceNetworkName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case dnsEntry = "dnsEntry"
+            case failureCode = "failureCode"
+            case id = "id"
+            case isManagedAssociation = "isManagedAssociation"
+            case privateDnsEntry = "privateDnsEntry"
+            case resourceConfigurationArn = "resourceConfigurationArn"
+            case resourceConfigurationId = "resourceConfigurationId"
+            case resourceConfigurationName = "resourceConfigurationName"
+            case serviceNetworkArn = "serviceNetworkArn"
+            case serviceNetworkId = "serviceNetworkId"
+            case serviceNetworkName = "serviceNetworkName"
+            case status = "status"
+        }
+    }
+
     public struct ServiceNetworkServiceAssociationSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the association.
         public let arn: String?
-        /// The date and time that the association was created, specified in ISO-8601 format.
+        /// The date and time that the association was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The account that created the association.
@@ -3445,28 +5026,31 @@ extension VPCLattice {
     public struct ServiceNetworkSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the service network.
         public let arn: String?
-        /// The date and time that the service network was created, specified in ISO-8601 format.
+        /// The date and time that the service network was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The ID of the service network.
         public let id: String?
-        /// The date and time that the service network was last updated, specified in ISO-8601 format.
+        /// The date and time that the service network was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the service network.
         public let name: String?
+        /// The number of resource configurations associated with a service network.
+        public let numberOfAssociatedResourceConfigurations: Int64?
         /// The number of services associated with the service network.
         public let numberOfAssociatedServices: Int64?
         /// The number of VPCs associated with the service network.
         public let numberOfAssociatedVPCs: Int64?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, numberOfAssociatedServices: Int64? = nil, numberOfAssociatedVPCs: Int64? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, numberOfAssociatedResourceConfigurations: Int64? = nil, numberOfAssociatedServices: Int64? = nil, numberOfAssociatedVPCs: Int64? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.numberOfAssociatedResourceConfigurations = numberOfAssociatedResourceConfigurations
             self.numberOfAssociatedServices = numberOfAssociatedServices
             self.numberOfAssociatedVPCs = numberOfAssociatedVPCs
         }
@@ -3477,6 +5061,7 @@ extension VPCLattice {
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case numberOfAssociatedResourceConfigurations = "numberOfAssociatedResourceConfigurations"
             case numberOfAssociatedServices = "numberOfAssociatedServices"
             case numberOfAssociatedVPCs = "numberOfAssociatedVPCs"
         }
@@ -3485,14 +5070,14 @@ extension VPCLattice {
     public struct ServiceNetworkVpcAssociationSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the association.
         public let arn: String?
-        /// The date and time that the association was created, specified in ISO-8601 format.
+        /// The date and time that the association was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The account that created the association.
         public let createdBy: String?
         /// The ID of the association.
         public let id: String?
-        /// The date and time that the association was last updated, specified in ISO-8601 format.
+        /// The date and time that the association was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The Amazon Resource Name (ARN) of the service network.
@@ -3537,7 +5122,7 @@ extension VPCLattice {
     public struct ServiceSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the service.
         public let arn: String?
-        /// The date and time that the service was created, specified in ISO-8601 format.
+        /// The date and time that the service was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The custom domain name of the service.
@@ -3546,7 +5131,7 @@ extension VPCLattice {
         public let dnsEntry: DnsEntry?
         /// The ID of the service.
         public let id: String?
-        /// The date and time that the service was last updated. The format is ISO-8601.
+        /// The date and time that the service was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the service.
@@ -3575,6 +5160,20 @@ extension VPCLattice {
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
             case status = "status"
+        }
+    }
+
+    public struct SharingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies if the service network is enabled for sharing.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
         }
     }
 
@@ -3618,7 +5217,7 @@ extension VPCLattice {
     }
 
     public struct Target: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the target. If the target group type is INSTANCE, this is an instance ID. If the target group type is IP, this is an IP address. If the target group type is LAMBDA, this is the ARN of a Lambda function. If the target group type  is ALB, this is the ARN of an Application Load Balancer.
+        /// The ID of the target. If the target group type is INSTANCE, this is an instance ID. If the target group type is IP, this is an IP address. If the target group type is LAMBDA, this is the ARN of a Lambda function. If the target group type is ALB, this is the ARN of an Application Load Balancer.
         public let id: String
         /// The port on which the target is listening. For HTTP, the default is 80. For HTTPS, the default is 443.
         public let port: Int?
@@ -3671,7 +5270,7 @@ extension VPCLattice {
         public let healthCheck: HealthCheckConfig?
         /// The type of IP address used for the target group. Supported only if the target group type is IP. The default is IPV4.
         public let ipAddressType: IpAddressType?
-        /// The version of the event structure that your Lambda function receives.  Supported only if the target group type is LAMBDA. The default is V1.
+        /// The version of the event structure that your Lambda function receives. Supported only if the target group type is LAMBDA. The default is V1.
         public let lambdaEventStructureVersion: LambdaEventStructureVersion?
         /// The port on which the targets are listening. For HTTP, the default is 80. For HTTPS, the default is 443. Not supported if the target group type is LAMBDA.
         public let port: Int?
@@ -3716,7 +5315,7 @@ extension VPCLattice {
     public struct TargetGroupSummary: AWSDecodableShape {
         /// The ARN (Amazon Resource Name) of the target group.
         public let arn: String?
-        /// The date and time that the target group was created, specified in ISO-8601 format.
+        /// The date and time that the target group was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The ID of the target group.
@@ -3725,7 +5324,7 @@ extension VPCLattice {
         public let ipAddressType: IpAddressType?
         /// The version of the event structure that your Lambda function receives. Supported only if the target group type is LAMBDA.
         public let lambdaEventStructureVersion: LambdaEventStructureVersion?
-        /// The date and time that the target group was last updated, specified in ISO-8601 format.
+        /// The date and time that the target group was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the target group.
@@ -3840,7 +5439,7 @@ extension VPCLattice {
     }
 
     public struct UpdateAccessLogSubscriptionRequest: AWSEncodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the access log subscription.
+        /// The ID or ARN of the access log subscription.
         public let accessLogSubscriptionIdentifier: String
         /// The Amazon Resource Name (ARN) of the access log destination.
         public let destinationArn: String
@@ -3905,9 +5504,9 @@ extension VPCLattice {
     public struct UpdateListenerRequest: AWSEncodableShape {
         /// The action for the default rule.
         public let defaultAction: RuleAction
-        /// The ID or Amazon Resource Name (ARN) of the listener.
+        /// The ID or ARN of the listener.
         public let listenerIdentifier: String
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -3982,18 +5581,195 @@ extension VPCLattice {
         }
     }
 
+    public struct UpdateResourceConfigurationRequest: AWSEncodableShape {
+        /// Indicates whether to add the resource configuration to service networks that are shared with other accounts.
+        public let allowAssociationToShareableServiceNetwork: Bool?
+        /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
+        public let portRanges: [String]?
+        /// The resource configuration.
+        public let resourceConfigurationDefinition: ResourceConfigurationDefinition?
+        /// The ID of the resource configuration.
+        public let resourceConfigurationIdentifier: String
+
+        @inlinable
+        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, portRanges: [String]? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationIdentifier: String) {
+            self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
+            self.portRanges = portRanges
+            self.resourceConfigurationDefinition = resourceConfigurationDefinition
+            self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowAssociationToShareableServiceNetwork, forKey: .allowAssociationToShareableServiceNetwork)
+            try container.encodeIfPresent(self.portRanges, forKey: .portRanges)
+            try container.encodeIfPresent(self.resourceConfigurationDefinition, forKey: .resourceConfigurationDefinition)
+            request.encodePath(self.resourceConfigurationIdentifier, key: "resourceConfigurationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.portRanges?.forEach {
+                try validate($0, name: "portRanges[]", parent: name, max: 11)
+                try validate($0, name: "portRanges[]", parent: name, min: 1)
+                try validate($0, name: "portRanges[]", parent: name, pattern: "^((\\d{1,5}\\-\\d{1,5})|(\\d+))$")
+            }
+            try self.resourceConfigurationDefinition?.validate(name: "\(name).resourceConfigurationDefinition")
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, min: 20)
+            try self.validate(self.resourceConfigurationIdentifier, name: "resourceConfigurationIdentifier", parent: name, pattern: "^((rcfg-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowAssociationToShareableServiceNetwork = "allowAssociationToShareableServiceNetwork"
+            case portRanges = "portRanges"
+            case resourceConfigurationDefinition = "resourceConfigurationDefinition"
+        }
+    }
+
+    public struct UpdateResourceConfigurationResponse: AWSDecodableShape {
+        /// Indicates whether to add the resource configuration to service networks that are shared with other accounts.
+        public let allowAssociationToShareableServiceNetwork: Bool?
+        /// The Amazon Resource Name (ARN) of the resource configuration.
+        public let arn: String?
+        /// The ID of the resource configuration.
+        public let id: String?
+        /// The name of the resource configuration.
+        public let name: String?
+        /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
+        public let portRanges: [String]?
+        /// The TCP protocol accepted by the specified resource configuration.
+        public let `protocol`: ProtocolType?
+        /// The resource configuration.
+        public let resourceConfigurationDefinition: ResourceConfigurationDefinition?
+        /// The ID of the group resource configuration.
+        public let resourceConfigurationGroupId: String?
+        /// The ID of the resource gateway associated with the resource configuration.
+        public let resourceGatewayId: String?
+        /// The status of the resource configuration.
+        public let status: ResourceConfigurationStatus?
+        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        public let type: ResourceConfigurationType?
+
+        @inlinable
+        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, arn: String? = nil, id: String? = nil, name: String? = nil, portRanges: [String]? = nil, protocol: ProtocolType? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationGroupId: String? = nil, resourceGatewayId: String? = nil, status: ResourceConfigurationStatus? = nil, type: ResourceConfigurationType? = nil) {
+            self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
+            self.arn = arn
+            self.id = id
+            self.name = name
+            self.portRanges = portRanges
+            self.`protocol` = `protocol`
+            self.resourceConfigurationDefinition = resourceConfigurationDefinition
+            self.resourceConfigurationGroupId = resourceConfigurationGroupId
+            self.resourceGatewayId = resourceGatewayId
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowAssociationToShareableServiceNetwork = "allowAssociationToShareableServiceNetwork"
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case portRanges = "portRanges"
+            case `protocol` = "protocol"
+            case resourceConfigurationDefinition = "resourceConfigurationDefinition"
+            case resourceConfigurationGroupId = "resourceConfigurationGroupId"
+            case resourceGatewayId = "resourceGatewayId"
+            case status = "status"
+            case type = "type"
+        }
+    }
+
+    public struct UpdateResourceGatewayRequest: AWSEncodableShape {
+        /// The ID or ARN of the resource gateway.
+        public let resourceGatewayIdentifier: String
+        /// The IDs of the security groups associated with the resource gateway.
+        public let securityGroupIds: [String]?
+
+        @inlinable
+        public init(resourceGatewayIdentifier: String, securityGroupIds: [String]? = nil) {
+            self.resourceGatewayIdentifier = resourceGatewayIdentifier
+            self.securityGroupIds = securityGroupIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceGatewayIdentifier, key: "resourceGatewayIdentifier")
+            try container.encodeIfPresent(self.securityGroupIds, forKey: .securityGroupIds)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, max: 2048)
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, min: 17)
+            try self.validate(self.resourceGatewayIdentifier, name: "resourceGatewayIdentifier", parent: name, pattern: "^((rgw-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourcegateway/rgw-[0-9a-z]{17}))$")
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 200)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 5)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-(([0-9a-z]{8})|([0-9a-z]{17}))$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "securityGroupIds"
+        }
+    }
+
+    public struct UpdateResourceGatewayResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource gateway.
+        public let arn: String?
+        /// The ID of the resource gateway.
+        public let id: String?
+        /// The type of IP address used by the resource gateway.
+        public let ipAddressType: IpAddressType?
+        /// The name of the resource gateway.
+        public let name: String?
+        /// The IDs of the security groups associated with the resource gateway.
+        public let securityGroupIds: [String]?
+        /// The status of the resource gateway.
+        public let status: ResourceGatewayStatus?
+        /// The IDs of the VPC subnets for the resource gateway.
+        public let subnetIds: [String]?
+        /// The ID of the VPC for the resource gateway.
+        public let vpcId: String?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.ipAddressType = ipAddressType
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case ipAddressType = "ipAddressType"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case status = "status"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
+        }
+    }
+
     public struct UpdateRuleRequest: AWSEncodableShape {
         /// Information about the action for the specified listener rule.
         public let action: RuleAction?
-        /// The ID or Amazon Resource Name (ARN) of the listener.
+        /// The ID or ARN of the listener.
         public let listenerIdentifier: String
         /// The rule match.
         public let match: RuleMatch?
         /// The rule priority. A listener can't have multiple rules with the same priority.
         public let priority: Int?
-        /// The ID or Amazon Resource Name (ARN) of the rule.
+        /// The ID or ARN of the rule.
         public let ruleIdentifier: String
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -4081,7 +5857,7 @@ extension VPCLattice {
     public struct UpdateServiceNetworkRequest: AWSEncodableShape {
         /// The type of IAM policy.    NONE: The resource does not use an IAM policy. This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required.
         public let authType: AuthType
-        /// The ID or Amazon Resource Name (ARN) of the service network.
+        /// The ID or ARN of the service network.
         public let serviceNetworkIdentifier: String
 
         @inlinable
@@ -4137,7 +5913,7 @@ extension VPCLattice {
     public struct UpdateServiceNetworkVpcAssociationRequest: AWSEncodableShape {
         /// The IDs of the security groups.
         public let securityGroupIds: [String]
-        /// The ID or Amazon Resource Name (ARN) of the association.
+        /// The ID or ARN of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
 
         @inlinable
@@ -4204,7 +5980,7 @@ extension VPCLattice {
         public let authType: AuthType?
         /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String?
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
@@ -4273,7 +6049,7 @@ extension VPCLattice {
     public struct UpdateTargetGroupRequest: AWSEncodableShape {
         /// The health check configuration.
         public let healthCheck: HealthCheckConfig
-        /// The ID or Amazon Resource Name (ARN) of the target group.
+        /// The ID or ARN of the target group.
         public let targetGroupIdentifier: String
 
         @inlinable
@@ -4336,7 +6112,7 @@ extension VPCLattice {
     }
 
     public struct WeightedTargetGroup: AWSEncodableShape & AWSDecodableShape {
-        /// The ID or Amazon Resource Name (ARN) of the target group.
+        /// The ID or ARN of the target group.
         public let targetGroupIdentifier: String
         /// Only required if you specify multiple target groups for a forward action. The weight determines how requests are distributed to the target group. For example, if you specify two target groups, each with a weight of 10, each target group receives half the requests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100.
         public let weight: Int?

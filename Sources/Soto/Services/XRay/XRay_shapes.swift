@@ -49,6 +49,16 @@ extension XRay {
         public var description: String { return self.rawValue }
     }
 
+    public enum RetrievalStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case scheduled = "SCHEDULED"
+        case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SamplingStrategyName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fixedRate = "FixedRate"
         case partialScan = "PartialScan"
@@ -59,6 +69,24 @@ extension XRay {
         case event = "Event"
         case service = "Service"
         case traceId = "TraceId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TraceFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case otel = "OTEL"
+        case xray = "XRAY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TraceSegmentDestination: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudWatchLogs = "CloudWatchLogs"
+        case xRay = "XRay"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TraceSegmentDestinationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -223,6 +251,28 @@ extension XRay {
             case traces = "Traces"
             case unprocessedTraceIds = "UnprocessedTraceIds"
         }
+    }
+
+    public struct CancelTraceRetrievalRequest: AWSEncodableShape {
+        /// Retrieval token.
+        public let retrievalToken: String
+
+        @inlinable
+        public init(retrievalToken: String) {
+            self.retrievalToken = retrievalToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retrievalToken, name: "retrievalToken", parent: name, max: 1020)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retrievalToken = "RetrievalToken"
+        }
+    }
+
+    public struct CancelTraceRetrievalResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct CreateGroupRequest: AWSEncodableShape {
@@ -574,7 +624,7 @@ extension XRay {
     public struct ErrorStatistics: AWSDecodableShape {
         /// The number of requests that failed with untracked 4xx Client Error status codes.
         public let otherCount: Int64?
-        /// The number of requests that failed with a 419 throttling status code.
+        /// The number of requests that failed with a 429 throttling status code.
         public let throttleCount: Int64?
         /// The total number of requests that failed with a 4xx Client Error status code.
         public let totalCount: Int64?
@@ -797,6 +847,38 @@ extension XRay {
         }
     }
 
+    public struct GetIndexingRulesRequest: AWSEncodableShape {
+        /// Specify the pagination token returned by a previous request to retrieve the next page of indexes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIndexingRulesResult: AWSDecodableShape {
+        ///  Retrieves all indexing rules.
+        public let indexingRules: [IndexingRule]?
+        ///  Specify the pagination token returned by a previous request to retrieve the next page of indexes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(indexingRules: [IndexingRule]? = nil, nextToken: String? = nil) {
+            self.indexingRules = indexingRules
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexingRules = "IndexingRules"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct GetInsightEventsRequest: AWSEncodableShape {
         /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
         public let insightId: String
@@ -1012,6 +1094,50 @@ extension XRay {
         private enum CodingKeys: String, CodingKey {
             case insightSummaries = "InsightSummaries"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetRetrievedTracesGraphRequest: AWSEncodableShape {
+        ///  Specify the pagination token returned by a previous request to retrieve the next page of indexes.
+        public let nextToken: String?
+        ///  Retrieval token.
+        public let retrievalToken: String
+
+        @inlinable
+        public init(nextToken: String? = nil, retrievalToken: String) {
+            self.nextToken = nextToken
+            self.retrievalToken = retrievalToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retrievalToken, name: "retrievalToken", parent: name, max: 1020)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case retrievalToken = "RetrievalToken"
+        }
+    }
+
+    public struct GetRetrievedTracesGraphResult: AWSDecodableShape {
+        ///  Specify the pagination token returned by a previous request to retrieve the next page of indexes.
+        public let nextToken: String?
+        /// Status of the retrieval.
+        public let retrievalStatus: RetrievalStatus?
+        /// Retrieved services.
+        public let services: [RetrievedService]?
+
+        @inlinable
+        public init(nextToken: String? = nil, retrievalStatus: RetrievalStatus? = nil, services: [RetrievedService]? = nil) {
+            self.nextToken = nextToken
+            self.retrievalStatus = retrievalStatus
+            self.services = services
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case retrievalStatus = "RetrievalStatus"
+            case services = "Services"
         }
     }
 
@@ -1305,6 +1431,28 @@ extension XRay {
         }
     }
 
+    public struct GetTraceSegmentDestinationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetTraceSegmentDestinationResult: AWSDecodableShape {
+        /// Retrieves the current destination.
+        public let destination: TraceSegmentDestination?
+        ///  Status of the retrieval.
+        public let status: TraceSegmentDestinationStatus?
+
+        @inlinable
+        public init(destination: TraceSegmentDestination? = nil, status: TraceSegmentDestinationStatus? = nil) {
+            self.destination = destination
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case status = "Status"
+        }
+    }
+
     public struct GetTraceSummariesRequest: AWSEncodableShape {
         /// The end of the time frame for which to retrieve traces.
         public let endTime: Date
@@ -1318,7 +1466,7 @@ extension XRay {
         public let samplingStrategy: SamplingStrategy?
         /// The start of the time frame for which to retrieve traces.
         public let startTime: Date
-        /// A parameter to indicate whether to query trace summaries by TraceId, Event (trace update time), or Service (segment end time).
+        /// Query trace summaries by TraceId (trace start time), Event (trace update time), or Service (trace segment end time).
         public let timeRangeType: TimeRangeType?
 
         @inlinable
@@ -1366,6 +1514,28 @@ extension XRay {
             case nextToken = "NextToken"
             case tracesProcessedCount = "TracesProcessedCount"
             case traceSummaries = "TraceSummaries"
+        }
+    }
+
+    public struct GraphLink: AWSDecodableShape {
+        /// Destination traces of a link relationship.
+        public let destinationTraceIds: [String]?
+        /// Relationship of a trace to the corresponding service.
+        public let referenceType: String?
+        /// Source trace of a link relationship.
+        public let sourceTraceId: String?
+
+        @inlinable
+        public init(destinationTraceIds: [String]? = nil, referenceType: String? = nil, sourceTraceId: String? = nil) {
+            self.destinationTraceIds = destinationTraceIds
+            self.referenceType = referenceType
+            self.sourceTraceId = sourceTraceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationTraceIds = "DestinationTraceIds"
+            case referenceType = "ReferenceType"
+            case sourceTraceId = "SourceTraceId"
         }
     }
 
@@ -1466,6 +1636,28 @@ extension XRay {
             case httpStatus = "HttpStatus"
             case httpURL = "HttpURL"
             case userAgent = "UserAgent"
+        }
+    }
+
+    public struct IndexingRule: AWSDecodableShape {
+        /// Displays when the rule was last modified, in Unix time seconds.
+        public let modifiedAt: Date?
+        ///  The name of the indexing rule.
+        public let name: String?
+        ///  The indexing rule.
+        public let rule: IndexingRuleValue?
+
+        @inlinable
+        public init(modifiedAt: Date? = nil, name: String? = nil, rule: IndexingRuleValue? = nil) {
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.rule = rule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modifiedAt = "ModifiedAt"
+            case name = "Name"
+            case rule = "Rule"
         }
     }
 
@@ -1734,6 +1926,58 @@ extension XRay {
         }
     }
 
+    public struct ListRetrievedTracesRequest: AWSEncodableShape {
+        ///  Specify the pagination token returned by a previous request to retrieve the next page of indexes.
+        public let nextToken: String?
+        /// Retrieval token.
+        public let retrievalToken: String
+        /// Format of the requested traces.
+        public let traceFormat: TraceFormatType?
+
+        @inlinable
+        public init(nextToken: String? = nil, retrievalToken: String, traceFormat: TraceFormatType? = nil) {
+            self.nextToken = nextToken
+            self.retrievalToken = retrievalToken
+            self.traceFormat = traceFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retrievalToken, name: "retrievalToken", parent: name, max: 1020)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case retrievalToken = "RetrievalToken"
+            case traceFormat = "TraceFormat"
+        }
+    }
+
+    public struct ListRetrievedTracesResult: AWSDecodableShape {
+        ///  Specify the pagination token returned by a previous request to retrieve the next page of indexes.
+        public let nextToken: String?
+        ///  Status of the retrieval.
+        public let retrievalStatus: RetrievalStatus?
+        ///  Format of the requested traces.
+        public let traceFormat: TraceFormatType?
+        /// Full traces for the specified requests.
+        public let traces: [RetrievedTrace]?
+
+        @inlinable
+        public init(nextToken: String? = nil, retrievalStatus: RetrievalStatus? = nil, traceFormat: TraceFormatType? = nil, traces: [RetrievedTrace]? = nil) {
+            self.nextToken = nextToken
+            self.retrievalStatus = retrievalStatus
+            self.traceFormat = traceFormat
+            self.traces = traces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case retrievalStatus = "RetrievalStatus"
+            case traceFormat = "TraceFormat"
+            case traces = "Traces"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// A pagination token. If multiple pages of results are returned, use the NextToken value returned with  the current page of results as the value of this parameter to get the next page of results.
         public let nextToken: String?
@@ -1772,6 +2016,38 @@ extension XRay {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
+        }
+    }
+
+    public struct ProbabilisticRuleValue: AWSDecodableShape {
+        ///  Applied sampling percentage of traceIds.
+        public let actualSamplingPercentage: Double?
+        ///  Configured sampling percentage of traceIds. Note that sampling can be subject to limits to ensure completeness of data.
+        public let desiredSamplingPercentage: Double
+
+        @inlinable
+        public init(actualSamplingPercentage: Double? = nil, desiredSamplingPercentage: Double) {
+            self.actualSamplingPercentage = actualSamplingPercentage
+            self.desiredSamplingPercentage = desiredSamplingPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actualSamplingPercentage = "ActualSamplingPercentage"
+            case desiredSamplingPercentage = "DesiredSamplingPercentage"
+        }
+    }
+
+    public struct ProbabilisticRuleValueUpdate: AWSEncodableShape {
+        ///  Configured sampling percentage of traceIds. Note that sampling can be subject to limits to ensure completeness of data.
+        public let desiredSamplingPercentage: Double
+
+        @inlinable
+        public init(desiredSamplingPercentage: Double) {
+            self.desiredSamplingPercentage = desiredSamplingPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredSamplingPercentage = "DesiredSamplingPercentage"
         }
     }
 
@@ -2051,6 +2327,45 @@ extension XRay {
             case name = "Name"
             case names = "Names"
             case type = "Type"
+        }
+    }
+
+    public struct RetrievedService: AWSDecodableShape {
+        ///  Relation between two 2 services.
+        public let links: [GraphLink]?
+        public let service: Service?
+
+        @inlinable
+        public init(links: [GraphLink]? = nil, service: Service? = nil) {
+            self.links = links
+            self.service = service
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case links = "Links"
+            case service = "Service"
+        }
+    }
+
+    public struct RetrievedTrace: AWSDecodableShape {
+        ///  The length of time in seconds between the start time of the root span and the end time of the last span that completed.
+        public let duration: Double?
+        ///  The unique identifier for the span.
+        public let id: String?
+        ///  Spans that comprise the trace.
+        public let spans: [Span]?
+
+        @inlinable
+        public init(duration: Double? = nil, id: String? = nil, spans: [Span]? = nil) {
+            self.duration = duration
+            self.id = id
+            self.spans = spans
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case id = "Id"
+            case spans = "Spans"
         }
     }
 
@@ -2510,6 +2825,68 @@ extension XRay {
         }
     }
 
+    public struct Span: AWSDecodableShape {
+        /// The span document.
+        public let document: String?
+        /// The span ID.
+        public let id: String?
+
+        @inlinable
+        public init(document: String? = nil, id: String? = nil) {
+            self.document = document
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "Document"
+            case id = "Id"
+        }
+    }
+
+    public struct StartTraceRetrievalRequest: AWSEncodableShape {
+        ///  The end of the time range to retrieve traces. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+        public let endTime: Date
+        ///  The start of the time range to retrieve traces. The range is inclusive, so the specified start time is included in the query.  Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+        public let startTime: Date
+        ///  Specify the trace IDs of the traces to be retrieved.
+        public let traceIds: [String]
+
+        @inlinable
+        public init(endTime: Date, startTime: Date, traceIds: [String]) {
+            self.endTime = endTime
+            self.startTime = startTime
+            self.traceIds = traceIds
+        }
+
+        public func validate(name: String) throws {
+            try self.traceIds.forEach {
+                try validate($0, name: "traceIds[]", parent: name, max: 35)
+                try validate($0, name: "traceIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.traceIds, name: "traceIds", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+            case traceIds = "TraceIds"
+        }
+    }
+
+    public struct StartTraceRetrievalResult: AWSDecodableShape {
+        /// Retrieval token.
+        public let retrievalToken: String?
+
+        @inlinable
+        public init(retrievalToken: String? = nil) {
+            self.retrievalToken = retrievalToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retrievalToken = "RetrievalToken"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// A tag key, such as Stage or Name. A tag key cannot be empty. The  key can be a maximum of 128 characters, and can contain only Unicode letters, numbers, or separators,  or the following special characters: + - = . _ : /
         public let key: String
@@ -2882,6 +3259,38 @@ extension XRay {
         }
     }
 
+    public struct UpdateIndexingRuleRequest: AWSEncodableShape {
+        ///  Name of the indexing rule to be updated.
+        public let name: String
+        ///  Rule configuration to be updated.
+        public let rule: IndexingRuleValueUpdate
+
+        @inlinable
+        public init(name: String, rule: IndexingRuleValueUpdate) {
+            self.name = name
+            self.rule = rule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case rule = "Rule"
+        }
+    }
+
+    public struct UpdateIndexingRuleResult: AWSDecodableShape {
+        ///  Updated indexing rule.
+        public let indexingRule: IndexingRule?
+
+        @inlinable
+        public init(indexingRule: IndexingRule? = nil) {
+            self.indexingRule = indexingRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexingRule = "IndexingRule"
+        }
+    }
+
     public struct UpdateSamplingRuleRequest: AWSEncodableShape {
         /// The rule and fields to change.
         public let samplingRuleUpdate: SamplingRuleUpdate
@@ -2914,6 +3323,38 @@ extension XRay {
         }
     }
 
+    public struct UpdateTraceSegmentDestinationRequest: AWSEncodableShape {
+        /// The configured destination of trace segments.
+        public let destination: TraceSegmentDestination?
+
+        @inlinable
+        public init(destination: TraceSegmentDestination? = nil) {
+            self.destination = destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+        }
+    }
+
+    public struct UpdateTraceSegmentDestinationResult: AWSDecodableShape {
+        ///  The destination of the trace segments.
+        public let destination: TraceSegmentDestination?
+        /// The status of the update.
+        public let status: TraceSegmentDestinationStatus?
+
+        @inlinable
+        public init(destination: TraceSegmentDestination? = nil, status: TraceSegmentDestinationStatus? = nil) {
+            self.destination = destination
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case status = "Status"
+        }
+    }
+
     public struct ValueWithServiceIds: AWSDecodableShape {
         /// Values of the annotation.
         public let annotationValue: AnnotationValue?
@@ -2929,6 +3370,34 @@ extension XRay {
         private enum CodingKeys: String, CodingKey {
             case annotationValue = "AnnotationValue"
             case serviceIds = "ServiceIds"
+        }
+    }
+
+    public struct IndexingRuleValue: AWSDecodableShape {
+        ///  Indexing rule configuration that is used to probabilistically  sample traceIds.
+        public let probabilistic: ProbabilisticRuleValue?
+
+        @inlinable
+        public init(probabilistic: ProbabilisticRuleValue? = nil) {
+            self.probabilistic = probabilistic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case probabilistic = "Probabilistic"
+        }
+    }
+
+    public struct IndexingRuleValueUpdate: AWSEncodableShape {
+        ///  Indexing rule configuration that is used to probabilistically  sample traceIds.
+        public let probabilistic: ProbabilisticRuleValueUpdate?
+
+        @inlinable
+        public init(probabilistic: ProbabilisticRuleValueUpdate? = nil) {
+            self.probabilistic = probabilistic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case probabilistic = "Probabilistic"
         }
     }
 }

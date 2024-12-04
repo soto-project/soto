@@ -53,6 +53,11 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventSourceMappingMetric: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eventCount = "EventCount"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventSourcePosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case atTimestamp = "AT_TIMESTAMP"
         case latest = "LATEST"
@@ -185,6 +190,7 @@ extension Lambda {
         case nodejs16x = "nodejs16.x"
         case nodejs18x = "nodejs18.x"
         case nodejs20x = "nodejs20.x"
+        case nodejs22x = "nodejs22.x"
         case nodejs43 = "nodejs4.3"
         case nodejs43edge = "nodejs4.3-edge"
         case nodejs610 = "nodejs6.10"
@@ -901,8 +907,12 @@ extension Lambda {
         public let maximumRecordAgeInSeconds: Int?
         /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
         public let maximumRetryAttempts: Int?
+        /// The metrics configuration for your event source. For more information, see Event source mapping metrics.
+        public let metricsConfig: EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
+        /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see Provisioned Mode.
+        public let provisionedPollerConfig: ProvisionedPollerConfig?
         ///  (MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
         /// (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
@@ -925,7 +935,7 @@ extension Lambda {
         public let tumblingWindowInSeconds: Int?
 
         @inlinable
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, tags: [String: String]? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, tags: [String: String]? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -940,7 +950,9 @@ extension Lambda {
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
+            self.metricsConfig = metricsConfig
             self.parallelizationFactor = parallelizationFactor
+            self.provisionedPollerConfig = provisionedPollerConfig
             self.queues = queues
             self.scalingConfig = scalingConfig
             self.selfManagedEventSource = selfManagedEventSource
@@ -972,8 +984,10 @@ extension Lambda {
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: -1)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 10000)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: -1)
+            try self.metricsConfig?.validate(name: "\(name).metricsConfig")
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, max: 10)
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, min: 1)
+            try self.provisionedPollerConfig?.validate(name: "\(name).provisionedPollerConfig")
             try self.queues?.forEach {
                 try validate($0, name: "queues[]", parent: name, max: 1000)
                 try validate($0, name: "queues[]", parent: name, min: 1)
@@ -1014,7 +1028,9 @@ extension Lambda {
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
+            case metricsConfig = "MetricsConfig"
             case parallelizationFactor = "ParallelizationFactor"
+            case provisionedPollerConfig = "ProvisionedPollerConfig"
             case queues = "Queues"
             case scalingConfig = "ScalingConfig"
             case selfManagedEventSource = "SelfManagedEventSource"
@@ -1714,8 +1730,12 @@ extension Lambda {
         /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1,
         /// which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
         public let maximumRetryAttempts: Int?
+        /// The metrics configuration for your event source. For more information, see Event source mapping metrics.
+        public let metricsConfig: EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public let parallelizationFactor: Int?
+        /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see Provisioned Mode.
+        public let provisionedPollerConfig: ProvisionedPollerConfig?
         ///  (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
         /// (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
@@ -1742,7 +1762,7 @@ extension Lambda {
         public let uuid: String?
 
         @inlinable
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, eventSourceArn: String? = nil, eventSourceMappingArn: String? = nil, filterCriteria: FilterCriteria? = nil, filterCriteriaError: FilterCriteriaError? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, eventSourceArn: String? = nil, eventSourceMappingArn: String? = nil, filterCriteria: FilterCriteria? = nil, filterCriteriaError: FilterCriteriaError? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -1760,7 +1780,9 @@ extension Lambda {
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
+            self.metricsConfig = metricsConfig
             self.parallelizationFactor = parallelizationFactor
+            self.provisionedPollerConfig = provisionedPollerConfig
             self.queues = queues
             self.scalingConfig = scalingConfig
             self.selfManagedEventSource = selfManagedEventSource
@@ -1793,7 +1815,9 @@ extension Lambda {
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
+            case metricsConfig = "MetricsConfig"
             case parallelizationFactor = "ParallelizationFactor"
+            case provisionedPollerConfig = "ProvisionedPollerConfig"
             case queues = "Queues"
             case scalingConfig = "ScalingConfig"
             case selfManagedEventSource = "SelfManagedEventSource"
@@ -1806,6 +1830,24 @@ extension Lambda {
             case topics = "Topics"
             case tumblingWindowInSeconds = "TumblingWindowInSeconds"
             case uuid = "UUID"
+        }
+    }
+
+    public struct EventSourceMappingMetricsConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The metrics you want your event source mapping to produce. Include EventCount to receive event source mapping metrics related to the number of events processed by your event source mapping. For more information about these metrics, see  Event source mapping metrics.
+        public let metrics: [EventSourceMappingMetric]?
+
+        @inlinable
+        public init(metrics: [EventSourceMappingMetric]? = nil) {
+            self.metrics = metrics
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metrics = "Metrics"
         }
     }
 
@@ -2123,7 +2165,7 @@ extension Lambda {
     }
 
     public struct FunctionEventInvokeConfig: AWSDecodableShape {
-        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
+        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Bucket - The ARN of an Amazon S3 bucket.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.    S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
         public let destinationConfig: DestinationConfig?
         /// The Amazon Resource Name (ARN) of the function.
         public let functionArn: String?
@@ -4039,7 +4081,7 @@ extension Lambda {
     }
 
     public struct OnFailure: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of asynchronous invocations, you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from Kinesis and DynamoDB event sources, you can configure an Amazon SNS topic or Amazon SQS queue as the destination. To retain records of failed invocations from self-managed Kafka or Amazon MSK, you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
+        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of unsuccessful asynchronous invocations, you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from Kinesis,  DynamoDB, self-managed Kafka or Amazon MSK, you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
         public let destination: String?
 
         @inlinable
@@ -4111,6 +4153,31 @@ extension Lambda {
             case requestedProvisionedConcurrentExecutions = "RequestedProvisionedConcurrentExecutions"
             case status = "Status"
             case statusReason = "StatusReason"
+        }
+    }
+
+    public struct ProvisionedPollerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of event pollers this event source can scale up to.
+        public let maximumPollers: Int?
+        /// The minimum number of event pollers this event source can scale down to.
+        public let minimumPollers: Int?
+
+        @inlinable
+        public init(maximumPollers: Int? = nil, minimumPollers: Int? = nil) {
+            self.maximumPollers = maximumPollers
+            self.minimumPollers = minimumPollers
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maximumPollers, name: "maximumPollers", parent: name, max: 2000)
+            try self.validate(self.maximumPollers, name: "maximumPollers", parent: name, min: 1)
+            try self.validate(self.minimumPollers, name: "minimumPollers", parent: name, max: 200)
+            try self.validate(self.minimumPollers, name: "minimumPollers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumPollers = "MaximumPollers"
+            case minimumPollers = "MinimumPollers"
         }
     }
 
@@ -4340,7 +4407,7 @@ extension Lambda {
     }
 
     public struct PutFunctionEventInvokeConfigRequest: AWSEncodableShape {
-        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
+        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Bucket - The ARN of an Amazon S3 bucket.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.    S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
         public let destinationConfig: DestinationConfig?
         /// The name or ARN of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
@@ -5050,8 +5117,12 @@ extension Lambda {
         public let maximumRecordAgeInSeconds: Int?
         /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
         public let maximumRetryAttempts: Int?
+        /// The metrics configuration for your event source. For more information, see Event source mapping metrics.
+        public let metricsConfig: EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
+        /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see Provisioned Mode.
+        public let provisionedPollerConfig: ProvisionedPollerConfig?
         /// (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
         public let scalingConfig: ScalingConfig?
         /// An array of authentication protocols or VPC components required to secure your event source.
@@ -5062,7 +5133,7 @@ extension Lambda {
         public let uuid: String
 
         @inlinable
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, scalingConfig: ScalingConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, scalingConfig: ScalingConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
@@ -5075,7 +5146,9 @@ extension Lambda {
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
+            self.metricsConfig = metricsConfig
             self.parallelizationFactor = parallelizationFactor
+            self.provisionedPollerConfig = provisionedPollerConfig
             self.scalingConfig = scalingConfig
             self.sourceAccessConfigurations = sourceAccessConfigurations
             self.tumblingWindowInSeconds = tumblingWindowInSeconds
@@ -5097,7 +5170,9 @@ extension Lambda {
             try container.encodeIfPresent(self.maximumBatchingWindowInSeconds, forKey: .maximumBatchingWindowInSeconds)
             try container.encodeIfPresent(self.maximumRecordAgeInSeconds, forKey: .maximumRecordAgeInSeconds)
             try container.encodeIfPresent(self.maximumRetryAttempts, forKey: .maximumRetryAttempts)
+            try container.encodeIfPresent(self.metricsConfig, forKey: .metricsConfig)
             try container.encodeIfPresent(self.parallelizationFactor, forKey: .parallelizationFactor)
+            try container.encodeIfPresent(self.provisionedPollerConfig, forKey: .provisionedPollerConfig)
             try container.encodeIfPresent(self.scalingConfig, forKey: .scalingConfig)
             try container.encodeIfPresent(self.sourceAccessConfigurations, forKey: .sourceAccessConfigurations)
             try container.encodeIfPresent(self.tumblingWindowInSeconds, forKey: .tumblingWindowInSeconds)
@@ -5121,8 +5196,10 @@ extension Lambda {
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: -1)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 10000)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: -1)
+            try self.metricsConfig?.validate(name: "\(name).metricsConfig")
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, max: 10)
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, min: 1)
+            try self.provisionedPollerConfig?.validate(name: "\(name).provisionedPollerConfig")
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
             try self.sourceAccessConfigurations?.forEach {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
@@ -5145,7 +5222,9 @@ extension Lambda {
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
+            case metricsConfig = "MetricsConfig"
             case parallelizationFactor = "ParallelizationFactor"
+            case provisionedPollerConfig = "ProvisionedPollerConfig"
             case scalingConfig = "ScalingConfig"
             case sourceAccessConfigurations = "SourceAccessConfigurations"
             case tumblingWindowInSeconds = "TumblingWindowInSeconds"
@@ -5381,7 +5460,7 @@ extension Lambda {
     }
 
     public struct UpdateFunctionEventInvokeConfigRequest: AWSEncodableShape {
-        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
+        /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Bucket - The ARN of an Amazon S3 bucket.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.    S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
         public let destinationConfig: DestinationConfig?
         /// The name or ARN of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String

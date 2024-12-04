@@ -206,6 +206,12 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum MultiRegionConsistency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eventual = "EVENTUAL"
+        case strong = "STRONG"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -5577,6 +5583,8 @@ extension DynamoDB {
         public let latestStreamLabel: String?
         /// Represents one or more local secondary indexes on the table. Each index is scoped to a given partition key value. Tables with one or more local secondary indexes are subject to an item collection size limit, where the amount of data within a given item collection cannot exceed 10 GB. Each element is composed of:    IndexName - The name of the local secondary index.    KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      IndexSizeBytes - Represents the total size of the index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.    ItemCount - Represents the number of items in the index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.   If the table is in the DELETING state, no information about indexes will be returned.
         public let localSecondaryIndexes: [LocalSecondaryIndexDescription]?
+        /// Indicates one of the following consistency modes for a global table:    EVENTUAL: Indicates that the global table is configured for multi-Region eventual consistency.    STRONG: Indicates that the global table is configured for multi-Region strong consistency (preview).  Multi-Region strong consistency (MRSC) is a new DynamoDB global tables capability currently available in preview mode. For more information, see Global tables multi-Region strong consistency.    If you don't specify this field, the global table consistency mode defaults to EVENTUAL.
+        public let multiRegionConsistency: MultiRegionConsistency?
         /// The maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
         public let onDemandThroughput: OnDemandThroughput?
         /// The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
@@ -5605,7 +5613,7 @@ extension DynamoDB {
         public let warmThroughput: TableWarmThroughputDescription?
 
         @inlinable
-        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
@@ -5618,6 +5626,7 @@ extension DynamoDB {
             self.latestStreamArn = latestStreamArn
             self.latestStreamLabel = latestStreamLabel
             self.localSecondaryIndexes = localSecondaryIndexes
+            self.multiRegionConsistency = multiRegionConsistency
             self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.replicas = replicas
@@ -5646,6 +5655,7 @@ extension DynamoDB {
             case latestStreamArn = "LatestStreamArn"
             case latestStreamLabel = "LatestStreamLabel"
             case localSecondaryIndexes = "LocalSecondaryIndexes"
+            case multiRegionConsistency = "MultiRegionConsistency"
             case onDemandThroughput = "OnDemandThroughput"
             case provisionedThroughput = "ProvisionedThroughput"
             case replicas = "Replicas"
@@ -6426,6 +6436,8 @@ extension DynamoDB {
         public let deletionProtectionEnabled: Bool?
         /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   You can create or delete only one global secondary index per UpdateTable operation. For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide.
         public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]?
+        /// Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more Create actions in the ReplicaUpdates action list. You can specify one of the following consistency modes:    EVENTUAL: Configures a new global table for multi-Region eventual consistency. This is the default consistency mode for global tables.    STRONG: Configures a new global table for multi-Region strong consistency (preview).  Multi-Region strong consistency (MRSC) is a new DynamoDB global tables capability currently available in preview mode. For more information, see Global tables multi-Region strong consistency.    If you don't specify this parameter, the global table consistency mode defaults to EVENTUAL.
+        public let multiRegionConsistency: MultiRegionConsistency?
         /// Updates the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
         public let onDemandThroughput: OnDemandThroughput?
         /// The new provisioned throughput settings for the specified table or index.
@@ -6444,11 +6456,12 @@ extension DynamoDB {
         public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, warmThroughput: WarmThroughput? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, warmThroughput: WarmThroughput? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+            self.multiRegionConsistency = multiRegionConsistency
             self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.replicaUpdates = replicaUpdates
@@ -6480,6 +6493,7 @@ extension DynamoDB {
             case billingMode = "BillingMode"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
             case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
+            case multiRegionConsistency = "MultiRegionConsistency"
             case onDemandThroughput = "OnDemandThroughput"
             case provisionedThroughput = "ProvisionedThroughput"
             case replicaUpdates = "ReplicaUpdates"
@@ -6667,6 +6681,7 @@ public struct DynamoDBErrorType: AWSErrorType {
         case provisionedThroughputExceededException = "ProvisionedThroughputExceededException"
         case replicaAlreadyExistsException = "ReplicaAlreadyExistsException"
         case replicaNotFoundException = "ReplicaNotFoundException"
+        case replicatedWriteConflictException = "ReplicatedWriteConflictException"
         case requestLimitExceeded = "RequestLimitExceeded"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -6743,6 +6758,8 @@ public struct DynamoDBErrorType: AWSErrorType {
     public static var replicaAlreadyExistsException: Self { .init(.replicaAlreadyExistsException) }
     /// The specified replica is no longer part of the global table.
     public static var replicaNotFoundException: Self { .init(.replicaNotFoundException) }
+    /// The request was rejected because one or more items in the request are being modified by a request in another Region.
+    public static var replicatedWriteConflictException: Self { .init(.replicatedWriteConflictException) }
     /// Throughput exceeds the current throughput quota for your account. Please contact Amazon Web Services Support to request a quota increase.
     public static var requestLimitExceeded: Self { .init(.requestLimitExceeded) }
     /// The operation conflicts with the resource's availability. For example:   You attempted to recreate an existing table.   You tried to delete a table currently in the CREATING state.   You tried to update a resource that was already being updated.   When appropriate, wait for the ongoing update to complete and attempt the request again.

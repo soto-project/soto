@@ -513,6 +513,47 @@ public struct NetworkManager: AWSService {
         return try await self.createDevice(input, logger: logger)
     }
 
+    /// Creates an Amazon Web Services Direct Connect gateway attachment
+    @Sendable
+    @inlinable
+    public func createDirectConnectGatewayAttachment(_ input: CreateDirectConnectGatewayAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDirectConnectGatewayAttachmentResponse {
+        try await self.client.execute(
+            operation: "CreateDirectConnectGatewayAttachment", 
+            path: "/direct-connect-gateway-attachments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon Web Services Direct Connect gateway attachment
+    ///
+    /// Parameters:
+    ///   - clientToken: client token
+    ///   - coreNetworkId: The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to.
+    ///   - directConnectGatewayArn: The ARN of the Direct Connect gateway attachment.
+    ///   - edgeLocations: One or more core network edge locations that the Direct Connect gateway attachment is associated with.
+    ///   - tags: The key value tags to apply to the Direct Connect gateway attachment during creation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDirectConnectGatewayAttachment(
+        clientToken: String? = CreateDirectConnectGatewayAttachmentRequest.idempotencyToken(),
+        coreNetworkId: String,
+        directConnectGatewayArn: String,
+        edgeLocations: [String],
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDirectConnectGatewayAttachmentResponse {
+        let input = CreateDirectConnectGatewayAttachmentRequest(
+            clientToken: clientToken, 
+            coreNetworkId: coreNetworkId, 
+            directConnectGatewayArn: directConnectGatewayArn, 
+            edgeLocations: edgeLocations, 
+            tags: tags
+        )
+        return try await self.createDirectConnectGatewayAttachment(input, logger: logger)
+    }
+
     /// Creates a new, empty global network.
     @Sendable
     @inlinable
@@ -1706,6 +1747,35 @@ public struct NetworkManager: AWSService {
             siteId: siteId
         )
         return try await self.getDevices(input, logger: logger)
+    }
+
+    /// Returns information about a specific Amazon Web Services Direct Connect gateway attachment.
+    @Sendable
+    @inlinable
+    public func getDirectConnectGatewayAttachment(_ input: GetDirectConnectGatewayAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDirectConnectGatewayAttachmentResponse {
+        try await self.client.execute(
+            operation: "GetDirectConnectGatewayAttachment", 
+            path: "/direct-connect-gateway-attachments/{AttachmentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a specific Amazon Web Services Direct Connect gateway attachment.
+    ///
+    /// Parameters:
+    ///   - attachmentId: The ID of the Direct Connect gateway attachment that you want to see details about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDirectConnectGatewayAttachment(
+        attachmentId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDirectConnectGatewayAttachmentResponse {
+        let input = GetDirectConnectGatewayAttachmentRequest(
+            attachmentId: attachmentId
+        )
+        return try await self.getDirectConnectGatewayAttachment(input, logger: logger)
     }
 
     /// Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
@@ -3021,6 +3091,38 @@ public struct NetworkManager: AWSService {
             vendor: vendor
         )
         return try await self.updateDevice(input, logger: logger)
+    }
+
+    /// Updates the edge locations associated with an Amazon Web Services Direct Connect gateway attachment.
+    @Sendable
+    @inlinable
+    public func updateDirectConnectGatewayAttachment(_ input: UpdateDirectConnectGatewayAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDirectConnectGatewayAttachmentResponse {
+        try await self.client.execute(
+            operation: "UpdateDirectConnectGatewayAttachment", 
+            path: "/direct-connect-gateway-attachments/{AttachmentId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the edge locations associated with an Amazon Web Services Direct Connect gateway attachment.
+    ///
+    /// Parameters:
+    ///   - attachmentId: The ID of the Direct Connect gateway attachment for the updated edge locations.
+    ///   - edgeLocations: One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the previous array of locations. EdgeLocations is only used for Direct Connect gateway attachments. Do
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDirectConnectGatewayAttachment(
+        attachmentId: String,
+        edgeLocations: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDirectConnectGatewayAttachmentResponse {
+        let input = UpdateDirectConnectGatewayAttachmentRequest(
+            attachmentId: attachmentId, 
+            edgeLocations: edgeLocations
+        )
+        return try await self.updateDirectConnectGatewayAttachment(input, logger: logger)
     }
 
     /// Updates an existing global network. To remove information for any of the parameters, specify an empty string.

@@ -157,6 +157,35 @@ public struct SSMQuickSetup: AWSService {
         return try await self.deleteConfigurationManager(input, logger: logger)
     }
 
+    /// Returns details about the specified configuration.
+    @Sendable
+    @inlinable
+    public func getConfiguration(_ input: GetConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationOutput {
+        try await self.client.execute(
+            operation: "GetConfiguration", 
+            path: "/getConfiguration/{ConfigurationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns details about the specified configuration.
+    ///
+    /// Parameters:
+    ///   - configurationId: A service generated identifier for the configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConfiguration(
+        configurationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConfigurationOutput {
+        let input = GetConfigurationInput(
+            configurationId: configurationId
+        )
+        return try await self.getConfiguration(input, logger: logger)
+    }
+
     /// Returns a configuration manager.
     @Sendable
     @inlinable
@@ -232,6 +261,47 @@ public struct SSMQuickSetup: AWSService {
             startingToken: startingToken
         )
         return try await self.listConfigurationManagers(input, logger: logger)
+    }
+
+    /// Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
+    @Sendable
+    @inlinable
+    public func listConfigurations(_ input: ListConfigurationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationsOutput {
+        try await self.client.execute(
+            operation: "ListConfigurations", 
+            path: "/listConfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
+    ///
+    /// Parameters:
+    ///   - configurationDefinitionId: The ID of the configuration definition.
+    ///   - filters: Filters the results returned by the request.
+    ///   - managerArn: The ARN of the configuration manager.
+    ///   - maxItems: Specifies the maximum number of configurations that are returned by the request.
+    ///   - startingToken: The token to use when requesting a specific set of items from a list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConfigurations(
+        configurationDefinitionId: String? = nil,
+        filters: [Filter]? = nil,
+        managerArn: String? = nil,
+        maxItems: Int? = nil,
+        startingToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConfigurationsOutput {
+        let input = ListConfigurationsInput(
+            configurationDefinitionId: configurationDefinitionId, 
+            filters: filters, 
+            managerArn: managerArn, 
+            maxItems: maxItems, 
+            startingToken: startingToken
+        )
+        return try await self.listConfigurations(input, logger: logger)
     }
 
     /// Returns the available Quick Setup types.
@@ -498,6 +568,49 @@ extension SSMQuickSetup {
         )
         return self.listConfigurationManagersPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationsPaginator(
+        _ input: ListConfigurationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput> {
+        return .init(
+            input: input,
+            command: self.listConfigurations,
+            inputKey: \ListConfigurationsInput.startingToken,
+            outputKey: \ListConfigurationsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - configurationDefinitionId: The ID of the configuration definition.
+    ///   - filters: Filters the results returned by the request.
+    ///   - managerArn: The ARN of the configuration manager.
+    ///   - maxItems: Specifies the maximum number of configurations that are returned by the request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationsPaginator(
+        configurationDefinitionId: String? = nil,
+        filters: [Filter]? = nil,
+        managerArn: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput> {
+        let input = ListConfigurationsInput(
+            configurationDefinitionId: configurationDefinitionId, 
+            filters: filters, 
+            managerArn: managerArn, 
+            maxItems: maxItems
+        )
+        return self.listConfigurationsPaginator(input, logger: logger)
+    }
 }
 
 extension SSMQuickSetup.ListConfigurationManagersInput: AWSPaginateToken {
@@ -505,6 +618,19 @@ extension SSMQuickSetup.ListConfigurationManagersInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SSMQuickSetup.ListConfigurationManagersInput {
         return .init(
             filters: self.filters,
+            maxItems: self.maxItems,
+            startingToken: token
+        )
+    }
+}
+
+extension SSMQuickSetup.ListConfigurationsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SSMQuickSetup.ListConfigurationsInput {
+        return .init(
+            configurationDefinitionId: self.configurationDefinitionId,
+            filters: self.filters,
+            managerArn: self.managerArn,
             maxItems: self.maxItems,
             startingToken: token
         )

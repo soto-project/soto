@@ -33,6 +33,15 @@ extension RedshiftServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagedWorkgroupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case modifying = "MODIFYING"
+        case notAvailable = "NOT_AVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NamespaceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
@@ -1612,6 +1621,58 @@ extension RedshiftServerless {
         }
     }
 
+    public struct ListManagedWorkgroupsRequest: AWSEncodableShape {
+        /// An optional parameter that specifies the maximum number  of results to return. You can use nextToken to display the next page of results.
+        public let maxResults: Int?
+        /// If your initial ListManagedWorkgroups operation returns a nextToken,  you can include the returned nextToken in following ListManagedWorkgroups  operations, which returns results in the next page.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) for the managed  workgroup in the AWS Glue Data Catalog.
+        public let sourceArn: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sourceArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sourceArn = sourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.sourceArn, forKey: .sourceArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 8)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:aws[a-z-]*:glue:[a-z0-9-]+:\\d+:(database|catalog)[a-z0-9-:]*(?:/[A-Za-z0-9-_]{1,255})*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "sourceArn"
+        }
+    }
+
+    public struct ListManagedWorkgroupsResponse: AWSDecodableShape {
+        /// The returned array of managed workgroups.
+        public let managedWorkgroups: [ManagedWorkgroupListItem]?
+        /// If nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(managedWorkgroups: [ManagedWorkgroupListItem]? = nil, nextToken: String? = nil) {
+            self.managedWorkgroups = managedWorkgroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedWorkgroups = "managedWorkgroups"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListNamespacesRequest: AWSEncodableShape {
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
@@ -2087,6 +2148,36 @@ extension RedshiftServerless {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case workgroups = "workgroups"
+        }
+    }
+
+    public struct ManagedWorkgroupListItem: AWSDecodableShape {
+        /// The creation date of the managed workgroup.
+        public let creationDate: Date?
+        /// The unique identifier of the managed workgroup.
+        public let managedWorkgroupId: String?
+        /// The name of the managed workgroup.
+        public let managedWorkgroupName: String?
+        /// The Amazon Resource Name (ARN) for the managed  workgroup in the AWS Glue Data Catalog.
+        public let sourceArn: String?
+        /// The status of the managed workgroup.
+        public let status: ManagedWorkgroupStatus?
+
+        @inlinable
+        public init(creationDate: Date? = nil, managedWorkgroupId: String? = nil, managedWorkgroupName: String? = nil, sourceArn: String? = nil, status: ManagedWorkgroupStatus? = nil) {
+            self.creationDate = creationDate
+            self.managedWorkgroupId = managedWorkgroupId
+            self.managedWorkgroupName = managedWorkgroupName
+            self.sourceArn = sourceArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case managedWorkgroupId = "managedWorkgroupId"
+            case managedWorkgroupName = "managedWorkgroupName"
+            case sourceArn = "sourceArn"
+            case status = "status"
         }
     }
 

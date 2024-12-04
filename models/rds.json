@@ -3687,7 +3687,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates a blue/green deployment.</p>\n         <p>A blue/green deployment creates a staging environment that copies the production environment. \n            In a blue/green deployment, the blue environment is the current production environment. \n            The green environment is the staging environment. The staging environment stays in sync \n            with the current production environment using logical replication.</p>\n         <p>You can make changes to the databases in the green environment without affecting \n            production workloads. For example, you can upgrade the major or minor DB engine version, change \n            database parameters, or make schema changes in the staging environment. You can thoroughly test \n            changes in the green environment. When ready, you can switch over the environments to promote the \n            green environment to be the new production environment. The switchover typically takes under a minute.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html\">Using Amazon RDS Blue/Green Deployments \n            for database updates</a> in the <i>Amazon RDS User Guide</i> and \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html\">\n            Using Amazon RDS Blue/Green Deployments for database updates</a> in the <i>Amazon Aurora \n            User Guide</i>.</p>"
+                "smithy.api#documentation": "<p>Creates a blue/green deployment.</p>\n         <p>A blue/green deployment creates a staging environment that copies the production environment. \n            In a blue/green deployment, the blue environment is the current production environment. \n            The green environment is the staging environment, and it stays in sync \n            with the current production environment.</p>\n         <p>You can make changes to the databases in the green environment without affecting \n            production workloads. For example, you can upgrade the major or minor DB engine version, change \n            database parameters, or make schema changes in the staging environment. You can thoroughly test \n            changes in the green environment. When ready, you can switch over the environments to promote the \n            green environment to be the new production environment. The switchover typically takes under a minute.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html\">Using Amazon RDS Blue/Green Deployments \n            for database updates</a> in the <i>Amazon RDS User Guide</i> and \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html\">\n            Using Amazon RDS Blue/Green Deployments for database updates</a> in the <i>Amazon Aurora \n            User Guide</i>.</p>"
             }
         },
         "com.amazonaws.rds#CreateBlueGreenDeploymentRequest": {
@@ -3743,6 +3743,30 @@
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
                         "smithy.api#documentation": "<p>Whether to upgrade the storage file system configuration on the green database. This\n            option migrates the green DB instance from the older 32-bit file system to the preferred\n            configuration. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.UpgradeFileSystem\">Upgrading the storage file system for a DB instance</a>.</p>"
+                    }
+                },
+                "TargetIops": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The amount of Provisioned IOPS (input/output operations per second) to allocate for the green DB instance.\n            For information about valid IOPS values, see \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html\">Amazon RDS DB instance storage</a> \n            in the <i>Amazon RDS User Guide</i>.</p>\n         <p>This setting doesn't apply to Amazon Aurora blue/green deployments.</p>"
+                    }
+                },
+                "TargetStorageType": {
+                    "target": "com.amazonaws.rds#TargetStorageType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The storage type to associate with the green DB instance.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | io2</code>\n         </p>\n         <p>This setting doesn't apply to Amazon Aurora blue/green deployments.</p>"
+                    }
+                },
+                "TargetAllocatedStorage": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The amount of storage in gibibytes (GiB) to allocate for the green DB instance. You can choose to\n            increase or decrease the allocated storage on the green DB instance.</p>\n         <p>This setting doesn't apply to Amazon Aurora blue/green deployments.</p>"
+                    }
+                },
+                "TargetStorageThroughput": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The storage throughput value for the green DB instance.</p>\n         <p>This setting applies only to the <code>gp3</code> storage type.</p>\n         <p>This setting doesn't apply to Amazon Aurora blue/green deployments.</p>"
                     }
                 }
             },
@@ -4447,6 +4471,12 @@
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. \n            An example is <code>arn:aws:iam:123456789012:role/emaccess</code>. For information on creating a monitoring role,\n            see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.html#USER_Monitoring.OS.Enabling\">Setting \n                up and enabling Enhanced Monitoring</a> in the <i>Amazon RDS User Guide</i>.</p>\n         <p>If <code>MonitoringInterval</code> is set to a value other than <code>0</code>, supply a <code>MonitoringRoleArn</code> value.</p>\n         <p>Valid for Cluster Type: Multi-AZ DB clusters only</p>"
                     }
                 },
+                "DatabaseInsightsMode": {
+                    "target": "com.amazonaws.rds#DatabaseInsightsMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the mode of Database Insights to enable for the cluster.</p>"
+                    }
+                },
                 "EnablePerformanceInsights": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
@@ -4926,7 +4956,7 @@
                 "DBName": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The meaning of this parameter differs according to the database engine you use.</p>\n         <dl>\n            <dt>Amazon Aurora MySQL</dt>\n            <dd>\n               <p>The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is\n                  created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created \n                  in the DB cluster.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon Aurora PostgreSQL</dt>\n            <dd>\n               <p>The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is\n                    created. A database named <code>postgres</code> is always created. If this parameter is specified, an additional database with this name is created.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>It must contain 1 to 63 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits\n                          (0 to 9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon RDS Custom for Oracle</dt>\n            <dd>\n               <p>The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't specify a value, the default value is <code>ORCL</code> for non-CDBs and\n                <code>RDSCDB</code> for CDBs.</p>\n               <p>Default: <code>ORCL</code>\n               </p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 8 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Must contain a letter.</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon RDS Custom for SQL Server</dt>\n            <dd>\n               <p>Not applicable. Must be null.</p>\n            </dd>\n            <dt>RDS for Db2</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If\n                        this parameter isn't specified, no database is created in the DB instance.\n                        In some cases, we recommend that you don't add a database name. For more\n                        information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-db-instance-prereqs.html#db2-prereqs-additional-considerations\">Additional considerations</a> in the <i>Amazon RDS User\n                            Guide</i>.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters,\n                                underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MariaDB</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MySQL</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for Oracle</dt>\n            <dd>\n               <p>The Oracle System ID (SID) of the created DB instance. If you don't specify a value, \n                    the default value is <code>ORCL</code>. You can't specify the \n                    string <code>null</code>, or any other reserved word, for <code>DBName</code>.</p>\n               <p>Default: <code>ORCL</code>\n               </p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Can't be longer than 8 characters.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for PostgreSQL</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. A database named <code>postgres</code> is always created. If this parameter is specified, an additional database with this name is created.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 63 letters, numbers, or underscores.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for SQL Server</dt>\n            <dd>\n               <p>Not applicable. Must be null.</p>\n            </dd>\n         </dl>"
+                        "smithy.api#documentation": "<p>The meaning of this parameter differs according to the database engine you use.</p>\n         <dl>\n            <dt>Amazon Aurora MySQL</dt>\n            <dd>\n               <p>The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is\n                  created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created \n                  in the DB cluster.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon Aurora PostgreSQL</dt>\n            <dd>\n               <p>The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is\n                    created. A database named <code>postgres</code> is always created. If this parameter is specified, an additional database with this name is created.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>It must contain 1 to 63 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits\n                          (0 to 9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon RDS Custom for Oracle</dt>\n            <dd>\n               <p>The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't specify a value, the default value is <code>ORCL</code> for non-CDBs and\n                <code>RDSCDB</code> for CDBs.</p>\n               <p>Default: <code>ORCL</code>\n               </p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 8 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Must contain a letter.</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon RDS Custom for SQL Server</dt>\n            <dd>\n               <p>Not applicable. Must be null.</p>\n            </dd>\n            <dt>RDS for Db2</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If\n                        this parameter isn't specified, no database is created in the DB instance.\n                        In some cases, we recommend that you don't add a database name. For more\n                        information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-db-instance-prereqs.html#db2-prereqs-additional-considerations\">Additional considerations</a> in the <i>Amazon RDS User\n                            Guide</i>.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters,\n                                underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MariaDB</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MySQL</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for Oracle</dt>\n            <dd>\n               <p>The Oracle System ID (SID) of the created DB instance. If you don't specify a value, \n                    the default value is <code>ORCL</code>. You can't specify the \n                    string <code>null</code>, or any other reserved word, for <code>DBName</code>.</p>\n               <p>Default: <code>ORCL</code>\n               </p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Can't be longer than 8 characters.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for PostgreSQL</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. A database named <code>postgres</code> is always created. If this parameter is specified, an additional database with this name is created.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 63 letters, numbers, or underscores.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for SQL Server</dt>\n            <dd>\n               <p>Not applicable. Must be null.</p>\n            </dd>\n         </dl>"
                     }
                 },
                 "DBInstanceIdentifier": {
@@ -5191,6 +5221,12 @@
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access Management\n            (IAM) accounts to database accounts. By default, mapping isn't enabled.</p>\n         <p>For more information, see \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html\">\n                IAM Database Authentication for MySQL and PostgreSQL</a> in the <i>Amazon RDS User Guide</i>.</p>\n         <p>This setting doesn't apply to the following DB instances:</p>\n         <ul>\n            <li>\n               <p>Amazon Aurora (Mapping Amazon Web Services IAM accounts to database accounts is managed by the DB cluster.)</p>\n            </li>\n            <li>\n               <p>RDS Custom</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "DatabaseInsightsMode": {
+                    "target": "com.amazonaws.rds#DatabaseInsightsMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the mode of Database Insights to enable for the instance.</p>"
                     }
                 },
                 "EnablePerformanceInsights": {
@@ -5544,6 +5580,12 @@
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access Management\n            (IAM) accounts to database accounts. By default, mapping isn't enabled.</p>\n         <p>For more information about IAM database authentication, see \n          <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html\">\n              IAM Database Authentication for MySQL and PostgreSQL</a> in the <i>Amazon RDS User Guide</i>.</p>\n         <p>This setting doesn't apply to RDS Custom DB instances.</p>"
+                    }
+                },
+                "DatabaseInsightsMode": {
+                    "target": "com.amazonaws.rds#DatabaseInsightsMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the mode of Database Insights.</p>"
                     }
                 },
                 "EnablePerformanceInsights": {
@@ -7495,6 +7537,12 @@
                         "smithy.api#documentation": "<p>The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.</p>\n         <p>This setting is only for non-Aurora Multi-AZ DB clusters.</p>"
                     }
                 },
+                "DatabaseInsightsMode": {
+                    "target": "com.amazonaws.rds#DatabaseInsightsMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The mode of Database Insights that is enabled for the cluster.</p>"
+                    }
+                },
                 "PerformanceInsightsEnabled": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
@@ -8954,6 +9002,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Indicates whether the DB engine version supports zero-ETL integrations with\n            Amazon Redshift.</p>"
                     }
+                },
+                "ServerlessV2FeaturesSupport": {
+                    "target": "com.amazonaws.rds#ServerlessV2FeaturesSupport",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions.\n        You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded\n        DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version\n        supports certain Aurora Serverless v2 features before you attempt to use those features.\n      </p>"
+                    }
                 }
             },
             "traits": {
@@ -9303,6 +9357,12 @@
                     "target": "com.amazonaws.rds#Boolean",
                     "traits": {
                         "smithy.api#documentation": "<p>Indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled for the DB instance.</p>\n         <p>For a list of engine versions that support IAM database authentication, see \n              <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RDS_Fea_Regions_DB-eng.Feature.IamDatabaseAuthentication.html\">IAM database authentication</a>\n              in the <i>Amazon RDS User Guide</i> and <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.Aurora_Fea_Regions_DB-eng.Feature.IAMdbauth.html\">IAM \n              database authentication in Aurora</a> in the <i>Amazon Aurora User Guide</i>.</p>"
+                    }
+                },
+                "DatabaseInsightsMode": {
+                    "target": "com.amazonaws.rds#DatabaseInsightsMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The mode of Database Insights that is enabled for the instance.</p>"
                     }
                 },
                 "PerformanceInsightsEnabled": {
@@ -9854,6 +9914,23 @@
                 "smithy.api#documentation": "<p>\n            <code>DBInstanceIdentifier</code> doesn't refer to an existing DB instance.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 404
+            }
+        },
+        "com.amazonaws.rds#DBInstanceNotReadyFault": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.rds#ExceptionMessage"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "DBInstanceNotReady",
+                    "httpResponseCode": 503
+                },
+                "smithy.api#documentation": "<p>An attempt to download or examine log files didn't succeed because an Aurora Serverless v2 instance was paused.</p>",
+                "smithy.api#error": "server",
+                "smithy.api#httpError": 503
             }
         },
         "com.amazonaws.rds#DBInstanceRole": {
@@ -11179,6 +11256,9 @@
                 "TagList": {
                     "target": "com.amazonaws.rds#TagList"
                 }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains the details for an Amazon RDS DB shard group.</p>"
             }
         },
         "com.amazonaws.rds#DBShardGroupAlreadyExistsFault": {
@@ -11914,6 +11994,23 @@
                     "max": 2048
                 },
                 "smithy.api#pattern": "^arn:[A-Za-z][0-9A-Za-z-:._]*$"
+            }
+        },
+        "com.amazonaws.rds#DatabaseInsightsMode": {
+            "type": "enum",
+            "members": {
+                "STANDARD": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "standard"
+                    }
+                },
+                "ADVANCED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "advanced"
+                    }
+                }
             }
         },
         "com.amazonaws.rds#DeleteBlueGreenDeployment": {
@@ -15101,6 +15198,9 @@
             "errors": [
                 {
                     "target": "com.amazonaws.rds#DBInstanceNotFoundFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#DBInstanceNotReadyFault"
                 }
             ],
             "traits": {
@@ -18304,7 +18404,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, \n        use the <code>EnableHttpEndpoint</code> parameter of the <code>ModifyDBCluster</code> operation.</p>\n         </note>"
+                "smithy.api#documentation": "<p>Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, \n        use the <code>EnableHttpEndpoint</code> parameter of the <code>ModifyDBCluster</code> operation.</p>\n         </note>"
             }
         },
         "com.amazonaws.rds#DisableHttpEndpointRequest": {
@@ -18493,6 +18593,9 @@
                     "target": "com.amazonaws.rds#DBInstanceNotFoundFault"
                 },
                 {
+                    "target": "com.amazonaws.rds#DBInstanceNotReadyFault"
+                },
+                {
                     "target": "com.amazonaws.rds#DBLogFileNotFoundFault"
                 }
             ],
@@ -18654,7 +18757,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint \n          isn't enabled.</p>\n         <p>When enabled, this endpoint provides a connectionless web service API (RDS Data API) \n          for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console \n          with the RDS query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters, \n        use the <code>EnableHttpEndpoint</code> parameter of the <code>ModifyDBCluster</code> operation.</p>\n         </note>"
+                "smithy.api#documentation": "<p>Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint \n          isn't enabled.</p>\n         <p>When enabled, this endpoint provides a connectionless web service API (RDS Data API) \n          for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console \n          with the RDS query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters, \n        use the <code>EnableHttpEndpoint</code> parameter of the <code>ModifyDBCluster</code> operation.</p>\n         </note>"
             }
         },
         "com.amazonaws.rds#EnableHttpEndpointRequest": {
@@ -21606,7 +21709,7 @@
                 "ApplyImmediately": {
                     "target": "com.amazonaws.rds#Boolean",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether the modifications in this request and any pending modifications are \n            asynchronously applied as soon as possible, regardless of the <code>PreferredMaintenanceWindow</code> setting \n            for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next \n            maintenance window.</p>\n         <p>Most modifications can be applied immediately or during the next scheduled maintenance window. Some \n            modifications, such as turning on deletion protection and changing the master password, are applied \n            immediately—regardless of when you choose to apply them.</p>\n         <p>By default, this parameter is disabled.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>"
+                        "smithy.api#documentation": "<p>Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the \n            <code>PreferredMaintenanceWindow</code> setting for the DB cluster. If this parameter is disabled, changes to the DB cluster \n            are applied during the next maintenance window.</p>\n         <p>Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as \n            turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them.</p>\n         <p>By default, this parameter is disabled.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>"
                     }
                 },
                 "BackupRetentionPeriod": {
@@ -21720,7 +21823,7 @@
                 "EnableHttpEndpoint": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint \n            isn't enabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running\n            SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database\n            from inside the RDS console with the RDS query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora PostgreSQL \n        Serverless v2 or provisioned DB cluster, use the <code>EnableHttpEndpoint</code> and <code>DisableHttpEndpoint</code> operations.</p>\n         </note>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint \n            isn't enabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running\n            SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database\n            from inside the RDS console with the RDS query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora\n        Serverless v2 or provisioned DB cluster, use the <code>EnableHttpEndpoint</code> and <code>DisableHttpEndpoint</code> operations.</p>\n         </note>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
                     }
                 },
                 "CopyTagsToSnapshot": {
@@ -21775,6 +21878,12 @@
                     "target": "com.amazonaws.rds#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An\n            example is <code>arn:aws:iam:123456789012:role/emaccess</code>. For information on creating a monitoring role,\n            see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.html#USER_Monitoring.OS.IAMRole\">To \n                create an IAM role for Amazon RDS Enhanced Monitoring</a> in the <i>Amazon RDS User Guide.</i>\n         </p>\n         <p>If <code>MonitoringInterval</code> is set to a value other than <code>0</code>, supply a <code>MonitoringRoleArn</code> value.</p>\n         <p>Valid for Cluster Type: Multi-AZ DB clusters only</p>"
+                    }
+                },
+                "DatabaseInsightsMode": {
+                    "target": "com.amazonaws.rds#DatabaseInsightsMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the mode of Database Insights to enable for the cluster.</p>"
                     }
                 },
                 "EnablePerformanceInsights": {
@@ -22394,6 +22503,12 @@
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies whether to enable mapping of Amazon Web Services Identity and Access Management\n            (IAM) accounts to database accounts. By default, mapping isn't enabled.</p>\n         <p>This setting doesn't apply to Amazon Aurora. Mapping Amazon Web Services IAM accounts to database accounts is managed by the DB\n          cluster.</p>\n         <p>For more information about IAM database authentication, see \n          <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html\">\n              IAM Database Authentication for MySQL and PostgreSQL</a> in the <i>Amazon RDS User Guide.</i>\n         </p>\n         <p>This setting doesn't apply to RDS Custom DB instances.</p>"
+                    }
+                },
+                "DatabaseInsightsMode": {
+                    "target": "com.amazonaws.rds#DatabaseInsightsMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the mode of Database Insights to enable for the instance.</p>"
                     }
                 },
                 "EnablePerformanceInsights": {
@@ -28510,6 +28625,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "DatabaseInsightsMode": {
+                    "target": "com.amazonaws.rds#DatabaseInsightsMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the mode of Database Insights to enable for the instance.</p>"
+                    }
+                },
                 "EnablePerformanceInsights": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
@@ -29357,19 +29478,45 @@
                 "smithy.api#sensitive": {}
             }
         },
+        "com.amazonaws.rds#ServerlessV2FeaturesSupport": {
+            "type": "structure",
+            "members": {
+                "MinCapacity": {
+                    "target": "com.amazonaws.rds#DoubleOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If the minimum capacity is 0 ACUs, the engine version supports the automatic pause/resume\n         feature of Aurora Serverless v2.</p>"
+                    }
+                },
+                "MaxCapacity": {
+                    "target": "com.amazonaws.rds#DoubleOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version.\n         Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be\n         <code>256</code> or <code>128</code>.\n         </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions.\n        You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded\n        DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version\n        supports certain Aurora Serverless v2 features before you attempt to use those features.\n      </p>"
+            }
+        },
         "com.amazonaws.rds#ServerlessV2ScalingConfiguration": {
             "type": "structure",
             "members": {
                 "MinCapacity": {
                     "target": "com.amazonaws.rds#DoubleOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster.\n            You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. The smallest value\n            that you can use is 0.5.</p>"
+                        "smithy.api#documentation": "<p>The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster.\n            You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on.\n            For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0.\n            For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.\n        </p>"
                     }
                 },
                 "MaxCapacity": {
                     "target": "com.amazonaws.rds#DoubleOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster.\n            You can specify ACU values in half-step increments, such as 40, 40.5, 41, and so on. The largest value\n            that you can use is 128.</p>"
+                        "smithy.api#documentation": "<p>The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster.\n            You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value\n            that you can use is 256 for recent Aurora versions, or 128 for older versions.</p>"
+                    }
+                },
+                "SecondsUntilAutoPause": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the number of seconds an Aurora Serverless v2 DB instance must be idle before\n         Aurora attempts to automatically pause it.\n       </p>\n         <p>Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds.</p>"
                     }
                 }
             },
@@ -29383,13 +29530,19 @@
                 "MinCapacity": {
                     "target": "com.amazonaws.rds#DoubleOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster.\n            You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. The smallest value\n            that you can use is 0.5.</p>"
+                        "smithy.api#documentation": "<p>The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster.\n            You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on.\n            For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0.\n            For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.\n        </p>"
                     }
                 },
                 "MaxCapacity": {
                     "target": "com.amazonaws.rds#DoubleOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster.\n            You can specify ACU values in half-step increments, such as 40, 40.5, 41, and so on. The largest value\n            that you can use is 128.</p>"
+                        "smithy.api#documentation": "<p>The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster.\n            You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value\n            that you can use is 256 for recent Aurora versions, or 128 for older versions.</p>"
+                    }
+                },
+                "SecondsUntilAutoPause": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n         The number of seconds an Aurora Serverless v2 DB instance must be idle before\n         Aurora attempts to automatically pause it.\n         This property is only shown when the minimum capacity for the cluster is set to 0 ACUs.\n         Changing the minimum capacity to a nonzero value removes this property. If you later\n         change the minimum capacity back to 0 ACUs, this property is reset to its default value\n         unless you specify it again.\n       </p>\n         <p>This value ranges between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds.</p>"
                     }
                 }
             },
@@ -31093,6 +31246,9 @@
                     }
                 }
             }
+        },
+        "com.amazonaws.rds#TargetStorageType": {
+            "type": "string"
         },
         "com.amazonaws.rds#TargetType": {
             "type": "enum",

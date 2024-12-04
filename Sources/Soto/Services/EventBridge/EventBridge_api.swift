@@ -236,7 +236,7 @@ public struct EventBridge: AWSService {
         return try await self.createArchive(input, logger: logger)
     }
 
-    /// Creates a connection. A connection defines the authorization type and credentials to use for authorization with an API destination HTTP endpoint.
+    /// Creates a connection. A connection defines the authorization type and credentials to use for authorization with an API destination HTTP endpoint. For more information, see Connections for endpoint targets in the Amazon EventBridge User Guide.
     @Sendable
     @inlinable
     public func createConnection(_ input: CreateConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionResponse {
@@ -249,12 +249,13 @@ public struct EventBridge: AWSService {
             logger: logger
         )
     }
-    /// Creates a connection. A connection defines the authorization type and credentials to use for authorization with an API destination HTTP endpoint.
+    /// Creates a connection. A connection defines the authorization type and credentials to use for authorization with an API destination HTTP endpoint. For more information, see Connections for endpoint targets in the Amazon EventBridge User Guide.
     ///
     /// Parameters:
     ///   - authorizationType: The type of authorization to use for the connection.  OAUTH tokens are refreshed when a 401 or 407 response is returned.
-    ///   - authParameters: A CreateConnectionAuthRequestParameters object that contains the authorization parameters to use to authorize with the endpoint.
+    ///   - authParameters: The authorization parameters to use to authorize with the endpoint.  You must include only authorization parameters for the AuthorizationType you specify.
     ///   - description: A description for the connection to create.
+    ///   - invocationConnectivityParameters: For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see Connecting to private resources in the  Amazon EventBridge User Guide .
     ///   - name: The name for the connection to create.
     ///   - logger: Logger use during operation
     @inlinable
@@ -262,6 +263,7 @@ public struct EventBridge: AWSService {
         authorizationType: ConnectionAuthorizationType,
         authParameters: CreateConnectionAuthRequestParameters,
         description: String? = nil,
+        invocationConnectivityParameters: ConnectivityResourceParameters? = nil,
         name: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateConnectionResponse {
@@ -269,6 +271,7 @@ public struct EventBridge: AWSService {
             authorizationType: authorizationType, 
             authParameters: authParameters, 
             description: description, 
+            invocationConnectivityParameters: invocationConnectivityParameters, 
             name: name
         )
         return try await self.createConnection(input, logger: logger)
@@ -1014,7 +1017,7 @@ public struct EventBridge: AWSService {
     ///   - connectionArn: The ARN of the connection specified for the API destination.
     ///   - limit: The maximum number of API destinations to include in the response.
     ///   - namePrefix: A name prefix to filter results returned. Only API destinations with a name that starts with the prefix are returned.
-    ///   - nextToken: The token returned by a previous call to retrieve the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listApiDestinations(
@@ -1052,7 +1055,7 @@ public struct EventBridge: AWSService {
     ///   - eventSourceArn: The ARN of the event source associated with the archive.
     ///   - limit: The maximum number of results to return.
     ///   - namePrefix: A name prefix to filter the archives returned. Only archives with name that match the prefix are returned.
-    ///   - nextToken: The token returned by a previous call to retrieve the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - state: The state of the archive.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1093,7 +1096,7 @@ public struct EventBridge: AWSService {
     ///   - connectionState: The state of the connection.
     ///   - limit: The maximum number of connections to return.
     ///   - namePrefix: A name prefix to filter results returned. Only connections with a name that starts with the prefix are returned.
-    ///   - nextToken: The token returned by a previous call to retrieve the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listConnections(
@@ -1131,7 +1134,7 @@ public struct EventBridge: AWSService {
     ///   - homeRegion: The primary Region of the endpoints associated with this account. For example "HomeRegion": "us-east-1".
     ///   - maxResults: The maximum number of results returned by the call.
     ///   - namePrefix: A value that will return a subset of the endpoints associated with this account. For example, "NamePrefix": "ABC" will return all endpoints with "ABC" in the name.
-    ///   - nextToken: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEndpoints(
@@ -1168,7 +1171,7 @@ public struct EventBridge: AWSService {
     /// Parameters:
     ///   - limit: Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
     ///   - namePrefix: Specifying this limits the results to only those event buses with names that start with the specified prefix.
-    ///   - nextToken: The token returned by a previous call to retrieve the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEventBuses(
@@ -1203,7 +1206,7 @@ public struct EventBridge: AWSService {
     /// Parameters:
     ///   - limit: Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
     ///   - namePrefix: Specifying this limits the results to only those partner event sources with names that start with the specified prefix.
-    ///   - nextToken: The token returned by a previous call to retrieve the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEventSources(
@@ -1238,7 +1241,7 @@ public struct EventBridge: AWSService {
     /// Parameters:
     ///   - eventSourceName: The name of the partner event source to display account information about.
     ///   - limit: Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
-    ///   - nextToken: The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPartnerEventSourceAccounts(
@@ -1273,7 +1276,7 @@ public struct EventBridge: AWSService {
     /// Parameters:
     ///   - limit: pecifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
     ///   - namePrefix: If you specify this, the results are limited to only those partner event sources that start with the string you specify.
-    ///   - nextToken: The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPartnerEventSources(
@@ -1309,7 +1312,7 @@ public struct EventBridge: AWSService {
     ///   - eventSourceArn: The ARN of the archive from which the events are replayed.
     ///   - limit: The maximum number of replays to retrieve.
     ///   - namePrefix: A name prefix to filter the replays returned. Only replays with name that match the prefix are returned.
-    ///   - nextToken: The token returned by a previous call to retrieve the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - state: The state of the replay.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1349,7 +1352,7 @@ public struct EventBridge: AWSService {
     /// Parameters:
     ///   - eventBusName: The name or ARN of the event bus to list rules for. If you omit this, the default event bus is used.
     ///   - limit: The maximum number of results to return.
-    ///   - nextToken: The token returned by a previous call to retrieve the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - targetArn: The Amazon Resource Name (ARN) of the target resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1388,7 +1391,7 @@ public struct EventBridge: AWSService {
     ///   - eventBusName: The name or ARN of the event bus to list the rules for. If you omit this, the default event bus is used.
     ///   - limit: The maximum number of results to return.
     ///   - namePrefix: The prefix matching the rule name.
-    ///   - nextToken: The token returned by a previous call to retrieve the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - logger: Logger use during operation
     @inlinable
     public func listRules(
@@ -1454,7 +1457,7 @@ public struct EventBridge: AWSService {
     /// Parameters:
     ///   - eventBusName: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
     ///   - limit: The maximum number of results to return.
-    ///   - nextToken: The token returned by a previous call to retrieve the next set of results.
+    ///   - nextToken: The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     ///   - rule: The name of the rule.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1474,7 +1477,7 @@ public struct EventBridge: AWSService {
         return try await self.listTargetsByRule(input, logger: logger)
     }
 
-    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including the event and any necessary characters and keys of the JSON representation of the event. To learn more, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide   PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1100 levels deep.
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including the event and any necessary characters and keys of the JSON representation of the event. To learn more, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide   PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1000 levels deep.
     @Sendable
     @inlinable
     public func putEvents(_ input: PutEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEventsResponse {
@@ -1487,7 +1490,7 @@ public struct EventBridge: AWSService {
             logger: logger
         )
     }
-    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including the event and any necessary characters and keys of the JSON representation of the event. To learn more, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide   PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1100 levels deep.
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including the event and any necessary characters and keys of the JSON representation of the event. To learn more, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide   PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1000 levels deep.
     ///
     /// Parameters:
     ///   - endpointId: The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When using Java, you must include auth-crt on the class path.
@@ -1535,7 +1538,7 @@ public struct EventBridge: AWSService {
         return try await self.putPartnerEvents(input, logger: logger)
     }
 
-    /// Running PutPermission permits the specified Amazon Web Services account or Amazon Web Services organization to put events to the specified event bus. Amazon EventBridge (CloudWatch Events) rules in your account are triggered by these events arriving to an event bus in your account.  For another account to send events to your account, that external account must have an EventBridge rule with your account's event bus as a target. To enable multiple Amazon Web Services accounts to put events to your event bus, run PutPermission once for each of these accounts. Or, if all the accounts are members of the same Amazon Web Services organization, you can run PutPermission once specifying Principal as "*" and specifying the Amazon Web Services organization ID in Condition, to grant permissions to all accounts in that organization. If you grant permissions using an organization, then accounts in that organization must specify a RoleArn with proper permissions when they use PutTarget to add your account's event bus as a target. For more information, see Sending and Receiving Events Between Amazon Web Services Accounts in the Amazon EventBridge User Guide. The permission policy on the event bus cannot exceed 10 KB in size.
+    /// Running PutPermission permits the specified Amazon Web Services account or Amazon Web Services organization to put events to the specified event bus. Amazon EventBridge rules in your account are triggered by these events arriving to an event bus in your account.  For another account to send events to your account, that external account must have an EventBridge rule with your account's event bus as a target. To enable multiple Amazon Web Services accounts to put events to your event bus, run PutPermission once for each of these accounts. Or, if all the accounts are members of the same Amazon Web Services organization, you can run PutPermission once specifying Principal as "*" and specifying the Amazon Web Services organization ID in Condition, to grant permissions to all accounts in that organization. If you grant permissions using an organization, then accounts in that organization must specify a RoleArn with proper permissions when they use PutTarget to add your account's event bus as a target. For more information, see Sending and Receiving Events Between Amazon Web Services Accounts in the Amazon EventBridge User Guide. The permission policy on the event bus cannot exceed 10 KB in size.
     @Sendable
     @inlinable
     public func putPermission(_ input: PutPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1548,7 +1551,7 @@ public struct EventBridge: AWSService {
             logger: logger
         )
     }
-    /// Running PutPermission permits the specified Amazon Web Services account or Amazon Web Services organization to put events to the specified event bus. Amazon EventBridge (CloudWatch Events) rules in your account are triggered by these events arriving to an event bus in your account.  For another account to send events to your account, that external account must have an EventBridge rule with your account's event bus as a target. To enable multiple Amazon Web Services accounts to put events to your event bus, run PutPermission once for each of these accounts. Or, if all the accounts are members of the same Amazon Web Services organization, you can run PutPermission once specifying Principal as "*" and specifying the Amazon Web Services organization ID in Condition, to grant permissions to all accounts in that organization. If you grant permissions using an organization, then accounts in that organization must specify a RoleArn with proper permissions when they use PutTarget to add your account's event bus as a target. For more information, see Sending and Receiving Events Between Amazon Web Services Accounts in the Amazon EventBridge User Guide. The permission policy on the event bus cannot exceed 10 KB in size.
+    /// Running PutPermission permits the specified Amazon Web Services account or Amazon Web Services organization to put events to the specified event bus. Amazon EventBridge rules in your account are triggered by these events arriving to an event bus in your account.  For another account to send events to your account, that external account must have an EventBridge rule with your account's event bus as a target. To enable multiple Amazon Web Services accounts to put events to your event bus, run PutPermission once for each of these accounts. Or, if all the accounts are members of the same Amazon Web Services organization, you can run PutPermission once specifying Principal as "*" and specifying the Amazon Web Services organization ID in Condition, to grant permissions to all accounts in that organization. If you grant permissions using an organization, then accounts in that organization must specify a RoleArn with proper permissions when they use PutTarget to add your account's event bus as a target. For more information, see Sending and Receiving Events Between Amazon Web Services Accounts in the Amazon EventBridge User Guide. The permission policy on the event bus cannot exceed 10 KB in size.
     ///
     /// Parameters:
     ///   - action: The action that you are enabling the other account to perform.
@@ -1579,7 +1582,7 @@ public struct EventBridge: AWSService {
         return try await self.putPermission(input, logger: logger)
     }
 
-    /// Creates or updates the specified rule. Rules are enabled by default, or based on value of the state. You can disable a rule using DisableRule. A single rule watches for events from a single event bus. Events generated by Amazon Web Services services go to your account's default event bus. Events generated by SaaS partner services or applications go to the matching partner event bus. If you have custom applications or services, you can specify whether their events go to your default event bus or a custom event bus that you have created. For more information, see CreateEventBus. If you are updating an existing rule, the rule is replaced with what you specify in this PutRule command. If you omit arguments in PutRule, the old values for those arguments are not kept. Instead, they are replaced with null values. When you create or update a rule, incoming events might not immediately start matching to new or updated rules. Allow a short period of time for changes to take effect. A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule triggers on matching events as well as on a schedule. When you initially create a rule, you can optionally assign one or more tags to the rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only rules with certain tag values. To use the PutRule operation and assign tags, you must have both the events:PutRule and events:TagResource permissions. If you are updating an existing rule, any tags you specify in the PutRule operation are ignored. To update the tags of an existing rule, use TagResource and UntagResource. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. In EventBridge, it is possible to create rules that lead to infinite loops, where a rule is fired repeatedly. For example, a rule might detect that ACLs have changed on an S3 bucket, and trigger software to change them to the desired state. If the rule is not written carefully, the subsequent change to the ACLs fires the rule again, creating an infinite loop. To prevent this, write the rules so that the triggered actions do not re-fire the same rule. For example, your rule could fire only if ACLs are found to be in a bad state, instead of after any change.  An infinite loop can quickly cause higher than expected charges. We recommend that you use budgeting, which alerts you when charges exceed your specified limit. For more information, see Managing Your Costs with Budgets.
+    /// Creates or updates the specified rule. Rules are enabled by default, or based on value of the state. You can disable a rule using DisableRule. A single rule watches for events from a single event bus. Events generated by Amazon Web Services services go to your account's default event bus. Events generated by SaaS partner services or applications go to the matching partner event bus. If you have custom applications or services, you can specify whether their events go to your default event bus or a custom event bus that you have created. For more information, see CreateEventBus. If you are updating an existing rule, the rule is replaced with what you specify in this PutRule command. If you omit arguments in PutRule, the old values for those arguments are not kept. Instead, they are replaced with null values. When you create or update a rule, incoming events might not immediately start matching to new or updated rules. Allow a short period of time for changes to take effect. A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule triggers on matching events as well as on a schedule. When you initially create a rule, you can optionally assign one or more tags to the rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only rules with certain tag values. To use the PutRule operation and assign tags, you must have both the events:PutRule and events:TagResource permissions. If you are updating an existing rule, any tags you specify in the PutRule operation are ignored. To update the tags of an existing rule, use TagResource and UntagResource. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. In EventBridge, it is possible to create rules that lead to infinite loops, where a rule is fired repeatedly. For example, a rule might detect that ACLs have changed on an S3 bucket, and trigger software to change them to the desired state. If the rule is not written carefully, the subsequent change to the ACLs fires the rule again, creating an infinite loop. To prevent this, write the rules so that the triggered actions do not re-fire the same rule. For example, your rule could fire only if ACLs are found to be in a bad state, instead of after any change.  An infinite loop can quickly cause higher than expected charges. We recommend that you use budgeting, which alerts you when charges exceed your specified limit. For more information, see Managing Your Costs with Budgets. To create a rule that filters for management events from Amazon Web Services services, see  Receiving read-only management events from Amazon Web Services services in the  EventBridge User Guide.
     @Sendable
     @inlinable
     public func putRule(_ input: PutRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRuleResponse {
@@ -1592,7 +1595,7 @@ public struct EventBridge: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates the specified rule. Rules are enabled by default, or based on value of the state. You can disable a rule using DisableRule. A single rule watches for events from a single event bus. Events generated by Amazon Web Services services go to your account's default event bus. Events generated by SaaS partner services or applications go to the matching partner event bus. If you have custom applications or services, you can specify whether their events go to your default event bus or a custom event bus that you have created. For more information, see CreateEventBus. If you are updating an existing rule, the rule is replaced with what you specify in this PutRule command. If you omit arguments in PutRule, the old values for those arguments are not kept. Instead, they are replaced with null values. When you create or update a rule, incoming events might not immediately start matching to new or updated rules. Allow a short period of time for changes to take effect. A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule triggers on matching events as well as on a schedule. When you initially create a rule, you can optionally assign one or more tags to the rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only rules with certain tag values. To use the PutRule operation and assign tags, you must have both the events:PutRule and events:TagResource permissions. If you are updating an existing rule, any tags you specify in the PutRule operation are ignored. To update the tags of an existing rule, use TagResource and UntagResource. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. In EventBridge, it is possible to create rules that lead to infinite loops, where a rule is fired repeatedly. For example, a rule might detect that ACLs have changed on an S3 bucket, and trigger software to change them to the desired state. If the rule is not written carefully, the subsequent change to the ACLs fires the rule again, creating an infinite loop. To prevent this, write the rules so that the triggered actions do not re-fire the same rule. For example, your rule could fire only if ACLs are found to be in a bad state, instead of after any change.  An infinite loop can quickly cause higher than expected charges. We recommend that you use budgeting, which alerts you when charges exceed your specified limit. For more information, see Managing Your Costs with Budgets.
+    /// Creates or updates the specified rule. Rules are enabled by default, or based on value of the state. You can disable a rule using DisableRule. A single rule watches for events from a single event bus. Events generated by Amazon Web Services services go to your account's default event bus. Events generated by SaaS partner services or applications go to the matching partner event bus. If you have custom applications or services, you can specify whether their events go to your default event bus or a custom event bus that you have created. For more information, see CreateEventBus. If you are updating an existing rule, the rule is replaced with what you specify in this PutRule command. If you omit arguments in PutRule, the old values for those arguments are not kept. Instead, they are replaced with null values. When you create or update a rule, incoming events might not immediately start matching to new or updated rules. Allow a short period of time for changes to take effect. A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule triggers on matching events as well as on a schedule. When you initially create a rule, you can optionally assign one or more tags to the rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only rules with certain tag values. To use the PutRule operation and assign tags, you must have both the events:PutRule and events:TagResource permissions. If you are updating an existing rule, any tags you specify in the PutRule operation are ignored. To update the tags of an existing rule, use TagResource and UntagResource. Most services in Amazon Web Services treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. In EventBridge, it is possible to create rules that lead to infinite loops, where a rule is fired repeatedly. For example, a rule might detect that ACLs have changed on an S3 bucket, and trigger software to change them to the desired state. If the rule is not written carefully, the subsequent change to the ACLs fires the rule again, creating an infinite loop. To prevent this, write the rules so that the triggered actions do not re-fire the same rule. For example, your rule could fire only if ACLs are found to be in a bad state, instead of after any change.  An infinite loop can quickly cause higher than expected charges. We recommend that you use budgeting, which alerts you when charges exceed your specified limit. For more information, see Managing Your Costs with Budgets. To create a rule that filters for management events from Amazon Web Services services, see  Receiving read-only management events from Amazon Web Services services in the  EventBridge User Guide.
     ///
     /// Parameters:
     ///   - description: A description of the rule.
@@ -1845,7 +1848,7 @@ public struct EventBridge: AWSService {
         return try await self.testEventPattern(input, logger: logger)
     }
 
-    /// Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge (CloudWatch Events), rules and event buses can be tagged.
+    /// Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge, rules and event buses can be tagged.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -1858,7 +1861,7 @@ public struct EventBridge: AWSService {
             logger: logger
         )
     }
-    /// Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge (CloudWatch Events), rules and event buses can be tagged.
+    /// Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge, rules and event buses can be tagged.
     ///
     /// Parameters:
     ///   - resourceARN: The ARN of the EventBridge resource from which you are removing tags.
@@ -1978,6 +1981,7 @@ public struct EventBridge: AWSService {
     ///   - authorizationType: The type of authorization to use for the connection.
     ///   - authParameters: The authorization parameters to use for the connection.
     ///   - description: A description for the connection.
+    ///   - invocationConnectivityParameters: For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see Connecting to private resources in the  Amazon EventBridge User Guide .
     ///   - name: The name of the connection to update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1985,6 +1989,7 @@ public struct EventBridge: AWSService {
         authorizationType: ConnectionAuthorizationType? = nil,
         authParameters: UpdateConnectionAuthRequestParameters? = nil,
         description: String? = nil,
+        invocationConnectivityParameters: ConnectivityResourceParameters? = nil,
         name: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateConnectionResponse {
@@ -1992,6 +1997,7 @@ public struct EventBridge: AWSService {
             authorizationType: authorizationType, 
             authParameters: authParameters, 
             description: description, 
+            invocationConnectivityParameters: invocationConnectivityParameters, 
             name: name
         )
         return try await self.updateConnection(input, logger: logger)

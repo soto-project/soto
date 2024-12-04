@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS IoTFleetWise service.
 ///
-/// Amazon Web Services IoT FleetWise is a fully managed service that you can use to collect, model, and transfer vehicle data to the Amazon Web Services cloud at scale. With Amazon Web Services IoT FleetWise, you can standardize all of your vehicle data models, independent of the in-vehicle communication architecture, and define data collection rules to transfer only high-value data to the cloud.  For more information, see What is Amazon Web Services IoT FleetWise? in the Amazon Web Services IoT FleetWise Developer Guide.
+/// Amazon Web Services IoT FleetWise is a fully managed service that you can use to collect, model, and transfer vehicle data to the Amazon Web Services cloud at scale. With Amazon Web Services IoT FleetWise, you can standardize all of your vehicle data models, independent of the in-vehicle communication architecture, and define data collection rules to transfer only high-value data to the cloud.  For more information, see What is Amazon Web Services IoT FleetWise? in the Amazon Web Services IoT FleetWise Developer Guide.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
 public struct IoTFleetWise: AWSService {
     // MARK: Member variables
 
@@ -170,7 +170,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.batchUpdateVehicle(input, logger: logger)
     }
 
-    /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles.  For more information, see Collect and transfer data with campaigns in the Amazon Web Services IoT FleetWise Developer Guide.
+    /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles.  For more information, see Collect and transfer data with campaigns in the Amazon Web Services IoT FleetWise Developer Guide.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
     @Sendable
     @inlinable
     public func createCampaign(_ input: CreateCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCampaignResponse {
@@ -183,22 +183,24 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles.  For more information, see Collect and transfer data with campaigns in the Amazon Web Services IoT FleetWise Developer Guide.
+    /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles.  For more information, see Collect and transfer data with campaigns in the Amazon Web Services IoT FleetWise Developer Guide.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// Parameters:
     ///   - collectionScheme:  The data collection scheme associated with the campaign. You can specify a scheme that collects data based on time or an event.
-    ///   - compression:  (Optional) Whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used.  Default: SNAPPY
-    ///   - dataDestinationConfigs: The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. Amazon Web Services IoT FleetWise supports at-least-once file delivery to S3. Your vehicle data is stored on multiple Amazon Web Services IoT FleetWise servers for redundancy and high availability. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
-    ///   - dataExtraDimensions:  (Optional) A list of vehicle attributes to associate with a campaign.  Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model. Default: An empty array
+    ///   - compression: Determines whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used.  Default: SNAPPY
+    ///   - dataDestinationConfigs: The destination where the campaign sends data. You can send data to an MQTT topic, or store it in Amazon S3 or Amazon Timestream. MQTT is the publish/subscribe messaging protocol used by Amazon Web Services IoT to communicate with your devices. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle  data, such as data lakes, centralized data storage, data processing pipelines, and analytics.  Amazon Web Services IoT FleetWise supports at-least-once file delivery to S3. Your vehicle data is stored on multiple  Amazon Web Services IoT FleetWise servers for redundancy and high availability. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
+    ///   - dataExtraDimensions: A list of vehicle attributes to associate with a campaign.  Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model. Default: An empty array
+    ///   - dataPartitions: The data partitions associated with the signals collected from the vehicle.
     ///   - description: An optional description of the campaign to help identify its purpose.
-    ///   - diagnosticsMode:  (Optional) Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
-    ///   - expiryTime:  (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires.  Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
+    ///   - diagnosticsMode: Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
+    ///   - expiryTime: The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires.  Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
     ///   - name:  The name of the campaign to create.
-    ///   - postTriggerCollectionDuration:  (Optional) How long (in milliseconds) to collect raw data after a triggering event initiates the collection. If it's not specified, 0 is used. Default: 0
+    ///   - postTriggerCollectionDuration: How long (in milliseconds) to collect raw data after a triggering event initiates the collection. If it's not specified, 0 is used. Default: 0
     ///   - signalCatalogArn: The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.
-    ///   - signalsToCollect: (Optional) A list of information about signals to collect.
-    ///   - spoolingMode: (Optional) Whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise. If you want to store collected data when a vehicle loses connection with the cloud, use TO_DISK. If it's not specified, OFF is used. Default: OFF
-    ///   - startTime: (Optional) The time, in milliseconds, to deliver a campaign after it was approved. If it's not specified, 0 is used. Default: 0
+    ///   - signalsToCollect: A list of information about signals to collect.   If you upload a signal as a condition in a data partition for a campaign, then those same signals must be included in signalsToCollect.
+    ///   - signalsToFetch: A list of information about signals to fetch.
+    ///   - spoolingMode: Determines whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise. If you want to store collected data when a vehicle loses connection with the cloud, use TO_DISK. If it's not specified, OFF is used. Default: OFF
+    ///   - startTime: The time, in milliseconds, to deliver a campaign after it was approved. If it's not specified, 0 is used. Default: 0
     ///   - tags: Metadata that can be used to manage the campaign.
     ///   - targetArn:  The ARN of the vehicle or fleet to deploy a campaign to.
     ///   - logger: Logger use during operation
@@ -208,6 +210,7 @@ public struct IoTFleetWise: AWSService {
         compression: Compression? = nil,
         dataDestinationConfigs: [DataDestinationConfig]? = nil,
         dataExtraDimensions: [String]? = nil,
+        dataPartitions: [DataPartition]? = nil,
         description: String? = nil,
         diagnosticsMode: DiagnosticsMode? = nil,
         expiryTime: Date? = nil,
@@ -215,6 +218,7 @@ public struct IoTFleetWise: AWSService {
         postTriggerCollectionDuration: Int64? = nil,
         signalCatalogArn: String,
         signalsToCollect: [SignalInformation]? = nil,
+        signalsToFetch: [SignalFetchInformation]? = nil,
         spoolingMode: SpoolingMode? = nil,
         startTime: Date? = nil,
         tags: [Tag]? = nil,
@@ -226,6 +230,7 @@ public struct IoTFleetWise: AWSService {
             compression: compression, 
             dataDestinationConfigs: dataDestinationConfigs, 
             dataExtraDimensions: dataExtraDimensions, 
+            dataPartitions: dataPartitions, 
             description: description, 
             diagnosticsMode: diagnosticsMode, 
             expiryTime: expiryTime, 
@@ -233,6 +238,7 @@ public struct IoTFleetWise: AWSService {
             postTriggerCollectionDuration: postTriggerCollectionDuration, 
             signalCatalogArn: signalCatalogArn, 
             signalsToCollect: signalsToCollect, 
+            signalsToFetch: signalsToFetch, 
             spoolingMode: spoolingMode, 
             startTime: startTime, 
             tags: tags, 
@@ -257,7 +263,8 @@ public struct IoTFleetWise: AWSService {
     /// Creates the decoder manifest associated with a model manifest. To create a decoder manifest, the following must be true:   Every signal decoder has a unique name.   Each signal decoder is associated with a network interface.   Each network interface has a unique ID.   The signal decoders are specified in the model manifest.
     ///
     /// Parameters:
-    ///   - description:  A brief description of the decoder manifest.
+    ///   - defaultForUnmappedSignals: Use default decoders for all unmapped signals in the model. You don't need to provide any detailed decoding information.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///   - description: A brief description of the decoder manifest.
     ///   - modelManifestArn:  The Amazon Resource Name (ARN) of the vehicle model (model manifest).
     ///   - name:  The unique name of the decoder manifest to create.
     ///   - networkInterfaces:  A list of information about available network interfaces.
@@ -266,6 +273,7 @@ public struct IoTFleetWise: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createDecoderManifest(
+        defaultForUnmappedSignals: DefaultForUnmappedSignalsType? = nil,
         description: String? = nil,
         modelManifestArn: String,
         name: String,
@@ -275,6 +283,7 @@ public struct IoTFleetWise: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDecoderManifestResponse {
         let input = CreateDecoderManifestRequest(
+            defaultForUnmappedSignals: defaultForUnmappedSignals, 
             description: description, 
             modelManifestArn: modelManifestArn, 
             name: name, 
@@ -402,6 +411,53 @@ public struct IoTFleetWise: AWSService {
         return try await self.createSignalCatalog(input, logger: logger)
     }
 
+    /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+    @Sendable
+    @inlinable
+    public func createStateTemplate(_ input: CreateStateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStateTemplateResponse {
+        try await self.client.execute(
+            operation: "CreateStateTemplate", 
+            path: "/state-templates/{name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// Parameters:
+    ///   - dataExtraDimensions: A list of vehicle attributes to associate with the payload published on the state template's  MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will enrich the protobuf encoded payload with those attributes in the extraDimensions field.
+    ///   - description: A brief description of the state template.
+    ///   - metadataExtraDimensions: A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will include these attributes as User Properties with the MQTT message. Default: An empty array
+    ///   - name: The name of the state template.
+    ///   - signalCatalogArn: The ARN of the signal catalog associated with the state template.
+    ///   - stateTemplateProperties: A list of signals from which data is collected. The state template properties contain the fully qualified names of the signals.
+    ///   - tags: Metadata that can be used to manage the state template.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createStateTemplate(
+        dataExtraDimensions: [String]? = nil,
+        description: String? = nil,
+        metadataExtraDimensions: [String]? = nil,
+        name: String,
+        signalCatalogArn: String,
+        stateTemplateProperties: [String],
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateStateTemplateResponse {
+        let input = CreateStateTemplateRequest(
+            dataExtraDimensions: dataExtraDimensions, 
+            description: description, 
+            metadataExtraDimensions: metadataExtraDimensions, 
+            name: name, 
+            signalCatalogArn: signalCatalogArn, 
+            stateTemplateProperties: stateTemplateProperties, 
+            tags: tags
+        )
+        return try await self.createStateTemplate(input, logger: logger)
+    }
+
     ///  Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model.  If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing.   For more information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide.
     @Sendable
     @inlinable
@@ -419,9 +475,10 @@ public struct IoTFleetWise: AWSService {
     ///
     /// Parameters:
     ///   - associationBehavior:  An option to create a new Amazon Web Services IoT thing when creating a vehicle, or to validate an existing Amazon Web Services IoT thing as a vehicle.  Default:
-    ///   - attributes: Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"  A campaign must include the keys (attribute names) in dataExtraDimensions for them to display in Amazon Timestream.
+    ///   - attributes: Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"  To use attributes with Campaigns or State Templates, you must include them using the  request parameters dataExtraDimensions and/or metadataExtraDimensions  (for state templates only) when creating your campaign/state template.
     ///   - decoderManifestArn:  The ARN of a decoder manifest.
     ///   - modelManifestArn:  The Amazon Resource Name ARN of a vehicle model.
+    ///   - stateTemplates: Associate state templates with the vehicle. You can monitor the last known state of the vehicle in near real time.
     ///   - tags: Metadata that can be used to manage the vehicle.
     ///   - vehicleName:  The unique ID of the vehicle to create.
     ///   - logger: Logger use during operation
@@ -431,6 +488,7 @@ public struct IoTFleetWise: AWSService {
         attributes: [String: String]? = nil,
         decoderManifestArn: String,
         modelManifestArn: String,
+        stateTemplates: [StateTemplateAssociation]? = nil,
         tags: [Tag]? = nil,
         vehicleName: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -440,6 +498,7 @@ public struct IoTFleetWise: AWSService {
             attributes: attributes, 
             decoderManifestArn: decoderManifestArn, 
             modelManifestArn: modelManifestArn, 
+            stateTemplates: stateTemplates, 
             tags: tags, 
             vehicleName: vehicleName
         )
@@ -475,7 +534,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.deleteCampaign(input, logger: logger)
     }
 
-    ///  Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it.   If the decoder manifest is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///  Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it.
     @Sendable
     @inlinable
     public func deleteDecoderManifest(_ input: DeleteDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDecoderManifestResponse {
@@ -488,7 +547,7 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    ///  Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it.   If the decoder manifest is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///  Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it.
     ///
     /// Parameters:
     ///   - name:  The name of the decoder manifest to delete.
@@ -504,7 +563,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.deleteDecoderManifest(input, logger: logger)
     }
 
-    ///  Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide.  If the fleet is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///  Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide.
     @Sendable
     @inlinable
     public func deleteFleet(_ input: DeleteFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFleetResponse {
@@ -517,7 +576,7 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    ///  Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide.  If the fleet is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///  Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see Delete a fleet (AWS CLI) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// Parameters:
     ///   - fleetId:  The ID of the fleet to delete.
@@ -533,7 +592,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.deleteFleet(input, logger: logger)
     }
 
-    ///  Deletes a vehicle model (model manifest).  If the vehicle model is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///  Deletes a vehicle model (model manifest).
     @Sendable
     @inlinable
     public func deleteModelManifest(_ input: DeleteModelManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteModelManifestResponse {
@@ -546,7 +605,7 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    ///  Deletes a vehicle model (model manifest).  If the vehicle model is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///  Deletes a vehicle model (model manifest).
     ///
     /// Parameters:
     ///   - name:  The name of the model manifest to delete.
@@ -562,7 +621,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.deleteModelManifest(input, logger: logger)
     }
 
-    ///  Deletes a signal catalog.   If the signal catalog is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///  Deletes a signal catalog.
     @Sendable
     @inlinable
     public func deleteSignalCatalog(_ input: DeleteSignalCatalogRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSignalCatalogResponse {
@@ -575,7 +634,7 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    ///  Deletes a signal catalog.   If the signal catalog is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///  Deletes a signal catalog.
     ///
     /// Parameters:
     ///   - name:  The name of the signal catalog to delete.
@@ -591,7 +650,36 @@ public struct IoTFleetWise: AWSService {
         return try await self.deleteSignalCatalog(input, logger: logger)
     }
 
-    ///  Deletes a vehicle and removes it from any campaigns.  If the vehicle is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    /// Deletes a state template.
+    @Sendable
+    @inlinable
+    public func deleteStateTemplate(_ input: DeleteStateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStateTemplateResponse {
+        try await self.client.execute(
+            operation: "DeleteStateTemplate", 
+            path: "/state-templates/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a state template.
+    ///
+    /// Parameters:
+    ///   - identifier: A unique, service-generated identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteStateTemplate(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteStateTemplateResponse {
+        let input = DeleteStateTemplateRequest(
+            identifier: identifier
+        )
+        return try await self.deleteStateTemplate(input, logger: logger)
+    }
+
+    ///  Deletes a vehicle and removes it from any campaigns.
     @Sendable
     @inlinable
     public func deleteVehicle(_ input: DeleteVehicleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVehicleResponse {
@@ -604,7 +692,7 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    ///  Deletes a vehicle and removes it from any campaigns.  If the vehicle is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///  Deletes a vehicle and removes it from any campaigns.
     ///
     /// Parameters:
     ///   - vehicleName: The ID of the vehicle to delete.
@@ -620,7 +708,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.deleteVehicle(input, logger: logger)
     }
 
-    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle.  If the vehicle is successfully dissociated from a fleet, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle.
     @Sendable
     @inlinable
     public func disassociateVehicleFleet(_ input: DisassociateVehicleFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateVehicleFleetResponse {
@@ -633,7 +721,7 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle.  If the vehicle is successfully dissociated from a fleet, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle.
     ///
     /// Parameters:
     ///   - fleetId:  The unique ID of a fleet.
@@ -652,7 +740,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.disassociateVehicleFleet(input, logger: logger)
     }
 
-    ///  Retrieves information about a campaign.
+    ///  Retrieves information about a campaign.   Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
     @Sendable
     @inlinable
     public func getCampaign(_ input: GetCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCampaignResponse {
@@ -665,7 +753,7 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    ///  Retrieves information about a campaign.
+    ///  Retrieves information about a campaign.   Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// Parameters:
     ///   - name:  The name of the campaign to retrieve information about.
@@ -875,6 +963,35 @@ public struct IoTFleetWise: AWSService {
         return try await self.getSignalCatalog(input, logger: logger)
     }
 
+    /// Retrieves information about a state template.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+    @Sendable
+    @inlinable
+    public func getStateTemplate(_ input: GetStateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStateTemplateResponse {
+        try await self.client.execute(
+            operation: "GetStateTemplate", 
+            path: "/state-templates/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a state template.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// Parameters:
+    ///   - identifier: A unique, service-generated identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getStateTemplate(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetStateTemplateResponse {
+        let input = GetStateTemplateRequest(
+            identifier: identifier
+        )
+        return try await self.getStateTemplate(input, logger: logger)
+    }
+
     ///  Retrieves information about a vehicle.
     @Sendable
     @inlinable
@@ -904,7 +1021,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.getVehicle(input, logger: logger)
     }
 
-    ///  Retrieves information about the status of a vehicle with any associated campaigns.
+    ///  Retrieves information about the status of campaigns, decoder manifests, or state templates associated with a vehicle.
     @Sendable
     @inlinable
     public func getVehicleStatus(_ input: GetVehicleStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVehicleStatusResponse {
@@ -917,11 +1034,11 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    ///  Retrieves information about the status of a vehicle with any associated campaigns.
+    ///  Retrieves information about the status of campaigns, decoder manifests, or state templates associated with a vehicle.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
-    ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive. This parameter is only  supported for resources of type CAMPAIGN.
+    ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a  nextToken pagination token is returned in the response. To retrieve the next  set of results, reissue the search request and include the returned token. When all results  have been returned, the response does not contain a pagination token value. This parameter  is only supported for resources of type CAMPAIGN.
     ///   - vehicleName:  The ID of the vehicle to retrieve information about.
     ///   - logger: Logger use during operation
     @inlinable
@@ -939,7 +1056,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.getVehicleStatus(input, logger: logger)
     }
 
-    ///  Creates a decoder manifest using your existing CAN DBC file from your local device.
+    ///  Creates a decoder manifest using your existing CAN DBC file from your local device.  The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file.
     @Sendable
     @inlinable
     public func importDecoderManifest(_ input: ImportDecoderManifestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportDecoderManifestResponse {
@@ -952,7 +1069,7 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    ///  Creates a decoder manifest using your existing CAN DBC file from your local device.
+    ///  Creates a decoder manifest using your existing CAN DBC file from your local device.  The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file.
     ///
     /// Parameters:
     ///   - name:  The name of the decoder manifest to import.
@@ -1025,9 +1142,9 @@ public struct IoTFleetWise: AWSService {
     ///  Lists information about created campaigns.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-    ///   - status: Optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
+    ///   - status: An optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCampaigns(
@@ -1060,7 +1177,7 @@ public struct IoTFleetWise: AWSService {
     ///  Lists the network interfaces specified in a decoder manifest.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - name:  The name of the decoder manifest to list information about.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - logger: Logger use during operation
@@ -1095,7 +1212,7 @@ public struct IoTFleetWise: AWSService {
     ///  A list of information about signal decoders specified in a decoder manifest.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - name:  The name of the decoder manifest to list information about.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - logger: Logger use during operation
@@ -1130,7 +1247,7 @@ public struct IoTFleetWise: AWSService {
     ///  Lists decoder manifests.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - modelManifestArn:  The Amazon Resource Name (ARN) of a vehicle model (model manifest) associated with the decoder manifest.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - logger: Logger use during operation
@@ -1165,7 +1282,7 @@ public struct IoTFleetWise: AWSService {
     ///  Retrieves information for each created fleet in an Amazon Web Services account.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1197,7 +1314,7 @@ public struct IoTFleetWise: AWSService {
     /// Retrieves a list of IDs for all fleets that the vehicle is associated with.  This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - vehicleName:  The ID of the vehicle to retrieve information about.
     ///   - logger: Logger use during operation
@@ -1232,7 +1349,7 @@ public struct IoTFleetWise: AWSService {
     ///  Lists information about nodes specified in a vehicle model (model manifest).   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - name:  The name of the vehicle model to list information about.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - logger: Logger use during operation
@@ -1267,7 +1384,7 @@ public struct IoTFleetWise: AWSService {
     ///  Retrieves a list of vehicle models (model manifests).   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - signalCatalogArn:  The ARN of a signal catalog. If you specify a signal catalog, only the vehicle models associated with it are returned.
     ///   - logger: Logger use during operation
@@ -1302,7 +1419,7 @@ public struct IoTFleetWise: AWSService {
     ///  Lists of information about the signals (nodes) specified in a signal catalog.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - name:  The name of the signal catalog to list information about.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - signalNodeType: The type of node in the signal catalog.
@@ -1340,7 +1457,7 @@ public struct IoTFleetWise: AWSService {
     ///  Lists all the created signal catalogs in an Amazon Web Services account.  You can use  to list information about each signal (node) specified in a signal catalog.  This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1354,6 +1471,38 @@ public struct IoTFleetWise: AWSService {
             nextToken: nextToken
         )
         return try await self.listSignalCatalogs(input, logger: logger)
+    }
+
+    /// Lists information about created state templates.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+    @Sendable
+    @inlinable
+    public func listStateTemplates(_ input: ListStateTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStateTemplatesResponse {
+        try await self.client.execute(
+            operation: "ListStateTemplates", 
+            path: "/state-templates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists information about created state templates.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - nextToken:  The token to retrieve the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listStateTemplates(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListStateTemplatesResponse {
+        let input = ListStateTemplatesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listStateTemplates(input, logger: logger)
     }
 
     /// Lists the tags (metadata) you have assigned to the resource.
@@ -1401,9 +1550,9 @@ public struct IoTFleetWise: AWSService {
     ///  Retrieves a list of summaries of created vehicles.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
-    ///   - attributeNames: The fully qualified names of the attributes. For example, the fully qualified name of an attribute might be Vehicle.Body.Engine.Type.
-    ///   - attributeValues: Static information about a vehicle attribute value in string format. For example:  "1.3 L R2"
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - attributeNames: The fully qualified names of the attributes. You can use this optional parameter to list the  vehicles containing all the attributes in the request. For example, attributeNames  could be "Vehicle.Body.Engine.Type, Vehicle.Color" and the corresponding  attributeValues could be "1.3 L R2, Blue" . In this case, the API  will filter vehicles with an attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the attributeNames  filter and the matching number of attributeValues filters to return the subset  of vehicles that match the attributes filter condition.
+    ///   - attributeValues: Static information about a vehicle attribute value in string format. You can use this optional  parameter in conjunction with attributeNames to list the vehicles containing all  the attributeValues corresponding to the attributeNames filter. For  example, attributeValues could be "1.3 L R2, Blue" and the corresponding  attributeNames filter could be "Vehicle.Body.Engine.Type, Vehicle.Color".  In this case, the API will filter vehicles with attribute name Vehicle.Body.Engine.Type  that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the  attributeNames filter and the matching number of attributeValues  filter to return the subset of vehicles that match the attributes filter condition.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - modelManifestArn:  The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - logger: Logger use during operation
@@ -1443,7 +1592,7 @@ public struct IoTFleetWise: AWSService {
     ///
     /// Parameters:
     ///   - fleetId:  The ID of a fleet.
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1666,6 +1815,7 @@ public struct IoTFleetWise: AWSService {
     ///  Updates a decoder manifest. A decoder manifest can only be updated when the status is DRAFT. Only ACTIVE decoder manifests can be associated with vehicles.
     ///
     /// Parameters:
+    ///   - defaultForUnmappedSignals: Use default decoders for all unmapped signals in the model. You don't need to provide any detailed decoding information.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
     ///   - description:  A brief description of the decoder manifest to update.
     ///   - name:  The name of the decoder manifest to update.
     ///   - networkInterfacesToAdd:  A list of information about the network interfaces to add to the decoder manifest.
@@ -1678,6 +1828,7 @@ public struct IoTFleetWise: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDecoderManifest(
+        defaultForUnmappedSignals: DefaultForUnmappedSignalsType? = nil,
         description: String? = nil,
         name: String,
         networkInterfacesToAdd: [NetworkInterface]? = nil,
@@ -1690,6 +1841,7 @@ public struct IoTFleetWise: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDecoderManifestResponse {
         let input = UpdateDecoderManifestRequest(
+            defaultForUnmappedSignals: defaultForUnmappedSignals, 
             description: description, 
             name: name, 
             networkInterfacesToAdd: networkInterfacesToAdd, 
@@ -1703,7 +1855,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.updateDecoderManifest(input, logger: logger)
     }
 
-    ///  Updates the description of an existing fleet.   If the fleet is successfully updated, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty HTTP body.
+    ///  Updates the description of an existing fleet.
     @Sendable
     @inlinable
     public func updateFleet(_ input: UpdateFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFleetResponse {
@@ -1716,7 +1868,7 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    ///  Updates the description of an existing fleet.   If the fleet is successfully updated, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty HTTP body.
+    ///  Updates the description of an existing fleet.
     ///
     /// Parameters:
     ///   - description:  An updated description of the fleet.
@@ -1817,6 +1969,50 @@ public struct IoTFleetWise: AWSService {
         return try await self.updateSignalCatalog(input, logger: logger)
     }
 
+    /// Updates a state template.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+    @Sendable
+    @inlinable
+    public func updateStateTemplate(_ input: UpdateStateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStateTemplateResponse {
+        try await self.client.execute(
+            operation: "UpdateStateTemplate", 
+            path: "/state-templates/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a state template.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// Parameters:
+    ///   - dataExtraDimensions: A list of vehicle attributes to associate with the payload published on the state template's  MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will enrich the protobuf encoded payload with those attributes in the extraDimensions field. Default: An empty array
+    ///   - description: A brief description of the state template.
+    ///   - identifier: A unique, service-generated identifier.
+    ///   - metadataExtraDimensions: A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will include these attributes as User Properties with the MQTT message.
+    ///   - stateTemplatePropertiesToAdd: Add signals from which data is collected as part of the state template.
+    ///   - stateTemplatePropertiesToRemove: Remove signals from which data is collected as part of the state template.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateStateTemplate(
+        dataExtraDimensions: [String]? = nil,
+        description: String? = nil,
+        identifier: String,
+        metadataExtraDimensions: [String]? = nil,
+        stateTemplatePropertiesToAdd: [String]? = nil,
+        stateTemplatePropertiesToRemove: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateStateTemplateResponse {
+        let input = UpdateStateTemplateRequest(
+            dataExtraDimensions: dataExtraDimensions, 
+            description: description, 
+            identifier: identifier, 
+            metadataExtraDimensions: metadataExtraDimensions, 
+            stateTemplatePropertiesToAdd: stateTemplatePropertiesToAdd, 
+            stateTemplatePropertiesToRemove: stateTemplatePropertiesToRemove
+        )
+        return try await self.updateStateTemplate(input, logger: logger)
+    }
+
     ///  Updates a vehicle.
     @Sendable
     @inlinable
@@ -1837,6 +2033,8 @@ public struct IoTFleetWise: AWSService {
     ///   - attributeUpdateMode: The method the specified attributes will update the existing attributes on the vehicle. UseOverwite to replace the vehicle attributes with the specified attributes. Or use Merge to combine all attributes. This is required if attributes are present in the input.
     ///   - decoderManifestArn: The ARN of the decoder manifest associated with this vehicle.
     ///   - modelManifestArn: The ARN of a vehicle model (model manifest) associated with the vehicle.
+    ///   - stateTemplatesToAdd: Associate state templates with the vehicle.
+    ///   - stateTemplatesToRemove: Remove state templates from the vehicle.
     ///   - vehicleName: The unique ID of the vehicle to update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1845,6 +2043,8 @@ public struct IoTFleetWise: AWSService {
         attributeUpdateMode: UpdateMode? = nil,
         decoderManifestArn: String? = nil,
         modelManifestArn: String? = nil,
+        stateTemplatesToAdd: [StateTemplateAssociation]? = nil,
+        stateTemplatesToRemove: [String]? = nil,
         vehicleName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateVehicleResponse {
@@ -1853,6 +2053,8 @@ public struct IoTFleetWise: AWSService {
             attributeUpdateMode: attributeUpdateMode, 
             decoderManifestArn: decoderManifestArn, 
             modelManifestArn: modelManifestArn, 
+            stateTemplatesToAdd: stateTemplatesToAdd, 
+            stateTemplatesToRemove: stateTemplatesToRemove, 
             vehicleName: vehicleName
         )
         return try await self.updateVehicle(input, logger: logger)
@@ -1893,7 +2095,7 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``getVehicleStatus(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive. This parameter is only  supported for resources of type CAMPAIGN.
     ///   - vehicleName:  The ID of the vehicle to retrieve information about.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1930,8 +2132,8 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listCampaigns(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
-    ///   - status: Optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - status: An optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCampaignsPaginator(
@@ -1967,7 +2169,7 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listDecoderManifestNetworkInterfaces(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - name:  The name of the decoder manifest to list information about.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2004,7 +2206,7 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listDecoderManifestSignals(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - name:  The name of the decoder manifest to list information about.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2041,7 +2243,7 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listDecoderManifests(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - modelManifestArn:  The Amazon Resource Name (ARN) of a vehicle model (model manifest) associated with the decoder manifest.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2078,7 +2280,7 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listFleets(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - logger: Logger used for logging
     @inlinable
     public func listFleetsPaginator(
@@ -2112,7 +2314,7 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listFleetsForVehicle(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - vehicleName:  The ID of the vehicle to retrieve information about.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2149,7 +2351,7 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listModelManifestNodes(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - name:  The name of the vehicle model to list information about.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2186,7 +2388,7 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listModelManifests(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - signalCatalogArn:  The ARN of a signal catalog. If you specify a signal catalog, only the vehicle models associated with it are returned.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2223,7 +2425,7 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listSignalCatalogNodes(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - name:  The name of the signal catalog to list information about.
     ///   - signalNodeType: The type of node in the signal catalog.
     ///   - logger: Logger used for logging
@@ -2263,7 +2465,7 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listSignalCatalogs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - logger: Logger used for logging
     @inlinable
     public func listSignalCatalogsPaginator(
@@ -2274,6 +2476,40 @@ extension IoTFleetWise {
             maxResults: maxResults
         )
         return self.listSignalCatalogsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listStateTemplates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listStateTemplatesPaginator(
+        _ input: ListStateTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStateTemplatesRequest, ListStateTemplatesResponse> {
+        return .init(
+            input: input,
+            command: self.listStateTemplates,
+            inputKey: \ListStateTemplatesRequest.nextToken,
+            outputKey: \ListStateTemplatesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listStateTemplates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listStateTemplatesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListStateTemplatesRequest, ListStateTemplatesResponse> {
+        let input = ListStateTemplatesRequest(
+            maxResults: maxResults
+        )
+        return self.listStateTemplatesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listVehicles(_:logger:)``.
@@ -2297,9 +2533,9 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listVehicles(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - attributeNames: The fully qualified names of the attributes. For example, the fully qualified name of an attribute might be Vehicle.Body.Engine.Type.
-    ///   - attributeValues: Static information about a vehicle attribute value in string format. For example:  "1.3 L R2"
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - attributeNames: The fully qualified names of the attributes. You can use this optional parameter to list the  vehicles containing all the attributes in the request. For example, attributeNames  could be "Vehicle.Body.Engine.Type, Vehicle.Color" and the corresponding  attributeValues could be "1.3 L R2, Blue" . In this case, the API  will filter vehicles with an attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the attributeNames  filter and the matching number of attributeValues filters to return the subset  of vehicles that match the attributes filter condition.
+    ///   - attributeValues: Static information about a vehicle attribute value in string format. You can use this optional  parameter in conjunction with attributeNames to list the vehicles containing all  the attributeValues corresponding to the attributeNames filter. For  example, attributeValues could be "1.3 L R2, Blue" and the corresponding  attributeNames filter could be "Vehicle.Body.Engine.Type, Vehicle.Color".  In this case, the API will filter vehicles with attribute name Vehicle.Body.Engine.Type  that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the  attributeNames filter and the matching number of attributeValues  filter to return the subset of vehicles that match the attributes filter condition.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - modelManifestArn:  The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2341,7 +2577,7 @@ extension IoTFleetWise {
     ///
     /// - Parameters:
     ///   - fleetId:  The ID of a fleet.
-    ///   - maxResults:  The maximum number of items to return, between 1 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - logger: Logger used for logging
     @inlinable
     public func listVehiclesInFleetPaginator(
@@ -2470,6 +2706,16 @@ extension IoTFleetWise.ListSignalCatalogNodesRequest: AWSPaginateToken {
 extension IoTFleetWise.ListSignalCatalogsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTFleetWise.ListSignalCatalogsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTFleetWise.ListStateTemplatesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTFleetWise.ListStateTemplatesRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

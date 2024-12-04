@@ -111,6 +111,38 @@ public struct ConfigService: AWSService {
 
     // MARK: API Calls
 
+    /// Adds all resource types specified in the ResourceTypes list to the RecordingGroup of specified configuration recorder and includes those resource types when recording. For this operation, the specified configuration recorder must use a RecordingStrategy that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
+    @Sendable
+    @inlinable
+    public func associateResourceTypes(_ input: AssociateResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateResourceTypesResponse {
+        try await self.client.execute(
+            operation: "AssociateResourceTypes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds all resource types specified in the ResourceTypes list to the RecordingGroup of specified configuration recorder and includes those resource types when recording. For this operation, the specified configuration recorder must use a RecordingStrategy that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
+    ///
+    /// Parameters:
+    ///   - configurationRecorderArn: The Amazon Resource Name (ARN) of the specified configuration recorder.
+    ///   - resourceTypes: The list of resource types you want to add to the recording group of the specified configuration recorder.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateResourceTypes(
+        configurationRecorderArn: String,
+        resourceTypes: [ResourceType],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateResourceTypesResponse {
+        let input = AssociateResourceTypesRequest(
+            configurationRecorderArn: configurationRecorderArn, 
+            resourceTypes: resourceTypes
+        )
+        return try await self.associateResourceTypes(input, logger: logger)
+    }
+
     /// Returns the current configuration items for resources that are present in your Config aggregator. The operation also returns a list of resources that are not processed in the current request.
     /// 			If there are no unprocessed resources, the operation returns an empty unprocessedResourceIdentifiers list.     The API does not return results for deleted resources.   The API does not return tags and relationships.
     @Sendable
@@ -230,7 +262,11 @@ public struct ConfigService: AWSService {
     /// 			in this state. If you make a PutConfigRule or
     /// 				DeleteConfigRule request for the rule, you will
     /// 			receive a ResourceInUseException. You can check the state of a rule by using the
-    /// 				DescribeConfigRules request.
+    /// 				DescribeConfigRules request.   Recommendation: Stop recording resource compliance before deleting rules  It is highly recommended that you stop recording for the AWS::Config::ResourceCompliance resource type before you delete rules in your account.
+    /// 				Deleting rules creates CIs for AWS::Config::ResourceCompliance and can affect your Config configuration recorder costs.
+    ///
+    /// 				If you are deleting rules which evaluate a large number of resource types,
+    /// 				this can lead to a spike in the number of CIs recorded. Best practice:   Stop recording AWS::Config::ResourceCompliance    Delete rule(s)   Turn on recording for AWS::Config::ResourceCompliance
     @Sendable
     @inlinable
     public func deleteConfigRule(_ input: DeleteConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -249,7 +285,11 @@ public struct ConfigService: AWSService {
     /// 			in this state. If you make a PutConfigRule or
     /// 				DeleteConfigRule request for the rule, you will
     /// 			receive a ResourceInUseException. You can check the state of a rule by using the
-    /// 				DescribeConfigRules request.
+    /// 				DescribeConfigRules request.   Recommendation: Stop recording resource compliance before deleting rules  It is highly recommended that you stop recording for the AWS::Config::ResourceCompliance resource type before you delete rules in your account.
+    /// 				Deleting rules creates CIs for AWS::Config::ResourceCompliance and can affect your Config configuration recorder costs.
+    ///
+    /// 				If you are deleting rules which evaluate a large number of resource types,
+    /// 				this can lead to a spike in the number of CIs recorded. Best practice:   Stop recording AWS::Config::ResourceCompliance    Delete rule(s)   Turn on recording for AWS::Config::ResourceCompliance
     ///
     /// Parameters:
     ///   - configRuleName: The name of the Config rule that you want to
@@ -296,14 +336,12 @@ public struct ConfigService: AWSService {
         return try await self.deleteConfigurationAggregator(input, logger: logger)
     }
 
-    /// Deletes the configuration recorder. After the configuration recorder is deleted, Config will
-    /// 			not record resource configuration changes until you create a new
-    /// 			configuration recorder. This action does not delete the configuration information that
+    /// Deletes the customer managed configuration recorder. This operation does not delete the configuration information that
     /// 			was previously recorded. You will be able to access the previously
     /// 			recorded information by using the
-    /// 				GetResourceConfigHistory action, but you will not
+    /// 			GetResourceConfigHistory operation, but you will not
     /// 			be able to access this information in the Config console until
-    /// 			you create a new configuration recorder.
+    /// 			you have created a new customer managed configuration recorder.
     @Sendable
     @inlinable
     public func deleteConfigurationRecorder(_ input: DeleteConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -316,17 +354,15 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Deletes the configuration recorder. After the configuration recorder is deleted, Config will
-    /// 			not record resource configuration changes until you create a new
-    /// 			configuration recorder. This action does not delete the configuration information that
+    /// Deletes the customer managed configuration recorder. This operation does not delete the configuration information that
     /// 			was previously recorded. You will be able to access the previously
     /// 			recorded information by using the
-    /// 				GetResourceConfigHistory action, but you will not
+    /// 			GetResourceConfigHistory operation, but you will not
     /// 			be able to access this information in the Config console until
-    /// 			you create a new configuration recorder.
+    /// 			you have created a new customer managed configuration recorder.
     ///
     /// Parameters:
-    ///   - configurationRecorderName: The name of the configuration recorder to be deleted. You can
+    ///   - configurationRecorderName: The name of the customer managed configuration recorder that you want to delete. You can
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteConfigurationRecorder(
@@ -372,8 +408,7 @@ public struct ConfigService: AWSService {
         return try await self.deleteConformancePack(input, logger: logger)
     }
 
-    /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the
-    /// 			configuration recorder by using the StopConfigurationRecorder action.
+    /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigurationRecorder operation to stop the customer managed configuration recorder.
     @Sendable
     @inlinable
     public func deleteDeliveryChannel(_ input: DeleteDeliveryChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -386,11 +421,10 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the
-    /// 			configuration recorder by using the StopConfigurationRecorder action.
+    /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigurationRecorder operation to stop the customer managed configuration recorder.
     ///
     /// Parameters:
-    ///   - deliveryChannelName: The name of the delivery channel to delete.
+    ///   - deliveryChannelName: The name of the delivery channel that you want to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDeliveryChannel(
@@ -673,6 +707,43 @@ public struct ConfigService: AWSService {
         return try await self.deleteRetentionConfiguration(input, logger: logger)
     }
 
+    /// Deletes an existing service-linked configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously
+    /// 			recorded information by using the
+    /// 			GetResourceConfigHistory operation, but you will not
+    /// 			be able to access this information in the Config console until
+    /// 			you have created a new service-linked configuration recorder for the same service.   The recording scope determines if you receive configuration items  The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
+    @Sendable
+    @inlinable
+    public func deleteServiceLinkedConfigurationRecorder(_ input: DeleteServiceLinkedConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceLinkedConfigurationRecorderResponse {
+        try await self.client.execute(
+            operation: "DeleteServiceLinkedConfigurationRecorder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing service-linked configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously
+    /// 			recorded information by using the
+    /// 			GetResourceConfigHistory operation, but you will not
+    /// 			be able to access this information in the Config console until
+    /// 			you have created a new service-linked configuration recorder for the same service.   The recording scope determines if you receive configuration items  The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
+    ///
+    /// Parameters:
+    ///   - servicePrincipal: The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteServiceLinkedConfigurationRecorder(
+        servicePrincipal: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteServiceLinkedConfigurationRecorderResponse {
+        let input = DeleteServiceLinkedConfigurationRecorderRequest(
+            servicePrincipal: servicePrincipal
+        )
+        return try await self.deleteServiceLinkedConfigurationRecorder(input, logger: logger)
+    }
+
     /// Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
     @Sendable
     @inlinable
@@ -787,7 +858,7 @@ public struct ConfigService: AWSService {
         return try await self.describeAggregateComplianceByConfigRules(input, logger: logger)
     }
 
-    /// Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
+    /// Returns a list of the existing and deleted conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
     /// 			conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     @Sendable
     @inlinable
@@ -801,7 +872,7 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
+    /// Returns a list of the existing and deleted conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
     /// 			conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
     /// Parameters:
@@ -862,7 +933,7 @@ public struct ConfigService: AWSService {
     }
 
     /// Indicates whether the specified Config rules are compliant.
-    /// 			If a rule is noncompliant, this action returns the number of Amazon Web Services
+    /// 			If a rule is noncompliant, this operation returns the number of Amazon Web Services
     /// 			resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply
     /// 			with it. It is noncompliant if any of these resources do not
     /// 			comply. If Config has no current evaluation results for the rule,
@@ -894,7 +965,7 @@ public struct ConfigService: AWSService {
         )
     }
     /// Indicates whether the specified Config rules are compliant.
-    /// 			If a rule is noncompliant, this action returns the number of Amazon Web Services
+    /// 			If a rule is noncompliant, this operation returns the number of Amazon Web Services
     /// 			resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply
     /// 			with it. It is noncompliant if any of these resources do not
     /// 			comply. If Config has no current evaluation results for the rule,
@@ -935,7 +1006,7 @@ public struct ConfigService: AWSService {
     }
 
     /// Indicates whether the specified Amazon Web Services resources are compliant. If
-    /// 			a resource is noncompliant, this action returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config
+    /// 			a resource is noncompliant, this operation returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config
     /// 			rules that evaluate it. It is noncompliant if it does not comply
     /// 			with one or more of these rules. If Config has no current evaluation results for the
     /// 			resource, it returns INSUFFICIENT_DATA. This result
@@ -967,7 +1038,7 @@ public struct ConfigService: AWSService {
         )
     }
     /// Indicates whether the specified Amazon Web Services resources are compliant. If
-    /// 			a resource is noncompliant, this action returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config
+    /// 			a resource is noncompliant, this operation returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config
     /// 			rules that evaluate it. It is noncompliant if it does not comply
     /// 			with one or more of these rules. If Config has no current evaluation results for the
     /// 			resource, it returns INSUFFICIENT_DATA. This result
@@ -1126,7 +1197,7 @@ public struct ConfigService: AWSService {
     }
 
     /// Returns the details of one or more configuration aggregators.
-    /// 			If the configuration aggregator is not specified, this action
+    /// 			If the configuration aggregator is not specified, this operation
     /// 			returns the details for all the configuration aggregators associated
     /// 			with the account.
     @Sendable
@@ -1142,7 +1213,7 @@ public struct ConfigService: AWSService {
         )
     }
     /// Returns the details of one or more configuration aggregators.
-    /// 			If the configuration aggregator is not specified, this action
+    /// 			If the configuration aggregator is not specified, this operation
     /// 			returns the details for all the configuration aggregators associated
     /// 			with the account.
     ///
@@ -1166,11 +1237,9 @@ public struct ConfigService: AWSService {
         return try await self.describeConfigurationAggregators(input, logger: logger)
     }
 
-    /// Returns the current status of the specified configuration
-    /// 			recorder as well as the status of the last recording event for the recorder. If a configuration recorder is not specified, this action
-    /// 			returns the status of all configuration recorders associated with
-    /// 			the account.  >You can specify only one configuration recorder for each Amazon Web Services Region for each account.
-    /// 				For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics.
+    /// Returns the current status of the configuration
+    /// 			recorder you specify as well as the status of the last recording event for the configuration recorders. For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics. If a configuration recorder is not specified, this operation returns the status for the customer managed configuration recorder configured for the
+    /// 			account, if applicable.  When making a request to this operation, you can only specify one configuration recorder.
     @Sendable
     @inlinable
     public func describeConfigurationRecorderStatus(_ input: DescribeConfigurationRecorderStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationRecorderStatusResponse {
@@ -1183,30 +1252,32 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Returns the current status of the specified configuration
-    /// 			recorder as well as the status of the last recording event for the recorder. If a configuration recorder is not specified, this action
-    /// 			returns the status of all configuration recorders associated with
-    /// 			the account.  >You can specify only one configuration recorder for each Amazon Web Services Region for each account.
-    /// 				For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics.
+    /// Returns the current status of the configuration
+    /// 			recorder you specify as well as the status of the last recording event for the configuration recorders. For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics. If a configuration recorder is not specified, this operation returns the status for the customer managed configuration recorder configured for the
+    /// 			account, if applicable.  When making a request to this operation, you can only specify one configuration recorder.
     ///
     /// Parameters:
-    ///   - configurationRecorderNames: The name(s) of the configuration recorder. If the name is not
+    ///   - arn: The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
+    ///   - configurationRecorderNames: The name of the configuration recorder. If the name is not
+    ///   - servicePrincipal: For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeConfigurationRecorderStatus(
+        arn: String? = nil,
         configurationRecorderNames: [String]? = nil,
+        servicePrincipal: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeConfigurationRecorderStatusResponse {
         let input = DescribeConfigurationRecorderStatusRequest(
-            configurationRecorderNames: configurationRecorderNames
+            arn: arn, 
+            configurationRecorderNames: configurationRecorderNames, 
+            servicePrincipal: servicePrincipal
         )
         return try await self.describeConfigurationRecorderStatus(input, logger: logger)
     }
 
-    /// Returns the details for the specified configuration recorders.
-    /// 			If the configuration recorder is not specified, this action returns
-    /// 			the details for all configuration recorders associated with the
-    /// 			account.  You can specify only one configuration recorder for each Amazon Web Services Region for each account.
+    /// Returns details for the configuration recorder you specify. If a configuration recorder is not specified, this operation returns details for the customer managed configuration recorder configured for the
+    /// 			account, if applicable.  When making a request to this operation, you can only specify one configuration recorder.
     @Sendable
     @inlinable
     public func describeConfigurationRecorders(_ input: DescribeConfigurationRecordersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationRecordersResponse {
@@ -1219,21 +1290,25 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Returns the details for the specified configuration recorders.
-    /// 			If the configuration recorder is not specified, this action returns
-    /// 			the details for all configuration recorders associated with the
-    /// 			account.  You can specify only one configuration recorder for each Amazon Web Services Region for each account.
+    /// Returns details for the configuration recorder you specify. If a configuration recorder is not specified, this operation returns details for the customer managed configuration recorder configured for the
+    /// 			account, if applicable.  When making a request to this operation, you can only specify one configuration recorder.
     ///
     /// Parameters:
-    ///   - configurationRecorderNames: A list of configuration recorder names.
+    ///   - arn: The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
+    ///   - configurationRecorderNames: A list of names of the configuration recorders that you want to specify.
+    ///   - servicePrincipal: For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeConfigurationRecorders(
+        arn: String? = nil,
         configurationRecorderNames: [String]? = nil,
+        servicePrincipal: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeConfigurationRecordersResponse {
         let input = DescribeConfigurationRecordersRequest(
-            configurationRecorderNames: configurationRecorderNames
+            arn: arn, 
+            configurationRecorderNames: configurationRecorderNames, 
+            servicePrincipal: servicePrincipal
         )
         return try await self.describeConfigurationRecorders(input, logger: logger)
     }
@@ -1347,7 +1422,7 @@ public struct ConfigService: AWSService {
     }
 
     /// Returns the current status of the specified delivery channel.
-    /// 			If a delivery channel is not specified, this action returns the
+    /// 			If a delivery channel is not specified, this operation returns the
     /// 			current status of all delivery channels associated with the
     /// 			account.  Currently, you can specify only one delivery channel per
     /// 				region in your account.
@@ -1364,7 +1439,7 @@ public struct ConfigService: AWSService {
         )
     }
     /// Returns the current status of the specified delivery channel.
-    /// 			If a delivery channel is not specified, this action returns the
+    /// 			If a delivery channel is not specified, this operation returns the
     /// 			current status of all delivery channels associated with the
     /// 			account.  Currently, you can specify only one delivery channel per
     /// 				region in your account.
@@ -1384,7 +1459,7 @@ public struct ConfigService: AWSService {
     }
 
     /// Returns details about the specified delivery channel. If a
-    /// 			delivery channel is not specified, this action returns the details
+    /// 			delivery channel is not specified, this operation returns the details
     /// 			of all delivery channels associated with the account.  Currently, you can specify only one delivery channel per
     /// 				region in your account.
     @Sendable
@@ -1400,7 +1475,7 @@ public struct ConfigService: AWSService {
         )
     }
     /// Returns details about the specified delivery channel. If a
-    /// 			delivery channel is not specified, this action returns the details
+    /// 			delivery channel is not specified, this operation returns the details
     /// 			of all delivery channels associated with the account.  Currently, you can specify only one delivery channel per
     /// 				region in your account.
     ///
@@ -1731,7 +1806,7 @@ public struct ConfigService: AWSService {
     /// 			When you specify the limit and the next token, you receive a paginated response.
     ///
     /// Parameters:
-    ///   - configRuleName: A list of Config rule names.
+    ///   - configRuleName: The name of the Config rule.
     ///   - limit: The maximum number of RemediationExecutionStatuses returned on each page. The default is maximum. If you specify 0, Config uses the default.
     ///   - nextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     ///   - resourceKeys: A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
@@ -1754,7 +1829,7 @@ public struct ConfigService: AWSService {
     }
 
     /// Returns the details of one or more retention configurations. If
-    /// 			the retention configuration name is not specified, this action
+    /// 			the retention configuration name is not specified, this operation
     /// 			returns the details for all the retention configurations for that
     /// 			account.  Currently, Config supports only one retention
     /// 				configuration per region in your account.
@@ -1771,7 +1846,7 @@ public struct ConfigService: AWSService {
         )
     }
     /// Returns the details of one or more retention configurations. If
-    /// 			the retention configuration name is not specified, this action
+    /// 			the retention configuration name is not specified, this operation
     /// 			returns the details for all the retention configurations for that
     /// 			account.  Currently, Config supports only one retention
     /// 				configuration per region in your account.
@@ -1791,6 +1866,38 @@ public struct ConfigService: AWSService {
             retentionConfigurationNames: retentionConfigurationNames
         )
         return try await self.describeRetentionConfigurations(input, logger: logger)
+    }
+
+    /// Removes all resource types specified in the ResourceTypes list from the RecordingGroup of configuration recorder and excludes these resource types when recording. For this operation, the configuration recorder must use a RecordingStrategy that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
+    @Sendable
+    @inlinable
+    public func disassociateResourceTypes(_ input: DisassociateResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateResourceTypesResponse {
+        try await self.client.execute(
+            operation: "DisassociateResourceTypes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes all resource types specified in the ResourceTypes list from the RecordingGroup of configuration recorder and excludes these resource types when recording. For this operation, the configuration recorder must use a RecordingStrategy that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
+    ///
+    /// Parameters:
+    ///   - configurationRecorderArn: The Amazon Resource Name (ARN) of the specified configuration recorder.
+    ///   - resourceTypes: The list of resource types you want to remove from the recording group of the specified configuration recorder.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateResourceTypes(
+        configurationRecorderArn: String,
+        resourceTypes: [ResourceType],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateResourceTypesResponse {
+        let input = DisassociateResourceTypesRequest(
+            configurationRecorderArn: configurationRecorderArn, 
+            resourceTypes: resourceTypes
+        )
+        return try await self.disassociateResourceTypes(input, logger: logger)
     }
 
     /// Returns the evaluation results for the specified Config
@@ -1981,7 +2088,7 @@ public struct ConfigService: AWSService {
         return try await self.getAggregateDiscoveredResourceCounts(input, logger: logger)
     }
 
-    /// Returns configuration item that is aggregated for your specific resource in a specific source account and region.
+    /// Returns configuration item that is aggregated for your specific resource in a specific source account and region.  The API does not return results for deleted resources.
     @Sendable
     @inlinable
     public func getAggregateResourceConfig(_ input: GetAggregateResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateResourceConfigResponse {
@@ -1994,7 +2101,7 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Returns configuration item that is aggregated for your specific resource in a specific source account and region.
+    /// Returns configuration item that is aggregated for your specific resource in a specific source account and region.  The API does not return results for deleted resources.
     ///
     /// Parameters:
     ///   - configurationAggregatorName: The name of the configuration aggregator.
@@ -2621,6 +2728,41 @@ public struct ConfigService: AWSService {
         return try await self.listAggregateDiscoveredResources(input, logger: logger)
     }
 
+    /// Returns a list of configuration recorders depending on the filters you specify.
+    @Sendable
+    @inlinable
+    public func listConfigurationRecorders(_ input: ListConfigurationRecordersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationRecordersResponse {
+        try await self.client.execute(
+            operation: "ListConfigurationRecorders", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of configuration recorders depending on the filters you specify.
+    ///
+    /// Parameters:
+    ///   - filters: Filters the results based on a list of ConfigurationRecorderFilter objects that you specify.
+    ///   - maxResults: The maximum number of results to include in the response.
+    ///   - nextToken: The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConfigurationRecorders(
+        filters: [ConfigurationRecorderFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConfigurationRecordersResponse {
+        let input = ListConfigurationRecordersRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConfigurationRecorders(input, logger: logger)
+    }
+
     /// Returns a list of conformance pack compliance scores.
     /// 			A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack.
     /// 			This metric provides you with a high-level view of the compliance state of your conformance packs. You can use it to identify, investigate, and understand
@@ -2821,7 +2963,7 @@ public struct ConfigService: AWSService {
     /// Parameters:
     ///   - limit: The maximum number of tags returned on each page. The limit maximum is 50. You cannot specify a number greater than 50. If you specify 0, Config uses the default.
     ///   - nextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
+    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -2839,8 +2981,8 @@ public struct ConfigService: AWSService {
     }
 
     /// Authorizes the aggregator account and region to collect data
-    /// 			from the source account and region.    PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
-    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// 			from the source account and region.    Tags are added at creation and cannot be updated with this operation   PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use TagResource and UntagResource to update tags after creation.
     @Sendable
     @inlinable
     public func putAggregationAuthorization(_ input: PutAggregationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAggregationAuthorizationResponse {
@@ -2854,8 +2996,8 @@ public struct ConfigService: AWSService {
         )
     }
     /// Authorizes the aggregator account and region to collect data
-    /// 			from the source account and region.    PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
-    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// 			from the source account and region.    Tags are added at creation and cannot be updated with this operation   PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use TagResource and UntagResource to update tags after creation.
     ///
     /// Parameters:
     ///   - authorizedAccountId: The 12-digit account ID of the account authorized to aggregate data.
@@ -2905,8 +3047,8 @@ public struct ConfigService: AWSService {
     /// 				ConfigRule data type that you use in this
     /// 			request. For more information about developing and using Config
     /// 			rules, see Evaluating Resources with Config Rules
-    /// 			in the Config Developer Guide.   PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
-    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// 			in the Config Developer Guide.   Tags are added at creation and cannot be updated with this operation   PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use TagResource and UntagResource to update tags after creation.
     @Sendable
     @inlinable
     public func putConfigRule(_ input: PutConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2947,8 +3089,8 @@ public struct ConfigService: AWSService {
     /// 				ConfigRule data type that you use in this
     /// 			request. For more information about developing and using Config
     /// 			rules, see Evaluating Resources with Config Rules
-    /// 			in the Config Developer Guide.   PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
-    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// 			in the Config Developer Guide.   Tags are added at creation and cannot be updated with this operation   PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use TagResource and UntagResource to update tags after creation.
     ///
     /// Parameters:
     ///   - configRule: The rule that you want to add to your account.
@@ -2973,8 +3115,8 @@ public struct ConfigService: AWSService {
     /// 			If you want to add additional accounts into the aggregator, call DescribeConfigurationAggregators to get the previous accounts and then append new ones.  Config should be enabled in source accounts and regions
     /// 				you want to aggregate. If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization.
     /// 				If the caller is a management account, Config calls EnableAwsServiceAccess API to enable integration between Config and Organizations.
-    /// 				If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see Register a Delegated Administrator in the Config developer guide.     PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
-    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// 				If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see Register a Delegated Administrator in the Config developer guide.     Tags are added at creation and cannot be updated with this operation   PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use TagResource and UntagResource to update tags after creation.
     @Sendable
     @inlinable
     public func putConfigurationAggregator(_ input: PutConfigurationAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationAggregatorResponse {
@@ -2993,11 +3135,12 @@ public struct ConfigService: AWSService {
     /// 			If you want to add additional accounts into the aggregator, call DescribeConfigurationAggregators to get the previous accounts and then append new ones.  Config should be enabled in source accounts and regions
     /// 				you want to aggregate. If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization.
     /// 				If the caller is a management account, Config calls EnableAwsServiceAccess API to enable integration between Config and Organizations.
-    /// 				If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see Register a Delegated Administrator in the Config developer guide.     PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
-    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// 				If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see Register a Delegated Administrator in the Config developer guide.     Tags are added at creation and cannot be updated with this operation   PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use TagResource and UntagResource to update tags after creation.
     ///
     /// Parameters:
     ///   - accountAggregationSources: A list of AccountAggregationSource object.
+    ///   - aggregatorFilters: An object to filter configuration recorders in an aggregator. Either ResourceType or ServicePrincipal is required.
     ///   - configurationAggregatorName: The name of the configuration aggregator.
     ///   - organizationAggregationSource: An OrganizationAggregationSource object.
     ///   - tags: An array of tag object.
@@ -3005,6 +3148,7 @@ public struct ConfigService: AWSService {
     @inlinable
     public func putConfigurationAggregator(
         accountAggregationSources: [AccountAggregationSource]? = nil,
+        aggregatorFilters: AggregatorFilters? = nil,
         configurationAggregatorName: String,
         organizationAggregationSource: OrganizationAggregationSource? = nil,
         tags: [Tag]? = nil,
@@ -3012,6 +3156,7 @@ public struct ConfigService: AWSService {
     ) async throws -> PutConfigurationAggregatorResponse {
         let input = PutConfigurationAggregatorRequest(
             accountAggregationSources: accountAggregationSources, 
+            aggregatorFilters: aggregatorFilters, 
             configurationAggregatorName: configurationAggregatorName, 
             organizationAggregationSource: organizationAggregationSource, 
             tags: tags
@@ -3019,12 +3164,10 @@ public struct ConfigService: AWSService {
         return try await self.putConfigurationAggregator(input, logger: logger)
     }
 
-    /// Creates a new configuration recorder to record configuration changes for specified resource types. You can also use this action to change the roleARN
-    /// 			or the recordingGroup of an existing recorder.
-    /// 			For more information, see  Managing the Configuration Recorder in the Config Developer Guide.  You can specify only one configuration recorder for each Amazon Web Services Region for each account. If the configuration recorder does not have the
-    /// 					recordingGroup field
-    /// 				specified, the default is to record all supported resource
-    /// 				types.
+    /// Creates or updates the customer managed configuration recorder. You can use this operation to create a new customer managed configuration recorder or to update the roleARN and the recordingGroup for an existing customer managed configuration recorder. To start the customer managed configuration recorder and begin recording configuration changes for the resource types you specify,
+    /// 			use the StartConfigurationRecorder operation. For more information, see  Working with the Configuration Recorder in the Config Developer Guide.   One customer managed configuration recorder per account per Region  You can create only one customer managed configuration recorder for each account for each Amazon Web Services Region.  Default is to record all supported resource types, excluding the global IAM resource types  If you have not specified values for the recordingGroup field, the default for the customer managed configuration recorder is to record all supported resource
+    /// 				types, excluding the global IAM resource types: AWS::IAM::Group, AWS::IAM::Policy, AWS::IAM::Role, and AWS::IAM::User.  Tags are added at creation and cannot be updated   PutConfigurationRecorder is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 				Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use TagResource and UntagResource to update tags after creation.
     @Sendable
     @inlinable
     public func putConfigurationRecorder(_ input: PutConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3037,23 +3180,24 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Creates a new configuration recorder to record configuration changes for specified resource types. You can also use this action to change the roleARN
-    /// 			or the recordingGroup of an existing recorder.
-    /// 			For more information, see  Managing the Configuration Recorder in the Config Developer Guide.  You can specify only one configuration recorder for each Amazon Web Services Region for each account. If the configuration recorder does not have the
-    /// 					recordingGroup field
-    /// 				specified, the default is to record all supported resource
-    /// 				types.
+    /// Creates or updates the customer managed configuration recorder. You can use this operation to create a new customer managed configuration recorder or to update the roleARN and the recordingGroup for an existing customer managed configuration recorder. To start the customer managed configuration recorder and begin recording configuration changes for the resource types you specify,
+    /// 			use the StartConfigurationRecorder operation. For more information, see  Working with the Configuration Recorder in the Config Developer Guide.   One customer managed configuration recorder per account per Region  You can create only one customer managed configuration recorder for each account for each Amazon Web Services Region.  Default is to record all supported resource types, excluding the global IAM resource types  If you have not specified values for the recordingGroup field, the default for the customer managed configuration recorder is to record all supported resource
+    /// 				types, excluding the global IAM resource types: AWS::IAM::Group, AWS::IAM::Policy, AWS::IAM::Role, and AWS::IAM::User.  Tags are added at creation and cannot be updated   PutConfigurationRecorder is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 				Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use TagResource and UntagResource to update tags after creation.
     ///
     /// Parameters:
-    ///   - configurationRecorder: An object for the configuration recorder to record configuration changes for specified resource types.
+    ///   - configurationRecorder: An object for the configuration recorder. A configuration recorder records configuration changes for the resource types in scope.
+    ///   - tags: The tags for the customer managed configuration recorder. Each tag consists of a key and an optional value, both of which you define.
     ///   - logger: Logger use during operation
     @inlinable
     public func putConfigurationRecorder(
         configurationRecorder: ConfigurationRecorder,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = PutConfigurationRecorderRequest(
-            configurationRecorder: configurationRecorder
+            configurationRecorder: configurationRecorder, 
+            tags: tags
         )
         return try await self.putConfigurationRecorder(input, logger: logger)
     }
@@ -3111,18 +3255,9 @@ public struct ConfigService: AWSService {
         return try await self.putConformancePack(input, logger: logger)
     }
 
-    /// Creates a delivery channel object to deliver configuration
-    /// 			information and other compliance information to an Amazon S3 bucket and Amazon SNS topic.
-    /// 			For more information,
-    /// 			see Notifications that Config Sends to an Amazon SNS topic. Before you can create a delivery channel, you must create a
-    /// 			configuration recorder. You can use this action to change the Amazon S3 bucket or an
-    /// 			Amazon SNS topic of the existing delivery channel. To change the
-    /// 			Amazon S3 bucket or an Amazon SNS topic, call this action and
-    /// 			specify the changed values for the S3 bucket and the SNS topic. If
-    /// 			you specify a different value for either the S3 bucket or the SNS
-    /// 			topic, this action will keep the existing value for the parameter
-    /// 			that is not changed.  You can have only one delivery channel per region in your
-    /// 				account.
+    /// Creates or updates a delivery channel to deliver configuration
+    /// 			information and other compliance information. You can use this operation to create a new delivery channel or to update the Amazon S3 bucket and the
+    /// 			Amazon SNS topic of an existing delivery channel. For more information, see  Working with the Delivery Channel in the Config Developer Guide.    One delivery channel per account per Region  You can have only one delivery channel for each account for each Amazon Web Services Region.
     @Sendable
     @inlinable
     public func putDeliveryChannel(_ input: PutDeliveryChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3135,21 +3270,12 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Creates a delivery channel object to deliver configuration
-    /// 			information and other compliance information to an Amazon S3 bucket and Amazon SNS topic.
-    /// 			For more information,
-    /// 			see Notifications that Config Sends to an Amazon SNS topic. Before you can create a delivery channel, you must create a
-    /// 			configuration recorder. You can use this action to change the Amazon S3 bucket or an
-    /// 			Amazon SNS topic of the existing delivery channel. To change the
-    /// 			Amazon S3 bucket or an Amazon SNS topic, call this action and
-    /// 			specify the changed values for the S3 bucket and the SNS topic. If
-    /// 			you specify a different value for either the S3 bucket or the SNS
-    /// 			topic, this action will keep the existing value for the parameter
-    /// 			that is not changed.  You can have only one delivery channel per region in your
-    /// 				account.
+    /// Creates or updates a delivery channel to deliver configuration
+    /// 			information and other compliance information. You can use this operation to create a new delivery channel or to update the Amazon S3 bucket and the
+    /// 			Amazon SNS topic of an existing delivery channel. For more information, see  Working with the Delivery Channel in the Config Developer Guide.    One delivery channel per account per Region  You can have only one delivery channel for each account for each Amazon Web Services Region.
     ///
     /// Parameters:
-    ///   - deliveryChannel: The configuration delivery channel object that delivers the
+    ///   - deliveryChannel: An object for the delivery channel. A delivery channel sends notifications and updated configuration states.
     ///   - logger: Logger use during operation
     @inlinable
     public func putDeliveryChannel(
@@ -3163,7 +3289,7 @@ public struct ConfigService: AWSService {
     }
 
     /// Used by an Lambda function to deliver evaluation results to
-    /// 			Config. This action is required in every Lambda function
+    /// 			Config. This operation is required in every Lambda function
     /// 			that is invoked by an Config rule.
     @Sendable
     @inlinable
@@ -3178,7 +3304,7 @@ public struct ConfigService: AWSService {
         )
     }
     /// Used by an Lambda function to deliver evaluation results to
-    /// 			Config. This action is required in every Lambda function
+    /// 			Config. This operation is required in every Lambda function
     /// 			that is invoked by an Config rule.
     ///
     /// Parameters:
@@ -3440,7 +3566,7 @@ public struct ConfigService: AWSService {
     /// 			Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied.    Exceptions can only be performed on non-compliant resources  Placing an exception can only be performed on resources that are NON_COMPLIANT.
     /// 			If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated.
     /// 			For more information on the conditions that initiate the possible Config evaluation results,
-    /// 			see Concepts | Config  Rules in the Config Developer Guide.    Auto remediation can be initiated even for compliant resources  If you enable auto remediation for a specific Config rule using the PutRemediationConfigurations API or the Config console,
+    /// 			see Concepts | Config  Rules in the Config Developer Guide.    Exceptions cannot be placed on service-linked remediation actions  You cannot place an exception on service-linked remediation actions, such as remediation actions put by an organizational conformance pack.    Auto remediation can be initiated even for compliant resources  If you enable auto remediation for a specific Config rule using the PutRemediationConfigurations API or the Config console,
     /// 				it initiates the remediation process for all non-compliant resources for that specific rule.
     /// 				The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis.
     /// 				Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
@@ -3464,7 +3590,7 @@ public struct ConfigService: AWSService {
     /// 			Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied.    Exceptions can only be performed on non-compliant resources  Placing an exception can only be performed on resources that are NON_COMPLIANT.
     /// 			If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated.
     /// 			For more information on the conditions that initiate the possible Config evaluation results,
-    /// 			see Concepts | Config  Rules in the Config Developer Guide.    Auto remediation can be initiated even for compliant resources  If you enable auto remediation for a specific Config rule using the PutRemediationConfigurations API or the Config console,
+    /// 			see Concepts | Config  Rules in the Config Developer Guide.    Exceptions cannot be placed on service-linked remediation actions  You cannot place an exception on service-linked remediation actions, such as remediation actions put by an organizational conformance pack.    Auto remediation can be initiated even for compliant resources  If you enable auto remediation for a specific Config rule using the PutRemediationConfigurations API or the Config console,
     /// 				it initiates the remediation process for all non-compliant resources for that specific rule.
     /// 				The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis.
     /// 				Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
@@ -3587,8 +3713,40 @@ public struct ConfigService: AWSService {
         return try await self.putRetentionConfiguration(input, logger: logger)
     }
 
+    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. For more information, see  Working with the Configuration Recorder in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfig in your account. The service-linked role is created only when the role does not exist in your account.   The recording scope determines if you receive configuration items  The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.  Tags are added at creation and cannot be updated with this operation  Use TagResource and UntagResource to update tags after creation.
+    @Sendable
+    @inlinable
+    public func putServiceLinkedConfigurationRecorder(_ input: PutServiceLinkedConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutServiceLinkedConfigurationRecorderResponse {
+        try await self.client.execute(
+            operation: "PutServiceLinkedConfigurationRecorder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. For more information, see  Working with the Configuration Recorder in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfig in your account. The service-linked role is created only when the role does not exist in your account.   The recording scope determines if you receive configuration items  The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.  Tags are added at creation and cannot be updated with this operation  Use TagResource and UntagResource to update tags after creation.
+    ///
+    /// Parameters:
+    ///   - servicePrincipal: The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create.
+    ///   - tags: The tags for a service-linked configuration recorder. Each tag consists of a key and an optional value, both of which you define.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putServiceLinkedConfigurationRecorder(
+        servicePrincipal: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutServiceLinkedConfigurationRecorderResponse {
+        let input = PutServiceLinkedConfigurationRecorderRequest(
+            servicePrincipal: servicePrincipal, 
+            tags: tags
+        )
+        return try await self.putServiceLinkedConfigurationRecorder(input, logger: logger)
+    }
+
     /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region.
-    /// 			You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region.   PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 			You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region.   Tags are added at creation and cannot be updated   PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
     /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     @Sendable
     @inlinable
@@ -3603,7 +3761,7 @@ public struct ConfigService: AWSService {
         )
     }
     /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region.
-    /// 			You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region.   PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 			You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region.   Tags are added at creation and cannot be updated   PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
     /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
     /// Parameters:
@@ -3782,9 +3940,8 @@ public struct ConfigService: AWSService {
         return try await self.startConfigRulesEvaluation(input, logger: logger)
     }
 
-    /// Starts recording configurations of the Amazon Web Services resources you have
-    /// 			selected to record in your Amazon Web Services account. You must have created at least one delivery channel to
-    /// 			successfully start the configuration recorder.
+    /// Starts the customer managed configuration recorder. The customer managed configuration recorder will begin recording configuration changes for the resource types you specify. You must have created a delivery channel to
+    /// 			successfully start the customer managed configuration recorder. You can use the PutDeliveryChannel operation to create a delivery channel.
     @Sendable
     @inlinable
     public func startConfigurationRecorder(_ input: StartConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3797,12 +3954,11 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Starts recording configurations of the Amazon Web Services resources you have
-    /// 			selected to record in your Amazon Web Services account. You must have created at least one delivery channel to
-    /// 			successfully start the configuration recorder.
+    /// Starts the customer managed configuration recorder. The customer managed configuration recorder will begin recording configuration changes for the resource types you specify. You must have created a delivery channel to
+    /// 			successfully start the customer managed configuration recorder. You can use the PutDeliveryChannel operation to create a delivery channel.
     ///
     /// Parameters:
-    ///   - configurationRecorderName: The name of the recorder object that records each configuration
+    ///   - configurationRecorderName: The name of the customer managed configuration recorder that you want to start.
     ///   - logger: Logger use during operation
     @inlinable
     public func startConfigurationRecorder(
@@ -3898,7 +4054,7 @@ public struct ConfigService: AWSService {
         return try await self.startResourceEvaluation(input, logger: logger)
     }
 
-    /// Stops recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account.
+    /// Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
     @Sendable
     @inlinable
     public func stopConfigurationRecorder(_ input: StopConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3911,10 +4067,10 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Stops recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account.
+    /// Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
     ///
     /// Parameters:
-    ///   - configurationRecorderName: The name of the recorder object that records each configuration change made to the resources.
+    ///   - configurationRecorderName: The name of the customer managed configuration recorder that you want to stop.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopConfigurationRecorder(
@@ -3927,7 +4083,7 @@ public struct ConfigService: AWSService {
         return try await self.stopConfigurationRecorder(input, logger: logger)
     }
 
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
+    /// Associates the specified tags to a resource with the specified ResourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
     /// 			If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
     @Sendable
     @inlinable
@@ -3941,11 +4097,11 @@ public struct ConfigService: AWSService {
             logger: logger
         )
     }
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
+    /// Associates the specified tags to a resource with the specified ResourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
     /// 			If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
+    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
     ///   - tags: An array of tag object.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3977,7 +4133,7 @@ public struct ConfigService: AWSService {
     /// Deletes specified tags from a resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
+    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
     ///   - tagKeys: The keys of the tags to be removed.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4709,7 +4865,7 @@ extension ConfigService {
     /// Return PaginatorSequence for operation ``describeRemediationExecutionStatus(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - configRuleName: A list of Config rule names.
+    ///   - configRuleName: The name of the Config rule.
     ///   - limit: The maximum number of RemediationExecutionStatuses returned on each page. The default is maximum. If you specify 0, Config uses the default.
     ///   - resourceKeys: A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
     ///   - logger: Logger used for logging
@@ -5309,6 +5465,43 @@ extension ConfigService {
         return self.listAggregateDiscoveredResourcesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listConfigurationRecorders(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationRecordersPaginator(
+        _ input: ListConfigurationRecordersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationRecordersRequest, ListConfigurationRecordersResponse> {
+        return .init(
+            input: input,
+            command: self.listConfigurationRecorders,
+            inputKey: \ListConfigurationRecordersRequest.nextToken,
+            outputKey: \ListConfigurationRecordersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConfigurationRecorders(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters the results based on a list of ConfigurationRecorderFilter objects that you specify.
+    ///   - maxResults: The maximum number of results to include in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationRecordersPaginator(
+        filters: [ConfigurationRecorderFilter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConfigurationRecordersRequest, ListConfigurationRecordersResponse> {
+        let input = ListConfigurationRecordersRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listConfigurationRecordersPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listConformancePackComplianceScores(_:logger:)``.
     ///
     /// - Parameters:
@@ -5491,7 +5684,7 @@ extension ConfigService {
     ///
     /// - Parameters:
     ///   - limit: The maximum number of tags returned on each page. The limit maximum is 50. You cannot specify a number greater than 50. If you specify 0, Config uses the default.
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
+    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
     ///   - logger: Logger used for logging
     @inlinable
     public func listTagsForResourcePaginator(
@@ -5973,6 +6166,17 @@ extension ConfigService.ListAggregateDiscoveredResourcesRequest: AWSPaginateToke
             limit: self.limit,
             nextToken: token,
             resourceType: self.resourceType
+        )
+    }
+}
+
+extension ConfigService.ListConfigurationRecordersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ConfigService.ListConfigurationRecordersRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

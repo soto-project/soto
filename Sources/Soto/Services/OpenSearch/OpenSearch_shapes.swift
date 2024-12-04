@@ -580,6 +580,56 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum DirectQueryDataSourceType: AWSEncodableShape & AWSDecodableShape, Sendable {
+        ///  Specifies CloudWatch Logs as a type of data source for direct queries.
+        case cloudWatchLog(CloudWatchDirectQueryDataSource)
+        ///  Specifies Security Lake as a type of data source for direct queries.
+        case securityLake(SecurityLakeDirectQueryDataSource)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cloudWatchLog:
+                let value = try container.decode(CloudWatchDirectQueryDataSource.self, forKey: .cloudWatchLog)
+                self = .cloudWatchLog(value)
+            case .securityLake:
+                let value = try container.decode(SecurityLakeDirectQueryDataSource.self, forKey: .securityLake)
+                self = .securityLake(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cloudWatchLog(let value):
+                try container.encode(value, forKey: .cloudWatchLog)
+            case .securityLake(let value):
+                try container.encode(value, forKey: .securityLake)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .cloudWatchLog(let value):
+                try value.validate(name: "\(name).cloudWatchLog")
+            case .securityLake(let value):
+                try value.validate(name: "\(name).securityLake")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLog = "CloudWatchLog"
+            case securityLake = "SecurityLake"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AIMLOptionsInput: AWSEncodableShape {
@@ -777,8 +827,68 @@ extension OpenSearch {
         }
     }
 
+    public struct AddDirectQueryDataSourceRequest: AWSEncodableShape {
+        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+        public let dataSourceName: String
+        ///  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
+        public let dataSourceType: DirectQueryDataSourceType
+        ///  An optional text field for providing additional context and details about the data source.
+        public let description: String?
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+        public let openSearchArns: [String]
+        public let tagList: [Tag]?
+
+        @inlinable
+        public init(dataSourceName: String, dataSourceType: DirectQueryDataSourceType, description: String? = nil, openSearchArns: [String], tagList: [Tag]? = nil) {
+            self.dataSourceName = dataSourceName
+            self.dataSourceType = dataSourceType
+            self.description = description
+            self.openSearchArns = openSearchArns
+            self.tagList = tagList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 80)
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 3)
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "^[a-z][a-z0-9_]+$")
+            try self.dataSourceType.validate(name: "\(name).dataSourceType")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])*[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try self.openSearchArns.forEach {
+                try validate($0, name: "openSearchArns[]", parent: name, max: 2048)
+                try validate($0, name: "openSearchArns[]", parent: name, min: 20)
+                try validate($0, name: "openSearchArns[]", parent: name, pattern: ".*")
+            }
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceName = "DataSourceName"
+            case dataSourceType = "DataSourceType"
+            case description = "Description"
+            case openSearchArns = "OpenSearchArns"
+            case tagList = "TagList"
+        }
+    }
+
+    public struct AddDirectQueryDataSourceResponse: AWSDecodableShape {
+        ///  The unique, system-generated identifier that represents the data source.
+        public let dataSourceArn: String?
+
+        @inlinable
+        public init(dataSourceArn: String? = nil) {
+            self.dataSourceArn = dataSourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "DataSourceArn"
+        }
+    }
+
     public struct AddTagsRequest: AWSEncodableShape {
-        /// Amazon Resource Name (ARN) for the OpenSearch Service domain to which you want to attach resource tags.
+        /// Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or application to which you want to attach resource tags.
         public let arn: String
         /// List of resource tags.
         public let tagList: [Tag]
@@ -1603,6 +1713,26 @@ extension OpenSearch {
         }
     }
 
+    public struct CloudWatchDirectQueryDataSource: AWSEncodableShape & AWSDecodableShape {
+        ///  The unique identifier of the IAM role that grants  OpenSearch Service permission to access the specified data source.
+        public let roleArn: String
+
+        @inlinable
+        public init(roleArn: String) {
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 200)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:iam::\\d{12}:role(\\/service-role)?\\/[A-Za-z0-9+=,.@\\-_]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+        }
+    }
+
     public struct ClusterConfig: AWSEncodableShape & AWSDecodableShape {
         /// Container for cold storage configuration options.
         public let coldStorageOptions: ColdStorageOptions?
@@ -2339,6 +2469,30 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
         }
+    }
+
+    public struct DeleteDirectQueryDataSourceRequest: AWSEncodableShape {
+        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+        public let dataSourceName: String
+
+        @inlinable
+        public init(dataSourceName: String) {
+            self.dataSourceName = dataSourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSourceName, key: "DataSourceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 80)
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 3)
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "^[a-z][a-z0-9_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
@@ -3275,6 +3429,40 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case vpcEndpointErrors = "VpcEndpointErrors"
             case vpcEndpoints = "VpcEndpoints"
+        }
+    }
+
+    public struct DirectQueryDataSource: AWSDecodableShape {
+        ///  The unique, system-generated identifier that represents the data source.
+        public let dataSourceArn: String?
+        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+        public let dataSourceName: String?
+        ///  The supported Amazon Web Services service that is used as the source for direct queries in OpenSearch Service.
+        public let dataSourceType: DirectQueryDataSourceType?
+        ///  A description that provides additional context and details about the data source.
+        public let description: String?
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+        public let openSearchArns: [String]?
+        ///  A list of tags attached to a direct query data source.
+        public let tagList: [Tag]?
+
+        @inlinable
+        public init(dataSourceArn: String? = nil, dataSourceName: String? = nil, dataSourceType: DirectQueryDataSourceType? = nil, description: String? = nil, openSearchArns: [String]? = nil, tagList: [Tag]? = nil) {
+            self.dataSourceArn = dataSourceArn
+            self.dataSourceName = dataSourceName
+            self.dataSourceType = dataSourceType
+            self.description = description
+            self.openSearchArns = openSearchArns
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "DataSourceArn"
+            case dataSourceName = "DataSourceName"
+            case dataSourceType = "DataSourceType"
+            case description = "Description"
+            case openSearchArns = "OpenSearchArns"
+            case tagList = "TagList"
         }
     }
 
@@ -4221,6 +4409,60 @@ extension OpenSearch {
         }
     }
 
+    public struct GetDirectQueryDataSourceRequest: AWSEncodableShape {
+        ///  A unique, user-defined label that identifies the data source within  your OpenSearch Service environment.
+        public let dataSourceName: String
+
+        @inlinable
+        public init(dataSourceName: String) {
+            self.dataSourceName = dataSourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSourceName, key: "DataSourceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 80)
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 3)
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "^[a-z][a-z0-9_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDirectQueryDataSourceResponse: AWSDecodableShape {
+        ///  The unique, system-generated identifier that represents the data source.
+        public let dataSourceArn: String?
+        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+        public let dataSourceName: String?
+        ///  The supported Amazon Web Services service that is used as the source for  direct queries in OpenSearch Service.
+        public let dataSourceType: DirectQueryDataSourceType?
+        ///  A description that provides additional context and details about the data source.
+        public let description: String?
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+        public let openSearchArns: [String]?
+
+        @inlinable
+        public init(dataSourceArn: String? = nil, dataSourceName: String? = nil, dataSourceType: DirectQueryDataSourceType? = nil, description: String? = nil, openSearchArns: [String]? = nil) {
+            self.dataSourceArn = dataSourceArn
+            self.dataSourceName = dataSourceName
+            self.dataSourceType = dataSourceType
+            self.description = description
+            self.openSearchArns = openSearchArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "DataSourceArn"
+            case dataSourceName = "DataSourceName"
+            case dataSourceType = "DataSourceType"
+            case description = "Description"
+            case openSearchArns = "OpenSearchArns"
+        }
+    }
+
     public struct GetDomainMaintenanceStatusRequest: AWSEncodableShape {
         /// The name of the domain.
         public let domainName: String
@@ -4901,6 +5143,40 @@ extension OpenSearch {
         }
     }
 
+    public struct ListDirectQueryDataSourcesRequest: AWSEncodableShape {
+        public let nextToken: String?
+
+        @inlinable
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nexttoken")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDirectQueryDataSourcesResponse: AWSDecodableShape {
+        ///  A list of the direct query data sources that are returned by  the ListDirectQueryDataSources API operation.
+        public let directQueryDataSources: [DirectQueryDataSource]?
+        public let nextToken: String?
+
+        @inlinable
+        public init(directQueryDataSources: [DirectQueryDataSource]? = nil, nextToken: String? = nil) {
+            self.directQueryDataSources = directQueryDataSources
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directQueryDataSources = "DirectQueryDataSources"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListDomainMaintenancesRequest: AWSEncodableShape {
         /// The name of the action.
         public let action: MaintenanceType?
@@ -5213,7 +5489,7 @@ extension OpenSearch {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
-        /// Amazon Resource Name (ARN) for the domain to view tags for.
+        /// Amazon Resource Name (ARN) for the domain, data source, or application to view tags for.
         public let arn: String
 
         @inlinable
@@ -5237,7 +5513,7 @@ extension OpenSearch {
     }
 
     public struct ListTagsResponse: AWSDecodableShape {
-        /// List of resource tags associated with the specified domain.
+        /// List of resource tags associated with the specified domain, data source, or application.
         public let tagList: [Tag]?
 
         @inlinable
@@ -6155,9 +6431,9 @@ extension OpenSearch {
     }
 
     public struct RemoveTagsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the domain from which you want to delete the specified tags.
+        /// The Amazon Resource Name (ARN) of the domain, data source, or application from which you want to delete the specified tags.
         public let arn: String
-        /// The list of tag keys to remove from the domain.
+        /// The list of tag keys to remove from the domain, data source, or application.
         public let tagKeys: [String]
 
         @inlinable
@@ -6517,6 +6793,26 @@ extension OpenSearch {
             case actionType = "ActionType"
             case date = "Date"
             case severity = "Severity"
+        }
+    }
+
+    public struct SecurityLakeDirectQueryDataSource: AWSEncodableShape & AWSDecodableShape {
+        ///  The unique identifier of the IAM role that grants OpenSearch  Service permission to access the specified data source.
+        public let roleArn: String
+
+        @inlinable
+        public init(roleArn: String) {
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 200)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:iam::\\d{12}:role(\\/service-role)?\\/[A-Za-z0-9+=,.@\\-_]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
         }
     }
 
@@ -6927,6 +7223,68 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
+        }
+    }
+
+    public struct UpdateDirectQueryDataSourceRequest: AWSEncodableShape {
+        ///  A unique, user-defined label to identify the data  source within your OpenSearch Service environment.
+        public let dataSourceName: String
+        ///  The supported Amazon Web Services service that you want to use as the source for  direct queries in OpenSearch Service.
+        public let dataSourceType: DirectQueryDataSourceType
+        ///  An optional text field for providing additional context and  details about the data source.
+        public let description: String?
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+        public let openSearchArns: [String]
+
+        @inlinable
+        public init(dataSourceName: String, dataSourceType: DirectQueryDataSourceType, description: String? = nil, openSearchArns: [String]) {
+            self.dataSourceName = dataSourceName
+            self.dataSourceType = dataSourceType
+            self.description = description
+            self.openSearchArns = openSearchArns
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSourceName, key: "DataSourceName")
+            try container.encode(self.dataSourceType, forKey: .dataSourceType)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.openSearchArns, forKey: .openSearchArns)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 80)
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 3)
+            try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "^[a-z][a-z0-9_]+$")
+            try self.dataSourceType.validate(name: "\(name).dataSourceType")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])*[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try self.openSearchArns.forEach {
+                try validate($0, name: "openSearchArns[]", parent: name, max: 2048)
+                try validate($0, name: "openSearchArns[]", parent: name, min: 20)
+                try validate($0, name: "openSearchArns[]", parent: name, pattern: ".*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceType = "DataSourceType"
+            case description = "Description"
+            case openSearchArns = "OpenSearchArns"
+        }
+    }
+
+    public struct UpdateDirectQueryDataSourceResponse: AWSDecodableShape {
+        ///  The unique, system-generated identifier that represents the data source.
+        public let dataSourceArn: String?
+
+        @inlinable
+        public init(dataSourceArn: String? = nil) {
+            self.dataSourceArn = dataSourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "DataSourceArn"
         }
     }
 

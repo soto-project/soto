@@ -88,6 +88,41 @@ public struct QConnect: AWSService {
 
     // MARK: API Calls
 
+    /// Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the $ACTIVE_VERSION qualifier later to reference the version that is in active status.
+    @Sendable
+    @inlinable
+    public func activateMessageTemplate(_ input: ActivateMessageTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateMessageTemplateResponse {
+        try await self.client.execute(
+            operation: "ActivateMessageTemplate", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/activate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the $ACTIVE_VERSION qualifier later to reference the version that is in active status.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
+    ///   - versionNumber: The version number of the message template version to activate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func activateMessageTemplate(
+        knowledgeBaseId: String,
+        messageTemplateId: String,
+        versionNumber: Int64,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ActivateMessageTemplateResponse {
+        let input = ActivateMessageTemplateRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            messageTemplateId: messageTemplateId, 
+            versionNumber: versionNumber
+        )
+        return try await self.activateMessageTemplate(input, logger: logger)
+    }
+
     /// Creates an Amazon Q in Connect AI Agent.
     @Sendable
     @inlinable
@@ -105,7 +140,7 @@ public struct QConnect: AWSService {
     ///
     /// Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - configuration: The configuration of the AI Agent.
     ///   - description: The description of the AI Agent.
     ///   - name: The name of the AI Agent.
@@ -156,7 +191,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - aiAgentId: The identifier of the Amazon Q in Connect AI Agent.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - modifiedTime: The modification time of the AI Agent should be tracked for version creation. This field should be specified to avoid version creation when simultaneous update to the underlying AI Agent are possible. The value should be the modifiedTime returned from the request to create or update an AI Agent so that version creation can fail if an update to the AI Agent post the specified modification time has been made.
     ///   - logger: Logger use during operation
     @inlinable
@@ -174,6 +209,109 @@ public struct QConnect: AWSService {
             modifiedTime: modifiedTime
         )
         return try await self.createAIAgentVersion(input, logger: logger)
+    }
+
+    /// Creates an Amazon Q in Connect AI Guardrail.
+    @Sendable
+    @inlinable
+    public func createAIGuardrail(_ input: CreateAIGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAIGuardrailResponse {
+        try await self.client.execute(
+            operation: "CreateAIGuardrail", 
+            path: "/assistants/{assistantId}/aiguardrails", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon Q in Connect AI Guardrail.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - blockedInputMessaging: The message to return when the AI Guardrail blocks a prompt.
+    ///   - blockedOutputsMessaging: The message to return when the AI Guardrail blocks a model response.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
+    ///   - contentPolicyConfig: The content filter policies to configure for the AI Guardrail.
+    ///   - contextualGroundingPolicyConfig: The contextual grounding policy configuration used to create an AI Guardrail.
+    ///   - description: A description of the AI Guardrail.
+    ///   - name: The name of the AI Guardrail.
+    ///   - sensitiveInformationPolicyConfig: The sensitive information policy to configure for the AI Guardrail.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - topicPolicyConfig: The topic policies to configure for the AI Guardrail.
+    ///   - visibilityStatus: The visibility status of the AI Guardrail.
+    ///   - wordPolicyConfig: The word policy you configure for the AI Guardrail.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAIGuardrail(
+        assistantId: String,
+        blockedInputMessaging: String,
+        blockedOutputsMessaging: String,
+        clientToken: String? = CreateAIGuardrailRequest.idempotencyToken(),
+        contentPolicyConfig: AIGuardrailContentPolicyConfig? = nil,
+        contextualGroundingPolicyConfig: AIGuardrailContextualGroundingPolicyConfig? = nil,
+        description: String? = nil,
+        name: String,
+        sensitiveInformationPolicyConfig: AIGuardrailSensitiveInformationPolicyConfig? = nil,
+        tags: [String: String]? = nil,
+        topicPolicyConfig: AIGuardrailTopicPolicyConfig? = nil,
+        visibilityStatus: VisibilityStatus,
+        wordPolicyConfig: AIGuardrailWordPolicyConfig? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAIGuardrailResponse {
+        let input = CreateAIGuardrailRequest(
+            assistantId: assistantId, 
+            blockedInputMessaging: blockedInputMessaging, 
+            blockedOutputsMessaging: blockedOutputsMessaging, 
+            clientToken: clientToken, 
+            contentPolicyConfig: contentPolicyConfig, 
+            contextualGroundingPolicyConfig: contextualGroundingPolicyConfig, 
+            description: description, 
+            name: name, 
+            sensitiveInformationPolicyConfig: sensitiveInformationPolicyConfig, 
+            tags: tags, 
+            topicPolicyConfig: topicPolicyConfig, 
+            visibilityStatus: visibilityStatus, 
+            wordPolicyConfig: wordPolicyConfig
+        )
+        return try await self.createAIGuardrail(input, logger: logger)
+    }
+
+    /// Creates an Amazon Q in Connect AI Guardrail version.
+    @Sendable
+    @inlinable
+    public func createAIGuardrailVersion(_ input: CreateAIGuardrailVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAIGuardrailVersionResponse {
+        try await self.client.execute(
+            operation: "CreateAIGuardrailVersion", 
+            path: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon Q in Connect AI Guardrail version.
+    ///
+    /// Parameters:
+    ///   - aiGuardrailId: The identifier of the Amazon Q in Connect AI Guardrail.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
+    ///   - modifiedTime: The time the AI Guardrail was last modified.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAIGuardrailVersion(
+        aiGuardrailId: String,
+        assistantId: String,
+        clientToken: String? = CreateAIGuardrailVersionRequest.idempotencyToken(),
+        modifiedTime: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAIGuardrailVersionResponse {
+        let input = CreateAIGuardrailVersionRequest(
+            aiGuardrailId: aiGuardrailId, 
+            assistantId: assistantId, 
+            clientToken: clientToken, 
+            modifiedTime: modifiedTime
+        )
+        return try await self.createAIGuardrailVersion(input, logger: logger)
     }
 
     /// Creates an Amazon Q in Connect AI Prompt.
@@ -194,7 +332,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - apiFormat: The API Format of the AI Prompt.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - description: The description of the AI Prompt.
     ///   - modelId: The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1
     ///   - name: The name of the AI Prompt.
@@ -253,7 +391,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - aiPromptId: The identifier of the Amazon Q in Connect AI prompt.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - modifiedTime: The time the AI Prompt was last modified.
     ///   - logger: Logger use during operation
     @inlinable
@@ -474,7 +612,7 @@ public struct QConnect: AWSService {
     ///   - name: The name of the knowledge base.
     ///   - renderingConfiguration: Information about how to render the content.
     ///   - serverSideEncryptionConfiguration: The configuration information for the customer managed key used for encryption.  This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. For more information about setting up a customer managed key for Amazon Q in Connect, see Enable Amazon Q in Connect for your instance.
-    ///   - sourceConfiguration: The source of the knowledge base content. Only set this argument for EXTERNAL knowledge bases.
+    ///   - sourceConfiguration: The source of the knowledge base content. Only set this argument for EXTERNAL or Managed knowledge bases.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - vectorIngestionConfiguration: Contains details about how to ingest the documents in a data source.
     ///   - logger: Logger use during operation
@@ -503,6 +641,141 @@ public struct QConnect: AWSService {
             vectorIngestionConfiguration: vectorIngestionConfiguration
         )
         return try await self.createKnowledgeBase(input, logger: logger)
+    }
+
+    /// Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the $LATEST qualifier to reference the created message template.
+    @Sendable
+    @inlinable
+    public func createMessageTemplate(_ input: CreateMessageTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMessageTemplateResponse {
+        try await self.client.execute(
+            operation: "CreateMessageTemplate", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the $LATEST qualifier to reference the created message template.
+    ///
+    /// Parameters:
+    ///   - channelSubtype: The channel subtype this message template applies to.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - content: The content of the message template.
+    ///   - defaultAttributes: An object that specifies the default values to use for variables in the message template. This object contains different categories of key-value pairs. Each key defines a variable or placeholder in the message template. The corresponding value defines the default value for that variable.
+    ///   - description: The description of the message template.
+    ///   - groupingConfiguration: 
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - language: The language code value for the language in which the quick response is written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
+    ///   - name: The name of the message template.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createMessageTemplate(
+        channelSubtype: ChannelSubtype,
+        clientToken: String? = CreateMessageTemplateRequest.idempotencyToken(),
+        content: MessageTemplateContentProvider,
+        defaultAttributes: MessageTemplateAttributes? = nil,
+        description: String? = nil,
+        groupingConfiguration: GroupingConfiguration? = nil,
+        knowledgeBaseId: String,
+        language: String? = nil,
+        name: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateMessageTemplateResponse {
+        let input = CreateMessageTemplateRequest(
+            channelSubtype: channelSubtype, 
+            clientToken: clientToken, 
+            content: content, 
+            defaultAttributes: defaultAttributes, 
+            description: description, 
+            groupingConfiguration: groupingConfiguration, 
+            knowledgeBaseId: knowledgeBaseId, 
+            language: language, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createMessageTemplate(input, logger: logger)
+    }
+
+    /// Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the $LATEST qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
+    @Sendable
+    @inlinable
+    public func createMessageTemplateAttachment(_ input: CreateMessageTemplateAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMessageTemplateAttachmentResponse {
+        try await self.client.execute(
+            operation: "CreateMessageTemplateAttachment", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/attachments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the $LATEST qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
+    ///
+    /// Parameters:
+    ///   - body: The body of the attachment file being uploaded. It should be encoded using base64 encoding.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - contentDisposition: The presentation information for the attachment file.
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
+    ///   - name: The name of the attachment file being uploaded. The name should include the file extension.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createMessageTemplateAttachment(
+        body: String,
+        clientToken: String? = nil,
+        contentDisposition: ContentDisposition,
+        knowledgeBaseId: String,
+        messageTemplateId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateMessageTemplateAttachmentResponse {
+        let input = CreateMessageTemplateAttachmentRequest(
+            body: body, 
+            clientToken: clientToken, 
+            contentDisposition: contentDisposition, 
+            knowledgeBaseId: knowledgeBaseId, 
+            messageTemplateId: messageTemplateId, 
+            name: name
+        )
+        return try await self.createMessageTemplateAttachment(input, logger: logger)
+    }
+
+    /// Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in &lt;message-template-id&gt;:&lt;versionNumber&gt; as the message template identifier. An error is displayed if the supplied messageTemplateContentSha256 is different from the messageTemplateContentSha256 of the message template with $LATEST qualifier. If multiple CreateMessageTemplateVersion requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
+    @Sendable
+    @inlinable
+    public func createMessageTemplateVersion(_ input: CreateMessageTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMessageTemplateVersionResponse {
+        try await self.client.execute(
+            operation: "CreateMessageTemplateVersion", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in &lt;message-template-id&gt;:&lt;versionNumber&gt; as the message template identifier. An error is displayed if the supplied messageTemplateContentSha256 is different from the messageTemplateContentSha256 of the message template with $LATEST qualifier. If multiple CreateMessageTemplateVersion requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - messageTemplateContentSha256: The checksum value of the message template content that is referenced by the $LATEST qualifier. It can be returned in MessageTemplateData or ExtendedMessageTemplateData. It’s calculated by content, language, defaultAttributes and Attachments of the message template. If not supplied, the message template version will be created based on the message template content that is referenced by the $LATEST qualifier by default.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createMessageTemplateVersion(
+        knowledgeBaseId: String,
+        messageTemplateContentSha256: String? = nil,
+        messageTemplateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateMessageTemplateVersionResponse {
+        let input = CreateMessageTemplateVersionRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            messageTemplateContentSha256: messageTemplateContentSha256, 
+            messageTemplateId: messageTemplateId
+        )
+        return try await self.createMessageTemplateVersion(input, logger: logger)
     }
 
     /// Creates an Amazon Q in Connect quick response.
@@ -614,6 +887,41 @@ public struct QConnect: AWSService {
         return try await self.createSession(input, logger: logger)
     }
 
+    /// Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the $ACTIVE_VERSION qualifier to reference the version in active status.
+    @Sendable
+    @inlinable
+    public func deactivateMessageTemplate(_ input: DeactivateMessageTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivateMessageTemplateResponse {
+        try await self.client.execute(
+            operation: "DeactivateMessageTemplate", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/deactivate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the $ACTIVE_VERSION qualifier to reference the version in active status.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
+    ///   - versionNumber: The version number of the message template version to deactivate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deactivateMessageTemplate(
+        knowledgeBaseId: String,
+        messageTemplateId: String,
+        versionNumber: Int64,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeactivateMessageTemplateResponse {
+        let input = DeactivateMessageTemplateRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            messageTemplateId: messageTemplateId, 
+            versionNumber: versionNumber
+        )
+        return try await self.deactivateMessageTemplate(input, logger: logger)
+    }
+
     /// Deletes an Amazon Q in Connect AI Agent.
     @Sendable
     @inlinable
@@ -679,6 +987,73 @@ public struct QConnect: AWSService {
             versionNumber: versionNumber
         )
         return try await self.deleteAIAgentVersion(input, logger: logger)
+    }
+
+    /// Deletes an Amazon Q in Connect AI Guardrail.
+    @Sendable
+    @inlinable
+    public func deleteAIGuardrail(_ input: DeleteAIGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAIGuardrailResponse {
+        try await self.client.execute(
+            operation: "DeleteAIGuardrail", 
+            path: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Amazon Q in Connect AI Guardrail.
+    ///
+    /// Parameters:
+    ///   - aiGuardrailId: The identifier of the Amazon Q in Connect AI Guardrail. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAIGuardrail(
+        aiGuardrailId: String,
+        assistantId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAIGuardrailResponse {
+        let input = DeleteAIGuardrailRequest(
+            aiGuardrailId: aiGuardrailId, 
+            assistantId: assistantId
+        )
+        return try await self.deleteAIGuardrail(input, logger: logger)
+    }
+
+    /// Delete and Amazon Q in Connect AI Guardrail version.
+    @Sendable
+    @inlinable
+    public func deleteAIGuardrailVersion(_ input: DeleteAIGuardrailVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAIGuardrailVersionResponse {
+        try await self.client.execute(
+            operation: "DeleteAIGuardrailVersion", 
+            path: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}/versions/{versionNumber}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete and Amazon Q in Connect AI Guardrail version.
+    ///
+    /// Parameters:
+    ///   - aiGuardrailId: The identifier of the Amazon Q in Connect AI Guardrail.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - versionNumber: The version number of the AI Guardrail version to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAIGuardrailVersion(
+        aiGuardrailId: String,
+        assistantId: String,
+        versionNumber: Int64,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAIGuardrailVersionResponse {
+        let input = DeleteAIGuardrailVersionRequest(
+            aiGuardrailId: aiGuardrailId, 
+            assistantId: assistantId, 
+            versionNumber: versionNumber
+        )
+        return try await self.deleteAIGuardrailVersion(input, logger: logger)
     }
 
     /// Deletes an Amazon Q in Connect AI Prompt.
@@ -937,6 +1312,73 @@ public struct QConnect: AWSService {
         return try await self.deleteKnowledgeBase(input, logger: logger)
     }
 
+    /// Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as &lt;message-template-id&gt;:&lt;versionNumber&gt; to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted.
+    @Sendable
+    @inlinable
+    public func deleteMessageTemplate(_ input: DeleteMessageTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMessageTemplateResponse {
+        try await self.client.execute(
+            operation: "DeleteMessageTemplate", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as &lt;message-template-id&gt;:&lt;versionNumber&gt; to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteMessageTemplate(
+        knowledgeBaseId: String,
+        messageTemplateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteMessageTemplateResponse {
+        let input = DeleteMessageTemplateRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            messageTemplateId: messageTemplateId
+        )
+        return try await self.deleteMessageTemplate(input, logger: logger)
+    }
+
+    /// Deletes the attachment file from the Amazon Q in Connect message template that is referenced by $LATEST qualifier. Attachments on available message template versions will remain unchanged.
+    @Sendable
+    @inlinable
+    public func deleteMessageTemplateAttachment(_ input: DeleteMessageTemplateAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMessageTemplateAttachmentResponse {
+        try await self.client.execute(
+            operation: "DeleteMessageTemplateAttachment", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/attachments/{attachmentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the attachment file from the Amazon Q in Connect message template that is referenced by $LATEST qualifier. Attachments on available message template versions will remain unchanged.
+    ///
+    /// Parameters:
+    ///   - attachmentId: The identifier of the attachment file.
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteMessageTemplateAttachment(
+        attachmentId: String,
+        knowledgeBaseId: String,
+        messageTemplateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteMessageTemplateAttachmentResponse {
+        let input = DeleteMessageTemplateAttachmentRequest(
+            attachmentId: attachmentId, 
+            knowledgeBaseId: knowledgeBaseId, 
+            messageTemplateId: messageTemplateId
+        )
+        return try await self.deleteMessageTemplateAttachment(input, logger: logger)
+    }
+
     /// Deletes a quick response.
     @Sendable
     @inlinable
@@ -999,6 +1441,38 @@ public struct QConnect: AWSService {
             assistantId: assistantId
         )
         return try await self.getAIAgent(input, logger: logger)
+    }
+
+    /// Gets the Amazon Q in Connect AI Guardrail.
+    @Sendable
+    @inlinable
+    public func getAIGuardrail(_ input: GetAIGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAIGuardrailResponse {
+        try await self.client.execute(
+            operation: "GetAIGuardrail", 
+            path: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the Amazon Q in Connect AI Guardrail.
+    ///
+    /// Parameters:
+    ///   - aiGuardrailId: The identifier of the Amazon Q in Connect AI Guardrail.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAIGuardrail(
+        aiGuardrailId: String,
+        assistantId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAIGuardrailResponse {
+        let input = GetAIGuardrailRequest(
+            aiGuardrailId: aiGuardrailId, 
+            assistantId: assistantId
+        )
+        return try await self.getAIGuardrail(input, logger: logger)
     }
 
     /// Gets and Amazon Q in Connect AI Prompt.
@@ -1254,6 +1728,73 @@ public struct QConnect: AWSService {
         return try await self.getKnowledgeBase(input, logger: logger)
     }
 
+    /// Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, &lt;message-template-id&gt;:&lt;qualifier&gt;, which is either an actual version number or an Amazon Q Connect managed qualifier $ACTIVE_VERSION | $LATEST. If it is not supplied, then $LATEST is assumed implicitly.
+    @Sendable
+    @inlinable
+    public func getMessageTemplate(_ input: GetMessageTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMessageTemplateResponse {
+        try await self.client.execute(
+            operation: "GetMessageTemplate", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, &lt;message-template-id&gt;:&lt;qualifier&gt;, which is either an actual version number or an Amazon Q Connect managed qualifier $ACTIVE_VERSION | $LATEST. If it is not supplied, then $LATEST is assumed implicitly.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMessageTemplate(
+        knowledgeBaseId: String,
+        messageTemplateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMessageTemplateResponse {
+        let input = GetMessageTemplateRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            messageTemplateId: messageTemplateId
+        )
+        return try await self.getMessageTemplate(input, logger: logger)
+    }
+
+    /// Retrieves next message on an Amazon Q in Connect session.
+    @Sendable
+    @inlinable
+    public func getNextMessage(_ input: GetNextMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNextMessageResponse {
+        try await self.client.execute(
+            operation: "GetNextMessage", 
+            path: "/assistants/{assistantId}/sessions/{sessionId}/messages/next", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves next message on an Amazon Q in Connect session.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant.
+    ///   - nextMessageToken: The token for the next message. Use the value returned in the SendMessage or previous response in the next request to retrieve the next message.
+    ///   - sessionId: The identifier of the Amazon Q in Connect session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getNextMessage(
+        assistantId: String,
+        nextMessageToken: String,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetNextMessageResponse {
+        let input = GetNextMessageRequest(
+            assistantId: assistantId, 
+            nextMessageToken: nextMessageToken, 
+            sessionId: sessionId
+        )
+        return try await self.getNextMessage(input, logger: logger)
+    }
+
     /// Retrieves the quick response.
     @Sendable
     @inlinable
@@ -1435,6 +1976,79 @@ public struct QConnect: AWSService {
             origin: origin
         )
         return try await self.listAIAgents(input, logger: logger)
+    }
+
+    /// Lists AI Guardrail versions.
+    @Sendable
+    @inlinable
+    public func listAIGuardrailVersions(_ input: ListAIGuardrailVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAIGuardrailVersionsResponse {
+        try await self.client.execute(
+            operation: "ListAIGuardrailVersions", 
+            path: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists AI Guardrail versions.
+    ///
+    /// Parameters:
+    ///   - aiGuardrailId: The identifier of the Amazon Q in Connect AI Guardrail for which versions are to be listed.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAIGuardrailVersions(
+        aiGuardrailId: String,
+        assistantId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAIGuardrailVersionsResponse {
+        let input = ListAIGuardrailVersionsRequest(
+            aiGuardrailId: aiGuardrailId, 
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAIGuardrailVersions(input, logger: logger)
+    }
+
+    /// Lists the AI Guardrails available on the Amazon Q in Connect assistant.
+    @Sendable
+    @inlinable
+    public func listAIGuardrails(_ input: ListAIGuardrailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAIGuardrailsResponse {
+        try await self.client.execute(
+            operation: "ListAIGuardrails", 
+            path: "/assistants/{assistantId}/aiguardrails", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the AI Guardrails available on the Amazon Q in Connect assistant.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAIGuardrails(
+        assistantId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAIGuardrailsResponse {
+        let input = ListAIGuardrailsRequest(
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAIGuardrails(input, logger: logger)
     }
 
     /// Lists AI Prompt versions.
@@ -1723,6 +2337,117 @@ public struct QConnect: AWSService {
         return try await self.listKnowledgeBases(input, logger: logger)
     }
 
+    /// Lists all the available versions for the specified Amazon Q in Connect message template.
+    @Sendable
+    @inlinable
+    public func listMessageTemplateVersions(_ input: ListMessageTemplateVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMessageTemplateVersionsResponse {
+        try await self.client.execute(
+            operation: "ListMessageTemplateVersions", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all the available versions for the specified Amazon Q in Connect message template.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMessageTemplateVersions(
+        knowledgeBaseId: String,
+        maxResults: Int? = nil,
+        messageTemplateId: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMessageTemplateVersionsResponse {
+        let input = ListMessageTemplateVersionsRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            maxResults: maxResults, 
+            messageTemplateId: messageTemplateId, 
+            nextToken: nextToken
+        )
+        return try await self.listMessageTemplateVersions(input, logger: logger)
+    }
+
+    /// Lists all the available Amazon Q in Connect message templates for the specified knowledge base.
+    @Sendable
+    @inlinable
+    public func listMessageTemplates(_ input: ListMessageTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMessageTemplatesResponse {
+        try await self.client.execute(
+            operation: "ListMessageTemplates", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all the available Amazon Q in Connect message templates for the specified knowledge base.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMessageTemplates(
+        knowledgeBaseId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMessageTemplatesResponse {
+        let input = ListMessageTemplatesRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listMessageTemplates(input, logger: logger)
+    }
+
+    /// Lists messages on an Amazon Q in Connect session.
+    @Sendable
+    @inlinable
+    public func listMessages(_ input: ListMessagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMessagesResponse {
+        try await self.client.execute(
+            operation: "ListMessages", 
+            path: "/assistants/{assistantId}/sessions/{sessionId}/messages", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists messages on an Amazon Q in Connect session.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - sessionId: The identifier of the Amazon Q in Connect session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMessages(
+        assistantId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMessagesResponse {
+        let input = ListMessagesRequest(
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sessionId: sessionId
+        )
+        return try await self.listMessages(input, logger: logger)
+    }
+
     /// Lists information about quick response.
     @Sendable
     @inlinable
@@ -1973,6 +2698,41 @@ public struct QConnect: AWSService {
         return try await self.removeKnowledgeBaseTemplateUri(input, logger: logger)
     }
 
+    /// Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing.
+    @Sendable
+    @inlinable
+    public func renderMessageTemplate(_ input: RenderMessageTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RenderMessageTemplateResponse {
+        try await self.client.execute(
+            operation: "RenderMessageTemplate", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/render", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing.
+    ///
+    /// Parameters:
+    ///   - attributes: An object that specifies the values to use for variables in the message template. This object contains different categories of key-value pairs. Each key defines a variable or placeholder in the message template. The corresponding value defines the value for that variable.
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func renderMessageTemplate(
+        attributes: MessageTemplateAttributes,
+        knowledgeBaseId: String,
+        messageTemplateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RenderMessageTemplateResponse {
+        let input = RenderMessageTemplateRequest(
+            attributes: attributes, 
+            knowledgeBaseId: knowledgeBaseId, 
+            messageTemplateId: messageTemplateId
+        )
+        return try await self.renderMessageTemplate(input, logger: logger)
+    }
+
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
     @Sendable
     @inlinable
@@ -2009,6 +2769,44 @@ public struct QConnect: AWSService {
             searchExpression: searchExpression
         )
         return try await self.searchContent(input, logger: logger)
+    }
+
+    /// Searches for Amazon Q in Connect message templates in the specified knowledge base.
+    @Sendable
+    @inlinable
+    public func searchMessageTemplates(_ input: SearchMessageTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchMessageTemplatesResponse {
+        try await self.client.execute(
+            operation: "SearchMessageTemplates", 
+            path: "/knowledgeBases/{knowledgeBaseId}/search/messageTemplates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for Amazon Q in Connect message templates in the specified knowledge base.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - searchExpression: The search expression for querying the message template.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchMessageTemplates(
+        knowledgeBaseId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        searchExpression: MessageTemplateSearchExpression,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchMessageTemplatesResponse {
+        let input = SearchMessageTemplatesRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            searchExpression: searchExpression
+        )
+        return try await self.searchMessageTemplates(input, logger: logger)
     }
 
     /// Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
@@ -2088,6 +2886,50 @@ public struct QConnect: AWSService {
             searchExpression: searchExpression
         )
         return try await self.searchSessions(input, logger: logger)
+    }
+
+    /// Submits a message to the Amazon Q in Connect session.
+    @Sendable
+    @inlinable
+    public func sendMessage(_ input: SendMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendMessageResponse {
+        try await self.client.execute(
+            operation: "SendMessage", 
+            path: "/assistants/{assistantId}/sessions/{sessionId}/message", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Submits a message to the Amazon Q in Connect session.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field.For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - conversationContext: The conversation context before the Amazon Q in Connect session.
+    ///   - message: The message data to submit to the Amazon Q in Connect session.
+    ///   - sessionId: The identifier of the Amazon Q in Connect session.
+    ///   - type: The message type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendMessage(
+        assistantId: String,
+        clientToken: String? = SendMessageRequest.idempotencyToken(),
+        conversationContext: ConversationContext? = nil,
+        message: MessageInput,
+        sessionId: String,
+        type: MessageType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendMessageResponse {
+        let input = SendMessageRequest(
+            assistantId: assistantId, 
+            clientToken: clientToken, 
+            conversationContext: conversationContext, 
+            message: message, 
+            sessionId: sessionId, 
+            type: type
+        )
+        return try await self.sendMessage(input, logger: logger)
     }
 
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to finalize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
@@ -2251,7 +3093,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - aiAgentId: The identifier of the Amazon Q in Connect AI Agent.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - configuration: The configuration of the Amazon Q in Connect AI Agent.
     ///   - description: The description of the Amazon Q in Connect AI Agent.
     ///   - visibilityStatus: The visbility status of the Amazon Q in Connect AI Agent.
@@ -2277,6 +3119,68 @@ public struct QConnect: AWSService {
         return try await self.updateAIAgent(input, logger: logger)
     }
 
+    /// Updates an AI Guardrail.
+    @Sendable
+    @inlinable
+    public func updateAIGuardrail(_ input: UpdateAIGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAIGuardrailResponse {
+        try await self.client.execute(
+            operation: "UpdateAIGuardrail", 
+            path: "/assistants/{assistantId}/aiguardrails/{aiGuardrailId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an AI Guardrail.
+    ///
+    /// Parameters:
+    ///   - aiGuardrailId: The identifier of the Amazon Q in Connect AI Guardrail.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - blockedInputMessaging: The message to return when the AI Guardrail blocks a prompt.
+    ///   - blockedOutputsMessaging: The message to return when the AI Guardrail blocks a model response.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
+    ///   - contentPolicyConfig: The content filter policies to configure for the AI Guardrail.
+    ///   - contextualGroundingPolicyConfig: The contextual grounding policy configuration used to create an AI Guardrail.
+    ///   - description: A description of the AI Guardrail.
+    ///   - sensitiveInformationPolicyConfig: The sensitive information policy to configure for the AI Guardrail.
+    ///   - topicPolicyConfig: The topic policies to configure for the AI Guardrail.
+    ///   - visibilityStatus: The visibility status of the Amazon Q in Connect AI Guardrail.
+    ///   - wordPolicyConfig: The word policy you configure for the AI Guardrail.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAIGuardrail(
+        aiGuardrailId: String,
+        assistantId: String,
+        blockedInputMessaging: String,
+        blockedOutputsMessaging: String,
+        clientToken: String? = UpdateAIGuardrailRequest.idempotencyToken(),
+        contentPolicyConfig: AIGuardrailContentPolicyConfig? = nil,
+        contextualGroundingPolicyConfig: AIGuardrailContextualGroundingPolicyConfig? = nil,
+        description: String? = nil,
+        sensitiveInformationPolicyConfig: AIGuardrailSensitiveInformationPolicyConfig? = nil,
+        topicPolicyConfig: AIGuardrailTopicPolicyConfig? = nil,
+        visibilityStatus: VisibilityStatus,
+        wordPolicyConfig: AIGuardrailWordPolicyConfig? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAIGuardrailResponse {
+        let input = UpdateAIGuardrailRequest(
+            aiGuardrailId: aiGuardrailId, 
+            assistantId: assistantId, 
+            blockedInputMessaging: blockedInputMessaging, 
+            blockedOutputsMessaging: blockedOutputsMessaging, 
+            clientToken: clientToken, 
+            contentPolicyConfig: contentPolicyConfig, 
+            contextualGroundingPolicyConfig: contextualGroundingPolicyConfig, 
+            description: description, 
+            sensitiveInformationPolicyConfig: sensitiveInformationPolicyConfig, 
+            topicPolicyConfig: topicPolicyConfig, 
+            visibilityStatus: visibilityStatus, 
+            wordPolicyConfig: wordPolicyConfig
+        )
+        return try await self.updateAIGuardrail(input, logger: logger)
+    }
+
     /// Updates an AI Prompt.
     @Sendable
     @inlinable
@@ -2295,7 +3199,7 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - aiPromptId: The identifier of the Amazon Q in Connect AI Prompt.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - description: The description of the Amazon Q in Connect AI Prompt.
     ///   - templateConfiguration: The configuration of the prompt template for this AI Prompt.
     ///   - visibilityStatus: The visibility status of the Amazon Q in Connect AI prompt.
@@ -2436,6 +3340,88 @@ public struct QConnect: AWSService {
             templateUri: templateUri
         )
         return try await self.updateKnowledgeBaseTemplateUri(input, logger: logger)
+    }
+
+    /// Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the $LATEST qualifier. Any modification will only apply to the message template that is referenced by the $LATEST qualifier. The fields for all available versions will remain unchanged.
+    @Sendable
+    @inlinable
+    public func updateMessageTemplate(_ input: UpdateMessageTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMessageTemplateResponse {
+        try await self.client.execute(
+            operation: "UpdateMessageTemplate", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the $LATEST qualifier. Any modification will only apply to the message template that is referenced by the $LATEST qualifier. The fields for all available versions will remain unchanged.
+    ///
+    /// Parameters:
+    ///   - content: The content of the message template.
+    ///   - defaultAttributes: An object that specifies the default values to use for variables in the message template. This object contains different categories of key-value pairs. Each key defines a variable or placeholder in the message template. The corresponding value defines the default value for that variable.
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - language: The language code value for the language in which the quick response is written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateMessageTemplate(
+        content: MessageTemplateContentProvider? = nil,
+        defaultAttributes: MessageTemplateAttributes? = nil,
+        knowledgeBaseId: String,
+        language: String? = nil,
+        messageTemplateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateMessageTemplateResponse {
+        let input = UpdateMessageTemplateRequest(
+            content: content, 
+            defaultAttributes: defaultAttributes, 
+            knowledgeBaseId: knowledgeBaseId, 
+            language: language, 
+            messageTemplateId: messageTemplateId
+        )
+        return try await self.updateMessageTemplate(input, logger: logger)
+    }
+
+    /// Updates the Amazon Q in Connect message template metadata. Note that any modification to the message template’s name, description and grouping configuration will applied to the message template pointed by the $LATEST qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template.
+    @Sendable
+    @inlinable
+    public func updateMessageTemplateMetadata(_ input: UpdateMessageTemplateMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMessageTemplateMetadataResponse {
+        try await self.client.execute(
+            operation: "UpdateMessageTemplateMetadata", 
+            path: "/knowledgeBases/{knowledgeBaseId}/messageTemplates/{messageTemplateId}/metadata", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the Amazon Q in Connect message template metadata. Note that any modification to the message template’s name, description and grouping configuration will applied to the message template pointed by the $LATEST qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template.
+    ///
+    /// Parameters:
+    ///   - description: The description of the message template.
+    ///   - groupingConfiguration: 
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
+    ///   - name: The name of the message template.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateMessageTemplateMetadata(
+        description: String? = nil,
+        groupingConfiguration: GroupingConfiguration? = nil,
+        knowledgeBaseId: String,
+        messageTemplateId: String,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateMessageTemplateMetadataResponse {
+        let input = UpdateMessageTemplateMetadataRequest(
+            description: description, 
+            groupingConfiguration: groupingConfiguration, 
+            knowledgeBaseId: knowledgeBaseId, 
+            messageTemplateId: messageTemplateId, 
+            name: name
+        )
+        return try await self.updateMessageTemplateMetadata(input, logger: logger)
     }
 
     /// Updates an existing Amazon Q in Connect quick response.
@@ -2680,6 +3666,83 @@ extension QConnect {
             origin: origin
         )
         return self.listAIAgentsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAIGuardrailVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIGuardrailVersionsPaginator(
+        _ input: ListAIGuardrailVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAIGuardrailVersionsRequest, ListAIGuardrailVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listAIGuardrailVersions,
+            inputKey: \ListAIGuardrailVersionsRequest.nextToken,
+            outputKey: \ListAIGuardrailVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAIGuardrailVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - aiGuardrailId: The identifier of the Amazon Q in Connect AI Guardrail for which versions are to be listed.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIGuardrailVersionsPaginator(
+        aiGuardrailId: String,
+        assistantId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAIGuardrailVersionsRequest, ListAIGuardrailVersionsResponse> {
+        let input = ListAIGuardrailVersionsRequest(
+            aiGuardrailId: aiGuardrailId, 
+            assistantId: assistantId, 
+            maxResults: maxResults
+        )
+        return self.listAIGuardrailVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAIGuardrails(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIGuardrailsPaginator(
+        _ input: ListAIGuardrailsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAIGuardrailsRequest, ListAIGuardrailsResponse> {
+        return .init(
+            input: input,
+            command: self.listAIGuardrails,
+            inputKey: \ListAIGuardrailsRequest.nextToken,
+            outputKey: \ListAIGuardrailsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAIGuardrails(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIGuardrailsPaginator(
+        assistantId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAIGuardrailsRequest, ListAIGuardrailsResponse> {
+        let input = ListAIGuardrailsRequest(
+            assistantId: assistantId, 
+            maxResults: maxResults
+        )
+        return self.listAIGuardrailsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listAIPromptVersions(_:logger:)``.
@@ -2984,6 +4047,123 @@ extension QConnect {
         return self.listKnowledgeBasesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listMessageTemplateVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMessageTemplateVersionsPaginator(
+        _ input: ListMessageTemplateVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMessageTemplateVersionsRequest, ListMessageTemplateVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listMessageTemplateVersions,
+            inputKey: \ListMessageTemplateVersionsRequest.nextToken,
+            outputKey: \ListMessageTemplateVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMessageTemplateVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMessageTemplateVersionsPaginator(
+        knowledgeBaseId: String,
+        maxResults: Int? = nil,
+        messageTemplateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMessageTemplateVersionsRequest, ListMessageTemplateVersionsResponse> {
+        let input = ListMessageTemplateVersionsRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            maxResults: maxResults, 
+            messageTemplateId: messageTemplateId
+        )
+        return self.listMessageTemplateVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listMessageTemplates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMessageTemplatesPaginator(
+        _ input: ListMessageTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMessageTemplatesRequest, ListMessageTemplatesResponse> {
+        return .init(
+            input: input,
+            command: self.listMessageTemplates,
+            inputKey: \ListMessageTemplatesRequest.nextToken,
+            outputKey: \ListMessageTemplatesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMessageTemplates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMessageTemplatesPaginator(
+        knowledgeBaseId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMessageTemplatesRequest, ListMessageTemplatesResponse> {
+        let input = ListMessageTemplatesRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            maxResults: maxResults
+        )
+        return self.listMessageTemplatesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listMessages(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMessagesPaginator(
+        _ input: ListMessagesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMessagesRequest, ListMessagesResponse> {
+        return .init(
+            input: input,
+            command: self.listMessages,
+            inputKey: \ListMessagesRequest.nextToken,
+            outputKey: \ListMessagesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMessages(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - sessionId: The identifier of the Amazon Q in Connect session.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMessagesPaginator(
+        assistantId: String,
+        maxResults: Int? = nil,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMessagesRequest, ListMessagesResponse> {
+        let input = ListMessagesRequest(
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            sessionId: sessionId
+        )
+        return self.listMessagesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listQuickResponses(_:logger:)``.
     ///
     /// - Parameters:
@@ -3115,6 +4295,46 @@ extension QConnect {
         return self.searchContentPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``searchMessageTemplates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchMessageTemplatesPaginator(
+        _ input: SearchMessageTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchMessageTemplatesRequest, SearchMessageTemplatesResponse> {
+        return .init(
+            input: input,
+            command: self.searchMessageTemplates,
+            inputKey: \SearchMessageTemplatesRequest.nextToken,
+            outputKey: \SearchMessageTemplatesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchMessageTemplates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - searchExpression: The search expression for querying the message template.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchMessageTemplatesPaginator(
+        knowledgeBaseId: String,
+        maxResults: Int? = nil,
+        searchExpression: MessageTemplateSearchExpression,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchMessageTemplatesRequest, SearchMessageTemplatesResponse> {
+        let input = SearchMessageTemplatesRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            maxResults: maxResults, 
+            searchExpression: searchExpression
+        )
+        return self.searchMessageTemplatesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``searchQuickResponses(_:logger:)``.
     ///
     /// - Parameters:
@@ -3224,6 +4444,29 @@ extension QConnect.ListAIAgentsRequest: AWSPaginateToken {
     }
 }
 
+extension QConnect.ListAIGuardrailVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListAIGuardrailVersionsRequest {
+        return .init(
+            aiGuardrailId: self.aiGuardrailId,
+            assistantId: self.assistantId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QConnect.ListAIGuardrailsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListAIGuardrailsRequest {
+        return .init(
+            assistantId: self.assistantId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension QConnect.ListAIPromptVersionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QConnect.ListAIPromptVersionsRequest {
@@ -3314,6 +4557,41 @@ extension QConnect.ListKnowledgeBasesRequest: AWSPaginateToken {
     }
 }
 
+extension QConnect.ListMessageTemplateVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListMessageTemplateVersionsRequest {
+        return .init(
+            knowledgeBaseId: self.knowledgeBaseId,
+            maxResults: self.maxResults,
+            messageTemplateId: self.messageTemplateId,
+            nextToken: token
+        )
+    }
+}
+
+extension QConnect.ListMessageTemplatesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListMessageTemplatesRequest {
+        return .init(
+            knowledgeBaseId: self.knowledgeBaseId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QConnect.ListMessagesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListMessagesRequest {
+        return .init(
+            assistantId: self.assistantId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionId: self.sessionId
+        )
+    }
+}
+
 extension QConnect.ListQuickResponsesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QConnect.ListQuickResponsesRequest {
@@ -3344,6 +4622,18 @@ extension QConnect.QueryAssistantRequest: AWSPaginateToken {
 extension QConnect.SearchContentRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QConnect.SearchContentRequest {
+        return .init(
+            knowledgeBaseId: self.knowledgeBaseId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchExpression: self.searchExpression
+        )
+    }
+}
+
+extension QConnect.SearchMessageTemplatesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.SearchMessageTemplatesRequest {
         return .init(
             knowledgeBaseId: self.knowledgeBaseId,
             maxResults: self.maxResults,

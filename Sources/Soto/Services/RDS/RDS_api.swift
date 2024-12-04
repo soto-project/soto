@@ -585,7 +585,7 @@ public struct RDS: AWSService {
         return try await self.copyOptionGroup(input, logger: logger)
     }
 
-    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment.  In a blue/green deployment, the blue environment is the current production environment.  The green environment is the staging environment. The staging environment stays in sync  with the current production environment using logical replication. You can make changes to the databases in the green environment without affecting  production workloads. For example, you can upgrade the major or minor DB engine version, change  database parameters, or make schema changes in the staging environment. You can thoroughly test  changes in the green environment. When ready, you can switch over the environments to promote the  green environment to be the new production environment. The switchover typically takes under a minute. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment.  In a blue/green deployment, the blue environment is the current production environment.  The green environment is the staging environment, and it stays in sync  with the current production environment. You can make changes to the databases in the green environment without affecting  production workloads. For example, you can upgrade the major or minor DB engine version, change  database parameters, or make schema changes in the staging environment. You can thoroughly test  changes in the green environment. When ready, you can switch over the environments to promote the  green environment to be the new production environment. The switchover typically takes under a minute. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
     @Sendable
     @inlinable
     public func createBlueGreenDeployment(_ input: CreateBlueGreenDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBlueGreenDeploymentResponse {
@@ -598,16 +598,20 @@ public struct RDS: AWSService {
             logger: logger
         )
     }
-    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment.  In a blue/green deployment, the blue environment is the current production environment.  The green environment is the staging environment. The staging environment stays in sync  with the current production environment using logical replication. You can make changes to the databases in the green environment without affecting  production workloads. For example, you can upgrade the major or minor DB engine version, change  database parameters, or make schema changes in the staging environment. You can thoroughly test  changes in the green environment. When ready, you can switch over the environments to promote the  green environment to be the new production environment. The switchover typically takes under a minute. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment.  In a blue/green deployment, the blue environment is the current production environment.  The green environment is the staging environment, and it stays in sync  with the current production environment. You can make changes to the databases in the green environment without affecting  production workloads. For example, you can upgrade the major or minor DB engine version, change  database parameters, or make schema changes in the staging environment. You can thoroughly test  changes in the green environment. When ready, you can switch over the environments to promote the  green environment to be the new production environment. The switchover typically takes under a minute. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
     ///
     /// Parameters:
     ///   - blueGreenDeploymentName: The name of the blue/green deployment. Constraints:   Can't be the same as an existing blue/green deployment name in the same account and Amazon Web Services Region.
     ///   - source: The Amazon Resource Name (ARN) of the source production database. Specify the database that you want to clone. The blue/green deployment creates this database in  the green environment. You can make updates to the database in the green environment, such as an engine  version upgrade. When you are ready, you can switch the database in the green environment to be the  production database.
     ///   - tags: Tags to assign to the blue/green deployment.
+    ///   - targetAllocatedStorage: The amount of storage in gibibytes (GiB) to allocate for the green DB instance. You can choose to increase or decrease the allocated storage on the green DB instance. This setting doesn't apply to Amazon Aurora blue/green deployments.
     ///   - targetDBClusterParameterGroupName: The DB cluster parameter group associated with the Aurora DB cluster in the green environment. To test parameter changes, specify a DB cluster parameter group that is different from the one associated  with the source DB cluster.
     ///   - targetDBInstanceClass: Specify the DB instance class for the databases in the green environment. This parameter only applies to RDS DB instances, because DB instances within an Aurora DB cluster can have multiple different instance classes. If you're creating a blue/green deployment from an Aurora DB cluster, don't specify this parameter. After the green environment is created, you can individually modify the instance classes  of the DB instances within the green DB cluster.
     ///   - targetDBParameterGroupName: The DB parameter group associated with the DB instance in the green environment. To test parameter changes, specify a DB parameter group that is different from the one associated  with the source DB instance.
     ///   - targetEngineVersion: The engine version of the database in the green environment. Specify the engine version to upgrade to in the green environment.
+    ///   - targetIops: The amount of Provisioned IOPS (input/output operations per second) to allocate for the green DB instance. For information about valid IOPS values, see  Amazon RDS DB instance storage  in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora blue/green deployments.
+    ///   - targetStorageThroughput: The storage throughput value for the green DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora blue/green deployments.
+    ///   - targetStorageType: The storage type to associate with the green DB instance. Valid Values: gp2 | gp3 | io1 | io2  This setting doesn't apply to Amazon Aurora blue/green deployments.
     ///   - upgradeTargetStorageConfig: Whether to upgrade the storage file system configuration on the green database. This option migrates the green DB instance from the older 32-bit file system to the preferred configuration. For more information, see Upgrading the storage file system for a DB instance.
     ///   - logger: Logger use during operation
     @inlinable
@@ -615,10 +619,14 @@ public struct RDS: AWSService {
         blueGreenDeploymentName: String? = nil,
         source: String? = nil,
         tags: [Tag]? = nil,
+        targetAllocatedStorage: Int? = nil,
         targetDBClusterParameterGroupName: String? = nil,
         targetDBInstanceClass: String? = nil,
         targetDBParameterGroupName: String? = nil,
         targetEngineVersion: String? = nil,
+        targetIops: Int? = nil,
+        targetStorageThroughput: Int? = nil,
+        targetStorageType: String? = nil,
         upgradeTargetStorageConfig: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBlueGreenDeploymentResponse {
@@ -626,10 +634,14 @@ public struct RDS: AWSService {
             blueGreenDeploymentName: blueGreenDeploymentName, 
             source: source, 
             tags: tags, 
+            targetAllocatedStorage: targetAllocatedStorage, 
             targetDBClusterParameterGroupName: targetDBClusterParameterGroupName, 
             targetDBInstanceClass: targetDBInstanceClass, 
             targetDBParameterGroupName: targetDBParameterGroupName, 
             targetEngineVersion: targetEngineVersion, 
+            targetIops: targetIops, 
+            targetStorageThroughput: targetStorageThroughput, 
+            targetStorageType: targetStorageType, 
             upgradeTargetStorageConfig: upgradeTargetStorageConfig
         )
         return try await self.createBlueGreenDeployment(input, logger: logger)
@@ -719,6 +731,7 @@ public struct RDS: AWSService {
     ///   - characterSetName: The name of the character set (CharacterSet) to associate the DB cluster with. Valid for Cluster Type: Aurora DB clusters only
     ///   - clusterScalabilityType: Specifies the scalability mode of the Aurora DB cluster. When set to limitless, the cluster operates as an Aurora Limitless Database. When set to standard (the default), the cluster uses normal DB instance creation. Valid for: Aurora DB clusters only  You can't modify this setting after you create the DB cluster.
     ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster.  The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    ///   - databaseInsightsMode: Specifies the mode of Database Insights to enable for the cluster.
     ///   - databaseName: The name for your database of up to 64 alphanumeric characters.  A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     ///   - dbClusterIdentifier: The identifier for this DB cluster. This parameter is stored as a lowercase string. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:   Must contain from 1 to 63 (for Aurora DB clusters) or 1 to 52 (for Multi-AZ DB clusters) letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
     ///   - dbClusterInstanceClass: The compute and memory capacity of each DB instance in the Multi-AZ DB cluster, for example db.m6gd.xlarge. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes and availability for your engine, see DB instance class in the Amazon RDS User Guide. This setting is required to create a Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only
@@ -777,6 +790,7 @@ public struct RDS: AWSService {
         characterSetName: String? = nil,
         clusterScalabilityType: ClusterScalabilityType? = nil,
         copyTagsToSnapshot: Bool? = nil,
+        databaseInsightsMode: DatabaseInsightsMode? = nil,
         databaseName: String? = nil,
         dbClusterIdentifier: String? = nil,
         dbClusterInstanceClass: String? = nil,
@@ -835,6 +849,7 @@ public struct RDS: AWSService {
             characterSetName: characterSetName, 
             clusterScalabilityType: clusterScalabilityType, 
             copyTagsToSnapshot: copyTagsToSnapshot, 
+            databaseInsightsMode: databaseInsightsMode, 
             databaseName: databaseName, 
             dbClusterIdentifier: dbClusterIdentifier, 
             dbClusterInstanceClass: dbClusterInstanceClass, 
@@ -1027,10 +1042,11 @@ public struct RDS: AWSService {
     ///   - characterSetName: For supported engines, the character set (CharacterSet) to associate the DB instance with. This setting doesn't apply to the following DB instances:   Amazon Aurora - The character set is managed by the DB cluster. For more information, see CreateDBCluster.   RDS Custom - However, if you need to change the character set,  you can change it on the database itself.
     ///   - copyTagsToSnapshot: Specifies whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting.
     ///   - customIamInstanceProfile: The instance profile associated with the underlying Amazon EC2 instance of an  RDS Custom DB instance. This setting is required for RDS Custom. Constraints:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see   Configure IAM and your VPC in the Amazon RDS User Guide.
+    ///   - databaseInsightsMode: Specifies the mode of Database Insights to enable for the instance.
     ///   - dbClusterIdentifier: The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
     ///   - dbInstanceClass: The compute and memory capacity of the DB instance, for example db.m5.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB instance  classes in the Amazon RDS User Guide or  Aurora  DB instance classes in the Amazon Aurora User Guide.
     ///   - dbInstanceIdentifier: The identifier for this DB instance. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
-    ///   - dbName: The meaning of this parameter differs according to the database engine you use.  Amazon Aurora MySQL  The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created  in the DB cluster. Constraints:   Must contain 1 to 64 alphanumeric characters.   Can't be a word reserved by the database engine.    Amazon Aurora PostgreSQL  The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is created. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Constraints:   It must contain 1 to 63 alphanumeric characters.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0 to 9).   Can't be a word reserved by the database engine.    Amazon RDS Custom for Oracle  The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't specify a value, the default value is ORCL for non-CDBs and RDSCDB for CDBs. Default: ORCL  Constraints:   Must contain 1 to 8 alphanumeric characters.   Must contain a letter.   Can't be a word reserved by the database engine.    Amazon RDS Custom for SQL Server  Not applicable. Must be null.  RDS for Db2  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. In some cases, we recommend that you don't add a database name. For more information, see Additional considerations in the Amazon RDS User Guide. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine.    RDS for MariaDB  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine.    RDS for MySQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine.    RDS for Oracle  The Oracle System ID (SID) of the created DB instance. If you don't specify a value,  the default value is ORCL. You can't specify the  string null, or any other reserved word, for DBName. Default: ORCL  Constraints:   Can't be longer than 8 characters.    RDS for PostgreSQL  The name of the database to create when the DB instance is created. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Constraints:   Must contain 1 to 63 letters, numbers, or underscores.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine.    RDS for SQL Server  Not applicable. Must be null.
+    ///   - dbName: The meaning of this parameter differs according to the database engine you use.  Amazon Aurora MySQL  The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created  in the DB cluster. Constraints:   Must contain 1 to 64 alphanumeric characters.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the database engine.    Amazon Aurora PostgreSQL  The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is created. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Constraints:   It must contain 1 to 63 alphanumeric characters.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0 to 9).   Can't be a word reserved by the database engine.    Amazon RDS Custom for Oracle  The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't specify a value, the default value is ORCL for non-CDBs and RDSCDB for CDBs. Default: ORCL  Constraints:   Must contain 1 to 8 alphanumeric characters.   Must contain a letter.   Can't be a word reserved by the database engine.    Amazon RDS Custom for SQL Server  Not applicable. Must be null.  RDS for Db2  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. In some cases, we recommend that you don't add a database name. For more information, see Additional considerations in the Amazon RDS User Guide. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine.    RDS for MariaDB  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine.    RDS for MySQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine.    RDS for Oracle  The Oracle System ID (SID) of the created DB instance. If you don't specify a value,  the default value is ORCL. You can't specify the  string null, or any other reserved word, for DBName. Default: ORCL  Constraints:   Can't be longer than 8 characters.    RDS for PostgreSQL  The name of the database to create when the DB instance is created. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Constraints:   Must contain 1 to 63 letters, numbers, or underscores.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine.    RDS for SQL Server  Not applicable. Must be null.
     ///   - dbParameterGroupName: The name of the DB parameter group to associate with this DB instance. If you don't specify a value, then  Amazon RDS uses the default DB parameter group for the specified DB engine and version. This setting doesn't apply to RDS Custom DB instances. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
     ///   - dbSecurityGroups: A list of DB security groups to associate with this DB instance. This setting applies to the legacy EC2-Classic platform, which is no longer used to create  new DB instances. Use the VpcSecurityGroupIds setting instead.
     ///   - dbSubnetGroupName: A DB subnet group to associate with this DB instance. Constraints:   Must match the name of an existing DB subnet group.   Example: mydbsubnetgroup
@@ -1093,6 +1109,7 @@ public struct RDS: AWSService {
         characterSetName: String? = nil,
         copyTagsToSnapshot: Bool? = nil,
         customIamInstanceProfile: String? = nil,
+        databaseInsightsMode: DatabaseInsightsMode? = nil,
         dbClusterIdentifier: String? = nil,
         dbInstanceClass: String? = nil,
         dbInstanceIdentifier: String? = nil,
@@ -1159,6 +1176,7 @@ public struct RDS: AWSService {
             characterSetName: characterSetName, 
             copyTagsToSnapshot: copyTagsToSnapshot, 
             customIamInstanceProfile: customIamInstanceProfile, 
+            databaseInsightsMode: databaseInsightsMode, 
             dbClusterIdentifier: dbClusterIdentifier, 
             dbInstanceClass: dbInstanceClass, 
             dbInstanceIdentifier: dbInstanceIdentifier, 
@@ -1239,6 +1257,7 @@ public struct RDS: AWSService {
     ///   - caCertificateIdentifier: The CA certificate identifier to use for the read replica's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
     ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the read replica to snapshots of the read replica. By default, tags aren't copied.
     ///   - customIamInstanceProfile: The instance profile associated with the underlying Amazon EC2 instance of an  RDS Custom DB instance. The instance profile must meet the following requirements:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see   Configure IAM and your VPC in the Amazon RDS User Guide. This setting is required for RDS Custom DB instances.
+    ///   - databaseInsightsMode: Specifies the mode of Database Insights.
     ///   - dbInstanceClass: The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
     ///   - dbInstanceIdentifier: The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
     ///   - dbParameterGroupName: The name of the DB parameter group to associate with this read replica DB instance. For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
@@ -1287,6 +1306,7 @@ public struct RDS: AWSService {
         caCertificateIdentifier: String? = nil,
         copyTagsToSnapshot: Bool? = nil,
         customIamInstanceProfile: String? = nil,
+        databaseInsightsMode: DatabaseInsightsMode? = nil,
         dbInstanceClass: String? = nil,
         dbInstanceIdentifier: String? = nil,
         dbParameterGroupName: String? = nil,
@@ -1335,6 +1355,7 @@ public struct RDS: AWSService {
             caCertificateIdentifier: caCertificateIdentifier, 
             copyTagsToSnapshot: copyTagsToSnapshot, 
             customIamInstanceProfile: customIamInstanceProfile, 
+            databaseInsightsMode: databaseInsightsMode, 
             dbInstanceClass: dbInstanceClass, 
             dbInstanceIdentifier: dbInstanceIdentifier, 
             dbParameterGroupName: dbParameterGroupName, 
@@ -4446,7 +4467,7 @@ public struct RDS: AWSService {
         return try await self.describeValidDBInstanceModifications(input, logger: logger)
     }
 
-    /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters,  use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
+    /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters,  use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
     @Sendable
     @inlinable
     public func disableHttpEndpoint(_ input: DisableHttpEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableHttpEndpointResponse {
@@ -4459,7 +4480,7 @@ public struct RDS: AWSService {
             logger: logger
         )
     }
-    /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters,  use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
+    /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters,  use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the DB cluster.
@@ -4513,7 +4534,7 @@ public struct RDS: AWSService {
         return try await self.downloadDBLogFilePortion(input, logger: logger)
     }
 
-    /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API)  for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console  with the RDS query editor. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters,  use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
+    /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API)  for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console  with the RDS query editor. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters,  use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
     @Sendable
     @inlinable
     public func enableHttpEndpoint(_ input: EnableHttpEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableHttpEndpointResponse {
@@ -4526,7 +4547,7 @@ public struct RDS: AWSService {
             logger: logger
         )
     }
-    /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API)  for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console  with the RDS query editor. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters,  use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
+    /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API)  for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console  with the RDS query editor. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters,  use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the DB cluster.
@@ -4803,7 +4824,7 @@ public struct RDS: AWSService {
     ///   - allocatedStorage: The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only
     ///   - allowEngineModeChange: Specifies whether engine mode changes from serverless to provisioned  are allowed. Valid for Cluster Type: Aurora Serverless v1 DB clusters only Constraints:   You must allow engine mode changes when specifying a different value for the EngineMode parameter from the DB cluster's current engine mode.
     ///   - allowMajorVersionUpgrade: Specifies whether major version upgrades are allowed. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:   You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
-    ///   - applyImmediately: Specifies whether the modifications in this request and any pending modifications are  asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting  for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next  maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some  modifications, such as turning on deletion protection and changing the master password, are applied  immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    ///   - applyImmediately: Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the  PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster  are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as  turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     ///   - autoMinorVersionUpgrade: Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
     ///   - awsBackupRecoveryPointArn: The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
     ///   - backtrackWindow: The target backtrack window, in seconds. To disable backtracking, set this value to 0. Valid for Cluster Type: Aurora MySQL DB clusters only Default: 0  Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).
@@ -4811,6 +4832,7 @@ public struct RDS: AWSService {
     ///   - caCertificateIdentifier: The CA certificate identifier to use for the DB cluster's server certificate. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters
     ///   - cloudwatchLogsExportConfiguration: The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine:   Aurora MySQL - audit | error | general | slowquery    Aurora PostgreSQL - postgresql    RDS for MySQL - error | general | slowquery    RDS for PostgreSQL - postgresql | upgrade    For more information about exporting CloudWatch Logs for Amazon RDS, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
     ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster.  The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    ///   - databaseInsightsMode: Specifies the mode of Database Insights to enable for the cluster.
     ///   - dbClusterIdentifier: The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:   Must match the identifier of an existing DB cluster.
     ///   - dbClusterInstanceClass: The compute and memory capacity of each DB instance in the Multi-AZ DB cluster, for example db.m6gd.xlarge. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes and availability for your engine, see  DB Instance Class in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters only
     ///   - dbClusterParameterGroupName: The name of the DB cluster parameter group to use for the DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
@@ -4819,7 +4841,7 @@ public struct RDS: AWSService {
     ///   - domain: The Active Directory directory ID to move the DB cluster to.   Specify none to remove the cluster from its current domain. The domain must be created prior to this operation. For more information, see Kerberos Authentication in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
     ///   - domainIAMRoleName: The name of the IAM role to use when making API calls to the Directory Service. Valid for Cluster Type: Aurora DB clusters only
     ///   - enableGlobalWriteForwarding: Specifies whether to enable this DB cluster to forward write operations to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a secondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
-    ///   - enableHttpEndpoint: Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora PostgreSQL  Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations.  Valid for Cluster Type: Aurora DB clusters only
+    ///   - enableHttpEndpoint: Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations.  Valid for Cluster Type: Aurora DB clusters only
     ///   - enableIAMDatabaseAuthentication: Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     ///   - enableLimitlessDatabase: Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only  This setting is no longer used. Instead use the ClusterScalabilityType setting when you create your Aurora Limitless Database DB cluster.
     ///   - enableLocalWriteForwarding: Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
@@ -4859,6 +4881,7 @@ public struct RDS: AWSService {
         caCertificateIdentifier: String? = nil,
         cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil,
         copyTagsToSnapshot: Bool? = nil,
+        databaseInsightsMode: DatabaseInsightsMode? = nil,
         dbClusterIdentifier: String? = nil,
         dbClusterInstanceClass: String? = nil,
         dbClusterParameterGroupName: String? = nil,
@@ -4907,6 +4930,7 @@ public struct RDS: AWSService {
             caCertificateIdentifier: caCertificateIdentifier, 
             cloudwatchLogsExportConfiguration: cloudwatchLogsExportConfiguration, 
             copyTagsToSnapshot: copyTagsToSnapshot, 
+            databaseInsightsMode: databaseInsightsMode, 
             dbClusterIdentifier: dbClusterIdentifier, 
             dbClusterInstanceClass: dbClusterInstanceClass, 
             dbClusterParameterGroupName: dbClusterParameterGroupName, 
@@ -5080,6 +5104,7 @@ public struct RDS: AWSService {
     ///   - certificateRotationRestart: Specifies whether the DB instance is restarted when you rotate your  SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate  is not updated until the DB instance is restarted.  Set this parameter only if you are not using SSL/TLS to connect to the DB instance.  If you are using SSL/TLS to connect to the DB instance, follow the appropriate instructions for your  DB engine to rotate your SSL/TLS certificate:   For more information about rotating your SSL/TLS certificate for RDS DB engines, see   Rotating Your SSL/TLS Certificate. in the Amazon RDS User Guide.    For more information about rotating your SSL/TLS certificate for Aurora DB engines, see   Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.   This setting doesn't apply to RDS Custom DB instances.
     ///   - cloudwatchLogsExportConfiguration: The log types to be enabled for export to CloudWatch Logs for a  specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance  immediately. Therefore, the ApplyImmediately parameter has no effect. This setting doesn't apply to RDS Custom DB instances.
     ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags aren't copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
+    ///   - databaseInsightsMode: Specifies the mode of Database Insights to enable for the instance.
     ///   - dbInstanceClass: The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the  Amazon RDS User Guide or  Aurora DB instance classes in the Amazon Aurora User Guide. For RDS Custom, see DB instance class support for RDS Custom for Oracle and  DB instance class support for RDS Custom for SQL Server. If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request.  Default: Uses existing setting Constraints:   If you are modifying the DB instance class and upgrading the engine version at the same time, the currently running engine version must be supported on the  specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version,  and then run it again to modify the DB instance class.
     ///   - dbInstanceIdentifier: The identifier of DB instance to modify. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DB instance.
     ///   - dbParameterGroupName: The name of the DB parameter group to apply to the DB instance. Changing this setting doesn't result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. In this case, the DB instance isn't rebooted automatically, and the parameter changes aren't applied during the next maintenance window. However, if you modify  dynamic parameters in the newly associated DB parameter group, these changes are applied  immediately without a reboot. This setting doesn't apply to RDS Custom DB instances. Default: Uses existing setting Constraints:   Must be in the same DB parameter group family as the DB instance.
@@ -5143,6 +5168,7 @@ public struct RDS: AWSService {
         certificateRotationRestart: Bool? = nil,
         cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil,
         copyTagsToSnapshot: Bool? = nil,
+        databaseInsightsMode: DatabaseInsightsMode? = nil,
         dbInstanceClass: String? = nil,
         dbInstanceIdentifier: String? = nil,
         dbParameterGroupName: String? = nil,
@@ -5206,6 +5232,7 @@ public struct RDS: AWSService {
             certificateRotationRestart: certificateRotationRestart, 
             cloudwatchLogsExportConfiguration: cloudwatchLogsExportConfiguration, 
             copyTagsToSnapshot: copyTagsToSnapshot, 
+            databaseInsightsMode: databaseInsightsMode, 
             dbInstanceClass: dbInstanceClass, 
             dbInstanceIdentifier: dbInstanceIdentifier, 
             dbParameterGroupName: dbParameterGroupName, 
@@ -6833,6 +6860,7 @@ public struct RDS: AWSService {
     ///   - backupRetentionPeriod: The number of days for which automated backups are retained.  Setting this parameter to a positive number enables backups. For more information, see CreateDBInstance.
     ///   - caCertificateIdentifier: The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
     ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
+    ///   - databaseInsightsMode: Specifies the mode of Database Insights to enable for the instance.
     ///   - dbInstanceClass: The compute and memory capacity of the DB instance,  for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions,  or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
     ///   - dbInstanceIdentifier: The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
     ///   - dbName: The name of the database to create when the DB instance is created. Follow the naming rules specified in CreateDBInstance.
@@ -6887,6 +6915,7 @@ public struct RDS: AWSService {
         backupRetentionPeriod: Int? = nil,
         caCertificateIdentifier: String? = nil,
         copyTagsToSnapshot: Bool? = nil,
+        databaseInsightsMode: DatabaseInsightsMode? = nil,
         dbInstanceClass: String? = nil,
         dbInstanceIdentifier: String? = nil,
         dbName: String? = nil,
@@ -6941,6 +6970,7 @@ public struct RDS: AWSService {
             backupRetentionPeriod: backupRetentionPeriod, 
             caCertificateIdentifier: caCertificateIdentifier, 
             copyTagsToSnapshot: copyTagsToSnapshot, 
+            databaseInsightsMode: databaseInsightsMode, 
             dbInstanceClass: dbInstanceClass, 
             dbInstanceIdentifier: dbInstanceIdentifier, 
             dbName: dbName, 
