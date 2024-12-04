@@ -207,16 +207,19 @@ public struct AutoScaling: AWSService {
     ///
     /// Parameters:
     ///   - autoScalingGroupName: The name of the Auto Scaling group.
+    ///   - skipZonalShiftValidation:  If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see Auto Scaling group zonal shift in the Amazon EC2 Auto Scaling User Guide.
     ///   - trafficSources: The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources.
     ///   - logger: Logger use during operation
     @inlinable
     public func attachTrafficSources(
         autoScalingGroupName: String? = nil,
+        skipZonalShiftValidation: Bool? = nil,
         trafficSources: [TrafficSourceIdentifier]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AttachTrafficSourcesResultType {
         let input = AttachTrafficSourcesType(
             autoScalingGroupName: autoScalingGroupName, 
+            skipZonalShiftValidation: skipZonalShiftValidation, 
             trafficSources: trafficSources
         )
         return try await self.attachTrafficSources(input, logger: logger)
@@ -374,8 +377,10 @@ public struct AutoScaling: AWSService {
     /// Parameters:
     ///   - autoScalingGroupName: The name of the Auto Scaling group. This name must be unique per Region per account. The name can contain any ASCII character 33 to 126 including most punctuation characters, digits, and upper and lowercased letters.  You cannot use a colon (:) in the name.
     ///   - availabilityZoneDistribution: The instance capacity distribution across Availability Zones.
+    ///   - availabilityZoneImpairmentPolicy:  The policy for Availability Zone impairment.
     ///   - availabilityZones: A list of Availability Zones where instances in the Auto Scaling group can be created. Used for launching into the default VPC subnet in each Availability Zone when not using the VPCZoneIdentifier property, or for attaching a network interface when an existing network interface ID is specified in a launch template.
     ///   - capacityRebalance: Indicates whether Capacity Rebalancing is enabled. Otherwise, Capacity Rebalancing is disabled. When you turn on Capacity Rebalancing, Amazon EC2 Auto Scaling attempts to launch a Spot Instance whenever Amazon EC2 notifies that a Spot Instance is at an elevated risk of interruption. After launching a new instance, it then terminates an old instance. For more information, see Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions in the in the Amazon EC2 Auto Scaling User Guide.
+    ///   - capacityReservationSpecification:  The capacity reservation specification for the Auto Scaling group.
     ///   - context: Reserved.
     ///   - defaultCooldown:  Only needed if you use simple scaling policies.  The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Default: 300 seconds
     ///   - defaultInstanceWarmup: The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state.  During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.  Default: None
@@ -396,6 +401,7 @@ public struct AutoScaling: AWSService {
     ///   - newInstancesProtectedFromScaleIn: Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
     ///   - placementGroup: The name of the placement group into which to launch your instances. For more information, see Placement groups in the Amazon EC2 User Guide for Linux Instances.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
     ///   - serviceLinkedRoleARN: The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
+    ///   - skipZonalShiftValidation:  If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see Auto Scaling group zonal shift in the Amazon EC2 Auto Scaling User Guide.
     ///   - tags: One or more tags. You can tag your Auto Scaling group and propagate the tags to the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the launch template specifies an instance tag with a key that is also specified for the Auto Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the value specified by the Auto Scaling group. For more information, see Tag Auto Scaling groups and instances in the Amazon EC2 Auto Scaling User Guide.
     ///   - targetGroupARNs: The Amazon Resource Names (ARN) of the Elastic Load Balancing target groups to associate with the Auto Scaling group. Instances are registered as targets with the target groups. The target groups receive incoming traffic and route requests to one or more registered targets. For more information, see Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
     ///   - terminationPolicies: A policy or a list of policies that are used to select the instance to terminate. These policies are executed in the order that you list them. For more information, see Configure termination policies for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
@@ -406,8 +412,10 @@ public struct AutoScaling: AWSService {
     public func createAutoScalingGroup(
         autoScalingGroupName: String? = nil,
         availabilityZoneDistribution: AvailabilityZoneDistribution? = nil,
+        availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [String]? = nil,
         capacityRebalance: Bool? = nil,
+        capacityReservationSpecification: CapacityReservationSpecification? = nil,
         context: String? = nil,
         defaultCooldown: Int? = nil,
         defaultInstanceWarmup: Int? = nil,
@@ -428,6 +436,7 @@ public struct AutoScaling: AWSService {
         newInstancesProtectedFromScaleIn: Bool? = nil,
         placementGroup: String? = nil,
         serviceLinkedRoleARN: String? = nil,
+        skipZonalShiftValidation: Bool? = nil,
         tags: [Tag]? = nil,
         targetGroupARNs: [String]? = nil,
         terminationPolicies: [String]? = nil,
@@ -438,8 +447,10 @@ public struct AutoScaling: AWSService {
         let input = CreateAutoScalingGroupType(
             autoScalingGroupName: autoScalingGroupName, 
             availabilityZoneDistribution: availabilityZoneDistribution, 
+            availabilityZoneImpairmentPolicy: availabilityZoneImpairmentPolicy, 
             availabilityZones: availabilityZones, 
             capacityRebalance: capacityRebalance, 
+            capacityReservationSpecification: capacityReservationSpecification, 
             context: context, 
             defaultCooldown: defaultCooldown, 
             defaultInstanceWarmup: defaultInstanceWarmup, 
@@ -460,6 +471,7 @@ public struct AutoScaling: AWSService {
             newInstancesProtectedFromScaleIn: newInstancesProtectedFromScaleIn, 
             placementGroup: placementGroup, 
             serviceLinkedRoleARN: serviceLinkedRoleARN, 
+            skipZonalShiftValidation: skipZonalShiftValidation, 
             tags: tags, 
             targetGroupARNs: targetGroupARNs, 
             terminationPolicies: terminationPolicies, 
@@ -2357,8 +2369,10 @@ public struct AutoScaling: AWSService {
     /// Parameters:
     ///   - autoScalingGroupName: The name of the Auto Scaling group.
     ///   - availabilityZoneDistribution:  The instance capacity distribution across Availability Zones.
+    ///   - availabilityZoneImpairmentPolicy:  The policy for Availability Zone impairment.
     ///   - availabilityZones: One or more Availability Zones for the group.
     ///   - capacityRebalance: Enables or disables Capacity Rebalancing. For more information, see Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions in the Amazon EC2 Auto Scaling User Guide.
+    ///   - capacityReservationSpecification:  The capacity reservation specification for the Auto Scaling group.
     ///   - context: Reserved.
     ///   - defaultCooldown:  Only needed if you use simple scaling policies.  The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
     ///   - defaultInstanceWarmup: The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state.  During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.
@@ -2376,6 +2390,7 @@ public struct AutoScaling: AWSService {
     ///   - newInstancesProtectedFromScaleIn: Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
     ///   - placementGroup: The name of an existing placement group into which to launch your instances. To remove the placement group setting, pass an empty string for placement-group. For more information about placement groups, see Placement groups in the Amazon EC2 User Guide for Linux Instances.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
     ///   - serviceLinkedRoleARN: The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
+    ///   - skipZonalShiftValidation:  If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see Auto Scaling group zonal shift in the Amazon EC2 Auto Scaling User Guide.
     ///   - terminationPolicies: A policy or a list of policies that are used to select the instances to terminate. The policies are executed in the order that you list them. For more information, see Configure termination policies for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
     ///   - vpcZoneIdentifier: A comma-separated list of subnet IDs for a virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
     ///   - logger: Logger use during operation
@@ -2383,8 +2398,10 @@ public struct AutoScaling: AWSService {
     public func updateAutoScalingGroup(
         autoScalingGroupName: String? = nil,
         availabilityZoneDistribution: AvailabilityZoneDistribution? = nil,
+        availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [String]? = nil,
         capacityRebalance: Bool? = nil,
+        capacityReservationSpecification: CapacityReservationSpecification? = nil,
         context: String? = nil,
         defaultCooldown: Int? = nil,
         defaultInstanceWarmup: Int? = nil,
@@ -2402,6 +2419,7 @@ public struct AutoScaling: AWSService {
         newInstancesProtectedFromScaleIn: Bool? = nil,
         placementGroup: String? = nil,
         serviceLinkedRoleARN: String? = nil,
+        skipZonalShiftValidation: Bool? = nil,
         terminationPolicies: [String]? = nil,
         vpcZoneIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2409,8 +2427,10 @@ public struct AutoScaling: AWSService {
         let input = UpdateAutoScalingGroupType(
             autoScalingGroupName: autoScalingGroupName, 
             availabilityZoneDistribution: availabilityZoneDistribution, 
+            availabilityZoneImpairmentPolicy: availabilityZoneImpairmentPolicy, 
             availabilityZones: availabilityZones, 
             capacityRebalance: capacityRebalance, 
+            capacityReservationSpecification: capacityReservationSpecification, 
             context: context, 
             defaultCooldown: defaultCooldown, 
             defaultInstanceWarmup: defaultInstanceWarmup, 
@@ -2428,6 +2448,7 @@ public struct AutoScaling: AWSService {
             newInstancesProtectedFromScaleIn: newInstancesProtectedFromScaleIn, 
             placementGroup: placementGroup, 
             serviceLinkedRoleARN: serviceLinkedRoleARN, 
+            skipZonalShiftValidation: skipZonalShiftValidation, 
             terminationPolicies: terminationPolicies, 
             vpcZoneIdentifier: vpcZoneIdentifier
         )

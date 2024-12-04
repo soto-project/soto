@@ -83,6 +83,38 @@ public struct DLM: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "dlm.af-south-1.api.aws",
+            "ap-east-1": "dlm.ap-east-1.api.aws",
+            "ap-northeast-1": "dlm.ap-northeast-1.api.aws",
+            "ap-northeast-2": "dlm.ap-northeast-2.api.aws",
+            "ap-northeast-3": "dlm.ap-northeast-3.api.aws",
+            "ap-south-1": "dlm.ap-south-1.api.aws",
+            "ap-south-2": "dlm.ap-south-2.api.aws",
+            "ap-southeast-1": "dlm.ap-southeast-1.api.aws",
+            "ap-southeast-2": "dlm.ap-southeast-2.api.aws",
+            "ap-southeast-3": "dlm.ap-southeast-3.api.aws",
+            "ap-southeast-4": "dlm.ap-southeast-4.api.aws",
+            "ap-southeast-5": "dlm.ap-southeast-5.api.aws",
+            "ca-central-1": "dlm.ca-central-1.api.aws",
+            "ca-west-1": "dlm.ca-west-1.api.aws",
+            "eu-central-1": "dlm.eu-central-1.api.aws",
+            "eu-central-2": "dlm.eu-central-2.api.aws",
+            "eu-north-1": "dlm.eu-north-1.api.aws",
+            "eu-south-1": "dlm.eu-south-1.api.aws",
+            "eu-south-2": "dlm.eu-south-2.api.aws",
+            "eu-west-1": "dlm.eu-west-1.api.aws",
+            "eu-west-2": "dlm.eu-west-2.api.aws",
+            "eu-west-3": "dlm.eu-west-3.api.aws",
+            "il-central-1": "dlm.il-central-1.api.aws",
+            "me-central-1": "dlm.me-central-1.api.aws",
+            "me-south-1": "dlm.me-south-1.api.aws",
+            "sa-east-1": "dlm.sa-east-1.api.aws",
+            "us-east-1": "dlm.us-east-1.api.aws",
+            "us-east-2": "dlm.us-east-2.api.aws",
+            "us-west-1": "dlm.us-west-1.api.aws",
+            "us-west-2": "dlm.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-gov-east-1": "dlm.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "dlm.us-gov-west-1.amazonaws.com"

@@ -126,6 +126,76 @@ public struct CustomerProfiles: AWSService {
         return try await self.addProfileKey(input, logger: logger)
     }
 
+    /// Fetch the possible attribute values given the attribute name.
+    @Sendable
+    @inlinable
+    public func batchGetCalculatedAttributeForProfile(_ input: BatchGetCalculatedAttributeForProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCalculatedAttributeForProfileResponse {
+        try await self.client.execute(
+            operation: "BatchGetCalculatedAttributeForProfile", 
+            path: "/domains/{DomainName}/calculated-attributes/{CalculatedAttributeName}/batch-get-for-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Fetch the possible attribute values given the attribute name.
+    ///
+    /// Parameters:
+    ///   - calculatedAttributeName: The unique name of the calculated attribute.
+    ///   - conditionOverrides: Overrides the condition block within the original calculated attribute definition.
+    ///   - domainName: The unique name of the domain.
+    ///   - profileIds: List of unique identifiers for customer profiles to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetCalculatedAttributeForProfile(
+        calculatedAttributeName: String,
+        conditionOverrides: ConditionOverrides? = nil,
+        domainName: String,
+        profileIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetCalculatedAttributeForProfileResponse {
+        let input = BatchGetCalculatedAttributeForProfileRequest(
+            calculatedAttributeName: calculatedAttributeName, 
+            conditionOverrides: conditionOverrides, 
+            domainName: domainName, 
+            profileIds: profileIds
+        )
+        return try await self.batchGetCalculatedAttributeForProfile(input, logger: logger)
+    }
+
+    /// Get a batch of profiles.
+    @Sendable
+    @inlinable
+    public func batchGetProfile(_ input: BatchGetProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetProfileResponse {
+        try await self.client.execute(
+            operation: "BatchGetProfile", 
+            path: "/domains/{DomainName}/batch-get-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get a batch of profiles.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - profileIds: List of unique identifiers for customer profiles to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetProfile(
+        domainName: String,
+        profileIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetProfileResponse {
+        let input = BatchGetProfileRequest(
+            domainName: domainName, 
+            profileIds: profileIds
+        )
+        return try await self.batchGetProfile(input, logger: logger)
+    }
+
     /// Creates a new calculated attribute definition. After creation, new object data ingested into Customer Profiles will be included in the calculated attribute, which can be retrieved for a profile using the GetCalculatedAttributeForProfile API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType.
     @Sendable
     @inlinable
@@ -148,6 +218,7 @@ public struct CustomerProfiles: AWSService {
     ///   - description: The description of the calculated attribute.
     ///   - displayName: The display name of the calculated attribute.
     ///   - domainName: The unique name of the domain.
+    ///   - filter: Defines how to filter incoming objects to include part of the Calculated Attribute.
     ///   - statistic: The aggregation operation to perform for the calculated attribute.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - logger: Logger use during operation
@@ -159,6 +230,7 @@ public struct CustomerProfiles: AWSService {
         description: String? = nil,
         displayName: String? = nil,
         domainName: String,
+        filter: Filter? = nil,
         statistic: Statistic,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -170,6 +242,7 @@ public struct CustomerProfiles: AWSService {
             description: description, 
             displayName: displayName, 
             domainName: domainName, 
+            filter: filter, 
             statistic: statistic, 
             tags: tags
         )
@@ -259,6 +332,56 @@ public struct CustomerProfiles: AWSService {
             uri: uri
         )
         return try await self.createEventStream(input, logger: logger)
+    }
+
+    /// Creates an event trigger, which specifies the rules when to perform action based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream.
+    @Sendable
+    @inlinable
+    public func createEventTrigger(_ input: CreateEventTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventTriggerResponse {
+        try await self.client.execute(
+            operation: "CreateEventTrigger", 
+            path: "/domains/{DomainName}/event-triggers/{EventTriggerName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an event trigger, which specifies the rules when to perform action based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream.
+    ///
+    /// Parameters:
+    ///   - description: The description of the event trigger.
+    ///   - domainName: The unique name of the domain.
+    ///   - eventTriggerConditions: A list of conditions that determine when an event should trigger the destination.
+    ///   - eventTriggerLimits: Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    ///   - eventTriggerName: The unique name of the event trigger.
+    ///   - objectTypeName: The unique name of the object type.
+    ///   - segmentFilter: The destination is triggered only for profiles that meet the criteria of a segment definition.
+    ///   - tags: An array of key-value pairs to apply to this resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createEventTrigger(
+        description: String? = nil,
+        domainName: String,
+        eventTriggerConditions: [EventTriggerCondition],
+        eventTriggerLimits: EventTriggerLimits? = nil,
+        eventTriggerName: String,
+        objectTypeName: String,
+        segmentFilter: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateEventTriggerResponse {
+        let input = CreateEventTriggerRequest(
+            description: description, 
+            domainName: domainName, 
+            eventTriggerConditions: eventTriggerConditions, 
+            eventTriggerLimits: eventTriggerLimits, 
+            eventTriggerName: eventTriggerName, 
+            objectTypeName: objectTypeName, 
+            segmentFilter: segmentFilter, 
+            tags: tags
+        )
+        return try await self.createEventTrigger(input, logger: logger)
     }
 
     ///  Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
@@ -403,6 +526,126 @@ public struct CustomerProfiles: AWSService {
         return try await self.createProfile(input, logger: logger)
     }
 
+    /// Creates a segment definition associated to the given domain.
+    @Sendable
+    @inlinable
+    public func createSegmentDefinition(_ input: CreateSegmentDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSegmentDefinitionResponse {
+        try await self.client.execute(
+            operation: "CreateSegmentDefinition", 
+            path: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a segment definition associated to the given domain.
+    ///
+    /// Parameters:
+    ///   - description: The description of the segment definition.
+    ///   - displayName: The display name of the segment definition.
+    ///   - domainName: The unique name of the domain.
+    ///   - segmentDefinitionName: The unique name of the segment definition.
+    ///   - segmentGroups: Specifies the base segments and dimensions for a segment definition along with their respective relationship.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSegmentDefinition(
+        description: String? = nil,
+        displayName: String,
+        domainName: String,
+        segmentDefinitionName: String,
+        segmentGroups: SegmentGroup,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSegmentDefinitionResponse {
+        let input = CreateSegmentDefinitionRequest(
+            description: description, 
+            displayName: displayName, 
+            domainName: domainName, 
+            segmentDefinitionName: segmentDefinitionName, 
+            segmentGroups: segmentGroups, 
+            tags: tags
+        )
+        return try await self.createSegmentDefinition(input, logger: logger)
+    }
+
+    /// Creates a segment estimate query.
+    @Sendable
+    @inlinable
+    public func createSegmentEstimate(_ input: CreateSegmentEstimateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSegmentEstimateResponse {
+        try await self.client.execute(
+            operation: "CreateSegmentEstimate", 
+            path: "/domains/{DomainName}/segment-estimates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a segment estimate query.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - segmentQuery: The segment query for calculating a segment estimate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSegmentEstimate(
+        domainName: String,
+        segmentQuery: SegmentGroupStructure,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSegmentEstimateResponse {
+        let input = CreateSegmentEstimateRequest(
+            domainName: domainName, 
+            segmentQuery: segmentQuery
+        )
+        return try await self.createSegmentEstimate(input, logger: logger)
+    }
+
+    /// Triggers a job to export a segment to a specified destination.
+    @Sendable
+    @inlinable
+    public func createSegmentSnapshot(_ input: CreateSegmentSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSegmentSnapshotResponse {
+        try await self.client.execute(
+            operation: "CreateSegmentSnapshot", 
+            path: "/domains/{DomainName}/segments/{SegmentDefinitionName}/snapshots", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Triggers a job to export a segment to a specified destination.
+    ///
+    /// Parameters:
+    ///   - dataFormat: The format in which the segment will be exported.
+    ///   - destinationUri: The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Amazon Connect Admin Website.
+    ///   - domainName: The unique name of the domain.
+    ///   - encryptionKey: The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting KMS and S3 operations.
+    ///   - segmentDefinitionName: The name of the segment definition used in this snapshot request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSegmentSnapshot(
+        dataFormat: DataFormat,
+        destinationUri: String? = nil,
+        domainName: String,
+        encryptionKey: String? = nil,
+        roleArn: String? = nil,
+        segmentDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSegmentSnapshotResponse {
+        let input = CreateSegmentSnapshotRequest(
+            dataFormat: dataFormat, 
+            destinationUri: destinationUri, 
+            domainName: domainName, 
+            encryptionKey: encryptionKey, 
+            roleArn: roleArn, 
+            segmentDefinitionName: segmentDefinitionName
+        )
+        return try await self.createSegmentSnapshot(input, logger: logger)
+    }
+
     /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute is possible, however once deleted, you will be unable to undo that action and will need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you want it back.
     @Sendable
     @inlinable
@@ -494,6 +737,38 @@ public struct CustomerProfiles: AWSService {
             eventStreamName: eventStreamName
         )
         return try await self.deleteEventStream(input, logger: logger)
+    }
+
+    /// Disable and deletes the Event Trigger.  You cannot delete an Event Trigger with an active Integration associated.
+    @Sendable
+    @inlinable
+    public func deleteEventTrigger(_ input: DeleteEventTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEventTriggerResponse {
+        try await self.client.execute(
+            operation: "DeleteEventTrigger", 
+            path: "/domains/{DomainName}/event-triggers/{EventTriggerName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disable and deletes the Event Trigger.  You cannot delete an Event Trigger with an active Integration associated.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - eventTriggerName: The unique name of the event trigger.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteEventTrigger(
+        domainName: String,
+        eventTriggerName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteEventTriggerResponse {
+        let input = DeleteEventTriggerRequest(
+            domainName: domainName, 
+            eventTriggerName: eventTriggerName
+        )
+        return try await self.deleteEventTrigger(input, logger: logger)
     }
 
     /// Removes an integration from a specific domain.
@@ -666,6 +941,38 @@ public struct CustomerProfiles: AWSService {
             objectTypeName: objectTypeName
         )
         return try await self.deleteProfileObjectType(input, logger: logger)
+    }
+
+    /// Deletes a segment definition from the domain.
+    @Sendable
+    @inlinable
+    public func deleteSegmentDefinition(_ input: DeleteSegmentDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSegmentDefinitionResponse {
+        try await self.client.execute(
+            operation: "DeleteSegmentDefinition", 
+            path: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a segment definition from the domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - segmentDefinitionName: The unique name of the segment definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSegmentDefinition(
+        domainName: String,
+        segmentDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSegmentDefinitionResponse {
+        let input = DeleteSegmentDefinitionRequest(
+            domainName: domainName, 
+            segmentDefinitionName: segmentDefinitionName
+        )
+        return try await self.deleteSegmentDefinition(input, logger: logger)
     }
 
     /// Deletes the specified workflow and all its corresponding resources. This is an async process.
@@ -898,6 +1205,38 @@ public struct CustomerProfiles: AWSService {
         return try await self.getEventStream(input, logger: logger)
     }
 
+    /// Get a specific Event Trigger from the domain.
+    @Sendable
+    @inlinable
+    public func getEventTrigger(_ input: GetEventTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventTriggerResponse {
+        try await self.client.execute(
+            operation: "GetEventTrigger", 
+            path: "/domains/{DomainName}/event-triggers/{EventTriggerName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get a specific Event Trigger from the domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - eventTriggerName: The unique name of the event trigger.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getEventTrigger(
+        domainName: String,
+        eventTriggerName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetEventTriggerResponse {
+        let input = GetEventTriggerRequest(
+            domainName: domainName, 
+            eventTriggerName: eventTriggerName
+        )
+        return try await self.getEventTrigger(input, logger: logger)
+    }
+
     /// Returns information about an Identity Resolution Job in a specific domain.  Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see Use Identity Resolution to consolidate similar profiles.
     @Sendable
     @inlinable
@@ -1066,6 +1405,140 @@ public struct CustomerProfiles: AWSService {
             templateId: templateId
         )
         return try await self.getProfileObjectTypeTemplate(input, logger: logger)
+    }
+
+    /// Gets a segment definition from the domain.
+    @Sendable
+    @inlinable
+    public func getSegmentDefinition(_ input: GetSegmentDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSegmentDefinitionResponse {
+        try await self.client.execute(
+            operation: "GetSegmentDefinition", 
+            path: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a segment definition from the domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - segmentDefinitionName: The unique name of the segment definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSegmentDefinition(
+        domainName: String,
+        segmentDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSegmentDefinitionResponse {
+        let input = GetSegmentDefinitionRequest(
+            domainName: domainName, 
+            segmentDefinitionName: segmentDefinitionName
+        )
+        return try await self.getSegmentDefinition(input, logger: logger)
+    }
+
+    /// Gets the result of a segment estimate query.
+    @Sendable
+    @inlinable
+    public func getSegmentEstimate(_ input: GetSegmentEstimateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSegmentEstimateResponse {
+        try await self.client.execute(
+            operation: "GetSegmentEstimate", 
+            path: "/domains/{DomainName}/segment-estimates/{EstimateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the result of a segment estimate query.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - estimateId: The query Id passed by a previous CreateSegmentEstimate operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSegmentEstimate(
+        domainName: String,
+        estimateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSegmentEstimateResponse {
+        let input = GetSegmentEstimateRequest(
+            domainName: domainName, 
+            estimateId: estimateId
+        )
+        return try await self.getSegmentEstimate(input, logger: logger)
+    }
+
+    /// Determines if the given profiles are within a segment.
+    @Sendable
+    @inlinable
+    public func getSegmentMembership(_ input: GetSegmentMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSegmentMembershipResponse {
+        try await self.client.execute(
+            operation: "GetSegmentMembership", 
+            path: "/domains/{DomainName}/segments/{SegmentDefinitionName}/membership", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Determines if the given profiles are within a segment.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - profileIds: The list of profile IDs to query for.
+    ///   - segmentDefinitionName: The Id of the wanted segment. Needs to be a valid, and existing segment Id.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSegmentMembership(
+        domainName: String,
+        profileIds: [String],
+        segmentDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSegmentMembershipResponse {
+        let input = GetSegmentMembershipRequest(
+            domainName: domainName, 
+            profileIds: profileIds, 
+            segmentDefinitionName: segmentDefinitionName
+        )
+        return try await self.getSegmentMembership(input, logger: logger)
+    }
+
+    /// Retrieve the latest status of a segment snapshot.
+    @Sendable
+    @inlinable
+    public func getSegmentSnapshot(_ input: GetSegmentSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSegmentSnapshotResponse {
+        try await self.client.execute(
+            operation: "GetSegmentSnapshot", 
+            path: "/domains/{DomainName}/segments/{SegmentDefinitionName}/snapshots/{SnapshotId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieve the latest status of a segment snapshot.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique identifier of the domain.
+    ///   - segmentDefinitionName: The unique name of the segment definition.
+    ///   - snapshotId: The unique identifier of the segment snapshot.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSegmentSnapshot(
+        domainName: String,
+        segmentDefinitionName: String,
+        snapshotId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSegmentSnapshotResponse {
+        let input = GetSegmentSnapshotRequest(
+            domainName: domainName, 
+            segmentDefinitionName: segmentDefinitionName, 
+            snapshotId: snapshotId
+        )
+        return try await self.getSegmentSnapshot(input, logger: logger)
     }
 
     /// Returns a set of profiles that belong to the same matching group using the matchId or profileId. You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING.
@@ -1360,6 +1833,41 @@ public struct CustomerProfiles: AWSService {
         return try await self.listEventStreams(input, logger: logger)
     }
 
+    /// List all Event Triggers under a domain.
+    @Sendable
+    @inlinable
+    public func listEventTriggers(_ input: ListEventTriggersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEventTriggersResponse {
+        try await self.client.execute(
+            operation: "ListEventTriggers", 
+            path: "/domains/{DomainName}/event-triggers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all Event Triggers under a domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The pagination token to use with ListEventTriggers.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEventTriggers(
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEventTriggersResponse {
+        let input = ListEventTriggersRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listEventTriggers(input, logger: logger)
+    }
+
     /// Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by JobStartTime.
     @Sendable
     @inlinable
@@ -1431,6 +1939,76 @@ public struct CustomerProfiles: AWSService {
             nextToken: nextToken
         )
         return try await self.listIntegrations(input, logger: logger)
+    }
+
+    /// Fetch the possible attribute values given the attribute name.
+    @Sendable
+    @inlinable
+    public func listObjectTypeAttributes(_ input: ListObjectTypeAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListObjectTypeAttributesResponse {
+        try await self.client.execute(
+            operation: "ListObjectTypeAttributes", 
+            path: "/domains/{DomainName}/object-types/{ObjectTypeName}/attributes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Fetch the possible attribute values given the attribute name.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique identifier of the domain.
+    ///   - maxResults: The maximum number of objects returned per page.
+    ///   - nextToken: The pagination token from the previous call.
+    ///   - objectTypeName: The name of the profile object type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listObjectTypeAttributes(
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        objectTypeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListObjectTypeAttributesResponse {
+        let input = ListObjectTypeAttributesRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            objectTypeName: objectTypeName
+        )
+        return try await self.listObjectTypeAttributes(input, logger: logger)
+    }
+
+    /// Fetch the possible attribute values given the attribute name.
+    @Sendable
+    @inlinable
+    public func listProfileAttributeValues(_ input: ProfileAttributeValuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProfileAttributeValuesResponse {
+        try await self.client.execute(
+            operation: "ListProfileAttributeValues", 
+            path: "/domains/{DomainName}/profile-attributes/{AttributeName}/values", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Fetch the possible attribute values given the attribute name.
+    ///
+    /// Parameters:
+    ///   - attributeName: The attribute name.
+    ///   - domainName: The unique identifier of the domain.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProfileAttributeValues(
+        attributeName: String,
+        domainName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ProfileAttributeValuesResponse {
+        let input = ProfileAttributeValuesRequest(
+            attributeName: attributeName, 
+            domainName: domainName
+        )
+        return try await self.listProfileAttributeValues(input, logger: logger)
     }
 
     /// Lists all of the template information for object types.
@@ -1579,6 +2157,41 @@ public struct CustomerProfiles: AWSService {
         return try await self.listRuleBasedMatches(input, logger: logger)
     }
 
+    /// Lists all segment definitions under a domain.
+    @Sendable
+    @inlinable
+    public func listSegmentDefinitions(_ input: ListSegmentDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSegmentDefinitionsResponse {
+        try await self.client.execute(
+            operation: "ListSegmentDefinitions", 
+            path: "/domains/{DomainName}/segment-definitions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all segment definitions under a domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique identifier of the domain.
+    ///   - maxResults: The maximum number of objects returned per page.
+    ///   - nextToken: The pagination token from the previous call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSegmentDefinitions(
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSegmentDefinitionsResponse {
+        let input = ListSegmentDefinitionsRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listSegmentDefinitions(input, logger: logger)
+    }
+
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     @Sendable
     @inlinable
@@ -1710,6 +2323,7 @@ public struct CustomerProfiles: AWSService {
     ///
     /// Parameters:
     ///   - domainName: The unique name of the domain.
+    ///   - eventTriggerNames: A list of unique names for active event triggers associated with the integration.
     ///   - flowDefinition: The configuration that controls how Customer Profiles retrieves data from the source.
     ///   - objectTypeName: The name of the profile object type.
     ///   - objectTypeNames: A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event.
@@ -1720,6 +2334,7 @@ public struct CustomerProfiles: AWSService {
     @inlinable
     public func putIntegration(
         domainName: String,
+        eventTriggerNames: [String]? = nil,
         flowDefinition: FlowDefinition? = nil,
         objectTypeName: String? = nil,
         objectTypeNames: [String: String]? = nil,
@@ -1730,6 +2345,7 @@ public struct CustomerProfiles: AWSService {
     ) async throws -> PutIntegrationResponse {
         let input = PutIntegrationRequest(
             domainName: domainName, 
+            eventTriggerNames: eventTriggerNames, 
             flowDefinition: flowDefinition, 
             objectTypeName: objectTypeName, 
             objectTypeNames: objectTypeNames, 
@@ -2036,6 +2652,53 @@ public struct CustomerProfiles: AWSService {
         return try await self.updateDomain(input, logger: logger)
     }
 
+    /// Update the properties of an Event Trigger.
+    @Sendable
+    @inlinable
+    public func updateEventTrigger(_ input: UpdateEventTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventTriggerResponse {
+        try await self.client.execute(
+            operation: "UpdateEventTrigger", 
+            path: "/domains/{DomainName}/event-triggers/{EventTriggerName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update the properties of an Event Trigger.
+    ///
+    /// Parameters:
+    ///   - description: The description of the event trigger.
+    ///   - domainName: The unique name of the domain.
+    ///   - eventTriggerConditions: A list of conditions that determine when an event should trigger the destination.
+    ///   - eventTriggerLimits: Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    ///   - eventTriggerName: The unique name of the event trigger.
+    ///   - objectTypeName: The unique name of the object type.
+    ///   - segmentFilter: The destination is triggered only for profiles that meet the criteria of a segment definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateEventTrigger(
+        description: String? = nil,
+        domainName: String,
+        eventTriggerConditions: [EventTriggerCondition]? = nil,
+        eventTriggerLimits: EventTriggerLimits? = nil,
+        eventTriggerName: String,
+        objectTypeName: String? = nil,
+        segmentFilter: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateEventTriggerResponse {
+        let input = UpdateEventTriggerRequest(
+            description: description, 
+            domainName: domainName, 
+            eventTriggerConditions: eventTriggerConditions, 
+            eventTriggerLimits: eventTriggerLimits, 
+            eventTriggerName: eventTriggerName, 
+            objectTypeName: objectTypeName, 
+            segmentFilter: segmentFilter
+        )
+        return try await self.updateEventTrigger(input, logger: logger)
+    }
+
     /// Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept.
     @Sendable
     @inlinable
@@ -2151,6 +2814,52 @@ extension CustomerProfiles {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CustomerProfiles {
+    /// Return PaginatorSequence for operation ``getSimilarProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getSimilarProfilesPaginator(
+        _ input: GetSimilarProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetSimilarProfilesRequest, GetSimilarProfilesResponse> {
+        return .init(
+            input: input,
+            command: self.getSimilarProfiles,
+            inputKey: \GetSimilarProfilesRequest.nextToken,
+            outputKey: \GetSimilarProfilesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getSimilarProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - matchType: Specify the type of matching to get similar profiles for.
+    ///   - maxResults: The maximum number of objects returned per page.
+    ///   - searchKey: The string indicating the search key to be used.
+    ///   - searchValue: The string based on SearchKey to be searched for similar profiles.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getSimilarProfilesPaginator(
+        domainName: String,
+        matchType: MatchType,
+        maxResults: Int? = nil,
+        searchKey: String,
+        searchValue: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetSimilarProfilesRequest, GetSimilarProfilesResponse> {
+        let input = GetSimilarProfilesRequest(
+            domainName: domainName, 
+            matchType: matchType, 
+            maxResults: maxResults, 
+            searchKey: searchKey, 
+            searchValue: searchValue
+        )
+        return self.getSimilarProfilesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEventStreams(_:logger:)``.
     ///
     /// - Parameters:
@@ -2187,11 +2896,221 @@ extension CustomerProfiles {
         )
         return self.listEventStreamsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listEventTriggers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEventTriggersPaginator(
+        _ input: ListEventTriggersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEventTriggersRequest, ListEventTriggersResponse> {
+        return .init(
+            input: input,
+            command: self.listEventTriggers,
+            inputKey: \ListEventTriggersRequest.nextToken,
+            outputKey: \ListEventTriggersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEventTriggers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEventTriggersPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEventTriggersRequest, ListEventTriggersResponse> {
+        let input = ListEventTriggersRequest(
+            domainName: domainName, 
+            maxResults: maxResults
+        )
+        return self.listEventTriggersPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listObjectTypeAttributes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listObjectTypeAttributesPaginator(
+        _ input: ListObjectTypeAttributesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListObjectTypeAttributesRequest, ListObjectTypeAttributesResponse> {
+        return .init(
+            input: input,
+            command: self.listObjectTypeAttributes,
+            inputKey: \ListObjectTypeAttributesRequest.nextToken,
+            outputKey: \ListObjectTypeAttributesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listObjectTypeAttributes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique identifier of the domain.
+    ///   - maxResults: The maximum number of objects returned per page.
+    ///   - objectTypeName: The name of the profile object type.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listObjectTypeAttributesPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        objectTypeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListObjectTypeAttributesRequest, ListObjectTypeAttributesResponse> {
+        let input = ListObjectTypeAttributesRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            objectTypeName: objectTypeName
+        )
+        return self.listObjectTypeAttributesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRuleBasedMatches(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRuleBasedMatchesPaginator(
+        _ input: ListRuleBasedMatchesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRuleBasedMatchesRequest, ListRuleBasedMatchesResponse> {
+        return .init(
+            input: input,
+            command: self.listRuleBasedMatches,
+            inputKey: \ListRuleBasedMatchesRequest.nextToken,
+            outputKey: \ListRuleBasedMatchesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRuleBasedMatches(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of MatchIds returned per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRuleBasedMatchesPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRuleBasedMatchesRequest, ListRuleBasedMatchesResponse> {
+        let input = ListRuleBasedMatchesRequest(
+            domainName: domainName, 
+            maxResults: maxResults
+        )
+        return self.listRuleBasedMatchesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSegmentDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSegmentDefinitionsPaginator(
+        _ input: ListSegmentDefinitionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSegmentDefinitionsRequest, ListSegmentDefinitionsResponse> {
+        return .init(
+            input: input,
+            command: self.listSegmentDefinitions,
+            inputKey: \ListSegmentDefinitionsRequest.nextToken,
+            outputKey: \ListSegmentDefinitionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSegmentDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique identifier of the domain.
+    ///   - maxResults: The maximum number of objects returned per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSegmentDefinitionsPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSegmentDefinitionsRequest, ListSegmentDefinitionsResponse> {
+        let input = ListSegmentDefinitionsRequest(
+            domainName: domainName, 
+            maxResults: maxResults
+        )
+        return self.listSegmentDefinitionsPaginator(input, logger: logger)
+    }
+}
+
+extension CustomerProfiles.GetSimilarProfilesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.GetSimilarProfilesRequest {
+        return .init(
+            domainName: self.domainName,
+            matchType: self.matchType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchKey: self.searchKey,
+            searchValue: self.searchValue
+        )
+    }
 }
 
 extension CustomerProfiles.ListEventStreamsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListEventStreamsRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CustomerProfiles.ListEventTriggersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListEventTriggersRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CustomerProfiles.ListObjectTypeAttributesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListObjectTypeAttributesRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            objectTypeName: self.objectTypeName
+        )
+    }
+}
+
+extension CustomerProfiles.ListRuleBasedMatchesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListRuleBasedMatchesRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CustomerProfiles.ListSegmentDefinitionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListSegmentDefinitionsRequest {
         return .init(
             domainName: self.domainName,
             maxResults: self.maxResults,

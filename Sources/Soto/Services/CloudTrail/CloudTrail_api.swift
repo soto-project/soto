@@ -86,6 +86,9 @@ public struct CloudTrail: AWSService {
             "us-east-2": "cloudtrail-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "cloudtrail.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "cloudtrail.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "cloudtrail-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "cloudtrail-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "cloudtrail-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "cloudtrail-fips.us-west-1.amazonaws.com",
             "us-west-2": "cloudtrail-fips.us-west-2.amazonaws.com"
         ])
@@ -93,7 +96,7 @@ public struct CloudTrail: AWSService {
 
     // MARK: API Calls
 
-    /// Adds one or more tags to a trail, event data store, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
+    /// Adds one or more tags to a trail, event data store, dashboard, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
     @Sendable
     @inlinable
     public func addTags(_ input: AddTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddTagsResponse {
@@ -106,10 +109,10 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    /// Adds one or more tags to a trail, event data store, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
+    /// Adds one or more tags to a trail, event data store, dashboard, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
     ///
     /// Parameters:
-    ///   - resourceId: Specifies the ARN of the trail, event data store, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    ///   - resourceId: Specifies the ARN of the trail, event data store, dashboard, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  The format of a dashboard ARN is: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     ///   - tagsList: Contains a list of tags, up to a limit of 50
     ///   - logger: Logger use during operation
     @inlinable
@@ -141,14 +144,17 @@ public struct CloudTrail: AWSService {
     /// Cancels a query if the query is not in a terminated state, such as CANCELLED, FAILED, TIMED_OUT, or FINISHED. You must specify an ARN value for EventDataStore. The ID of the query that you want to cancel is also required. When you run CancelQuery, the query status might show as CANCELLED even if the operation is not yet finished.
     ///
     /// Parameters:
+    ///   - eventDataStoreOwnerAccountId: The account ID of the event data store owner.
     ///   - queryId: The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func cancelQuery(
+        eventDataStoreOwnerAccountId: String? = nil,
         queryId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CancelQueryResponse {
         let input = CancelQueryRequest(
+            eventDataStoreOwnerAccountId: eventDataStoreOwnerAccountId, 
             queryId: queryId
         )
         return try await self.cancelQuery(input, logger: logger)
@@ -190,6 +196,49 @@ public struct CloudTrail: AWSService {
             tags: tags
         )
         return try await self.createChannel(input, logger: logger)
+    }
+
+    /// Creates a custom dashboard or the Highlights dashboard.
+    ///     Custom dashboards - Custom dashboards allow you to query  events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manually refresh a custom dashboard, or you can set a refresh schedule.    Highlights dashboard - You can create the Highlights dashboard to see a summary of key user activities and API usage across all your event data stores.  CloudTrail Lake manages the Highlights dashboard and refreshes the dashboard every 6 hours. To create the Highlights dashboard, you must set and enable a refresh schedule.    CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information,  see Example: Allow CloudTrail to run queries to populate a dashboard in the CloudTrail User Guide.   To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to the dashboard. For more information,  see  Resource-based policy example for a dashboard in the CloudTrail User Guide.  For more information about dashboards, see CloudTrail Lake dashboards in the CloudTrail User Guide.
+    @Sendable
+    @inlinable
+    public func createDashboard(_ input: CreateDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDashboardResponse {
+        try await self.client.execute(
+            operation: "CreateDashboard", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a custom dashboard or the Highlights dashboard.
+    ///     Custom dashboards - Custom dashboards allow you to query  events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manually refresh a custom dashboard, or you can set a refresh schedule.    Highlights dashboard - You can create the Highlights dashboard to see a summary of key user activities and API usage across all your event data stores.  CloudTrail Lake manages the Highlights dashboard and refreshes the dashboard every 6 hours. To create the Highlights dashboard, you must set and enable a refresh schedule.    CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information,  see Example: Allow CloudTrail to run queries to populate a dashboard in the CloudTrail User Guide.   To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to the dashboard. For more information,  see  Resource-based policy example for a dashboard in the CloudTrail User Guide.  For more information about dashboards, see CloudTrail Lake dashboards in the CloudTrail User Guide.
+    ///
+    /// Parameters:
+    ///   - name:  The name of the dashboard. The name must be unique to your account.
+    ///   - refreshSchedule:  The refresh schedule configuration for the dashboard.
+    ///   - tagsList: 
+    ///   - terminationProtectionEnabled:  Specifies whether termination protection is enabled for the dashboard. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+    ///   - widgets: An array of widgets for a custom dashboard. A custom dashboard can have a maximum of ten widgets.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDashboard(
+        name: String,
+        refreshSchedule: RefreshSchedule? = nil,
+        tagsList: [Tag]? = nil,
+        terminationProtectionEnabled: Bool? = nil,
+        widgets: [RequestWidget]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDashboardResponse {
+        let input = CreateDashboardRequest(
+            name: name, 
+            refreshSchedule: refreshSchedule, 
+            tagsList: tagsList, 
+            terminationProtectionEnabled: terminationProtectionEnabled, 
+            widgets: widgets
+        )
+        return try await self.createDashboard(input, logger: logger)
     }
 
     /// Creates a new event data store.
@@ -339,6 +388,35 @@ public struct CloudTrail: AWSService {
         return try await self.deleteChannel(input, logger: logger)
     }
 
+    /// Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled.
+    @Sendable
+    @inlinable
+    public func deleteDashboard(_ input: DeleteDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDashboardResponse {
+        try await self.client.execute(
+            operation: "DeleteDashboard", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled.
+    ///
+    /// Parameters:
+    ///   - dashboardId: The name or ARN for the dashboard.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDashboard(
+        dashboardId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDashboardResponse {
+        let input = DeleteDashboardRequest(
+            dashboardId: dashboardId
+        )
+        return try await self.deleteDashboard(input, logger: logger)
+    }
+
     /// Disables the event data store specified by EventDataStore, which accepts an event data store ARN. After you run DeleteEventDataStore, the event data store enters a PENDING_DELETION state, and is automatically deleted after a wait period of seven days. TerminationProtectionEnabled must be set to False on the event data store and the FederationStatus must be DISABLED.  You cannot delete an event data store if TerminationProtectionEnabled  is True or the FederationStatus is ENABLED. After you run DeleteEventDataStore on an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data store in a PENDING_DELETION state. An event data store in the PENDING_DELETION state does not incur costs.
     @Sendable
     @inlinable
@@ -368,7 +446,7 @@ public struct CloudTrail: AWSService {
         return try await self.deleteEventDataStore(input, logger: logger)
     }
 
-    ///  Deletes the resource-based policy attached to the CloudTrail channel.
+    ///  Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
     @Sendable
     @inlinable
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
@@ -381,10 +459,10 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    ///  Deletes the resource-based policy attached to the CloudTrail channel.
+    ///  Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
     ///
     /// Parameters:
-    ///   - resourceArn:  The Amazon Resource Name (ARN) of the CloudTrail channel you're deleting the resource-based policy from.  The following is the format of a resource ARN:  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    ///   - resourceArn:  The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel you're deleting the resource-based policy from. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteResourcePolicy(
@@ -455,7 +533,7 @@ public struct CloudTrail: AWSService {
         return try await self.deregisterOrganizationDelegatedAdmin(input, logger: logger)
     }
 
-    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket,  the response also provides the S3 URI and the delivery status. You must specify either a QueryID or a QueryAlias. Specifying the QueryAlias parameter returns information about the last query run for the alias.
+    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket,  the response also provides the S3 URI and the delivery status. You must specify either QueryId or QueryAlias. Specifying the QueryAlias parameter  returns information about the last query run for the alias. You can provide  RefreshId along with QueryAlias to view the query results  of a dashboard query for the specified RefreshId.
     @Sendable
     @inlinable
     public func describeQuery(_ input: DescribeQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQueryResponse {
@@ -468,21 +546,27 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket,  the response also provides the S3 URI and the delivery status. You must specify either a QueryID or a QueryAlias. Specifying the QueryAlias parameter returns information about the last query run for the alias.
+    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket,  the response also provides the S3 URI and the delivery status. You must specify either QueryId or QueryAlias. Specifying the QueryAlias parameter  returns information about the last query run for the alias. You can provide  RefreshId along with QueryAlias to view the query results  of a dashboard query for the specified RefreshId.
     ///
     /// Parameters:
+    ///   - eventDataStoreOwnerAccountId: The account ID of the event data store owner.
     ///   - queryAlias:  The alias that identifies a query template.
     ///   - queryId: The query ID.
+    ///   - refreshId: The ID of the dashboard refresh.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeQuery(
+        eventDataStoreOwnerAccountId: String? = nil,
         queryAlias: String? = nil,
         queryId: String? = nil,
+        refreshId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeQueryResponse {
         let input = DescribeQueryRequest(
+            eventDataStoreOwnerAccountId: eventDataStoreOwnerAccountId, 
             queryAlias: queryAlias, 
-            queryId: queryId
+            queryId: queryId, 
+            refreshId: refreshId
         )
         return try await self.describeQuery(input, logger: logger)
     }
@@ -641,6 +725,35 @@ public struct CloudTrail: AWSService {
         return try await self.getChannel(input, logger: logger)
     }
 
+    /// Returns the specified dashboard.
+    @Sendable
+    @inlinable
+    public func getDashboard(_ input: GetDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDashboardResponse {
+        try await self.client.execute(
+            operation: "GetDashboard", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the specified dashboard.
+    ///
+    /// Parameters:
+    ///   - dashboardId: The name or ARN for the dashboard.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDashboard(
+        dashboardId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDashboardResponse {
+        let input = GetDashboardRequest(
+            dashboardId: dashboardId
+        )
+        return try await self.getDashboard(input, logger: logger)
+    }
+
     /// Returns information about an event data store specified as either an ARN or the ID portion of the ARN.
     @Sendable
     @inlinable
@@ -776,18 +889,21 @@ public struct CloudTrail: AWSService {
     /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation.
     ///
     /// Parameters:
+    ///   - eventDataStoreOwnerAccountId: The account ID of the event data store owner.
     ///   - maxQueryResults: The maximum number of query results to display on a single page.
     ///   - nextToken: A token you can use to get the next page of query results.
     ///   - queryId: The ID of the query for which you want to get results.
     ///   - logger: Logger use during operation
     @inlinable
     public func getQueryResults(
+        eventDataStoreOwnerAccountId: String? = nil,
         maxQueryResults: Int? = nil,
         nextToken: String? = nil,
         queryId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetQueryResultsResponse {
         let input = GetQueryResultsRequest(
+            eventDataStoreOwnerAccountId: eventDataStoreOwnerAccountId, 
             maxQueryResults: maxQueryResults, 
             nextToken: nextToken, 
             queryId: queryId
@@ -795,7 +911,7 @@ public struct CloudTrail: AWSService {
         return try await self.getQueryResults(input, logger: logger)
     }
 
-    ///  Retrieves the JSON text of the resource-based policy document attached to the CloudTrail channel.
+    ///  Retrieves the JSON text of the resource-based policy document attached to the CloudTrail event data store, dashboard, or channel.
     @Sendable
     @inlinable
     public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
@@ -808,10 +924,10 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    ///  Retrieves the JSON text of the resource-based policy document attached to the CloudTrail channel.
+    ///  Retrieves the JSON text of the resource-based policy document attached to the CloudTrail event data store, dashboard, or channel.
     ///
     /// Parameters:
-    ///   - resourceArn:  The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.  The following is the format of a resource ARN:  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    ///   - resourceArn:  The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     ///   - logger: Logger use during operation
     @inlinable
     public func getResourcePolicy(
@@ -869,7 +985,7 @@ public struct CloudTrail: AWSService {
     /// Returns a JSON-formatted list of information about the specified trail. Fields include information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging times for each trail. This operation returns trail status from a single Region. To return trail status from all Regions, you must call the operation on each Region.
     ///
     /// Parameters:
-    ///   - name: Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+    ///   - name: Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN.  The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail   If the trail is an organization trail and you are a member account in the organization in Organizations, you must provide the full ARN of that trail, and not just the name.
     ///   - logger: Logger use during operation
     @inlinable
     public func getTrailStatus(
@@ -912,6 +1028,44 @@ public struct CloudTrail: AWSService {
             nextToken: nextToken
         )
         return try await self.listChannels(input, logger: logger)
+    }
+
+    ///  Returns information about all dashboards in the account, in the current Region.
+    @Sendable
+    @inlinable
+    public func listDashboards(_ input: ListDashboardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDashboardsResponse {
+        try await self.client.execute(
+            operation: "ListDashboards", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Returns information about all dashboards in the account, in the current Region.
+    ///
+    /// Parameters:
+    ///   - maxResults:  The maximum number of dashboards to display on a single page.
+    ///   - namePrefix: Specify a name prefix to filter on.
+    ///   - nextToken:  A token you can use to get the next page of dashboard results.
+    ///   - type: Specify a dashboard type to filter on: CUSTOM or MANAGED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDashboards(
+        maxResults: Int? = nil,
+        namePrefix: String? = nil,
+        nextToken: String? = nil,
+        type: DashboardType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDashboardsResponse {
+        let input = ListDashboardsRequest(
+            maxResults: maxResults, 
+            namePrefix: namePrefix, 
+            nextToken: nextToken, 
+            type: type
+        )
+        return try await self.listDashboards(input, logger: logger)
     }
 
     /// Returns information about all event data stores in the account, in the current Region.
@@ -1035,13 +1189,13 @@ public struct CloudTrail: AWSService {
     /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource,  EventName, and InsightType parameters. If the InsightType is set to ApiErrorRateInsight, the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData. Each cutoff is inclusive.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 90 days.   Access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action. To use this operation,  you must have permissions to perform the cloudtrail:LookupEvents action.
     ///
     /// Parameters:
-    ///   - dataType: Type of datapoints to return. Valid values are NonZeroData and  FillWithZeros. The default is NonZeroData.
+    ///   - dataType: Type of data points to return. Valid values are NonZeroData and  FillWithZeros. The default is NonZeroData.
     ///   - endTime: Specifies, in UTC, the end time for time-series data. The value specified is exclusive;  results include data points up to the specified time stamp. The default is the time of request.
     ///   - errorCode: Conditionally required if the InsightType parameter is set to ApiErrorRateInsight. If returning metrics for the ApiErrorRateInsight Insights type, this is the error to retrieve data for. For example, AccessDenied.
     ///   - eventName: The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded.
     ///   - eventSource: The Amazon Web Services service to which the request was made, such as iam.amazonaws.com or s3.amazonaws.com.
     ///   - insightType: The type of CloudTrail Insights event, which is either ApiCallRateInsight or ApiErrorRateInsight.  The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume.  The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes.
-    ///   - maxResults: The maximum number of datapoints to return. Valid values are integers from 1 to 21600.  The default value is 21600.
+    ///   - maxResults: The maximum number of data points to return. Valid values are integers from 1 to 21600.  The default value is 21600.
     ///   - nextToken: Returned if all datapoints can't be returned in a single call. For example, due to reaching MaxResults. Add this parameter to the request to continue retrieving results starting from the last evaluated point.
     ///   - period: Granularity of data to retrieve, in seconds. Valid values are 60, 300, and 3600.  If you specify any other value, you will get an error. The default is 3600 seconds.
     ///   - startTime: Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp. The default is 90 days before the time of request.
@@ -1154,7 +1308,7 @@ public struct CloudTrail: AWSService {
         return try await self.listQueries(input, logger: logger)
     }
 
-    /// Lists the tags for the specified trails, event data stores, or channels in the current Region.
+    /// Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region.
     @Sendable
     @inlinable
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
@@ -1167,11 +1321,11 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    /// Lists the tags for the specified trails, event data stores, or channels in the current Region.
+    /// Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region.
     ///
     /// Parameters:
     ///   - nextToken: Reserved for future use.
-    ///   - resourceIdList: Specifies a list of trail, event data store, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    ///   - resourceIdList: Specifies a list of trail, event data store, dashboard, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     ///   - logger: Logger use during operation
     @inlinable
     public func listTags(
@@ -1332,7 +1486,7 @@ public struct CloudTrail: AWSService {
         return try await self.putInsightSelectors(input, logger: logger)
     }
 
-    ///  Attaches a resource-based permission policy to a CloudTrail channel that is used for an integration with an event source outside of Amazon Web Services. For more information about resource-based policies, see  CloudTrail resource-based policy examples  in the CloudTrail User Guide.
+    ///  Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see  CloudTrail resource-based policy examples  in the CloudTrail User Guide.
     @Sendable
     @inlinable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
@@ -1345,11 +1499,11 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    ///  Attaches a resource-based permission policy to a CloudTrail channel that is used for an integration with an event source outside of Amazon Web Services. For more information about resource-based policies, see  CloudTrail resource-based policy examples  in the CloudTrail User Guide.
+    ///  Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see  CloudTrail resource-based policy examples  in the CloudTrail User Guide.
     ///
     /// Parameters:
-    ///   - resourceArn:  The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.  The following is the format of a resource ARN:  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
-    ///   - resourcePolicy:  A JSON-formatted string for an Amazon Web Services resource-based policy.  The following are requirements for the resource policy:    Contains only one action: cloudtrail-data:PutAuditEvents     Contains at least one statement. The policy can have a maximum of 20 statements.     Each statement contains at least one principal. A statement can have a maximum of 50 principals.
+    ///   - resourceArn:  The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    ///   - resourcePolicy:  A JSON-formatted string for an Amazon Web Services resource-based policy.  For example resource-based policies, see  CloudTrail resource-based policy examples  in the CloudTrail User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func putResourcePolicy(
@@ -1393,7 +1547,7 @@ public struct CloudTrail: AWSService {
         return try await self.registerOrganizationDelegatedAdmin(input, logger: logger)
     }
 
-    /// Removes the specified tags from a trail, event data store, or channel.
+    /// Removes the specified tags from a trail, event data store, dashboard, or channel.
     @Sendable
     @inlinable
     public func removeTags(_ input: RemoveTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveTagsResponse {
@@ -1406,10 +1560,10 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified tags from a trail, event data store, or channel.
+    /// Removes the specified tags from a trail, event data store, dashboard, or channel.
     ///
     /// Parameters:
-    ///   - resourceId: Specifies the ARN of the trail, event data store, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    ///   - resourceId: Specifies the ARN of the trail, event data store, dashboard, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     ///   - tagsList: Specifies a list of tags to be removed.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1452,6 +1606,40 @@ public struct CloudTrail: AWSService {
             eventDataStore: eventDataStore
         )
         return try await self.restoreEventDataStore(input, logger: logger)
+    }
+
+    /// Starts a refresh of the specified dashboard.
+    ///   Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information,  see Example: Allow CloudTrail to run queries to populate a dashboard in the CloudTrail User Guide.
+    @Sendable
+    @inlinable
+    public func startDashboardRefresh(_ input: StartDashboardRefreshRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDashboardRefreshResponse {
+        try await self.client.execute(
+            operation: "StartDashboardRefresh", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a refresh of the specified dashboard.
+    ///   Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information,  see Example: Allow CloudTrail to run queries to populate a dashboard in the CloudTrail User Guide.
+    ///
+    /// Parameters:
+    ///   - dashboardId: The name or ARN of the dashboard.
+    ///   - queryParameterValues:  The query parameter values for the dashboard
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startDashboardRefresh(
+        dashboardId: String,
+        queryParameterValues: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartDashboardRefreshResponse {
+        let input = StartDashboardRefreshRequest(
+            dashboardId: dashboardId, 
+            queryParameterValues: queryParameterValues
+        )
+        return try await self.startDashboardRefresh(input, logger: logger)
     }
 
     /// Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store Status must be STOPPED_INGESTION  and the eventCategory must be Management, Data, NetworkActivity, or ConfigurationItem.
@@ -1570,6 +1758,7 @@ public struct CloudTrail: AWSService {
     ///
     /// Parameters:
     ///   - deliveryS3Uri:  The URI for the S3 bucket where CloudTrail delivers the query results.
+    ///   - eventDataStoreOwnerAccountId: The account ID of the event data store owner.
     ///   - queryAlias:  The alias that identifies a query template.
     ///   - queryParameters:  The query parameters for the specified QueryAlias.
     ///   - queryStatement: The SQL code of your query.
@@ -1577,6 +1766,7 @@ public struct CloudTrail: AWSService {
     @inlinable
     public func startQuery(
         deliveryS3Uri: String? = nil,
+        eventDataStoreOwnerAccountId: String? = nil,
         queryAlias: String? = nil,
         queryParameters: [String]? = nil,
         queryStatement: String? = nil,
@@ -1584,6 +1774,7 @@ public struct CloudTrail: AWSService {
     ) async throws -> StartQueryResponse {
         let input = StartQueryRequest(
             deliveryS3Uri: deliveryS3Uri, 
+            eventDataStoreOwnerAccountId: eventDataStoreOwnerAccountId, 
             queryAlias: queryAlias, 
             queryParameters: queryParameters, 
             queryStatement: queryStatement
@@ -1711,6 +1902,46 @@ public struct CloudTrail: AWSService {
             name: name
         )
         return try await self.updateChannel(input, logger: logger)
+    }
+
+    /// Updates the specified dashboard.
+    ///   To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to the dashboard. For more information,  see  Resource-based policy example for a dashboard in the CloudTrail User Guide.   CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information,  see Example: Allow CloudTrail to run queries to populate a dashboard in the CloudTrail User Guide.
+    @Sendable
+    @inlinable
+    public func updateDashboard(_ input: UpdateDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardResponse {
+        try await self.client.execute(
+            operation: "UpdateDashboard", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the specified dashboard.
+    ///   To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to the dashboard. For more information,  see  Resource-based policy example for a dashboard in the CloudTrail User Guide.   CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information,  see Example: Allow CloudTrail to run queries to populate a dashboard in the CloudTrail User Guide.
+    ///
+    /// Parameters:
+    ///   - dashboardId:  The name or ARN of the dashboard.
+    ///   - refreshSchedule: The refresh schedule configuration for the dashboard.
+    ///   - terminationProtectionEnabled:  Specifies whether termination protection is enabled for the dashboard. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+    ///   - widgets: An array of widgets for the dashboard. A custom dashboard can have a maximum of 10 widgets.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDashboard(
+        dashboardId: String,
+        refreshSchedule: RefreshSchedule? = nil,
+        terminationProtectionEnabled: Bool? = nil,
+        widgets: [RequestWidget]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDashboardResponse {
+        let input = UpdateDashboardRequest(
+            dashboardId: dashboardId, 
+            refreshSchedule: refreshSchedule, 
+            terminationProtectionEnabled: terminationProtectionEnabled, 
+            widgets: widgets
+        )
+        return try await self.updateDashboard(input, logger: logger)
     }
 
     /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 7 and 3653 if the BillingMode is set to EXTENDABLE_RETENTION_PRICING, or between 7 and 2557 if BillingMode is set to FIXED_RETENTION_PRICING. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management, data, or network activity events in your event data store. For more information about AdvancedEventSelectors, see AdvancedEventSelectors. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
@@ -1860,16 +2091,19 @@ extension CloudTrail {
     /// Return PaginatorSequence for operation ``getQueryResults(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - eventDataStoreOwnerAccountId: The account ID of the event data store owner.
     ///   - maxQueryResults: The maximum number of query results to display on a single page.
     ///   - queryId: The ID of the query for which you want to get results.
     ///   - logger: Logger used for logging
     @inlinable
     public func getQueryResultsPaginator(
+        eventDataStoreOwnerAccountId: String? = nil,
         maxQueryResults: Int? = nil,
         queryId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetQueryResultsRequest, GetQueryResultsResponse> {
         let input = GetQueryResultsRequest(
+            eventDataStoreOwnerAccountId: eventDataStoreOwnerAccountId, 
             maxQueryResults: maxQueryResults, 
             queryId: queryId
         )
@@ -2042,13 +2276,13 @@ extension CloudTrail {
     /// Return PaginatorSequence for operation ``listInsightsMetricData(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - dataType: Type of datapoints to return. Valid values are NonZeroData and  FillWithZeros. The default is NonZeroData.
+    ///   - dataType: Type of data points to return. Valid values are NonZeroData and  FillWithZeros. The default is NonZeroData.
     ///   - endTime: Specifies, in UTC, the end time for time-series data. The value specified is exclusive;  results include data points up to the specified time stamp. The default is the time of request.
     ///   - errorCode: Conditionally required if the InsightType parameter is set to ApiErrorRateInsight. If returning metrics for the ApiErrorRateInsight Insights type, this is the error to retrieve data for. For example, AccessDenied.
     ///   - eventName: The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded.
     ///   - eventSource: The Amazon Web Services service to which the request was made, such as iam.amazonaws.com or s3.amazonaws.com.
     ///   - insightType: The type of CloudTrail Insights event, which is either ApiCallRateInsight or ApiErrorRateInsight.  The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume.  The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes.
-    ///   - maxResults: The maximum number of datapoints to return. Valid values are integers from 1 to 21600.  The default value is 21600.
+    ///   - maxResults: The maximum number of data points to return. Valid values are integers from 1 to 21600.  The default value is 21600.
     ///   - period: Granularity of data to retrieve, in seconds. Valid values are 60, 300, and 3600.  If you specify any other value, you will get an error. The default is 3600 seconds.
     ///   - startTime: Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp. The default is 90 days before the time of request.
     ///   - logger: Logger used for logging
@@ -2183,7 +2417,7 @@ extension CloudTrail {
     /// Return PaginatorSequence for operation ``listTags(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - resourceIdList: Specifies a list of trail, event data store, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    ///   - resourceIdList: Specifies a list of trail, event data store, dashboard, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     ///   - logger: Logger used for logging
     @inlinable
     public func listTagsPaginator(
@@ -2278,6 +2512,7 @@ extension CloudTrail.GetQueryResultsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudTrail.GetQueryResultsRequest {
         return .init(
+            eventDataStoreOwnerAccountId: self.eventDataStoreOwnerAccountId,
             maxQueryResults: self.maxQueryResults,
             nextToken: token,
             queryId: self.queryId

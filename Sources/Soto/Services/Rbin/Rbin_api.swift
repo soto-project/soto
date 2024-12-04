@@ -96,7 +96,7 @@ public struct Rbin: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a Recycle Bin retention rule. For more information, see  Create Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a Recycle Bin retention rule. You can create two types of retention rules:    Tag-level retention rules - These retention rules use  resource tags to identify the resources to protect. For each retention rule, you specify one or  more tag key and value pairs. Resources (of the specified type) that have at least one of these  tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this  type of retention rule to protect specific resources in your account based on their tags.    Region-level retention rules - These retention rules,  by default, apply to all of the resources (of the specified type) in the Region, even if the  resources are not tagged. However, you can specify exclusion tags to exclude resources that have  specific tags. Use this type of retention rule to protect all resources of a specific type in a  Region.   For more information, see  Create Recycle Bin retention rules in the Amazon EBS User Guide.
     @Sendable
     @inlinable
     public func createRule(_ input: CreateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleResponse {
@@ -109,12 +109,13 @@ public struct Rbin: AWSService {
             logger: logger
         )
     }
-    /// Creates a Recycle Bin retention rule. For more information, see  Create Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a Recycle Bin retention rule. You can create two types of retention rules:    Tag-level retention rules - These retention rules use  resource tags to identify the resources to protect. For each retention rule, you specify one or  more tag key and value pairs. Resources (of the specified type) that have at least one of these  tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this  type of retention rule to protect specific resources in your account based on their tags.    Region-level retention rules - These retention rules,  by default, apply to all of the resources (of the specified type) in the Region, even if the  resources are not tagged. However, you can specify exclusion tags to exclude resources that have  specific tags. Use this type of retention rule to protect all resources of a specific type in a  Region.   For more information, see  Create Recycle Bin retention rules in the Amazon EBS User Guide.
     ///
     /// Parameters:
     ///   - description: The retention rule description.
+    ///   - excludeResourceTags: [Region-level retention rules only] Specifies the exclusion tags to use to identify resources that are to be excluded,
     ///   - lockConfiguration: Information about the retention rule lock configuration.
-    ///   - resourceTags: Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
+    ///   - resourceTags: [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
     ///   - resourceType: The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots  and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To  retain EBS-backed AMIs, specify EC2_IMAGE.
     ///   - retentionPeriod: Information about the retention period for which the retention rule is to retain resources.
     ///   - tags: Information about the tags to assign to the retention rule.
@@ -122,6 +123,7 @@ public struct Rbin: AWSService {
     @inlinable
     public func createRule(
         description: String? = nil,
+        excludeResourceTags: [ResourceTag]? = nil,
         lockConfiguration: LockConfiguration? = nil,
         resourceTags: [ResourceTag]? = nil,
         resourceType: ResourceType,
@@ -131,6 +133,7 @@ public struct Rbin: AWSService {
     ) async throws -> CreateRuleResponse {
         let input = CreateRuleRequest(
             description: description, 
+            excludeResourceTags: excludeResourceTags, 
             lockConfiguration: lockConfiguration, 
             resourceTags: resourceTags, 
             resourceType: resourceType, 
@@ -214,14 +217,16 @@ public struct Rbin: AWSService {
     /// Lists the Recycle Bin retention rules in the Region.
     ///
     /// Parameters:
+    ///   - excludeResourceTags: [Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be
     ///   - lockState: The lock state of the retention rules to list. Only retention rules with the specified  lock state are returned.
     ///   - maxResults: The maximum number of results to return with a single call.
     ///   - nextToken: The token for the next page of results.
-    ///   - resourceTags: Information about the resource tags used to identify resources that are retained by the retention  rule.
+    ///   - resourceTags: [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention  rule.
     ///   - resourceType: The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only Amazon EBS snapshots and EBS-backed  AMIs are supported. To list retention rules that retain snapshots, specify  EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify  EC2_IMAGE.
     ///   - logger: Logger use during operation
     @inlinable
     public func listRules(
+        excludeResourceTags: [ResourceTag]? = nil,
         lockState: LockState? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -230,6 +235,7 @@ public struct Rbin: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListRulesResponse {
         let input = ListRulesRequest(
+            excludeResourceTags: excludeResourceTags, 
             lockState: lockState, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -268,7 +274,7 @@ public struct Rbin: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Locks a retention rule. A locked retention rule can't be modified or deleted.
+    /// Locks a Region-level retention rule. A locked retention rule can't be modified or  deleted.  You can't lock tag-level retention rules, or Region-level retention rules that  have exclusion tags.
     @Sendable
     @inlinable
     public func lockRule(_ input: LockRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LockRuleResponse {
@@ -281,7 +287,7 @@ public struct Rbin: AWSService {
             logger: logger
         )
     }
-    /// Locks a retention rule. A locked retention rule can't be modified or deleted.
+    /// Locks a Region-level retention rule. A locked retention rule can't be modified or  deleted.  You can't lock tag-level retention rules, or Region-level retention rules that  have exclusion tags.
     ///
     /// Parameters:
     ///   - identifier: The unique ID of the retention rule.
@@ -410,14 +416,16 @@ public struct Rbin: AWSService {
     ///
     /// Parameters:
     ///   - description: The retention rule description.
+    ///   - excludeResourceTags: [Region-level retention rules only] Specifies the exclusion tags to use to identify resources that are to be excluded,
     ///   - identifier: The unique ID of the retention rule.
-    ///   - resourceTags: Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
+    ///   - resourceTags: [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
     ///   - resourceType:  This parameter is currently not supported. You can't update a retention rule's resource type  after creation.
     ///   - retentionPeriod: Information about the retention period for which the retention rule is to retain resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateRule(
         description: String? = nil,
+        excludeResourceTags: [ResourceTag]? = nil,
         identifier: String,
         resourceTags: [ResourceTag]? = nil,
         resourceType: ResourceType? = nil,
@@ -426,6 +434,7 @@ public struct Rbin: AWSService {
     ) async throws -> UpdateRuleResponse {
         let input = UpdateRuleRequest(
             description: description, 
+            excludeResourceTags: excludeResourceTags, 
             identifier: identifier, 
             resourceTags: resourceTags, 
             resourceType: resourceType, 
@@ -469,13 +478,15 @@ extension Rbin {
     /// Return PaginatorSequence for operation ``listRules(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - excludeResourceTags: [Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be
     ///   - lockState: The lock state of the retention rules to list. Only retention rules with the specified  lock state are returned.
     ///   - maxResults: The maximum number of results to return with a single call.
-    ///   - resourceTags: Information about the resource tags used to identify resources that are retained by the retention  rule.
+    ///   - resourceTags: [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention  rule.
     ///   - resourceType: The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only Amazon EBS snapshots and EBS-backed  AMIs are supported. To list retention rules that retain snapshots, specify  EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify  EC2_IMAGE.
     ///   - logger: Logger used for logging
     @inlinable
     public func listRulesPaginator(
+        excludeResourceTags: [ResourceTag]? = nil,
         lockState: LockState? = nil,
         maxResults: Int? = nil,
         resourceTags: [ResourceTag]? = nil,
@@ -483,6 +494,7 @@ extension Rbin {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListRulesRequest, ListRulesResponse> {
         let input = ListRulesRequest(
+            excludeResourceTags: excludeResourceTags, 
             lockState: lockState, 
             maxResults: maxResults, 
             resourceTags: resourceTags, 
@@ -496,6 +508,7 @@ extension Rbin.ListRulesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Rbin.ListRulesRequest {
         return .init(
+            excludeResourceTags: self.excludeResourceTags,
             lockState: self.lockState,
             maxResults: self.maxResults,
             nextToken: token,

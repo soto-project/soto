@@ -5218,6 +5218,8 @@ extension MediaConvert {
     }
 
     public struct CreateQueueRequest: AWSEncodableShape {
+        /// Specify the maximum number of jobs your queue can process concurrently. For on-demand queues, the value you enter is constrained by your service quotas for Maximum concurrent jobs, per on-demand queue and Maximum concurrent jobs, per account. For reserved queues, specify the number of jobs you can process concurrently in your reservation plan instead.
+        public let concurrentJobs: Int?
         /// Optional. A description of the queue that you are creating.
         public let description: String?
         /// The name of the queue that you are creating.
@@ -5232,7 +5234,8 @@ extension MediaConvert {
         public let tags: [String: String]?
 
         @inlinable
-        public init(description: String? = nil, name: String? = nil, pricingPlan: PricingPlan? = nil, reservationPlanSettings: ReservationPlanSettings? = nil, status: QueueStatus? = nil, tags: [String: String]? = nil) {
+        public init(concurrentJobs: Int? = nil, description: String? = nil, name: String? = nil, pricingPlan: PricingPlan? = nil, reservationPlanSettings: ReservationPlanSettings? = nil, status: QueueStatus? = nil, tags: [String: String]? = nil) {
+            self.concurrentJobs = concurrentJobs
             self.description = description
             self.name = name
             self.pricingPlan = pricingPlan
@@ -5242,6 +5245,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case concurrentJobs = "concurrentJobs"
             case description = "description"
             case name = "name"
             case pricingPlan = "pricingPlan"
@@ -8909,16 +8913,24 @@ extension MediaConvert {
         public let nextToken: String?
         /// List of queues.
         public let queues: [Queue]?
+        /// The maximum number of jobs that MediaConvert can process at one time, across all of your on-demand queues in the current AWS Region.
+        public let totalConcurrentJobs: Int?
+        /// The remaining number of concurrent jobs that are not associated with a queue and are available to allocate to a queue. You can allocate these jobs when you create or update a queue.
+        public let unallocatedConcurrentJobs: Int?
 
         @inlinable
-        public init(nextToken: String? = nil, queues: [Queue]? = nil) {
+        public init(nextToken: String? = nil, queues: [Queue]? = nil, totalConcurrentJobs: Int? = nil, unallocatedConcurrentJobs: Int? = nil) {
             self.nextToken = nextToken
             self.queues = queues
+            self.totalConcurrentJobs = totalConcurrentJobs
+            self.unallocatedConcurrentJobs = unallocatedConcurrentJobs
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case queues = "queues"
+            case totalConcurrentJobs = "totalConcurrentJobs"
+            case unallocatedConcurrentJobs = "unallocatedConcurrentJobs"
         }
     }
 
@@ -10743,6 +10755,8 @@ extension MediaConvert {
     public struct Queue: AWSDecodableShape {
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
+        /// The maximum number of jobs your queue can process concurrently.
+        public let concurrentJobs: Int?
         /// The timestamp in epoch seconds for when you created the queue.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var createdAt: Date?
@@ -10759,6 +10773,8 @@ extension MediaConvert {
         public let progressingJobsCount: Int?
         /// Details about the pricing plan for your reserved queue. Required for reserved queues and not applicable to on-demand queues.
         public let reservationPlan: ReservationPlan?
+        /// A list of any service overrides applied by MediaConvert to the settings that you have configured. If you see any overrides, we recommend that you contact AWS Support.
+        public let serviceOverrides: [ServiceOverride]?
         /// Queues can be ACTIVE or PAUSED. If you pause a queue, the service won't begin processing jobs in that queue. Jobs that are running when you pause the queue continue to run until they finish or result in an error.
         public let status: QueueStatus?
         /// The estimated number of jobs with a SUBMITTED status.
@@ -10767,8 +10783,9 @@ extension MediaConvert {
         public let type: `Type`?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdated: Date? = nil, name: String? = nil, pricingPlan: PricingPlan? = nil, progressingJobsCount: Int? = nil, reservationPlan: ReservationPlan? = nil, status: QueueStatus? = nil, submittedJobsCount: Int? = nil, type: `Type`? = nil) {
+        public init(arn: String? = nil, concurrentJobs: Int? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdated: Date? = nil, name: String? = nil, pricingPlan: PricingPlan? = nil, progressingJobsCount: Int? = nil, reservationPlan: ReservationPlan? = nil, serviceOverrides: [ServiceOverride]? = nil, status: QueueStatus? = nil, submittedJobsCount: Int? = nil, type: `Type`? = nil) {
             self.arn = arn
+            self.concurrentJobs = concurrentJobs
             self.createdAt = createdAt
             self.description = description
             self.lastUpdated = lastUpdated
@@ -10776,6 +10793,7 @@ extension MediaConvert {
             self.pricingPlan = pricingPlan
             self.progressingJobsCount = progressingJobsCount
             self.reservationPlan = reservationPlan
+            self.serviceOverrides = serviceOverrides
             self.status = status
             self.submittedJobsCount = submittedJobsCount
             self.type = type
@@ -10783,6 +10801,7 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case concurrentJobs = "concurrentJobs"
             case createdAt = "createdAt"
             case description = "description"
             case lastUpdated = "lastUpdated"
@@ -10790,6 +10809,7 @@ extension MediaConvert {
             case pricingPlan = "pricingPlan"
             case progressingJobsCount = "progressingJobsCount"
             case reservationPlan = "reservationPlan"
+            case serviceOverrides = "serviceOverrides"
             case status = "status"
             case submittedJobsCount = "submittedJobsCount"
             case type = "type"
@@ -11113,6 +11133,32 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case jobs = "jobs"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ServiceOverride: AWSDecodableShape {
+        /// Details about the service override that MediaConvert has applied.
+        public let message: String?
+        /// The name of the setting that MediaConvert has applied an override to.
+        public let name: String?
+        /// The current value of the service override that MediaConvert has applied.
+        public let overrideValue: String?
+        /// The value of the setting that you configured, prior to any overrides that MediaConvert has applied.
+        public let value: String?
+
+        @inlinable
+        public init(message: String? = nil, name: String? = nil, overrideValue: String? = nil, value: String? = nil) {
+            self.message = message
+            self.name = name
+            self.overrideValue = overrideValue
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+            case overrideValue = "overrideValue"
+            case value = "value"
         }
     }
 
@@ -11670,6 +11716,8 @@ extension MediaConvert {
     }
 
     public struct UpdateQueueRequest: AWSEncodableShape {
+        /// Specify the maximum number of jobs your queue can process concurrently. For on-demand queues, the value you enter is constrained by your service quotas for Maximum concurrent jobs, per on-demand queue and Maximum concurrent jobs, per account. For reserved queues, update your reservation plan instead in order to increase your yearly commitment.
+        public let concurrentJobs: Int?
         /// The new description for the queue, if you are changing it.
         public let description: String?
         /// The name of the queue that you are modifying.
@@ -11680,7 +11728,8 @@ extension MediaConvert {
         public let status: QueueStatus?
 
         @inlinable
-        public init(description: String? = nil, name: String, reservationPlanSettings: ReservationPlanSettings? = nil, status: QueueStatus? = nil) {
+        public init(concurrentJobs: Int? = nil, description: String? = nil, name: String, reservationPlanSettings: ReservationPlanSettings? = nil, status: QueueStatus? = nil) {
+            self.concurrentJobs = concurrentJobs
             self.description = description
             self.name = name
             self.reservationPlanSettings = reservationPlanSettings
@@ -11690,6 +11739,7 @@ extension MediaConvert {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.concurrentJobs, forKey: .concurrentJobs)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.name, key: "Name")
             try container.encodeIfPresent(self.reservationPlanSettings, forKey: .reservationPlanSettings)
@@ -11697,6 +11747,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case concurrentJobs = "concurrentJobs"
             case description = "description"
             case reservationPlanSettings = "reservationPlanSettings"
             case status = "status"

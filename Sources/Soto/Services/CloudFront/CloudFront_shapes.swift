@@ -174,6 +174,12 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum OriginGroupSelectionCriteria: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
+        case mediaQualityBased = "media-quality-based"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case httpOnly = "http-only"
         case httpsOnly = "https-only"
@@ -419,6 +425,123 @@ extension CloudFront {
         }
     }
 
+    public struct AnycastIpList: AWSDecodableShape {
+        public struct _AnycastIpsEncoding: ArrayCoderProperties { public static let member = "AnycastIp" }
+
+        /// The static IP addresses that are allocated to the Anycast static IP list.
+        @CustomCoding<ArrayCoder<_AnycastIpsEncoding, String>>
+        public var anycastIps: [String]
+        /// The Amazon Resource Name (ARN) of the Anycast static IP list.
+        public let arn: String
+        /// The ID of the Anycast static IP list.
+        public let id: String
+        /// The number of IP addresses in the Anycast static IP list.
+        public let ipCount: Int
+        /// The last time the Anycast static IP list was modified.
+        public let lastModifiedTime: Date
+        /// The name of the Anycast static IP list.
+        public let name: String
+        /// The status of the Anycast static IP list. Valid values: Deployed, Deploying, or Failed.
+        public let status: String
+
+        @inlinable
+        public init(anycastIps: [String], arn: String, id: String, ipCount: Int, lastModifiedTime: Date, name: String, status: String) {
+            self.anycastIps = anycastIps
+            self.arn = arn
+            self.id = id
+            self.ipCount = ipCount
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIps = "AnycastIps"
+            case arn = "Arn"
+            case id = "Id"
+            case ipCount = "IpCount"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct AnycastIpListCollection: AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "AnycastIpListSummary" }
+
+        /// If there are more items in the list collection than are in this response, this value is
+        /// 			true.
+        public let isTruncated: Bool
+        /// Items in the Anycast static IP list collection. Each item is of the AnycastIpListSummary structure type.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, AnycastIpListSummary>>
+        public var items: [AnycastIpListSummary]?
+        /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur
+        /// 			after the marker. To get the next page of the list, set this field's value to the value
+        /// 			of NextMarker from the current page's response.
+        public let marker: String
+        /// The maximum number of Anycast static IP list collections that you want returned in the
+        /// 			response.
+        public let maxItems: Int
+        /// Indicates the next page of the Anycast static IP list collection. To get the next page of the
+        /// 			list, use this value in the Marker field of your request.
+        public let nextMarker: String?
+        /// The quantity of Anycast static IP lists in the collection.
+        public let quantity: Int
+
+        @inlinable
+        public init(isTruncated: Bool, items: [AnycastIpListSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.isTruncated = isTruncated
+            self.items = items
+            self.marker = marker
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case items = "Items"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct AnycastIpListSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Anycast static IP list.
+        public let arn: String
+        /// The ID of the Anycast static IP list.
+        public let id: String
+        /// The number of IP addresses in the Anycast static IP list.
+        public let ipCount: Int
+        /// The last time the Anycast static IP list was modified.
+        public let lastModifiedTime: Date
+        /// The name of the Anycast static IP list.
+        public let name: String
+        /// The deployment status of the Anycast static IP list. Valid values: Deployed, Deploying, or Failed.
+        public let status: String
+
+        @inlinable
+        public init(arn: String, id: String, ipCount: Int, lastModifiedTime: Date, name: String, status: String) {
+            self.arn = arn
+            self.id = id
+            self.ipCount = ipCount
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case ipCount = "IpCount"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
     public struct AssociateAliasRequest: AWSEncodableShape {
         /// The alias (also known as a CNAME) to add to the target distribution.
         public let alias: String
@@ -480,6 +603,8 @@ extension CloudFront {
         /// 			must be published to the LIVE stage to associate them with a cache
         /// 			behavior.
         public let functionAssociations: FunctionAssociations?
+        /// The gRPC configuration for your cache behavior.
+        public let grpcConfig: GrpcConfig?
         /// A complex type that contains zero or more Lambda@Edge function associations for a
         /// 			cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
@@ -566,7 +691,7 @@ extension CloudFront {
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
         @inlinable
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, grpcConfig: GrpcConfig? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -574,6 +699,7 @@ extension CloudFront {
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
             self.forwardedValues = nil
             self.functionAssociations = functionAssociations
+            self.grpcConfig = grpcConfig
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.maxTTL = nil
             self.minTTL = nil
@@ -590,7 +716,7 @@ extension CloudFront {
 
         @available(*, deprecated, message: "Members defaultTTL, forwardedValues, maxTTL, minTTL have been deprecated")
         @inlinable
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues? = nil, functionAssociations: FunctionAssociations? = nil, grpcConfig: GrpcConfig? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -598,6 +724,7 @@ extension CloudFront {
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
             self.forwardedValues = forwardedValues
             self.functionAssociations = functionAssociations
+            self.grpcConfig = grpcConfig
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.maxTTL = maxTTL
             self.minTTL = minTTL
@@ -624,6 +751,7 @@ extension CloudFront {
             case fieldLevelEncryptionId = "FieldLevelEncryptionId"
             case forwardedValues = "ForwardedValues"
             case functionAssociations = "FunctionAssociations"
+            case grpcConfig = "GrpcConfig"
             case lambdaFunctionAssociations = "LambdaFunctionAssociations"
             case maxTTL = "MaxTTL"
             case minTTL = "MinTTL"
@@ -1402,6 +1530,56 @@ extension CloudFront {
             self.distribution = try container.decode(Distribution.self)
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateAnycastIpListRequest: AWSEncodableShape {
+        /// The number of static IP addresses that are allocated to the Anycast static IP list.
+        public let ipCount: Int
+        /// Name of the Anycast static IP list.
+        public let name: String
+        public let tags: Tags?
+
+        @inlinable
+        public init(ipCount: Int, name: String, tags: Tags? = nil) {
+            self.ipCount = ipCount
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+            try self.tags?.validate(name: "\(name).tags")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipCount = "IpCount"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAnycastIpListResult: AWSDecodableShape {
+        /// A response structure that includes the version identifier (ETag) and the created AnycastIpList structure.
+        public let anycastIpList: AnycastIpList
+        /// The version identifier for the current version of the Anycast static IP list.
+        public let eTag: String?
+
+        @inlinable
+        public init(anycastIpList: AnycastIpList, eTag: String? = nil) {
+            self.anycastIpList = anycastIpList
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.anycastIpList = try container.decode(AnycastIpList.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2296,6 +2474,53 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct CreateVpcOriginRequest: AWSEncodableShape {
+        public let tags: Tags?
+        /// The VPC origin endpoint configuration.
+        public let vpcOriginEndpointConfig: VpcOriginEndpointConfig
+
+        @inlinable
+        public init(tags: Tags? = nil, vpcOriginEndpointConfig: VpcOriginEndpointConfig) {
+            self.tags = tags
+            self.vpcOriginEndpointConfig = vpcOriginEndpointConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.validate(name: "\(name).tags")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case vpcOriginEndpointConfig = "VpcOriginEndpointConfig"
+        }
+    }
+
+    public struct CreateVpcOriginResult: AWSDecodableShape {
+        /// The VPC origin ETag.
+        public let eTag: String?
+        /// The VPC origin location.
+        public let location: String?
+        /// The VPC origin.
+        public let vpcOrigin: VpcOrigin
+
+        @inlinable
+        public init(eTag: String? = nil, location: String? = nil, vpcOrigin: VpcOrigin) {
+            self.eTag = eTag
+            self.location = location
+            self.vpcOrigin = vpcOrigin
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+            self.vpcOrigin = try container.decode(VpcOrigin.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct CustomErrorResponse: AWSEncodableShape & AWSDecodableShape {
         /// The minimum amount of time, in seconds, that you want CloudFront to cache the HTTP status
         /// 			code specified in ErrorCode. When this time period has elapsed, CloudFront
@@ -2491,6 +2716,8 @@ extension CloudFront {
         /// 			must be published to the LIVE stage to associate them with a cache
         /// 			behavior.
         public let functionAssociations: FunctionAssociations?
+        /// The gRPC configuration for your cache behavior.
+        public let grpcConfig: GrpcConfig?
         /// A complex type that contains zero or more Lambda@Edge function associations for a
         /// 			cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
@@ -2568,7 +2795,7 @@ extension CloudFront {
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
         @inlinable
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, grpcConfig: GrpcConfig? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -2576,6 +2803,7 @@ extension CloudFront {
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
             self.forwardedValues = nil
             self.functionAssociations = functionAssociations
+            self.grpcConfig = grpcConfig
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.maxTTL = nil
             self.minTTL = nil
@@ -2591,7 +2819,7 @@ extension CloudFront {
 
         @available(*, deprecated, message: "Members defaultTTL, forwardedValues, maxTTL, minTTL have been deprecated")
         @inlinable
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues? = nil, functionAssociations: FunctionAssociations? = nil, grpcConfig: GrpcConfig? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -2599,6 +2827,7 @@ extension CloudFront {
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
             self.forwardedValues = forwardedValues
             self.functionAssociations = functionAssociations
+            self.grpcConfig = grpcConfig
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.maxTTL = maxTTL
             self.minTTL = minTTL
@@ -2624,6 +2853,7 @@ extension CloudFront {
             case fieldLevelEncryptionId = "FieldLevelEncryptionId"
             case forwardedValues = "ForwardedValues"
             case functionAssociations = "FunctionAssociations"
+            case grpcConfig = "GrpcConfig"
             case lambdaFunctionAssociations = "LambdaFunctionAssociations"
             case maxTTL = "MaxTTL"
             case minTTL = "MinTTL"
@@ -2636,6 +2866,29 @@ extension CloudFront {
             case trustedSigners = "TrustedSigners"
             case viewerProtocolPolicy = "ViewerProtocolPolicy"
         }
+    }
+
+    public struct DeleteAnycastIpListRequest: AWSEncodableShape {
+        /// The ID of the Anycast static IP list.
+        public let id: String
+        /// The current version (ETag value) of the Anycast static IP list that
+        /// 			you are deleting.
+        public let ifMatch: String
+
+        @inlinable
+        public init(id: String, ifMatch: String) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCachePolicyRequest: AWSEncodableShape {
@@ -3016,6 +3269,50 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteVpcOriginRequest: AWSEncodableShape {
+        /// The VPC origin ID.
+        public let id: String
+        /// The VPC origin to delete, if a match occurs.
+        public let ifMatch: String
+
+        @inlinable
+        public init(id: String, ifMatch: String) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVpcOriginResult: AWSDecodableShape {
+        /// The VPC origin ETag.
+        public let eTag: String?
+        /// The VPC origin.
+        public let vpcOrigin: VpcOrigin
+
+        @inlinable
+        public init(eTag: String? = nil, vpcOrigin: VpcOrigin) {
+            self.eTag = eTag
+            self.vpcOrigin = vpcOrigin
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.vpcOrigin = try container.decode(VpcOrigin.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DescribeFunctionRequest: AWSEncodableShape {
         /// The name of the function that you are getting information about.
         public let name: String
@@ -3173,6 +3470,8 @@ extension CloudFront {
         /// A complex type that contains information about CNAMEs (alternate domain names), if
         /// 			any, for this distribution.
         public let aliases: Aliases?
+        /// ID of the Anycast static IP list that is associated with the distribution.
+        public let anycastIpListId: String?
         /// A complex type that contains zero or more CacheBehavior elements.
         public let cacheBehaviors: CacheBehaviors?
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be
@@ -3283,8 +3582,9 @@ extension CloudFront {
         public let webACLId: String?
 
         @inlinable
-        public init(aliases: Aliases? = nil, cacheBehaviors: CacheBehaviors? = nil, callerReference: String, comment: String, continuousDeploymentPolicyId: String? = nil, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, staging: Bool? = nil, viewerCertificate: ViewerCertificate? = nil, webACLId: String? = nil) {
+        public init(aliases: Aliases? = nil, anycastIpListId: String? = nil, cacheBehaviors: CacheBehaviors? = nil, callerReference: String, comment: String, continuousDeploymentPolicyId: String? = nil, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, staging: Bool? = nil, viewerCertificate: ViewerCertificate? = nil, webACLId: String? = nil) {
             self.aliases = aliases
+            self.anycastIpListId = anycastIpListId
             self.cacheBehaviors = cacheBehaviors
             self.callerReference = callerReference
             self.comment = comment
@@ -3314,6 +3614,7 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case aliases = "Aliases"
+            case anycastIpListId = "AnycastIpListId"
             case cacheBehaviors = "CacheBehaviors"
             case callerReference = "CallerReference"
             case comment = "Comment"
@@ -3454,6 +3755,8 @@ extension CloudFront {
         /// 				services in China.
         @OptionalCustomCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
         public var aliasICPRecordals: [AliasICPRecordal]?
+        /// ID of the Anycast static IP list that is associated with the distribution.
+        public let anycastIpListId: String?
         /// The ARN (Amazon Resource Name) for the distribution. For example:
         /// 				arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where
         /// 				123456789012 is your Amazon Web Services account ID.
@@ -3511,9 +3814,10 @@ extension CloudFront {
         public let webACLId: String
 
         @inlinable
-        public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: UppercaseHttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: Date, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, staging: Bool, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
+        public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, anycastIpListId: String? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: UppercaseHttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: Date, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, staging: Bool, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
             self.aliases = aliases
             self.aliasICPRecordals = aliasICPRecordals
+            self.anycastIpListId = anycastIpListId
             self.arn = arn
             self.cacheBehaviors = cacheBehaviors
             self.comment = comment
@@ -3538,6 +3842,7 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case aliases = "Aliases"
             case aliasICPRecordals = "AliasICPRecordals"
+            case anycastIpListId = "AnycastIpListId"
             case arn = "ARN"
             case cacheBehaviors = "CacheBehaviors"
             case comment = "Comment"
@@ -4157,6 +4462,46 @@ extension CloudFront {
             case quantity = "Quantity"
             case restrictionType = "RestrictionType"
         }
+    }
+
+    public struct GetAnycastIpListRequest: AWSEncodableShape {
+        /// The ID of the Anycast static IP list.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAnycastIpListResult: AWSDecodableShape {
+        /// The Anycast static IP list details.
+        public let anycastIpList: AnycastIpList
+        /// The version identifier for the current version of the Anycast static IP list.
+        public let eTag: String?
+
+        @inlinable
+        public init(anycastIpList: AnycastIpList, eTag: String? = nil) {
+            self.anycastIpList = anycastIpList
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.anycastIpList = try container.decode(AnycastIpList.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCachePolicyConfigRequest: AWSEncodableShape {
@@ -5317,6 +5662,61 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetVpcOriginRequest: AWSEncodableShape {
+        /// The VPC origin ID.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVpcOriginResult: AWSDecodableShape {
+        /// The VPC origin ETag.
+        public let eTag: String?
+        /// The VPC origin.
+        public let vpcOrigin: VpcOrigin
+
+        @inlinable
+        public init(eTag: String? = nil, vpcOrigin: VpcOrigin) {
+            self.eTag = eTag
+            self.vpcOrigin = vpcOrigin
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.vpcOrigin = try container.decode(VpcOrigin.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GrpcConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Enables your CloudFront distribution to receive gRPC requests and to proxy them directly to your
+        /// 			origins.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
     public struct Headers: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Name" }
 
@@ -5800,6 +6200,48 @@ extension CloudFront {
         }
     }
 
+    public struct ListAnycastIpListsRequest: AWSEncodableShape {
+        /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur
+        /// 			after the marker. To get the next page of the list, set this field's value to the value
+        /// 			of NextMarker from the current page's response.
+        public let marker: String?
+        /// The maximum number of Anycast static IP lists that you want returned in the
+        /// 			response.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(marker: String? = nil, maxItems: Int? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAnycastIpListsResult: AWSDecodableShape {
+        /// Root level tag for the AnycastIpLists parameters.
+        public let anycastIpLists: AnycastIpListCollection
+
+        @inlinable
+        public init(anycastIpLists: AnycastIpListCollection) {
+            self.anycastIpLists = anycastIpLists
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.anycastIpLists = try container.decode(AnycastIpListCollection.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct ListCachePoliciesRequest: AWSEncodableShape {
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			cache policies. The response includes cache policies in the list that occur after the
@@ -5987,6 +6429,51 @@ extension CloudFront {
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             self.continuousDeploymentPolicyList = try container.decode(ContinuousDeploymentPolicyList.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDistributionsByAnycastIpListIdRequest: AWSEncodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String
+        /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur
+        /// 			after the marker. To get the next page of the list, set this field's value to the value
+        /// 			of NextMarker from the current page's response.
+        public let marker: String?
+        /// The maximum number of distributions that you want returned in the
+        /// 			response.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(anycastIpListId: String, marker: String? = nil, maxItems: Int? = nil) {
+            self.anycastIpListId = anycastIpListId
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.anycastIpListId, key: "AnycastIpListId")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDistributionsByAnycastIpListIdResult: AWSDecodableShape {
+        public let distributionList: DistributionList
+
+        @inlinable
+        public init(distributionList: DistributionList) {
+            self.distributionList = distributionList
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.distributionList = try container.decode(DistributionList.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6208,6 +6695,48 @@ extension CloudFront {
     }
 
     public struct ListDistributionsByResponseHeadersPolicyIdResult: AWSDecodableShape {
+        public let distributionIdList: DistributionIdList
+
+        @inlinable
+        public init(distributionIdList: DistributionIdList) {
+            self.distributionIdList = distributionIdList
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.distributionIdList = try container.decode(DistributionIdList.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDistributionsByVpcOriginIdRequest: AWSEncodableShape {
+        /// The marker associated with the VPC origin distributions list.
+        public let marker: String?
+        /// The maximum number of items included in the list.
+        public let maxItems: Int?
+        /// The VPC origin ID.
+        public let vpcOriginId: String
+
+        @inlinable
+        public init(marker: String? = nil, maxItems: Int? = nil, vpcOriginId: String) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.vpcOriginId = vpcOriginId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodePath(self.vpcOriginId, key: "VpcOriginId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDistributionsByVpcOriginIdResult: AWSDecodableShape {
         public let distributionIdList: DistributionIdList
 
         @inlinable
@@ -6894,33 +7423,72 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ListVpcOriginsRequest: AWSEncodableShape {
+        /// The marker associated with the VPC origins list.
+        public let marker: String?
+        /// The maximum number of items included in the list.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(marker: String? = nil, maxItems: Int? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVpcOriginsResult: AWSDecodableShape {
+        /// List of VPC origins.
+        public let vpcOriginList: VpcOriginList
+
+        @inlinable
+        public init(vpcOriginList: VpcOriginList) {
+            self.vpcOriginList = vpcOriginList
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.vpcOriginList = try container.decode(VpcOriginList.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 bucket to store the access logs in, for example,
-        /// 				myawslogbucket.s3.amazonaws.com.
-        public let bucket: String
-        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't
-        /// 			want to enable logging when you create a distribution or if you want to disable logging
-        /// 			for an existing distribution, specify false for Enabled, and
-        /// 			specify empty Bucket and Prefix elements. If you specify
+        /// 				amzn-s3-demo-bucket.s3.amazonaws.com.
+        public let bucket: String?
+        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to
+        /// 			enable logging when you create a distribution or if you want to disable logging for an
+        /// 			existing distribution, specify false for Enabled, and specify
+        /// 			empty Bucket and Prefix elements. If you specify
         /// 				false for Enabled but you specify values for
-        /// 				Bucket, prefix, and IncludeCookies, the
-        /// 			values are automatically deleted.
-        public let enabled: Bool
+        /// 				Bucket and  prefix, the values are automatically
+        /// 			deleted.
+        public let enabled: Bool?
         /// Specifies whether you want CloudFront to include cookies in access logs, specify
         /// 				true for IncludeCookies. If you choose to include cookies
         /// 			in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for
         /// 			this distribution. If you don't want to include cookies when you create a distribution
         /// 			or if you want to disable include cookies for an existing distribution, specify
         /// 				false for IncludeCookies.
-        public let includeCookies: Bool
+        public let includeCookies: Bool?
         /// An optional string that you want CloudFront to prefix to the access log
         /// 				filenames for this distribution, for example, myprefix/.
         /// 			If you want to enable logging, but you don't want to specify a prefix, you still must
         /// 			include an empty Prefix element in the Logging element.
-        public let prefix: String
+        public let prefix: String?
 
         @inlinable
-        public init(bucket: String, enabled: Bool, includeCookies: Bool, prefix: String) {
+        public init(bucket: String? = nil, enabled: Bool? = nil, includeCookies: Bool? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.enabled = enabled
             self.includeCookies = includeCookies
@@ -6991,9 +7559,11 @@ extension CloudFront {
         /// 			that is configured with static website hosting, use the CustomOriginConfig
         /// 			type instead.
         public let s3OriginConfig: S3OriginConfig?
+        /// The VPC origin configuration.
+        public let vpcOriginConfig: VpcOriginConfig?
 
         @inlinable
-        public init(connectionAttempts: Int? = nil, connectionTimeout: Int? = nil, customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originAccessControlId: String? = nil, originPath: String? = nil, originShield: OriginShield? = nil, s3OriginConfig: S3OriginConfig? = nil) {
+        public init(connectionAttempts: Int? = nil, connectionTimeout: Int? = nil, customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originAccessControlId: String? = nil, originPath: String? = nil, originShield: OriginShield? = nil, s3OriginConfig: S3OriginConfig? = nil, vpcOriginConfig: VpcOriginConfig? = nil) {
             self.connectionAttempts = connectionAttempts
             self.connectionTimeout = connectionTimeout
             self.customHeaders = customHeaders
@@ -7004,6 +7574,7 @@ extension CloudFront {
             self.originPath = originPath
             self.originShield = originShield
             self.s3OriginConfig = s3OriginConfig
+            self.vpcOriginConfig = vpcOriginConfig
         }
 
         public func validate(name: String) throws {
@@ -7021,6 +7592,7 @@ extension CloudFront {
             case originPath = "OriginPath"
             case originShield = "OriginShield"
             case s3OriginConfig = "S3OriginConfig"
+            case vpcOriginConfig = "VpcOriginConfig"
         }
     }
 
@@ -7198,12 +7770,16 @@ extension CloudFront {
         public let id: String
         /// A complex type that contains information about the origins in an origin group.
         public let members: OriginGroupMembers
+        /// The selection criteria for the origin group. For more information, see Create an origin group in the Amazon CloudFront
+        /// 				Developer Guide.
+        public let selectionCriteria: OriginGroupSelectionCriteria?
 
         @inlinable
-        public init(failoverCriteria: OriginGroupFailoverCriteria, id: String, members: OriginGroupMembers) {
+        public init(failoverCriteria: OriginGroupFailoverCriteria, id: String, members: OriginGroupMembers, selectionCriteria: OriginGroupSelectionCriteria? = nil) {
             self.failoverCriteria = failoverCriteria
             self.id = id
             self.members = members
+            self.selectionCriteria = selectionCriteria
         }
 
         public func validate(name: String) throws {
@@ -7215,6 +7791,7 @@ extension CloudFront {
             case failoverCriteria = "FailoverCriteria"
             case id = "Id"
             case members = "Members"
+            case selectionCriteria = "SelectionCriteria"
         }
     }
 
@@ -8965,7 +9542,7 @@ extension CloudFront {
 
     public struct StreamingLoggingConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 bucket to store the access logs in, for example,
-        /// 				myawslogbucket.s3.amazonaws.com.
+        /// 				amzn-s3-demo-bucket.s3.amazonaws.com.
         public let bucket: String
         /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't
         /// 			want to enable logging when you create a streaming distribution or if you want to
@@ -10140,6 +10717,55 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateVpcOriginRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "VpcOriginEndpointConfig"
+        /// The VPC origin ID.
+        public let id: String
+        /// The VPC origin to update, if a match occurs.
+        public let ifMatch: String
+        /// The VPC origin endpoint configuration.
+        public let vpcOriginEndpointConfig: VpcOriginEndpointConfig
+
+        @inlinable
+        public init(id: String, ifMatch: String, vpcOriginEndpointConfig: VpcOriginEndpointConfig) {
+            self.id = id
+            self.ifMatch = ifMatch
+            self.vpcOriginEndpointConfig = vpcOriginEndpointConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.vpcOriginEndpointConfig)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateVpcOriginResult: AWSDecodableShape {
+        /// The VPC origin ETag.
+        public let eTag: String?
+        /// The VPC origin.
+        public let vpcOrigin: VpcOrigin
+
+        @inlinable
+        public init(eTag: String? = nil, vpcOrigin: VpcOrigin) {
+            self.eTag = eTag
+            self.vpcOrigin = vpcOrigin
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.vpcOrigin = try container.decode(VpcOrigin.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct ViewerCertificate: AWSEncodableShape & AWSDecodableShape {
         /// If the distribution uses Aliases (alternate domain names or CNAMEs) and
         /// 			the SSL/TLS certificate is stored in Certificate Manager (ACM), provide the Amazon Resource Name
@@ -10220,6 +10846,165 @@ extension CloudFront {
             case sslSupportMethod = "SSLSupportMethod"
         }
     }
+
+    public struct VpcOrigin: AWSDecodableShape {
+        /// The VPC origin ARN.
+        public let arn: String
+        /// The VPC origin created time.
+        public let createdTime: Date
+        /// The VPC origin ID.
+        public let id: String
+        /// The VPC origin last modified time.
+        public let lastModifiedTime: Date
+        /// The VPC origin status.
+        public let status: String
+        /// The VPC origin endpoint configuration.
+        public let vpcOriginEndpointConfig: VpcOriginEndpointConfig
+
+        @inlinable
+        public init(arn: String, createdTime: Date, id: String, lastModifiedTime: Date, status: String, vpcOriginEndpointConfig: VpcOriginEndpointConfig) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+            self.vpcOriginEndpointConfig = vpcOriginEndpointConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case status = "Status"
+            case vpcOriginEndpointConfig = "VpcOriginEndpointConfig"
+        }
+    }
+
+    public struct VpcOriginConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The VPC origin ID.
+        public let vpcOriginId: String
+
+        @inlinable
+        public init(vpcOriginId: String) {
+            self.vpcOriginId = vpcOriginId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcOriginId = "VpcOriginId"
+        }
+    }
+
+    public struct VpcOriginEndpointConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the CloudFront VPC origin endpoint configuration.
+        public let arn: String
+        /// The HTTP port for the CloudFront VPC origin endpoint configuration.
+        public let httpPort: Int
+        /// The HTTPS port of the CloudFront VPC origin endpoint configuration.
+        public let httpsPort: Int
+        /// The name of the CloudFront VPC origin endpoint configuration.
+        public let name: String
+        /// The origin protocol policy for the CloudFront VPC origin endpoint configuration.
+        public let originProtocolPolicy: OriginProtocolPolicy
+        public let originSslProtocols: OriginSslProtocols?
+
+        @inlinable
+        public init(arn: String, httpPort: Int, httpsPort: Int, name: String, originProtocolPolicy: OriginProtocolPolicy, originSslProtocols: OriginSslProtocols? = nil) {
+            self.arn = arn
+            self.httpPort = httpPort
+            self.httpsPort = httpsPort
+            self.name = name
+            self.originProtocolPolicy = originProtocolPolicy
+            self.originSslProtocols = originSslProtocols
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case httpPort = "HTTPPort"
+            case httpsPort = "HTTPSPort"
+            case name = "Name"
+            case originProtocolPolicy = "OriginProtocolPolicy"
+            case originSslProtocols = "OriginSslProtocols"
+        }
+    }
+
+    public struct VpcOriginList: AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "VpcOriginSummary" }
+
+        /// A flag that indicates whether more VPC origins remain to be listed. If
+        /// 			your results were truncated, you can make a follow-up pagination request using the
+        /// 			Marker request parameter to retrieve more VPC origins in the
+        /// 			list.
+        public let isTruncated: Bool
+        /// The items of the VPC origins list.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, VpcOriginSummary>>
+        public var items: [VpcOriginSummary]?
+        /// The marker associated with the VPC origins list.
+        public let marker: String
+        /// The maximum number of items included in the list.
+        public let maxItems: Int
+        /// The next marker associated with the VPC origins list.
+        public let nextMarker: String?
+        /// The number of VPC origins in the list.
+        public let quantity: Int
+
+        @inlinable
+        public init(isTruncated: Bool, items: [VpcOriginSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.isTruncated = isTruncated
+            self.items = items
+            self.marker = marker
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case items = "Items"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct VpcOriginSummary: AWSDecodableShape {
+        /// The VPC origin summary ARN.
+        public let arn: String
+        /// The VPC origin summary created time.
+        public let createdTime: Date
+        /// The VPC origin summary ID.
+        public let id: String
+        /// The VPC origin summary last modified time.
+        public let lastModifiedTime: Date
+        /// The VPC origin summary name.
+        public let name: String
+        /// The VPC origin summary origin endpoint ARN.
+        public let originEndpointArn: String
+        /// The VPC origin summary status.
+        public let status: String
+
+        @inlinable
+        public init(arn: String, createdTime: Date, id: String, lastModifiedTime: Date, name: String, originEndpointArn: String, status: String) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.originEndpointArn = originEndpointArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case originEndpointArn = "OriginEndpointArn"
+            case status = "Status"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -10233,6 +11018,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case cachePolicyInUse = "CachePolicyInUse"
         case cannotChangeImmutablePublicKeyFields = "CannotChangeImmutablePublicKeyFields"
         case cannotDeleteEntityWhileInUse = "CannotDeleteEntityWhileInUse"
+        case cannotUpdateEntityWhileInUse = "CannotUpdateEntityWhileInUse"
         case cloudFrontOriginAccessIdentityAlreadyExists = "CloudFrontOriginAccessIdentityAlreadyExists"
         case cloudFrontOriginAccessIdentityInUse = "CloudFrontOriginAccessIdentityInUse"
         case cnameAlreadyExists = "CNAMEAlreadyExists"
@@ -10408,8 +11194,10 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var cachePolicyInUse: Self { .init(.cachePolicyInUse) }
     /// You can't change the value of a public key.
     public static var cannotChangeImmutablePublicKeyFields: Self { .init(.cannotChangeImmutablePublicKeyFields) }
-    /// The key value store entity cannot be deleted while it is in use.
+    /// The entity cannot be deleted while it is in use.
     public static var cannotDeleteEntityWhileInUse: Self { .init(.cannotDeleteEntityWhileInUse) }
+    /// The entity cannot be updated while it is in use.
+    public static var cannotUpdateEntityWhileInUse: Self { .init(.cannotUpdateEntityWhileInUse) }
     /// If the CallerReference is a value you already sent in a previous request
     /// 			to create an identity but the content of the
     /// 				CloudFrontOriginAccessIdentityConfig is different from the original
@@ -10431,14 +11219,14 @@ public struct CloudFrontErrorType: AWSErrorType {
     /// The specified CloudFront distribution is not disabled. You must disable the distribution
     /// 			before you can delete it.
     public static var distributionNotDisabled: Self { .init(.distributionNotDisabled) }
-    /// The key value store entity already exists. You must provide a unique key value store
+    /// The entity already exists. You must provide a unique
     /// 			entity.
     public static var entityAlreadyExists: Self { .init(.entityAlreadyExists) }
-    /// The key value store entity limit has been exceeded.
+    /// The entity limit has been exceeded.
     public static var entityLimitExceeded: Self { .init(.entityLimitExceeded) }
-    /// The key value store entity was not found.
+    /// The entity was not found.
     public static var entityNotFound: Self { .init(.entityNotFound) }
-    /// The key value store entity size limit was exceeded.
+    /// The entity size limit was exceeded.
     public static var entitySizeLimitExceeded: Self { .init(.entitySizeLimitExceeded) }
     /// The specified configuration for field-level encryption already exists.
     public static var fieldLevelEncryptionConfigAlreadyExists: Self { .init(.fieldLevelEncryptionConfigAlreadyExists) }
@@ -10460,7 +11248,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     /// The function is too large. For more information, see Quotas (formerly known as limits) in the
     /// 				Amazon CloudFront Developer Guide.
     public static var functionSizeLimitExceeded: Self { .init(.functionSizeLimitExceeded) }
-    /// You cannot delete a managed policy.
+    /// Deletion is not allowed for this entity.
     public static var illegalDelete: Self { .init(.illegalDelete) }
     /// The specified configuration for field-level encryption can't be associated with the
     /// 			specified cache behavior.

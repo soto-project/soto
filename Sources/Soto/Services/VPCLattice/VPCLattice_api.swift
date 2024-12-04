@@ -95,9 +95,9 @@ public struct VPCLattice: AWSService {
     /// Updates the listener rules in a batch. You can use this operation to change the priority of listener rules. This can be useful when bulk updating or swapping rule priority.  Required permissions: vpc-lattice:UpdateRule  For more information, see How Amazon VPC Lattice works with IAM in the Amazon VPC Lattice User Guide.
     ///
     /// Parameters:
-    ///   - listenerIdentifier: The ID or Amazon Resource Name (ARN) of the listener.
+    ///   - listenerIdentifier: The ID or ARN of the listener.
     ///   - rules: The rules for the specified listener.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchUpdateRule(
@@ -132,7 +132,8 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     ///   - destinationArn: The Amazon Resource Name (ARN) of the destination. The supported destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams, and Amazon S3 buckets.
-    ///   - resourceIdentifier: The ID or Amazon Resource Name (ARN) of the service network or service.
+    ///   - resourceIdentifier: The ID or ARN of the service network or service.
+    ///   - serviceNetworkLogType: The type of log that monitors your Amazon VPC Lattice service networks.
     ///   - tags: The tags for the access log subscription.
     ///   - logger: Logger use during operation
     @inlinable
@@ -140,6 +141,7 @@ public struct VPCLattice: AWSService {
         clientToken: String? = CreateAccessLogSubscriptionRequest.idempotencyToken(),
         destinationArn: String,
         resourceIdentifier: String,
+        serviceNetworkLogType: ServiceNetworkLogType? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAccessLogSubscriptionResponse {
@@ -147,6 +149,7 @@ public struct VPCLattice: AWSService {
             clientToken: clientToken, 
             destinationArn: destinationArn, 
             resourceIdentifier: resourceIdentifier, 
+            serviceNetworkLogType: serviceNetworkLogType, 
             tags: tags
         )
         return try await self.createAccessLogSubscription(input, logger: logger)
@@ -169,11 +172,11 @@ public struct VPCLattice: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
-    ///   - defaultAction: The action for the default rule. Each listener has a default rule. The default rule is used  if no other rules match.
+    ///   - defaultAction: The action for the default rule. Each listener has a default rule. The default rule is used if no other rules match.
     ///   - name: The name of the listener. A listener name must be unique within a service. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
     ///   - port: The listener port. You can specify a value from 1 to 65535. For HTTP, the default is 80. For HTTPS, the default is 443.
     ///   - protocol: The listener protocol.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - tags: The tags for the listener.
     ///   - logger: Logger use during operation
     @inlinable
@@ -199,6 +202,109 @@ public struct VPCLattice: AWSService {
         return try await self.createListener(input, logger: logger)
     }
 
+    /// Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
+    @Sendable
+    @inlinable
+    public func createResourceConfiguration(_ input: CreateResourceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateResourceConfiguration", 
+            path: "/resourceconfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
+    ///
+    /// Parameters:
+    ///   - allowAssociationToShareableServiceNetwork: (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with  a sharable service network. The default is false.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    ///   - name: The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
+    ///   - portRanges: (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration  (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
+    ///   - protocol: (SINGLE, GROUP) The protocol accepted by the resource configuration.
+    ///   - resourceConfigurationDefinition: (SINGLE, CHILD, ARN) The resource configuration.
+    ///   - resourceConfigurationGroupIdentifier: (CHILD) The ID or ARN of the parent resource configuration (type is GROUP).  This is used to associate a child resource configuration with a group resource configuration.
+    ///   - resourceGatewayIdentifier: (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration.
+    ///   - tags: The tags for the resource configuration.
+    ///   - type: The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createResourceConfiguration(
+        allowAssociationToShareableServiceNetwork: Bool? = nil,
+        clientToken: String? = CreateResourceConfigurationRequest.idempotencyToken(),
+        name: String,
+        portRanges: [String]? = nil,
+        protocol: ProtocolType? = nil,
+        resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil,
+        resourceConfigurationGroupIdentifier: String? = nil,
+        resourceGatewayIdentifier: String? = nil,
+        tags: [String: String]? = nil,
+        type: ResourceConfigurationType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateResourceConfigurationResponse {
+        let input = CreateResourceConfigurationRequest(
+            allowAssociationToShareableServiceNetwork: allowAssociationToShareableServiceNetwork, 
+            clientToken: clientToken, 
+            name: name, 
+            portRanges: portRanges, 
+            protocol: `protocol`, 
+            resourceConfigurationDefinition: resourceConfigurationDefinition, 
+            resourceConfigurationGroupIdentifier: resourceConfigurationGroupIdentifier, 
+            resourceGatewayIdentifier: resourceGatewayIdentifier, 
+            tags: tags, 
+            type: type
+        )
+        return try await self.createResourceConfiguration(input, logger: logger)
+    }
+
+    /// Creates a resource gateway.
+    @Sendable
+    @inlinable
+    public func createResourceGateway(_ input: CreateResourceGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceGatewayResponse {
+        try await self.client.execute(
+            operation: "CreateResourceGateway", 
+            path: "/resourcegateways", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a resource gateway.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    ///   - ipAddressType: The type of IP address used by the resource gateway.
+    ///   - name: The name of the resource gateway.
+    ///   - securityGroupIds: The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
+    ///   - subnetIds: The IDs of the VPC subnets in which to create the resource gateway.
+    ///   - tags: The tags for the resource gateway.
+    ///   - vpcIdentifier: The ID of the VPC for the resource gateway.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createResourceGateway(
+        clientToken: String? = CreateResourceGatewayRequest.idempotencyToken(),
+        ipAddressType: ResourceGatewayIpAddressType? = nil,
+        name: String,
+        securityGroupIds: [String]? = nil,
+        subnetIds: [String],
+        tags: [String: String]? = nil,
+        vpcIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateResourceGatewayResponse {
+        let input = CreateResourceGatewayRequest(
+            clientToken: clientToken, 
+            ipAddressType: ipAddressType, 
+            name: name, 
+            securityGroupIds: securityGroupIds, 
+            subnetIds: subnetIds, 
+            tags: tags, 
+            vpcIdentifier: vpcIdentifier
+        )
+        return try await self.createResourceGateway(input, logger: logger)
+    }
+
     /// Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see Listener rules in the Amazon VPC Lattice User Guide.
     @Sendable
     @inlinable
@@ -217,11 +323,11 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - action: The action for the default rule.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
-    ///   - listenerIdentifier: The ID or Amazon Resource Name (ARN) of the listener.
+    ///   - listenerIdentifier: The ID or ARN of the listener.
     ///   - match: The rule match.
     ///   - name: The name of the rule. The name must be unique within the listener. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
     ///   - priority: The priority assigned to the rule. Each rule for a specific listener must have a unique priority. The lower the priority number the higher the priority.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - tags: The tags for the rule.
     ///   - logger: Logger use during operation
     @inlinable
@@ -312,6 +418,7 @@ public struct VPCLattice: AWSService {
     ///   - authType: The type of IAM policy.    NONE: The resource does not use an IAM policy. This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     ///   - name: The name of the service network. The name must be unique to the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
+    ///   - sharingConfig: Specify if the service network should be enabled for sharing.
     ///   - tags: The tags for the service network.
     ///   - logger: Logger use during operation
     @inlinable
@@ -319,6 +426,7 @@ public struct VPCLattice: AWSService {
         authType: AuthType? = nil,
         clientToken: String? = CreateServiceNetworkRequest.idempotencyToken(),
         name: String,
+        sharingConfig: SharingConfig? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateServiceNetworkResponse {
@@ -326,12 +434,51 @@ public struct VPCLattice: AWSService {
             authType: authType, 
             clientToken: clientToken, 
             name: name, 
+            sharingConfig: sharingConfig, 
             tags: tags
         )
         return try await self.createServiceNetwork(input, logger: logger)
     }
 
-    /// Associates a service with a service network. For more information, see Manage service associations in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
+    /// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint.
+    @Sendable
+    @inlinable
+    public func createServiceNetworkResourceAssociation(_ input: CreateServiceNetworkResourceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceNetworkResourceAssociationResponse {
+        try await self.client.execute(
+            operation: "CreateServiceNetworkResourceAssociation", 
+            path: "/servicenetworkresourceassociations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    ///   - resourceConfigurationIdentifier: The ID of the resource configuration to associate with the service network.
+    ///   - serviceNetworkIdentifier: The ID of the service network to associate with the resource configuration.
+    ///   - tags: The tags for the association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createServiceNetworkResourceAssociation(
+        clientToken: String? = CreateServiceNetworkResourceAssociationRequest.idempotencyToken(),
+        resourceConfigurationIdentifier: String,
+        serviceNetworkIdentifier: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateServiceNetworkResourceAssociationResponse {
+        let input = CreateServiceNetworkResourceAssociationRequest(
+            clientToken: clientToken, 
+            resourceConfigurationIdentifier: resourceConfigurationIdentifier, 
+            serviceNetworkIdentifier: serviceNetworkIdentifier, 
+            tags: tags
+        )
+        return try await self.createServiceNetworkResourceAssociation(input, logger: logger)
+    }
+
+    /// Associates the specified service with the specified service network. For more information, see  Manage service associations in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
     @Sendable
     @inlinable
     public func createServiceNetworkServiceAssociation(_ input: CreateServiceNetworkServiceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceNetworkServiceAssociationResponse {
@@ -344,12 +491,12 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Associates a service with a service network. For more information, see Manage service associations in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
+    /// Associates the specified service with the specified service network. For more information, see  Manage service associations in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
-    ///   - serviceNetworkIdentifier: The ID or Amazon Resource Name (ARN) of the service network. You must use the ARN if the resources specified in the operation are in different accounts.
+    ///   - serviceIdentifier: The ID or ARN of the service.
+    ///   - serviceNetworkIdentifier: The ID or ARN of the service network. You must use an ARN if the resources are in different accounts.
     ///   - tags: The tags for the association.
     ///   - logger: Logger use during operation
     @inlinable
@@ -387,7 +534,7 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     ///   - securityGroupIds: The IDs of the security groups. Security groups aren't added by default. You can add a security group to apply network level controls to control which resources in a VPC are allowed to access the service network and its services. For more information, see Control traffic to resources using security groups in the Amazon VPC User Guide.
-    ///   - serviceNetworkIdentifier: The ID or Amazon Resource Name (ARN) of the service network. You must use the ARN when the resources specified in the operation are in different accounts.
+    ///   - serviceNetworkIdentifier: The ID or ARN of the service network. You must use an ARN if the resources are in different accounts.
     ///   - tags: The tags for the association.
     ///   - vpcIdentifier: The ID of the VPC.
     ///   - logger: Logger use during operation
@@ -467,7 +614,7 @@ public struct VPCLattice: AWSService {
     /// Deletes the specified access log subscription.
     ///
     /// Parameters:
-    ///   - accessLogSubscriptionIdentifier: The ID or Amazon Resource Name (ARN) of the access log subscription.
+    ///   - accessLogSubscriptionIdentifier: The ID or ARN of the access log subscription.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAccessLogSubscription(
@@ -496,7 +643,7 @@ public struct VPCLattice: AWSService {
     /// Deletes the specified auth policy. If an auth is set to AWS_IAM and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to NONE. If auth is enabled on the resource, but no auth policy is set, all requests are denied.
     ///
     /// Parameters:
-    ///   - resourceIdentifier: The ID or Amazon Resource Name (ARN) of the resource.
+    ///   - resourceIdentifier: The ID or ARN of the resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAuthPolicy(
@@ -525,8 +672,8 @@ public struct VPCLattice: AWSService {
     /// Deletes the specified listener.
     ///
     /// Parameters:
-    ///   - listenerIdentifier: The ID or Amazon Resource Name (ARN) of the listener.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - listenerIdentifier: The ID or ARN of the listener.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteListener(
@@ -539,6 +686,93 @@ public struct VPCLattice: AWSService {
             serviceIdentifier: serviceIdentifier
         )
         return try await self.deleteListener(input, logger: logger)
+    }
+
+    /// Deletes the specified resource configuration.
+    @Sendable
+    @inlinable
+    public func deleteResourceConfiguration(_ input: DeleteResourceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourceConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteResourceConfiguration", 
+            path: "/resourceconfigurations/{resourceConfigurationIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified resource configuration.
+    ///
+    /// Parameters:
+    ///   - resourceConfigurationIdentifier: The ID or ARN of the resource configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourceConfiguration(
+        resourceConfigurationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourceConfigurationResponse {
+        let input = DeleteResourceConfigurationRequest(
+            resourceConfigurationIdentifier: resourceConfigurationIdentifier
+        )
+        return try await self.deleteResourceConfiguration(input, logger: logger)
+    }
+
+    /// Disassociates the resource configuration from the resource VPC endpoint.
+    @Sendable
+    @inlinable
+    public func deleteResourceEndpointAssociation(_ input: DeleteResourceEndpointAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourceEndpointAssociationResponse {
+        try await self.client.execute(
+            operation: "DeleteResourceEndpointAssociation", 
+            path: "/resourceendpointassociations/{resourceEndpointAssociationIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates the resource configuration from the resource VPC endpoint.
+    ///
+    /// Parameters:
+    ///   - resourceEndpointAssociationIdentifier: The ID or ARN of the association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourceEndpointAssociation(
+        resourceEndpointAssociationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourceEndpointAssociationResponse {
+        let input = DeleteResourceEndpointAssociationRequest(
+            resourceEndpointAssociationIdentifier: resourceEndpointAssociationIdentifier
+        )
+        return try await self.deleteResourceEndpointAssociation(input, logger: logger)
+    }
+
+    /// Deletes the specified resource gateway.
+    @Sendable
+    @inlinable
+    public func deleteResourceGateway(_ input: DeleteResourceGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourceGatewayResponse {
+        try await self.client.execute(
+            operation: "DeleteResourceGateway", 
+            path: "/resourcegateways/{resourceGatewayIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified resource gateway.
+    ///
+    /// Parameters:
+    ///   - resourceGatewayIdentifier: The ID or ARN of the resource gateway.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourceGateway(
+        resourceGatewayIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourceGatewayResponse {
+        let input = DeleteResourceGatewayRequest(
+            resourceGatewayIdentifier: resourceGatewayIdentifier
+        )
+        return try await self.deleteResourceGateway(input, logger: logger)
     }
 
     /// Deletes the specified resource policy.
@@ -586,9 +820,9 @@ public struct VPCLattice: AWSService {
     /// Deletes a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. You can delete additional listener rules, but you cannot delete the default rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide.
     ///
     /// Parameters:
-    ///   - listenerIdentifier: The ID or Amazon Resource Name (ARN) of the listener.
-    ///   - ruleIdentifier: The ID or Amazon Resource Name (ARN) of the rule.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - listenerIdentifier: The ID or ARN of the listener.
+    ///   - ruleIdentifier: The ID or ARN of the rule.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteRule(
@@ -621,7 +855,7 @@ public struct VPCLattice: AWSService {
     /// Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see Delete a service in the Amazon VPC Lattice User Guide.
     ///
     /// Parameters:
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteService(
@@ -650,7 +884,7 @@ public struct VPCLattice: AWSService {
     /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the Amazon VPC Lattice User Guide.
     ///
     /// Parameters:
-    ///   - serviceNetworkIdentifier: The Amazon Resource Name (ARN) or ID of the service network.
+    ///   - serviceNetworkIdentifier: The ID or ARN of the service network.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteServiceNetwork(
@@ -663,7 +897,36 @@ public struct VPCLattice: AWSService {
         return try await self.deleteServiceNetwork(input, logger: logger)
     }
 
-    /// Deletes the association between a specified service and the specific service network. This operation fails if an association is still in progress.
+    /// Deletes the association between a service network and a resource configuration.
+    @Sendable
+    @inlinable
+    public func deleteServiceNetworkResourceAssociation(_ input: DeleteServiceNetworkResourceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceNetworkResourceAssociationResponse {
+        try await self.client.execute(
+            operation: "DeleteServiceNetworkResourceAssociation", 
+            path: "/servicenetworkresourceassociations/{serviceNetworkResourceAssociationIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the association between a service network and a resource configuration.
+    ///
+    /// Parameters:
+    ///   - serviceNetworkResourceAssociationIdentifier: The ID of the association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteServiceNetworkResourceAssociation(
+        serviceNetworkResourceAssociationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteServiceNetworkResourceAssociationResponse {
+        let input = DeleteServiceNetworkResourceAssociationRequest(
+            serviceNetworkResourceAssociationIdentifier: serviceNetworkResourceAssociationIdentifier
+        )
+        return try await self.deleteServiceNetworkResourceAssociation(input, logger: logger)
+    }
+
+    /// Deletes the association between a service and a service network. This operation fails if an association is still in progress.
     @Sendable
     @inlinable
     public func deleteServiceNetworkServiceAssociation(_ input: DeleteServiceNetworkServiceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceNetworkServiceAssociationResponse {
@@ -676,10 +939,10 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Deletes the association between a specified service and the specific service network. This operation fails if an association is still in progress.
+    /// Deletes the association between a service and a service network. This operation fails if an association is still in progress.
     ///
     /// Parameters:
-    ///   - serviceNetworkServiceAssociationIdentifier: The ID or Amazon Resource Name (ARN) of the association.
+    ///   - serviceNetworkServiceAssociationIdentifier: The ID or ARN of the association.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteServiceNetworkServiceAssociation(
@@ -708,7 +971,7 @@ public struct VPCLattice: AWSService {
     /// Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
     ///
     /// Parameters:
-    ///   - serviceNetworkVpcAssociationIdentifier: The ID or Amazon Resource Name (ARN) of the association.
+    ///   - serviceNetworkVpcAssociationIdentifier: The ID or ARN of the association.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteServiceNetworkVpcAssociation(
@@ -737,7 +1000,7 @@ public struct VPCLattice: AWSService {
     /// Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
     ///
     /// Parameters:
-    ///   - targetGroupIdentifier: The ID or Amazon Resource Name (ARN) of the target group.
+    ///   - targetGroupIdentifier: The ID or ARN of the target group.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteTargetGroup(
@@ -766,7 +1029,7 @@ public struct VPCLattice: AWSService {
     /// Deregisters the specified targets from the specified target group.
     ///
     /// Parameters:
-    ///   - targetGroupIdentifier: The ID or Amazon Resource Name (ARN) of the target group.
+    ///   - targetGroupIdentifier: The ID or ARN of the target group.
     ///   - targets: The targets to deregister.
     ///   - logger: Logger use during operation
     @inlinable
@@ -798,7 +1061,7 @@ public struct VPCLattice: AWSService {
     /// Retrieves information about the specified access log subscription.
     ///
     /// Parameters:
-    ///   - accessLogSubscriptionIdentifier: The ID or Amazon Resource Name (ARN) of the access log subscription.
+    ///   - accessLogSubscriptionIdentifier: The ID or ARN of the access log subscription.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAccessLogSubscription(
@@ -827,7 +1090,7 @@ public struct VPCLattice: AWSService {
     /// Retrieves information about the auth policy for the specified service or service network.
     ///
     /// Parameters:
-    ///   - resourceIdentifier: The ID or Amazon Resource Name (ARN) of the service network or service.
+    ///   - resourceIdentifier: The ID or ARN of the service network or service.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAuthPolicy(
@@ -856,8 +1119,8 @@ public struct VPCLattice: AWSService {
     /// Retrieves information about the specified listener for the specified service.
     ///
     /// Parameters:
-    ///   - listenerIdentifier: The ID or Amazon Resource Name (ARN) of the listener.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - listenerIdentifier: The ID or ARN of the listener.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func getListener(
@@ -872,7 +1135,65 @@ public struct VPCLattice: AWSService {
         return try await self.getListener(input, logger: logger)
     }
 
-    /// Retrieves information about the resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
+    /// Retrieves information about the specified resource configuration.
+    @Sendable
+    @inlinable
+    public func getResourceConfiguration(_ input: GetResourceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetResourceConfiguration", 
+            path: "/resourceconfigurations/{resourceConfigurationIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about the specified resource configuration.
+    ///
+    /// Parameters:
+    ///   - resourceConfigurationIdentifier: The ID of the resource configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourceConfiguration(
+        resourceConfigurationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourceConfigurationResponse {
+        let input = GetResourceConfigurationRequest(
+            resourceConfigurationIdentifier: resourceConfigurationIdentifier
+        )
+        return try await self.getResourceConfiguration(input, logger: logger)
+    }
+
+    /// Retrieves information about the specified resource gateway.
+    @Sendable
+    @inlinable
+    public func getResourceGateway(_ input: GetResourceGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceGatewayResponse {
+        try await self.client.execute(
+            operation: "GetResourceGateway", 
+            path: "/resourcegateways/{resourceGatewayIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about the specified resource gateway.
+    ///
+    /// Parameters:
+    ///   - resourceGatewayIdentifier: The ID of the resource gateway.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourceGateway(
+        resourceGatewayIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourceGatewayResponse {
+        let input = GetResourceGatewayRequest(
+            resourceGatewayIdentifier: resourceGatewayIdentifier
+        )
+        return try await self.getResourceGateway(input, logger: logger)
+    }
+
+    /// Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
     @Sendable
     @inlinable
     public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
@@ -885,7 +1206,7 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about the resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
+    /// Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the service network or service.
@@ -901,7 +1222,7 @@ public struct VPCLattice: AWSService {
         return try await self.getResourcePolicy(input, logger: logger)
     }
 
-    /// Retrieves information about listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide.
+    /// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide.
     @Sendable
     @inlinable
     public func getRule(_ input: GetRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuleResponse {
@@ -914,12 +1235,12 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide.
+    /// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide.
     ///
     /// Parameters:
-    ///   - listenerIdentifier: The ID or Amazon Resource Name (ARN) of the listener.
-    ///   - ruleIdentifier: The ID or Amazon Resource Name (ARN) of the listener rule.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - listenerIdentifier: The ID or ARN of the listener.
+    ///   - ruleIdentifier: The ID or ARN of the listener rule.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func getRule(
@@ -952,7 +1273,7 @@ public struct VPCLattice: AWSService {
     /// Retrieves information about the specified service.
     ///
     /// Parameters:
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func getService(
@@ -981,7 +1302,7 @@ public struct VPCLattice: AWSService {
     /// Retrieves information about the specified service network.
     ///
     /// Parameters:
-    ///   - serviceNetworkIdentifier: The ID or Amazon Resource Name (ARN) of the service network.
+    ///   - serviceNetworkIdentifier: The ID or ARN of the service network.
     ///   - logger: Logger use during operation
     @inlinable
     public func getServiceNetwork(
@@ -992,6 +1313,35 @@ public struct VPCLattice: AWSService {
             serviceNetworkIdentifier: serviceNetworkIdentifier
         )
         return try await self.getServiceNetwork(input, logger: logger)
+    }
+
+    /// Retrieves information about the specified association between a service network and a resource configuration.
+    @Sendable
+    @inlinable
+    public func getServiceNetworkResourceAssociation(_ input: GetServiceNetworkResourceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceNetworkResourceAssociationResponse {
+        try await self.client.execute(
+            operation: "GetServiceNetworkResourceAssociation", 
+            path: "/servicenetworkresourceassociations/{serviceNetworkResourceAssociationIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about the specified association between a service network and a resource configuration.
+    ///
+    /// Parameters:
+    ///   - serviceNetworkResourceAssociationIdentifier: The ID of the association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getServiceNetworkResourceAssociation(
+        serviceNetworkResourceAssociationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetServiceNetworkResourceAssociationResponse {
+        let input = GetServiceNetworkResourceAssociationRequest(
+            serviceNetworkResourceAssociationIdentifier: serviceNetworkResourceAssociationIdentifier
+        )
+        return try await self.getServiceNetworkResourceAssociation(input, logger: logger)
     }
 
     /// Retrieves information about the specified association between a service network and a service.
@@ -1010,7 +1360,7 @@ public struct VPCLattice: AWSService {
     /// Retrieves information about the specified association between a service network and a service.
     ///
     /// Parameters:
-    ///   - serviceNetworkServiceAssociationIdentifier: The ID or Amazon Resource Name (ARN) of the association.
+    ///   - serviceNetworkServiceAssociationIdentifier: The ID or ARN of the association.
     ///   - logger: Logger use during operation
     @inlinable
     public func getServiceNetworkServiceAssociation(
@@ -1023,7 +1373,7 @@ public struct VPCLattice: AWSService {
         return try await self.getServiceNetworkServiceAssociation(input, logger: logger)
     }
 
-    /// Retrieves information about the association between a service network and a VPC.
+    /// Retrieves information about the specified association between a service network and a VPC.
     @Sendable
     @inlinable
     public func getServiceNetworkVpcAssociation(_ input: GetServiceNetworkVpcAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceNetworkVpcAssociationResponse {
@@ -1036,10 +1386,10 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about the association between a service network and a VPC.
+    /// Retrieves information about the specified association between a service network and a VPC.
     ///
     /// Parameters:
-    ///   - serviceNetworkVpcAssociationIdentifier: The ID or Amazon Resource Name (ARN) of the association.
+    ///   - serviceNetworkVpcAssociationIdentifier: The ID or ARN of the association.
     ///   - logger: Logger use during operation
     @inlinable
     public func getServiceNetworkVpcAssociation(
@@ -1068,7 +1418,7 @@ public struct VPCLattice: AWSService {
     /// Retrieves information about the specified target group.
     ///
     /// Parameters:
-    ///   - targetGroupIdentifier: The ID or Amazon Resource Name (ARN) of the target group.
+    ///   - targetGroupIdentifier: The ID or ARN of the target group.
     ///   - logger: Logger use during operation
     @inlinable
     public func getTargetGroup(
@@ -1081,7 +1431,7 @@ public struct VPCLattice: AWSService {
         return try await self.getTargetGroup(input, logger: logger)
     }
 
-    /// Lists all access log subscriptions for the specified service network or service.
+    /// Lists the access log subscriptions for the specified service network or service.
     @Sendable
     @inlinable
     public func listAccessLogSubscriptions(_ input: ListAccessLogSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessLogSubscriptionsResponse {
@@ -1094,12 +1444,12 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Lists all access log subscriptions for the specified service network or service.
+    /// Lists the access log subscriptions for the specified service network or service.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: A pagination token for the next page of results.
-    ///   - resourceIdentifier: The ID or Amazon Resource Name (ARN) of the service network or service.
+    ///   - resourceIdentifier: The ID or ARN of the service network or service.
     ///   - logger: Logger use during operation
     @inlinable
     public func listAccessLogSubscriptions(
@@ -1134,7 +1484,7 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: A pagination token for the next page of results.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func listListeners(
@@ -1151,7 +1501,121 @@ public struct VPCLattice: AWSService {
         return try await self.listListeners(input, logger: logger)
     }
 
-    /// Lists the rules for the listener.
+    /// Lists the resource configurations owned by or shared with this account.
+    @Sendable
+    @inlinable
+    public func listResourceConfigurations(_ input: ListResourceConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListResourceConfigurations", 
+            path: "/resourceconfigurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the resource configurations owned by or shared with this account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - nextToken: A pagination token for the next page of results.
+    ///   - resourceConfigurationGroupIdentifier: The ID of the group resource configuration.
+    ///   - resourceGatewayIdentifier: The ID of the resource gateway for the resource configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResourceConfigurations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceConfigurationGroupIdentifier: String? = nil,
+        resourceGatewayIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResourceConfigurationsResponse {
+        let input = ListResourceConfigurationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceConfigurationGroupIdentifier: resourceConfigurationGroupIdentifier, 
+            resourceGatewayIdentifier: resourceGatewayIdentifier
+        )
+        return try await self.listResourceConfigurations(input, logger: logger)
+    }
+
+    /// Lists the associations for the specified VPC endpoint.
+    @Sendable
+    @inlinable
+    public func listResourceEndpointAssociations(_ input: ListResourceEndpointAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceEndpointAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListResourceEndpointAssociations", 
+            path: "/resourceendpointassociations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the associations for the specified VPC endpoint.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - nextToken: A pagination token for the next page of results.
+    ///   - resourceConfigurationIdentifier: The ID for the resource configuration associated with the VPC endpoint.
+    ///   - resourceEndpointAssociationIdentifier: The ID of the association.
+    ///   - vpcEndpointId: The ID of the VPC endpoint in the association.
+    ///   - vpcEndpointOwner: The owner of the VPC endpoint in the association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResourceEndpointAssociations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceConfigurationIdentifier: String,
+        resourceEndpointAssociationIdentifier: String? = nil,
+        vpcEndpointId: String? = nil,
+        vpcEndpointOwner: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResourceEndpointAssociationsResponse {
+        let input = ListResourceEndpointAssociationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceConfigurationIdentifier: resourceConfigurationIdentifier, 
+            resourceEndpointAssociationIdentifier: resourceEndpointAssociationIdentifier, 
+            vpcEndpointId: vpcEndpointId, 
+            vpcEndpointOwner: vpcEndpointOwner
+        )
+        return try await self.listResourceEndpointAssociations(input, logger: logger)
+    }
+
+    /// Lists the resource gateways that you own or that were shared with you.
+    @Sendable
+    @inlinable
+    public func listResourceGateways(_ input: ListResourceGatewaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceGatewaysResponse {
+        try await self.client.execute(
+            operation: "ListResourceGateways", 
+            path: "/resourcegateways", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the resource gateways that you own or that were shared with you.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - nextToken: If there are additional results, a pagination token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResourceGateways(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResourceGatewaysResponse {
+        let input = ListResourceGatewaysRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listResourceGateways(input, logger: logger)
+    }
+
+    /// Lists the rules for the specified listener.
     @Sendable
     @inlinable
     public func listRules(_ input: ListRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRulesResponse {
@@ -1164,13 +1628,13 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Lists the rules for the listener.
+    /// Lists the rules for the specified listener.
     ///
     /// Parameters:
-    ///   - listenerIdentifier: The ID or Amazon Resource Name (ARN) of the listener.
+    ///   - listenerIdentifier: The ID or ARN of the listener.
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: A pagination token for the next page of results.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func listRules(
@@ -1189,7 +1653,45 @@ public struct VPCLattice: AWSService {
         return try await self.listRules(input, logger: logger)
     }
 
-    /// Lists the associations between the service network and the service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice is given a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource that is shared with another account, the association includes the local account ID as the prefix in the ARN for each account the resource is shared with.
+    /// Lists the associations between a service network and a resource configuration.
+    @Sendable
+    @inlinable
+    public func listServiceNetworkResourceAssociations(_ input: ListServiceNetworkResourceAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceNetworkResourceAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListServiceNetworkResourceAssociations", 
+            path: "/servicenetworkresourceassociations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the associations between a service network and a resource configuration.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - nextToken: If there are additional results, a pagination token for the next page of results.
+    ///   - resourceConfigurationIdentifier: The ID of the resource configurationk.
+    ///   - serviceNetworkIdentifier: The ID of the service network.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listServiceNetworkResourceAssociations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceConfigurationIdentifier: String? = nil,
+        serviceNetworkIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListServiceNetworkResourceAssociationsResponse {
+        let input = ListServiceNetworkResourceAssociationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceConfigurationIdentifier: resourceConfigurationIdentifier, 
+            serviceNetworkIdentifier: serviceNetworkIdentifier
+        )
+        return try await self.listServiceNetworkResourceAssociations(input, logger: logger)
+    }
+
+    /// Lists the associations between a service network and a service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the local account ID as the prefix in the ARN.
     @Sendable
     @inlinable
     public func listServiceNetworkServiceAssociations(_ input: ListServiceNetworkServiceAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceNetworkServiceAssociationsResponse {
@@ -1202,13 +1704,13 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Lists the associations between the service network and the service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice is given a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource that is shared with another account, the association includes the local account ID as the prefix in the ARN for each account the resource is shared with.
+    /// Lists the associations between a service network and a service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the local account ID as the prefix in the ARN.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: A pagination token for the next page of results.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
-    ///   - serviceNetworkIdentifier: The ID or Amazon Resource Name (ARN) of the service network.
+    ///   - serviceIdentifier: The ID or ARN of the service.
+    ///   - serviceNetworkIdentifier: The ID or ARN of the service network.
     ///   - logger: Logger use during operation
     @inlinable
     public func listServiceNetworkServiceAssociations(
@@ -1227,7 +1729,7 @@ public struct VPCLattice: AWSService {
         return try await self.listServiceNetworkServiceAssociations(input, logger: logger)
     }
 
-    /// Lists the service network and VPC associations. You can filter the list either by VPC or service network. You must provide either the service network identifier or the VPC identifier.
+    /// Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC.
     @Sendable
     @inlinable
     public func listServiceNetworkVpcAssociations(_ input: ListServiceNetworkVpcAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceNetworkVpcAssociationsResponse {
@@ -1240,13 +1742,13 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Lists the service network and VPC associations. You can filter the list either by VPC or service network. You must provide either the service network identifier or the VPC identifier.
+    /// Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: A pagination token for the next page of results.
-    ///   - serviceNetworkIdentifier: The ID or Amazon Resource Name (ARN) of the service network.
-    ///   - vpcIdentifier: The ID or Amazon Resource Name (ARN) of the VPC.
+    ///   - serviceNetworkIdentifier: The ID or ARN of the service network.
+    ///   - vpcIdentifier: The ID or ARN of the VPC.
     ///   - logger: Logger use during operation
     @inlinable
     public func listServiceNetworkVpcAssociations(
@@ -1265,7 +1767,42 @@ public struct VPCLattice: AWSService {
         return try await self.listServiceNetworkVpcAssociations(input, logger: logger)
     }
 
-    /// Lists the service networks owned by the caller account or shared with the caller account. Also includes the account ID in the ARN to show which account owns the service network.
+    /// Lists the associations between a service network and a VPC endpoint.
+    @Sendable
+    @inlinable
+    public func listServiceNetworkVpcEndpointAssociations(_ input: ListServiceNetworkVpcEndpointAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceNetworkVpcEndpointAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListServiceNetworkVpcEndpointAssociations", 
+            path: "/servicenetworkvpcendpointassociations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the associations between a service network and a VPC endpoint.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - nextToken: If there are additional results, a pagination token for the next page of results.
+    ///   - serviceNetworkIdentifier: The ID of the service network associated with the VPC endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listServiceNetworkVpcEndpointAssociations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        serviceNetworkIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListServiceNetworkVpcEndpointAssociationsResponse {
+        let input = ListServiceNetworkVpcEndpointAssociationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            serviceNetworkIdentifier: serviceNetworkIdentifier
+        )
+        return try await self.listServiceNetworkVpcEndpointAssociations(input, logger: logger)
+    }
+
+    /// Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network.
     @Sendable
     @inlinable
     public func listServiceNetworks(_ input: ListServiceNetworksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceNetworksResponse {
@@ -1278,7 +1815,7 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Lists the service networks owned by the caller account or shared with the caller account. Also includes the account ID in the ARN to show which account owns the service network.
+    /// Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return.
@@ -1377,7 +1914,7 @@ public struct VPCLattice: AWSService {
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: A pagination token for the next page of results.
     ///   - targetGroupType: The target group type.
-    ///   - vpcIdentifier: The ID or Amazon Resource Name (ARN) of the VPC.
+    ///   - vpcIdentifier: The ID or ARN of the VPC.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTargetGroups(
@@ -1414,7 +1951,7 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: A pagination token for the next page of results.
-    ///   - targetGroupIdentifier: The ID or Amazon Resource Name (ARN) of the target group.
+    ///   - targetGroupIdentifier: The ID or ARN of the target group.
     ///   - targets: The targets.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1434,7 +1971,7 @@ public struct VPCLattice: AWSService {
         return try await self.listTargets(input, logger: logger)
     }
 
-    /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines. For more information, see Auth policies  in the Amazon VPC Lattice User Guide.
+    /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines. For more information, see Auth policies in the Amazon VPC Lattice User Guide.
     @Sendable
     @inlinable
     public func putAuthPolicy(_ input: PutAuthPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAuthPolicyResponse {
@@ -1447,11 +1984,11 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines. For more information, see Auth policies  in the Amazon VPC Lattice User Guide.
+    /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines. For more information, see Auth policies in the Amazon VPC Lattice User Guide.
     ///
     /// Parameters:
     ///   - policy: The auth policy. The policy string in JSON must not contain newlines or blank lines.
-    ///   - resourceIdentifier: The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
+    ///   - resourceIdentifier: The ID or ARN of the service network or service for which the policy is created.
     ///   - logger: Logger use during operation
     @inlinable
     public func putAuthPolicy(
@@ -1483,7 +2020,7 @@ public struct VPCLattice: AWSService {
     ///
     /// Parameters:
     ///   - policy: An IAM policy. The policy string in JSON must not contain newlines or blank lines.
-    ///   - resourceArn: The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
+    ///   - resourceArn: The ID or ARN of the service network or service for which the policy is created.
     ///   - logger: Logger use during operation
     @inlinable
     public func putResourcePolicy(
@@ -1514,7 +2051,7 @@ public struct VPCLattice: AWSService {
     /// Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
     ///
     /// Parameters:
-    ///   - targetGroupIdentifier: The ID or Amazon Resource Name (ARN) of the target group.
+    ///   - targetGroupIdentifier: The ID or ARN of the target group.
     ///   - targets: The targets.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1610,7 +2147,7 @@ public struct VPCLattice: AWSService {
     /// Updates the specified access log subscription.
     ///
     /// Parameters:
-    ///   - accessLogSubscriptionIdentifier: The ID or Amazon Resource Name (ARN) of the access log subscription.
+    ///   - accessLogSubscriptionIdentifier: The ID or ARN of the access log subscription.
     ///   - destinationArn: The Amazon Resource Name (ARN) of the access log destination.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1643,8 +2180,8 @@ public struct VPCLattice: AWSService {
     ///
     /// Parameters:
     ///   - defaultAction: The action for the default rule.
-    ///   - listenerIdentifier: The ID or Amazon Resource Name (ARN) of the listener.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - listenerIdentifier: The ID or ARN of the listener.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateListener(
@@ -1661,7 +2198,77 @@ public struct VPCLattice: AWSService {
         return try await self.updateListener(input, logger: logger)
     }
 
-    /// Updates a rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use UpdateListener.
+    /// Updates the specified resource configuration.
+    @Sendable
+    @inlinable
+    public func updateResourceConfiguration(_ input: UpdateResourceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateResourceConfiguration", 
+            path: "/resourceconfigurations/{resourceConfigurationIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the specified resource configuration.
+    ///
+    /// Parameters:
+    ///   - allowAssociationToShareableServiceNetwork: Indicates whether to add the resource configuration to service networks that are shared with other accounts.
+    ///   - portRanges: The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
+    ///   - resourceConfigurationDefinition: The resource configuration.
+    ///   - resourceConfigurationIdentifier: The ID of the resource configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateResourceConfiguration(
+        allowAssociationToShareableServiceNetwork: Bool? = nil,
+        portRanges: [String]? = nil,
+        resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil,
+        resourceConfigurationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateResourceConfigurationResponse {
+        let input = UpdateResourceConfigurationRequest(
+            allowAssociationToShareableServiceNetwork: allowAssociationToShareableServiceNetwork, 
+            portRanges: portRanges, 
+            resourceConfigurationDefinition: resourceConfigurationDefinition, 
+            resourceConfigurationIdentifier: resourceConfigurationIdentifier
+        )
+        return try await self.updateResourceConfiguration(input, logger: logger)
+    }
+
+    /// Updates the specified resource gateway.
+    @Sendable
+    @inlinable
+    public func updateResourceGateway(_ input: UpdateResourceGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceGatewayResponse {
+        try await self.client.execute(
+            operation: "UpdateResourceGateway", 
+            path: "/resourcegateways/{resourceGatewayIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the specified resource gateway.
+    ///
+    /// Parameters:
+    ///   - resourceGatewayIdentifier: The ID or ARN of the resource gateway.
+    ///   - securityGroupIds: The IDs of the security groups associated with the resource gateway.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateResourceGateway(
+        resourceGatewayIdentifier: String,
+        securityGroupIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateResourceGatewayResponse {
+        let input = UpdateResourceGatewayRequest(
+            resourceGatewayIdentifier: resourceGatewayIdentifier, 
+            securityGroupIds: securityGroupIds
+        )
+        return try await self.updateResourceGateway(input, logger: logger)
+    }
+
+    /// Updates a specified rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use UpdateListener.
     @Sendable
     @inlinable
     public func updateRule(_ input: UpdateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuleResponse {
@@ -1674,15 +2281,15 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Updates a rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use UpdateListener.
+    /// Updates a specified rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use UpdateListener.
     ///
     /// Parameters:
     ///   - action: Information about the action for the specified listener rule.
-    ///   - listenerIdentifier: The ID or Amazon Resource Name (ARN) of the listener.
+    ///   - listenerIdentifier: The ID or ARN of the listener.
     ///   - match: The rule match.
     ///   - priority: The rule priority. A listener can't have multiple rules with the same priority.
-    ///   - ruleIdentifier: The ID or Amazon Resource Name (ARN) of the rule.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - ruleIdentifier: The ID or ARN of the rule.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateRule(
@@ -1723,7 +2330,7 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - authType: The type of IAM policy.    NONE: The resource does not use an IAM policy. This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required.
     ///   - certificateArn: The Amazon Resource Name (ARN) of the certificate.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateService(
@@ -1757,7 +2364,7 @@ public struct VPCLattice: AWSService {
     ///
     /// Parameters:
     ///   - authType: The type of IAM policy.    NONE: The resource does not use an IAM policy. This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required.
-    ///   - serviceNetworkIdentifier: The ID or Amazon Resource Name (ARN) of the service network.
+    ///   - serviceNetworkIdentifier: The ID or ARN of the service network.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateServiceNetwork(
@@ -1772,7 +2379,7 @@ public struct VPCLattice: AWSService {
         return try await self.updateServiceNetwork(input, logger: logger)
     }
 
-    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
+    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
     @Sendable
     @inlinable
     public func updateServiceNetworkVpcAssociation(_ input: UpdateServiceNetworkVpcAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceNetworkVpcAssociationResponse {
@@ -1785,11 +2392,11 @@ public struct VPCLattice: AWSService {
             logger: logger
         )
     }
-    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
+    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
     ///
     /// Parameters:
     ///   - securityGroupIds: The IDs of the security groups.
-    ///   - serviceNetworkVpcAssociationIdentifier: The ID or Amazon Resource Name (ARN) of the association.
+    ///   - serviceNetworkVpcAssociationIdentifier: The ID or ARN of the association.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateServiceNetworkVpcAssociation(
@@ -1821,7 +2428,7 @@ public struct VPCLattice: AWSService {
     ///
     /// Parameters:
     ///   - healthCheck: The health check configuration.
-    ///   - targetGroupIdentifier: The ID or Amazon Resource Name (ARN) of the target group.
+    ///   - targetGroupIdentifier: The ID or ARN of the target group.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateTargetGroup(
@@ -1872,7 +2479,7 @@ extension VPCLattice {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return.
-    ///   - resourceIdentifier: The ID or Amazon Resource Name (ARN) of the service network or service.
+    ///   - resourceIdentifier: The ID or ARN of the service network or service.
     ///   - logger: Logger used for logging
     @inlinable
     public func listAccessLogSubscriptionsPaginator(
@@ -1909,7 +2516,7 @@ extension VPCLattice {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger used for logging
     @inlinable
     public func listListenersPaginator(
@@ -1922,6 +2529,126 @@ extension VPCLattice {
             serviceIdentifier: serviceIdentifier
         )
         return self.listListenersPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listResourceConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceConfigurationsPaginator(
+        _ input: ListResourceConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceConfigurationsRequest, ListResourceConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceConfigurations,
+            inputKey: \ListResourceConfigurationsRequest.nextToken,
+            outputKey: \ListResourceConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listResourceConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - resourceConfigurationGroupIdentifier: The ID of the group resource configuration.
+    ///   - resourceGatewayIdentifier: The ID of the resource gateway for the resource configuration.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceConfigurationsPaginator(
+        maxResults: Int? = nil,
+        resourceConfigurationGroupIdentifier: String? = nil,
+        resourceGatewayIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListResourceConfigurationsRequest, ListResourceConfigurationsResponse> {
+        let input = ListResourceConfigurationsRequest(
+            maxResults: maxResults, 
+            resourceConfigurationGroupIdentifier: resourceConfigurationGroupIdentifier, 
+            resourceGatewayIdentifier: resourceGatewayIdentifier
+        )
+        return self.listResourceConfigurationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listResourceEndpointAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceEndpointAssociationsPaginator(
+        _ input: ListResourceEndpointAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceEndpointAssociationsRequest, ListResourceEndpointAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceEndpointAssociations,
+            inputKey: \ListResourceEndpointAssociationsRequest.nextToken,
+            outputKey: \ListResourceEndpointAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listResourceEndpointAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - resourceConfigurationIdentifier: The ID for the resource configuration associated with the VPC endpoint.
+    ///   - resourceEndpointAssociationIdentifier: The ID of the association.
+    ///   - vpcEndpointId: The ID of the VPC endpoint in the association.
+    ///   - vpcEndpointOwner: The owner of the VPC endpoint in the association.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceEndpointAssociationsPaginator(
+        maxResults: Int? = nil,
+        resourceConfigurationIdentifier: String,
+        resourceEndpointAssociationIdentifier: String? = nil,
+        vpcEndpointId: String? = nil,
+        vpcEndpointOwner: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListResourceEndpointAssociationsRequest, ListResourceEndpointAssociationsResponse> {
+        let input = ListResourceEndpointAssociationsRequest(
+            maxResults: maxResults, 
+            resourceConfigurationIdentifier: resourceConfigurationIdentifier, 
+            resourceEndpointAssociationIdentifier: resourceEndpointAssociationIdentifier, 
+            vpcEndpointId: vpcEndpointId, 
+            vpcEndpointOwner: vpcEndpointOwner
+        )
+        return self.listResourceEndpointAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listResourceGateways(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceGatewaysPaginator(
+        _ input: ListResourceGatewaysRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceGatewaysRequest, ListResourceGatewaysResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceGateways,
+            inputKey: \ListResourceGatewaysRequest.nextToken,
+            outputKey: \ListResourceGatewaysResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listResourceGateways(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceGatewaysPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListResourceGatewaysRequest, ListResourceGatewaysResponse> {
+        let input = ListResourceGatewaysRequest(
+            maxResults: maxResults
+        )
+        return self.listResourceGatewaysPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listRules(_:logger:)``.
@@ -1945,9 +2672,9 @@ extension VPCLattice {
     /// Return PaginatorSequence for operation ``listRules(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - listenerIdentifier: The ID or Amazon Resource Name (ARN) of the listener.
+    ///   - listenerIdentifier: The ID or ARN of the listener.
     ///   - maxResults: The maximum number of results to return.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
+    ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger used for logging
     @inlinable
     public func listRulesPaginator(
@@ -1962,6 +2689,46 @@ extension VPCLattice {
             serviceIdentifier: serviceIdentifier
         )
         return self.listRulesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listServiceNetworkResourceAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceNetworkResourceAssociationsPaginator(
+        _ input: ListServiceNetworkResourceAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServiceNetworkResourceAssociationsRequest, ListServiceNetworkResourceAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listServiceNetworkResourceAssociations,
+            inputKey: \ListServiceNetworkResourceAssociationsRequest.nextToken,
+            outputKey: \ListServiceNetworkResourceAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listServiceNetworkResourceAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - resourceConfigurationIdentifier: The ID of the resource configurationk.
+    ///   - serviceNetworkIdentifier: The ID of the service network.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceNetworkResourceAssociationsPaginator(
+        maxResults: Int? = nil,
+        resourceConfigurationIdentifier: String? = nil,
+        serviceNetworkIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListServiceNetworkResourceAssociationsRequest, ListServiceNetworkResourceAssociationsResponse> {
+        let input = ListServiceNetworkResourceAssociationsRequest(
+            maxResults: maxResults, 
+            resourceConfigurationIdentifier: resourceConfigurationIdentifier, 
+            serviceNetworkIdentifier: serviceNetworkIdentifier
+        )
+        return self.listServiceNetworkResourceAssociationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listServiceNetworkServiceAssociations(_:logger:)``.
@@ -1986,8 +2753,8 @@ extension VPCLattice {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return.
-    ///   - serviceIdentifier: The ID or Amazon Resource Name (ARN) of the service.
-    ///   - serviceNetworkIdentifier: The ID or Amazon Resource Name (ARN) of the service network.
+    ///   - serviceIdentifier: The ID or ARN of the service.
+    ///   - serviceNetworkIdentifier: The ID or ARN of the service network.
     ///   - logger: Logger used for logging
     @inlinable
     public func listServiceNetworkServiceAssociationsPaginator(
@@ -2026,8 +2793,8 @@ extension VPCLattice {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return.
-    ///   - serviceNetworkIdentifier: The ID or Amazon Resource Name (ARN) of the service network.
-    ///   - vpcIdentifier: The ID or Amazon Resource Name (ARN) of the VPC.
+    ///   - serviceNetworkIdentifier: The ID or ARN of the service network.
+    ///   - vpcIdentifier: The ID or ARN of the VPC.
     ///   - logger: Logger used for logging
     @inlinable
     public func listServiceNetworkVpcAssociationsPaginator(
@@ -2042,6 +2809,43 @@ extension VPCLattice {
             vpcIdentifier: vpcIdentifier
         )
         return self.listServiceNetworkVpcAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listServiceNetworkVpcEndpointAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceNetworkVpcEndpointAssociationsPaginator(
+        _ input: ListServiceNetworkVpcEndpointAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServiceNetworkVpcEndpointAssociationsRequest, ListServiceNetworkVpcEndpointAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listServiceNetworkVpcEndpointAssociations,
+            inputKey: \ListServiceNetworkVpcEndpointAssociationsRequest.nextToken,
+            outputKey: \ListServiceNetworkVpcEndpointAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listServiceNetworkVpcEndpointAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - serviceNetworkIdentifier: The ID of the service network associated with the VPC endpoint.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceNetworkVpcEndpointAssociationsPaginator(
+        maxResults: Int? = nil,
+        serviceNetworkIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListServiceNetworkVpcEndpointAssociationsRequest, ListServiceNetworkVpcEndpointAssociationsResponse> {
+        let input = ListServiceNetworkVpcEndpointAssociationsRequest(
+            maxResults: maxResults, 
+            serviceNetworkIdentifier: serviceNetworkIdentifier
+        )
+        return self.listServiceNetworkVpcEndpointAssociationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listServiceNetworks(_:logger:)``.
@@ -2135,7 +2939,7 @@ extension VPCLattice {
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return.
     ///   - targetGroupType: The target group type.
-    ///   - vpcIdentifier: The ID or Amazon Resource Name (ARN) of the VPC.
+    ///   - vpcIdentifier: The ID or ARN of the VPC.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTargetGroupsPaginator(
@@ -2174,7 +2978,7 @@ extension VPCLattice {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return.
-    ///   - targetGroupIdentifier: The ID or Amazon Resource Name (ARN) of the target group.
+    ///   - targetGroupIdentifier: The ID or ARN of the target group.
     ///   - targets: The targets.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2215,6 +3019,42 @@ extension VPCLattice.ListListenersRequest: AWSPaginateToken {
     }
 }
 
+extension VPCLattice.ListResourceConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> VPCLattice.ListResourceConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceConfigurationGroupIdentifier: self.resourceConfigurationGroupIdentifier,
+            resourceGatewayIdentifier: self.resourceGatewayIdentifier
+        )
+    }
+}
+
+extension VPCLattice.ListResourceEndpointAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> VPCLattice.ListResourceEndpointAssociationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceConfigurationIdentifier: self.resourceConfigurationIdentifier,
+            resourceEndpointAssociationIdentifier: self.resourceEndpointAssociationIdentifier,
+            vpcEndpointId: self.vpcEndpointId,
+            vpcEndpointOwner: self.vpcEndpointOwner
+        )
+    }
+}
+
+extension VPCLattice.ListResourceGatewaysRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> VPCLattice.ListResourceGatewaysRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension VPCLattice.ListRulesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> VPCLattice.ListRulesRequest {
@@ -2223,6 +3063,18 @@ extension VPCLattice.ListRulesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             serviceIdentifier: self.serviceIdentifier
+        )
+    }
+}
+
+extension VPCLattice.ListServiceNetworkResourceAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> VPCLattice.ListServiceNetworkResourceAssociationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceConfigurationIdentifier: self.resourceConfigurationIdentifier,
+            serviceNetworkIdentifier: self.serviceNetworkIdentifier
         )
     }
 }
@@ -2247,6 +3099,17 @@ extension VPCLattice.ListServiceNetworkVpcAssociationsRequest: AWSPaginateToken 
             nextToken: token,
             serviceNetworkIdentifier: self.serviceNetworkIdentifier,
             vpcIdentifier: self.vpcIdentifier
+        )
+    }
+}
+
+extension VPCLattice.ListServiceNetworkVpcEndpointAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> VPCLattice.ListServiceNetworkVpcEndpointAssociationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceNetworkIdentifier: self.serviceNetworkIdentifier
         )
     }
 }

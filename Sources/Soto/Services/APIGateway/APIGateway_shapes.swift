@@ -26,6 +26,11 @@ import Foundation
 extension APIGateway {
     // MARK: Enums
 
+    public enum AccessAssociationSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case vpce = "VPCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApiKeySourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case authorizer = "AUTHORIZER"
         case header = "HEADER"
@@ -169,6 +174,12 @@ extension APIGateway {
         case day = "DAY"
         case month = "MONTH"
         case week = "WEEK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceOwner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case _self = "SELF"
+        case otherAccounts = "OTHER_ACCOUNTS"
         public var description: String { return self.rawValue }
     }
 
@@ -648,15 +659,18 @@ extension APIGateway {
         public let basePath: String?
         /// The domain name of the BasePathMapping resource to create.
         public let domainName: String
+        /// The identifier for the domain name resource. Supported only for private custom domain names.
+        public let domainNameId: String?
         /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// The name of the API's stage that you want to use for this mapping. Specify '(none)' if you want callers to explicitly specify the stage name after any base path name.
         public let stage: String?
 
         @inlinable
-        public init(basePath: String? = nil, domainName: String, restApiId: String, stage: String? = nil) {
+        public init(basePath: String? = nil, domainName: String, domainNameId: String? = nil, restApiId: String, stage: String? = nil) {
             self.basePath = basePath
             self.domainName = domainName
+            self.domainNameId = domainNameId
             self.restApiId = restApiId
             self.stage = stage
         }
@@ -666,6 +680,7 @@ extension APIGateway {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.basePath, forKey: .basePath)
             request.encodePath(self.domainName, key: "domainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
             try container.encode(self.restApiId, forKey: .restApiId)
             try container.encodeIfPresent(self.stage, forKey: .stage)
         }
@@ -803,14 +818,40 @@ extension APIGateway {
         }
     }
 
+    public struct CreateDomainNameAccessAssociationRequest: AWSEncodableShape {
+        /// The identifier of the domain name access association source. For a VPCE, the value is the VPC endpoint ID.
+        public let accessAssociationSource: String
+        /// The type of the domain name access association source.
+        public let accessAssociationSourceType: AccessAssociationSourceType
+        ///  The ARN of the domain name.
+        public let domainNameArn: String
+        /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(accessAssociationSource: String, accessAssociationSourceType: AccessAssociationSourceType, domainNameArn: String, tags: [String: String]? = nil) {
+            self.accessAssociationSource = accessAssociationSource
+            self.accessAssociationSourceType = accessAssociationSourceType
+            self.domainNameArn = domainNameArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessAssociationSource = "accessAssociationSource"
+            case accessAssociationSourceType = "accessAssociationSourceType"
+            case domainNameArn = "domainNameArn"
+            case tags = "tags"
+        }
+    }
+
     public struct CreateDomainNameRequest: AWSEncodableShape {
-        /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+        /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
         public let certificateArn: String?
-        /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
+        /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint or private endpoint for this domain name provided by your certificate authority.
         public let certificateBody: String?
         /// [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
         public let certificateChain: String?
-        /// The user-friendly name of the certificate that will be used by edge-optimized endpoint for this domain name.
+        /// The user-friendly name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
         public let certificateName: String?
         /// [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
         public let certificatePrivateKey: String?
@@ -821,6 +862,8 @@ extension APIGateway {
         public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
         /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
         public let ownershipVerificationCertificateArn: String?
+        /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+        public let policy: String?
         /// The reference to an Amazon Web Services-managed certificate that will be used by regional endpoint for this domain name. Certificate Manager is the only supported source.
         public let regionalCertificateArn: String?
         /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
@@ -831,7 +874,7 @@ extension APIGateway {
         public let tags: [String: String]?
 
         @inlinable
-        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, ownershipVerificationCertificateArn: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, ownershipVerificationCertificateArn: String? = nil, policy: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateBody = certificateBody
             self.certificateChain = certificateChain
@@ -841,6 +884,7 @@ extension APIGateway {
             self.endpointConfiguration = endpointConfiguration
             self.mutualTlsAuthentication = mutualTlsAuthentication
             self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+            self.policy = policy
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
             self.securityPolicy = securityPolicy
@@ -857,6 +901,7 @@ extension APIGateway {
             case endpointConfiguration = "endpointConfiguration"
             case mutualTlsAuthentication = "mutualTlsAuthentication"
             case ownershipVerificationCertificateArn = "ownershipVerificationCertificateArn"
+            case policy = "policy"
             case regionalCertificateArn = "regionalCertificateArn"
             case regionalCertificateName = "regionalCertificateName"
             case securityPolicy = "securityPolicy"
@@ -1222,11 +1267,14 @@ extension APIGateway {
         public let basePath: String
         /// The domain name of the BasePathMapping resource to delete.
         public let domainName: String
+        ///  The identifier for the domain name resource. Supported only for private custom domain names.
+        public let domainNameId: String?
 
         @inlinable
-        public init(basePath: String, domainName: String) {
+        public init(basePath: String, domainName: String, domainNameId: String? = nil) {
             self.basePath = basePath
             self.domainName = domainName
+            self.domainNameId = domainNameId
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1234,6 +1282,7 @@ extension APIGateway {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.basePath, key: "basePath")
             request.encodePath(self.domainName, key: "domainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1323,19 +1372,41 @@ extension APIGateway {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteDomainNameAccessAssociationRequest: AWSEncodableShape {
+        ///  The ARN of the domain name access association resource.
+        public let domainNameAccessAssociationArn: String
+
+        @inlinable
+        public init(domainNameAccessAssociationArn: String) {
+            self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainNameAccessAssociationArn, key: "domainNameAccessAssociationArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteDomainNameRequest: AWSEncodableShape {
         /// The name of the DomainName resource to be deleted.
         public let domainName: String
+        ///  The identifier for the domain name resource. Supported only for private custom domain names.
+        public let domainNameId: String?
 
         @inlinable
-        public init(domainName: String) {
+        public init(domainName: String, domainNameId: String? = nil) {
             self.domainName = domainName
+            self.domainNameId = domainNameId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.domainName, key: "domainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1846,11 +1917,11 @@ extension APIGateway {
     }
 
     public struct DomainName: AWSDecodableShape {
-        /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+        /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
         public let certificateArn: String?
-        /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
+        /// The name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
         public let certificateName: String?
-        /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
+        /// The timestamp when the certificate that was used by edge-optimized endpoint or private endpoint for this domain name was uploaded.
         public let certificateUploadDate: Date?
         /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
         public let distributionDomainName: String?
@@ -1858,16 +1929,24 @@ extension APIGateway {
         public let distributionHostedZoneId: String?
         /// The custom domain name as an API host name, for example, my-api.example.com.
         public let domainName: String?
+        /// The ARN of the domain name. Supported only for private custom domain names.
+        public let domainNameArn: String?
+        /// The identifier for the domain name resource. Supported only for private custom domain names.
+        public let domainNameId: String?
         /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
         public let domainNameStatus: DomainNameStatus?
         /// An optional text message containing detailed information about status of the DomainName migration.
         public let domainNameStatusMessage: String?
         /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
         public let endpointConfiguration: EndpointConfiguration?
+        /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
+        public let managementPolicy: String?
         /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
         public let mutualTlsAuthentication: MutualTlsAuthentication?
         /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
         public let ownershipVerificationCertificateArn: String?
+        /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+        public let policy: String?
         /// The reference to an Amazon Web Services-managed certificate that will be used for validating the regional domain name. Certificate Manager is the only supported source.
         public let regionalCertificateArn: String?
         /// The name of the certificate that will be used for validating the regional domain name.
@@ -1882,18 +1961,22 @@ extension APIGateway {
         public let tags: [String: String]?
 
         @inlinable
-        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, ownershipVerificationCertificateArn: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameArn: String? = nil, domainNameId: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, managementPolicy: String? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, ownershipVerificationCertificateArn: String? = nil, policy: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateName = certificateName
             self.certificateUploadDate = certificateUploadDate
             self.distributionDomainName = distributionDomainName
             self.distributionHostedZoneId = distributionHostedZoneId
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
+            self.domainNameId = domainNameId
             self.domainNameStatus = domainNameStatus
             self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointConfiguration = endpointConfiguration
+            self.managementPolicy = managementPolicy
             self.mutualTlsAuthentication = mutualTlsAuthentication
             self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+            self.policy = policy
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
             self.regionalDomainName = regionalDomainName
@@ -1909,17 +1992,69 @@ extension APIGateway {
             case distributionDomainName = "distributionDomainName"
             case distributionHostedZoneId = "distributionHostedZoneId"
             case domainName = "domainName"
+            case domainNameArn = "domainNameArn"
+            case domainNameId = "domainNameId"
             case domainNameStatus = "domainNameStatus"
             case domainNameStatusMessage = "domainNameStatusMessage"
             case endpointConfiguration = "endpointConfiguration"
+            case managementPolicy = "managementPolicy"
             case mutualTlsAuthentication = "mutualTlsAuthentication"
             case ownershipVerificationCertificateArn = "ownershipVerificationCertificateArn"
+            case policy = "policy"
             case regionalCertificateArn = "regionalCertificateArn"
             case regionalCertificateName = "regionalCertificateName"
             case regionalDomainName = "regionalDomainName"
             case regionalHostedZoneId = "regionalHostedZoneId"
             case securityPolicy = "securityPolicy"
             case tags = "tags"
+        }
+    }
+
+    public struct DomainNameAccessAssociation: AWSDecodableShape {
+        ///  The ARN of the domain name access association source. For a VPCE, the ARN must be a VPC endpoint.
+        public let accessAssociationSource: String?
+        ///  The type of the domain name access association source.
+        public let accessAssociationSourceType: AccessAssociationSourceType?
+        /// The ARN of the domain name access association resource.
+        public let domainNameAccessAssociationArn: String?
+        /// The ARN of the domain name.
+        public let domainNameArn: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(accessAssociationSource: String? = nil, accessAssociationSourceType: AccessAssociationSourceType? = nil, domainNameAccessAssociationArn: String? = nil, domainNameArn: String? = nil, tags: [String: String]? = nil) {
+            self.accessAssociationSource = accessAssociationSource
+            self.accessAssociationSourceType = accessAssociationSourceType
+            self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
+            self.domainNameArn = domainNameArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessAssociationSource = "accessAssociationSource"
+            case accessAssociationSourceType = "accessAssociationSourceType"
+            case domainNameAccessAssociationArn = "domainNameAccessAssociationArn"
+            case domainNameArn = "domainNameArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct DomainNameAccessAssociations: AWSDecodableShape {
+        /// The current page of elements from this collection.
+        public let items: [DomainNameAccessAssociation]?
+        /// The current pagination position in the paged result set.
+        public let position: String?
+
+        @inlinable
+        public init(items: [DomainNameAccessAssociation]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "item"
+            case position = "position"
         }
     }
 
@@ -2209,11 +2344,14 @@ extension APIGateway {
         public let basePath: String
         /// The domain name of the BasePathMapping resource to be described.
         public let domainName: String
+        /// The identifier for the domain name resource. Supported only for private custom domain names.
+        public let domainNameId: String?
 
         @inlinable
-        public init(basePath: String, domainName: String) {
+        public init(basePath: String, domainName: String, domainNameId: String? = nil) {
             self.basePath = basePath
             self.domainName = domainName
+            self.domainNameId = domainNameId
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2221,6 +2359,7 @@ extension APIGateway {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.basePath, key: "basePath")
             request.encodePath(self.domainName, key: "domainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2229,14 +2368,17 @@ extension APIGateway {
     public struct GetBasePathMappingsRequest: AWSEncodableShape {
         /// The domain name of a BasePathMapping resource.
         public let domainName: String
+        ///  The identifier for the domain name resource. Supported only for private custom domain names.
+        public let domainNameId: String?
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
 
         @inlinable
-        public init(domainName: String, limit: Int? = nil, position: String? = nil) {
+        public init(domainName: String, domainNameId: String? = nil, limit: Int? = nil, position: String? = nil) {
             self.domainName = domainName
+            self.domainNameId = domainNameId
             self.limit = limit
             self.position = position
         }
@@ -2245,6 +2387,7 @@ extension APIGateway {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.domainName, key: "domainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
             request.encodeQuery(self.limit, key: "limit")
             request.encodeQuery(self.position, key: "position")
         }
@@ -2456,19 +2599,49 @@ extension APIGateway {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetDomainNameAccessAssociationsRequest: AWSEncodableShape {
+        /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+        public let limit: Int?
+        /// The current pagination position in the paged result set.
+        public let position: String?
+        ///  The owner of the domain name access association. Use SELF to only list the domain name access associations owned by your own account. Use OTHER_ACCOUNTS to list the domain name access associations with your private custom domain names that are owned by other AWS accounts.
+        public let resourceOwner: ResourceOwner?
+
+        @inlinable
+        public init(limit: Int? = nil, position: String? = nil, resourceOwner: ResourceOwner? = nil) {
+            self.limit = limit
+            self.position = position
+            self.resourceOwner = resourceOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.position, key: "position")
+            request.encodeQuery(self.resourceOwner, key: "resourceOwner")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct GetDomainNameRequest: AWSEncodableShape {
         /// The name of the DomainName resource.
         public let domainName: String
+        ///  The identifier for the domain name resource. Supported only for private custom domain names.
+        public let domainNameId: String?
 
         @inlinable
-        public init(domainName: String) {
+        public init(domainName: String, domainNameId: String? = nil) {
             self.domainName = domainName
+            self.domainNameId = domainNameId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.domainName, key: "domainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2479,11 +2652,14 @@ extension APIGateway {
         public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
+        /// The owner of the domain name access association.
+        public let resourceOwner: ResourceOwner?
 
         @inlinable
-        public init(limit: Int? = nil, position: String? = nil) {
+        public init(limit: Int? = nil, position: String? = nil, resourceOwner: ResourceOwner? = nil) {
             self.limit = limit
             self.position = position
+            self.resourceOwner = resourceOwner
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2491,6 +2667,7 @@ extension APIGateway {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.limit, key: "limit")
             request.encodeQuery(self.position, key: "position")
+            request.encodeQuery(self.resourceOwner, key: "resourceOwner")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4032,6 +4209,28 @@ extension APIGateway {
         }
     }
 
+    public struct RejectDomainNameAccessAssociationRequest: AWSEncodableShape {
+        /// The ARN of the domain name access association resource.
+        public let domainNameAccessAssociationArn: String
+        /// The ARN of the domain name.
+        public let domainNameArn: String
+
+        @inlinable
+        public init(domainNameAccessAssociationArn: String, domainNameArn: String) {
+            self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
+            self.domainNameArn = domainNameArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domainNameAccessAssociationArn, key: "domainNameAccessAssociationArn")
+            request.encodeQuery(self.domainNameArn, key: "domainNameArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct RequestValidator: AWSDecodableShape {
         /// The identifier of this RequestValidator.
         public let id: String?
@@ -4774,13 +4973,16 @@ extension APIGateway {
         public let basePath: String
         /// The domain name of the BasePathMapping resource to change.
         public let domainName: String
+        ///  The identifier for the domain name resource. Supported only for private custom domain names.
+        public let domainNameId: String?
         /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
 
         @inlinable
-        public init(basePath: String, domainName: String, patchOperations: [PatchOperation]? = nil) {
+        public init(basePath: String, domainName: String, domainNameId: String? = nil, patchOperations: [PatchOperation]? = nil) {
             self.basePath = basePath
             self.domainName = domainName
+            self.domainNameId = domainNameId
             self.patchOperations = patchOperations
         }
 
@@ -4789,6 +4991,7 @@ extension APIGateway {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.basePath, key: "basePath")
             request.encodePath(self.domainName, key: "domainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
             try container.encodeIfPresent(self.patchOperations, forKey: .patchOperations)
         }
 
@@ -4908,12 +5111,15 @@ extension APIGateway {
     public struct UpdateDomainNameRequest: AWSEncodableShape {
         /// The name of the DomainName resource to be changed.
         public let domainName: String
+        ///  The identifier for the domain name resource. Supported only for private custom domain names.
+        public let domainNameId: String?
         /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
 
         @inlinable
-        public init(domainName: String, patchOperations: [PatchOperation]? = nil) {
+        public init(domainName: String, domainNameId: String? = nil, patchOperations: [PatchOperation]? = nil) {
             self.domainName = domainName
+            self.domainNameId = domainNameId
             self.patchOperations = patchOperations
         }
 
@@ -4921,6 +5127,7 @@ extension APIGateway {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.domainName, key: "domainName")
+            request.encodeQuery(self.domainNameId, key: "domainNameId")
             try container.encodeIfPresent(self.patchOperations, forKey: .patchOperations)
         }
 

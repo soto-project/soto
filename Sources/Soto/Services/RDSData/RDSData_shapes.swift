@@ -842,6 +842,7 @@ public struct RDSDataErrorType: AWSErrorType {
         case badRequestException = "BadRequestException"
         case databaseErrorException = "DatabaseErrorException"
         case databaseNotFoundException = "DatabaseNotFoundException"
+        case databaseResumingException = "DatabaseResumingException"
         case databaseUnavailableException = "DatabaseUnavailableException"
         case forbiddenException = "ForbiddenException"
         case httpEndpointNotEnabledException = "HttpEndpointNotEnabledException"
@@ -881,6 +882,8 @@ public struct RDSDataErrorType: AWSErrorType {
     public static var databaseErrorException: Self { .init(.databaseErrorException) }
     /// The DB cluster doesn't have a DB instance.
     public static var databaseNotFoundException: Self { .init(.databaseNotFoundException) }
+    /// A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
+    public static var databaseResumingException: Self { .init(.databaseResumingException) }
     /// The writer instance in the DB cluster isn't available.
     public static var databaseUnavailableException: Self { .init(.databaseUnavailableException) }
     /// There are insufficient privileges to make the call.

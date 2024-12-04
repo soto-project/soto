@@ -39,7 +39,9 @@ extension Imagebuilder {
     }
 
     public enum ComponentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
         case deprecated = "DEPRECATED"
+        case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -177,6 +179,12 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
+    public enum MarketplaceResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case componentArtifact = "COMPONENT_ARTIFACT"
+        case componentData = "COMPONENT_DATA"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OnWorkflowFailure: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `continue` = "CONTINUE"
         case abort = "ABORT"
@@ -186,6 +194,7 @@ extension Imagebuilder {
     public enum Ownership: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case _self = "Self"
         case amazon = "Amazon"
+        case awsMarketplace = "AWSMarketplace"
         case shared = "Shared"
         case thirdparty = "ThirdParty"
         public var description: String { return self.rawValue }
@@ -207,6 +216,11 @@ extension Imagebuilder {
         case linux = "Linux"
         case macos = "macOS"
         case windows = "Windows"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProductCodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case marketplace = "marketplace"
         public var description: String { return self.rawValue }
     }
 
@@ -530,11 +544,12 @@ extension Imagebuilder {
         public let parameters: [ComponentParameterDetail]?
         /// The operating system platform of the component.
         public let platform: Platform?
+        /// Contains product codes that are used for billing purposes for Amazon Web Services Marketplace components.
+        public let productCodes: [ProductCodeListItem]?
         /// Contains the name of the publisher if this is a third-party component. Otherwise,
         /// 			this property is empty.
         public let publisher: String?
-        /// Describes the current status of the component. This is used for components that are no
-        /// 			longer active.
+        /// Describes the current status of the component.
         public let state: ComponentState?
         /// The operating system (OS) version supported by the component. If the OS information is
         /// 			available, Image Builder performs a prefix match against the base image OS version during image
@@ -549,7 +564,7 @@ extension Imagebuilder {
         public let version: String?
 
         @inlinable
-        public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, obfuscate: Bool? = nil, owner: String? = nil, parameters: [ComponentParameterDetail]? = nil, platform: Platform? = nil, publisher: String? = nil, state: ComponentState? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, obfuscate: Bool? = nil, owner: String? = nil, parameters: [ComponentParameterDetail]? = nil, platform: Platform? = nil, productCodes: [ProductCodeListItem]? = nil, publisher: String? = nil, state: ComponentState? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.data = data
@@ -562,6 +577,7 @@ extension Imagebuilder {
             self.owner = owner
             self.parameters = parameters
             self.platform = platform
+            self.productCodes = productCodes
             self.publisher = publisher
             self.state = state
             self.supportedOsVersions = supportedOsVersions
@@ -583,6 +599,7 @@ extension Imagebuilder {
             case owner = "owner"
             case parameters = "parameters"
             case platform = "platform"
+            case productCodes = "productCodes"
             case publisher = "publisher"
             case state = "state"
             case supportedOsVersions = "supportedOsVersions"
@@ -702,8 +719,8 @@ extension Imagebuilder {
         public let description: String?
         /// The name of the component.
         public let name: String?
-        /// Indicates whether component source is hidden from view in the console,
-        /// 			and from component detail results for API, CLI, or SDK operations.
+        /// Indicates whether component source is hidden from view in the console, and from
+        /// 			component detail results for API, CLI, or SDK operations.
         public let obfuscate: Bool?
         /// The owner of the component.
         public let owner: String?
@@ -777,6 +794,10 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
+        /// Contains product codes that are used for billing purposes for Amazon Web Services Marketplace components.
+        public let productCodes: [ProductCodeListItem]?
+        /// Describes the current status of the component version.
+        public let status: ComponentStatus?
         /// he operating system (OS) version supported by the component. If the OS information is
         /// 			available, a prefix match is performed against the base image OS version during image
         /// 			recipe creation.
@@ -796,13 +817,15 @@ extension Imagebuilder {
         public let version: String?
 
         @inlinable
-        public init(arn: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, productCodes: [ProductCodeListItem]? = nil, status: ComponentStatus? = nil, supportedOsVersions: [String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.description = description
             self.name = name
             self.owner = owner
             self.platform = platform
+            self.productCodes = productCodes
+            self.status = status
             self.supportedOsVersions = supportedOsVersions
             self.type = type
             self.version = version
@@ -815,6 +838,8 @@ extension Imagebuilder {
             case name = "name"
             case owner = "owner"
             case platform = "platform"
+            case productCodes = "productCodes"
+            case status = "status"
             case supportedOsVersions = "supportedOsVersions"
             case type = "type"
             case version = "version"
@@ -2812,7 +2837,7 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]{1,1024}$")
             try self.values?.forEach {
-                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z./_ :-]{1,1024}$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z./_ :,{}\"-]{1,1024}$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -3343,6 +3368,56 @@ extension Imagebuilder {
         }
     }
 
+    public struct GetMarketplaceResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource.
+        public let resourceArn: String
+        /// The bucket path that you can specify to download the resource from Amazon S3.
+        public let resourceLocation: String?
+        /// Specifies which type of Amazon Web Services Marketplace resource Image Builder retrieves.
+        public let resourceType: MarketplaceResourceType
+
+        @inlinable
+        public init(resourceArn: String, resourceLocation: String? = nil, resourceType: MarketplaceResourceType) {
+            self.resourceArn = resourceArn
+            self.resourceLocation = resourceLocation
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
+            try self.validate(self.resourceLocation, name: "resourceLocation", parent: name, max: 1024)
+            try self.validate(self.resourceLocation, name: "resourceLocation", parent: name, pattern: "^s3://[^/]+/.+[^/]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case resourceLocation = "resourceLocation"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct GetMarketplaceResourceResponse: AWSDecodableShape {
+        /// Returns obfuscated data that contains the YAML content of the component.
+        public let data: String?
+        /// The Amazon Resource Name (ARN) for the Amazon Web Services Marketplace resource that was requested.
+        public let resourceArn: String?
+        /// The obfuscated S3 URL to download the component artifact from.
+        public let url: String?
+
+        @inlinable
+        public init(data: String? = nil, resourceArn: String? = nil, url: String? = nil) {
+            self.data = data
+            self.resourceArn = resourceArn
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "data"
+            case resourceArn = "resourceArn"
+            case url = "url"
+        }
+    }
+
     public struct GetWorkflowExecutionRequest: AWSEncodableShape {
         /// Use the unique identifier for a runtime instance of the workflow to get
         /// 			runtime details.
@@ -3737,9 +3812,11 @@ extension Imagebuilder {
     }
 
     public struct ImagePackage: AWSDecodableShape {
-        /// The name of the package as reported to the operating system package manager.
+        /// The name of the package that's reported to the operating system package
+        /// 			manager.
         public let packageName: String?
-        /// The version of the package as reported to the operating system package manager.
+        /// The version of the package that's reported to the operating system package
+        /// 			manager.
         public let packageVersion: String?
 
         @inlinable
@@ -4093,7 +4170,7 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]{1,1024}$")
             try self.values?.forEach {
-                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z./_ :-]{1,1024}$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z./_ :,{}\"-]{1,1024}$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 1)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4243,7 +4320,7 @@ extension Imagebuilder {
         /// Determines if tests should run after building the image. Image Builder defaults to enable tests
         /// 			to run following the image build, before image distribution.
         public let imageTestsEnabled: Bool?
-        /// The maximum time in minutes that tests are permitted to run.  The timeoutMinutes attribute is not currently active. This value is
+        /// The maximum time in minutes that tests are permitted to run.  The timeout attribute is not currently active. This value is
         /// 				ignored.
         public let timeoutMinutes: Int?
 
@@ -6887,6 +6964,27 @@ extension Imagebuilder {
         }
     }
 
+    public struct ProductCodeListItem: AWSDecodableShape {
+        /// For Amazon Web Services Marketplace components, this contains the product code ID that can be stamped onto
+        /// 			an EC2 AMI to ensure that components are billed correctly. If this property is empty,
+        /// 			it might mean that the component is not published.
+        public let productCodeId: String
+        /// The owner of the product code that's billed. If this property is
+        /// 			empty, it might mean that the component is not published.
+        public let productCodeType: ProductCodeType
+
+        @inlinable
+        public init(productCodeId: String, productCodeType: ProductCodeType) {
+            self.productCodeId = productCodeId
+            self.productCodeType = productCodeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productCodeId = "productCodeId"
+            case productCodeType = "productCodeType"
+        }
+    }
+
     public struct PutComponentPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the component that this policy should be applied
         /// 			to.
@@ -7517,8 +7615,9 @@ extension Imagebuilder {
     }
 
     public struct TargetContainerRepository: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the container repository where the output container image is stored. This
-        /// 			name is prefixed by the repository location.
+        /// The name of the container repository where the output container image is stored.
+        /// 			This name is prefixed by the repository location. For example,
+        /// 			/repository_name.
         public let repositoryName: String
         /// Specifies the service in which this image was registered.
         public let service: ContainerRepositoryService

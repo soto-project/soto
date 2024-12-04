@@ -91,7 +91,7 @@ public struct XRay: AWSService {
 
     // MARK: API Calls
 
-    /// Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
+    ///  You cannot find traces through this API if Transaction Search is enabled since trace is not indexed in X-Ray.  Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
     @Sendable
     @inlinable
     public func batchGetTraces(_ input: BatchGetTracesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetTracesResult {
@@ -104,7 +104,7 @@ public struct XRay: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
+    ///  You cannot find traces through this API if Transaction Search is enabled since trace is not indexed in X-Ray.  Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
     ///
     /// Parameters:
     ///   - nextToken: Pagination token.
@@ -121,6 +121,35 @@ public struct XRay: AWSService {
             traceIds: traceIds
         )
         return try await self.batchGetTraces(input, logger: logger)
+    }
+
+    /// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken. A successful cancellation will return an HTTP 200 response.
+    @Sendable
+    @inlinable
+    public func cancelTraceRetrieval(_ input: CancelTraceRetrievalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelTraceRetrievalResult {
+        try await self.client.execute(
+            operation: "CancelTraceRetrieval", 
+            path: "/CancelTraceRetrieval", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken. A successful cancellation will return an HTTP 200 response.
+    ///
+    /// Parameters:
+    ///   - retrievalToken: Retrieval token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelTraceRetrieval(
+        retrievalToken: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelTraceRetrievalResult {
+        let input = CancelTraceRetrievalRequest(
+            retrievalToken: retrievalToken
+        )
+        return try await self.cancelTraceRetrieval(input, logger: logger)
     }
 
     /// Creates a group resource with a name and a filter expression.
@@ -376,6 +405,35 @@ public struct XRay: AWSService {
         return try await self.getGroups(input, logger: logger)
     }
 
+    /// Retrieves all indexing rules. Indexing rules are used to determine the server-side sampling rate for spans ingested through the CloudWatchLogs destination and indexed by X-Ray. For more information, see Transaction Search.
+    @Sendable
+    @inlinable
+    public func getIndexingRules(_ input: GetIndexingRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIndexingRulesResult {
+        try await self.client.execute(
+            operation: "GetIndexingRules", 
+            path: "/GetIndexingRules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves all indexing rules. Indexing rules are used to determine the server-side sampling rate for spans ingested through the CloudWatchLogs destination and indexed by X-Ray. For more information, see Transaction Search.
+    ///
+    /// Parameters:
+    ///   - nextToken: Specify the pagination token returned by a previous request to retrieve the next page of indexes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIndexingRules(
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIndexingRulesResult {
+        let input = GetIndexingRulesRequest(
+            nextToken: nextToken
+        )
+        return try await self.getIndexingRules(input, logger: logger)
+    }
+
     /// Retrieves the summary information of an insight. This includes impact to clients and root cause services, the top anomalous services, the category, the state of the insight, and the start and end time of the insight.
     @Sendable
     @inlinable
@@ -523,6 +581,40 @@ public struct XRay: AWSService {
             states: states
         )
         return try await self.getInsightSummaries(input, logger: logger)
+    }
+
+    ///  Retrieves a service graph for traces based on the specified RetrievalToken from the CloudWatch log group generated by Transaction Search. This API does not initiate a retrieval job. You must first execute StartTraceRetrieval to obtain the required RetrievalToken.
+    ///  The trace graph describes services that process incoming requests and any downstream services they call, which may include Amazon Web Services resources, external APIs, or databases. The response is empty until the RetrievalStatus is COMPLETE. Retry the request after the status changes from RUNNING or SCHEDULED to COMPLETE to access the full service graph.  When CloudWatch log is the destination, this API can support cross-account observability and service graph retrieval across linked accounts. For retrieving graphs from X-Ray directly as opposed to the Transaction-Search Log group, see GetTraceGraph.
+    @Sendable
+    @inlinable
+    public func getRetrievedTracesGraph(_ input: GetRetrievedTracesGraphRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRetrievedTracesGraphResult {
+        try await self.client.execute(
+            operation: "GetRetrievedTracesGraph", 
+            path: "/GetRetrievedTracesGraph", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves a service graph for traces based on the specified RetrievalToken from the CloudWatch log group generated by Transaction Search. This API does not initiate a retrieval job. You must first execute StartTraceRetrieval to obtain the required RetrievalToken.
+    ///  The trace graph describes services that process incoming requests and any downstream services they call, which may include Amazon Web Services resources, external APIs, or databases. The response is empty until the RetrievalStatus is COMPLETE. Retry the request after the status changes from RUNNING or SCHEDULED to COMPLETE to access the full service graph.  When CloudWatch log is the destination, this API can support cross-account observability and service graph retrieval across linked accounts. For retrieving graphs from X-Ray directly as opposed to the Transaction-Search Log group, see GetTraceGraph.
+    ///
+    /// Parameters:
+    ///   - nextToken:  Specify the pagination token returned by a previous request to retrieve the next page of indexes.
+    ///   - retrievalToken:  Retrieval token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRetrievedTracesGraph(
+        nextToken: String? = nil,
+        retrievalToken: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRetrievedTracesGraphResult {
+        let input = GetRetrievedTracesGraphRequest(
+            nextToken: nextToken, 
+            retrievalToken: retrievalToken
+        )
+        return try await self.getRetrievedTracesGraph(input, logger: logger)
     }
 
     /// Retrieves all sampling rules.
@@ -735,7 +827,33 @@ public struct XRay: AWSService {
         return try await self.getTraceGraph(input, logger: logger)
     }
 
-    /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com:  service("api.example.com")  This filter expression finds traces that have an annotation named account with the value 12345:  annotation.account = "12345"  For a full list of indexed fields and keywords that you can use in filter expressions, see Using Filter Expressions in the Amazon Web Services X-Ray Developer Guide.
+    ///  Retrieves the current destination of data sent to PutTraceSegments and OpenTelemetry API. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see Transaction Search and OpenTelemetry.
+    @Sendable
+    @inlinable
+    public func getTraceSegmentDestination(_ input: GetTraceSegmentDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTraceSegmentDestinationResult {
+        try await self.client.execute(
+            operation: "GetTraceSegmentDestination", 
+            path: "/GetTraceSegmentDestination", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves the current destination of data sent to PutTraceSegments and OpenTelemetry API. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see Transaction Search and OpenTelemetry.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTraceSegmentDestination(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTraceSegmentDestinationResult {
+        let input = GetTraceSegmentDestinationRequest(
+        )
+        return try await self.getTraceSegmentDestination(input, logger: logger)
+    }
+
+    /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com:  service("api.example.com")  This filter expression finds traces that have an annotation named account with the value 12345:  annotation.account = "12345"  For a full list of indexed fields and keywords that you can use in filter expressions, see Use filter expressions in the Amazon Web Services X-Ray Developer Guide.
     @Sendable
     @inlinable
     public func getTraceSummaries(_ input: GetTraceSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTraceSummariesResult {
@@ -748,7 +866,7 @@ public struct XRay: AWSService {
             logger: logger
         )
     }
-    /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com:  service("api.example.com")  This filter expression finds traces that have an annotation named account with the value 12345:  annotation.account = "12345"  For a full list of indexed fields and keywords that you can use in filter expressions, see Using Filter Expressions in the Amazon Web Services X-Ray Developer Guide.
+    /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com:  service("api.example.com")  This filter expression finds traces that have an annotation named account with the value 12345:  annotation.account = "12345"  For a full list of indexed fields and keywords that you can use in filter expressions, see Use filter expressions in the Amazon Web Services X-Ray Developer Guide.
     ///
     /// Parameters:
     ///   - endTime: The end of the time frame for which to retrieve traces.
@@ -757,7 +875,7 @@ public struct XRay: AWSService {
     ///   - sampling: Set to true to get summaries for only a subset of available traces.
     ///   - samplingStrategy: A parameter to indicate whether to enable sampling on trace summaries. Input parameters are Name and Value.
     ///   - startTime: The start of the time frame for which to retrieve traces.
-    ///   - timeRangeType: A parameter to indicate whether to query trace summaries by TraceId, Event (trace update time), or Service (segment end time).
+    ///   - timeRangeType: Query trace summaries by TraceId (trace start time), Event (trace update time), or Service (trace segment end time).
     ///   - logger: Logger use during operation
     @inlinable
     public func getTraceSummaries(
@@ -809,6 +927,43 @@ public struct XRay: AWSService {
             nextToken: nextToken
         )
         return try await self.listResourcePolicies(input, logger: logger)
+    }
+
+    ///  Retrieves a list of traces for a given RetrievalToken from the CloudWatch log group generated by Transaction Search. For information on what each trace returns, see BatchGetTraces.
+    ///  This API does not initiate a retrieval job. To start a trace retrieval, use StartTraceRetrieval, which generates the required RetrievalToken.  When the RetrievalStatus is not COMPLETE, the API will return an empty response. Retry the request once the retrieval has completed to access the full list of traces. For cross-account observability, this API can retrieve traces from linked accounts when CloudWatch log is the destination across relevant accounts. For more details, see CloudWatch cross-account observability. For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see BatchGetTraces.
+    @Sendable
+    @inlinable
+    public func listRetrievedTraces(_ input: ListRetrievedTracesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRetrievedTracesResult {
+        try await self.client.execute(
+            operation: "ListRetrievedTraces", 
+            path: "/ListRetrievedTraces", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves a list of traces for a given RetrievalToken from the CloudWatch log group generated by Transaction Search. For information on what each trace returns, see BatchGetTraces.
+    ///  This API does not initiate a retrieval job. To start a trace retrieval, use StartTraceRetrieval, which generates the required RetrievalToken.  When the RetrievalStatus is not COMPLETE, the API will return an empty response. Retry the request once the retrieval has completed to access the full list of traces. For cross-account observability, this API can retrieve traces from linked accounts when CloudWatch log is the destination across relevant accounts. For more details, see CloudWatch cross-account observability. For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see BatchGetTraces.
+    ///
+    /// Parameters:
+    ///   - nextToken:  Specify the pagination token returned by a previous request to retrieve the next page of indexes.
+    ///   - retrievalToken: Retrieval token.
+    ///   - traceFormat: Format of the requested traces.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRetrievedTraces(
+        nextToken: String? = nil,
+        retrievalToken: String,
+        traceFormat: TraceFormatType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRetrievedTracesResult {
+        let input = ListRetrievedTracesRequest(
+            nextToken: nextToken, 
+            retrievalToken: retrievalToken, 
+            traceFormat: traceFormat
+        )
+        return try await self.listRetrievedTraces(input, logger: logger)
     }
 
     /// Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
@@ -951,7 +1106,7 @@ public struct XRay: AWSService {
         return try await self.putTelemetryRecords(input, logger: logger)
     }
 
-    /// Uploads segment documents to Amazon Web Services X-Ray. The X-Ray SDK generates segment documents and sends them to the X-Ray daemon, which uploads them in batches. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer Guide.  Required segment document fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in-progress segment when your application receives a request that will take a long time to serve, to trace that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number, for instance, 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.
+    /// Uploads segment documents to Amazon Web Services X-Ray.  A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer Guide.  Required segment document fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in-progress segment when your application receives a request that will take a long time to serve, to trace that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. For trace IDs created by an X-Ray SDK, or by Amazon Web Services services  integrated with X-Ray, a trace ID includes:  Trace ID Format    The version number, for instance, 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.    Trace IDs created via OpenTelemetry have a different format based on the  W3C Trace Context specification. A W3C trace ID must be formatted in the X-Ray trace ID format when sending to X-Ray. For example, a W3C trace ID 4efaaf4d1e8720b39541901950019ee5 should be formatted as  1-4efaaf4d-1e8720b39541901950019ee5 when sending to X-Ray. While X-Ray trace IDs include  the original request timestamp in Unix epoch time, this is not required or validated.
     @Sendable
     @inlinable
     public func putTraceSegments(_ input: PutTraceSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutTraceSegmentsResult {
@@ -964,7 +1119,7 @@ public struct XRay: AWSService {
             logger: logger
         )
     }
-    /// Uploads segment documents to Amazon Web Services X-Ray. The X-Ray SDK generates segment documents and sends them to the X-Ray daemon, which uploads them in batches. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer Guide.  Required segment document fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in-progress segment when your application receives a request that will take a long time to serve, to trace that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number, for instance, 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.
+    /// Uploads segment documents to Amazon Web Services X-Ray.  A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer Guide.  Required segment document fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in-progress segment when your application receives a request that will take a long time to serve, to trace that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. For trace IDs created by an X-Ray SDK, or by Amazon Web Services services  integrated with X-Ray, a trace ID includes:  Trace ID Format    The version number, for instance, 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.    Trace IDs created via OpenTelemetry have a different format based on the  W3C Trace Context specification. A W3C trace ID must be formatted in the X-Ray trace ID format when sending to X-Ray. For example, a W3C trace ID 4efaaf4d1e8720b39541901950019ee5 should be formatted as  1-4efaaf4d-1e8720b39541901950019ee5 when sending to X-Ray. While X-Ray trace IDs include  the original request timestamp in Unix epoch time, this is not required or validated.
     ///
     /// Parameters:
     ///   - traceSegmentDocuments: A string containing a JSON document defining one or more segments or subsegments.
@@ -978,6 +1133,43 @@ public struct XRay: AWSService {
             traceSegmentDocuments: traceSegmentDocuments
         )
         return try await self.putTraceSegments(input, logger: logger)
+    }
+
+    ///  Initiates a trace retrieval process using the specified time range and for the give trace IDs on Transaction Search generated by the CloudWatch log group. For more information, see Transaction Search.
+    ///  API returns a RetrievalToken, which can be used with ListRetrievedTraces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider segmenting into multiple retrievals. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to retrieve data from a linked source account, as long as both accounts have transaction search enabled. For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see BatchGetTraces.
+    @Sendable
+    @inlinable
+    public func startTraceRetrieval(_ input: StartTraceRetrievalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTraceRetrievalResult {
+        try await self.client.execute(
+            operation: "StartTraceRetrieval", 
+            path: "/StartTraceRetrieval", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Initiates a trace retrieval process using the specified time range and for the give trace IDs on Transaction Search generated by the CloudWatch log group. For more information, see Transaction Search.
+    ///  API returns a RetrievalToken, which can be used with ListRetrievedTraces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider segmenting into multiple retrievals. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to retrieve data from a linked source account, as long as both accounts have transaction search enabled. For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see BatchGetTraces.
+    ///
+    /// Parameters:
+    ///   - endTime:  The end of the time range to retrieve traces. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+    ///   - startTime:  The start of the time range to retrieve traces. The range is inclusive, so the specified start time is included in the query.  Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+    ///   - traceIds:  Specify the trace IDs of the traces to be retrieved.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startTraceRetrieval(
+        endTime: Date,
+        startTime: Date,
+        traceIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartTraceRetrievalResult {
+        let input = StartTraceRetrievalRequest(
+            endTime: endTime, 
+            startTime: startTime, 
+            traceIds: traceIds
+        )
+        return try await self.startTraceRetrieval(input, logger: logger)
     }
 
     /// Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
@@ -1082,6 +1274,40 @@ public struct XRay: AWSService {
         return try await self.updateGroup(input, logger: logger)
     }
 
+    /// Modifies an indexing rule’s configuration.
+    ///  Indexing rules are used for determining the sampling rate for spans indexed from CloudWatch Logs. For more information, see Transaction Search.
+    @Sendable
+    @inlinable
+    public func updateIndexingRule(_ input: UpdateIndexingRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIndexingRuleResult {
+        try await self.client.execute(
+            operation: "UpdateIndexingRule", 
+            path: "/UpdateIndexingRule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies an indexing rule’s configuration.
+    ///  Indexing rules are used for determining the sampling rate for spans indexed from CloudWatch Logs. For more information, see Transaction Search.
+    ///
+    /// Parameters:
+    ///   - name:  Name of the indexing rule to be updated.
+    ///   - rule:  Rule configuration to be updated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIndexingRule(
+        name: String,
+        rule: IndexingRuleValueUpdate,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIndexingRuleResult {
+        let input = UpdateIndexingRuleRequest(
+            name: name, 
+            rule: rule
+        )
+        return try await self.updateIndexingRule(input, logger: logger)
+    }
+
     /// Modifies a sampling rule's configuration.
     @Sendable
     @inlinable
@@ -1109,6 +1335,35 @@ public struct XRay: AWSService {
             samplingRuleUpdate: samplingRuleUpdate
         )
         return try await self.updateSamplingRule(input, logger: logger)
+    }
+
+    ///  Modifies the destination of data sent to PutTraceSegments. The Transaction Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search.
+    @Sendable
+    @inlinable
+    public func updateTraceSegmentDestination(_ input: UpdateTraceSegmentDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTraceSegmentDestinationResult {
+        try await self.client.execute(
+            operation: "UpdateTraceSegmentDestination", 
+            path: "/UpdateTraceSegmentDestination", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Modifies the destination of data sent to PutTraceSegments. The Transaction Search feature requires the CloudWatchLogs destination. For more information, see Transaction Search.
+    ///
+    /// Parameters:
+    ///   - destination: The configured destination of trace segments.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTraceSegmentDestination(
+        destination: TraceSegmentDestination? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTraceSegmentDestinationResult {
+        let input = UpdateTraceSegmentDestinationRequest(
+            destination: destination
+        )
+        return try await self.updateTraceSegmentDestination(input, logger: logger)
     }
 }
 
@@ -1493,7 +1748,7 @@ extension XRay {
     ///   - sampling: Set to true to get summaries for only a subset of available traces.
     ///   - samplingStrategy: A parameter to indicate whether to enable sampling on trace summaries. Input parameters are Name and Value.
     ///   - startTime: The start of the time frame for which to retrieve traces.
-    ///   - timeRangeType: A parameter to indicate whether to query trace summaries by TraceId, Event (trace update time), or Service (segment end time).
+    ///   - timeRangeType: Query trace summaries by TraceId (trace start time), Event (trace update time), or Service (trace segment end time).
     ///   - logger: Logger used for logging
     @inlinable
     public func getTraceSummariesPaginator(

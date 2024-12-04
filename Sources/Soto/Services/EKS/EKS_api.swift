@@ -347,13 +347,16 @@ public struct EKS: AWSService {
     ///   - accessConfig: The access configuration for the cluster.
     ///   - bootstrapSelfManagedAddons: If you set this value to False when creating a cluster, the default networking add-ons will not be installed. The default networking addons include vpc-cni, coredns, and kube-proxy. Use this option when you plan to install third-party alternative add-ons or self-manage the default networking add-ons.
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
+    ///   - computeConfig: Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
     ///   - encryptionConfig: The encryption configuration for the cluster.
     ///   - kubernetesNetworkConfig: The Kubernetes network configuration for the cluster.
     ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
     ///   - name: The unique name to give to your cluster. The name can contain only alphanumeric characters (case-sensitive),
     ///   - outpostConfig: An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review Local clusters for Amazon EKS on Amazon Web Services Outposts in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
+    ///   - remoteNetworkConfig: The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
     ///   - resourcesVpcConfig: The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
+    ///   - storageConfig: Enable or disable the block storage capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account.
     ///   - tags: Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
     ///   - upgradePolicy: New clusters, by default, have extended support enabled. You can disable extended support when creating a cluster by setting this value to STANDARD.
     ///   - version: The desired Kubernetes version for your cluster. If you don't specify a value here, the default version available in Amazon EKS is used.  The default version might not be the latest version available.
@@ -364,13 +367,16 @@ public struct EKS: AWSService {
         accessConfig: CreateAccessConfigRequest? = nil,
         bootstrapSelfManagedAddons: Bool? = nil,
         clientRequestToken: String? = CreateClusterRequest.idempotencyToken(),
+        computeConfig: ComputeConfigRequest? = nil,
         encryptionConfig: [EncryptionConfig]? = nil,
         kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil,
         logging: Logging? = nil,
         name: String,
         outpostConfig: OutpostConfigRequest? = nil,
+        remoteNetworkConfig: RemoteNetworkConfigRequest? = nil,
         resourcesVpcConfig: VpcConfigRequest,
         roleArn: String,
+        storageConfig: StorageConfigRequest? = nil,
         tags: [String: String]? = nil,
         upgradePolicy: UpgradePolicyRequest? = nil,
         version: String? = nil,
@@ -381,13 +387,16 @@ public struct EKS: AWSService {
             accessConfig: accessConfig, 
             bootstrapSelfManagedAddons: bootstrapSelfManagedAddons, 
             clientRequestToken: clientRequestToken, 
+            computeConfig: computeConfig, 
             encryptionConfig: encryptionConfig, 
             kubernetesNetworkConfig: kubernetesNetworkConfig, 
             logging: logging, 
             name: name, 
             outpostConfig: outpostConfig, 
+            remoteNetworkConfig: remoteNetworkConfig, 
             resourcesVpcConfig: resourcesVpcConfig, 
             roleArn: roleArn, 
+            storageConfig: storageConfig, 
             tags: tags, 
             upgradePolicy: upgradePolicy, 
             version: version, 
@@ -2011,9 +2020,12 @@ public struct EKS: AWSService {
     /// Parameters:
     ///   - accessConfig: The access configuration for the cluster.
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
+    ///   - computeConfig: Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
+    ///   - kubernetesNetworkConfig: 
     ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
     ///   - name: The name of the Amazon EKS cluster to update.
     ///   - resourcesVpcConfig: 
+    ///   - storageConfig: Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
     ///   - upgradePolicy: You can enable or disable extended support for clusters currently on standard support. You cannot disable extended support once it starts. You must enable extended support before your cluster exits standard support.
     ///   - zonalShiftConfig: Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS in the  Amazon EKS User Guide .
     ///   - logger: Logger use during operation
@@ -2021,9 +2033,12 @@ public struct EKS: AWSService {
     public func updateClusterConfig(
         accessConfig: UpdateAccessConfigRequest? = nil,
         clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(),
+        computeConfig: ComputeConfigRequest? = nil,
+        kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil,
         logging: Logging? = nil,
         name: String,
         resourcesVpcConfig: VpcConfigRequest? = nil,
+        storageConfig: StorageConfigRequest? = nil,
         upgradePolicy: UpgradePolicyRequest? = nil,
         zonalShiftConfig: ZonalShiftConfigRequest? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2031,9 +2046,12 @@ public struct EKS: AWSService {
         let input = UpdateClusterConfigRequest(
             accessConfig: accessConfig, 
             clientRequestToken: clientRequestToken, 
+            computeConfig: computeConfig, 
+            kubernetesNetworkConfig: kubernetesNetworkConfig, 
             logging: logging, 
             name: name, 
             resourcesVpcConfig: resourcesVpcConfig, 
+            storageConfig: storageConfig, 
             upgradePolicy: upgradePolicy, 
             zonalShiftConfig: zonalShiftConfig
         )

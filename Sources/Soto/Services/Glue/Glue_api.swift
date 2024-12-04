@@ -889,6 +889,41 @@ public struct Glue: AWSService {
         return try await self.createBlueprint(input, logger: logger)
     }
 
+    /// Creates a new catalog in the Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func createCatalog(_ input: CreateCatalogRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCatalogResponse {
+        try await self.client.execute(
+            operation: "CreateCatalog", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new catalog in the Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - catalogInput: A CatalogInput object that defines the metadata for the catalog.
+    ///   - name: The name of the catalog to create.
+    ///   - tags: A map array of key-value pairs, not more than 50 pairs. Each key is a UTF-8 string, not less than 1 or more than 128 bytes long. Each value is a UTF-8 string, not more than 256 bytes long. The tags you assign to the catalog.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCatalog(
+        catalogInput: CatalogInput,
+        name: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCatalogResponse {
+        let input = CreateCatalogRequest(
+            catalogInput: catalogInput, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createCatalog(input, logger: logger)
+    }
+
     /// Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
     @Sendable
     @inlinable
@@ -1275,6 +1310,129 @@ public struct Glue: AWSService {
             workerType: workerType
         )
         return try await self.createDevEndpoint(input, logger: logger)
+    }
+
+    /// Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the SourceArn and TargetArn.
+    @Sendable
+    @inlinable
+    public func createIntegration(_ input: CreateIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntegrationResponse {
+        try await self.client.execute(
+            operation: "CreateIntegration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the SourceArn and TargetArn.
+    ///
+    /// Parameters:
+    ///   - additionalEncryptionContext: An optional set of non-secret key–value pairs that contains additional contextual information for encryption. This can only be provided if KMSKeyId is provided.
+    ///   - dataFilter: Selects source tables for the integration using Maxwell filter syntax.
+    ///   - description: A description of the integration.
+    ///   - integrationName: A unique name for an integration in Glue.
+    ///   - kmsKeyId: The ARN of a KMS key used for encrypting the channel.
+    ///   - sourceArn: The ARN of the source resource for the integration.
+    ///   - tags: Metadata assigned to the resource consisting of a list of key-value pairs.
+    ///   - targetArn: The ARN of the target resource for the integration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIntegration(
+        additionalEncryptionContext: [String: String]? = nil,
+        dataFilter: String? = nil,
+        description: String? = nil,
+        integrationName: String,
+        kmsKeyId: String? = nil,
+        sourceArn: String,
+        tags: [Tag]? = nil,
+        targetArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIntegrationResponse {
+        let input = CreateIntegrationRequest(
+            additionalEncryptionContext: additionalEncryptionContext, 
+            dataFilter: dataFilter, 
+            description: description, 
+            integrationName: integrationName, 
+            kmsKeyId: kmsKeyId, 
+            sourceArn: sourceArn, 
+            tags: tags, 
+            targetArn: targetArn
+        )
+        return try await self.createIntegration(input, logger: logger)
+    }
+
+    /// This API can be used for setting up the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as ResourceArn with SourceProcessingProperties and the Glue database ARN as ResourceArn with TargetProcessingProperties respectively.
+    @Sendable
+    @inlinable
+    public func createIntegrationResourceProperty(_ input: CreateIntegrationResourcePropertyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntegrationResourcePropertyResponse {
+        try await self.client.execute(
+            operation: "CreateIntegrationResourceProperty", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API can be used for setting up the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as ResourceArn with SourceProcessingProperties and the Glue database ARN as ResourceArn with TargetProcessingProperties respectively.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
+    ///   - sourceProcessingProperties: The resource properties associated with the integration source.
+    ///   - targetProcessingProperties: The resource properties associated with the integration target.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIntegrationResourceProperty(
+        resourceArn: String,
+        sourceProcessingProperties: SourceProcessingProperties? = nil,
+        targetProcessingProperties: TargetProcessingProperties? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIntegrationResourcePropertyResponse {
+        let input = CreateIntegrationResourcePropertyRequest(
+            resourceArn: resourceArn, 
+            sourceProcessingProperties: sourceProcessingProperties, 
+            targetProcessingProperties: targetProcessingProperties
+        )
+        return try await self.createIntegrationResourceProperty(input, logger: logger)
+    }
+
+    /// This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig, and the Glue database ARN as ResourceArn with TargetTableConfig respectively.
+    @Sendable
+    @inlinable
+    public func createIntegrationTableProperties(_ input: CreateIntegrationTablePropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntegrationTablePropertiesResponse {
+        try await self.client.execute(
+            operation: "CreateIntegrationTableProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig, and the Glue database ARN as ResourceArn with TargetTableConfig respectively.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
+    ///   - sourceTableConfig: A structure for the source table configuration.
+    ///   - tableName: The name of the table to be replicated.
+    ///   - targetTableConfig: A structure for the target table configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIntegrationTableProperties(
+        resourceArn: String,
+        sourceTableConfig: SourceTableConfig? = nil,
+        tableName: String,
+        targetTableConfig: TargetTableConfig? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIntegrationTablePropertiesResponse {
+        let input = CreateIntegrationTablePropertiesRequest(
+            resourceArn: resourceArn, 
+            sourceTableConfig: sourceTableConfig, 
+            tableName: tableName, 
+            targetTableConfig: targetTableConfig
+        )
+        return try await self.createIntegrationTableProperties(input, logger: logger)
     }
 
     /// Creates a new job definition.
@@ -1780,7 +1938,7 @@ public struct Glue: AWSService {
         return try await self.createTable(input, logger: logger)
     }
 
-    /// Creates a new table optimizer for a specific function. compaction is the only currently supported optimizer type.
+    /// Creates a new table optimizer for a specific function.
     @Sendable
     @inlinable
     public func createTableOptimizer(_ input: CreateTableOptimizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableOptimizerResponse {
@@ -1793,14 +1951,14 @@ public struct Glue: AWSService {
             logger: logger
         )
     }
-    /// Creates a new table optimizer for a specific function. compaction is the only currently supported optimizer type.
+    /// Creates a new table optimizer for a specific function.
     ///
     /// Parameters:
     ///   - catalogId: The Catalog ID of the table.
     ///   - databaseName: The name of the database in the catalog in which the table resides.
     ///   - tableName: The name of the table.
     ///   - tableOptimizerConfiguration: A TableOptimizerConfiguration object representing the configuration of a table optimizer.
-    ///   - type: The type of table optimizer. Currently, the only valid value is compaction.
+    ///   - type: The type of table optimizer.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTableOptimizer(
@@ -2018,6 +2176,35 @@ public struct Glue: AWSService {
             name: name
         )
         return try await self.deleteBlueprint(input, logger: logger)
+    }
+
+    /// Removes the specified catalog from the Glue Data Catalog. After completing this operation, you no longer have access to the databases, tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted catalog. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources before calling the DeleteCatalog operation, use DeleteTableVersion (or BatchDeleteTableVersion), DeletePartition (or BatchDeletePartition), DeleteTable (or BatchDeleteTable), DeleteUserDefinedFunction and DeleteDatabase to delete any resources that belong to the catalog.
+    @Sendable
+    @inlinable
+    public func deleteCatalog(_ input: DeleteCatalogRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCatalogResponse {
+        try await self.client.execute(
+            operation: "DeleteCatalog", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the specified catalog from the Glue Data Catalog. After completing this operation, you no longer have access to the databases, tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted catalog. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources before calling the DeleteCatalog operation, use DeleteTableVersion (or BatchDeleteTableVersion), DeletePartition (or BatchDeletePartition), DeleteTable (or BatchDeleteTable), DeleteUserDefinedFunction and DeleteDatabase to delete any resources that belong to the catalog.
+    ///
+    /// Parameters:
+    ///   - catalogId: The ID of the catalog.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCatalog(
+        catalogId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCatalogResponse {
+        let input = DeleteCatalogRequest(
+            catalogId: catalogId
+        )
+        return try await self.deleteCatalog(input, logger: logger)
     }
 
     /// Removes a classifier from the Data Catalog.
@@ -2338,6 +2525,67 @@ public struct Glue: AWSService {
             endpointName: endpointName
         )
         return try await self.deleteDevEndpoint(input, logger: logger)
+    }
+
+    /// Deletes the specified Zero-ETL integration.
+    @Sendable
+    @inlinable
+    public func deleteIntegration(_ input: DeleteIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIntegrationResponse {
+        try await self.client.execute(
+            operation: "DeleteIntegration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified Zero-ETL integration.
+    ///
+    /// Parameters:
+    ///   - integrationIdentifier: The Amazon Resource Name (ARN) for the integration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIntegration(
+        integrationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIntegrationResponse {
+        let input = DeleteIntegrationRequest(
+            integrationIdentifier: integrationIdentifier
+        )
+        return try await self.deleteIntegration(input, logger: logger)
+    }
+
+    /// Deletes the table properties that have been created for the tables that need to be replicated.
+    @Sendable
+    @inlinable
+    public func deleteIntegrationTableProperties(_ input: DeleteIntegrationTablePropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIntegrationTablePropertiesResponse {
+        try await self.client.execute(
+            operation: "DeleteIntegrationTableProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the table properties that have been created for the tables that need to be replicated.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
+    ///   - tableName: The name of the table to be replicated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIntegrationTableProperties(
+        resourceArn: String,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIntegrationTablePropertiesResponse {
+        let input = DeleteIntegrationTablePropertiesRequest(
+            resourceArn: resourceArn, 
+            tableName: tableName
+        )
+        return try await self.deleteIntegrationTableProperties(input, logger: logger)
     }
 
     /// Deletes a specified job definition. If the job definition is not found, no exception is thrown.
@@ -2893,6 +3141,152 @@ public struct Glue: AWSService {
         return try await self.deleteWorkflow(input, logger: logger)
     }
 
+    /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue.
+    @Sendable
+    @inlinable
+    public func describeConnectionType(_ input: DescribeConnectionTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConnectionTypeResponse {
+        try await self.client.execute(
+            operation: "DescribeConnectionType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue.
+    ///
+    /// Parameters:
+    ///   - connectionType: The name of the connection type to be described.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeConnectionType(
+        connectionType: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeConnectionTypeResponse {
+        let input = DescribeConnectionTypeRequest(
+            connectionType: connectionType
+        )
+        return try await self.describeConnectionType(input, logger: logger)
+    }
+
+    /// Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected entity. The response includes all the fields which make up the entity.
+    @Sendable
+    @inlinable
+    public func describeEntity(_ input: DescribeEntityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEntityResponse {
+        try await self.client.execute(
+            operation: "DescribeEntity", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected entity. The response includes all the fields which make up the entity.
+    ///
+    /// Parameters:
+    ///   - catalogId: The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    ///   - connectionName: The name of the connection that contains the connection type credentials.
+    ///   - dataStoreApiVersion: The version of the API used for the data store.
+    ///   - entityName: The name of the entity that you want to describe from the connection type.
+    ///   - nextToken: A continuation token, included if this is a continuation call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeEntity(
+        catalogId: String? = nil,
+        connectionName: String,
+        dataStoreApiVersion: String? = nil,
+        entityName: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeEntityResponse {
+        let input = DescribeEntityRequest(
+            catalogId: catalogId, 
+            connectionName: connectionName, 
+            dataStoreApiVersion: dataStoreApiVersion, 
+            entityName: entityName, 
+            nextToken: nextToken
+        )
+        return try await self.describeEntity(input, logger: logger)
+    }
+
+    /// Returns a list of inbound integrations for the specified integration.
+    @Sendable
+    @inlinable
+    public func describeInboundIntegrations(_ input: DescribeInboundIntegrationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInboundIntegrationsResponse {
+        try await self.client.execute(
+            operation: "DescribeInboundIntegrations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of inbound integrations for the specified integration.
+    ///
+    /// Parameters:
+    ///   - integrationArn: The Amazon Resource Name (ARN) of the integration.
+    ///   - marker: A token to specify where to start paginating. This is the marker from a previously truncated response.
+    ///   - maxRecords: The total number of items to return in the output.
+    ///   - targetArn: The Amazon Resource Name (ARN) of the target resource in the integration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeInboundIntegrations(
+        integrationArn: String? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        targetArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeInboundIntegrationsResponse {
+        let input = DescribeInboundIntegrationsRequest(
+            integrationArn: integrationArn, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            targetArn: targetArn
+        )
+        return try await self.describeInboundIntegrations(input, logger: logger)
+    }
+
+    /// The API is used to retrieve a list of integrations.
+    @Sendable
+    @inlinable
+    public func describeIntegrations(_ input: DescribeIntegrationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIntegrationsResponse {
+        try await self.client.execute(
+            operation: "DescribeIntegrations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The API is used to retrieve a list of integrations.
+    ///
+    /// Parameters:
+    ///   - filters: A list of key and values, to filter down the results. Supported keys are "Status", "IntegrationName", and "SourceArn". IntegrationName is limited to only one value.
+    ///   - integrationIdentifier: The Amazon Resource Name (ARN) for the integration.
+    ///   - marker: A value that indicates the starting point for the next set of response records in a subsequent request.
+    ///   - maxRecords: The total number of items to return in the output.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeIntegrations(
+        filters: [IntegrationFilter]? = nil,
+        integrationIdentifier: String? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeIntegrationsResponse {
+        let input = DescribeIntegrationsRequest(
+            filters: filters, 
+            integrationIdentifier: integrationIdentifier, 
+            marker: marker, 
+            maxRecords: maxRecords
+        )
+        return try await self.describeIntegrations(input, logger: logger)
+    }
+
     /// Retrieves the details of a blueprint.
     @Sendable
     @inlinable
@@ -2995,6 +3389,35 @@ public struct Glue: AWSService {
         return try await self.getBlueprintRuns(input, logger: logger)
     }
 
+    /// The name of the Catalog to retrieve. This should be all lowercase.
+    @Sendable
+    @inlinable
+    public func getCatalog(_ input: GetCatalogRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCatalogResponse {
+        try await self.client.execute(
+            operation: "GetCatalog", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The name of the Catalog to retrieve. This should be all lowercase.
+    ///
+    /// Parameters:
+    ///   - catalogId: The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by default.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCatalog(
+        catalogId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCatalogResponse {
+        let input = GetCatalogRequest(
+            catalogId: catalogId
+        )
+        return try await self.getCatalog(input, logger: logger)
+    }
+
     /// Retrieves the status of a migration operation.
     @Sendable
     @inlinable
@@ -3022,6 +3445,44 @@ public struct Glue: AWSService {
             catalogId: catalogId
         )
         return try await self.getCatalogImportStatus(input, logger: logger)
+    }
+
+    /// Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
+    @Sendable
+    @inlinable
+    public func getCatalogs(_ input: GetCatalogsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCatalogsResponse {
+        try await self.client.execute(
+            operation: "GetCatalogs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of catalogs to return in one response.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - parentCatalogId: The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by default.
+    ///   - recursive: When specified as true, iterates through the account and returns all catalog resources (including top-level resources and child resources)
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCatalogs(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        parentCatalogId: String? = nil,
+        recursive: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCatalogsResponse {
+        let input = GetCatalogsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            parentCatalogId: parentCatalogId, 
+            recursive: recursive
+        )
+        return try await self.getCatalogs(input, logger: logger)
     }
 
     /// Retrieve a classifier by name.
@@ -3279,18 +3740,21 @@ public struct Glue: AWSService {
     /// Retrieves a connection definition from the Data Catalog.
     ///
     /// Parameters:
+    ///   - applyOverrideForComputeEnvironment: For connections that may be used in multiple services, specifies returning properties for the specified compute environment.
     ///   - catalogId: The ID of the Data Catalog in which the connection resides. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - hidePassword: Allows you to retrieve the connection metadata without returning the password. For instance, the Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
     ///   - name: The name of the connection definition to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getConnection(
+        applyOverrideForComputeEnvironment: ComputeEnvironment? = nil,
         catalogId: String? = nil,
         hidePassword: Bool? = nil,
         name: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetConnectionResponse {
         let input = GetConnectionRequest(
+            applyOverrideForComputeEnvironment: applyOverrideForComputeEnvironment, 
             catalogId: catalogId, 
             hidePassword: hidePassword, 
             name: name
@@ -3834,6 +4298,123 @@ public struct Glue: AWSService {
             nextToken: nextToken
         )
         return try await self.getDevEndpoints(input, logger: logger)
+    }
+
+    /// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted using Jackson JsonNode based on the field type defined by the DescribeEntity API. Spark connectors generate schemas according to the same data type mapping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows.
+    @Sendable
+    @inlinable
+    public func getEntityRecords(_ input: GetEntityRecordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEntityRecordsResponse {
+        try await self.client.execute(
+            operation: "GetEntityRecords", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted using Jackson JsonNode based on the field type defined by the DescribeEntity API. Spark connectors generate schemas according to the same data type mapping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows.
+    ///
+    /// Parameters:
+    ///   - catalogId: The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    ///   - connectionName: The name of the connection that contains the connection type credentials.
+    ///   - connectionOptions: Connector options that are required to query the data.
+    ///   - dataStoreApiVersion: The API version of the SaaS connector.
+    ///   - entityName: Name of the entity that we want to query the preview data from the given connection type.
+    ///   - filterPredicate: A filter predicate that you can apply in the query request.
+    ///   - limit: Limits the number of records fetched with the request.
+    ///   - nextToken: A continuation token, included if this is a continuation call.
+    ///   - orderBy: A parameter that orders the response preview data.
+    ///   - selectedFields:  List of fields that we want to fetch as part of preview data.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getEntityRecords(
+        catalogId: String? = nil,
+        connectionName: String? = nil,
+        connectionOptions: [String: String]? = nil,
+        dataStoreApiVersion: String? = nil,
+        entityName: String,
+        filterPredicate: String? = nil,
+        limit: Int64,
+        nextToken: String? = nil,
+        orderBy: String? = nil,
+        selectedFields: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetEntityRecordsResponse {
+        let input = GetEntityRecordsRequest(
+            catalogId: catalogId, 
+            connectionName: connectionName, 
+            connectionOptions: connectionOptions, 
+            dataStoreApiVersion: dataStoreApiVersion, 
+            entityName: entityName, 
+            filterPredicate: filterPredicate, 
+            limit: limit, 
+            nextToken: nextToken, 
+            orderBy: orderBy, 
+            selectedFields: selectedFields
+        )
+        return try await self.getEntityRecords(input, logger: logger)
+    }
+
+    /// This API is used for fetching the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target)
+    @Sendable
+    @inlinable
+    public func getIntegrationResourceProperty(_ input: GetIntegrationResourcePropertyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIntegrationResourcePropertyResponse {
+        try await self.client.execute(
+            operation: "GetIntegrationResourceProperty", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API is used for fetching the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target)
+    ///
+    /// Parameters:
+    ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIntegrationResourceProperty(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIntegrationResourcePropertyResponse {
+        let input = GetIntegrationResourcePropertyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.getIntegrationResourceProperty(input, logger: logger)
+    }
+
+    /// This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables.
+    @Sendable
+    @inlinable
+    public func getIntegrationTableProperties(_ input: GetIntegrationTablePropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIntegrationTablePropertiesResponse {
+        try await self.client.execute(
+            operation: "GetIntegrationTableProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
+    ///   - tableName: The name of the table to be replicated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIntegrationTableProperties(
+        resourceArn: String,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIntegrationTablePropertiesResponse {
+        let input = GetIntegrationTablePropertiesRequest(
+            resourceArn: resourceArn, 
+            tableName: tableName
+        )
+        return try await self.getIntegrationTableProperties(input, logger: logger)
     }
 
     /// Retrieves an existing job definition.
@@ -5515,6 +6096,38 @@ public struct Glue: AWSService {
         return try await self.listColumnStatisticsTaskRuns(input, logger: logger)
     }
 
+    /// The ListConnectionTypes API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type. The connection types listed are the set of supported options for the ConnectionType value in the CreateConnection API.
+    @Sendable
+    @inlinable
+    public func listConnectionTypes(_ input: ListConnectionTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectionTypesResponse {
+        try await self.client.execute(
+            operation: "ListConnectionTypes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The ListConnectionTypes API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type. The connection types listed are the set of supported options for the ConnectionType value in the CreateConnection API.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnectionTypes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectionTypesResponse {
+        let input = ListConnectionTypesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConnectionTypes(input, logger: logger)
+    }
+
     /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     @Sendable
     @inlinable
@@ -5883,6 +6496,47 @@ public struct Glue: AWSService {
         return try await self.listDevEndpoints(input, logger: logger)
     }
 
+    /// Returns the available entities supported by the connection type.
+    @Sendable
+    @inlinable
+    public func listEntities(_ input: ListEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEntitiesResponse {
+        try await self.client.execute(
+            operation: "ListEntities", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the available entities supported by the connection type.
+    ///
+    /// Parameters:
+    ///   - catalogId: The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    ///   - connectionName: A name for the connection that has required credentials to query any connection type.
+    ///   - dataStoreApiVersion: The API version of the SaaS connector.
+    ///   - nextToken: A continuation token, included if this is a continuation call.
+    ///   - parentEntityName: Name of the parent entity for which you want to list the children. This parameter takes a fully-qualified path of the entity in order to list the child entities.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEntities(
+        catalogId: String? = nil,
+        connectionName: String? = nil,
+        dataStoreApiVersion: String? = nil,
+        nextToken: String? = nil,
+        parentEntityName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEntitiesResponse {
+        let input = ListEntitiesRequest(
+            catalogId: catalogId, 
+            connectionName: connectionName, 
+            dataStoreApiVersion: dataStoreApiVersion, 
+            nextToken: nextToken, 
+            parentEntityName: parentEntityName
+        )
+        return try await self.listEntities(input, logger: logger)
+    }
+
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     @Sendable
     @inlinable
@@ -6155,7 +6809,7 @@ public struct Glue: AWSService {
     ///   - maxResults: The maximum number of optimizer runs to return on each call.
     ///   - nextToken: A continuation token, if this is a continuation call.
     ///   - tableName: The name of the table.
-    ///   - type: The type of table optimizer. Currently, the only valid value is compaction.
+    ///   - type: The type of table optimizer.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTableOptimizerRuns(
@@ -6278,6 +6932,44 @@ public struct Glue: AWSService {
             nextToken: nextToken
         )
         return try await self.listWorkflows(input, logger: logger)
+    }
+
+    /// Modifies a Zero-ETL integration in the caller's account.
+    @Sendable
+    @inlinable
+    public func modifyIntegration(_ input: ModifyIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyIntegrationResponse {
+        try await self.client.execute(
+            operation: "ModifyIntegration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies a Zero-ETL integration in the caller's account.
+    ///
+    /// Parameters:
+    ///   - dataFilter: Selects source tables for the integration using Maxwell filter syntax.
+    ///   - description: A description of the integration.
+    ///   - integrationIdentifier: The Amazon Resource Name (ARN) for the integration.
+    ///   - integrationName: A unique name for an integration in Glue.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyIntegration(
+        dataFilter: String? = nil,
+        description: String? = nil,
+        integrationIdentifier: String,
+        integrationName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyIntegrationResponse {
+        let input = ModifyIntegrationRequest(
+            dataFilter: dataFilter, 
+            description: description, 
+            integrationIdentifier: integrationIdentifier, 
+            integrationName: integrationName
+        )
+        return try await self.modifyIntegration(input, logger: logger)
     }
 
     /// Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
@@ -7504,16 +8196,19 @@ public struct Glue: AWSService {
     /// Tests a connection to a service to validate the service credentials that you provide. You can either provide an existing connection name or a TestConnectionInput for testing a non-existing connection input. Providing both at the same time will cause an error. If the action is successful, the service sends back an HTTP 200 response.
     ///
     /// Parameters:
+    ///   - catalogId: The catalog ID where the connection resides.
     ///   - connectionName: Optional. The name of the connection to test. If only name is provided, the operation will get the connection and use that for testing.
     ///   - testConnectionInput: A structure that is used to specify testing a connection to a service.
     ///   - logger: Logger use during operation
     @inlinable
     public func testConnection(
+        catalogId: String? = nil,
         connectionName: String? = nil,
         testConnectionInput: TestConnectionInput? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> TestConnectionResponse {
         let input = TestConnectionRequest(
+            catalogId: catalogId, 
             connectionName: connectionName, 
             testConnectionInput: testConnectionInput
         )
@@ -7585,6 +8280,38 @@ public struct Glue: AWSService {
             name: name
         )
         return try await self.updateBlueprint(input, logger: logger)
+    }
+
+    /// Updates an existing catalog's properties in the Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func updateCatalog(_ input: UpdateCatalogRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCatalogResponse {
+        try await self.client.execute(
+            operation: "UpdateCatalog", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing catalog's properties in the Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - catalogId: The ID of the catalog.
+    ///   - catalogInput: A CatalogInput object specifying the new properties of an existing catalog.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCatalog(
+        catalogId: String,
+        catalogInput: CatalogInput,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCatalogResponse {
+        let input = UpdateCatalogRequest(
+            catalogId: catalogId, 
+            catalogInput: catalogInput
+        )
+        return try await self.updateCatalog(input, logger: logger)
     }
 
     /// Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
@@ -8009,6 +8736,79 @@ public struct Glue: AWSService {
         return try await self.updateDevEndpoint(input, logger: logger)
     }
 
+    /// This API can be used for updating the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it.
+    @Sendable
+    @inlinable
+    public func updateIntegrationResourceProperty(_ input: UpdateIntegrationResourcePropertyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIntegrationResourcePropertyResponse {
+        try await self.client.execute(
+            operation: "UpdateIntegrationResourceProperty", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API can be used for updating the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
+    ///   - sourceProcessingProperties: The resource properties associated with the integration source.
+    ///   - targetProcessingProperties: The resource properties associated with the integration target.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIntegrationResourceProperty(
+        resourceArn: String,
+        sourceProcessingProperties: SourceProcessingProperties? = nil,
+        targetProcessingProperties: TargetProcessingProperties? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIntegrationResourcePropertyResponse {
+        let input = UpdateIntegrationResourcePropertyRequest(
+            resourceArn: resourceArn, 
+            sourceProcessingProperties: sourceProcessingProperties, 
+            targetProcessingProperties: targetProcessingProperties
+        )
+        return try await self.updateIntegrationResourceProperty(input, logger: logger)
+    }
+
+    /// This API is used to provide optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig, and the Glue database ARN as ResourceArn with TargetTableConfig respectively. The override will be reflected across all the integrations using same ResourceArn and source table.
+    @Sendable
+    @inlinable
+    public func updateIntegrationTableProperties(_ input: UpdateIntegrationTablePropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIntegrationTablePropertiesResponse {
+        try await self.client.execute(
+            operation: "UpdateIntegrationTableProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API is used to provide optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig, and the Glue database ARN as ResourceArn with TargetTableConfig respectively. The override will be reflected across all the integrations using same ResourceArn and source table.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
+    ///   - sourceTableConfig: A structure for the source table configuration.
+    ///   - tableName: The name of the table to be replicated.
+    ///   - targetTableConfig: A structure for the target table configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIntegrationTableProperties(
+        resourceArn: String,
+        sourceTableConfig: SourceTableConfig? = nil,
+        tableName: String,
+        targetTableConfig: TargetTableConfig? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIntegrationTablePropertiesResponse {
+        let input = UpdateIntegrationTablePropertiesRequest(
+            resourceArn: resourceArn, 
+            sourceTableConfig: sourceTableConfig, 
+            tableName: tableName, 
+            targetTableConfig: targetTableConfig
+        )
+        return try await self.updateIntegrationTableProperties(input, logger: logger)
+    }
+
     /// Updates an existing job definition. The previous job definition is completely overwritten by this information.
     @Sendable
     @inlinable
@@ -8387,7 +9187,7 @@ public struct Glue: AWSService {
     ///   - databaseName: The name of the database in the catalog in which the table resides.
     ///   - tableName: The name of the table.
     ///   - tableOptimizerConfiguration: A TableOptimizerConfiguration object representing the configuration of a table optimizer.
-    ///   - type: The type of table optimizer. Currently, the only valid value is compaction.
+    ///   - type: The type of table optimizer.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateTableOptimizer(
@@ -8565,6 +9365,49 @@ extension Glue {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Glue {
+    /// Return PaginatorSequence for operation ``describeEntity(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeEntityPaginator(
+        _ input: DescribeEntityRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeEntityRequest, DescribeEntityResponse> {
+        return .init(
+            input: input,
+            command: self.describeEntity,
+            inputKey: \DescribeEntityRequest.nextToken,
+            outputKey: \DescribeEntityResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeEntity(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalogId: The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    ///   - connectionName: The name of the connection that contains the connection type credentials.
+    ///   - dataStoreApiVersion: The version of the API used for the data store.
+    ///   - entityName: The name of the entity that you want to describe from the connection type.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeEntityPaginator(
+        catalogId: String? = nil,
+        connectionName: String,
+        dataStoreApiVersion: String? = nil,
+        entityName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeEntityRequest, DescribeEntityResponse> {
+        let input = DescribeEntityRequest(
+            catalogId: catalogId, 
+            connectionName: connectionName, 
+            dataStoreApiVersion: dataStoreApiVersion, 
+            entityName: entityName
+        )
+        return self.describeEntityPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``getBlueprintRuns(_:logger:)``.
     ///
     /// - Parameters:
@@ -9537,6 +10380,40 @@ extension Glue {
         return self.listColumnStatisticsTaskRunsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listConnectionTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectionTypesPaginator(
+        _ input: ListConnectionTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectionTypesRequest, ListConnectionTypesResponse> {
+        return .init(
+            input: input,
+            command: self.listConnectionTypes,
+            inputKey: \ListConnectionTypesRequest.nextToken,
+            outputKey: \ListConnectionTypesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConnectionTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectionTypesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConnectionTypesRequest, ListConnectionTypesResponse> {
+        let input = ListConnectionTypesRequest(
+            maxResults: maxResults
+        )
+        return self.listConnectionTypesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCrawlers(_:logger:)``.
     ///
     /// - Parameters:
@@ -9799,6 +10676,49 @@ extension Glue {
         return self.listDevEndpointsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listEntities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEntitiesPaginator(
+        _ input: ListEntitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEntitiesRequest, ListEntitiesResponse> {
+        return .init(
+            input: input,
+            command: self.listEntities,
+            inputKey: \ListEntitiesRequest.nextToken,
+            outputKey: \ListEntitiesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEntities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalogId: The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    ///   - connectionName: A name for the connection that has required credentials to query any connection type.
+    ///   - dataStoreApiVersion: The API version of the SaaS connector.
+    ///   - parentEntityName: Name of the parent entity for which you want to list the children. This parameter takes a fully-qualified path of the entity in order to list the child entities.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEntitiesPaginator(
+        catalogId: String? = nil,
+        connectionName: String? = nil,
+        dataStoreApiVersion: String? = nil,
+        parentEntityName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEntitiesRequest, ListEntitiesResponse> {
+        let input = ListEntitiesRequest(
+            catalogId: catalogId, 
+            connectionName: connectionName, 
+            dataStoreApiVersion: dataStoreApiVersion, 
+            parentEntityName: parentEntityName
+        )
+        return self.listEntitiesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listJobs(_:logger:)``.
     ///
     /// - Parameters:
@@ -10052,7 +10972,7 @@ extension Glue {
     ///   - databaseName: The name of the database in the catalog in which the table resides.
     ///   - maxResults: The maximum number of optimizer runs to return on each call.
     ///   - tableName: The name of the table.
-    ///   - type: The type of table optimizer. Currently, the only valid value is compaction.
+    ///   - type: The type of table optimizer.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTableOptimizerRunsPaginator(
@@ -10231,6 +11151,19 @@ extension Glue {
             sortCriteria: sortCriteria
         )
         return self.searchTablesPaginator(input, logger: logger)
+    }
+}
+
+extension Glue.DescribeEntityRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.DescribeEntityRequest {
+        return .init(
+            catalogId: self.catalogId,
+            connectionName: self.connectionName,
+            dataStoreApiVersion: self.dataStoreApiVersion,
+            entityName: self.entityName,
+            nextToken: token
+        )
     }
 }
 
@@ -10526,6 +11459,16 @@ extension Glue.ListColumnStatisticsTaskRunsRequest: AWSPaginateToken {
     }
 }
 
+extension Glue.ListConnectionTypesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.ListConnectionTypesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Glue.ListCrawlersRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Glue.ListCrawlersRequest {
@@ -10600,6 +11543,19 @@ extension Glue.ListDevEndpointsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             tags: self.tags
+        )
+    }
+}
+
+extension Glue.ListEntitiesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.ListEntitiesRequest {
+        return .init(
+            catalogId: self.catalogId,
+            connectionName: self.connectionName,
+            dataStoreApiVersion: self.dataStoreApiVersion,
+            nextToken: token,
+            parentEntityName: self.parentEntityName
         )
     }
 }

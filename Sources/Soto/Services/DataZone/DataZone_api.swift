@@ -613,6 +613,53 @@ public struct DataZone: AWSService {
         return try await self.createAssetType(input, logger: logger)
     }
 
+    /// Creates a new connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+    @Sendable
+    @inlinable
+    public func createConnection(_ input: CreateConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionOutput {
+        try await self.client.execute(
+            operation: "CreateConnection", 
+            path: "/v2/domains/{domainIdentifier}/connections", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+    ///
+    /// Parameters:
+    ///   - awsLocation: The location where the connection is created.
+    ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    ///   - description: A connection description.
+    ///   - domainIdentifier: The ID of the domain where the connection is created.
+    ///   - environmentIdentifier: The ID of the environment where the connection is created.
+    ///   - name: The connection name.
+    ///   - props: The connection props.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConnection(
+        awsLocation: AwsLocation? = nil,
+        clientToken: String? = CreateConnectionInput.idempotencyToken(),
+        description: String? = nil,
+        domainIdentifier: String,
+        environmentIdentifier: String,
+        name: String,
+        props: ConnectionPropertiesInput? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConnectionOutput {
+        let input = CreateConnectionInput(
+            awsLocation: awsLocation, 
+            clientToken: clientToken, 
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            environmentIdentifier: environmentIdentifier, 
+            name: name, 
+            props: props
+        )
+        return try await self.createConnection(input, logger: logger)
+    }
+
     /// Creates a data product.
     @Sendable
     @inlinable
@@ -732,6 +779,7 @@ public struct DataZone: AWSService {
     ///   - assetFormsInput: The metadata forms that are to be attached to the assets that this data source works with.
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     ///   - configuration: Specifies the configuration of the data source. It can be set to either glueRunConfiguration or redshiftRunConfiguration.
+    ///   - connectionIdentifier: The ID of the connection.
     ///   - description: The description of the data source.
     ///   - domainIdentifier: The ID of the Amazon DataZone domain where the data source is created.
     ///   - enableSetting: Specifies whether the data source is enabled.
@@ -748,10 +796,11 @@ public struct DataZone: AWSService {
         assetFormsInput: [FormInput]? = nil,
         clientToken: String? = CreateDataSourceInput.idempotencyToken(),
         configuration: DataSourceConfigurationInput? = nil,
+        connectionIdentifier: String? = nil,
         description: String? = nil,
         domainIdentifier: String,
         enableSetting: EnableSetting? = nil,
-        environmentIdentifier: String,
+        environmentIdentifier: String? = nil,
         name: String,
         projectIdentifier: String,
         publishOnImport: Bool? = nil,
@@ -764,6 +813,7 @@ public struct DataZone: AWSService {
             assetFormsInput: assetFormsInput, 
             clientToken: clientToken, 
             configuration: configuration, 
+            connectionIdentifier: connectionIdentifier, 
             description: description, 
             domainIdentifier: domainIdentifier, 
             enableSetting: enableSetting, 
@@ -797,8 +847,10 @@ public struct DataZone: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     ///   - description: The description of the Amazon DataZone domain.
     ///   - domainExecutionRole: The domain execution role that is created when an Amazon DataZone domain is created. The domain execution role is created in the Amazon Web Services account that houses the Amazon DataZone domain.
+    ///   - domainVersion: The version of the domain that is created.
     ///   - kmsKeyIdentifier: The identifier of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt the Amazon DataZone domain, metadata, and reporting data.
     ///   - name: The name of the Amazon DataZone domain.
+    ///   - serviceRole: The service role of the domain that is created.
     ///   - singleSignOn: The single-sign on configuration of the Amazon DataZone domain.
     ///   - tags: The tags specified for the Amazon DataZone domain.
     ///   - logger: Logger use during operation
@@ -807,8 +859,10 @@ public struct DataZone: AWSService {
         clientToken: String? = CreateDomainInput.idempotencyToken(),
         description: String? = nil,
         domainExecutionRole: String,
+        domainVersion: DomainVersion? = nil,
         kmsKeyIdentifier: String? = nil,
         name: String,
+        serviceRole: String? = nil,
         singleSignOn: SingleSignOn? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -817,8 +871,10 @@ public struct DataZone: AWSService {
             clientToken: clientToken, 
             description: description, 
             domainExecutionRole: domainExecutionRole, 
+            domainVersion: domainVersion, 
             kmsKeyIdentifier: kmsKeyIdentifier, 
             name: name, 
+            serviceRole: serviceRole, 
             singleSignOn: singleSignOn, 
             tags: tags
         )
@@ -882,11 +938,13 @@ public struct DataZone: AWSService {
     /// Create an Amazon DataZone environment.
     ///
     /// Parameters:
+    ///   - deploymentOrder: The deployment order of the environment.
     ///   - description: The description of the Amazon DataZone environment.
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which the environment is created.
     ///   - environmentAccountIdentifier: The ID of the account in which the environment is being created.
     ///   - environmentAccountRegion: The region of the account in which the environment is being created.
     ///   - environmentBlueprintIdentifier: The ID of the blueprint with which the environment is being created.
+    ///   - environmentConfigurationId: The configuration ID of the environment.
     ///   - environmentProfileIdentifier: The identifier of the environment profile that is used to create this Amazon DataZone environment.
     ///   - glossaryTerms: The glossary terms that can be used in this Amazon DataZone environment.
     ///   - name: The name of the Amazon DataZone environment.
@@ -895,11 +953,13 @@ public struct DataZone: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createEnvironment(
+        deploymentOrder: Int? = nil,
         description: String? = nil,
         domainIdentifier: String,
         environmentAccountIdentifier: String? = nil,
         environmentAccountRegion: String? = nil,
         environmentBlueprintIdentifier: String? = nil,
+        environmentConfigurationId: String? = nil,
         environmentProfileIdentifier: String,
         glossaryTerms: [String]? = nil,
         name: String,
@@ -908,11 +968,13 @@ public struct DataZone: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateEnvironmentOutput {
         let input = CreateEnvironmentInput(
+            deploymentOrder: deploymentOrder, 
             description: description, 
             domainIdentifier: domainIdentifier, 
             environmentAccountIdentifier: environmentAccountIdentifier, 
             environmentAccountRegion: environmentAccountRegion, 
             environmentBlueprintIdentifier: environmentBlueprintIdentifier, 
+            environmentConfigurationId: environmentConfigurationId, 
             environmentProfileIdentifier: environmentProfileIdentifier, 
             glossaryTerms: glossaryTerms, 
             name: name, 
@@ -1251,6 +1313,8 @@ public struct DataZone: AWSService {
     ///   - domainUnitId: The ID of the domain unit. This parameter is not required and if it is not specified, then the project is created at the root domain unit level.
     ///   - glossaryTerms: The glossary terms that can be used in this Amazon DataZone project.
     ///   - name: The name of the Amazon DataZone project.
+    ///   - projectProfileId: The ID of the project profile.
+    ///   - userParameters: The user parameters of the project.
     ///   - logger: Logger use during operation
     @inlinable
     public func createProject(
@@ -1259,6 +1323,8 @@ public struct DataZone: AWSService {
         domainUnitId: String? = nil,
         glossaryTerms: [String]? = nil,
         name: String,
+        projectProfileId: String? = nil,
+        userParameters: [EnvironmentConfigurationUserParameter]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateProjectOutput {
         let input = CreateProjectInput(
@@ -1266,7 +1332,9 @@ public struct DataZone: AWSService {
             domainIdentifier: domainIdentifier, 
             domainUnitId: domainUnitId, 
             glossaryTerms: glossaryTerms, 
-            name: name
+            name: name, 
+            projectProfileId: projectProfileId, 
+            userParameters: userParameters
         )
         return try await self.createProject(input, logger: logger)
     }
@@ -1309,6 +1377,100 @@ public struct DataZone: AWSService {
         return try await self.createProjectMembership(input, logger: logger)
     }
 
+    /// Creates a project profile.
+    @Sendable
+    @inlinable
+    public func createProjectProfile(_ input: CreateProjectProfileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProjectProfileOutput {
+        try await self.client.execute(
+            operation: "CreateProjectProfile", 
+            path: "/v2/domains/{domainIdentifier}/project-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a project profile.
+    ///
+    /// Parameters:
+    ///   - description: A description of a project profile.
+    ///   - domainIdentifier: A domain ID of the project profile.
+    ///   - domainUnitIdentifier: A domain unit ID of the project profile.
+    ///   - environmentConfigurations: Environment configurations of the project profile.
+    ///   - name: Project profile name.
+    ///   - status: Project profile status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createProjectProfile(
+        description: String? = nil,
+        domainIdentifier: String,
+        domainUnitIdentifier: String? = nil,
+        environmentConfigurations: [EnvironmentConfiguration]? = nil,
+        name: String,
+        status: Status? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateProjectProfileOutput {
+        let input = CreateProjectProfileInput(
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            domainUnitIdentifier: domainUnitIdentifier, 
+            environmentConfigurations: environmentConfigurations, 
+            name: name, 
+            status: status
+        )
+        return try await self.createProjectProfile(input, logger: logger)
+    }
+
+    /// Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+    @Sendable
+    @inlinable
+    public func createRule(_ input: CreateRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleOutput {
+        try await self.client.execute(
+            operation: "CreateRule", 
+            path: "/v2/domains/{domainIdentifier}/rules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+    ///
+    /// Parameters:
+    ///   - action: The action of the rule.
+    ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    ///   - description: The description of the rule.
+    ///   - detail: The detail of the rule.
+    ///   - domainIdentifier: The ID of the domain where the rule is created.
+    ///   - name: The name of the rule.
+    ///   - scope: The scope of the rule.
+    ///   - target: The target of the rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRule(
+        action: RuleAction,
+        clientToken: String? = CreateRuleInput.idempotencyToken(),
+        description: String? = nil,
+        detail: RuleDetail,
+        domainIdentifier: String,
+        name: String,
+        scope: RuleScope,
+        target: RuleTarget,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRuleOutput {
+        let input = CreateRuleInput(
+            action: action, 
+            clientToken: clientToken, 
+            description: description, 
+            detail: detail, 
+            domainIdentifier: domainIdentifier, 
+            name: name, 
+            scope: scope, 
+            target: target
+        )
+        return try await self.createRule(input, logger: logger)
+    }
+
     /// Creates a subsscription grant in Amazon DataZone.
     @Sendable
     @inlinable
@@ -1339,7 +1501,7 @@ public struct DataZone: AWSService {
         domainIdentifier: String,
         environmentIdentifier: String,
         grantedEntity: GrantedEntityInput,
-        subscriptionTargetIdentifier: String,
+        subscriptionTargetIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateSubscriptionGrantOutput {
         let input = CreateSubscriptionGrantInput(
@@ -1371,6 +1533,7 @@ public struct DataZone: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the subscription request is created.
+    ///   - metadataForms: The metadata form included in the subscription request.
     ///   - requestReason: The reason for the subscription request.
     ///   - subscribedListings: The published asset for which the subscription grant is to be created.
     ///   - subscribedPrincipals: The Amazon DataZone principals for whom the subscription request is created.
@@ -1379,6 +1542,7 @@ public struct DataZone: AWSService {
     public func createSubscriptionRequest(
         clientToken: String? = CreateSubscriptionRequestInput.idempotencyToken(),
         domainIdentifier: String,
+        metadataForms: [FormInput]? = nil,
         requestReason: String,
         subscribedListings: [SubscribedListingInput],
         subscribedPrincipals: [SubscribedPrincipalInput],
@@ -1387,6 +1551,7 @@ public struct DataZone: AWSService {
         let input = CreateSubscriptionRequestInput(
             clientToken: clientToken, 
             domainIdentifier: domainIdentifier, 
+            metadataForms: metadataForms, 
             requestReason: requestReason, 
             subscribedListings: subscribedListings, 
             subscribedPrincipals: subscribedPrincipals
@@ -1587,6 +1752,38 @@ public struct DataZone: AWSService {
         return try await self.deleteAssetType(input, logger: logger)
     }
 
+    /// Deletes and connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+    @Sendable
+    @inlinable
+    public func deleteConnection(_ input: DeleteConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectionOutput {
+        try await self.client.execute(
+            operation: "DeleteConnection", 
+            path: "/v2/domains/{domainIdentifier}/connections/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes and connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where the connection is deleted.
+    ///   - identifier: The ID of the connection that is deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConnection(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteConnectionOutput {
+        let input = DeleteConnectionInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.deleteConnection(input, logger: logger)
+    }
+
     /// Deletes a data product in Amazon DataZone.
     @Sendable
     @inlinable
@@ -1635,21 +1832,18 @@ public struct DataZone: AWSService {
     /// Deletes a data source in Amazon DataZone.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the data source is deleted.
     ///   - identifier: The identifier of the data source that is deleted.
     ///   - retainPermissionsOnRevokeFailure: Specifies that the granted permissions are retained in case of a self-subscribe functionality failure for a data source.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDataSource(
-        clientToken: String? = DeleteDataSourceInput.idempotencyToken(),
         domainIdentifier: String,
         identifier: String,
         retainPermissionsOnRevokeFailure: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteDataSourceOutput {
         let input = DeleteDataSourceInput(
-            clientToken: clientToken, 
             domainIdentifier: domainIdentifier, 
             identifier: identifier, 
             retainPermissionsOnRevokeFailure: retainPermissionsOnRevokeFailure
@@ -2053,6 +2247,70 @@ public struct DataZone: AWSService {
         return try await self.deleteProjectMembership(input, logger: logger)
     }
 
+    /// Deletes a project profile.
+    @Sendable
+    @inlinable
+    public func deleteProjectProfile(_ input: DeleteProjectProfileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProjectProfileOutput {
+        try await self.client.execute(
+            operation: "DeleteProjectProfile", 
+            path: "/v2/domains/{domainIdentifier}/project-profiles/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a project profile.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where a project profile is deleted.
+    ///   - identifier: The ID of the project profile that is deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteProjectProfile(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteProjectProfileOutput {
+        let input = DeleteProjectProfileInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.deleteProjectProfile(input, logger: logger)
+    }
+
+    /// Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+    @Sendable
+    @inlinable
+    public func deleteRule(_ input: DeleteRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRuleOutput {
+        try await self.client.execute(
+            operation: "DeleteRule", 
+            path: "/v2/domains/{domainIdentifier}/rules/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain that where the rule is to be deleted.
+    ///   - identifier: The ID of the rule that is to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRule(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRuleOutput {
+        let input = DeleteRuleInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.deleteRule(input, logger: logger)
+    }
+
     /// Deletes and subscription grant in Amazon DataZone.
     @Sendable
     @inlinable
@@ -2331,6 +2589,41 @@ public struct DataZone: AWSService {
             revision: revision
         )
         return try await self.getAssetType(input, logger: logger)
+    }
+
+    /// Gets a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+    @Sendable
+    @inlinable
+    public func getConnection(_ input: GetConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionOutput {
+        try await self.client.execute(
+            operation: "GetConnection", 
+            path: "/v2/domains/{domainIdentifier}/connections/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where we get the connection.
+    ///   - identifier: The connection ID.
+    ///   - withSecret: Specifies whether a connection has a secret.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConnection(
+        domainIdentifier: String,
+        identifier: String,
+        withSecret: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConnectionOutput {
+        let input = GetConnectionInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier, 
+            withSecret: withSecret
+        )
+        return try await self.getConnection(input, logger: logger)
     }
 
     /// Gets the data product.
@@ -2848,6 +3141,70 @@ public struct DataZone: AWSService {
         return try await self.getIamPortalLoginUrl(input, logger: logger)
     }
 
+    /// The details of the job run.
+    @Sendable
+    @inlinable
+    public func getJobRun(_ input: GetJobRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobRunOutput {
+        try await self.client.execute(
+            operation: "GetJobRun", 
+            path: "/v2/domains/{domainIdentifier}/jobRuns/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The details of the job run.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain.
+    ///   - identifier: The ID of the job run.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getJobRun(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetJobRunOutput {
+        let input = GetJobRunInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.getJobRun(input, logger: logger)
+    }
+
+    /// Describes the lineage event.
+    @Sendable
+    @inlinable
+    public func getLineageEvent(_ input: GetLineageEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLineageEventOutput {
+        try await self.client.execute(
+            operation: "GetLineageEvent", 
+            path: "/v2/domains/{domainIdentifier}/lineage/events/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the lineage event.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain.
+    ///   - identifier: The ID of the lineage event.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getLineageEvent(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetLineageEventOutput {
+        let input = GetLineageEventInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.getLineageEvent(input, logger: logger)
+    }
+
     /// Gets the data lineage node.
     @Sendable
     @inlinable
@@ -2980,6 +3337,73 @@ public struct DataZone: AWSService {
             identifier: identifier
         )
         return try await self.getProject(input, logger: logger)
+    }
+
+    /// The details of the project profile.
+    @Sendable
+    @inlinable
+    public func getProjectProfile(_ input: GetProjectProfileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProjectProfileOutput {
+        try await self.client.execute(
+            operation: "GetProjectProfile", 
+            path: "/v2/domains/{domainIdentifier}/project-profiles/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The details of the project profile.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain.
+    ///   - identifier: The ID of the project profile.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProjectProfile(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProjectProfileOutput {
+        let input = GetProjectProfileInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.getProjectProfile(input, logger: logger)
+    }
+
+    /// Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+    @Sendable
+    @inlinable
+    public func getRule(_ input: GetRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuleOutput {
+        try await self.client.execute(
+            operation: "GetRule", 
+            path: "/v2/domains/{domainIdentifier}/rules/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where the GetRule action is to be invoked.
+    ///   - identifier: The ID of the rule.
+    ///   - revision: The revision of the rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRule(
+        domainIdentifier: String,
+        identifier: String,
+        revision: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRuleOutput {
+        let input = GetRuleInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier, 
+            revision: revision
+        )
+        return try await self.getRule(input, logger: logger)
     }
 
     /// Gets a subscription in Amazon DataZone.
@@ -3268,6 +3692,59 @@ public struct DataZone: AWSService {
         return try await self.listAssetRevisions(input, logger: logger)
     }
 
+    /// Lists connections. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+    @Sendable
+    @inlinable
+    public func listConnections(_ input: ListConnectionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectionsOutput {
+        try await self.client.execute(
+            operation: "ListConnections", 
+            path: "/v2/domains/{domainIdentifier}/connections", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists connections. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where you want to list connections.
+    ///   - environmentIdentifier: The ID of the environment where you want to list connections.
+    ///   - maxResults: The maximum number of connections to return in a single call to ListConnections. When the number of connections to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListConnections to list the next set of connections.
+    ///   - name: The name of the connection.
+    ///   - nextToken: When the number of connections is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of connections, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListConnections to list the next set of connections.
+    ///   - projectIdentifier: The ID of the project where you want to list connections.
+    ///   - sortBy: Specifies how you want to sort the listed connections.
+    ///   - sortOrder: Specifies the sort order for the listed connections.
+    ///   - type: The type of connection.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnections(
+        domainIdentifier: String,
+        environmentIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        name: String? = nil,
+        nextToken: String? = nil,
+        projectIdentifier: String,
+        sortBy: SortFieldConnection? = nil,
+        sortOrder: SortOrder? = nil,
+        type: ConnectionType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectionsOutput {
+        let input = ListConnectionsInput(
+            domainIdentifier: domainIdentifier, 
+            environmentIdentifier: environmentIdentifier, 
+            maxResults: maxResults, 
+            name: name, 
+            nextToken: nextToken, 
+            projectIdentifier: projectIdentifier, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            type: type
+        )
+        return try await self.listConnections(input, logger: logger)
+    }
+
     /// Lists data product revisions.
     @Sendable
     @inlinable
@@ -3404,6 +3881,7 @@ public struct DataZone: AWSService {
     /// Lists data sources in Amazon DataZone.
     ///
     /// Parameters:
+    ///   - connectionIdentifier: The ID of the connection.
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which to list the data sources.
     ///   - environmentIdentifier: The identifier of the environment in which to list the data sources.
     ///   - maxResults: The maximum number of data sources to return in a single call to ListDataSources. When the number of data sources to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListDataSources to list the next set of data sources.
@@ -3415,6 +3893,7 @@ public struct DataZone: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listDataSources(
+        connectionIdentifier: String? = nil,
         domainIdentifier: String,
         environmentIdentifier: String? = nil,
         maxResults: Int? = nil,
@@ -3426,6 +3905,7 @@ public struct DataZone: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListDataSourcesOutput {
         let input = ListDataSourcesInput(
+            connectionIdentifier: connectionIdentifier, 
             domainIdentifier: domainIdentifier, 
             environmentIdentifier: environmentIdentifier, 
             maxResults: maxResults, 
@@ -3775,6 +4255,97 @@ public struct DataZone: AWSService {
         return try await self.listEnvironments(input, logger: logger)
     }
 
+    /// Lists job runs.
+    @Sendable
+    @inlinable
+    public func listJobRuns(_ input: ListJobRunsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobRunsOutput {
+        try await self.client.execute(
+            operation: "ListJobRuns", 
+            path: "/v2/domains/{domainIdentifier}/jobs/{jobIdentifier}/runs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists job runs.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where you want to list job runs.
+    ///   - jobIdentifier: The ID of the job run.
+    ///   - maxResults: The maximum number of job runs to return in a single call to ListJobRuns. When the number of job runs to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListJobRuns to list the next set of job runs.
+    ///   - nextToken: When the number of job runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of job runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListJobRuns to list the next set of job runs.
+    ///   - sortOrder: Specifies the order in which job runs are to be sorted.
+    ///   - status: The status of a job run.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listJobRuns(
+        domainIdentifier: String,
+        jobIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortOrder: SortOrder? = nil,
+        status: JobRunStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListJobRunsOutput {
+        let input = ListJobRunsInput(
+            domainIdentifier: domainIdentifier, 
+            jobIdentifier: jobIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return try await self.listJobRuns(input, logger: logger)
+    }
+
+    /// Lists lineage events.
+    @Sendable
+    @inlinable
+    public func listLineageEvents(_ input: ListLineageEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLineageEventsOutput {
+        try await self.client.execute(
+            operation: "ListLineageEvents", 
+            path: "/v2/domains/{domainIdentifier}/lineage/events", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists lineage events.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where you want to list lineage events.
+    ///   - maxResults: The maximum number of lineage events to return in a single call to ListLineageEvents. When the number of lineage events to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListLineageEvents to list the next set of lineage events.
+    ///   - nextToken: When the number of lineage events is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of lineage events, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListLineageEvents to list the next set of lineage events.
+    ///   - processingStatus: The processing status of a lineage event.
+    ///   - sortOrder: The sort order of the lineage events.
+    ///   - timestampAfter: The after timestamp of a lineage event.
+    ///   - timestampBefore: The before timestamp of a lineage event.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listLineageEvents(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        processingStatus: LineageEventProcessingStatus? = nil,
+        sortOrder: SortOrder? = nil,
+        timestampAfter: Date? = nil,
+        timestampBefore: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListLineageEventsOutput {
+        let input = ListLineageEventsInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            processingStatus: processingStatus, 
+            sortOrder: sortOrder, 
+            timestampAfter: timestampAfter, 
+            timestampBefore: timestampBefore
+        )
+        return try await self.listLineageEvents(input, logger: logger)
+    }
+
     /// Lists the history of the specified data lineage node.
     @Sendable
     @inlinable
@@ -4004,6 +4575,50 @@ public struct DataZone: AWSService {
         return try await self.listProjectMemberships(input, logger: logger)
     }
 
+    /// Lists project profiles.
+    @Sendable
+    @inlinable
+    public func listProjectProfiles(_ input: ListProjectProfilesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProjectProfilesOutput {
+        try await self.client.execute(
+            operation: "ListProjectProfiles", 
+            path: "/v2/domains/{domainIdentifier}/project-profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists project profiles.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where you want to list project profiles.
+    ///   - maxResults: The maximum number of project profiles to return in a single call to ListProjectProfiles. When the number of project profiles to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListProjectProfiles to list the next set of project profiles.
+    ///   - name: The name of a project profile.
+    ///   - nextToken: When the number of project profiles is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of project profiles, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjectProfiles to list the next set of project profiles.
+    ///   - sortBy: Specifies by what to sort project profiles.
+    ///   - sortOrder: Specifies the sort order of the project profiles.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProjectProfiles(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        name: String? = nil,
+        nextToken: String? = nil,
+        sortBy: SortFieldProject? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListProjectProfilesOutput {
+        let input = ListProjectProfilesInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            name: name, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return try await self.listProjectProfiles(input, logger: logger)
+    }
+
     /// Lists Amazon DataZone projects.
     @Sendable
     @inlinable
@@ -4046,6 +4661,65 @@ public struct DataZone: AWSService {
             userIdentifier: userIdentifier
         )
         return try await self.listProjects(input, logger: logger)
+    }
+
+    /// Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+    @Sendable
+    @inlinable
+    public func listRules(_ input: ListRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRulesOutput {
+        try await self.client.execute(
+            operation: "ListRules", 
+            path: "/v2/domains/{domainIdentifier}/list-rules/{targetType}/{targetIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+    ///
+    /// Parameters:
+    ///   - action: The action of the rule.
+    ///   - assetTypes: The asset types of the rule.
+    ///   - dataProduct: The data product of the rule.
+    ///   - domainIdentifier: The ID of the domain in which the rules are to be listed.
+    ///   - includeCascaded: Specifies whether to include cascading rules in the results.
+    ///   - maxResults: The maximum number of rules to return in a single call to ListRules. When the number of rules to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListRules to list the next set of rules.
+    ///   - nextToken: When the number of rules is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of rules, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListRules to list the next set of rules.
+    ///   - projectIds: The IDs of projects in which rules are to be listed.
+    ///   - ruleType: The type of the rule.
+    ///   - targetIdentifier: The target ID of the rule.
+    ///   - targetType: The target type of the rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRules(
+        action: RuleAction? = nil,
+        assetTypes: [String]? = nil,
+        dataProduct: Bool? = nil,
+        domainIdentifier: String,
+        includeCascaded: Bool? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        projectIds: [String]? = nil,
+        ruleType: RuleType? = nil,
+        targetIdentifier: String,
+        targetType: RuleTargetType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRulesOutput {
+        let input = ListRulesInput(
+            action: action, 
+            assetTypes: assetTypes, 
+            dataProduct: dataProduct, 
+            domainIdentifier: domainIdentifier, 
+            includeCascaded: includeCascaded, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            projectIds: projectIds, 
+            ruleType: ruleType, 
+            targetIdentifier: targetIdentifier, 
+            targetType: targetType
+        )
+        return try await self.listRules(input, logger: logger)
     }
 
     /// Lists subscription grants.
@@ -4431,6 +5105,7 @@ public struct DataZone: AWSService {
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
     ///   - enabledRegions: Specifies the enabled Amazon Web Services Regions.
     ///   - environmentBlueprintIdentifier: The identifier of the environment blueprint.
+    ///   - environmentRolePermissionBoundary: The environment role permissions boundary.
     ///   - manageAccessRoleArn: The ARN of the manage access role.
     ///   - provisioningConfigurations: The provisioning configuration of a blueprint.
     ///   - provisioningRoleArn: The ARN of the provisioning role.
@@ -4441,6 +5116,7 @@ public struct DataZone: AWSService {
         domainIdentifier: String,
         enabledRegions: [String],
         environmentBlueprintIdentifier: String,
+        environmentRolePermissionBoundary: String? = nil,
         manageAccessRoleArn: String? = nil,
         provisioningConfigurations: [ProvisioningConfiguration]? = nil,
         provisioningRoleArn: String? = nil,
@@ -4451,6 +5127,7 @@ public struct DataZone: AWSService {
             domainIdentifier: domainIdentifier, 
             enabledRegions: enabledRegions, 
             environmentBlueprintIdentifier: environmentBlueprintIdentifier, 
+            environmentRolePermissionBoundary: environmentRolePermissionBoundary, 
             manageAccessRoleArn: manageAccessRoleArn, 
             provisioningConfigurations: provisioningConfigurations, 
             provisioningRoleArn: provisioningRoleArn, 
@@ -5083,6 +5760,47 @@ public struct DataZone: AWSService {
         return try await self.updateAssetFilter(input, logger: logger)
     }
 
+    /// Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+    @Sendable
+    @inlinable
+    public func updateConnection(_ input: UpdateConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectionOutput {
+        try await self.client.execute(
+            operation: "UpdateConnection", 
+            path: "/v2/domains/{domainIdentifier}/connections/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
+    ///
+    /// Parameters:
+    ///   - awsLocation: The location where a connection is to be updated.
+    ///   - description: The description of a connection.
+    ///   - domainIdentifier: The ID of the domain where a connection is to be updated.
+    ///   - identifier: The ID of the connection to be updated.
+    ///   - props: The connection props.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConnection(
+        awsLocation: AwsLocation? = nil,
+        description: String? = nil,
+        domainIdentifier: String,
+        identifier: String,
+        props: ConnectionPropertiesPatch? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConnectionOutput {
+        let input = UpdateConnectionInput(
+            awsLocation: awsLocation, 
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier, 
+            props: props
+        )
+        return try await self.updateConnection(input, logger: logger)
+    }
+
     /// Updates the specified data source in Amazon DataZone.
     @Sendable
     @inlinable
@@ -5163,6 +5881,7 @@ public struct DataZone: AWSService {
     ///   - domainExecutionRole: The domain execution role to be updated as part of the UpdateDomain action.
     ///   - identifier: The ID of the Amazon Web Services domain that is to be updated.
     ///   - name: The name to be updated as part of the UpdateDomain action.
+    ///   - serviceRole: The service role of the domain.
     ///   - singleSignOn: The single sign-on option to be updated as part of the UpdateDomain action.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5172,6 +5891,7 @@ public struct DataZone: AWSService {
         domainExecutionRole: String? = nil,
         identifier: String,
         name: String? = nil,
+        serviceRole: String? = nil,
         singleSignOn: SingleSignOn? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDomainOutput {
@@ -5181,6 +5901,7 @@ public struct DataZone: AWSService {
             domainExecutionRole: domainExecutionRole, 
             identifier: identifier, 
             name: name, 
+            serviceRole: serviceRole, 
             singleSignOn: singleSignOn
         )
         return try await self.updateDomain(input, logger: logger)
@@ -5503,6 +6224,7 @@ public struct DataZone: AWSService {
     /// Parameters:
     ///   - description: The description to be updated as part of the UpdateProject action.
     ///   - domainIdentifier: The ID of the Amazon DataZone domain where a project is being updated.
+    ///   - environmentDeploymentDetails: The environment deployment details of the project.
     ///   - glossaryTerms: The glossary terms to be updated as part of the UpdateProject action.
     ///   - identifier: The identifier of the project that is to be updated.
     ///   - name: The name to be updated as part of the UpdateProject action.
@@ -5511,6 +6233,7 @@ public struct DataZone: AWSService {
     public func updateProject(
         description: String? = nil,
         domainIdentifier: String,
+        environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil,
         glossaryTerms: [String]? = nil,
         identifier: String,
         name: String? = nil,
@@ -5519,11 +6242,106 @@ public struct DataZone: AWSService {
         let input = UpdateProjectInput(
             description: description, 
             domainIdentifier: domainIdentifier, 
+            environmentDeploymentDetails: environmentDeploymentDetails, 
             glossaryTerms: glossaryTerms, 
             identifier: identifier, 
             name: name
         )
         return try await self.updateProject(input, logger: logger)
+    }
+
+    /// Updates a project profile.
+    @Sendable
+    @inlinable
+    public func updateProjectProfile(_ input: UpdateProjectProfileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProjectProfileOutput {
+        try await self.client.execute(
+            operation: "UpdateProjectProfile", 
+            path: "/v2/domains/{domainIdentifier}/project-profiles/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a project profile.
+    ///
+    /// Parameters:
+    ///   - description: The description of a project profile.
+    ///   - domainIdentifier: The ID of the domain where a project profile is to be updated.
+    ///   - domainUnitIdentifier: The ID of the domain unit where a project profile is to be updated.
+    ///   - environmentConfigurations: The environment configurations of a project profile.
+    ///   - identifier: The ID of a project profile that is to be updated.
+    ///   - name: The name of a project profile.
+    ///   - status: The status of a project profile.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateProjectProfile(
+        description: String? = nil,
+        domainIdentifier: String,
+        domainUnitIdentifier: String? = nil,
+        environmentConfigurations: [EnvironmentConfiguration]? = nil,
+        identifier: String,
+        name: String? = nil,
+        status: Status? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateProjectProfileOutput {
+        let input = UpdateProjectProfileInput(
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            domainUnitIdentifier: domainUnitIdentifier, 
+            environmentConfigurations: environmentConfigurations, 
+            identifier: identifier, 
+            name: name, 
+            status: status
+        )
+        return try await self.updateProjectProfile(input, logger: logger)
+    }
+
+    /// Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+    @Sendable
+    @inlinable
+    public func updateRule(_ input: UpdateRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuleOutput {
+        try await self.client.execute(
+            operation: "UpdateRule", 
+            path: "/v2/domains/{domainIdentifier}/rules/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
+    ///
+    /// Parameters:
+    ///   - description: The description of the rule.
+    ///   - detail: The detail of the rule.
+    ///   - domainIdentifier: The ID of the domain in which a rule is to be updated.
+    ///   - identifier: The ID of the rule that is to be updated
+    ///   - includeChildDomainUnits: Specifies whether to update this rule in the child domain units.
+    ///   - name: The name of the rule.
+    ///   - scope: The scrope of the rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRule(
+        description: String? = nil,
+        detail: RuleDetail? = nil,
+        domainIdentifier: String,
+        identifier: String,
+        includeChildDomainUnits: Bool? = nil,
+        name: String? = nil,
+        scope: RuleScope? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRuleOutput {
+        let input = UpdateRuleInput(
+            description: description, 
+            detail: detail, 
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier, 
+            includeChildDomainUnits: includeChildDomainUnits, 
+            name: name, 
+            scope: scope
+        )
+        return try await self.updateRule(input, logger: logger)
     }
 
     /// Updates the status of the specified subscription grant status in Amazon DataZone.
@@ -5753,6 +6571,61 @@ extension DataZone {
         return self.listAssetFiltersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listConnections(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectionsPaginator(
+        _ input: ListConnectionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectionsInput, ListConnectionsOutput> {
+        return .init(
+            input: input,
+            command: self.listConnections,
+            inputKey: \ListConnectionsInput.nextToken,
+            outputKey: \ListConnectionsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConnections(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainIdentifier: The ID of the domain where you want to list connections.
+    ///   - environmentIdentifier: The ID of the environment where you want to list connections.
+    ///   - maxResults: The maximum number of connections to return in a single call to ListConnections. When the number of connections to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListConnections to list the next set of connections.
+    ///   - name: The name of the connection.
+    ///   - projectIdentifier: The ID of the project where you want to list connections.
+    ///   - sortBy: Specifies how you want to sort the listed connections.
+    ///   - sortOrder: Specifies the sort order for the listed connections.
+    ///   - type: The type of connection.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectionsPaginator(
+        domainIdentifier: String,
+        environmentIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        name: String? = nil,
+        projectIdentifier: String,
+        sortBy: SortFieldConnection? = nil,
+        sortOrder: SortOrder? = nil,
+        type: ConnectionType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConnectionsInput, ListConnectionsOutput> {
+        let input = ListConnectionsInput(
+            domainIdentifier: domainIdentifier, 
+            environmentIdentifier: environmentIdentifier, 
+            maxResults: maxResults, 
+            name: name, 
+            projectIdentifier: projectIdentifier, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            type: type
+        )
+        return self.listConnectionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDataProductRevisions(_:logger:)``.
     ///
     /// - Parameters:
@@ -5900,6 +6773,7 @@ extension DataZone {
     /// Return PaginatorSequence for operation ``listDataSources(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - connectionIdentifier: The ID of the connection.
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which to list the data sources.
     ///   - environmentIdentifier: The identifier of the environment in which to list the data sources.
     ///   - maxResults: The maximum number of data sources to return in a single call to ListDataSources. When the number of data sources to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListDataSources to list the next set of data sources.
@@ -5910,6 +6784,7 @@ extension DataZone {
     ///   - logger: Logger used for logging
     @inlinable
     public func listDataSourcesPaginator(
+        connectionIdentifier: String? = nil,
         domainIdentifier: String,
         environmentIdentifier: String? = nil,
         maxResults: Int? = nil,
@@ -5920,6 +6795,7 @@ extension DataZone {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutput> {
         let input = ListDataSourcesInput(
+            connectionIdentifier: connectionIdentifier, 
             domainIdentifier: domainIdentifier, 
             environmentIdentifier: environmentIdentifier, 
             maxResults: maxResults, 
@@ -6284,6 +7160,101 @@ extension DataZone {
         return self.listEnvironmentsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listJobRuns(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobRunsPaginator(
+        _ input: ListJobRunsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListJobRunsInput, ListJobRunsOutput> {
+        return .init(
+            input: input,
+            command: self.listJobRuns,
+            inputKey: \ListJobRunsInput.nextToken,
+            outputKey: \ListJobRunsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listJobRuns(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainIdentifier: The ID of the domain where you want to list job runs.
+    ///   - jobIdentifier: The ID of the job run.
+    ///   - maxResults: The maximum number of job runs to return in a single call to ListJobRuns. When the number of job runs to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListJobRuns to list the next set of job runs.
+    ///   - sortOrder: Specifies the order in which job runs are to be sorted.
+    ///   - status: The status of a job run.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobRunsPaginator(
+        domainIdentifier: String,
+        jobIdentifier: String,
+        maxResults: Int? = nil,
+        sortOrder: SortOrder? = nil,
+        status: JobRunStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListJobRunsInput, ListJobRunsOutput> {
+        let input = ListJobRunsInput(
+            domainIdentifier: domainIdentifier, 
+            jobIdentifier: jobIdentifier, 
+            maxResults: maxResults, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return self.listJobRunsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listLineageEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLineageEventsPaginator(
+        _ input: ListLineageEventsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLineageEventsInput, ListLineageEventsOutput> {
+        return .init(
+            input: input,
+            command: self.listLineageEvents,
+            inputKey: \ListLineageEventsInput.nextToken,
+            outputKey: \ListLineageEventsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listLineageEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainIdentifier: The ID of the domain where you want to list lineage events.
+    ///   - maxResults: The maximum number of lineage events to return in a single call to ListLineageEvents. When the number of lineage events to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListLineageEvents to list the next set of lineage events.
+    ///   - processingStatus: The processing status of a lineage event.
+    ///   - sortOrder: The sort order of the lineage events.
+    ///   - timestampAfter: The after timestamp of a lineage event.
+    ///   - timestampBefore: The before timestamp of a lineage event.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLineageEventsPaginator(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        processingStatus: LineageEventProcessingStatus? = nil,
+        sortOrder: SortOrder? = nil,
+        timestampAfter: Date? = nil,
+        timestampBefore: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListLineageEventsInput, ListLineageEventsOutput> {
+        let input = ListLineageEventsInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            processingStatus: processingStatus, 
+            sortOrder: sortOrder, 
+            timestampAfter: timestampAfter, 
+            timestampBefore: timestampBefore
+        )
+        return self.listLineageEventsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listLineageNodeHistory(_:logger:)``.
     ///
     /// - Parameters:
@@ -6523,6 +7494,52 @@ extension DataZone {
         return self.listProjectMembershipsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listProjectProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProjectProfilesPaginator(
+        _ input: ListProjectProfilesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListProjectProfilesInput, ListProjectProfilesOutput> {
+        return .init(
+            input: input,
+            command: self.listProjectProfiles,
+            inputKey: \ListProjectProfilesInput.nextToken,
+            outputKey: \ListProjectProfilesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listProjectProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainIdentifier: The ID of the domain where you want to list project profiles.
+    ///   - maxResults: The maximum number of project profiles to return in a single call to ListProjectProfiles. When the number of project profiles to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListProjectProfiles to list the next set of project profiles.
+    ///   - name: The name of a project profile.
+    ///   - sortBy: Specifies by what to sort project profiles.
+    ///   - sortOrder: Specifies the sort order of the project profiles.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProjectProfilesPaginator(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        name: String? = nil,
+        sortBy: SortFieldProject? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListProjectProfilesInput, ListProjectProfilesOutput> {
+        let input = ListProjectProfilesInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            name: name, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return self.listProjectProfilesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listProjects(_:logger:)``.
     ///
     /// - Parameters:
@@ -6567,6 +7584,67 @@ extension DataZone {
             userIdentifier: userIdentifier
         )
         return self.listProjectsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRulesPaginator(
+        _ input: ListRulesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRulesInput, ListRulesOutput> {
+        return .init(
+            input: input,
+            command: self.listRules,
+            inputKey: \ListRulesInput.nextToken,
+            outputKey: \ListRulesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - action: The action of the rule.
+    ///   - assetTypes: The asset types of the rule.
+    ///   - dataProduct: The data product of the rule.
+    ///   - domainIdentifier: The ID of the domain in which the rules are to be listed.
+    ///   - includeCascaded: Specifies whether to include cascading rules in the results.
+    ///   - maxResults: The maximum number of rules to return in a single call to ListRules. When the number of rules to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListRules to list the next set of rules.
+    ///   - projectIds: The IDs of projects in which rules are to be listed.
+    ///   - ruleType: The type of the rule.
+    ///   - targetIdentifier: The target ID of the rule.
+    ///   - targetType: The target type of the rule.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRulesPaginator(
+        action: RuleAction? = nil,
+        assetTypes: [String]? = nil,
+        dataProduct: Bool? = nil,
+        domainIdentifier: String,
+        includeCascaded: Bool? = nil,
+        maxResults: Int? = nil,
+        projectIds: [String]? = nil,
+        ruleType: RuleType? = nil,
+        targetIdentifier: String,
+        targetType: RuleTargetType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRulesInput, ListRulesOutput> {
+        let input = ListRulesInput(
+            action: action, 
+            assetTypes: assetTypes, 
+            dataProduct: dataProduct, 
+            domainIdentifier: domainIdentifier, 
+            includeCascaded: includeCascaded, 
+            maxResults: maxResults, 
+            projectIds: projectIds, 
+            ruleType: ruleType, 
+            targetIdentifier: targetIdentifier, 
+            targetType: targetType
+        )
+        return self.listRulesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listSubscriptionGrants(_:logger:)``.
@@ -7103,6 +8181,23 @@ extension DataZone.ListAssetFiltersInput: AWSPaginateToken {
     }
 }
 
+extension DataZone.ListConnectionsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.ListConnectionsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            environmentIdentifier: self.environmentIdentifier,
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
+            projectIdentifier: self.projectIdentifier,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            type: self.type
+        )
+    }
+}
+
 extension DataZone.ListDataProductRevisionsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DataZone.ListDataProductRevisionsInput {
@@ -7145,6 +8240,7 @@ extension DataZone.ListDataSourcesInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DataZone.ListDataSourcesInput {
         return .init(
+            connectionIdentifier: self.connectionIdentifier,
             domainIdentifier: self.domainIdentifier,
             environmentIdentifier: self.environmentIdentifier,
             maxResults: self.maxResults,
@@ -7264,6 +8360,35 @@ extension DataZone.ListEnvironmentsInput: AWSPaginateToken {
     }
 }
 
+extension DataZone.ListJobRunsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.ListJobRunsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            jobIdentifier: self.jobIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortOrder: self.sortOrder,
+            status: self.status
+        )
+    }
+}
+
+extension DataZone.ListLineageEventsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.ListLineageEventsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            processingStatus: self.processingStatus,
+            sortOrder: self.sortOrder,
+            timestampAfter: self.timestampAfter,
+            timestampBefore: self.timestampBefore
+        )
+    }
+}
+
 extension DataZone.ListLineageNodeHistoryInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DataZone.ListLineageNodeHistoryInput {
@@ -7337,6 +8462,20 @@ extension DataZone.ListProjectMembershipsInput: AWSPaginateToken {
     }
 }
 
+extension DataZone.ListProjectProfilesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.ListProjectProfilesInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension DataZone.ListProjectsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DataZone.ListProjectsInput {
@@ -7347,6 +8486,25 @@ extension DataZone.ListProjectsInput: AWSPaginateToken {
             name: self.name,
             nextToken: token,
             userIdentifier: self.userIdentifier
+        )
+    }
+}
+
+extension DataZone.ListRulesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.ListRulesInput {
+        return .init(
+            action: self.action,
+            assetTypes: self.assetTypes,
+            dataProduct: self.dataProduct,
+            domainIdentifier: self.domainIdentifier,
+            includeCascaded: self.includeCascaded,
+            maxResults: self.maxResults,
+            nextToken: token,
+            projectIds: self.projectIds,
+            ruleType: self.ruleType,
+            targetIdentifier: self.targetIdentifier,
+            targetType: self.targetType
         )
     }
 }

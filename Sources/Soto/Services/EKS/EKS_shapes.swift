@@ -306,12 +306,14 @@ extension EKS {
         case addonVersion = "AddonVersion"
         case authenticationMode = "AuthenticationMode"
         case clusterLogging = "ClusterLogging"
+        case computeConfig = "ComputeConfig"
         case configurationValues = "ConfigurationValues"
         case desiredSize = "DesiredSize"
         case encryptionConfig = "EncryptionConfig"
         case endpointPrivateAccess = "EndpointPrivateAccess"
         case endpointPublicAccess = "EndpointPublicAccess"
         case identityProviderConfig = "IdentityProviderConfig"
+        case kubernetesNetworkConfig = "KubernetesNetworkConfig"
         case labelsToAdd = "LabelsToAdd"
         case labelsToRemove = "LabelsToRemove"
         case launchTemplateName = "LaunchTemplateName"
@@ -327,6 +329,7 @@ extension EKS {
         case resolveConflicts = "ResolveConflicts"
         case securityGroups = "SecurityGroups"
         case serviceAccountRoleArn = "ServiceAccountRoleArn"
+        case storageConfig = "StorageConfig"
         case subnets = "Subnets"
         case taintsToAdd = "TaintsToAdd"
         case taintsToRemove = "TaintsToRemove"
@@ -349,6 +352,7 @@ extension EKS {
         case addonUpdate = "AddonUpdate"
         case associateEncryptionConfig = "AssociateEncryptionConfig"
         case associateIdentityProviderConfig = "AssociateIdentityProviderConfig"
+        case autoModeUpdate = "AutoModeUpdate"
         case configUpdate = "ConfigUpdate"
         case disassociateIdentityProviderConfig = "DisassociateIdentityProviderConfig"
         case endpointAccessUpdate = "EndpointAccessUpdate"
@@ -645,16 +649,19 @@ extension EKS {
         public let architecture: [String]?
         /// An object representing the compatibilities of a version.
         public let compatibilities: [Compatibility]?
+        /// Indicates the compute type of the addon version.
+        public let computeTypes: [String]?
         /// Whether the add-on requires configuration.
         public let requiresConfiguration: Bool?
         /// Indicates if the Addon requires IAM Permissions to operate, such as networking permissions.
         public let requiresIamPermissions: Bool?
 
         @inlinable
-        public init(addonVersion: String? = nil, architecture: [String]? = nil, compatibilities: [Compatibility]? = nil, requiresConfiguration: Bool? = nil, requiresIamPermissions: Bool? = nil) {
+        public init(addonVersion: String? = nil, architecture: [String]? = nil, compatibilities: [Compatibility]? = nil, computeTypes: [String]? = nil, requiresConfiguration: Bool? = nil, requiresIamPermissions: Bool? = nil) {
             self.addonVersion = addonVersion
             self.architecture = architecture
             self.compatibilities = compatibilities
+            self.computeTypes = computeTypes
             self.requiresConfiguration = requiresConfiguration
             self.requiresIamPermissions = requiresIamPermissions
         }
@@ -663,6 +670,7 @@ extension EKS {
             case addonVersion = "addonVersion"
             case architecture = "architecture"
             case compatibilities = "compatibilities"
+            case computeTypes = "computeTypes"
             case requiresConfiguration = "requiresConfiguration"
             case requiresIamPermissions = "requiresIamPermissions"
         }
@@ -873,6 +881,20 @@ extension EKS {
         }
     }
 
+    public struct BlockStorage: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates if the block storage capability is enabled on your EKS Auto Mode cluster. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+        }
+    }
+
     public struct Certificate: AWSDecodableShape {
         /// The Base64-encoded certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
         public let data: String?
@@ -919,6 +941,8 @@ extension EKS {
         /// A unique, case-sensitive identifier that you provide to ensure
         /// the idempotency of the request.
         public let clientRequestToken: String?
+        /// Indicates the current configuration of the compute capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account. For more information, see EKS Auto Mode compute capability in the EKS User Guide.
+        public let computeConfig: ComputeConfigResponse?
         /// The configuration used to connect to a cluster for registration.
         public let connectorConfig: ConnectorConfigResponse?
         /// The Unix epoch timestamp at object creation.
@@ -943,12 +967,16 @@ extension EKS {
         public let outpostConfig: OutpostConfigResponse?
         /// The platform version of your Amazon EKS cluster. For more information about clusters deployed on the Amazon Web Services Cloud, see Platform versions in the  Amazon EKS User Guide . For more information about local clusters deployed on an Outpost, see Amazon EKS local cluster platform versions in the  Amazon EKS User Guide .
         public let platformVersion: String?
+        /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+        public let remoteNetworkConfig: RemoteNetworkConfigResponse?
         /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC considerations and Cluster security group considerations in the Amazon EKS User Guide.
         public let resourcesVpcConfig: VpcConfigResponse?
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf.
         public let roleArn: String?
         /// The current status of the cluster.
         public let status: ClusterStatus?
+        /// Indicates the current configuration of the block storage capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account. For more information, see EKS Auto Mode block storage capability in the EKS User Guide.
+        public let storageConfig: StorageConfigResponse?
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
         /// This value indicates if extended support is enabled or disabled for the cluster.  Learn more about EKS Extended Support in the EKS User Guide.
@@ -959,11 +987,12 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigResponse?
 
         @inlinable
-        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigResponse? = nil) {
+        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, computeConfig: ComputeConfigResponse? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, remoteNetworkConfig: RemoteNetworkConfigResponse? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, storageConfig: StorageConfigResponse? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigResponse? = nil) {
             self.accessConfig = accessConfig
             self.arn = arn
             self.certificateAuthority = certificateAuthority
             self.clientRequestToken = clientRequestToken
+            self.computeConfig = computeConfig
             self.connectorConfig = connectorConfig
             self.createdAt = createdAt
             self.encryptionConfig = encryptionConfig
@@ -976,9 +1005,11 @@ extension EKS {
             self.name = name
             self.outpostConfig = outpostConfig
             self.platformVersion = platformVersion
+            self.remoteNetworkConfig = remoteNetworkConfig
             self.resourcesVpcConfig = resourcesVpcConfig
             self.roleArn = roleArn
             self.status = status
+            self.storageConfig = storageConfig
             self.tags = tags
             self.upgradePolicy = upgradePolicy
             self.version = version
@@ -990,6 +1021,7 @@ extension EKS {
             case arn = "arn"
             case certificateAuthority = "certificateAuthority"
             case clientRequestToken = "clientRequestToken"
+            case computeConfig = "computeConfig"
             case connectorConfig = "connectorConfig"
             case createdAt = "createdAt"
             case encryptionConfig = "encryptionConfig"
@@ -1002,9 +1034,11 @@ extension EKS {
             case name = "name"
             case outpostConfig = "outpostConfig"
             case platformVersion = "platformVersion"
+            case remoteNetworkConfig = "remoteNetworkConfig"
             case resourcesVpcConfig = "resourcesVpcConfig"
             case roleArn = "roleArn"
             case status = "status"
+            case storageConfig = "storageConfig"
             case tags = "tags"
             case upgradePolicy = "upgradePolicy"
             case version = "version"
@@ -1067,6 +1101,50 @@ extension EKS {
             case clusterVersion = "clusterVersion"
             case defaultVersion = "defaultVersion"
             case platformVersions = "platformVersions"
+        }
+    }
+
+    public struct ComputeConfigRequest: AWSEncodableShape {
+        /// Request to enable or disable the compute capability on your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account.
+        public let enabled: Bool?
+        /// Configuration for node pools that defines the compute resources for your EKS Auto Mode cluster. For more information, see EKS Auto Mode Node Pools in the EKS User Guide.
+        public let nodePools: [String]?
+        /// The ARN of the IAM Role EKS will assign to EC2 Managed Instances in your EKS Auto Mode cluster. This value cannot be changed after the compute capability of EKS Auto Mode is enabled. For more information, see the IAM Reference in the EKS User Guide.
+        public let nodeRoleArn: String?
+
+        @inlinable
+        public init(enabled: Bool? = nil, nodePools: [String]? = nil, nodeRoleArn: String? = nil) {
+            self.enabled = enabled
+            self.nodePools = nodePools
+            self.nodeRoleArn = nodeRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case nodePools = "nodePools"
+            case nodeRoleArn = "nodeRoleArn"
+        }
+    }
+
+    public struct ComputeConfigResponse: AWSDecodableShape {
+        /// Indicates if the compute capability is enabled on your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account.
+        public let enabled: Bool?
+        /// Indicates the current configuration of node pools in your EKS Auto Mode cluster. For more information, see EKS Auto Mode Node Pools in the EKS User Guide.
+        public let nodePools: [String]?
+        /// The ARN of the IAM Role EKS will assign to EC2 Managed Instances in your EKS Auto Mode cluster.
+        public let nodeRoleArn: String?
+
+        @inlinable
+        public init(enabled: Bool? = nil, nodePools: [String]? = nil, nodeRoleArn: String? = nil) {
+            self.enabled = enabled
+            self.nodePools = nodePools
+            self.nodeRoleArn = nodeRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case nodePools = "nodePools"
+            case nodeRoleArn = "nodeRoleArn"
         }
     }
 
@@ -1333,6 +1411,8 @@ extension EKS {
         /// A unique, case-sensitive identifier that you provide to ensure
         /// the idempotency of the request.
         public let clientRequestToken: String?
+        /// Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
+        public let computeConfig: ComputeConfigRequest?
         /// The encryption configuration for the cluster.
         public let encryptionConfig: [EncryptionConfig]?
         /// The Kubernetes network configuration for the cluster.
@@ -1346,10 +1426,14 @@ extension EKS {
         public let name: String
         /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review Local clusters for Amazon EKS on Amazon Web Services Outposts in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
         public let outpostConfig: OutpostConfigRequest?
+        /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+        public let remoteNetworkConfig: RemoteNetworkConfigRequest?
         /// The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
         public let resourcesVpcConfig: VpcConfigRequest
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
         public let roleArn: String
+        /// Enable or disable the block storage capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account.
+        public let storageConfig: StorageConfigRequest?
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
         /// New clusters, by default, have extended support enabled. You can disable extended support when creating a cluster by setting this value to STANDARD.
@@ -1360,17 +1444,20 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
+        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, storageConfig: StorageConfigRequest? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
             self.clientRequestToken = clientRequestToken
+            self.computeConfig = computeConfig
             self.encryptionConfig = encryptionConfig
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
             self.name = name
             self.outpostConfig = outpostConfig
+            self.remoteNetworkConfig = remoteNetworkConfig
             self.resourcesVpcConfig = resourcesVpcConfig
             self.roleArn = roleArn
+            self.storageConfig = storageConfig
             self.tags = tags
             self.upgradePolicy = upgradePolicy
             self.version = version
@@ -1382,6 +1469,7 @@ extension EKS {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*$")
+            try self.remoteNetworkConfig?.validate(name: "\(name).remoteNetworkConfig")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1395,13 +1483,16 @@ extension EKS {
             case accessConfig = "accessConfig"
             case bootstrapSelfManagedAddons = "bootstrapSelfManagedAddons"
             case clientRequestToken = "clientRequestToken"
+            case computeConfig = "computeConfig"
             case encryptionConfig = "encryptionConfig"
             case kubernetesNetworkConfig = "kubernetesNetworkConfig"
             case logging = "logging"
             case name = "name"
             case outpostConfig = "outpostConfig"
+            case remoteNetworkConfig = "remoteNetworkConfig"
             case resourcesVpcConfig = "resourcesVpcConfig"
             case roleArn = "roleArn"
+            case storageConfig = "storageConfig"
             case tags = "tags"
             case upgradePolicy = "upgradePolicy"
             case version = "version"
@@ -2705,6 +2796,20 @@ extension EKS {
         }
     }
 
+    public struct ElasticLoadBalancing: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates if the load balancing capability is enabled on your EKS Auto Mode cluster. If the load balancing capability is enabled, EKS Auto Mode will create and delete load balancers in your Amazon Web Services account.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+        }
+    }
+
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         /// Key Management Service (KMS) key. Either the ARN or the alias can be used.
         public let provider: Provider?
@@ -3094,24 +3199,30 @@ extension EKS {
     }
 
     public struct KubernetesNetworkConfigRequest: AWSEncodableShape {
+        /// Request to enable or disable the load balancing capability on your EKS Auto Mode cluster. For more information, see EKS Auto Mode load balancing capability in the EKS User Guide.
+        public let elasticLoadBalancing: ElasticLoadBalancing?
         /// Specify which IP family is used to assign Kubernetes pod and service IP addresses. If you don't specify a value, ipv4 is used by default. You can only specify an IP family when you create a cluster and can't change this value once the cluster is created. If you specify ipv6, the VPC and subnets that you specify for cluster creation must have both IPv4 and IPv6 CIDR blocks assigned to them. You can't specify ipv6 for clusters in China Regions. You can only specify ipv6 for 1.21 and later clusters that use version 1.10.1 or later of the Amazon VPC CNI add-on. If you specify ipv6, then ensure that your VPC meets the requirements listed in the considerations listed in Assigning IPv6 addresses to pods and services in the Amazon EKS User Guide. Kubernetes assigns services IPv6 addresses from the unique local address range (fc00::/7). You can't specify a custom IPv6 CIDR block. Pod addresses are assigned from the subnet's IPv6 CIDR.
         public let ipFamily: IpFamily?
         /// Don't specify a value if you select ipv6 for ipFamily. The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that does not overlap with resources in other networks that are peered or connected to your VPC. The block must meet the following requirements:   Within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0/12, or 192.168.0.0/16.   Doesn't overlap with any CIDR block assigned to the VPC that you selected for VPC.   Between /24 and /12.    You can only specify a custom CIDR block when you create a cluster. You can't change this value after the cluster is created.
         public let serviceIpv4Cidr: String?
 
         @inlinable
-        public init(ipFamily: IpFamily? = nil, serviceIpv4Cidr: String? = nil) {
+        public init(elasticLoadBalancing: ElasticLoadBalancing? = nil, ipFamily: IpFamily? = nil, serviceIpv4Cidr: String? = nil) {
+            self.elasticLoadBalancing = elasticLoadBalancing
             self.ipFamily = ipFamily
             self.serviceIpv4Cidr = serviceIpv4Cidr
         }
 
         private enum CodingKeys: String, CodingKey {
+            case elasticLoadBalancing = "elasticLoadBalancing"
             case ipFamily = "ipFamily"
             case serviceIpv4Cidr = "serviceIpv4Cidr"
         }
     }
 
     public struct KubernetesNetworkConfigResponse: AWSDecodableShape {
+        /// Indicates the current configuration of the load balancing capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled.
+        public let elasticLoadBalancing: ElasticLoadBalancing?
         /// The IP family used to assign Kubernetes Pod and Service objects IP addresses. The IP family is always ipv4, unless you have a 1.21 or later cluster running version 1.10.1 or later of the Amazon VPC CNI plugin for Kubernetes and specified ipv6 when you created the cluster.
         public let ipFamily: IpFamily?
         /// The CIDR block that Kubernetes Pod and Service object IP addresses are assigned from. Kubernetes assigns addresses from an IPv4 CIDR block assigned to a subnet that the node is in. If you didn't specify a CIDR block when you created the cluster, then Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. If this was specified, then it was specified when the cluster was created and it can't be changed.
@@ -3120,13 +3231,15 @@ extension EKS {
         public let serviceIpv6Cidr: String?
 
         @inlinable
-        public init(ipFamily: IpFamily? = nil, serviceIpv4Cidr: String? = nil, serviceIpv6Cidr: String? = nil) {
+        public init(elasticLoadBalancing: ElasticLoadBalancing? = nil, ipFamily: IpFamily? = nil, serviceIpv4Cidr: String? = nil, serviceIpv6Cidr: String? = nil) {
+            self.elasticLoadBalancing = elasticLoadBalancing
             self.ipFamily = ipFamily
             self.serviceIpv4Cidr = serviceIpv4Cidr
             self.serviceIpv6Cidr = serviceIpv6Cidr
         }
 
         private enum CodingKeys: String, CodingKey {
+            case elasticLoadBalancing = "elasticLoadBalancing"
             case ipFamily = "ipFamily"
             case serviceIpv4Cidr = "serviceIpv4Cidr"
             case serviceIpv6Cidr = "serviceIpv6Cidr"
@@ -4386,6 +4499,103 @@ extension EKS {
         }
     }
 
+    public struct RemoteNetworkConfigRequest: AWSEncodableShape {
+        /// The list of network CIDRs that can contain hybrid nodes.
+        public let remoteNodeNetworks: [RemoteNodeNetwork]?
+        /// The list of network CIDRs that can contain pods that run Kubernetes webhooks on hybrid nodes.
+        public let remotePodNetworks: [RemotePodNetwork]?
+
+        @inlinable
+        public init(remoteNodeNetworks: [RemoteNodeNetwork]? = nil, remotePodNetworks: [RemotePodNetwork]? = nil) {
+            self.remoteNodeNetworks = remoteNodeNetworks
+            self.remotePodNetworks = remotePodNetworks
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.remoteNodeNetworks, name: "remoteNodeNetworks", parent: name, max: 1)
+            try self.validate(self.remotePodNetworks, name: "remotePodNetworks", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case remoteNodeNetworks = "remoteNodeNetworks"
+            case remotePodNetworks = "remotePodNetworks"
+        }
+    }
+
+    public struct RemoteNetworkConfigResponse: AWSDecodableShape {
+        /// The list of network CIDRs that can contain hybrid nodes.
+        public let remoteNodeNetworks: [RemoteNodeNetwork]?
+        /// The list of network CIDRs that can contain pods that run Kubernetes webhooks on hybrid nodes.
+        public let remotePodNetworks: [RemotePodNetwork]?
+
+        @inlinable
+        public init(remoteNodeNetworks: [RemoteNodeNetwork]? = nil, remotePodNetworks: [RemotePodNetwork]? = nil) {
+            self.remoteNodeNetworks = remoteNodeNetworks
+            self.remotePodNetworks = remotePodNetworks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case remoteNodeNetworks = "remoteNodeNetworks"
+            case remotePodNetworks = "remotePodNetworks"
+        }
+    }
+
+    public struct RemoteNodeNetwork: AWSEncodableShape & AWSDecodableShape {
+        /// A network CIDR that can contain hybrid nodes.
+        public let cidrs: [String]?
+
+        @inlinable
+        public init(cidrs: [String]? = nil) {
+            self.cidrs = cidrs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrs = "cidrs"
+        }
+    }
+
+    public struct RemotePodNetwork: AWSEncodableShape & AWSDecodableShape {
+        /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes.
+        public let cidrs: [String]?
+
+        @inlinable
+        public init(cidrs: [String]? = nil) {
+            self.cidrs = cidrs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrs = "cidrs"
+        }
+    }
+
+    public struct StorageConfigRequest: AWSEncodableShape {
+        /// Request to configure EBS Block Storage settings for your EKS Auto Mode cluster.
+        public let blockStorage: BlockStorage?
+
+        @inlinable
+        public init(blockStorage: BlockStorage? = nil) {
+            self.blockStorage = blockStorage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockStorage = "blockStorage"
+        }
+    }
+
+    public struct StorageConfigResponse: AWSDecodableShape {
+        /// Indicates the current configuration of the block storage capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled.
+        public let blockStorage: BlockStorage?
+
+        @inlinable
+        public init(blockStorage: BlockStorage? = nil) {
+            self.blockStorage = blockStorage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockStorage = "blockStorage"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to add tags to.
         public let resourceArn: String
@@ -4669,23 +4879,31 @@ extension EKS {
         /// A unique, case-sensitive identifier that you provide to ensure
         /// the idempotency of the request.
         public let clientRequestToken: String?
+        /// Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
+        public let computeConfig: ComputeConfigRequest?
+        public let kubernetesNetworkConfig: KubernetesNetworkConfigRequest?
         /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
         public let logging: Logging?
         /// The name of the Amazon EKS cluster to update.
         public let name: String
         public let resourcesVpcConfig: VpcConfigRequest?
+        /// Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
+        public let storageConfig: StorageConfigRequest?
         /// You can enable or disable extended support for clusters currently on standard support. You cannot disable extended support once it starts. You must enable extended support before your cluster exits standard support.
         public let upgradePolicy: UpgradePolicyRequest?
         /// Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS in the  Amazon EKS User Guide .
         public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
+        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil, storageConfig: StorageConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.clientRequestToken = clientRequestToken
+            self.computeConfig = computeConfig
+            self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
             self.name = name
             self.resourcesVpcConfig = resourcesVpcConfig
+            self.storageConfig = storageConfig
             self.upgradePolicy = upgradePolicy
             self.zonalShiftConfig = zonalShiftConfig
         }
@@ -4695,9 +4913,12 @@ extension EKS {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accessConfig, forKey: .accessConfig)
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.computeConfig, forKey: .computeConfig)
+            try container.encodeIfPresent(self.kubernetesNetworkConfig, forKey: .kubernetesNetworkConfig)
             try container.encodeIfPresent(self.logging, forKey: .logging)
             request.encodePath(self.name, key: "name")
             try container.encodeIfPresent(self.resourcesVpcConfig, forKey: .resourcesVpcConfig)
+            try container.encodeIfPresent(self.storageConfig, forKey: .storageConfig)
             try container.encodeIfPresent(self.upgradePolicy, forKey: .upgradePolicy)
             try container.encodeIfPresent(self.zonalShiftConfig, forKey: .zonalShiftConfig)
         }
@@ -4705,8 +4926,11 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case accessConfig = "accessConfig"
             case clientRequestToken = "clientRequestToken"
+            case computeConfig = "computeConfig"
+            case kubernetesNetworkConfig = "kubernetesNetworkConfig"
             case logging = "logging"
             case resourcesVpcConfig = "resourcesVpcConfig"
+            case storageConfig = "storageConfig"
             case upgradePolicy = "upgradePolicy"
             case zonalShiftConfig = "zonalShiftConfig"
         }

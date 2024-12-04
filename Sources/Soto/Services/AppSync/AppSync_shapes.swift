@@ -121,6 +121,7 @@ extension AppSync {
     }
 
     public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amazonBedrockRuntime = "AMAZON_BEDROCK_RUNTIME"
         case amazonDynamodb = "AMAZON_DYNAMODB"
         case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
         case amazonEventbridge = "AMAZON_EVENTBRIDGE"

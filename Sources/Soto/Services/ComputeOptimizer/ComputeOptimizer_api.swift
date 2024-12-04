@@ -371,6 +371,50 @@ public struct ComputeOptimizer: AWSService {
         return try await self.exportECSServiceRecommendations(input, logger: logger)
     }
 
+    ///  Export optimization recommendations for your idle resources.  Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one idle resource export job in progress per Amazon Web Services Region.
+    @Sendable
+    @inlinable
+    public func exportIdleRecommendations(_ input: ExportIdleRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportIdleRecommendationsResponse {
+        try await self.client.execute(
+            operation: "ExportIdleRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Export optimization recommendations for your idle resources.  Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one idle resource export job in progress per Amazon Web Services Region.
+    ///
+    /// Parameters:
+    ///   - accountIds:  The Amazon Web Services account IDs for the export idle resource recommendations.  If your account is the management account or the delegated administrator  of an organization, use this parameter to specify the member account you want to  export recommendations to. This parameter can't be specified together with the include member accounts  parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+    ///   - fieldsToExport: The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
+    ///   - fileFormat: The format of the export file. The CSV file is the only export file format currently supported.
+    ///   - filters: An array of objects to specify a filter that exports a more specific set of idle resource recommendations.
+    ///   - includeMemberAccounts: If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the  organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for  member accounts aren't included in the export.
+    ///   - s3DestinationConfig: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func exportIdleRecommendations(
+        accountIds: [String]? = nil,
+        fieldsToExport: [ExportableIdleField]? = nil,
+        fileFormat: FileFormat? = nil,
+        filters: [IdleRecommendationFilter]? = nil,
+        includeMemberAccounts: Bool? = nil,
+        s3DestinationConfig: S3DestinationConfig,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExportIdleRecommendationsResponse {
+        let input = ExportIdleRecommendationsRequest(
+            accountIds: accountIds, 
+            fieldsToExport: fieldsToExport, 
+            fileFormat: fileFormat, 
+            filters: filters, 
+            includeMemberAccounts: includeMemberAccounts, 
+            s3DestinationConfig: s3DestinationConfig
+        )
+        return try await self.exportIdleRecommendations(input, logger: logger)
+    }
+
     /// Exports optimization recommendations for Lambda functions. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one Lambda function export job in progress per Amazon Web Services Region.
     @Sendable
     @inlinable
@@ -849,6 +893,50 @@ public struct ComputeOptimizer: AWSService {
             nextToken: nextToken
         )
         return try await self.getEnrollmentStatusesForOrganization(input, logger: logger)
+    }
+
+    /// Returns idle resource recommendations. Compute Optimizer generates recommendations for  idle resources that meet a specific set of requirements. For more information, see Resource requirements in the Compute Optimizer User Guide
+    @Sendable
+    @inlinable
+    public func getIdleRecommendations(_ input: GetIdleRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdleRecommendationsResponse {
+        try await self.client.execute(
+            operation: "GetIdleRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns idle resource recommendations. Compute Optimizer generates recommendations for  idle resources that meet a specific set of requirements. For more information, see Resource requirements in the Compute Optimizer User Guide
+    ///
+    /// Parameters:
+    ///   - accountIds: Return the idle resource recommendations to the specified Amazon Web Services account IDs. If your account is the management account  or the delegated administrator of an organization, use this parameter to return the idle resource recommendations to  specific member accounts. You can only specify one account ID per request.
+    ///   - filters: An array of objects to specify a filter that returns a more specific list of idle resource recommendations.
+    ///   - maxResults: The maximum number of idle resource recommendations to return with a single request.  To retrieve the remaining results,  make another request with the returned nextToken value.
+    ///   - nextToken: The token to advance to the next page of idle resource recommendations.
+    ///   - orderBy: The order to sort the idle resource recommendations.
+    ///   - resourceArns: The ARN that identifies the idle resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIdleRecommendations(
+        accountIds: [String]? = nil,
+        filters: [IdleRecommendationFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        orderBy: OrderBy? = nil,
+        resourceArns: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIdleRecommendationsResponse {
+        let input = GetIdleRecommendationsRequest(
+            accountIds: accountIds, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            orderBy: orderBy, 
+            resourceArns: resourceArns
+        )
+        return try await self.getIdleRecommendations(input, logger: logger)
     }
 
     /// Returns Lambda function recommendations. Compute Optimizer generates recommendations for functions that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.

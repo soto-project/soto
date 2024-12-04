@@ -37,10 +37,28 @@ extension NeptuneGraph {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case csv = "CSV"
+        case parquet = "PARQUET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case deleted = "DELETED"
+        case exporting = "EXPORTING"
+        case failed = "FAILED"
+        case initializing = "INITIALIZING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case ntriples = "NTRIPLES"
         case openCypher = "OPEN_CYPHER"
+        case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
 
@@ -66,6 +84,7 @@ extension NeptuneGraph {
         case analyzingData = "ANALYZING_DATA"
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
+        case deleted = "DELETED"
         case exporting = "EXPORTING"
         case failed = "FAILED"
         case importing = "IMPORTING"
@@ -73,6 +92,17 @@ extension NeptuneGraph {
         case reprovisioning = "REPROVISIONING"
         case rollingBack = "ROLLING_BACK"
         case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MultiValueHandlingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pickFirst = "PICK_FIRST"
+        case toList = "TO_LIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParquetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case columnar = "COLUMNAR"
         public var description: String { return self.rawValue }
     }
 
@@ -121,6 +151,74 @@ extension NeptuneGraph {
 
     // MARK: Shapes
 
+    public struct CancelExportTaskInput: AWSEncodableShape {
+        /// The unique identifier of the export task.
+        public let taskIdentifier: String
+
+        @inlinable
+        public init(taskIdentifier: String) {
+            self.taskIdentifier = taskIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskIdentifier, key: "taskIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskIdentifier, name: "taskIdentifier", parent: name, pattern: "^t-[a-z0-9]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelExportTaskOutput: AWSDecodableShape {
+        /// The Amazon S3 URI of the cancelled export task where data will be exported to.
+        public let destination: String
+        /// The format of the cancelled export task.
+        public let format: ExportFormat
+        /// The source graph identifier of the cancelled export task.
+        public let graphId: String
+        /// The KMS key identifier of the cancelled export task.
+        public let kmsKeyIdentifier: String
+        /// The parquet type of the cancelled export task.
+        public let parquetType: ParquetType?
+        /// The ARN of the IAM role that will allow the exporting of data to the destination.
+        public let roleArn: String
+        /// The current status of the export task. The status is CANCELLING when the  export task is cancelled.
+        public let status: ExportTaskStatus
+        /// The reason that the export task has this status value.
+        public let statusReason: String?
+        /// The unique identifier of the export task.
+        public let taskId: String
+
+        @inlinable
+        public init(destination: String, format: ExportFormat, graphId: String, kmsKeyIdentifier: String, parquetType: ParquetType? = nil, roleArn: String, status: ExportTaskStatus, statusReason: String? = nil, taskId: String) {
+            self.destination = destination
+            self.format = format
+            self.graphId = graphId
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.parquetType = parquetType
+            self.roleArn = roleArn
+            self.status = status
+            self.statusReason = statusReason
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case format = "format"
+            case graphId = "graphId"
+            case kmsKeyIdentifier = "kmsKeyIdentifier"
+            case parquetType = "parquetType"
+            case roleArn = "roleArn"
+            case status = "status"
+            case statusReason = "statusReason"
+            case taskId = "taskId"
+        }
+    }
+
     public struct CancelImportTaskInput: AWSEncodableShape {
         /// The unique identifier of the import task.
         public let taskIdentifier: String
@@ -148,6 +246,8 @@ extension NeptuneGraph {
         public let format: Format?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphId: String?
+        /// The parquet type of the cancelled import task.
+        public let parquetType: ParquetType?
         /// The ARN of the IAM role that will allow access to the data that is to be imported.
         public let roleArn: String
         /// A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
@@ -158,9 +258,10 @@ extension NeptuneGraph {
         public let taskId: String
 
         @inlinable
-        public init(format: Format? = nil, graphId: String? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
+        public init(format: Format? = nil, graphId: String? = nil, parquetType: ParquetType? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
             self.format = format
             self.graphId = graphId
+            self.parquetType = parquetType
             self.roleArn = roleArn
             self.source = source
             self.status = status
@@ -170,6 +271,7 @@ extension NeptuneGraph {
         private enum CodingKeys: String, CodingKey {
             case format = "format"
             case graphId = "graphId"
+            case parquetType = "parquetType"
             case roleArn = "roleArn"
             case source = "source"
             case status = "status"
@@ -430,6 +532,8 @@ extension NeptuneGraph {
         public let maxProvisionedMemory: Int?
         /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
         public let minProvisionedMemory: Int?
+        /// The parquet type of the import task.
+        public let parquetType: ParquetType?
         /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
         public let publicConnectivity: Bool?
         /// The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2.   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
@@ -444,7 +548,7 @@ extension NeptuneGraph {
         public let vectorSearchConfiguration: VectorSearchConfiguration?
 
         @inlinable
-        public init(blankNodeHandling: BlankNodeHandling? = nil, deletionProtection: Bool? = nil, failOnError: Bool? = nil, format: Format? = nil, graphName: String, importOptions: ImportOptions? = nil, kmsKeyIdentifier: String? = nil, maxProvisionedMemory: Int? = nil, minProvisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, roleArn: String, source: String, tags: [String: String]? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
+        public init(blankNodeHandling: BlankNodeHandling? = nil, deletionProtection: Bool? = nil, failOnError: Bool? = nil, format: Format? = nil, graphName: String, importOptions: ImportOptions? = nil, kmsKeyIdentifier: String? = nil, maxProvisionedMemory: Int? = nil, minProvisionedMemory: Int? = nil, parquetType: ParquetType? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, roleArn: String, source: String, tags: [String: String]? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
             self.blankNodeHandling = blankNodeHandling
             self.deletionProtection = deletionProtection
             self.failOnError = failOnError
@@ -454,6 +558,7 @@ extension NeptuneGraph {
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.maxProvisionedMemory = maxProvisionedMemory
             self.minProvisionedMemory = minProvisionedMemory
+            self.parquetType = parquetType
             self.publicConnectivity = publicConnectivity
             self.replicaCount = replicaCount
             self.roleArn = roleArn
@@ -496,6 +601,7 @@ extension NeptuneGraph {
             case kmsKeyIdentifier = "kmsKeyIdentifier"
             case maxProvisionedMemory = "maxProvisionedMemory"
             case minProvisionedMemory = "minProvisionedMemory"
+            case parquetType = "parquetType"
             case publicConnectivity = "publicConnectivity"
             case replicaCount = "replicaCount"
             case roleArn = "roleArn"
@@ -512,6 +618,8 @@ extension NeptuneGraph {
         public let graphId: String?
         /// Contains options for controlling the import process. For example, if the failOnError key is set to false, the import skips problem data and attempts to continue (whereas if set to true, the default, or if omitted, the import operation halts immediately when an error is encountered.
         public let importOptions: ImportOptions?
+        /// The parquet type of the import task.
+        public let parquetType: ParquetType?
         /// The ARN of the IAM role that will allow access to the data that is to be imported.
         public let roleArn: String
         /// A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
@@ -522,10 +630,11 @@ extension NeptuneGraph {
         public let taskId: String
 
         @inlinable
-        public init(format: Format? = nil, graphId: String? = nil, importOptions: ImportOptions? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
+        public init(format: Format? = nil, graphId: String? = nil, importOptions: ImportOptions? = nil, parquetType: ParquetType? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
             self.format = format
             self.graphId = graphId
             self.importOptions = importOptions
+            self.parquetType = parquetType
             self.roleArn = roleArn
             self.source = source
             self.status = status
@@ -536,6 +645,7 @@ extension NeptuneGraph {
             case format = "format"
             case graphId = "graphId"
             case importOptions = "importOptions"
+            case parquetType = "parquetType"
             case roleArn = "roleArn"
             case source = "source"
             case status = "status"
@@ -916,6 +1026,240 @@ extension NeptuneGraph {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ExportFilter: AWSEncodableShape & AWSDecodableShape {
+        /// Used to specify filters on a per-label basis for edges. This allows you to control which edge labels  and properties are included in the export.
+        public let edgeFilter: [String: ExportFilterElement]?
+        /// Used to specify filters on a per-label basis for vertices. This allows you to control which vertex labels  and properties are included in the export.
+        public let vertexFilter: [String: ExportFilterElement]?
+
+        @inlinable
+        public init(edgeFilter: [String: ExportFilterElement]? = nil, vertexFilter: [String: ExportFilterElement]? = nil) {
+            self.edgeFilter = edgeFilter
+            self.vertexFilter = vertexFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.edgeFilter?.forEach {
+                try validate($0.key, name: "edgeFilter.key", parent: name, max: 128)
+                try validate($0.key, name: "edgeFilter.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).edgeFilter[\"\($0.key)\"]")
+            }
+            try self.vertexFilter?.forEach {
+                try validate($0.key, name: "vertexFilter.key", parent: name, max: 128)
+                try validate($0.key, name: "vertexFilter.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).vertexFilter[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edgeFilter = "edgeFilter"
+            case vertexFilter = "vertexFilter"
+        }
+    }
+
+    public struct ExportFilterElement: AWSEncodableShape & AWSDecodableShape {
+        /// Each property is defined by a key-value pair, where the key is the desired output property name (e.g. "name"),  and the value is an object.
+        public let properties: [String: ExportFilterPropertyAttributes]?
+
+        @inlinable
+        public init(properties: [String: ExportFilterPropertyAttributes]? = nil) {
+            self.properties = properties
+        }
+
+        public func validate(name: String) throws {
+            try self.properties?.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 128)
+                try validate($0.key, name: "properties.key", parent: name, min: 1)
+                try validate($0.key, name: "properties.key", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+                try $0.value.validate(name: "\(name).properties[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case properties = "properties"
+        }
+    }
+
+    public struct ExportFilterPropertyAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how to handle properties that have multiple values. Can be either TO_LIST to export all  values as a list, or PICK_FIRST to export the first value encountered. If not specified, the default  value is PICK_FIRST.
+        public let multiValueHandling: MultiValueHandlingType?
+        /// Specifies the data type to use for the property in the exported data (e.g. "String", "Int", "Float").  If a type is not provided, the export process will determine the type. If a given property is present as multiple  types (e.g. one vertex has "height" stored as a double, and another edge has it stored as a string), the type  will be of Any type, otherwise, it will be the type of the property as present in vertices.
+        public let outputType: String?
+        /// The name of the property as it exists in the original graph data. If not provided, it is assumed that the key  matches the desired sourcePropertyName.
+        public let sourcePropertyName: String?
+
+        @inlinable
+        public init(multiValueHandling: MultiValueHandlingType? = nil, outputType: String? = nil, sourcePropertyName: String? = nil) {
+            self.multiValueHandling = multiValueHandling
+            self.outputType = outputType
+            self.sourcePropertyName = sourcePropertyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outputType, name: "outputType", parent: name, pattern: "^(Any|Byte|Short|Int|Long|Float|Double|String|Bool|Boolean|Float\\[\\]|Double\\[\\])$")
+            try self.validate(self.sourcePropertyName, name: "sourcePropertyName", parent: name, max: 128)
+            try self.validate(self.sourcePropertyName, name: "sourcePropertyName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiValueHandling = "multiValueHandling"
+            case outputType = "outputType"
+            case sourcePropertyName = "sourcePropertyName"
+        }
+    }
+
+    public struct ExportTaskDetails: AWSDecodableShape {
+        /// The number of exported edges.
+        public let numEdgesWritten: Int64?
+        /// The number of exported vertices.
+        public let numVerticesWritten: Int64?
+        /// The number of progress percentage of the export task.
+        public let progressPercentage: Int
+        /// The start time of the export task.
+        public let startTime: Date
+        /// The time elapsed, in seconds, since the start time of the export task.
+        public let timeElapsedSeconds: Int64
+
+        @inlinable
+        public init(numEdgesWritten: Int64? = nil, numVerticesWritten: Int64? = nil, progressPercentage: Int, startTime: Date, timeElapsedSeconds: Int64) {
+            self.numEdgesWritten = numEdgesWritten
+            self.numVerticesWritten = numVerticesWritten
+            self.progressPercentage = progressPercentage
+            self.startTime = startTime
+            self.timeElapsedSeconds = timeElapsedSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numEdgesWritten = "numEdgesWritten"
+            case numVerticesWritten = "numVerticesWritten"
+            case progressPercentage = "progressPercentage"
+            case startTime = "startTime"
+            case timeElapsedSeconds = "timeElapsedSeconds"
+        }
+    }
+
+    public struct ExportTaskSummary: AWSDecodableShape {
+        /// The Amazon S3 URI of the export task where data will be exported to.
+        public let destination: String
+        /// The format of the export task.
+        public let format: ExportFormat
+        /// The source graph identifier of the export task.
+        public let graphId: String
+        /// The KMS key identifier of the export task.
+        public let kmsKeyIdentifier: String
+        /// The parquet type of the export task.
+        public let parquetType: ParquetType?
+        /// The ARN of the IAM role that will allow the data to be exported to the destination.
+        public let roleArn: String
+        /// The current status of the export task.
+        public let status: ExportTaskStatus
+        /// The reason that the export task has this status value.
+        public let statusReason: String?
+        /// The unique identifier of the export task.
+        public let taskId: String
+
+        @inlinable
+        public init(destination: String, format: ExportFormat, graphId: String, kmsKeyIdentifier: String, parquetType: ParquetType? = nil, roleArn: String, status: ExportTaskStatus, statusReason: String? = nil, taskId: String) {
+            self.destination = destination
+            self.format = format
+            self.graphId = graphId
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.parquetType = parquetType
+            self.roleArn = roleArn
+            self.status = status
+            self.statusReason = statusReason
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case format = "format"
+            case graphId = "graphId"
+            case kmsKeyIdentifier = "kmsKeyIdentifier"
+            case parquetType = "parquetType"
+            case roleArn = "roleArn"
+            case status = "status"
+            case statusReason = "statusReason"
+            case taskId = "taskId"
+        }
+    }
+
+    public struct GetExportTaskInput: AWSEncodableShape {
+        /// The unique identifier of the export task.
+        public let taskIdentifier: String
+
+        @inlinable
+        public init(taskIdentifier: String) {
+            self.taskIdentifier = taskIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskIdentifier, key: "taskIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskIdentifier, name: "taskIdentifier", parent: name, pattern: "^t-[a-z0-9]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetExportTaskOutput: AWSDecodableShape {
+        /// The Amazon S3 URI of the export task where data will be exported.
+        public let destination: String
+        /// The export filter of the export task.
+        public let exportFilter: ExportFilter?
+        /// The details of the export task.
+        public let exportTaskDetails: ExportTaskDetails?
+        /// The format of the export task.
+        public let format: ExportFormat
+        /// The source graph identifier of the export task.
+        public let graphId: String
+        /// The KMS key identifier of the export task.
+        public let kmsKeyIdentifier: String
+        /// The parquet type of the export task.
+        public let parquetType: ParquetType?
+        /// The ARN of the IAM role that will allow data to be exported to the destination.
+        public let roleArn: String
+        /// The current status of the export task.
+        public let status: ExportTaskStatus
+        /// The reason that the export task has this status value.
+        public let statusReason: String?
+        /// The unique identifier of the export task.
+        public let taskId: String
+
+        @inlinable
+        public init(destination: String, exportFilter: ExportFilter? = nil, exportTaskDetails: ExportTaskDetails? = nil, format: ExportFormat, graphId: String, kmsKeyIdentifier: String, parquetType: ParquetType? = nil, roleArn: String, status: ExportTaskStatus, statusReason: String? = nil, taskId: String) {
+            self.destination = destination
+            self.exportFilter = exportFilter
+            self.exportTaskDetails = exportTaskDetails
+            self.format = format
+            self.graphId = graphId
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.parquetType = parquetType
+            self.roleArn = roleArn
+            self.status = status
+            self.statusReason = statusReason
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case exportFilter = "exportFilter"
+            case exportTaskDetails = "exportTaskDetails"
+            case format = "format"
+            case graphId = "graphId"
+            case kmsKeyIdentifier = "kmsKeyIdentifier"
+            case parquetType = "parquetType"
+            case roleArn = "roleArn"
+            case status = "status"
+            case statusReason = "statusReason"
+            case taskId = "taskId"
+        }
+    }
+
     public struct GetGraphInput: AWSEncodableShape {
         /// The unique identifier of the Neptune Analytics graph.
         public let graphIdentifier: String
@@ -1139,7 +1483,7 @@ extension NeptuneGraph {
     }
 
     public struct GetImportTaskOutput: AWSDecodableShape {
-        /// The number of the current attempt to execute the import task.
+        /// The number of the current attempts to execute the import task.
         public let attemptNumber: Int?
         /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
         public let format: Format?
@@ -1149,6 +1493,8 @@ extension NeptuneGraph {
         public let importOptions: ImportOptions?
         /// Contains details about the specified import task.
         public let importTaskDetails: ImportTaskDetails?
+        /// The parquet type of the import task.
+        public let parquetType: ParquetType?
         /// The ARN of the IAM role that will allow access to the data that is to be imported.
         public let roleArn: String
         /// A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot
@@ -1161,12 +1507,13 @@ extension NeptuneGraph {
         public let taskId: String
 
         @inlinable
-        public init(attemptNumber: Int? = nil, format: Format? = nil, graphId: String? = nil, importOptions: ImportOptions? = nil, importTaskDetails: ImportTaskDetails? = nil, roleArn: String, source: String, status: ImportTaskStatus, statusReason: String? = nil, taskId: String) {
+        public init(attemptNumber: Int? = nil, format: Format? = nil, graphId: String? = nil, importOptions: ImportOptions? = nil, importTaskDetails: ImportTaskDetails? = nil, parquetType: ParquetType? = nil, roleArn: String, source: String, status: ImportTaskStatus, statusReason: String? = nil, taskId: String) {
             self.attemptNumber = attemptNumber
             self.format = format
             self.graphId = graphId
             self.importOptions = importOptions
             self.importTaskDetails = importTaskDetails
+            self.parquetType = parquetType
             self.roleArn = roleArn
             self.source = source
             self.status = status
@@ -1180,6 +1527,7 @@ extension NeptuneGraph {
             case graphId = "graphId"
             case importOptions = "importOptions"
             case importTaskDetails = "importTaskDetails"
+            case parquetType = "parquetType"
             case roleArn = "roleArn"
             case source = "source"
             case status = "status"
@@ -1499,6 +1847,8 @@ extension NeptuneGraph {
         public let format: Format?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphId: String?
+        /// The parquet type of the import task.
+        public let parquetType: ParquetType?
         /// The ARN of the IAM role that will allow access to the data that is to be imported.
         public let roleArn: String
         /// A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot
@@ -1509,9 +1859,10 @@ extension NeptuneGraph {
         public let taskId: String
 
         @inlinable
-        public init(format: Format? = nil, graphId: String? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
+        public init(format: Format? = nil, graphId: String? = nil, parquetType: ParquetType? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
             self.format = format
             self.graphId = graphId
+            self.parquetType = parquetType
             self.roleArn = roleArn
             self.source = source
             self.status = status
@@ -1521,10 +1872,58 @@ extension NeptuneGraph {
         private enum CodingKeys: String, CodingKey {
             case format = "format"
             case graphId = "graphId"
+            case parquetType = "parquetType"
             case roleArn = "roleArn"
             case source = "source"
             case status = "status"
             case taskId = "taskId"
+        }
+    }
+
+    public struct ListExportTasksInput: AWSEncodableShape {
+        /// The maximum number of export tasks to return.
+        public let maxResults: Int?
+        /// Pagination token used to paginate input.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExportTasksOutput: AWSDecodableShape {
+        /// Pagination token used to paginate output.
+        public let nextToken: String?
+        /// The requested list of export tasks.
+        public let tasks: [ExportTaskSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, tasks: [ExportTaskSummary]) {
+            self.nextToken = nextToken
+            self.tasks = tasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tasks = "tasks"
         }
     }
 
@@ -2146,6 +2545,114 @@ extension NeptuneGraph {
         }
     }
 
+    public struct StartExportTaskInput: AWSEncodableShape {
+        /// The Amazon S3 URI where data will be exported to.
+        public let destination: String
+        /// The export filter of the export task.
+        public let exportFilter: ExportFilter?
+        /// The format of the export task.
+        public let format: ExportFormat
+        /// The source graph identifier of the export task.
+        public let graphIdentifier: String
+        /// The KMS key identifier of the export task.
+        public let kmsKeyIdentifier: String
+        /// The parquet type of the export task.
+        public let parquetType: ParquetType?
+        /// The ARN of the IAM role that will allow data to be exported to the destination.
+        public let roleArn: String
+        /// Tags to be applied to the export task.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(destination: String, exportFilter: ExportFilter? = nil, format: ExportFormat, graphIdentifier: String, kmsKeyIdentifier: String, parquetType: ParquetType? = nil, roleArn: String, tags: [String: String]? = nil) {
+            self.destination = destination
+            self.exportFilter = exportFilter
+            self.format = format
+            self.graphIdentifier = graphIdentifier
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.parquetType = parquetType
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.exportFilter?.validate(name: "\(name).exportFilter")
+            try self.validate(self.graphIdentifier, name: "graphIdentifier", parent: name, pattern: "^g-[a-z0-9]{10}$")
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 1024)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case exportFilter = "exportFilter"
+            case format = "format"
+            case graphIdentifier = "graphIdentifier"
+            case kmsKeyIdentifier = "kmsKeyIdentifier"
+            case parquetType = "parquetType"
+            case roleArn = "roleArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartExportTaskOutput: AWSDecodableShape {
+        /// The Amazon S3 URI of the export task where data will be exported to.
+        public let destination: String
+        /// The export filter of the export task.
+        public let exportFilter: ExportFilter?
+        /// The format of the export task.
+        public let format: ExportFormat
+        /// The source graph identifier of the export task.
+        public let graphId: String
+        /// The KMS key identifier of the export task.
+        public let kmsKeyIdentifier: String
+        /// The parquet type of the export task.
+        public let parquetType: ParquetType?
+        /// The ARN of the IAM role that will allow data to be exported to the destination.
+        public let roleArn: String
+        /// The current status of the export task.
+        public let status: ExportTaskStatus
+        /// The reason that the export task has this status value.
+        public let statusReason: String?
+        /// The unique identifier of the export task.
+        public let taskId: String
+
+        @inlinable
+        public init(destination: String, exportFilter: ExportFilter? = nil, format: ExportFormat, graphId: String, kmsKeyIdentifier: String, parquetType: ParquetType? = nil, roleArn: String, status: ExportTaskStatus, statusReason: String? = nil, taskId: String) {
+            self.destination = destination
+            self.exportFilter = exportFilter
+            self.format = format
+            self.graphId = graphId
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.parquetType = parquetType
+            self.roleArn = roleArn
+            self.status = status
+            self.statusReason = statusReason
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case exportFilter = "exportFilter"
+            case format = "format"
+            case graphId = "graphId"
+            case kmsKeyIdentifier = "kmsKeyIdentifier"
+            case parquetType = "parquetType"
+            case roleArn = "roleArn"
+            case status = "status"
+            case statusReason = "statusReason"
+            case taskId = "taskId"
+        }
+    }
+
     public struct StartImportTaskInput: AWSEncodableShape {
         /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported,  meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples.  For more information, see Handling RDF values.
         public let blankNodeHandling: BlankNodeHandling?
@@ -2156,18 +2663,21 @@ extension NeptuneGraph {
         /// The unique identifier of the Neptune Analytics graph.
         public let graphIdentifier: String
         public let importOptions: ImportOptions?
+        /// The parquet type of the import task.
+        public let parquetType: ParquetType?
         /// The ARN of the IAM role that will allow access to the data that is to be imported.
         public let roleArn: String
         /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a  Neptune database endpoint or snapshot.
         public let source: String
 
         @inlinable
-        public init(blankNodeHandling: BlankNodeHandling? = nil, failOnError: Bool? = nil, format: Format? = nil, graphIdentifier: String, importOptions: ImportOptions? = nil, roleArn: String, source: String) {
+        public init(blankNodeHandling: BlankNodeHandling? = nil, failOnError: Bool? = nil, format: Format? = nil, graphIdentifier: String, importOptions: ImportOptions? = nil, parquetType: ParquetType? = nil, roleArn: String, source: String) {
             self.blankNodeHandling = blankNodeHandling
             self.failOnError = failOnError
             self.format = format
             self.graphIdentifier = graphIdentifier
             self.importOptions = importOptions
+            self.parquetType = parquetType
             self.roleArn = roleArn
             self.source = source
         }
@@ -2180,6 +2690,7 @@ extension NeptuneGraph {
             try container.encodeIfPresent(self.format, forKey: .format)
             request.encodePath(self.graphIdentifier, key: "graphIdentifier")
             try container.encodeIfPresent(self.importOptions, forKey: .importOptions)
+            try container.encodeIfPresent(self.parquetType, forKey: .parquetType)
             try container.encode(self.roleArn, forKey: .roleArn)
             try container.encode(self.source, forKey: .source)
         }
@@ -2194,6 +2705,7 @@ extension NeptuneGraph {
             case failOnError = "failOnError"
             case format = "format"
             case importOptions = "importOptions"
+            case parquetType = "parquetType"
             case roleArn = "roleArn"
             case source = "source"
         }
@@ -2205,6 +2717,8 @@ extension NeptuneGraph {
         /// The unique identifier of the Neptune Analytics graph.
         public let graphId: String?
         public let importOptions: ImportOptions?
+        /// The parquet type of the import task.
+        public let parquetType: ParquetType?
         /// The ARN of the IAM role that will allow access to the data that is to be imported.
         public let roleArn: String
         /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a  Neptune database endpoint or snapshot.
@@ -2215,10 +2729,11 @@ extension NeptuneGraph {
         public let taskId: String
 
         @inlinable
-        public init(format: Format? = nil, graphId: String? = nil, importOptions: ImportOptions? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
+        public init(format: Format? = nil, graphId: String? = nil, importOptions: ImportOptions? = nil, parquetType: ParquetType? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
             self.format = format
             self.graphId = graphId
             self.importOptions = importOptions
+            self.parquetType = parquetType
             self.roleArn = roleArn
             self.source = source
             self.status = status
@@ -2229,6 +2744,7 @@ extension NeptuneGraph {
             case format = "format"
             case graphId = "graphId"
             case importOptions = "importOptions"
+            case parquetType = "parquetType"
             case roleArn = "roleArn"
             case source = "source"
             case status = "status"

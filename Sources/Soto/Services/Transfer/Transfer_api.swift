@@ -300,7 +300,7 @@ public struct Transfer: AWSService {
     ///   - endpointDetails: The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make your endpoint accessible only to resources within your VPC, or you can attach Elastic IP addresses and make your endpoint accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
     ///   - endpointType: The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and  resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.  After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Services account if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Services account on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
     ///   - hostKey: The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice.  If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.  For more information, see Manage host keys for your SFTP-enabled server in the Transfer Family User Guide.
-    ///   - identityProviderDetails: Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
+    ///   - identityProviderDetails: Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Cannot be specified when IdentityProviderType is set to SERVICE_MANAGED.
     ///   - identityProviderType: The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider.  If you choose this value, you must specify the ARN for the Lambda function in the Function parameter  for the IdentityProviderDetails data type.
     ///   - loggingRole: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
     ///   - postAuthenticationLoginBanner: Specifies a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
@@ -410,6 +410,44 @@ public struct Transfer: AWSService {
             userName: userName
         )
         return try await self.createUser(input, logger: logger)
+    }
+
+    /// Creates a web app based on specified parameters, and returns the ID for the new web app.
+    @Sendable
+    @inlinable
+    public func createWebApp(_ input: CreateWebAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWebAppResponse {
+        try await self.client.execute(
+            operation: "CreateWebApp", 
+            path: "/createWebApp", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a web app based on specified parameters, and returns the ID for the new web app.
+    ///
+    /// Parameters:
+    ///   - accessEndpoint: The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+    ///   - identityProviderDetails: You can provide a structure that contains the details for the identity provider to use with your web app.
+    ///   - tags: Key-value pairs that can be used to group and search for web apps.
+    ///   - webAppUnits: A union that contains the value for number of concurrent connections or the user sessions on your web app.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createWebApp(
+        accessEndpoint: String? = nil,
+        identityProviderDetails: WebAppIdentityProviderDetails,
+        tags: [Tag]? = nil,
+        webAppUnits: WebAppUnits? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateWebAppResponse {
+        let input = CreateWebAppRequest(
+            accessEndpoint: accessEndpoint, 
+            identityProviderDetails: identityProviderDetails, 
+            tags: tags, 
+            webAppUnits: webAppUnits
+        )
+        return try await self.createWebApp(input, logger: logger)
     }
 
     ///  Allows you to create a workflow with specified steps and step details the workflow invokes after file transfer completes. After creating a workflow, you can associate the workflow created with any transfer servers by specifying the workflow-details field in CreateServer and UpdateServer operations.
@@ -727,6 +765,64 @@ public struct Transfer: AWSService {
             userName: userName
         )
         return try await self.deleteUser(input, logger: logger)
+    }
+
+    /// Deletes the specified web app.
+    @Sendable
+    @inlinable
+    public func deleteWebApp(_ input: DeleteWebAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteWebApp", 
+            path: "/deleteWebApp", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified web app.
+    ///
+    /// Parameters:
+    ///   - webAppId: Provide the unique identifier for the web app that you are deleting.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteWebApp(
+        webAppId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteWebAppRequest(
+            webAppId: webAppId
+        )
+        return try await self.deleteWebApp(input, logger: logger)
+    }
+
+    /// Deletes the WebAppCustomization object that corresponds to the web app ID specified.
+    @Sendable
+    @inlinable
+    public func deleteWebAppCustomization(_ input: DeleteWebAppCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteWebAppCustomization", 
+            path: "/deleteWebAppCustomization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the WebAppCustomization object that corresponds to the web app ID specified.
+    ///
+    /// Parameters:
+    ///   - webAppId: Provide the unique identifier for the web app that contains the customizations that you are deleting.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteWebAppCustomization(
+        webAppId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteWebAppCustomizationRequest(
+            webAppId: webAppId
+        )
+        return try await self.deleteWebAppCustomization(input, logger: logger)
     }
 
     /// Deletes the specified workflow.
@@ -1063,6 +1159,64 @@ public struct Transfer: AWSService {
         return try await self.describeUser(input, logger: logger)
     }
 
+    /// Describes the web app that's identified by WebAppId.
+    @Sendable
+    @inlinable
+    public func describeWebApp(_ input: DescribeWebAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWebAppResponse {
+        try await self.client.execute(
+            operation: "DescribeWebApp", 
+            path: "/describeWebApp", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the web app that's identified by WebAppId.
+    ///
+    /// Parameters:
+    ///   - webAppId: Provide the unique identifier for the web app.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeWebApp(
+        webAppId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeWebAppResponse {
+        let input = DescribeWebAppRequest(
+            webAppId: webAppId
+        )
+        return try await self.describeWebApp(input, logger: logger)
+    }
+
+    /// Describes the web app customization object that's identified by WebAppId.
+    @Sendable
+    @inlinable
+    public func describeWebAppCustomization(_ input: DescribeWebAppCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWebAppCustomizationResponse {
+        try await self.client.execute(
+            operation: "DescribeWebAppCustomization", 
+            path: "/describeWebAppCustomization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the web app customization object that's identified by WebAppId.
+    ///
+    /// Parameters:
+    ///   - webAppId: Provide the unique identifier for the web app.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeWebAppCustomization(
+        webAppId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeWebAppCustomizationResponse {
+        let input = DescribeWebAppCustomizationRequest(
+            webAppId: webAppId
+        )
+        return try await self.describeWebAppCustomization(input, logger: logger)
+    }
+
     /// Describes the specified workflow.
     @Sendable
     @inlinable
@@ -1231,7 +1385,7 @@ public struct Transfer: AWSService {
     /// Lists the details for all the accesses you have on your server.
     ///
     /// Parameters:
-    ///   - maxResults: Specifies the maximum number of access SIDs to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - nextToken: When you can get additional results from the ListAccesses call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional accesses.
     ///   - serverId: A system-assigned unique identifier for a server that has users assigned to it.
     ///   - logger: Logger use during operation
@@ -1266,7 +1420,7 @@ public struct Transfer: AWSService {
     /// Returns a list of the agreements for the server that's identified by the ServerId that you supply. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing agreements from where you left off.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of agreements to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - nextToken: When you can get additional results from the ListAgreements call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional agreements.
     ///   - serverId: The identifier of the server for which you want a list of agreements.
     ///   - logger: Logger use during operation
@@ -1301,7 +1455,7 @@ public struct Transfer: AWSService {
     /// Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for the NextToken parameter, you can supply that value to continue listing certificates from where you left off.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of certificates to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - nextToken: When you can get additional results from the ListCertificates call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional certificates.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1333,7 +1487,7 @@ public struct Transfer: AWSService {
     /// Lists the connectors for the specified Region.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of connectors to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - nextToken: When you can get additional results from the ListConnectors call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional connectors.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1365,7 +1519,7 @@ public struct Transfer: AWSService {
     /// Lists all in-progress executions for the specified workflow.  If the specified workflow ID cannot be found, ListExecutions returns a  ResourceNotFound exception.
     ///
     /// Parameters:
-    ///   - maxResults: Specifies the maximum number of executions to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - nextToken:  ListExecutions returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional executions.  This is useful for pagination, for instance. If you have 100 executions for a workflow, you might only want to list first 10. If so, call the API by specifying the max-results:   aws transfer list-executions --max-results 10   This returns details for the first 10 executions, as well as the pointer (NextToken) to the eleventh execution. You can now call the API again, supplying the NextToken value you received:   aws transfer list-executions --max-results 10 --next-token $somePointerReturnedFromPreviousListResult   This call returns the next 10 executions, the 11th through the 20th. You can then repeat the call until the details for all 100 executions have been returned.
     ///   - workflowId: A unique identifier for the workflow.
     ///   - logger: Logger use during operation
@@ -1438,7 +1592,7 @@ public struct Transfer: AWSService {
     /// Returns a list of host keys for the server that's specified by the ServerId parameter.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of host keys to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - nextToken: When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListHostKeys to continue listing results.
     ///   - serverId: The identifier of the server that contains the host keys that you want to view.
     ///   - logger: Logger use during operation
@@ -1473,7 +1627,7 @@ public struct Transfer: AWSService {
     /// Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing profiles from where you left off.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of profiles to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - nextToken: When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListProfiles to continue listing results.
     ///   - profileType: Indicates whether to list only LOCAL type profiles or only PARTNER type profiles.  If not supplied in the request, the command lists all types of profiles.
     ///   - logger: Logger use during operation
@@ -1626,6 +1780,38 @@ public struct Transfer: AWSService {
         return try await self.listUsers(input, logger: logger)
     }
 
+    /// Lists all web apps associated with your Amazon Web Services account for your current region.
+    @Sendable
+    @inlinable
+    public func listWebApps(_ input: ListWebAppsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWebAppsResponse {
+        try await self.client.execute(
+            operation: "ListWebApps", 
+            path: "/listWebApps", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all web apps associated with your Amazon Web Services account for your current region.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to return.
+    ///   - nextToken: Returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional web apps.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listWebApps(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListWebAppsResponse {
+        let input = ListWebAppsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listWebApps(input, logger: logger)
+    }
+
     /// Lists all workflows associated with your Amazon Web Services account for your current region.
     @Sendable
     @inlinable
@@ -1642,7 +1828,7 @@ public struct Transfer: AWSService {
     /// Lists all workflows associated with your Amazon Web Services account for your current region.
     ///
     /// Parameters:
-    ///   - maxResults: Specifies the maximum number of workflows to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - nextToken:  ListWorkflows returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional workflows.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2339,6 +2525,82 @@ public struct Transfer: AWSService {
         )
         return try await self.updateUser(input, logger: logger)
     }
+
+    /// Assigns new properties to a web app. You can modify the access point, identity provider details, and the web app units.
+    @Sendable
+    @inlinable
+    public func updateWebApp(_ input: UpdateWebAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWebAppResponse {
+        try await self.client.execute(
+            operation: "UpdateWebApp", 
+            path: "/updateWebApp", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Assigns new properties to a web app. You can modify the access point, identity provider details, and the web app units.
+    ///
+    /// Parameters:
+    ///   - accessEndpoint: The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+    ///   - identityProviderDetails: Provide updated identity provider values in a WebAppIdentityProviderDetails object.
+    ///   - webAppId: Provide the identifier of the web app that you are updating.
+    ///   - webAppUnits: A union that contains the value for number of concurrent connections or the user sessions on your web app.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateWebApp(
+        accessEndpoint: String? = nil,
+        identityProviderDetails: UpdateWebAppIdentityProviderDetails? = nil,
+        webAppId: String,
+        webAppUnits: WebAppUnits? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateWebAppResponse {
+        let input = UpdateWebAppRequest(
+            accessEndpoint: accessEndpoint, 
+            identityProviderDetails: identityProviderDetails, 
+            webAppId: webAppId, 
+            webAppUnits: webAppUnits
+        )
+        return try await self.updateWebApp(input, logger: logger)
+    }
+
+    /// Assigns new customization properties to a web app. You can modify the icon file, logo file, and title.
+    @Sendable
+    @inlinable
+    public func updateWebAppCustomization(_ input: UpdateWebAppCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWebAppCustomizationResponse {
+        try await self.client.execute(
+            operation: "UpdateWebAppCustomization", 
+            path: "/updateWebAppCustomization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Assigns new customization properties to a web app. You can modify the icon file, logo file, and title.
+    ///
+    /// Parameters:
+    ///   - faviconFile: Specify icon file data string (in base64 encoding).
+    ///   - logoFile: Specify logo file data string (in base64 encoding).
+    ///   - title: Provide an updated title.
+    ///   - webAppId: Provide the identifier of the web app that you are updating.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateWebAppCustomization(
+        faviconFile: AWSBase64Data? = nil,
+        logoFile: AWSBase64Data? = nil,
+        title: String? = nil,
+        webAppId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateWebAppCustomizationResponse {
+        let input = UpdateWebAppCustomizationRequest(
+            faviconFile: faviconFile, 
+            logoFile: logoFile, 
+            title: title, 
+            webAppId: webAppId
+        )
+        return try await self.updateWebAppCustomization(input, logger: logger)
+    }
 }
 
 extension Transfer {
@@ -2375,7 +2637,7 @@ extension Transfer {
     /// Return PaginatorSequence for operation ``listAccesses(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Specifies the maximum number of access SIDs to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - serverId: A system-assigned unique identifier for a server that has users assigned to it.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2412,7 +2674,7 @@ extension Transfer {
     /// Return PaginatorSequence for operation ``listAgreements(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of agreements to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - serverId: The identifier of the server for which you want a list of agreements.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2449,7 +2711,7 @@ extension Transfer {
     /// Return PaginatorSequence for operation ``listCertificates(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of certificates to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCertificatesPaginator(
@@ -2483,7 +2745,7 @@ extension Transfer {
     /// Return PaginatorSequence for operation ``listConnectors(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of connectors to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - logger: Logger used for logging
     @inlinable
     public func listConnectorsPaginator(
@@ -2517,7 +2779,7 @@ extension Transfer {
     /// Return PaginatorSequence for operation ``listExecutions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Specifies the maximum number of executions to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - workflowId: A unique identifier for the workflow.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2594,7 +2856,7 @@ extension Transfer {
     /// Return PaginatorSequence for operation ``listProfiles(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of profiles to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - profileType: Indicates whether to list only LOCAL type profiles or only PARTNER type profiles.  If not supplied in the request, the command lists all types of profiles.
     ///   - logger: Logger used for logging
     @inlinable
@@ -2752,6 +3014,40 @@ extension Transfer {
         return self.listUsersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listWebApps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listWebAppsPaginator(
+        _ input: ListWebAppsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWebAppsRequest, ListWebAppsResponse> {
+        return .init(
+            input: input,
+            command: self.listWebApps,
+            inputKey: \ListWebAppsRequest.nextToken,
+            outputKey: \ListWebAppsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listWebApps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listWebAppsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListWebAppsRequest, ListWebAppsResponse> {
+        let input = ListWebAppsRequest(
+            maxResults: maxResults
+        )
+        return self.listWebAppsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listWorkflows(_:logger:)``.
     ///
     /// - Parameters:
@@ -2773,7 +3069,7 @@ extension Transfer {
     /// Return PaginatorSequence for operation ``listWorkflows(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Specifies the maximum number of workflows to return.
+    ///   - maxResults: The maximum number of items to return.
     ///   - logger: Logger used for logging
     @inlinable
     public func listWorkflowsPaginator(
@@ -2901,6 +3197,16 @@ extension Transfer.ListUsersRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             serverId: self.serverId
+        )
+    }
+}
+
+extension Transfer.ListWebAppsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Transfer.ListWebAppsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

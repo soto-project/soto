@@ -49,6 +49,12 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum CacheBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cacheAlways = "CACHE_ALWAYS"
+        case cacheOnFailure = "CACHE_ON_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CreationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `import` = "IMPORT"
         case upload = "UPLOAD"
@@ -241,6 +247,13 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum RunCacheStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RunExport: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case definition = "DEFINITION"
         public var description: String { return self.rawValue }
@@ -285,6 +298,15 @@ extension Omics {
         case long = "LONG"
         /// STRING type
         case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SequenceStoreStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -341,6 +363,12 @@ extension Omics {
         case failed = "FAILED"
         /// The Store is updating
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StoreType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case referenceStore = "REFERENCE_STORE"
+        case sequenceStore = "SEQUENCE_STORE"
         public var description: String { return self.rawValue }
     }
 
@@ -1422,6 +1450,91 @@ extension Omics {
         }
     }
 
+    public struct CreateRunCacheRequest: AWSEncodableShape {
+        /// Default cache behavior for runs that use this cache. Supported values are:  CACHE_ON_FAILURE: Caches task outputs from completed tasks for runs that fail. This setting is  useful if you're debugging a workflow that fails after several tasks completed successfully. The subsequent run uses the cache outputs for previously-completed tasks if the task definition, inputs, and container in ECR are identical to the prior run.  CACHE_ALWAYS: Caches task outputs from completed tasks for all runs. This setting is useful in development mode, but do not use it in a production setting. If you don't specify a value, the default behavior is CACHE_ON_FAILURE. When you start a run that uses this cache, you can override the default cache behavior. For more information, see Run cache behavior in the AWS HealthOmics User Guide.
+        public let cacheBehavior: CacheBehavior?
+        /// The AWS account ID of the expected owner of the S3 bucket for the run cache. If not provided, your account ID is set as the owner of the bucket.
+        public let cacheBucketOwnerId: String?
+        /// Specify the S3 location for storing the cached task outputs. This data must be immediately accessible (not in an archived state).
+        public let cacheS3Location: String
+        /// Enter a description of the run cache.
+        public let description: String?
+        /// Enter a user-friendly name for the run cache.
+        public let name: String?
+        /// A unique request token, to ensure idempotency. If you don't specify a token,  HealthOmics automatically generates a universally unique identifier (UUID) for the request.
+        public let requestId: String
+        /// Specify one or more tags to associate with this run cache.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(cacheBehavior: CacheBehavior? = nil, cacheBucketOwnerId: String? = nil, cacheS3Location: String, description: String? = nil, name: String? = nil, requestId: String = CreateRunCacheRequest.idempotencyToken(), tags: [String: String]? = nil) {
+            self.cacheBehavior = cacheBehavior
+            self.cacheBucketOwnerId = cacheBucketOwnerId
+            self.cacheS3Location = cacheS3Location
+            self.description = description
+            self.name = name
+            self.requestId = requestId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cacheBucketOwnerId, name: "cacheBucketOwnerId", parent: name, max: 12)
+            try self.validate(self.cacheBucketOwnerId, name: "cacheBucketOwnerId", parent: name, min: 12)
+            try self.validate(self.cacheBucketOwnerId, name: "cacheBucketOwnerId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.cacheS3Location, name: "cacheS3Location", parent: name, pattern: "^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])(/(.{0,1024}))?$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 128)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheBehavior = "cacheBehavior"
+            case cacheBucketOwnerId = "cacheBucketOwnerId"
+            case cacheS3Location = "cacheS3Location"
+            case description = "description"
+            case name = "name"
+            case requestId = "requestId"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateRunCacheResponse: AWSDecodableShape {
+        /// Unique resource identifier for the run cache.
+        public let arn: String?
+        /// Identifier for the run cache.
+        public let id: String?
+        /// Run cache status.
+        public let status: RunCacheStatus?
+        /// The tags associated with this run cache.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, status: RunCacheStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.id = id
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct CreateRunGroupRequest: AWSEncodableShape {
         /// The maximum number of CPUs that can run concurrently across all active runs in the run group.
         public let maxCpus: Int?
@@ -1507,18 +1620,24 @@ extension Omics {
         public let fallbackLocation: String?
         /// A name for the store.
         public let name: String
+        /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+        public let propagatedSetLevelTags: [String]?
+        /// S3 access configuration parameters
+        public let s3AccessConfig: S3AccessConfig?
         /// Server-side encryption (SSE) settings for the store.
         public let sseConfig: SseConfig?
         /// Tags for the store.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = nil, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, name: String, sseConfig: SseConfig? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateSequenceStoreRequest.idempotencyToken(), description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, name: String, propagatedSetLevelTags: [String]? = nil, s3AccessConfig: S3AccessConfig? = nil, sseConfig: SseConfig? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.eTagAlgorithmFamily = eTagAlgorithmFamily
             self.fallbackLocation = fallbackLocation
             self.name = name
+            self.propagatedSetLevelTags = propagatedSetLevelTags
+            self.s3AccessConfig = s3AccessConfig
             self.sseConfig = sseConfig
             self.tags = tags
         }
@@ -1534,6 +1653,12 @@ extension Omics {
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.propagatedSetLevelTags?.forEach {
+                try validate($0, name: "propagatedSetLevelTags[]", parent: name, max: 128)
+                try validate($0, name: "propagatedSetLevelTags[]", parent: name, min: 1)
+            }
+            try self.validate(self.propagatedSetLevelTags, name: "propagatedSetLevelTags", parent: name, max: 50)
+            try self.s3AccessConfig?.validate(name: "\(name).s3AccessConfig")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1547,6 +1672,8 @@ extension Omics {
             case eTagAlgorithmFamily = "eTagAlgorithmFamily"
             case fallbackLocation = "fallbackLocation"
             case name = "name"
+            case propagatedSetLevelTags = "propagatedSetLevelTags"
+            case s3AccessConfig = "s3AccessConfig"
             case sseConfig = "sseConfig"
             case tags = "tags"
         }
@@ -1567,11 +1694,18 @@ extension Omics {
         public let id: String
         /// The store's name.
         public let name: String?
+        /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+        public let propagatedSetLevelTags: [String]?
+        public let s3Access: SequenceStoreS3Access?
         /// The store's SSE settings.
         public let sseConfig: SseConfig?
+        /// The status of the sequence store.
+        public let status: SequenceStoreStatus?
+        /// The status message of the sequence store.
+        public let statusMessage: String?
 
         @inlinable
-        public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
+        public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, propagatedSetLevelTags: [String]? = nil, s3Access: SequenceStoreS3Access? = nil, sseConfig: SseConfig? = nil, status: SequenceStoreStatus? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -1579,7 +1713,11 @@ extension Omics {
             self.fallbackLocation = fallbackLocation
             self.id = id
             self.name = name
+            self.propagatedSetLevelTags = propagatedSetLevelTags
+            self.s3Access = s3Access
             self.sseConfig = sseConfig
+            self.status = status
+            self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1590,7 +1728,11 @@ extension Omics {
             case fallbackLocation = "fallbackLocation"
             case id = "id"
             case name = "name"
+            case propagatedSetLevelTags = "propagatedSetLevelTags"
+            case s3Access = "s3Access"
             case sseConfig = "sseConfig"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -1980,6 +2122,30 @@ extension Omics {
         public init() {}
     }
 
+    public struct DeleteRunCacheRequest: AWSEncodableShape {
+        /// Run cache identifier for the cache you want to delete.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 18)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteRunGroupRequest: AWSEncodableShape {
         /// The run group's ID.
         public let id: String
@@ -2026,6 +2192,34 @@ extension Omics {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteS3AccessPolicyRequest: AWSEncodableShape {
+        /// The S3 access point ARN that has the access policy.
+        public let s3AccessPointArn: String
+
+        @inlinable
+        public init(s3AccessPointArn: String) {
+            self.s3AccessPointArn = s3AccessPointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.s3AccessPointArn, key: "s3AccessPointArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3AccessPointArn, name: "s3AccessPointArn", parent: name, max: 1024)
+            try self.validate(self.s3AccessPointArn, name: "s3AccessPointArn", parent: name, min: 1)
+            try self.validate(self.s3AccessPointArn, name: "s3AccessPointArn", parent: name, pattern: "^arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteS3AccessPolicyResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteSequenceStoreRequest: AWSEncodableShape {
@@ -3252,6 +3446,81 @@ extension Omics {
         }
     }
 
+    public struct GetRunCacheRequest: AWSEncodableShape {
+        /// The identifier of the run cache to retrieve.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 18)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRunCacheResponse: AWSDecodableShape {
+        /// Unique resource identifier for the run cache.
+        public let arn: String?
+        /// The default cache behavior for runs using this cache.
+        public let cacheBehavior: CacheBehavior?
+        /// The identifier of the bucket owner.
+        public let cacheBucketOwnerId: String?
+        /// The S3 URI where the cache data is stored.
+        public let cacheS3Uri: String?
+        /// Creation time of the run cache (an ISO 8601 formatted string).
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The run cache description.
+        public let description: String?
+        /// The run cache ID.
+        public let id: String?
+        /// The run cache name.
+        public let name: String?
+        /// The run cache status.
+        public let status: RunCacheStatus?
+        /// The tags associated with the run cache.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheBucketOwnerId: String? = nil, cacheS3Uri: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, status: RunCacheStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.cacheBehavior = cacheBehavior
+            self.cacheBucketOwnerId = cacheBucketOwnerId
+            self.cacheS3Uri = cacheS3Uri
+            self.creationTime = creationTime
+            self.description = description
+            self.id = id
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case cacheBehavior = "cacheBehavior"
+            case cacheBucketOwnerId = "cacheBucketOwnerId"
+            case cacheS3Uri = "cacheS3Uri"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct GetRunGroupRequest: AWSEncodableShape {
         /// The group's ID.
         public let id: String
@@ -3357,6 +3626,10 @@ extension Omics {
         public let accelerators: Accelerators?
         /// The run's ARN.
         public let arn: String?
+        /// The run cache behavior for the run.
+        public let cacheBehavior: CacheBehavior?
+        /// The run cache associated with the run.
+        public let cacheId: String?
         /// When the run was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
@@ -3364,6 +3637,8 @@ extension Omics {
         public let definition: String?
         /// The run's digest.
         public let digest: String?
+        /// The workflow engine version.
+        public let engineVersion: String?
         /// The reason a run has failed.
         public let failureReason: String?
         /// The run's ID.
@@ -3420,12 +3695,15 @@ extension Omics {
         public let workflowType: WorkflowType?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
             self.accelerators = accelerators
             self.arn = arn
+            self.cacheBehavior = cacheBehavior
+            self.cacheId = cacheId
             self.creationTime = creationTime
             self.definition = definition
             self.digest = digest
+            self.engineVersion = engineVersion
             self.failureReason = failureReason
             self.id = id
             self.logLevel = logLevel
@@ -3457,9 +3735,12 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case accelerators = "accelerators"
             case arn = "arn"
+            case cacheBehavior = "cacheBehavior"
+            case cacheId = "cacheId"
             case creationTime = "creationTime"
             case definition = "definition"
             case digest = "digest"
+            case engineVersion = "engineVersion"
             case failureReason = "failureReason"
             case id = "id"
             case logLevel = "logLevel"
@@ -3521,6 +3802,10 @@ extension Omics {
     }
 
     public struct GetRunTaskResponse: AWSDecodableShape {
+        /// Set to true if AWS HealthOmics found a matching entry in the run cache for this task.
+        public let cacheHit: Bool?
+        /// The S3 URI of the cache location.
+        public let cacheS3Uri: String?
         /// The task's CPU usage.
         public let cpus: Int?
         /// When the task was created.
@@ -3552,7 +3837,9 @@ extension Omics {
         public let taskId: String?
 
         @inlinable
-        public init(cpus: Int? = nil, creationTime: Date? = nil, failureReason: String? = nil, gpus: Int? = nil, instanceType: String? = nil, logStream: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, taskId: String? = nil) {
+        public init(cacheHit: Bool? = nil, cacheS3Uri: String? = nil, cpus: Int? = nil, creationTime: Date? = nil, failureReason: String? = nil, gpus: Int? = nil, instanceType: String? = nil, logStream: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, taskId: String? = nil) {
+            self.cacheHit = cacheHit
+            self.cacheS3Uri = cacheS3Uri
             self.cpus = cpus
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -3569,6 +3856,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheHit = "cacheHit"
+            case cacheS3Uri = "cacheS3Uri"
             case cpus = "cpus"
             case creationTime = "creationTime"
             case failureReason = "failureReason"
@@ -3582,6 +3871,60 @@ extension Omics {
             case statusMessage = "statusMessage"
             case stopTime = "stopTime"
             case taskId = "taskId"
+        }
+    }
+
+    public struct GetS3AccessPolicyRequest: AWSEncodableShape {
+        /// The S3 access point ARN that has the access policy.
+        public let s3AccessPointArn: String
+
+        @inlinable
+        public init(s3AccessPointArn: String) {
+            self.s3AccessPointArn = s3AccessPointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.s3AccessPointArn, key: "s3AccessPointArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3AccessPointArn, name: "s3AccessPointArn", parent: name, max: 1024)
+            try self.validate(self.s3AccessPointArn, name: "s3AccessPointArn", parent: name, min: 1)
+            try self.validate(self.s3AccessPointArn, name: "s3AccessPointArn", parent: name, pattern: "^arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetS3AccessPolicyResponse: AWSDecodableShape {
+        /// The S3 access point ARN that has the access policy.
+        public let s3AccessPointArn: String?
+        /// The current resource policy that controls S3 access on the store.
+        public let s3AccessPolicy: String
+        /// The AWS-generated Sequence Store or Reference Store ID.
+        public let storeId: String?
+        /// The type of store associated with the access point.
+        public let storeType: StoreType?
+        /// The time when the policy was last updated.
+        public let updateTime: Date?
+
+        @inlinable
+        public init(s3AccessPointArn: String? = nil, s3AccessPolicy: String, storeId: String? = nil, storeType: StoreType? = nil, updateTime: Date? = nil) {
+            self.s3AccessPointArn = s3AccessPointArn
+            self.s3AccessPolicy = s3AccessPolicy
+            self.storeId = storeId
+            self.storeType = storeType
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3AccessPointArn = "s3AccessPointArn"
+            case s3AccessPolicy = "s3AccessPolicy"
+            case storeId = "storeId"
+            case storeType = "storeType"
+            case updateTime = "updateTime"
         }
     }
 
@@ -3624,13 +3967,21 @@ extension Omics {
         public let id: String
         /// The store's name.
         public let name: String?
+        /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+        public let propagatedSetLevelTags: [String]?
         /// The S3 metadata of a sequence store, including the ARN and S3 URI of the S3 bucket.
         public let s3Access: SequenceStoreS3Access?
         /// The store's server-side encryption (SSE) settings.
         public let sseConfig: SseConfig?
+        /// The status of the sequence store.
+        public let status: SequenceStoreStatus?
+        /// The status message of the sequence store.
+        public let statusMessage: String?
+        /// The last-updated time of the sequence store.
+        public let updateTime: Date?
 
         @inlinable
-        public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, s3Access: SequenceStoreS3Access? = nil, sseConfig: SseConfig? = nil) {
+        public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, propagatedSetLevelTags: [String]? = nil, s3Access: SequenceStoreS3Access? = nil, sseConfig: SseConfig? = nil, status: SequenceStoreStatus? = nil, statusMessage: String? = nil, updateTime: Date? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -3638,8 +3989,12 @@ extension Omics {
             self.fallbackLocation = fallbackLocation
             self.id = id
             self.name = name
+            self.propagatedSetLevelTags = propagatedSetLevelTags
             self.s3Access = s3Access
             self.sseConfig = sseConfig
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updateTime = updateTime
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3650,8 +4005,12 @@ extension Omics {
             case fallbackLocation = "fallbackLocation"
             case id = "id"
             case name = "name"
+            case propagatedSetLevelTags = "propagatedSetLevelTags"
             case s3Access = "s3Access"
             case sseConfig = "sseConfig"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updateTime = "updateTime"
         }
     }
 
@@ -4914,6 +5273,52 @@ extension Omics {
         }
     }
 
+    public struct ListRunCachesRequest: AWSEncodableShape {
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// Optional pagination token returned from a prior call to the ListRunCaches API operation.
+        public let startingToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, startingToken: String? = nil) {
+            self.maxResults = maxResults
+            self.startingToken = startingToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.startingToken, key: "startingToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.startingToken, name: "startingToken", parent: name, max: 128)
+            try self.validate(self.startingToken, name: "startingToken", parent: name, min: 1)
+            try self.validate(self.startingToken, name: "startingToken", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRunCachesResponse: AWSDecodableShape {
+        /// Details about each run cache in the response.
+        public let items: [RunCacheListItem]?
+        /// Pagination token to retrieve additional run caches. If the response does not have a  nextTokenvalue, you have reached to the end of the list.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [RunCacheListItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListRunGroupsRequest: AWSEncodableShape {
         /// The maximum number of run groups to return in one page of results.
         public let maxResults: Int?
@@ -5493,6 +5898,60 @@ extension Omics {
         }
     }
 
+    public struct PutS3AccessPolicyRequest: AWSEncodableShape {
+        /// The S3 access point ARN where you want to put the access policy.
+        public let s3AccessPointArn: String
+        /// The resource policy that controls S3 access to the store.
+        public let s3AccessPolicy: String
+
+        @inlinable
+        public init(s3AccessPointArn: String, s3AccessPolicy: String) {
+            self.s3AccessPointArn = s3AccessPointArn
+            self.s3AccessPolicy = s3AccessPolicy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.s3AccessPointArn, key: "s3AccessPointArn")
+            try container.encode(self.s3AccessPolicy, forKey: .s3AccessPolicy)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3AccessPointArn, name: "s3AccessPointArn", parent: name, max: 1024)
+            try self.validate(self.s3AccessPointArn, name: "s3AccessPointArn", parent: name, min: 1)
+            try self.validate(self.s3AccessPointArn, name: "s3AccessPointArn", parent: name, pattern: "^arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*$")
+            try self.validate(self.s3AccessPolicy, name: "s3AccessPolicy", parent: name, max: 100000)
+            try self.validate(self.s3AccessPolicy, name: "s3AccessPolicy", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3AccessPolicy = "s3AccessPolicy"
+        }
+    }
+
+    public struct PutS3AccessPolicyResponse: AWSDecodableShape {
+        /// The S3 access point ARN that now has the access policy.
+        public let s3AccessPointArn: String?
+        /// The AWS-generated Sequence Store or Reference Store ID.
+        public let storeId: String?
+        /// The type of store associated with the access point.
+        public let storeType: StoreType?
+
+        @inlinable
+        public init(s3AccessPointArn: String? = nil, storeId: String? = nil, storeType: StoreType? = nil) {
+            self.s3AccessPointArn = s3AccessPointArn
+            self.storeId = storeId
+            self.storeType = storeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3AccessPointArn = "s3AccessPointArn"
+            case storeId = "storeId"
+            case storeType = "storeType"
+        }
+    }
+
     public struct ReadOptions: AWSEncodableShape & AWSDecodableShape {
         /// The file's comment character.
         public let comment: String?
@@ -5957,6 +6416,45 @@ extension Omics {
         }
     }
 
+    public struct RunCacheListItem: AWSDecodableShape {
+        /// Unique resource identifier for the run cache.
+        public let arn: String?
+        /// Default cache behavior for the run cache.
+        public let cacheBehavior: CacheBehavior?
+        /// The S3 uri for the run cache data.
+        public let cacheS3Uri: String?
+        /// The time that this run cache was created (an ISO 8601 formatted string).
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The identifier for this run cache.
+        public let id: String?
+        /// The name of the run cache.
+        public let name: String?
+        /// The run cache status.
+        public let status: RunCacheStatus?
+
+        @inlinable
+        public init(arn: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheS3Uri: String? = nil, creationTime: Date? = nil, id: String? = nil, name: String? = nil, status: RunCacheStatus? = nil) {
+            self.arn = arn
+            self.cacheBehavior = cacheBehavior
+            self.cacheS3Uri = cacheS3Uri
+            self.creationTime = creationTime
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case cacheBehavior = "cacheBehavior"
+            case cacheS3Uri = "cacheS3Uri"
+            case creationTime = "creationTime"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
     public struct RunGroupListItem: AWSDecodableShape {
         /// The group's ARN.
         public let arn: String?
@@ -6075,6 +6573,24 @@ extension Omics {
         }
     }
 
+    public struct S3AccessConfig: AWSEncodableShape {
+        /// Location of the access logs.
+        public let accessLogLocation: String?
+
+        @inlinable
+        public init(accessLogLocation: String? = nil) {
+            self.accessLogLocation = accessLogLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessLogLocation, name: "accessLogLocation", parent: name, pattern: "^$|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,800})/)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLogLocation = "accessLogLocation"
+        }
+    }
+
     public struct SequenceInformation: AWSDecodableShape {
         /// The sequence's alignment setting.
         public let alignment: String?
@@ -6118,9 +6634,15 @@ extension Omics {
         public let name: String?
         /// The store's server-side encryption (SSE) settings.
         public let sseConfig: SseConfig?
+        /// Status of the sequence store.
+        public let status: SequenceStoreStatus?
+        /// The status message of the sequence store.
+        public let statusMessage: String?
+        /// The last-updated time of the Sequence Store.
+        public let updateTime: Date?
 
         @inlinable
-        public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
+        public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil, status: SequenceStoreStatus? = nil, statusMessage: String? = nil, updateTime: Date? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -6129,6 +6651,9 @@ extension Omics {
             self.id = id
             self.name = name
             self.sseConfig = sseConfig
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updateTime = updateTime
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6140,6 +6665,9 @@ extension Omics {
             case id = "id"
             case name = "name"
             case sseConfig = "sseConfig"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updateTime = "updateTime"
         }
     }
 
@@ -6150,12 +6678,21 @@ extension Omics {
         public let createdBefore: Date?
         /// A name to filter on.
         public let name: String?
+        /// Filter results based on status.
+        public let status: SequenceStoreStatus?
+        /// Filter results based on stores updated after the specified time.
+        public let updatedAfter: Date?
+        /// Filter results based on stores updated before the specified time.
+        public let updatedBefore: Date?
 
         @inlinable
-        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, name: String? = nil) {
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, name: String? = nil, status: SequenceStoreStatus? = nil, updatedAfter: Date? = nil, updatedBefore: Date? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.name = name
+            self.status = status
+            self.updatedAfter = updatedAfter
+            self.updatedBefore = updatedBefore
         }
 
         public func validate(name: String) throws {
@@ -6168,22 +6705,29 @@ extension Omics {
             case createdAfter = "createdAfter"
             case createdBefore = "createdBefore"
             case name = "name"
+            case status = "status"
+            case updatedAfter = "updatedAfter"
+            case updatedBefore = "updatedBefore"
         }
     }
 
     public struct SequenceStoreS3Access: AWSDecodableShape {
+        /// Location of the access logs.
+        public let accessLogLocation: String?
         /// This is ARN of the access point associated with the S3 bucket storing read sets.
         public let s3AccessPointArn: String?
         /// The S3 URI of the sequence store.
         public let s3Uri: String?
 
         @inlinable
-        public init(s3AccessPointArn: String? = nil, s3Uri: String? = nil) {
+        public init(accessLogLocation: String? = nil, s3AccessPointArn: String? = nil, s3Uri: String? = nil) {
+            self.accessLogLocation = accessLogLocation
             self.s3AccessPointArn = s3AccessPointArn
             self.s3Uri = s3Uri
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessLogLocation = "accessLogLocation"
             case s3AccessPointArn = "s3AccessPointArn"
             case s3Uri = "s3Uri"
         }
@@ -6796,6 +7340,10 @@ extension Omics {
     }
 
     public struct StartRunRequest: AWSEncodableShape {
+        /// The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see Run cache behavior in the AWS HealthOmics User Guide.
+        public let cacheBehavior: CacheBehavior?
+        /// Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached  for this run.
+        public let cacheId: String?
         /// A log level for the run.
         public let logLevel: RunLogLevel?
         /// A name for the run.
@@ -6808,7 +7356,7 @@ extension Omics {
         public let priority: Int?
         /// To ensure that requests don't run multiple times, specify a unique ID for each request.
         public let requestId: String
-        /// The retention mode for the run.
+        /// The retention mode for the run. The default value is RETAIN.  HealthOmics stores a fixed number of runs that are available to the console and API.  In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, HealthOmics automatically  removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run retention mode  in the AWS HealthOmics User Guide.
         public let retentionMode: RunRetentionMode?
         /// A service role for the run.
         public let roleArn: String
@@ -6830,7 +7378,9 @@ extension Omics {
         public let workflowType: WorkflowType?
 
         @inlinable
-        public init(logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
+        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
+            self.cacheBehavior = cacheBehavior
+            self.cacheId = cacheId
             self.logLevel = logLevel
             self.name = name
             self.outputUri = outputUri
@@ -6850,6 +7400,9 @@ extension Omics {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.cacheId, name: "cacheId", parent: name, max: 18)
+            try self.validate(self.cacheId, name: "cacheId", parent: name, min: 1)
+            try self.validate(self.cacheId, name: "cacheId", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
@@ -6880,6 +7433,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheBehavior = "cacheBehavior"
+            case cacheId = "cacheId"
             case logLevel = "logLevel"
             case name = "name"
             case outputUri = "outputUri"
@@ -6900,7 +7455,7 @@ extension Omics {
     }
 
     public struct StartRunResponse: AWSDecodableShape {
-        /// The run's ARN.
+        /// Unique resource identifier for the run.
         public let arn: String?
         /// The run's ID.
         public let id: String?
@@ -7030,6 +7585,10 @@ extension Omics {
     }
 
     public struct TaskListItem: AWSDecodableShape {
+        /// Set to true if AWS HealthOmics found a matching entry in the run cache for this task.
+        public let cacheHit: Bool?
+        /// The S3 URI of the cache location.
+        public let cacheS3Uri: String?
         /// The task's CPU count.
         public let cpus: Int?
         /// When the task was created.
@@ -7055,7 +7614,9 @@ extension Omics {
         public let taskId: String?
 
         @inlinable
-        public init(cpus: Int? = nil, creationTime: Date? = nil, gpus: Int? = nil, instanceType: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, stopTime: Date? = nil, taskId: String? = nil) {
+        public init(cacheHit: Bool? = nil, cacheS3Uri: String? = nil, cpus: Int? = nil, creationTime: Date? = nil, gpus: Int? = nil, instanceType: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, stopTime: Date? = nil, taskId: String? = nil) {
+            self.cacheHit = cacheHit
+            self.cacheS3Uri = cacheS3Uri
             self.cpus = cpus
             self.creationTime = creationTime
             self.gpus = gpus
@@ -7069,6 +7630,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheHit = "cacheHit"
+            case cacheS3Uri = "cacheS3Uri"
             case cpus = "cpus"
             case creationTime = "creationTime"
             case gpus = "gpus"
@@ -7347,6 +7910,52 @@ extension Omics {
         }
     }
 
+    public struct UpdateRunCacheRequest: AWSEncodableShape {
+        /// Update the default run cache behavior.
+        public let cacheBehavior: CacheBehavior?
+        /// Update the run cache description.
+        public let description: String?
+        /// The identifier of the run cache you want to update.
+        public let id: String
+        /// Update the name of the run cache.
+        public let name: String?
+
+        @inlinable
+        public init(cacheBehavior: CacheBehavior? = nil, description: String? = nil, id: String, name: String? = nil) {
+            self.cacheBehavior = cacheBehavior
+            self.description = description
+            self.id = id
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cacheBehavior, forKey: .cacheBehavior)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.id, name: "id", parent: name, max: 18)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheBehavior = "cacheBehavior"
+            case description = "description"
+            case name = "name"
+        }
+    }
+
     public struct UpdateRunGroupRequest: AWSEncodableShape {
         /// The group's ID.
         public let id: String
@@ -7397,6 +8006,137 @@ extension Omics {
             case maxGpus = "maxGpus"
             case maxRuns = "maxRuns"
             case name = "name"
+        }
+    }
+
+    public struct UpdateSequenceStoreRequest: AWSEncodableShape {
+        /// To ensure that requests don't run multiple times, specify a unique token for each request.
+        public let clientToken: String?
+        /// A description for the sequence store.
+        public let description: String?
+        /// The S3 URI of a bucket and folder to store Read Sets that fail to upload.
+        public let fallbackLocation: String?
+        /// The ID of the sequence store.
+        public let id: String
+        /// A name for the sequence store.
+        public let name: String?
+        /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+        public let propagatedSetLevelTags: [String]?
+        /// S3 access configuration parameters.
+        public let s3AccessConfig: S3AccessConfig?
+
+        @inlinable
+        public init(clientToken: String? = UpdateSequenceStoreRequest.idempotencyToken(), description: String? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, propagatedSetLevelTags: [String]? = nil, s3AccessConfig: S3AccessConfig? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.fallbackLocation = fallbackLocation
+            self.id = id
+            self.name = name
+            self.propagatedSetLevelTags = propagatedSetLevelTags
+            self.s3AccessConfig = s3AccessConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.fallbackLocation, forKey: .fallbackLocation)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.propagatedSetLevelTags, forKey: .propagatedSetLevelTags)
+            try container.encodeIfPresent(self.s3AccessConfig, forKey: .s3AccessConfig)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 127)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.fallbackLocation, name: "fallbackLocation", parent: name, pattern: "^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?$")
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 10)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.propagatedSetLevelTags?.forEach {
+                try validate($0, name: "propagatedSetLevelTags[]", parent: name, max: 128)
+                try validate($0, name: "propagatedSetLevelTags[]", parent: name, min: 1)
+            }
+            try self.validate(self.propagatedSetLevelTags, name: "propagatedSetLevelTags", parent: name, max: 50)
+            try self.s3AccessConfig?.validate(name: "\(name).s3AccessConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case fallbackLocation = "fallbackLocation"
+            case name = "name"
+            case propagatedSetLevelTags = "propagatedSetLevelTags"
+            case s3AccessConfig = "s3AccessConfig"
+        }
+    }
+
+    public struct UpdateSequenceStoreResponse: AWSDecodableShape {
+        /// The ARN of the sequence store.
+        public let arn: String
+        /// The time when the store was created.
+        public let creationTime: Date
+        /// Description of the sequence store.
+        public let description: String?
+        /// The ETag algorithm family to use on ingested read sets.
+        public let eTagAlgorithmFamily: ETagAlgorithmFamily?
+        /// The S3 URI of a bucket and folder to store Read Sets that fail to upload.
+        public let fallbackLocation: String?
+        /// The ID of the sequence store.
+        public let id: String
+        /// The name of the sequence store.
+        public let name: String?
+        /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+        public let propagatedSetLevelTags: [String]?
+        public let s3Access: SequenceStoreS3Access?
+        public let sseConfig: SseConfig?
+        /// The status of the sequence store.
+        public let status: SequenceStoreStatus?
+        /// The status message of the sequence store.
+        public let statusMessage: String?
+        /// The last-updated time of the Sequence Store.
+        public let updateTime: Date?
+
+        @inlinable
+        public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, propagatedSetLevelTags: [String]? = nil, s3Access: SequenceStoreS3Access? = nil, sseConfig: SseConfig? = nil, status: SequenceStoreStatus? = nil, statusMessage: String? = nil, updateTime: Date? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.eTagAlgorithmFamily = eTagAlgorithmFamily
+            self.fallbackLocation = fallbackLocation
+            self.id = id
+            self.name = name
+            self.propagatedSetLevelTags = propagatedSetLevelTags
+            self.s3Access = s3Access
+            self.sseConfig = sseConfig
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case eTagAlgorithmFamily = "eTagAlgorithmFamily"
+            case fallbackLocation = "fallbackLocation"
+            case id = "id"
+            case name = "name"
+            case propagatedSetLevelTags = "propagatedSetLevelTags"
+            case s3Access = "s3Access"
+            case sseConfig = "sseConfig"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updateTime = "updateTime"
         }
     }
 

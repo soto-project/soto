@@ -107,7 +107,7 @@ public struct WorkSpaces: AWSService {
     /// Accepts the account link invitation.  There's currently no unlinking capability after you accept the account linking invitation.
     ///
     /// Parameters:
-    ///   - clientToken: A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
+    ///   - clientToken: A string of up to 64 ASCII characters that Amazon WorkSpaces uses to ensure idempotent creation.
     ///   - linkId: The identifier of the account link.
     ///   - logger: Logger use during operation
     @inlinable
@@ -308,7 +308,7 @@ public struct WorkSpaces: AWSService {
     /// Creates the account link invitation.
     ///
     /// Parameters:
-    ///   - clientToken: A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
+    ///   - clientToken: A string of up to 64 ASCII characters that Amazon WorkSpaces uses to ensure idempotent creation.
     ///   - targetAccountId: The identifier of the target account.
     ///   - logger: Logger use during operation
     @inlinable
@@ -711,7 +711,7 @@ public struct WorkSpaces: AWSService {
     /// Deletes the account link invitation.
     ///
     /// Parameters:
-    ///   - clientToken: A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
+    ///   - clientToken: A string of up to 64 ASCII characters that Amazon WorkSpaces uses to ensure idempotent creation.
     ///   - linkId: The identifier of the account link.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1991,7 +1991,7 @@ public struct WorkSpaces: AWSService {
     ///   - ec2ImageId: The identifier of the EC2 image.
     ///   - imageDescription: The description of the WorkSpace image.
     ///   - imageName: The name of the WorkSpace image.
-    ///   - ingestionProcess: The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, DCV, or  bring your own protocol (BYOP). To use WSP, specify a value that ends in  _DCV. To use PCoIP, specify a value that does not end in _DCV.  To use BYOP, specify a value that ends in _BYOP. For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify  BYOL_REGULAR, BYOL_REGULAR_DCV, or BYOL_REGULAR_BYOP,  depending on the protocol.  The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more information, see Amazon WorkSpaces Core.
+    ///   - ingestionProcess: The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, WSP, or  bring your own protocol (BYOP). To use DCV, specify a value that ends in  _WSP. To use PCoIP, specify a value that does not end in _WSP.  To use BYOP, specify a value that ends in _BYOP. For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify  BYOL_REGULAR, BYOL_REGULAR_WSP, or BYOL_REGULAR_BYOP,  depending on the protocol.  The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more information, see Amazon WorkSpaces Core.
     ///   - tags: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
     ///   - logger: Logger use during operation
     @inlinable

@@ -129,7 +129,7 @@ public struct Bedrock: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a batch deletion job. A model evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
+    /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has  following status FAILED, COMPLETED, and STOPPED.  You can request up to 25 model evaluation jobs be deleted in a single request.
     @Sendable
     @inlinable
     public func batchDeleteEvaluationJob(_ input: BatchDeleteEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteEvaluationJobResponse {
@@ -142,10 +142,10 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Creates a batch deletion job. A model evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
+    /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has  following status FAILED, COMPLETED, and STOPPED.  You can request up to 25 model evaluation jobs be deleted in a single request.
     ///
     /// Parameters:
-    ///   - jobIdentifiers: An array of model evaluation job ARNs to be deleted.
+    ///   - jobIdentifiers: A list of one or more evaluation job Amazon Resource Names (ARNs) you want to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchDeleteEvaluationJob(
@@ -158,7 +158,7 @@ public struct Bedrock: AWSService {
         return try await self.batchDeleteEvaluationJob(input, logger: logger)
     }
 
-    /// API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and model evaluation jobs that use human workers. To learn more about the requirements for creating a model evaluation job see, Model evaluation.
+    /// Creates an evaluation job.
     @Sendable
     @inlinable
     public func createEvaluationJob(_ input: CreateEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluationJobResponse {
@@ -171,21 +171,23 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and model evaluation jobs that use human workers. To learn more about the requirements for creating a model evaluation job see, Model evaluation.
+    /// Creates an evaluation job.
     ///
     /// Parameters:
+    ///   - applicationType: Specifies whether the evaluation job is for evaluating a model or evaluating a knowledge base (retrieval and response generation).
     ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
-    ///   - customerEncryptionKeyId: Specify your customer managed key ARN that will be used to encrypt your model evaluation job.
-    ///   - evaluationConfig: Specifies whether the model evaluation job is automatic or uses human worker.
-    ///   - inferenceConfig: Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model or inference profile, and model evaluation job that use human workers support two models or inference profiles.
-    ///   - jobDescription: A description of the model evaluation job.
-    ///   - jobName: The name of the model evaluation job. Model evaluation job names must unique with your AWS account, and your account's AWS region.
+    ///   - customerEncryptionKeyId: Specify your customer managed encryption key Amazon Resource Name (ARN) that will be used to encrypt your evaluation job.
+    ///   - evaluationConfig: Contains the configuration details of either an automated or human-based evaluation job.
+    ///   - inferenceConfig: Contains the configuration details of the inference model for the evaluation job. For model evaluation jobs, automated jobs support a single model or  inference profile, and jobs that use human workers support  two models or inference profiles.
+    ///   - jobDescription: A description of the evaluation job.
+    ///   - jobName: A name for the evaluation job. Names must unique with your Amazon Web Services account,  and your account's Amazon Web Services region.
     ///   - jobTags: Tags to attach to the model evaluation job.
-    ///   - outputDataConfig: An object that defines where the results of model evaluation job will be saved in Amazon S3.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can assume to perform tasks on your behalf. The service role must have Amazon Bedrock as the service principal, and provide access to any Amazon S3 buckets specified in the EvaluationConfig object. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission. To learn more about the required permissions, see Required permissions.
+    ///   - outputDataConfig: Contains the configuration details of the Amazon S3 bucket for storing the results  of the evaluation job.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can  assume to perform tasks on your behalf. To learn more about the required permissions,  see Required  permissions for model evaluations.
     ///   - logger: Logger use during operation
     @inlinable
     public func createEvaluationJob(
+        applicationType: ApplicationType? = nil,
         clientRequestToken: String? = CreateEvaluationJobRequest.idempotencyToken(),
         customerEncryptionKeyId: String? = nil,
         evaluationConfig: EvaluationConfig,
@@ -198,6 +200,7 @@ public struct Bedrock: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateEvaluationJobResponse {
         let input = CreateEvaluationJobRequest(
+            applicationType: applicationType, 
             clientRequestToken: clientRequestToken, 
             customerEncryptionKeyId: customerEncryptionKeyId, 
             evaluationConfig: evaluationConfig, 
@@ -211,7 +214,7 @@ public struct Bedrock: AWSService {
         return try await self.createEvaluationJob(input, logger: logger)
     }
 
-    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter  out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms,  competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom  regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to  the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Guardrails for Amazon Bedrock in the Amazon Bedrock User Guide.
+    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter  out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms,  competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom  regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to  the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Amazon Bedrock Guardrails in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func createGuardrail(_ input: CreateGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGuardrailResponse {
@@ -224,7 +227,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter  out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms,  competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom  regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to  the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Guardrails for Amazon Bedrock in the Amazon Bedrock User Guide.
+    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter  out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms,  competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom  regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to  the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Amazon Bedrock Guardrails in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - blockedInputMessaging: The message to return when the guardrail blocks a prompt.
@@ -408,6 +411,7 @@ public struct Bedrock: AWSService {
     /// Parameters:
     ///   - baseModelIdentifier: Name of the base model.
     ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+    ///   - customizationConfig: The customization configuration for the model customization job.
     ///   - customizationType: The customization type.
     ///   - customModelKmsKeyId: The custom model is encrypted at rest using this key.
     ///   - customModelName: A name for the resulting custom model.
@@ -425,11 +429,12 @@ public struct Bedrock: AWSService {
     public func createModelCustomizationJob(
         baseModelIdentifier: String,
         clientRequestToken: String? = CreateModelCustomizationJobRequest.idempotencyToken(),
+        customizationConfig: CustomizationConfig? = nil,
         customizationType: CustomizationType? = nil,
         customModelKmsKeyId: String? = nil,
         customModelName: String,
         customModelTags: [Tag]? = nil,
-        hyperParameters: [String: String],
+        hyperParameters: [String: String]? = nil,
         jobName: String,
         jobTags: [Tag]? = nil,
         outputDataConfig: OutputDataConfig,
@@ -442,6 +447,7 @@ public struct Bedrock: AWSService {
         let input = CreateModelCustomizationJobRequest(
             baseModelIdentifier: baseModelIdentifier, 
             clientRequestToken: clientRequestToken, 
+            customizationConfig: customizationConfig, 
             customizationType: customizationType, 
             customModelKmsKeyId: customModelKmsKeyId, 
             customModelName: customModelName, 
@@ -811,7 +817,7 @@ public struct Bedrock: AWSService {
         return try await self.getCustomModel(input, logger: logger)
     }
 
-    /// Retrieves the properties associated with a model evaluation job, including the status of the job. For more information, see Model evaluation.
+    /// Gets information about an evaluation job, such as the status of the job.
     @Sendable
     @inlinable
     public func getEvaluationJob(_ input: GetEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEvaluationJobResponse {
@@ -824,10 +830,10 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the properties associated with a model evaluation job, including the status of the job. For more information, see Model evaluation.
+    /// Gets information about an evaluation job, such as the status of the job.
     ///
     /// Parameters:
-    ///   - jobIdentifier: The Amazon Resource Name (ARN) of the model evaluation job.
+    ///   - jobIdentifier: The Amazon Resource Name (ARN) of the evaluation job you want get information on.
     ///   - logger: Logger use during operation
     @inlinable
     public func getEvaluationJob(
@@ -1046,7 +1052,7 @@ public struct Bedrock: AWSService {
         return try await self.getModelImportJob(input, logger: logger)
     }
 
-    /// Gets details about a batch inference job. For more information, see View details about a batch inference job
+    /// Gets details about a batch inference job. For more information, see Monitor batch inference jobs
     @Sendable
     @inlinable
     public func getModelInvocationJob(_ input: GetModelInvocationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelInvocationJobResponse {
@@ -1059,7 +1065,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Gets details about a batch inference job. For more information, see View details about a batch inference job
+    /// Gets details about a batch inference job. For more information, see Monitor batch inference jobs
     ///
     /// Parameters:
     ///   - jobIdentifier: The Amazon Resource Name (ARN) of the batch inference job.
@@ -1186,7 +1192,7 @@ public struct Bedrock: AWSService {
         return try await self.listCustomModels(input, logger: logger)
     }
 
-    /// Lists model evaluation jobs.
+    /// Lists all existing evaluation jobs.
     @Sendable
     @inlinable
     public func listEvaluationJobs(_ input: ListEvaluationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEvaluationJobsResponse {
@@ -1199,20 +1205,22 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Lists model evaluation jobs.
+    /// Lists all existing evaluation jobs.
     ///
     /// Parameters:
-    ///   - creationTimeAfter: A filter that includes model evaluation jobs created after the time specified.
-    ///   - creationTimeBefore: A filter that includes model evaluation jobs created prior to the time specified.
+    ///   - applicationTypeEquals: A filter to only list evaluation jobs that are either model evaluations or knowledge base evaluations.
+    ///   - creationTimeAfter: A filter to only list evaluation jobs created after a specified time.
+    ///   - creationTimeBefore: A filter to only list evaluation jobs created before a specified time.
     ///   - maxResults: The maximum number of results to return.
-    ///   - nameContains: Query parameter string for model evaluation job names.
+    ///   - nameContains: A filter to only list evaluation jobs that contain a specified string in the job name.
     ///   - nextToken: Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
-    ///   - sortBy: Allows you to sort model evaluation jobs by when they were created.
-    ///   - sortOrder: How you want the order of jobs sorted.
-    ///   - statusEquals: Only return jobs where the status condition is met.
+    ///   - sortBy: Specifies a creation time to sort the list of evaluation jobs by when they were created.
+    ///   - sortOrder: Specifies whether to sort the list of evaluation jobs by either ascending or descending order.
+    ///   - statusEquals: A filter to only list evaluation jobs that are of a certain status.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEvaluationJobs(
+        applicationTypeEquals: ApplicationType? = nil,
         creationTimeAfter: Date? = nil,
         creationTimeBefore: Date? = nil,
         maxResults: Int? = nil,
@@ -1224,6 +1232,7 @@ public struct Bedrock: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListEvaluationJobsResponse {
         let input = ListEvaluationJobsRequest(
+            applicationTypeEquals: applicationTypeEquals, 
             creationTimeAfter: creationTimeAfter, 
             creationTimeBefore: creationTimeBefore, 
             maxResults: maxResults, 
@@ -1568,7 +1577,7 @@ public struct Bedrock: AWSService {
     ///   - nextToken: If there were more results than the value you specified in the maxResults field in a previous ListModelInvocationJobs request, the response would have returned a nextToken value. To see the next batch of results, send the nextToken value in another request.
     ///   - sortBy: An attribute by which to sort the results.
     ///   - sortOrder: Specifies whether to sort the results by ascending or descending order.
-    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify.
+    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
     ///   - submitTimeAfter: Specify a time to filter for batch inference jobs that were submitted after the time you specify.
     ///   - submitTimeBefore: Specify a time to filter for batch inference jobs that were submitted before the time you specify.
     ///   - logger: Logger use during operation
@@ -1708,7 +1717,7 @@ public struct Bedrock: AWSService {
         return try await self.putModelInvocationLoggingConfiguration(input, logger: logger)
     }
 
-    /// Stops an in progress model evaluation job.
+    /// Stops an evaluation job that is current being created or running.
     @Sendable
     @inlinable
     public func stopEvaluationJob(_ input: StopEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopEvaluationJobResponse {
@@ -1721,10 +1730,10 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Stops an in progress model evaluation job.
+    /// Stops an evaluation job that is current being created or running.
     ///
     /// Parameters:
-    ///   - jobIdentifier: The ARN of the model evaluation job you want to stop.
+    ///   - jobIdentifier: The Amazon Resource Name (ARN) of the evaluation job you want to stop.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopEvaluationJob(
@@ -2046,16 +2055,18 @@ extension Bedrock {
     /// Return PaginatorSequence for operation ``listEvaluationJobs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - creationTimeAfter: A filter that includes model evaluation jobs created after the time specified.
-    ///   - creationTimeBefore: A filter that includes model evaluation jobs created prior to the time specified.
+    ///   - applicationTypeEquals: A filter to only list evaluation jobs that are either model evaluations or knowledge base evaluations.
+    ///   - creationTimeAfter: A filter to only list evaluation jobs created after a specified time.
+    ///   - creationTimeBefore: A filter to only list evaluation jobs created before a specified time.
     ///   - maxResults: The maximum number of results to return.
-    ///   - nameContains: Query parameter string for model evaluation job names.
-    ///   - sortBy: Allows you to sort model evaluation jobs by when they were created.
-    ///   - sortOrder: How you want the order of jobs sorted.
-    ///   - statusEquals: Only return jobs where the status condition is met.
+    ///   - nameContains: A filter to only list evaluation jobs that contain a specified string in the job name.
+    ///   - sortBy: Specifies a creation time to sort the list of evaluation jobs by when they were created.
+    ///   - sortOrder: Specifies whether to sort the list of evaluation jobs by either ascending or descending order.
+    ///   - statusEquals: A filter to only list evaluation jobs that are of a certain status.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEvaluationJobsPaginator(
+        applicationTypeEquals: ApplicationType? = nil,
         creationTimeAfter: Date? = nil,
         creationTimeBefore: Date? = nil,
         maxResults: Int? = nil,
@@ -2066,6 +2077,7 @@ extension Bedrock {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListEvaluationJobsRequest, ListEvaluationJobsResponse> {
         let input = ListEvaluationJobsRequest(
+            applicationTypeEquals: applicationTypeEquals, 
             creationTimeAfter: creationTimeAfter, 
             creationTimeBefore: creationTimeBefore, 
             maxResults: maxResults, 
@@ -2387,7 +2399,7 @@ extension Bedrock {
     ///   - nameContains: Specify a string to filter for batch inference jobs whose names contain the string.
     ///   - sortBy: An attribute by which to sort the results.
     ///   - sortOrder: Specifies whether to sort the results by ascending or descending order.
-    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify.
+    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
     ///   - submitTimeAfter: Specify a time to filter for batch inference jobs that were submitted after the time you specify.
     ///   - submitTimeBefore: Specify a time to filter for batch inference jobs that were submitted before the time you specify.
     ///   - logger: Logger used for logging
@@ -2492,6 +2504,7 @@ extension Bedrock.ListEvaluationJobsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Bedrock.ListEvaluationJobsRequest {
         return .init(
+            applicationTypeEquals: self.applicationTypeEquals,
             creationTimeAfter: self.creationTimeAfter,
             creationTimeBefore: self.creationTimeBefore,
             maxResults: self.maxResults,

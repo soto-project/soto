@@ -1360,6 +1360,45 @@ public struct Imagebuilder: AWSService {
         return try await self.getLifecyclePolicy(input, logger: logger)
     }
 
+    /// Verify the subscription and perform resource dependency checks on the requested
+    /// 			Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the
+    /// 			components and their artifacts.
+    @Sendable
+    @inlinable
+    public func getMarketplaceResource(_ input: GetMarketplaceResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMarketplaceResourceResponse {
+        try await self.client.execute(
+            operation: "GetMarketplaceResource", 
+            path: "/GetMarketplaceResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Verify the subscription and perform resource dependency checks on the requested
+    /// 			Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the
+    /// 			components and their artifacts.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource.
+    ///   - resourceLocation: The bucket path that you can specify to download the resource from Amazon S3.
+    ///   - resourceType: Specifies which type of Amazon Web Services Marketplace resource Image Builder retrieves.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMarketplaceResource(
+        resourceArn: String,
+        resourceLocation: String? = nil,
+        resourceType: MarketplaceResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMarketplaceResourceResponse {
+        let input = GetMarketplaceResourceRequest(
+            resourceArn: resourceArn, 
+            resourceLocation: resourceLocation, 
+            resourceType: resourceType
+        )
+        return try await self.getMarketplaceResource(input, logger: logger)
+    }
+
     /// Get a workflow resource object.
     @Sendable
     @inlinable

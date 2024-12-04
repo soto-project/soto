@@ -195,7 +195,48 @@ public struct OpenSearch: AWSService {
         return try await self.addDataSource(input, logger: logger)
     }
 
-    /// Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of case-sensitive key-value pairs. A domain can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service domains.
+    ///  Adds a new data source in Amazon OpenSearch Service  so that you can perform direct queries on external data.
+    @Sendable
+    @inlinable
+    public func addDirectQueryDataSource(_ input: AddDirectQueryDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddDirectQueryDataSourceResponse {
+        try await self.client.execute(
+            operation: "AddDirectQueryDataSource", 
+            path: "/2021-01-01/opensearch/directQueryDataSource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Adds a new data source in Amazon OpenSearch Service  so that you can perform direct queries on external data.
+    ///
+    /// Parameters:
+    ///   - dataSourceName:  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+    ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
+    ///   - description:  An optional text field for providing additional context and details about the data source.
+    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+    ///   - tagList: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func addDirectQueryDataSource(
+        dataSourceName: String,
+        dataSourceType: DirectQueryDataSourceType,
+        description: String? = nil,
+        openSearchArns: [String],
+        tagList: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AddDirectQueryDataSourceResponse {
+        let input = AddDirectQueryDataSourceRequest(
+            dataSourceName: dataSourceName, 
+            dataSourceType: dataSourceType, 
+            description: description, 
+            openSearchArns: openSearchArns, 
+            tagList: tagList
+        )
+        return try await self.addDirectQueryDataSource(input, logger: logger)
+    }
+
+    /// Attaches tags to an existing Amazon OpenSearch Service domain, data source, or application.  Tags are a set of case-sensitive key-value pairs. A domain, data source, or application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources.
     @Sendable
     @inlinable
     public func addTags(_ input: AddTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -208,10 +249,10 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of case-sensitive key-value pairs. A domain can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service domains.
+    /// Attaches tags to an existing Amazon OpenSearch Service domain, data source, or application.  Tags are a set of case-sensitive key-value pairs. A domain, data source, or application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources.
     ///
     /// Parameters:
-    ///   - arn: Amazon Resource Name (ARN) for the OpenSearch Service domain to which you want to attach resource tags.
+    ///   - arn: Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or application to which you want to attach resource tags.
     ///   - tagList: List of resource tags.
     ///   - logger: Logger use during operation
     @inlinable
@@ -711,6 +752,35 @@ public struct OpenSearch: AWSService {
             name: name
         )
         return try await self.deleteDataSource(input, logger: logger)
+    }
+
+    ///  Deletes a previously configured direct query data  source from Amazon OpenSearch Service.
+    @Sendable
+    @inlinable
+    public func deleteDirectQueryDataSource(_ input: DeleteDirectQueryDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteDirectQueryDataSource", 
+            path: "/2021-01-01/opensearch/directQueryDataSource/{DataSourceName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes a previously configured direct query data  source from Amazon OpenSearch Service.
+    ///
+    /// Parameters:
+    ///   - dataSourceName:  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDirectQueryDataSource(
+        dataSourceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteDirectQueryDataSourceRequest(
+            dataSourceName: dataSourceName
+        )
+        return try await self.deleteDirectQueryDataSource(input, logger: logger)
     }
 
     /// Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a domain after you delete it.
@@ -1498,6 +1568,35 @@ public struct OpenSearch: AWSService {
         return try await self.getDataSource(input, logger: logger)
     }
 
+    ///  Returns detailed configuration information for  a specific direct query data source in Amazon OpenSearch Service.
+    @Sendable
+    @inlinable
+    public func getDirectQueryDataSource(_ input: GetDirectQueryDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDirectQueryDataSourceResponse {
+        try await self.client.execute(
+            operation: "GetDirectQueryDataSource", 
+            path: "/2021-01-01/opensearch/directQueryDataSource/{DataSourceName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Returns detailed configuration information for  a specific direct query data source in Amazon OpenSearch Service.
+    ///
+    /// Parameters:
+    ///   - dataSourceName:  A unique, user-defined label that identifies the data source within  your OpenSearch Service environment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDirectQueryDataSource(
+        dataSourceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDirectQueryDataSourceResponse {
+        let input = GetDirectQueryDataSourceRequest(
+            dataSourceName: dataSourceName
+        )
+        return try await self.getDirectQueryDataSource(input, logger: logger)
+    }
+
     /// The status of the maintenance action.
     @Sendable
     @inlinable
@@ -1691,6 +1790,35 @@ public struct OpenSearch: AWSService {
             domainName: domainName
         )
         return try await self.listDataSources(input, logger: logger)
+    }
+
+    ///  Lists an inventory of all the direct query data sources that you have configured within Amazon OpenSearch Service.
+    @Sendable
+    @inlinable
+    public func listDirectQueryDataSources(_ input: ListDirectQueryDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDirectQueryDataSourcesResponse {
+        try await self.client.execute(
+            operation: "ListDirectQueryDataSources", 
+            path: "/2021-01-01/opensearch/directQueryDataSource", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists an inventory of all the direct query data sources that you have configured within Amazon OpenSearch Service.
+    ///
+    /// Parameters:
+    ///   - nextToken: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDirectQueryDataSources(
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDirectQueryDataSourcesResponse {
+        let input = ListDirectQueryDataSourcesRequest(
+            nextToken: nextToken
+        )
+        return try await self.listDirectQueryDataSources(input, logger: logger)
     }
 
     /// A list of maintenance actions for the domain.
@@ -1912,7 +2040,7 @@ public struct OpenSearch: AWSService {
         return try await self.listScheduledActions(input, logger: logger)
     }
 
-    /// Returns all resource tags for an Amazon OpenSearch Service domain. For more information, see Tagging Amazon OpenSearch Service domains.
+    /// Returns all resource tags for an Amazon OpenSearch Service domain, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources.
     @Sendable
     @inlinable
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
@@ -1925,10 +2053,10 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Returns all resource tags for an Amazon OpenSearch Service domain. For more information, see Tagging Amazon OpenSearch Service domains.
+    /// Returns all resource tags for an Amazon OpenSearch Service domain, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources.
     ///
     /// Parameters:
-    ///   - arn: Amazon Resource Name (ARN) for the domain to view tags for.
+    ///   - arn: Amazon Resource Name (ARN) for the domain, data source, or application to view tags for.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTags(
@@ -2130,7 +2258,7 @@ public struct OpenSearch: AWSService {
         return try await self.rejectInboundConnection(input, logger: logger)
     }
 
-    /// Removes the specified set of tags from an Amazon OpenSearch Service domain. For more information, see  Tagging Amazon OpenSearch Service domains.
+    /// Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or application. For more information, see  Tagging Amazon OpenSearch Service resources.
     @Sendable
     @inlinable
     public func removeTags(_ input: RemoveTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2143,11 +2271,11 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified set of tags from an Amazon OpenSearch Service domain. For more information, see  Tagging Amazon OpenSearch Service domains.
+    /// Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or application. For more information, see  Tagging Amazon OpenSearch Service resources.
     ///
     /// Parameters:
-    ///   - arn: The Amazon Resource Name (ARN) of the domain from which you want to delete the specified tags.
-    ///   - tagKeys: The list of tag keys to remove from the domain.
+    ///   - arn: The Amazon Resource Name (ARN) of the domain, data source, or application from which you want to delete the specified tags.
+    ///   - tagKeys: The list of tag keys to remove from the domain, data source, or application.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeTags(
@@ -2341,6 +2469,44 @@ public struct OpenSearch: AWSService {
             status: status
         )
         return try await self.updateDataSource(input, logger: logger)
+    }
+
+    ///  Updates the configuration or properties of an existing direct query data source in Amazon OpenSearch Service.
+    @Sendable
+    @inlinable
+    public func updateDirectQueryDataSource(_ input: UpdateDirectQueryDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDirectQueryDataSourceResponse {
+        try await self.client.execute(
+            operation: "UpdateDirectQueryDataSource", 
+            path: "/2021-01-01/opensearch/directQueryDataSource/{DataSourceName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Updates the configuration or properties of an existing direct query data source in Amazon OpenSearch Service.
+    ///
+    /// Parameters:
+    ///   - dataSourceName:  A unique, user-defined label to identify the data  source within your OpenSearch Service environment.
+    ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for  direct queries in OpenSearch Service.
+    ///   - description:  An optional text field for providing additional context and  details about the data source.
+    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDirectQueryDataSource(
+        dataSourceName: String,
+        dataSourceType: DirectQueryDataSourceType,
+        description: String? = nil,
+        openSearchArns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDirectQueryDataSourceResponse {
+        let input = UpdateDirectQueryDataSourceRequest(
+            dataSourceName: dataSourceName, 
+            dataSourceType: dataSourceType, 
+            description: description, 
+            openSearchArns: openSearchArns
+        )
+        return try await self.updateDirectQueryDataSource(input, logger: logger)
     }
 
     /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
