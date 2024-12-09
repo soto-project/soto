@@ -27,6 +27,9 @@ extension NetworkManager {
     // MARK: Enums
 
     public enum AttachmentErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case directConnectGatewayExistingAttachments = "DIRECT_CONNECT_GATEWAY_EXISTING_ATTACHMENTS"
+        case directConnectGatewayNoPrivateVif = "DIRECT_CONNECT_GATEWAY_NO_PRIVATE_VIF"
+        case directConnectGatewayNotFound = "DIRECT_CONNECT_GATEWAY_NOT_FOUND"
         case maximumNoEncapLimitExceeded = "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED"
         case subnetDuplicatedInAvailabilityZone = "SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE"
         case subnetNoFreeAddresses = "SUBNET_NO_FREE_ADDRESSES"
@@ -53,6 +56,7 @@ extension NetworkManager {
 
     public enum AttachmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connect = "CONNECT"
+        case directConnectGateway = "DIRECT_CONNECT_GATEWAY"
         case siteToSiteVpn = "SITE_TO_SITE_VPN"
         case transitGatewayRouteTable = "TRANSIT_GATEWAY_ROUTE_TABLE"
         case vpc = "VPC"
@@ -635,8 +639,10 @@ extension NetworkManager {
         public let coreNetworkId: String?
         /// The timestamp when the attachment was created.
         public let createdAt: Date?
-        /// The Region where the edge is located.
+        /// The Region where the edge is located. This is returned for all attachment types except a Direct Connect gateway attachment, which instead returns EdgeLocations.
         public let edgeLocation: String?
+        /// The edge locations that the Direct Connect gateway is associated with. This is returned only for Direct Connect gateway attachments. All other attachment types retrun EdgeLocation.
+        public let edgeLocations: [String]?
         /// Describes the error associated with the attachment request.
         public let lastModificationErrors: [AttachmentError]?
         /// The name of the network function group.
@@ -659,7 +665,7 @@ extension NetworkManager {
         public let updatedAt: Date?
 
         @inlinable
-        public init(attachmentId: String? = nil, attachmentPolicyRuleNumber: Int? = nil, attachmentType: AttachmentType? = nil, coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, lastModificationErrors: [AttachmentError]? = nil, networkFunctionGroupName: String? = nil, ownerAccountId: String? = nil, proposedNetworkFunctionGroupChange: ProposedNetworkFunctionGroupChange? = nil, proposedSegmentChange: ProposedSegmentChange? = nil, resourceArn: String? = nil, segmentName: String? = nil, state: AttachmentState? = nil, tags: [Tag]? = nil, updatedAt: Date? = nil) {
+        public init(attachmentId: String? = nil, attachmentPolicyRuleNumber: Int? = nil, attachmentType: AttachmentType? = nil, coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, edgeLocations: [String]? = nil, lastModificationErrors: [AttachmentError]? = nil, networkFunctionGroupName: String? = nil, ownerAccountId: String? = nil, proposedNetworkFunctionGroupChange: ProposedNetworkFunctionGroupChange? = nil, proposedSegmentChange: ProposedSegmentChange? = nil, resourceArn: String? = nil, segmentName: String? = nil, state: AttachmentState? = nil, tags: [Tag]? = nil, updatedAt: Date? = nil) {
             self.attachmentId = attachmentId
             self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
             self.attachmentType = attachmentType
@@ -667,6 +673,7 @@ extension NetworkManager {
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.edgeLocations = edgeLocations
             self.lastModificationErrors = lastModificationErrors
             self.networkFunctionGroupName = networkFunctionGroupName
             self.ownerAccountId = ownerAccountId
@@ -687,6 +694,7 @@ extension NetworkManager {
             case coreNetworkId = "CoreNetworkId"
             case createdAt = "CreatedAt"
             case edgeLocation = "EdgeLocation"
+            case edgeLocations = "EdgeLocations"
             case lastModificationErrors = "LastModificationErrors"
             case networkFunctionGroupName = "NetworkFunctionGroupName"
             case ownerAccountId = "OwnerAccountId"
@@ -1914,6 +1922,67 @@ extension NetworkManager {
         }
     }
 
+    public struct CreateDirectConnectGatewayAttachmentRequest: AWSEncodableShape {
+        /// client token
+        public let clientToken: String?
+        /// The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to.
+        public let coreNetworkId: String
+        /// The ARN of the Direct Connect gateway attachment.
+        public let directConnectGatewayArn: String
+        /// One or more core network edge locations that the Direct Connect gateway attachment is associated with.
+        public let edgeLocations: [String]
+        /// The key value tags to apply to the Direct Connect gateway attachment during creation.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientToken: String? = CreateDirectConnectGatewayAttachmentRequest.idempotencyToken(), coreNetworkId: String, directConnectGatewayArn: String, edgeLocations: [String], tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.coreNetworkId = coreNetworkId
+            self.directConnectGatewayArn = directConnectGatewayArn
+            self.edgeLocations = edgeLocations
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.directConnectGatewayArn, name: "directConnectGatewayArn", parent: name, max: 500)
+            try self.validate(self.directConnectGatewayArn, name: "directConnectGatewayArn", parent: name, pattern: "^arn:[^:]{1,63}:directconnect::[^:]{0,63}:dx-gateway\\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.edgeLocations.forEach {
+                try validate($0, name: "edgeLocations[]", parent: name, max: 63)
+                try validate($0, name: "edgeLocations[]", parent: name, min: 1)
+                try validate($0, name: "edgeLocations[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case coreNetworkId = "CoreNetworkId"
+            case directConnectGatewayArn = "DirectConnectGatewayArn"
+            case edgeLocations = "EdgeLocations"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDirectConnectGatewayAttachmentResponse: AWSDecodableShape {
+        /// Describes the details of a CreateDirectConnectGatewayAttachment request.
+        public let directConnectGatewayAttachment: DirectConnectGatewayAttachment?
+
+        @inlinable
+        public init(directConnectGatewayAttachment: DirectConnectGatewayAttachment? = nil) {
+            self.directConnectGatewayAttachment = directConnectGatewayAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayAttachment = "DirectConnectGatewayAttachment"
+        }
+    }
+
     public struct CreateGlobalNetworkRequest: AWSEncodableShape {
         /// A description of the global network. Constraints: Maximum length of 256 characters.
         public let description: String?
@@ -2931,6 +3000,23 @@ extension NetworkManager {
         }
     }
 
+    public struct DirectConnectGatewayAttachment: AWSDecodableShape {
+        public let attachment: Attachment?
+        /// The Direct Connect gateway attachment ARN.
+        public let directConnectGatewayArn: String?
+
+        @inlinable
+        public init(attachment: Attachment? = nil, directConnectGatewayArn: String? = nil) {
+            self.attachment = attachment
+            self.directConnectGatewayArn = directConnectGatewayArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+            case directConnectGatewayArn = "DirectConnectGatewayArn"
+        }
+    }
+
     public struct DisassociateConnectPeerRequest: AWSEncodableShape {
         /// The ID of the Connect peer to disassociate from a device.
         public let connectPeerId: String
@@ -3681,6 +3767,43 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case devices = "Devices"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetDirectConnectGatewayAttachmentRequest: AWSEncodableShape {
+        /// The ID of the Direct Connect gateway attachment that you want to see details about.
+        public let attachmentId: String
+
+        @inlinable
+        public init(attachmentId: String) {
+            self.attachmentId = attachmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDirectConnectGatewayAttachmentResponse: AWSDecodableShape {
+        /// Shows details about the Direct Connect gateway attachment.
+        public let directConnectGatewayAttachment: DirectConnectGatewayAttachment?
+
+        @inlinable
+        public init(directConnectGatewayAttachment: DirectConnectGatewayAttachment? = nil) {
+            self.directConnectGatewayAttachment = directConnectGatewayAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayAttachment = "DirectConnectGatewayAttachment"
         }
     }
 
@@ -6663,6 +6786,54 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case device = "Device"
+        }
+    }
+
+    public struct UpdateDirectConnectGatewayAttachmentRequest: AWSEncodableShape {
+        /// The ID of the Direct Connect gateway attachment for the updated edge locations.
+        public let attachmentId: String
+        /// One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the previous array of locations. EdgeLocations is only used for Direct Connect gateway attachments. Do
+        public let edgeLocations: [String]?
+
+        @inlinable
+        public init(attachmentId: String, edgeLocations: [String]? = nil) {
+            self.attachmentId = attachmentId
+            self.edgeLocations = edgeLocations
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
+            try container.encodeIfPresent(self.edgeLocations, forKey: .edgeLocations)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+            try self.edgeLocations?.forEach {
+                try validate($0, name: "edgeLocations[]", parent: name, max: 63)
+                try validate($0, name: "edgeLocations[]", parent: name, min: 1)
+                try validate($0, name: "edgeLocations[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edgeLocations = "EdgeLocations"
+        }
+    }
+
+    public struct UpdateDirectConnectGatewayAttachmentResponse: AWSDecodableShape {
+        /// Returns details of the Direct Connect gateway attachment with the updated edge locations.
+        public let directConnectGatewayAttachment: DirectConnectGatewayAttachment?
+
+        @inlinable
+        public init(directConnectGatewayAttachment: DirectConnectGatewayAttachment? = nil) {
+            self.directConnectGatewayAttachment = directConnectGatewayAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directConnectGatewayAttachment = "DirectConnectGatewayAttachment"
         }
     }
 

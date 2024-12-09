@@ -35,6 +35,12 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AdvertiseTrustStoreCaNamesEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case off = "off"
+        case on = "on"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnomalyResultEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case anomalous = "anomalous"
         case normal = "normal"
@@ -52,6 +58,14 @@ extension ElasticLoadBalancingV2 {
         case allow = "allow"
         case authenticate = "authenticate"
         case deny = "deny"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityReservationStateEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "failed"
+        case pending = "pending"
+        case provisioned = "provisioned"
+        case rebalancing = "rebalancing"
         public var description: String { return self.rawValue }
     }
 
@@ -519,6 +533,24 @@ extension ElasticLoadBalancingV2 {
             case sourceNatIpv6Prefixes = "SourceNatIpv6Prefixes"
             case subnetId = "SubnetId"
             case zoneName = "ZoneName"
+        }
+    }
+
+    public struct CapacityReservationStatus: AWSDecodableShape {
+        /// The status code.
+        public let code: CapacityReservationStateEnum?
+        /// The reason code for the status.
+        public let reason: String?
+
+        @inlinable
+        public init(code: CapacityReservationStateEnum? = nil, reason: String? = nil) {
+            self.code = code
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case reason = "Reason"
         }
     }
 
@@ -1125,6 +1157,47 @@ extension ElasticLoadBalancingV2 {
         private enum CodingKeys: String, CodingKey {
             case limits = "Limits"
             case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct DescribeCapacityReservationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
+
+        @inlinable
+        public init(loadBalancerArn: String? = nil) {
+            self.loadBalancerArn = loadBalancerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerArn = "LoadBalancerArn"
+        }
+    }
+
+    public struct DescribeCapacityReservationOutput: AWSDecodableShape {
+        /// The state of the capacity reservation.
+        @OptionalCustomCoding<StandardArrayCoder<ZonalCapacityReservationState>>
+        public var capacityReservationState: [ZonalCapacityReservationState]?
+        /// The amount of daily capacity decreases remaining.
+        public let decreaseRequestsRemaining: Int?
+        /// The last time the capacity reservation was modified.
+        public let lastModifiedTime: Date?
+        /// The requested minimum capacity reservation for the load balancer
+        public let minimumLoadBalancerCapacity: MinimumLoadBalancerCapacity?
+
+        @inlinable
+        public init(capacityReservationState: [ZonalCapacityReservationState]? = nil, decreaseRequestsRemaining: Int? = nil, lastModifiedTime: Date? = nil, minimumLoadBalancerCapacity: MinimumLoadBalancerCapacity? = nil) {
+            self.capacityReservationState = capacityReservationState
+            self.decreaseRequestsRemaining = decreaseRequestsRemaining
+            self.lastModifiedTime = lastModifiedTime
+            self.minimumLoadBalancerCapacity = minimumLoadBalancerCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationState = "CapacityReservationState"
+            case decreaseRequestsRemaining = "DecreaseRequestsRemaining"
+            case lastModifiedTime = "LastModifiedTime"
+            case minimumLoadBalancerCapacity = "MinimumLoadBalancerCapacity"
         }
     }
 
@@ -2029,7 +2102,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct ListenerAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the attribute. The following attribute is supported by Network Load Balancers, and Gateway Load Balancers.    tcp.idle_timeout.seconds - The tcp idle timeout value, in seconds. The  valid range is 60-6000 seconds. The default is 350 seconds.
+        /// The name of the attribute. The following attribute is supported by Network Load Balancers, and Gateway Load Balancers.    tcp.idle_timeout.seconds - The tcp idle timeout value, in seconds. The  valid range is 60-6000 seconds. The default is 350 seconds.   The following attributes are only supported by Application Load Balancers.    routing.http.request.x_amzn_mtls_clientcert_serial_number.header_name -  Enables you to modify the header name of the   X-Amzn-Mtls-Clientcert-Serial-Number HTTP request header.    routing.http.request.x_amzn_mtls_clientcert_issuer.header_name -  Enables you to modify the header name of the   X-Amzn-Mtls-Clientcert-Issuer HTTP request header.    routing.http.request.x_amzn_mtls_clientcert_subject.header_name -  Enables you to modify the header name of the   X-Amzn-Mtls-Clientcert-Subject HTTP request header.    routing.http.request.x_amzn_mtls_clientcert_validity.header_name -  Enables you to modify the header name of the   X-Amzn-Mtls-Clientcert-Validity HTTP request header.    routing.http.request.x_amzn_mtls_clientcert_leaf.header_name -  Enables you to modify the header name of the   X-Amzn-Mtls-Clientcert-Leaf HTTP request header.    routing.http.request.x_amzn_mtls_clientcert.header_name -  Enables you to modify the header name of the   X-Amzn-Mtls-Clientcert HTTP request header.    routing.http.request.x_amzn_tls_version.header_name -  Enables you to modify the header name of the   X-Amzn-Tls-Version HTTP request header.    routing.http.request.x_amzn_tls_cipher_suite.header_name -  Enables you to modify the header name of the   X-Amzn-Tls-Cipher-Suite HTTP request header.    routing.http.response.server.enabled -  Enables you to allow or remove the HTTP response server header.    routing.http.response.strict_transport_security.header_value -  Informs browsers that the site should only be accessed using HTTPS, and that  any future attempts to access it using HTTP should automatically be converted  to HTTPS.    routing.http.response.access_control_allow_origin.header_value -  Specifies which origins are allowed to access the server.    routing.http.response.access_control_allow_methods.header_value -  Returns which HTTP methods are allowed when accessing the server from a different  origin.    routing.http.response.access_control_allow_headers.header_value -  Specifies which headers can be used during the request.    routing.http.response.access_control_allow_credentials.header_value -  Indicates whether the browser should include credentials such as cookies or  authentication when making requests.    routing.http.response.access_control_expose_headers.header_value -  Returns which headers the browser can expose to the requesting client.    routing.http.response.access_control_max_age.header_value -  Specifies how long the results of a preflight request can be cached, in seconds.    routing.http.response.content_security_policy.header_value -  Specifies restrictions enforced by the browser to help minimize the risk of certain  types of security threats.    routing.http.response.x_content_type_options.header_value -  Indicates whether the MIME types advertised in the Content-Type  headers should be followed and not be changed.    routing.http.response.x_frame_options.header_value - Indicates  whether the browser is allowed to render a page in a frame,  iframe, embed or  object.
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -2150,7 +2223,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct LoadBalancerAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the attribute. The following attributes are supported by all load balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false.  The default for Application Load Balancers is true, and can't be changed.   The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    ipv6.deny_all_igw_traffic - Blocks internet gateway (IGW) access to the load balancer. It is set to false for internet-facing load balancers and true for internal load balancers, preventing unintended access to your internal load balancer through an internet gateway.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    client_keep_alive.seconds - The client keep alive value, in seconds. The  valid range is 60-604800 seconds. The default is 3600 seconds.    connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false. The default is false.    connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connection logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http.preserve_host_header.enabled - Indicates whether the Application Load Balancer should preserve the Host header in the HTTP request and send it to the target without any change. The possible values are true and false. The default is false.    routing.http.x_amzn_tls_version_and_cipher_suite.enabled - Indicates whether the two headers (x-amzn-tls-version and x-amzn-tls-cipher-suite), which contain information about the negotiated TLS version and cipher suite, are added to the client request before sending it to the target. The x-amzn-tls-version header has information about the TLS protocol version negotiated with the client, and the x-amzn-tls-cipher-suite header has information about the cipher suite negotiated with the client. Both headers are in OpenSSL format. The possible values for the attribute are true and false. The default is false.    routing.http.xff_client_port.enabled - Indicates whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer. The possible values are true and false. The default is false.    routing.http.xff_header_processing.mode - Enables you to modify, preserve, or remove the X-Forwarded-For header in the HTTP request before the Application Load Balancer sends the request to the target. The possible values are append, preserve, and remove. The default is append.   If the value is append, the Application Load Balancer adds the client IP address (of the last hop) to the X-Forwarded-For header in the HTTP request before it sends it to targets.   If the value is preserve the Application Load Balancer preserves the X-Forwarded-For header in the HTTP request, and sends it to targets without any change.   If the value is remove, the Application Load Balancer removes the X-Forwarded-For header in the HTTP request before it sends it to targets.      routing.http2.enabled - Indicates whether HTTP/2 is enabled. The possible values are true and false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.    waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.   The following attributes are supported by only Network Load Balancers:    dns_record.client_routing_policy - Indicates how traffic is  distributed among the load balancer Availability Zones. The possible values are  availability_zone_affinity with 100 percent zonal affinity,  partial_availability_zone_affinity with 85 percent zonal affinity,  and any_availability_zone with 0 percent zonal affinity.    zonal_shift.config.enabled - Indicates whether zonal shift is  enabled. The possible values are true and false. The  default is false.
+        /// The name of the attribute. The following attributes are supported by all load balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false.  The default for Application Load Balancers is true, and can't be changed.   The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    ipv6.deny_all_igw_traffic - Blocks internet gateway (IGW) access to the load balancer. It is set to false for internet-facing load balancers and true for internal load balancers, preventing unintended access to your internal load balancer through an internet gateway.    zonal_shift.config.enabled - Indicates whether zonal shift is  enabled. The possible values are true and false. The  default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    client_keep_alive.seconds - The client keep alive value, in seconds. The  valid range is 60-604800 seconds. The default is 3600 seconds.    connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false. The default is false.    connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connection logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http.preserve_host_header.enabled - Indicates whether the Application Load Balancer should preserve the Host header in the HTTP request and send it to the target without any change. The possible values are true and false. The default is false.    routing.http.x_amzn_tls_version_and_cipher_suite.enabled - Indicates whether the two headers (x-amzn-tls-version and x-amzn-tls-cipher-suite), which contain information about the negotiated TLS version and cipher suite, are added to the client request before sending it to the target. The x-amzn-tls-version header has information about the TLS protocol version negotiated with the client, and the x-amzn-tls-cipher-suite header has information about the cipher suite negotiated with the client. Both headers are in OpenSSL format. The possible values for the attribute are true and false. The default is false.    routing.http.xff_client_port.enabled - Indicates whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer. The possible values are true and false. The default is false.    routing.http.xff_header_processing.mode - Enables you to modify, preserve, or remove the X-Forwarded-For header in the HTTP request before the Application Load Balancer sends the request to the target. The possible values are append, preserve, and remove. The default is append.   If the value is append, the Application Load Balancer adds the client IP address (of the last hop) to the X-Forwarded-For header in the HTTP request before it sends it to targets.   If the value is preserve the Application Load Balancer preserves the X-Forwarded-For header in the HTTP request, and sends it to targets without any change.   If the value is remove, the Application Load Balancer removes the X-Forwarded-For header in the HTTP request before it sends it to targets.      routing.http2.enabled - Indicates whether HTTP/2 is enabled. The possible values are true and false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.    waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.   The following attributes are supported by only Network Load Balancers:    dns_record.client_routing_policy - Indicates how traffic is  distributed among the load balancer Availability Zones. The possible values are  availability_zone_affinity with 100 percent zonal affinity,  partial_availability_zone_affinity with 85 percent zonal affinity,  and any_availability_zone with 0 percent zonal affinity.
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -2206,6 +2279,69 @@ extension ElasticLoadBalancingV2 {
         private enum CodingKeys: String, CodingKey {
             case grpcCode = "GrpcCode"
             case httpCode = "HttpCode"
+        }
+    }
+
+    public struct MinimumLoadBalancerCapacity: AWSEncodableShape & AWSDecodableShape {
+        /// The number of capacity units.
+        public let capacityUnits: Int?
+
+        @inlinable
+        public init(capacityUnits: Int? = nil) {
+            self.capacityUnits = capacityUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnits = "CapacityUnits"
+        }
+    }
+
+    public struct ModifyCapacityReservationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
+        /// The minimum load balancer capacity reserved.
+        public let minimumLoadBalancerCapacity: MinimumLoadBalancerCapacity?
+        /// Resets the capacity reservation.
+        public let resetCapacityReservation: Bool?
+
+        @inlinable
+        public init(loadBalancerArn: String? = nil, minimumLoadBalancerCapacity: MinimumLoadBalancerCapacity? = nil, resetCapacityReservation: Bool? = nil) {
+            self.loadBalancerArn = loadBalancerArn
+            self.minimumLoadBalancerCapacity = minimumLoadBalancerCapacity
+            self.resetCapacityReservation = resetCapacityReservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerArn = "LoadBalancerArn"
+            case minimumLoadBalancerCapacity = "MinimumLoadBalancerCapacity"
+            case resetCapacityReservation = "ResetCapacityReservation"
+        }
+    }
+
+    public struct ModifyCapacityReservationOutput: AWSDecodableShape {
+        /// The state of the capacity reservation.
+        @OptionalCustomCoding<StandardArrayCoder<ZonalCapacityReservationState>>
+        public var capacityReservationState: [ZonalCapacityReservationState]?
+        /// The amount of daily capacity decreases remaining.
+        public let decreaseRequestsRemaining: Int?
+        /// The last time the capacity reservation was modified.
+        public let lastModifiedTime: Date?
+        /// The requested minimum capacity reservation for the load balancer
+        public let minimumLoadBalancerCapacity: MinimumLoadBalancerCapacity?
+
+        @inlinable
+        public init(capacityReservationState: [ZonalCapacityReservationState]? = nil, decreaseRequestsRemaining: Int? = nil, lastModifiedTime: Date? = nil, minimumLoadBalancerCapacity: MinimumLoadBalancerCapacity? = nil) {
+            self.capacityReservationState = capacityReservationState
+            self.decreaseRequestsRemaining = decreaseRequestsRemaining
+            self.lastModifiedTime = lastModifiedTime
+            self.minimumLoadBalancerCapacity = minimumLoadBalancerCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationState = "CapacityReservationState"
+            case decreaseRequestsRemaining = "DecreaseRequestsRemaining"
+            case lastModifiedTime = "LastModifiedTime"
+            case minimumLoadBalancerCapacity = "MinimumLoadBalancerCapacity"
         }
     }
 
@@ -2566,6 +2702,8 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct MutualAuthenticationAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether trust store CA certificate names are advertised.
+        public let advertiseTrustStoreCaNames: AdvertiseTrustStoreCaNamesEnum?
         /// Indicates whether expired client certificates are ignored.
         public let ignoreClientCertificateExpiry: Bool?
         /// The client certificate handling method. Options are off,  passthrough or verify. The default value is  off.
@@ -2576,7 +2714,8 @@ extension ElasticLoadBalancingV2 {
         public let trustStoreAssociationStatus: TrustStoreAssociationStatusEnum?
 
         @inlinable
-        public init(ignoreClientCertificateExpiry: Bool? = nil, mode: String? = nil, trustStoreArn: String? = nil, trustStoreAssociationStatus: TrustStoreAssociationStatusEnum? = nil) {
+        public init(advertiseTrustStoreCaNames: AdvertiseTrustStoreCaNamesEnum? = nil, ignoreClientCertificateExpiry: Bool? = nil, mode: String? = nil, trustStoreArn: String? = nil, trustStoreAssociationStatus: TrustStoreAssociationStatusEnum? = nil) {
+            self.advertiseTrustStoreCaNames = advertiseTrustStoreCaNames
             self.ignoreClientCertificateExpiry = ignoreClientCertificateExpiry
             self.mode = mode
             self.trustStoreArn = trustStoreArn
@@ -2584,6 +2723,7 @@ extension ElasticLoadBalancingV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advertiseTrustStoreCaNames = "AdvertiseTrustStoreCaNames"
             case ignoreClientCertificateExpiry = "IgnoreClientCertificateExpiry"
             case mode = "Mode"
             case trustStoreArn = "TrustStoreArn"
@@ -3491,6 +3631,28 @@ extension ElasticLoadBalancingV2 {
             case trustStoreArn = "TrustStoreArn"
         }
     }
+
+    public struct ZonalCapacityReservationState: AWSDecodableShape {
+        /// Information about the availability zone.
+        public let availabilityZone: String?
+        /// The number of effective capacity units.
+        public let effectiveCapacityUnits: Double?
+        /// The state of the capacity reservation.
+        public let state: CapacityReservationStatus?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, effectiveCapacityUnits: Double? = nil, state: CapacityReservationStatus? = nil) {
+            self.availabilityZone = availabilityZone
+            self.effectiveCapacityUnits = effectiveCapacityUnits
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case effectiveCapacityUnits = "EffectiveCapacityUnits"
+            case state = "State"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -3502,6 +3664,9 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
         case alpnPolicyNotSupportedException = "ALPNPolicyNotFound"
         case availabilityZoneNotSupportedException = "AvailabilityZoneNotSupported"
         case caCertificatesBundleNotFoundException = "CaCertificatesBundleNotFound"
+        case capacityDecreaseRequestsLimitExceededException = "CapacityDecreaseRequestLimitExceeded"
+        case capacityReservationPendingException = "CapacityReservationPending"
+        case capacityUnitsLimitExceededException = "CapacityUnitsLimitExceeded"
         case certificateNotFoundException = "CertificateNotFound"
         case deleteAssociationSameAccountException = "DeleteAssociationSameAccount"
         case duplicateListenerException = "DuplicateListener"
@@ -3511,6 +3676,7 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
         case duplicateTrustStoreNameException = "DuplicateTrustStoreName"
         case healthUnavailableException = "HealthUnavailable"
         case incompatibleProtocolsException = "IncompatibleProtocols"
+        case insufficientCapacityException = "InsufficientCapacity"
         case invalidCaCertificatesBundleException = "InvalidCaCertificatesBundle"
         case invalidConfigurationRequestException = "InvalidConfigurationRequest"
         case invalidLoadBalancerActionException = "InvalidLoadBalancerAction"
@@ -3522,6 +3688,7 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
         case listenerNotFoundException = "ListenerNotFound"
         case loadBalancerNotFoundException = "LoadBalancerNotFound"
         case operationNotPermittedException = "OperationNotPermitted"
+        case priorRequestNotCompleteException = "PriorRequestNotComplete"
         case priorityInUseException = "PriorityInUse"
         case resourceInUseException = "ResourceInUse"
         case resourceNotFoundException = "ResourceNotFound"
@@ -3577,6 +3744,12 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     public static var availabilityZoneNotSupportedException: Self { .init(.availabilityZoneNotSupportedException) }
     /// The specified ca certificate bundle does not exist.
     public static var caCertificatesBundleNotFoundException: Self { .init(.caCertificatesBundleNotFoundException) }
+    /// You've exceeded the daily capacity decrease limit for this reservation.
+    public static var capacityDecreaseRequestsLimitExceededException: Self { .init(.capacityDecreaseRequestsLimitExceededException) }
+    /// There is a pending capacity reservation.
+    public static var capacityReservationPendingException: Self { .init(.capacityReservationPendingException) }
+    /// You've exceeded the capacity units limit.
+    public static var capacityUnitsLimitExceededException: Self { .init(.capacityUnitsLimitExceededException) }
     /// The specified certificate does not exist.
     public static var certificateNotFoundException: Self { .init(.certificateNotFoundException) }
     /// The specified association can't be within the same account.
@@ -3595,6 +3768,8 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     public static var healthUnavailableException: Self { .init(.healthUnavailableException) }
     /// The specified configuration is not valid with this protocol.
     public static var incompatibleProtocolsException: Self { .init(.incompatibleProtocolsException) }
+    /// There is insufficient capacity to reserve.
+    public static var insufficientCapacityException: Self { .init(.insufficientCapacityException) }
     /// The specified ca certificate bundle is in an invalid format, or corrupt.
     public static var invalidCaCertificatesBundleException: Self { .init(.invalidCaCertificatesBundleException) }
     /// The requested configuration is not valid.
@@ -3617,6 +3792,8 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     public static var loadBalancerNotFoundException: Self { .init(.loadBalancerNotFoundException) }
     /// This operation is not allowed.
     public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
+    /// This operation is not allowed while a prior request has not been completed.
+    public static var priorRequestNotCompleteException: Self { .init(.priorRequestNotCompleteException) }
     /// The specified priority is in use.
     public static var priorityInUseException: Self { .init(.priorityInUseException) }
     /// A specified resource is in use.

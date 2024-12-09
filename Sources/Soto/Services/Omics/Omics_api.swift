@@ -512,6 +512,54 @@ public struct Omics: AWSService {
         return try await self.createReferenceStore(input, logger: logger)
     }
 
+    /// You can create a run cache to save the task outputs from completed tasks in a run for a private workflow.  Subsequent runs use the task outputs from the cache, rather than computing the task outputs again. You specify an Amazon S3 location where HealthOmics saves the cached data. This data must be  immediately accessible (not in an archived state). For more information, see Creating a run cache in the AWS HealthOmics User Guide.
+    @Sendable
+    @inlinable
+    public func createRunCache(_ input: CreateRunCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRunCacheResponse {
+        try await self.client.execute(
+            operation: "CreateRunCache", 
+            path: "/runCache", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// You can create a run cache to save the task outputs from completed tasks in a run for a private workflow.  Subsequent runs use the task outputs from the cache, rather than computing the task outputs again. You specify an Amazon S3 location where HealthOmics saves the cached data. This data must be  immediately accessible (not in an archived state). For more information, see Creating a run cache in the AWS HealthOmics User Guide.
+    ///
+    /// Parameters:
+    ///   - cacheBehavior: Default cache behavior for runs that use this cache. Supported values are:  CACHE_ON_FAILURE: Caches task outputs from completed tasks for runs that fail. This setting is  useful if you're debugging a workflow that fails after several tasks completed successfully. The subsequent run uses the cache outputs for previously-completed tasks if the task definition, inputs, and container in ECR are identical to the prior run.  CACHE_ALWAYS: Caches task outputs from completed tasks for all runs. This setting is useful in development mode, but do not use it in a production setting. If you don't specify a value, the default behavior is CACHE_ON_FAILURE. When you start a run that uses this cache, you can override the default cache behavior. For more information, see Run cache behavior in the AWS HealthOmics User Guide.
+    ///   - cacheBucketOwnerId: The AWS account ID of the expected owner of the S3 bucket for the run cache. If not provided, your account ID is set as the owner of the bucket.
+    ///   - cacheS3Location: Specify the S3 location for storing the cached task outputs. This data must be immediately accessible (not in an archived state).
+    ///   - description: Enter a description of the run cache.
+    ///   - name: Enter a user-friendly name for the run cache.
+    ///   - requestId: A unique request token, to ensure idempotency. If you don't specify a token,  HealthOmics automatically generates a universally unique identifier (UUID) for the request.
+    ///   - tags: Specify one or more tags to associate with this run cache.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRunCache(
+        cacheBehavior: CacheBehavior? = nil,
+        cacheBucketOwnerId: String? = nil,
+        cacheS3Location: String,
+        description: String? = nil,
+        name: String? = nil,
+        requestId: String = CreateRunCacheRequest.idempotencyToken(),
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRunCacheResponse {
+        let input = CreateRunCacheRequest(
+            cacheBehavior: cacheBehavior, 
+            cacheBucketOwnerId: cacheBucketOwnerId, 
+            cacheS3Location: cacheS3Location, 
+            description: description, 
+            name: name, 
+            requestId: requestId, 
+            tags: tags
+        )
+        return try await self.createRunCache(input, logger: logger)
+    }
+
     /// You can optionally create a run group to limit the compute resources for the runs that you add to the group.
     @Sendable
     @inlinable
@@ -582,16 +630,20 @@ public struct Omics: AWSService {
     ///   - eTagAlgorithmFamily: The ETag algorithm family to use for ingested read sets.
     ///   - fallbackLocation: An S3 location that is used to store files that have failed a direct upload.
     ///   - name: A name for the store.
+    ///   - propagatedSetLevelTags: The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+    ///   - s3AccessConfig: S3 access configuration parameters
     ///   - sseConfig: Server-side encryption (SSE) settings for the store.
     ///   - tags: Tags for the store.
     ///   - logger: Logger use during operation
     @inlinable
     public func createSequenceStore(
-        clientToken: String? = nil,
+        clientToken: String? = CreateSequenceStoreRequest.idempotencyToken(),
         description: String? = nil,
         eTagAlgorithmFamily: ETagAlgorithmFamily? = nil,
         fallbackLocation: String? = nil,
         name: String,
+        propagatedSetLevelTags: [String]? = nil,
+        s3AccessConfig: S3AccessConfig? = nil,
         sseConfig: SseConfig? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -602,6 +654,8 @@ public struct Omics: AWSService {
             eTagAlgorithmFamily: eTagAlgorithmFamily, 
             fallbackLocation: fallbackLocation, 
             name: name, 
+            propagatedSetLevelTags: propagatedSetLevelTags, 
+            s3AccessConfig: s3AccessConfig, 
             sseConfig: sseConfig, 
             tags: tags
         )
@@ -908,6 +962,36 @@ public struct Omics: AWSService {
         return try await self.deleteRun(input, logger: logger)
     }
 
+    /// Delete a run cache. This action removes the cache metadata stored in the service account,  but doesn't delete the data in Amazon S3.  You can access the cache data in Amazon S3, for inspection or to troubleshoot issues.  You can remove old cache data using standard S3 Delete operations.  For more information, see Deleting a run cache in the AWS HealthOmics User Guide.
+    @Sendable
+    @inlinable
+    public func deleteRunCache(_ input: DeleteRunCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteRunCache", 
+            path: "/runCache/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Delete a run cache. This action removes the cache metadata stored in the service account,  but doesn't delete the data in Amazon S3.  You can access the cache data in Amazon S3, for inspection or to troubleshoot issues.  You can remove old cache data using standard S3 Delete operations.  For more information, see Deleting a run cache in the AWS HealthOmics User Guide.
+    ///
+    /// Parameters:
+    ///   - id: Run cache identifier for the cache you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRunCache(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteRunCacheRequest(
+            id: id
+        )
+        return try await self.deleteRunCache(input, logger: logger)
+    }
+
     /// Deletes a workflow run group.
     @Sendable
     @inlinable
@@ -936,6 +1020,36 @@ public struct Omics: AWSService {
             id: id
         )
         return try await self.deleteRunGroup(input, logger: logger)
+    }
+
+    /// Deletes an access policy for the specified store.
+    @Sendable
+    @inlinable
+    public func deleteS3AccessPolicy(_ input: DeleteS3AccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteS3AccessPolicyResponse {
+        try await self.client.execute(
+            operation: "DeleteS3AccessPolicy", 
+            path: "/s3accesspolicy/{s3AccessPointArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
+    }
+    /// Deletes an access policy for the specified store.
+    ///
+    /// Parameters:
+    ///   - s3AccessPointArn: The S3 access point ARN that has the access policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteS3AccessPolicy(
+        s3AccessPointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteS3AccessPolicyResponse {
+        let input = DeleteS3AccessPolicyRequest(
+            s3AccessPointArn: s3AccessPointArn
+        )
+        return try await self.deleteS3AccessPolicy(input, logger: logger)
     }
 
     /// Deletes a sequence store.
@@ -1463,7 +1577,7 @@ public struct Omics: AWSService {
         return try await self.getReferenceStore(input, logger: logger)
     }
 
-    /// Gets information about a workflow run. If a workflow is shared with you, you cannot export information about the run.
+    /// Gets information about a workflow run. If a workflow is shared with you, you cannot export information about the run. HealthOmics stores a fixed number of runs that are available to the console and API. If  GetRun doesn't return the requested run, you can find run logs  for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs  in the AWS HealthOmics User Guide.
     @Sendable
     @inlinable
     public func getRun(_ input: GetRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRunResponse {
@@ -1477,7 +1591,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a workflow run. If a workflow is shared with you, you cannot export information about the run.
+    /// Gets information about a workflow run. If a workflow is shared with you, you cannot export information about the run. HealthOmics stores a fixed number of runs that are available to the console and API. If  GetRun doesn't return the requested run, you can find run logs  for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs  in the AWS HealthOmics User Guide.
     ///
     /// Parameters:
     ///   - export: The run's export format.
@@ -1494,6 +1608,36 @@ public struct Omics: AWSService {
             id: id
         )
         return try await self.getRun(input, logger: logger)
+    }
+
+    /// Retrieve the details for the specified run cache. For more information, see Call caching for HealthOmics runs in the AWS HealthOmics User Guide.
+    @Sendable
+    @inlinable
+    public func getRunCache(_ input: GetRunCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRunCacheResponse {
+        try await self.client.execute(
+            operation: "GetRunCache", 
+            path: "/runCache/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Retrieve the details for the specified run cache. For more information, see Call caching for HealthOmics runs in the AWS HealthOmics User Guide.
+    ///
+    /// Parameters:
+    ///   - id: The identifier of the run cache to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRunCache(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRunCacheResponse {
+        let input = GetRunCacheRequest(
+            id: id
+        )
+        return try await self.getRunCache(input, logger: logger)
     }
 
     /// Gets information about a workflow run group.
@@ -1557,6 +1701,36 @@ public struct Omics: AWSService {
             taskId: taskId
         )
         return try await self.getRunTask(input, logger: logger)
+    }
+
+    /// Retrieves details about an access policy on a given store.
+    @Sendable
+    @inlinable
+    public func getS3AccessPolicy(_ input: GetS3AccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetS3AccessPolicyResponse {
+        try await self.client.execute(
+            operation: "GetS3AccessPolicy", 
+            path: "/s3accesspolicy/{s3AccessPointArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
+    }
+    /// Retrieves details about an access policy on a given store.
+    ///
+    /// Parameters:
+    ///   - s3AccessPointArn: The S3 access point ARN that has the access policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getS3AccessPolicy(
+        s3AccessPointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetS3AccessPolicyResponse {
+        let input = GetS3AccessPolicyRequest(
+            s3AccessPointArn: s3AccessPointArn
+        )
+        return try await self.getS3AccessPolicy(input, logger: logger)
     }
 
     /// Gets information about a sequence store.
@@ -2186,6 +2360,39 @@ public struct Omics: AWSService {
         return try await self.listReferences(input, logger: logger)
     }
 
+    /// Retrieves a list of your run caches.
+    @Sendable
+    @inlinable
+    public func listRunCaches(_ input: ListRunCachesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRunCachesResponse {
+        try await self.client.execute(
+            operation: "ListRunCaches", 
+            path: "/runCache", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of your run caches.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - startingToken: Optional pagination token returned from a prior call to the ListRunCaches API operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRunCaches(
+        maxResults: Int? = nil,
+        startingToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRunCachesResponse {
+        let input = ListRunCachesRequest(
+            maxResults: maxResults, 
+            startingToken: startingToken
+        )
+        return try await self.listRunCaches(input, logger: logger)
+    }
+
     /// Retrieves a list of run groups.
     @Sendable
     @inlinable
@@ -2261,7 +2468,7 @@ public struct Omics: AWSService {
         return try await self.listRunTasks(input, logger: logger)
     }
 
-    /// Retrieves a list of runs.
+    /// Retrieves a list of runs. HealthOmics stores a fixed number of runs that are available to the console and API. If  the ListRuns response doesn't include specific runs that you expected, you can find run logs  for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs  in the AWS HealthOmics User Guide.
     @Sendable
     @inlinable
     public func listRuns(_ input: ListRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRunsResponse {
@@ -2275,7 +2482,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of runs.
+    /// Retrieves a list of runs. HealthOmics stores a fixed number of runs that are available to the console and API. If  the ListRuns response doesn't include specific runs that you expected, you can find run logs  for all runs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs  in the AWS HealthOmics User Guide.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of runs to return in one page of results.
@@ -2525,6 +2732,39 @@ public struct Omics: AWSService {
         return try await self.listWorkflows(input, logger: logger)
     }
 
+    /// Adds an access policy to the specified store.
+    @Sendable
+    @inlinable
+    public func putS3AccessPolicy(_ input: PutS3AccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutS3AccessPolicyResponse {
+        try await self.client.execute(
+            operation: "PutS3AccessPolicy", 
+            path: "/s3accesspolicy/{s3AccessPointArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
+    }
+    /// Adds an access policy to the specified store.
+    ///
+    /// Parameters:
+    ///   - s3AccessPointArn: The S3 access point ARN where you want to put the access policy.
+    ///   - s3AccessPolicy: The resource policy that controls S3 access to the store.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putS3AccessPolicy(
+        s3AccessPointArn: String,
+        s3AccessPolicy: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutS3AccessPolicyResponse {
+        let input = PutS3AccessPolicyRequest(
+            s3AccessPointArn: s3AccessPointArn, 
+            s3AccessPolicy: s3AccessPolicy
+        )
+        return try await self.putS3AccessPolicy(input, logger: logger)
+    }
+
     /// Starts an annotation import job.
     @Sendable
     @inlinable
@@ -2729,7 +2969,7 @@ public struct Omics: AWSService {
         return try await self.startReferenceImportJob(input, logger: logger)
     }
 
-    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. StartRun will not support re-run for a workflow that is shared with you. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded. By default, the run uses STATIC storage. For STATIC storage, set the storageCapacity field.  You can set the storage type to DYNAMIC. You do not set storageCapacity, because HealthOmics dynamically scales the storage up or down as required. For more information about static and dynamic storage, see Running workflows  in the AWS HealthOmics User Guide.
+    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. StartRun will not support re-run for a workflow that is shared with you. HealthOmics stores a fixed number of runs that are available to the console and API. By default, HealthOmics doesn't any remove any runs. If HealthOmics reaches the maximum  number of runs, you must manually remove runs. To have older runs removed automatically, set the retention mode to REMOVE. By default, the run uses STATIC storage. For STATIC storage, set the storageCapacity field.  You can set the storage type to DYNAMIC. You do not set storageCapacity, because HealthOmics dynamically scales the storage up or down as required. For more information about static and dynamic storage, see Running workflows  in the AWS HealthOmics User Guide.
     @Sendable
     @inlinable
     public func startRun(_ input: StartRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRunResponse {
@@ -2743,16 +2983,18 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. StartRun will not support re-run for a workflow that is shared with you. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded. By default, the run uses STATIC storage. For STATIC storage, set the storageCapacity field.  You can set the storage type to DYNAMIC. You do not set storageCapacity, because HealthOmics dynamically scales the storage up or down as required. For more information about static and dynamic storage, see Running workflows  in the AWS HealthOmics User Guide.
+    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. StartRun will not support re-run for a workflow that is shared with you. HealthOmics stores a fixed number of runs that are available to the console and API. By default, HealthOmics doesn't any remove any runs. If HealthOmics reaches the maximum  number of runs, you must manually remove runs. To have older runs removed automatically, set the retention mode to REMOVE. By default, the run uses STATIC storage. For STATIC storage, set the storageCapacity field.  You can set the storage type to DYNAMIC. You do not set storageCapacity, because HealthOmics dynamically scales the storage up or down as required. For more information about static and dynamic storage, see Running workflows  in the AWS HealthOmics User Guide.
     ///
     /// Parameters:
+    ///   - cacheBehavior: The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see Run cache behavior in the AWS HealthOmics User Guide.
+    ///   - cacheId: Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached  for this run.
     ///   - logLevel: A log level for the run.
     ///   - name: A name for the run.
     ///   - outputUri: An output URI for the run.
     ///   - parameters: Parameters for the run.
     ///   - priority: A priority for the run.
     ///   - requestId: To ensure that requests don't run multiple times, specify a unique ID for each request.
-    ///   - retentionMode: The retention mode for the run.
+    ///   - retentionMode: The retention mode for the run. The default value is RETAIN.  HealthOmics stores a fixed number of runs that are available to the console and API.  In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, HealthOmics automatically  removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run retention mode  in the AWS HealthOmics User Guide.
     ///   - roleArn: A service role for the run.
     ///   - runGroupId: The run's group ID.
     ///   - runId: The ID of a run to duplicate.
@@ -2765,6 +3007,8 @@ public struct Omics: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func startRun(
+        cacheBehavior: CacheBehavior? = nil,
+        cacheId: String? = nil,
         logLevel: RunLogLevel? = nil,
         name: String? = nil,
         outputUri: String? = nil,
@@ -2784,6 +3028,8 @@ public struct Omics: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartRunResponse {
         let input = StartRunRequest(
+            cacheBehavior: cacheBehavior, 
+            cacheId: cacheId, 
             logLevel: logLevel, 
             name: name, 
             outputUri: outputUri, 
@@ -2981,6 +3227,45 @@ public struct Omics: AWSService {
         return try await self.updateAnnotationStoreVersion(input, logger: logger)
     }
 
+    /// Update a run cache.
+    @Sendable
+    @inlinable
+    public func updateRunCache(_ input: UpdateRunCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateRunCache", 
+            path: "/runCache/{id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Update a run cache.
+    ///
+    /// Parameters:
+    ///   - cacheBehavior: Update the default run cache behavior.
+    ///   - description: Update the run cache description.
+    ///   - id: The identifier of the run cache you want to update.
+    ///   - name: Update the name of the run cache.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRunCache(
+        cacheBehavior: CacheBehavior? = nil,
+        description: String? = nil,
+        id: String,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateRunCacheRequest(
+            cacheBehavior: cacheBehavior, 
+            description: description, 
+            id: id, 
+            name: name
+        )
+        return try await self.updateRunCache(input, logger: logger)
+    }
+
     /// Updates a run group.
     @Sendable
     @inlinable
@@ -3024,6 +3309,54 @@ public struct Omics: AWSService {
             name: name
         )
         return try await self.updateRunGroup(input, logger: logger)
+    }
+
+    /// Update one or more parameters for the sequence store.
+    @Sendable
+    @inlinable
+    public func updateSequenceStore(_ input: UpdateSequenceStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSequenceStoreResponse {
+        try await self.client.execute(
+            operation: "UpdateSequenceStore", 
+            path: "/sequencestore/{id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
+    }
+    /// Update one or more parameters for the sequence store.
+    ///
+    /// Parameters:
+    ///   - clientToken: To ensure that requests don't run multiple times, specify a unique token for each request.
+    ///   - description: A description for the sequence store.
+    ///   - fallbackLocation: The S3 URI of a bucket and folder to store Read Sets that fail to upload.
+    ///   - id: The ID of the sequence store.
+    ///   - name: A name for the sequence store.
+    ///   - propagatedSetLevelTags: The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+    ///   - s3AccessConfig: S3 access configuration parameters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSequenceStore(
+        clientToken: String? = UpdateSequenceStoreRequest.idempotencyToken(),
+        description: String? = nil,
+        fallbackLocation: String? = nil,
+        id: String,
+        name: String? = nil,
+        propagatedSetLevelTags: [String]? = nil,
+        s3AccessConfig: S3AccessConfig? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSequenceStoreResponse {
+        let input = UpdateSequenceStoreRequest(
+            clientToken: clientToken, 
+            description: description, 
+            fallbackLocation: fallbackLocation, 
+            id: id, 
+            name: name, 
+            propagatedSetLevelTags: propagatedSetLevelTags, 
+            s3AccessConfig: s3AccessConfig
+        )
+        return try await self.updateSequenceStore(input, logger: logger)
     }
 
     /// Updates a variant store.
@@ -3631,6 +3964,40 @@ extension Omics {
         return self.listReferencesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listRunCaches(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRunCachesPaginator(
+        _ input: ListRunCachesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRunCachesRequest, ListRunCachesResponse> {
+        return .init(
+            input: input,
+            command: self.listRunCaches,
+            inputKey: \ListRunCachesRequest.startingToken,
+            outputKey: \ListRunCachesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRunCaches(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRunCachesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRunCachesRequest, ListRunCachesResponse> {
+        let input = ListRunCachesRequest(
+            maxResults: maxResults
+        )
+        return self.listRunCachesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listRunGroups(_:logger:)``.
     ///
     /// - Parameters:
@@ -4089,6 +4456,16 @@ extension Omics.ListReferencesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             referenceStoreId: self.referenceStoreId
+        )
+    }
+}
+
+extension Omics.ListRunCachesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Omics.ListRunCachesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            startingToken: token
         )
     }
 }

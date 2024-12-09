@@ -486,6 +486,8 @@ extension MailManager {
         case archive(ArchiveAction)
         /// This action delivers an email to a WorkMail mailbox.
         case deliverToMailbox(DeliverToMailboxAction)
+        /// This action delivers an email to an Amazon Q Business application for ingestion into its knowledge base.
+        case deliverToQBusiness(DeliverToQBusinessAction)
         /// This action terminates the evaluation of rules in the rule set.
         case drop(DropAction)
         /// This action relays the email to another SMTP server.
@@ -516,6 +518,9 @@ extension MailManager {
             case .deliverToMailbox:
                 let value = try container.decode(DeliverToMailboxAction.self, forKey: .deliverToMailbox)
                 self = .deliverToMailbox(value)
+            case .deliverToQBusiness:
+                let value = try container.decode(DeliverToQBusinessAction.self, forKey: .deliverToQBusiness)
+                self = .deliverToQBusiness(value)
             case .drop:
                 let value = try container.decode(DropAction.self, forKey: .drop)
                 self = .drop(value)
@@ -543,6 +548,8 @@ extension MailManager {
                 try container.encode(value, forKey: .archive)
             case .deliverToMailbox(let value):
                 try container.encode(value, forKey: .deliverToMailbox)
+            case .deliverToQBusiness(let value):
+                try container.encode(value, forKey: .deliverToQBusiness)
             case .drop(let value):
                 try container.encode(value, forKey: .drop)
             case .relay(let value):
@@ -564,6 +571,8 @@ extension MailManager {
                 try value.validate(name: "\(name).archive")
             case .deliverToMailbox(let value):
                 try value.validate(name: "\(name).deliverToMailbox")
+            case .deliverToQBusiness(let value):
+                try value.validate(name: "\(name).deliverToQBusiness")
             case .relay(let value):
                 try value.validate(name: "\(name).relay")
             case .replaceRecipient(let value):
@@ -581,6 +590,7 @@ extension MailManager {
             case addHeader = "AddHeader"
             case archive = "Archive"
             case deliverToMailbox = "DeliverToMailbox"
+            case deliverToQBusiness = "DeliverToQBusiness"
             case drop = "Drop"
             case relay = "Relay"
             case replaceRecipient = "ReplaceRecipient"
@@ -1610,6 +1620,44 @@ extension MailManager {
         private enum CodingKeys: String, CodingKey {
             case actionFailurePolicy = "ActionFailurePolicy"
             case mailboxArn = "MailboxArn"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct DeliverToQBusinessAction: AWSEncodableShape & AWSDecodableShape {
+        /// A policy that states what to do in the case of failure. The action will fail if there are configuration errors. For example, the specified application has been deleted or the role lacks necessary permissions to call the qbusiness:BatchPutDocument API.
+        public let actionFailurePolicy: ActionFailurePolicy?
+        /// The unique identifier of the Amazon Q Business application instance where the email content will be delivered.
+        public let applicationId: String
+        /// The identifier of the knowledge base index within the Amazon Q Business application where the email content will be stored and indexed.
+        public let indexId: String
+        /// The Amazon Resource Name (ARN) of the IAM Role to use while delivering to Amazon Q Business. This role must have access to the qbusiness:BatchPutDocument API for the given application and index.
+        public let roleArn: String
+
+        @inlinable
+        public init(actionFailurePolicy: ActionFailurePolicy? = nil, applicationId: String, indexId: String, roleArn: String) {
+            self.actionFailurePolicy = actionFailurePolicy
+            self.applicationId = applicationId
+            self.indexId = indexId
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9:_/+=,@.#-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionFailurePolicy = "ActionFailurePolicy"
+            case applicationId = "ApplicationId"
+            case indexId = "IndexId"
             case roleArn = "RoleArn"
         }
     }

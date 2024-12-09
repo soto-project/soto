@@ -26,6 +26,13 @@ import Foundation
 extension BedrockRuntime {
     // MARK: Enums
 
+    public enum AsyncInvokeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConversationRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assistant = "assistant"
         case user = "user"
@@ -114,6 +121,18 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailConverseImageFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jpeg = "jpeg"
+        case png = "png"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailImageFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jpeg = "jpeg"
+        case png = "png"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailManagedWordType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case profanity = "PROFANITY"
         public var description: String { return self.rawValue }
@@ -195,6 +214,23 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum PerformanceConfigLatency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optimized = "optimized"
+        case standard = "standard"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortAsyncInvocationBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case submissionTime = "SubmissionTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StopReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contentFiltered = "content_filtered"
         case endTurn = "end_turn"
@@ -217,6 +253,19 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum VideoFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case flv = "flv"
+        case mkv = "mkv"
+        case mov = "mov"
+        case mp4 = "mp4"
+        case mpeg = "mpeg"
+        case mpg = "mpg"
+        case threeGp = "three_gp"
+        case webm = "webm"
+        case wmv = "wmv"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A document to include in the message.
         case document(DocumentBlock)
@@ -231,6 +280,8 @@ extension BedrockRuntime {
         case toolResult(ToolResultBlock)
         /// Information about a tool use request from a model.
         case toolUse(ToolUseBlock)
+        /// Video to include in the message.
+        case video(VideoBlock)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -260,6 +311,9 @@ extension BedrockRuntime {
             case .toolUse:
                 let value = try container.decode(ToolUseBlock.self, forKey: .toolUse)
                 self = .toolUse(value)
+            case .video:
+                let value = try container.decode(VideoBlock.self, forKey: .video)
+                self = .video(value)
             }
         }
 
@@ -278,6 +332,8 @@ extension BedrockRuntime {
                 try container.encode(value, forKey: .toolResult)
             case .toolUse(let value):
                 try container.encode(value, forKey: .toolUse)
+            case .video(let value):
+                try container.encode(value, forKey: .video)
             }
         }
 
@@ -287,6 +343,8 @@ extension BedrockRuntime {
                 try value.validate(name: "\(name).toolResult")
             case .toolUse(let value):
                 try value.validate(name: "\(name).toolUse")
+            case .video(let value):
+                try value.validate(name: "\(name).video")
             default:
                 break
             }
@@ -299,6 +357,7 @@ extension BedrockRuntime {
             case text = "text"
             case toolResult = "toolResult"
             case toolUse = "toolUse"
+            case video = "video"
         }
     }
 
@@ -350,11 +409,11 @@ extension BedrockRuntime {
         case metadata(ConverseStreamMetadataEvent)
         /// A streaming error occurred. Retry your request.
         case modelStreamErrorException(ModelStreamErrorException)
-        /// The service isn't currently available. Try again later.
+        /// The service isn't currently available. For troubleshooting this error,  see ServiceUnavailable in the Amazon Bedrock User Guide
         case serviceUnavailableException(ServiceUnavailableException)
-        /// The number of requests exceeds the limit. Resubmit your request later.
+        /// Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see ThrottlingException in the Amazon Bedrock User Guide
         case throttlingException(ThrottlingException)
-        /// Input validation failed. Check your request parameters and retry the request.
+        /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error,  see ValidationError in the Amazon Bedrock User Guide
         case validationException(ValidationException)
 
         public init(from decoder: Decoder) throws {
@@ -418,6 +477,69 @@ extension BedrockRuntime {
         }
     }
 
+    public enum GuardrailContentBlock: AWSEncodableShape, Sendable {
+        /// Image within guardrail content block to be evaluated by the guardrail.
+        case image(GuardrailImageBlock)
+        /// Text within content block to be evaluated by the guardrail.
+        case text(GuardrailTextBlock)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .image(let value):
+                try container.encode(value, forKey: .image)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "image"
+            case text = "text"
+        }
+    }
+
+    public enum GuardrailConverseContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Image within converse content block to be evaluated by the guardrail.
+        case image(GuardrailConverseImageBlock)
+        /// The text to guard.
+        case text(GuardrailConverseTextBlock)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .image:
+                let value = try container.decode(GuardrailConverseImageBlock.self, forKey: .image)
+                self = .image(value)
+            case .text:
+                let value = try container.decode(GuardrailConverseTextBlock.self, forKey: .text)
+                self = .text(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .image(let value):
+                try container.encode(value, forKey: .image)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "image"
+            case text = "text"
+        }
+    }
+
     public enum ResponseStream: AWSDecodableShape, Sendable {
         /// Content included in the response.
         case chunk(PayloadPart)
@@ -427,6 +549,7 @@ extension BedrockRuntime {
         case modelStreamErrorException(ModelStreamErrorException)
         /// The request took too long to process. Processing time exceeded the model timeout length.
         case modelTimeoutException(ModelTimeoutException)
+        /// The service isn't available. Try again later.
         case serviceUnavailableException(ServiceUnavailableException)
         /// Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase Provisioned Throughput to increase the rate or number of tokens you can process.
         case throttlingException(ThrottlingException)
@@ -554,6 +677,8 @@ extension BedrockRuntime {
         case json(String)
         /// A tool result that is text.
         case text(String)
+        /// A tool result that is video.
+        case video(VideoBlock)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -577,6 +702,9 @@ extension BedrockRuntime {
             case .text:
                 let value = try container.decode(String.self, forKey: .text)
                 self = .text(value)
+            case .video:
+                let value = try container.decode(VideoBlock.self, forKey: .video)
+                self = .video(value)
             }
         }
 
@@ -591,6 +719,17 @@ extension BedrockRuntime {
                 try container.encode(value, forKey: .json)
             case .text(let value):
                 try container.encode(value, forKey: .text)
+            case .video(let value):
+                try container.encode(value, forKey: .video)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .video(let value):
+                try value.validate(name: "\(name).video")
+            default:
+                break
             }
         }
 
@@ -599,6 +738,57 @@ extension BedrockRuntime {
             case image = "image"
             case json = "json"
             case text = "text"
+            case video = "video"
+        }
+    }
+
+    public enum VideoSource: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Video content encoded in base64.
+        case bytes(AWSBase64Data)
+        /// The location of a video object in an S3 bucket.
+        case s3Location(S3Location)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .bytes:
+                let value = try container.decode(AWSBase64Data.self, forKey: .bytes)
+                self = .bytes(value)
+            case .s3Location:
+                let value = try container.decode(S3Location.self, forKey: .s3Location)
+                self = .s3Location(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .bytes(let value):
+                try container.encode(value, forKey: .bytes)
+            case .s3Location(let value):
+                try container.encode(value, forKey: .s3Location)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .s3Location(let value):
+                try value.validate(name: "\(name).s3Location")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "bytes"
+            case s3Location = "s3Location"
         }
     }
 
@@ -674,6 +864,87 @@ extension BedrockRuntime {
             case guardrailCoverage = "guardrailCoverage"
             case outputs = "outputs"
             case usage = "usage"
+        }
+    }
+
+    public struct AsyncInvokeS3OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// If the bucket belongs to another AWS account, specify that account's ID.
+        public let bucketOwner: String?
+        /// A KMS encryption key ID.
+        public let kmsKeyId: String?
+        /// An object URI starting with s3://.
+        public let s3Uri: String
+
+        @inlinable
+        public init(bucketOwner: String? = nil, kmsKeyId: String? = nil, s3Uri: String) {
+            self.bucketOwner = bucketOwner
+            self.kmsKeyId = kmsKeyId
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketOwner, name: "bucketOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+))$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketOwner = "bucketOwner"
+            case kmsKeyId = "kmsKeyId"
+            case s3Uri = "s3Uri"
+        }
+    }
+
+    public struct AsyncInvokeSummary: AWSDecodableShape {
+        /// The invocation's idempotency token.
+        public let clientRequestToken: String?
+        /// When the invocation ended.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// An error message.
+        public let failureMessage: String?
+        /// The invocation's ARN.
+        public let invocationArn: String
+        /// When the invocation was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// The invoked model's ARN.
+        public let modelArn: String
+        /// The invocation's output data settings.
+        public let outputDataConfig: AsyncInvokeOutputDataConfig
+        /// The invocation's status.
+        public let status: AsyncInvokeStatus?
+        /// When the invocation was submitted.
+        @CustomCoding<ISO8601DateCoder>
+        public var submitTime: Date
+
+        @inlinable
+        public init(clientRequestToken: String? = nil, endTime: Date? = nil, failureMessage: String? = nil, invocationArn: String, lastModifiedTime: Date? = nil, modelArn: String, outputDataConfig: AsyncInvokeOutputDataConfig, status: AsyncInvokeStatus? = nil, submitTime: Date) {
+            self.clientRequestToken = clientRequestToken
+            self.endTime = endTime
+            self.failureMessage = failureMessage
+            self.invocationArn = invocationArn
+            self.lastModifiedTime = lastModifiedTime
+            self.modelArn = modelArn
+            self.outputDataConfig = outputDataConfig
+            self.status = status
+            self.submitTime = submitTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case endTime = "endTime"
+            case failureMessage = "failureMessage"
+            case invocationArn = "invocationArn"
+            case lastModifiedTime = "lastModifiedTime"
+            case modelArn = "modelArn"
+            case outputDataConfig = "outputDataConfig"
+            case status = "status"
+            case submitTime = "submitTime"
         }
     }
 
@@ -758,22 +1029,28 @@ extension BedrockRuntime {
         public let messages: [Message]?
         /// Specifies the model or throughput with which to run inference, or the prompt resource to use in inference. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.   The Converse API doesn't support imported models.
         public let modelId: String
+        /// Model performance settings for the request.
+        public let performanceConfig: PerformanceConfiguration?
         /// Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
         public let promptVariables: [String: PromptVariableValues]?
+        /// Key-value pairs that you can use to filter invocation logs.
+        public let requestMetadata: [String: String]?
         /// A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
         public let system: [SystemContentBlock]?
-        /// Configuration information for the tools that the model can use when generating a response.   This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command R+, and Mistral Large models.
+        /// Configuration information for the tools that the model can use when generating a response.  For information about models that support tool use, see  Supported models and model features.
         public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, promptVariables: [String: PromptVariableValues]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
             self.guardrailConfig = guardrailConfig
             self.inferenceConfig = inferenceConfig
             self.messages = messages
             self.modelId = modelId
+            self.performanceConfig = performanceConfig
             self.promptVariables = promptVariables
+            self.requestMetadata = requestMetadata
             self.system = system
             self.toolConfig = toolConfig
         }
@@ -787,7 +1064,9 @@ extension BedrockRuntime {
             try container.encodeIfPresent(self.inferenceConfig, forKey: .inferenceConfig)
             try container.encodeIfPresent(self.messages, forKey: .messages)
             request.encodePath(self.modelId, key: "modelId")
+            try container.encodeIfPresent(self.performanceConfig, forKey: .performanceConfig)
             try container.encodeIfPresent(self.promptVariables, forKey: .promptVariables)
+            try container.encodeIfPresent(self.requestMetadata, forKey: .requestMetadata)
             try container.encodeIfPresent(self.system, forKey: .system)
             try container.encodeIfPresent(self.toolConfig, forKey: .toolConfig)
         }
@@ -801,7 +1080,9 @@ extension BedrockRuntime {
             }
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sagemaker:[a-z0-9-]+:[0-9]{12}:endpoint/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):default-prompt-router/[a-zA-Z0-9-:.]+$)$")
+            try self.validate(self.requestMetadata, name: "requestMetadata", parent: name, max: 16)
+            try self.validate(self.requestMetadata, name: "requestMetadata", parent: name, min: 1)
             try self.system?.forEach {
                 try $0.validate(name: "\(name).system[]")
             }
@@ -814,7 +1095,9 @@ extension BedrockRuntime {
             case guardrailConfig = "guardrailConfig"
             case inferenceConfig = "inferenceConfig"
             case messages = "messages"
+            case performanceConfig = "performanceConfig"
             case promptVariables = "promptVariables"
+            case requestMetadata = "requestMetadata"
             case system = "system"
             case toolConfig = "toolConfig"
         }
@@ -827,6 +1110,8 @@ extension BedrockRuntime {
         public let metrics: ConverseMetrics
         /// The result from the call to Converse.
         public let output: ConverseOutput
+        /// Model performance settings for the request.
+        public let performanceConfig: PerformanceConfiguration?
         /// The reason why the model stopped generating output.
         public let stopReason: StopReason
         /// A trace object that contains information about the Guardrail behavior.
@@ -835,10 +1120,11 @@ extension BedrockRuntime {
         public let usage: TokenUsage
 
         @inlinable
-        public init(additionalModelResponseFields: String? = nil, metrics: ConverseMetrics, output: ConverseOutput, stopReason: StopReason, trace: ConverseTrace? = nil, usage: TokenUsage) {
+        public init(additionalModelResponseFields: String? = nil, metrics: ConverseMetrics, output: ConverseOutput, performanceConfig: PerformanceConfiguration? = nil, stopReason: StopReason, trace: ConverseTrace? = nil, usage: TokenUsage) {
             self.additionalModelResponseFields = additionalModelResponseFields
             self.metrics = metrics
             self.output = output
+            self.performanceConfig = performanceConfig
             self.stopReason = stopReason
             self.trace = trace
             self.usage = usage
@@ -848,6 +1134,7 @@ extension BedrockRuntime {
             case additionalModelResponseFields = "additionalModelResponseFields"
             case metrics = "metrics"
             case output = "output"
+            case performanceConfig = "performanceConfig"
             case stopReason = "stopReason"
             case trace = "trace"
             case usage = "usage"
@@ -857,20 +1144,24 @@ extension BedrockRuntime {
     public struct ConverseStreamMetadataEvent: AWSDecodableShape {
         /// The metrics for the conversation stream metadata event.
         public let metrics: ConverseStreamMetrics
+        /// Model performance configuration metadata for the conversation stream event.
+        public let performanceConfig: PerformanceConfiguration?
         /// The trace object in the response from ConverseStream that contains information about the guardrail behavior.
         public let trace: ConverseStreamTrace?
         /// Usage information for the conversation stream event.
         public let usage: TokenUsage
 
         @inlinable
-        public init(metrics: ConverseStreamMetrics, trace: ConverseStreamTrace? = nil, usage: TokenUsage) {
+        public init(metrics: ConverseStreamMetrics, performanceConfig: PerformanceConfiguration? = nil, trace: ConverseStreamTrace? = nil, usage: TokenUsage) {
             self.metrics = metrics
+            self.performanceConfig = performanceConfig
             self.trace = trace
             self.usage = usage
         }
 
         private enum CodingKeys: String, CodingKey {
             case metrics = "metrics"
+            case performanceConfig = "performanceConfig"
             case trace = "trace"
             case usage = "usage"
         }
@@ -903,22 +1194,28 @@ extension BedrockRuntime {
         public let messages: [Message]?
         /// Specifies the model or throughput with which to run inference, or the prompt resource to use in inference. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.   The Converse API doesn't support imported models.
         public let modelId: String
+        /// Model performance settings for the request.
+        public let performanceConfig: PerformanceConfiguration?
         /// Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
         public let promptVariables: [String: PromptVariableValues]?
+        /// Key-value pairs that you can use to filter invocation logs.
+        public let requestMetadata: [String: String]?
         /// A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
         public let system: [SystemContentBlock]?
-        /// Configuration information for the tools that the model can use when generating a response.  This field is only supported by Anthropic Claude 3 models.
+        /// Configuration information for the tools that the model can use when generating a response. For information about models that support streaming tool use, see  Supported models and model features.
         public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, promptVariables: [String: PromptVariableValues]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
             self.guardrailConfig = guardrailConfig
             self.inferenceConfig = inferenceConfig
             self.messages = messages
             self.modelId = modelId
+            self.performanceConfig = performanceConfig
             self.promptVariables = promptVariables
+            self.requestMetadata = requestMetadata
             self.system = system
             self.toolConfig = toolConfig
         }
@@ -932,7 +1229,9 @@ extension BedrockRuntime {
             try container.encodeIfPresent(self.inferenceConfig, forKey: .inferenceConfig)
             try container.encodeIfPresent(self.messages, forKey: .messages)
             request.encodePath(self.modelId, key: "modelId")
+            try container.encodeIfPresent(self.performanceConfig, forKey: .performanceConfig)
             try container.encodeIfPresent(self.promptVariables, forKey: .promptVariables)
+            try container.encodeIfPresent(self.requestMetadata, forKey: .requestMetadata)
             try container.encodeIfPresent(self.system, forKey: .system)
             try container.encodeIfPresent(self.toolConfig, forKey: .toolConfig)
         }
@@ -946,7 +1245,9 @@ extension BedrockRuntime {
             }
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sagemaker:[a-z0-9-]+:[0-9]{12}:endpoint/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):default-prompt-router/[a-zA-Z0-9-:.]+$)$")
+            try self.validate(self.requestMetadata, name: "requestMetadata", parent: name, max: 16)
+            try self.validate(self.requestMetadata, name: "requestMetadata", parent: name, min: 1)
             try self.system?.forEach {
                 try $0.validate(name: "\(name).system[]")
             }
@@ -959,7 +1260,9 @@ extension BedrockRuntime {
             case guardrailConfig = "guardrailConfig"
             case inferenceConfig = "inferenceConfig"
             case messages = "messages"
+            case performanceConfig = "performanceConfig"
             case promptVariables = "promptVariables"
+            case requestMetadata = "requestMetadata"
             case system = "system"
             case toolConfig = "toolConfig"
         }
@@ -986,28 +1289,36 @@ extension BedrockRuntime {
     public struct ConverseStreamTrace: AWSDecodableShape {
         /// The guardrail trace object.
         public let guardrail: GuardrailTraceAssessment?
+        /// The request's prompt router.
+        public let promptRouter: PromptRouterTrace?
 
         @inlinable
-        public init(guardrail: GuardrailTraceAssessment? = nil) {
+        public init(guardrail: GuardrailTraceAssessment? = nil, promptRouter: PromptRouterTrace? = nil) {
             self.guardrail = guardrail
+            self.promptRouter = promptRouter
         }
 
         private enum CodingKeys: String, CodingKey {
             case guardrail = "guardrail"
+            case promptRouter = "promptRouter"
         }
     }
 
     public struct ConverseTrace: AWSDecodableShape {
         /// The guardrail trace object.
         public let guardrail: GuardrailTraceAssessment?
+        /// The request's prompt router.
+        public let promptRouter: PromptRouterTrace?
 
         @inlinable
-        public init(guardrail: GuardrailTraceAssessment? = nil) {
+        public init(guardrail: GuardrailTraceAssessment? = nil, promptRouter: PromptRouterTrace? = nil) {
             self.guardrail = guardrail
+            self.promptRouter = promptRouter
         }
 
         private enum CodingKeys: String, CodingKey {
             case guardrail = "guardrail"
+            case promptRouter = "promptRouter"
         }
     }
 
@@ -1030,6 +1341,79 @@ extension BedrockRuntime {
             case format = "format"
             case name = "name"
             case source = "source"
+        }
+    }
+
+    public struct GetAsyncInvokeRequest: AWSEncodableShape {
+        /// The invocation's ARN.
+        public let invocationArn: String
+
+        @inlinable
+        public init(invocationArn: String) {
+            self.invocationArn = invocationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.invocationArn, key: "invocationArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.invocationArn, name: "invocationArn", parent: name, max: 2048)
+            try self.validate(self.invocationArn, name: "invocationArn", parent: name, min: 1)
+            try self.validate(self.invocationArn, name: "invocationArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:async-invoke/[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAsyncInvokeResponse: AWSDecodableShape {
+        /// The invocation's idempotency token.
+        public let clientRequestToken: String?
+        /// When the invocation ended.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// An error message.
+        public let failureMessage: String?
+        /// The invocation's ARN.
+        public let invocationArn: String
+        /// The invocation's last modified time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// The invocation's model ARN.
+        public let modelArn: String
+        /// Output data settings.
+        public let outputDataConfig: AsyncInvokeOutputDataConfig
+        /// The invocation's status.
+        public let status: AsyncInvokeStatus
+        /// When the invocation request was submitted.
+        @CustomCoding<ISO8601DateCoder>
+        public var submitTime: Date
+
+        @inlinable
+        public init(clientRequestToken: String? = nil, endTime: Date? = nil, failureMessage: String? = nil, invocationArn: String, lastModifiedTime: Date? = nil, modelArn: String, outputDataConfig: AsyncInvokeOutputDataConfig, status: AsyncInvokeStatus, submitTime: Date) {
+            self.clientRequestToken = clientRequestToken
+            self.endTime = endTime
+            self.failureMessage = failureMessage
+            self.invocationArn = invocationArn
+            self.lastModifiedTime = lastModifiedTime
+            self.modelArn = modelArn
+            self.outputDataConfig = outputDataConfig
+            self.status = status
+            self.submitTime = submitTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case endTime = "endTime"
+            case failureMessage = "failureMessage"
+            case invocationArn = "invocationArn"
+            case lastModifiedTime = "lastModifiedTime"
+            case modelArn = "modelArn"
+            case outputDataConfig = "outputDataConfig"
+            case status = "status"
+            case submitTime = "submitTime"
         }
     }
 
@@ -1175,6 +1559,24 @@ extension BedrockRuntime {
         }
     }
 
+    public struct GuardrailConverseImageBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The format details for the image type of the guardrail converse image block.
+        public let format: GuardrailConverseImageFormat
+        /// The image source (image bytes) of the guardrail converse image block.
+        public let source: GuardrailConverseImageSource
+
+        @inlinable
+        public init(format: GuardrailConverseImageFormat, source: GuardrailConverseImageSource) {
+            self.format = format
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
+            case source = "source"
+        }
+    }
+
     public struct GuardrailConverseTextBlock: AWSEncodableShape & AWSDecodableShape {
         /// The qualifier details for the guardrails contextual grounding filter.
         public let qualifiers: [GuardrailConverseContentQualifier]?
@@ -1194,15 +1596,19 @@ extension BedrockRuntime {
     }
 
     public struct GuardrailCoverage: AWSDecodableShape {
+        /// The guardrail coverage for images (the number of images that guardrails guarded).
+        public let images: GuardrailImageCoverage?
         /// The text characters of the guardrail coverage details.
         public let textCharacters: GuardrailTextCharactersCoverage?
 
         @inlinable
-        public init(textCharacters: GuardrailTextCharactersCoverage? = nil) {
+        public init(images: GuardrailImageCoverage? = nil, textCharacters: GuardrailTextCharactersCoverage? = nil) {
+            self.images = images
             self.textCharacters = textCharacters
         }
 
         private enum CodingKeys: String, CodingKey {
+            case images = "images"
             case textCharacters = "textCharacters"
         }
     }
@@ -1222,6 +1628,42 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case match = "match"
+        }
+    }
+
+    public struct GuardrailImageBlock: AWSEncodableShape {
+        /// The format details for the file type of the image blocked by the guardrail.
+        public let format: GuardrailImageFormat
+        /// The image source (image bytes) details of the image blocked by the guardrail.
+        public let source: GuardrailImageSource
+
+        @inlinable
+        public init(format: GuardrailImageFormat, source: GuardrailImageSource) {
+            self.format = format
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
+            case source = "source"
+        }
+    }
+
+    public struct GuardrailImageCoverage: AWSDecodableShape {
+        /// The count (integer) of images guardrails guarded.
+        public let guarded: Int?
+        /// Represents the total number of images (integer) that were in the request (guarded and unguarded).
+        public let total: Int?
+
+        @inlinable
+        public init(guarded: Int? = nil, total: Int? = nil) {
+            self.guarded = guarded
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guarded = "guarded"
+            case total = "total"
         }
     }
 
@@ -1601,19 +2043,22 @@ extension BedrockRuntime {
         public let guardrailIdentifier: String?
         /// The version number for the guardrail. The value can also be DRAFT.
         public let guardrailVersion: String?
-        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
+        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
         public let modelId: String
+        /// Model performance settings for the request.
+        public let performanceConfigLatency: PerformanceConfigLatency?
         /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
         public let trace: Trace?
 
         @inlinable
-        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, trace: Trace? = nil) {
+        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, performanceConfigLatency: PerformanceConfigLatency? = nil, trace: Trace? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
             self.modelId = modelId
+            self.performanceConfigLatency = performanceConfigLatency
             self.trace = trace
         }
 
@@ -1626,6 +2071,7 @@ extension BedrockRuntime {
             request.encodeHeader(self.guardrailIdentifier, key: "X-Amzn-Bedrock-GuardrailIdentifier")
             request.encodeHeader(self.guardrailVersion, key: "X-Amzn-Bedrock-GuardrailVersion")
             request.encodePath(self.modelId, key: "modelId")
+            request.encodeHeader(self.performanceConfigLatency, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
             request.encodeHeader(self.trace, key: "X-Amzn-Bedrock-Trace")
         }
 
@@ -1636,7 +2082,7 @@ extension BedrockRuntime {
             try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sagemaker:[a-z0-9-]+:[0-9]{12}:endpoint/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):default-prompt-router/[a-zA-Z0-9-:.]+$)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1648,11 +2094,14 @@ extension BedrockRuntime {
         public let body: AWSHTTPBody
         /// The MIME type of the inference result.
         public let contentType: String
+        /// Model performance settings for the request.
+        public let performanceConfigLatency: PerformanceConfigLatency?
 
         @inlinable
-        public init(body: AWSHTTPBody, contentType: String) {
+        public init(body: AWSHTTPBody, contentType: String, performanceConfigLatency: PerformanceConfigLatency? = nil) {
             self.body = body
             self.contentType = contentType
+            self.performanceConfigLatency = performanceConfigLatency
         }
 
         public init(from decoder: Decoder) throws {
@@ -1660,6 +2109,7 @@ extension BedrockRuntime {
             let container = try decoder.singleValueContainer()
             self.body = try container.decode(AWSHTTPBody.self)
             self.contentType = try response.decodeHeader(String.self, key: "Content-Type")
+            self.performanceConfigLatency = try response.decodeHeaderIfPresent(PerformanceConfigLatency.self, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1676,19 +2126,22 @@ extension BedrockRuntime {
         public let guardrailIdentifier: String?
         /// The version number for the guardrail. The value can also be DRAFT.
         public let guardrailVersion: String?
-        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
+        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
         public let modelId: String
+        /// Model performance settings for the request.
+        public let performanceConfigLatency: PerformanceConfigLatency?
         /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
         public let trace: Trace?
 
         @inlinable
-        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, trace: Trace? = nil) {
+        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, performanceConfigLatency: PerformanceConfigLatency? = nil, trace: Trace? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
             self.modelId = modelId
+            self.performanceConfigLatency = performanceConfigLatency
             self.trace = trace
         }
 
@@ -1701,6 +2154,7 @@ extension BedrockRuntime {
             request.encodeHeader(self.guardrailIdentifier, key: "X-Amzn-Bedrock-GuardrailIdentifier")
             request.encodeHeader(self.guardrailVersion, key: "X-Amzn-Bedrock-GuardrailVersion")
             request.encodePath(self.modelId, key: "modelId")
+            request.encodeHeader(self.performanceConfigLatency, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
             request.encodeHeader(self.trace, key: "X-Amzn-Bedrock-Trace")
         }
 
@@ -1711,7 +2165,7 @@ extension BedrockRuntime {
             try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sagemaker:[a-z0-9-]+:[0-9]{12}:endpoint/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):default-prompt-router/[a-zA-Z0-9-:.]+$)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1723,11 +2177,14 @@ extension BedrockRuntime {
         public let body: AWSEventStream<ResponseStream>
         /// The MIME type of the inference result.
         public let contentType: String
+        /// Model performance settings for the request.
+        public let performanceConfigLatency: PerformanceConfigLatency?
 
         @inlinable
-        public init(body: AWSEventStream<ResponseStream>, contentType: String) {
+        public init(body: AWSEventStream<ResponseStream>, contentType: String, performanceConfigLatency: PerformanceConfigLatency? = nil) {
             self.body = body
             self.contentType = contentType
+            self.performanceConfigLatency = performanceConfigLatency
         }
 
         public init(from decoder: Decoder) throws {
@@ -1735,9 +2192,80 @@ extension BedrockRuntime {
             let container = try decoder.singleValueContainer()
             self.body = try container.decode(AWSEventStream<ResponseStream>.self)
             self.contentType = try response.decodeHeader(String.self, key: "X-Amzn-Bedrock-Content-Type")
+            self.performanceConfigLatency = try response.decodeHeaderIfPresent(PerformanceConfigLatency.self, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAsyncInvokesRequest: AWSEncodableShape {
+        /// The maximum number of invocations to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// How to sort the response.
+        public let sortBy: SortAsyncInvocationBy?
+        /// The sorting order for the response.
+        public let sortOrder: SortOrder?
+        /// Filter invocations by status.
+        public let statusEquals: AsyncInvokeStatus?
+        /// Include invocations submitted after this time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var submitTimeAfter: Date?
+        /// Include invocations submitted before this time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var submitTimeBefore: Date?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortAsyncInvocationBy? = nil, sortOrder: SortOrder? = nil, statusEquals: AsyncInvokeStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+            self.submitTimeAfter = submitTimeAfter
+            self.submitTimeBefore = submitTimeBefore
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+            request.encodeQuery(self.statusEquals, key: "statusEquals")
+            request.encodeQuery(self._submitTimeAfter, key: "submitTimeAfter")
+            request.encodeQuery(self._submitTimeBefore, key: "submitTimeBefore")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAsyncInvokesResponse: AWSDecodableShape {
+        /// A list of invocation summaries.
+        public let asyncInvokeSummaries: [AsyncInvokeSummary]?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(asyncInvokeSummaries: [AsyncInvokeSummary]? = nil, nextToken: String? = nil) {
+            self.asyncInvokeSummaries = asyncInvokeSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asyncInvokeSummaries = "asyncInvokeSummaries"
+            case nextToken = "nextToken"
+        }
     }
 
     public struct Message: AWSEncodableShape & AWSDecodableShape {
@@ -1844,6 +2372,59 @@ extension BedrockRuntime {
         }
     }
 
+    public struct PerformanceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// To use a latency-optimized version of the model, set to optimized.
+        public let latency: PerformanceConfigLatency?
+
+        @inlinable
+        public init(latency: PerformanceConfigLatency? = nil) {
+            self.latency = latency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latency = "latency"
+        }
+    }
+
+    public struct PromptRouterTrace: AWSDecodableShape {
+        /// The ID of the invoked model.
+        public let invokedModelId: String?
+
+        @inlinable
+        public init(invokedModelId: String? = nil) {
+            self.invokedModelId = invokedModelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invokedModelId = "invokedModelId"
+        }
+    }
+
+    public struct S3Location: AWSEncodableShape & AWSDecodableShape {
+        /// If the bucket belongs to another AWS account, specify that account's ID.
+        public let bucketOwner: String?
+        /// An object URI starting with s3://.
+        public let uri: String
+
+        @inlinable
+        public init(bucketOwner: String? = nil, uri: String) {
+            self.bucketOwner = bucketOwner
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketOwner, name: "bucketOwner", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.uri, name: "uri", parent: name, max: 1024)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketOwner = "bucketOwner"
+            case uri = "uri"
+        }
+    }
+
     public struct ServiceUnavailableException: AWSDecodableShape {
         public let message: String?
 
@@ -1874,6 +2455,90 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+        }
+    }
+
+    public struct StartAsyncInvokeRequest: AWSEncodableShape {
+        /// Specify idempotency token to ensure that requests are not duplicated.
+        public let clientRequestToken: String?
+        /// The model to invoke.
+        public let modelId: String
+        /// Input to send to the model.
+        public let modelInput: String
+        /// Where to store the output.
+        public let outputDataConfig: AsyncInvokeOutputDataConfig
+        /// Tags to apply to the invocation.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientRequestToken: String? = StartAsyncInvokeRequest.idempotencyToken(), modelId: String, modelInput: String, outputDataConfig: AsyncInvokeOutputDataConfig, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.modelId = modelId
+            self.modelInput = modelInput
+            self.outputDataConfig = outputDataConfig
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[!-~]*$")
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 256)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[a-zA-Z_\\.\\-/0-9:]+$")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case modelId = "modelId"
+            case modelInput = "modelInput"
+            case outputDataConfig = "outputDataConfig"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartAsyncInvokeResponse: AWSDecodableShape {
+        /// The ARN of the invocation.
+        public let invocationArn: String
+
+        @inlinable
+        public init(invocationArn: String) {
+            self.invocationArn = invocationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invocationArn = "invocationArn"
+        }
+    }
+
+    public struct Tag: AWSEncodableShape {
+        /// The tag's key.
+        public let key: String
+        /// The tag's value.
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -1953,6 +2618,9 @@ extension BedrockRuntime {
         }
 
         public func validate(name: String) throws {
+            try self.content.forEach {
+                try $0.validate(name: "\(name).content[]")
+            }
             try self.validate(self.toolUseId, name: "toolUseId", parent: name, max: 64)
             try self.validate(self.toolUseId, name: "toolUseId", parent: name, min: 1)
             try self.validate(self.toolUseId, name: "toolUseId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -2070,6 +2738,46 @@ extension BedrockRuntime {
         }
     }
 
+    public struct VideoBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The block's format.
+        public let format: VideoFormat
+        /// The block's source.
+        public let source: VideoSource
+
+        @inlinable
+        public init(format: VideoFormat, source: VideoSource) {
+            self.format = format
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.source.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
+            case source = "source"
+        }
+    }
+
+    public struct AsyncInvokeOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A storage location for the output data in an S3 bucket
+        public let s3OutputDataConfig: AsyncInvokeS3OutputDataConfig?
+
+        @inlinable
+        public init(s3OutputDataConfig: AsyncInvokeS3OutputDataConfig? = nil) {
+            self.s3OutputDataConfig = s3OutputDataConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.s3OutputDataConfig?.validate(name: "\(name).s3OutputDataConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3OutputDataConfig = "s3OutputDataConfig"
+        }
+    }
+
     public struct ContentBlockStart: AWSDecodableShape {
         /// Information about a tool that the model is requesting to use.
         public let toolUse: ToolUseBlockStart?
@@ -2112,31 +2820,31 @@ extension BedrockRuntime {
         }
     }
 
-    public struct GuardrailContentBlock: AWSEncodableShape {
-        /// Text within content block to be evaluated by the guardrail.
-        public let text: GuardrailTextBlock?
+    public struct GuardrailConverseImageSource: AWSEncodableShape & AWSDecodableShape {
+        /// The raw image bytes for the image.
+        public let bytes: AWSBase64Data?
 
         @inlinable
-        public init(text: GuardrailTextBlock? = nil) {
-            self.text = text
+        public init(bytes: AWSBase64Data? = nil) {
+            self.bytes = bytes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text = "text"
+            case bytes = "bytes"
         }
     }
 
-    public struct GuardrailConverseContentBlock: AWSEncodableShape & AWSDecodableShape {
-        /// The text to guard.
-        public let text: GuardrailConverseTextBlock?
+    public struct GuardrailImageSource: AWSEncodableShape {
+        /// The bytes details of the guardrail image source. Object used in independent api.
+        public let bytes: AWSBase64Data?
 
         @inlinable
-        public init(text: GuardrailConverseTextBlock? = nil) {
-            self.text = text
+        public init(bytes: AWSBase64Data? = nil) {
+            self.bytes = bytes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text = "text"
+            case bytes = "bytes"
         }
     }
 
@@ -2207,6 +2915,7 @@ extension BedrockRuntime {
 public struct BedrockRuntimeErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case modelErrorException = "ModelErrorException"
         case modelNotReadyException = "ModelNotReadyException"
@@ -2237,9 +2946,11 @@ public struct BedrockRuntimeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The request is denied because of missing access permissions.
+    /// The request is denied because you do not have sufficient permissions to perform the requested action. For troubleshooting this error,  see AccessDeniedException in the Amazon Bedrock User Guide
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// An internal server error occurred. Retry your request.
+    /// Error occurred because of a conflict while performing an operation.
+    public static var conflictException: Self { .init(.conflictException) }
+    /// An internal server error occurred. For troubleshooting this error,  see InternalFailure in the Amazon Bedrock User Guide
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The request failed due to an error while processing the model.
     public static var modelErrorException: Self { .init(.modelErrorException) }
@@ -2249,15 +2960,15 @@ public struct BedrockRuntimeErrorType: AWSErrorType {
     public static var modelStreamErrorException: Self { .init(.modelStreamErrorException) }
     /// The request took too long to process. Processing time exceeded the model timeout length.
     public static var modelTimeoutException: Self { .init(.modelTimeoutException) }
-    /// The specified resource ARN was not found. Check the ARN and try your request again.
+    /// The specified resource ARN was not found. For troubleshooting this error,  see ResourceNotFound in the Amazon Bedrock User Guide
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Your request exceeds the service quota for your account. You can view your quotas at Viewing service quotas. You can resubmit your request later.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// The service isn't currently available. Try again later.
+    /// The service isn't currently available. For troubleshooting this error,  see ServiceUnavailable in the Amazon Bedrock User Guide
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
-    /// Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase Provisioned Throughput to increase the rate or number of tokens you can process.
+    /// Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see ThrottlingException in the Amazon Bedrock User Guide
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// Input validation failed. Check your request parameters and retry the request.
+    /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error,  see ValidationError in the Amazon Bedrock User Guide
     public static var validationException: Self { .init(.validationException) }
 }
 

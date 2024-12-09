@@ -251,6 +251,14 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListHookResultsTargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case changeSet = "CHANGE_SET"
+        case cloudControl = "CLOUD_CONTROL"
+        case resource = "RESOURCE"
+        case stack = "STACK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OnFailure: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case doNothing = "DO_NOTHING"
@@ -3324,6 +3332,44 @@ extension CloudFormation {
         }
     }
 
+    public struct HookResultSummary: AWSDecodableShape {
+        /// The failure mode of the invocation. The following are potential modes:    FAIL: If the hook invocation returns a failure, then the requested target operation should fail.    WARN: If the hook invocation returns a failure, then the requested target operation should warn.
+        public let failureMode: HookFailureMode?
+        /// A description of the Hook results status. For example, if the Hook result is in a FAILED state, this  may contain additional information for the FAILED state.
+        public let hookStatusReason: String?
+        /// The exact point in the provisioning logic where the Hook runs.
+        public let invocationPoint: HookInvocationPoint?
+        /// The state of the Hook invocation.
+        public let status: HookStatus?
+        /// The version of the Hook type configuration.
+        public let typeConfigurationVersionId: String?
+        /// The type name of the Hook being invoked.
+        public let typeName: String?
+        /// The version of the Hook being invoked.
+        public let typeVersionId: String?
+
+        @inlinable
+        public init(failureMode: HookFailureMode? = nil, hookStatusReason: String? = nil, invocationPoint: HookInvocationPoint? = nil, status: HookStatus? = nil, typeConfigurationVersionId: String? = nil, typeName: String? = nil, typeVersionId: String? = nil) {
+            self.failureMode = failureMode
+            self.hookStatusReason = hookStatusReason
+            self.invocationPoint = invocationPoint
+            self.status = status
+            self.typeConfigurationVersionId = typeConfigurationVersionId
+            self.typeName = typeName
+            self.typeVersionId = typeVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureMode = "FailureMode"
+            case hookStatusReason = "HookStatusReason"
+            case invocationPoint = "InvocationPoint"
+            case status = "Status"
+            case typeConfigurationVersionId = "TypeConfigurationVersionId"
+            case typeName = "TypeName"
+            case typeVersionId = "TypeVersionId"
+        }
+    }
+
     public struct ImportStacksToStackSetInput: AWSEncodableShape {
         /// By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   For service managed stack sets, specify DELEGATED_ADMIN.
         public let callAs: CallAs?
@@ -3515,6 +3561,63 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case summaries = "Summaries"
+        }
+    }
+
+    public struct ListHookResultsInput: AWSEncodableShape {
+        /// A string that identifies the next page of events that you want to retrieve.
+        public let nextToken: String?
+        /// The logical ID of the target the operation is acting on by the Hook. If the target is a change set,  it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HookRequestToken returned by the Cloud Control API  operation request. For more information on the HookRequestToken, see ProgressEvent.
+        public let targetId: String?
+        /// The type of operation being targeted by the Hook.
+        public let targetType: ListHookResultsTargetType?
+
+        @inlinable
+        public init(nextToken: String? = nil, targetId: String? = nil, targetType: ListHookResultsTargetType? = nil) {
+            self.nextToken = nextToken
+            self.targetId = targetId
+            self.targetType = targetType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.targetId, name: "targetId", parent: name, max: 1600)
+            try self.validate(self.targetId, name: "targetId", parent: name, min: 1)
+            try self.validate(self.targetId, name: "targetId", parent: name, pattern: "^[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case targetId = "TargetId"
+            case targetType = "TargetType"
+        }
+    }
+
+    public struct ListHookResultsOutput: AWSDecodableShape {
+        /// A list of HookResultSummary structures that provides the status and Hook status reason for each Hook  invocation for the specified target.
+        @OptionalCustomCoding<StandardArrayCoder<HookResultSummary>>
+        public var hookResults: [HookResultSummary]?
+        /// Pagination token, null or empty if no more results.
+        public let nextToken: String?
+        /// The logical ID of the target the operation is acting on by the Hook. If the target is a change set,  it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HooksRequestToken returned by the Cloud Control API  operation request. For more information on the HooksRequestToken, see ProgressEvent.
+        public let targetId: String?
+        /// The type of operation being targeted by the Hook.
+        public let targetType: ListHookResultsTargetType?
+
+        @inlinable
+        public init(hookResults: [HookResultSummary]? = nil, nextToken: String? = nil, targetId: String? = nil, targetType: ListHookResultsTargetType? = nil) {
+            self.hookResults = hookResults
+            self.nextToken = nextToken
+            self.targetId = targetId
+            self.targetType = targetType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hookResults = "HookResults"
+            case nextToken = "NextToken"
+            case targetId = "TargetId"
+            case targetType = "TargetType"
         }
     }
 
@@ -7605,6 +7708,7 @@ public struct CloudFormationErrorType: AWSErrorType {
         case concurrentResourcesLimitExceededException = "ConcurrentResourcesLimitExceeded"
         case createdButModifiedException = "CreatedButModifiedException"
         case generatedTemplateNotFoundException = "GeneratedTemplateNotFound"
+        case hookResultNotFoundException = "HookResultNotFound"
         case insufficientCapabilitiesException = "InsufficientCapabilitiesException"
         case invalidChangeSetStatusException = "InvalidChangeSetStatus"
         case invalidOperationException = "InvalidOperationException"
@@ -7658,6 +7762,8 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var createdButModifiedException: Self { .init(.createdButModifiedException) }
     /// The generated template was not found.
     public static var generatedTemplateNotFoundException: Self { .init(.generatedTemplateNotFoundException) }
+    /// The specified target doesn't have any requested Hook invocations.
+    public static var hookResultNotFoundException: Self { .init(.hookResultNotFoundException) }
     /// The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     public static var insufficientCapabilitiesException: Self { .init(.insufficientCapabilitiesException) }
     /// The specified change set can't be used to update the stack. For example, the change set status might be CREATE_IN_PROGRESS, or the stack status might be UPDATE_IN_PROGRESS.

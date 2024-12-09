@@ -292,6 +292,12 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScalingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case advanced = "ADVANCED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SpotProvisioningAllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityOptimized = "capacity-optimized"
         case capacityOptimizedPrioritized = "capacity-optimized-prioritized"
@@ -3895,14 +3901,27 @@ extension EMR {
     public struct ManagedScalingPolicy: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
         public let computeLimits: ComputeLimits?
+        /// Determines whether a custom scaling utilization performance index can be set. Possible values include ADVANCED or DEFAULT.
+        public let scalingStrategy: ScalingStrategy?
+        /// An integer value that represents an advanced scaling strategy. Setting a higher value optimizes for performance. Setting a lower value optimizes for resource conservation. Setting the value  to 50 balances performance and resource conservation. Possible values are 1, 25, 50, 75, and 100.
+        public let utilizationPerformanceIndex: Int?
 
         @inlinable
-        public init(computeLimits: ComputeLimits? = nil) {
+        public init(computeLimits: ComputeLimits? = nil, scalingStrategy: ScalingStrategy? = nil, utilizationPerformanceIndex: Int? = nil) {
             self.computeLimits = computeLimits
+            self.scalingStrategy = scalingStrategy
+            self.utilizationPerformanceIndex = utilizationPerformanceIndex
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.utilizationPerformanceIndex, name: "utilizationPerformanceIndex", parent: name, max: 100)
+            try self.validate(self.utilizationPerformanceIndex, name: "utilizationPerformanceIndex", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case computeLimits = "ComputeLimits"
+            case scalingStrategy = "ScalingStrategy"
+            case utilizationPerformanceIndex = "UtilizationPerformanceIndex"
         }
     }
 
@@ -4477,6 +4496,10 @@ extension EMR {
             self.managedScalingPolicy = managedScalingPolicy
         }
 
+        public func validate(name: String) throws {
+            try self.managedScalingPolicy?.validate(name: "\(name).managedScalingPolicy")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
             case managedScalingPolicy = "ManagedScalingPolicy"
@@ -4703,6 +4726,7 @@ extension EMR {
             try self.validate(self.logEncryptionKmsKeyId, name: "logEncryptionKmsKeyId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.logUri, name: "logUri", parent: name, max: 10280)
             try self.validate(self.logUri, name: "logUri", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.managedScalingPolicy?.validate(name: "\(name).managedScalingPolicy")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.newSupportedProducts?.forEach {

@@ -327,7 +327,7 @@ public struct Kendra: AWSService {
         return try await self.clearQuerySuggestions(input, logger: logger)
     }
 
-    /// Creates an access configuration for your documents. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these users leaves the company or switches to a team that should be blocked from accessing top-secret documents. The user still has access to top-secret documents because the user had access when your documents were previously indexed. You can create a specific access control configuration for the user with deny access. You can later update the access control configuration to allow access if the user returns to the company and re-joins the 'top-secret' team. You can re-configure access control for your documents as circumstances change. To apply your access control configuration to certain documents, you call the BatchPutDocument API with the AccessControlConfigurationId included in the Document object. If you use an S3 bucket as a data source, you update the .metadata.json with the AccessControlConfigurationId and synchronize your data source. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.
+    /// Creates an access configuration for your documents. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these users leaves the company or switches to a team that should be blocked from accessing top-secret documents. The user still has access to top-secret documents because the user had access when your documents were previously indexed. You can create a specific access control configuration for the user with deny access. You can later update the access control configuration to allow access if the user returns to the company and re-joins the 'top-secret' team. You can re-configure access control for your documents as circumstances change. To apply your access control configuration to certain documents, you call the BatchPutDocument API with the AccessControlConfigurationId included in the Document object. If you use an S3 bucket as a data source, you update the .metadata.json with the AccessControlConfigurationId and synchronize your data source. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.  You can't configure access control using CreateAccessControlConfiguration for an Amazon Kendra Gen AI Enterprise Edition index. Amazon Kendra will return a ValidationException error for a Gen_AI_ENTERPRISE_EDITION index.
     @Sendable
     @inlinable
     public func createAccessControlConfiguration(_ input: CreateAccessControlConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessControlConfigurationResponse {
@@ -340,7 +340,7 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Creates an access configuration for your documents. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these users leaves the company or switches to a team that should be blocked from accessing top-secret documents. The user still has access to top-secret documents because the user had access when your documents were previously indexed. You can create a specific access control configuration for the user with deny access. You can later update the access control configuration to allow access if the user returns to the company and re-joins the 'top-secret' team. You can re-configure access control for your documents as circumstances change. To apply your access control configuration to certain documents, you call the BatchPutDocument API with the AccessControlConfigurationId included in the Document object. If you use an S3 bucket as a data source, you update the .metadata.json with the AccessControlConfigurationId and synchronize your data source. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.
+    /// Creates an access configuration for your documents. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these users leaves the company or switches to a team that should be blocked from accessing top-secret documents. The user still has access to top-secret documents because the user had access when your documents were previously indexed. You can create a specific access control configuration for the user with deny access. You can later update the access control configuration to allow access if the user returns to the company and re-joins the 'top-secret' team. You can re-configure access control for your documents as circumstances change. To apply your access control configuration to certain documents, you call the BatchPutDocument API with the AccessControlConfigurationId included in the Document object. If you use an S3 bucket as a data source, you update the .metadata.json with the AccessControlConfigurationId and synchronize your data source. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.  You can't configure access control using CreateAccessControlConfiguration for an Amazon Kendra Gen AI Enterprise Edition index. Amazon Kendra will return a ValidationException error for a Gen_AI_ENTERPRISE_EDITION index.
     ///
     /// Parameters:
     ///   - accessControlList: Information on principals (users and/or groups) and which documents they should have access to. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
@@ -499,7 +499,7 @@ public struct Kendra: AWSService {
     ///   - indexId: The identifier of the index for the FAQ.
     ///   - languageCode: The code for a language. This allows you to support a language  for the FAQ document. English is supported by default.  For more information on supported languages, including their codes,  see Adding  documents in languages other than English.
     ///   - name: A name for the FAQ.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role with permission to access  the S3 bucket that contains the FAQs. For more information, see IAM access roles for  Amazon Kendra.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role with permission to access  the S3 bucket that contains the FAQ file. For more information, see IAM access roles for  Amazon Kendra.
     ///   - s3Path: The path to the FAQ file in S3.
     ///   - tags: A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources.
     ///   - logger: Logger use during operation
@@ -598,14 +598,14 @@ public struct Kendra: AWSService {
     /// Parameters:
     ///   - clientToken: A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex API with the same client token will create only one index.
     ///   - description: A description for the index.
-    ///   - edition: The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for production. Once you set the edition for an index, it can't be changed. The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For more information on quota limits for Enterprise and Developer editions, see Quotas.
+    ///   - edition: The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for production. Use GEN_AI_ENTERPRISE_EDITION for creating generative AI applications. Once you set the edition for an index, it can't be changed.  The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For more information on quota limits for Gen AI Enterprise Edition, Enterprise Edition, and Developer Edition indices, see Quotas.
     ///   - name: A name for the index.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role with permission to access your  Amazon CloudWatch logs and metrics. For more information, see IAM access roles for  Amazon Kendra.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role with permission to access your Amazon CloudWatch logs and metrics. For more information, see IAM access roles for Amazon Kendra.
     ///   - serverSideEncryptionConfiguration: The identifier of the KMS customer managed key (CMK) that's used to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
-    ///   - tags: A list of key-value pairs that identify or categorize the index. You can also use tags to  help control access to the index. Tag keys and values can consist of Unicode letters, digits,  white space, and any of the following symbols: _ . : / = + - @.
-    ///   - userContextPolicy: The user context policy.  ATTRIBUTE_FILTER  All indexed content is searchable and displayable for all users. If you want to filter search results on user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext.   USER_TOKEN  Enables token-based user access control to filter search results on user context. All documents with no access control and all documents accessible to the user will be searchable and displayable.
-    ///   - userGroupResolutionConfiguration: Gets users and groups from IAM Identity Center  identity source. To configure this, see UserGroupResolutionConfiguration. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
-    ///   - userTokenConfigurations: The user token configuration.
+    ///   - tags: A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
+    ///   - userContextPolicy: The user context policy.  If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error.   ATTRIBUTE_FILTER  All indexed content is searchable and displayable for all users. If you want to filter search results on user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext.   USER_TOKEN  Enables token-based user access control to filter search results on user context. All documents with no access control and all documents accessible to the user will be searchable and displayable.
+    ///   - userGroupResolutionConfiguration: Gets users and groups from IAM Identity Center identity source. To configure this, see UserGroupResolutionConfiguration. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.  If you're using an Amazon Kendra Gen AI Enterprise Edition index, UserGroupResolutionConfiguration isn't supported.
+    ///   - userTokenConfigurations: The user token configuration.  If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use UserTokenConfigurations to configure user context policy, Amazon Kendra returns a ValidationException error.
     ///   - logger: Logger use during operation
     @inlinable
     public func createIndex(
@@ -826,7 +826,7 @@ public struct Kendra: AWSService {
         return try await self.deleteExperience(input, logger: logger)
     }
 
-    /// Removes an FAQ from an index.
+    /// Removes a FAQ from an index.
     @Sendable
     @inlinable
     public func deleteFaq(_ input: DeleteFaqRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -839,7 +839,7 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Removes an FAQ from an index.
+    /// Removes a FAQ from an index.
     ///
     /// Parameters:
     ///   - id: The identifier of the FAQ you want to remove.
@@ -887,7 +887,7 @@ public struct Kendra: AWSService {
         return try await self.deleteIndex(input, logger: logger)
     }
 
-    /// Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their search results. If you want to delete or replace users or sub groups of a group, you need to use the PutPrincipalMapping operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling PutPrincipalMapping. You can update your internal list of users or sub groups and input this list when calling PutPrincipalMapping.  DeletePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region.
+    /// Deletes a group so that all users that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their search results. If you want to delete or replace users or sub groups of a group, you need to use the PutPrincipalMapping operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling PutPrincipalMapping. You can update your internal list of users or sub groups and input this list when calling PutPrincipalMapping.  DeletePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     @Sendable
     @inlinable
     public func deletePrincipalMapping(_ input: DeletePrincipalMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -900,7 +900,7 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their search results. If you want to delete or replace users or sub groups of a group, you need to use the PutPrincipalMapping operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling PutPrincipalMapping. You can update your internal list of users or sub groups and input this list when calling PutPrincipalMapping.  DeletePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region.
+    /// Deletes a group so that all users that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their search results. If you want to delete or replace users or sub groups of a group, you need to use the PutPrincipalMapping operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling PutPrincipalMapping. You can update your internal list of users or sub groups and input this list when calling PutPrincipalMapping.  DeletePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// Parameters:
     ///   - dataSourceId: The identifier of the data source you want to delete a group from. A group can be tied to multiple data sources. You can delete a group from accessing documents in a certain data source. For example, the groups "Research", "Engineering", and "Sales and Marketing" are all tied to the company's documents stored in the data sources Confluence and Salesforce. You want to delete "Research" and "Engineering" groups from Salesforce, so that these groups cannot access customer-related documents stored in Salesforce. Only "Sales and Marketing" should access documents in the Salesforce data source.
@@ -1085,7 +1085,7 @@ public struct Kendra: AWSService {
         return try await self.describeExperience(input, logger: logger)
     }
 
-    /// Gets information about an FAQ list.
+    /// Gets information about a FAQ.
     @Sendable
     @inlinable
     public func describeFaq(_ input: DescribeFaqRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFaqResponse {
@@ -1098,7 +1098,7 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Gets information about an FAQ list.
+    /// Gets information about a FAQ.
     ///
     /// Parameters:
     ///   - id: The identifier of the FAQ you want to get information on.
@@ -1680,7 +1680,7 @@ public struct Kendra: AWSService {
         return try await self.listExperiences(input, logger: logger)
     }
 
-    /// Gets a list of FAQ lists associated with an index.
+    /// Gets a list of FAQs associated with an index.
     @Sendable
     @inlinable
     public func listFaqs(_ input: ListFaqsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFaqsResponse {
@@ -1693,10 +1693,10 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of FAQ lists associated with an index.
+    /// Gets a list of FAQs associated with an index.
     ///
     /// Parameters:
-    ///   - indexId: The index that contains the FAQ lists.
+    ///   - indexId: The index for the FAQs.
     ///   - maxResults: The maximum number of FAQs to return in the response. If there are fewer results in the list, this response contains only the actual results.
     ///   - nextToken: If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of FAQs.
     ///   - logger: Logger use during operation
@@ -1858,7 +1858,7 @@ public struct Kendra: AWSService {
         return try await self.listQuerySuggestionsBlockLists(input, logger: logger)
     }
 
-    /// Gets a list of tags associated with a specified resource. Indexes, FAQs, and data sources can have tags associated with them.
+    /// Gets a list of tags associated with a resource. Indexes, FAQs, data sources, and  other resources can have tags associated with them.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -1871,10 +1871,10 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of tags associated with a specified resource. Indexes, FAQs, and data sources can have tags associated with them.
+    /// Gets a list of tags associated with a resource. Indexes, FAQs, data sources, and  other resources can have tags associated with them.
     ///
     /// Parameters:
-    ///   - resourceARN: The Amazon Resource Name (ARN) of the index, FAQ, or data source to get a list of tags for.
+    ///   - resourceARN: The Amazon Resource Name (ARN) of the index, FAQ, data source, or other resource to  get a list of tags for. For example, the ARN of an index is constructed as follows:  arn:aws:kendra:your-region:your-account-id:index/index-id  For information on how to construct an ARN for all types of Amazon Kendra resources, see  Resource  types.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -1940,10 +1940,10 @@ public struct Kendra: AWSService {
     /// Parameters:
     ///   - dataSourceId: The identifier of the data source you want to map users to their groups. This is useful if a group is tied to multiple data sources, but you only want the group to access documents of a certain data source. For example, the groups "Research", "Engineering", and "Sales and Marketing" are all tied to the company's documents stored in the data sources Confluence and Salesforce. However, "Sales and Marketing" team only needs access to customer-related documents stored in Salesforce.
     ///   - groupId: The identifier of the group you want to map its users to.
-    ///   - groupMembers: The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000.
+    ///   - groupMembers: The list that contains your users that belong the same group. This can include sub groups  that belong to a group. For example, the group "Company A" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000.
     ///   - indexId: The identifier of the index you want to map users to their groups.
-    ///   - orderingId: The timestamp identifier you specify to ensure Amazon Kendra does not override the latest PUT action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the Unix time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your PUT action for that updated group with the latest members list doesn't get overwritten by earlier PUT actions for the same group which are yet to be processed. The default ordering ID is the current Unix time in milliseconds that the action was received by Amazon Kendra.
-    ///   - roleArn: The Amazon Resource Name (ARN) of a role that has access to the S3 file that contains your list of users or sub groups that belong to a group. For more information, see IAM roles for Amazon Kendra.
+    ///   - orderingId: The timestamp identifier you specify to ensure Amazon Kendra doesn't override the latest PUT action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the Unix time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your PUT action for that updated group with the latest members list doesn't get overwritten by earlier PUT actions for the same group which are yet to be processed. The default ordering ID is the current Unix time in milliseconds that the action was received by Amazon Kendra.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that has access to the  S3 file that contains your list of users that belong to a group. For more information, see IAM roles for  Amazon Kendra.
     ///   - logger: Logger use during operation
     @inlinable
     public func putPrincipalMapping(
@@ -1966,7 +1966,7 @@ public struct Kendra: AWSService {
         return try await self.putPrincipalMapping(input, logger: logger)
     }
 
-    /// Searches an index given an input query.  If you are working with large language models (LLMs) or implementing retrieval augmented generation (RAG) systems, you can use Amazon Kendra's Retrieve API, which can return longer semantically relevant passages. We recommend using the Retrieve API instead of filing a service limit increase to increase the Query API document excerpt length.  You can configure boosting or relevance tuning at the query level to override boosting at the index level, filter based on document fields/attributes and faceted search, and filter based on the user or their group access to documents. You can also include certain fields in the response that might provide useful additional information. A query response contains three types of results.   Relevant suggested answers. The answers can be either a text excerpt or table excerpt. The answer can be highlighted in the excerpt.   Matching FAQs or questions-answer from your FAQ file.   Relevant documents. This result type includes an excerpt of the document with the document title. The searched terms can be highlighted in the excerpt.   You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results. If you filter result type to only question-answers, a maximum of four results are returned. If you filter result type to only answers, a maximum of three results are returned.
+    /// Searches an index given an input query.  If you are working with large language models (LLMs) or implementing retrieval augmented generation (RAG) systems, you can use Amazon Kendra's Retrieve API, which can return longer semantically relevant passages. We recommend using the Retrieve API instead of filing a service limit increase to increase the Query API document excerpt length.  You can configure boosting or relevance tuning at the query level to override boosting at the index level, filter based on document fields/attributes and faceted search, and filter based on the user or their group access to documents. You can also include certain fields in the response that might provide useful additional information. A query response contains three types of results.   Relevant suggested answers. The answers can be either a text excerpt or table excerpt. The answer can be highlighted in the excerpt.   Matching FAQs or questions-answer from your FAQ file.   Relevant documents. This result type includes an excerpt of the document with the document title. The searched terms can be highlighted in the excerpt.   You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results. If you filter result type to only question-answers, a maximum of four results are returned. If you filter result type to only answers, a maximum of three results are returned.  If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error.
     @Sendable
     @inlinable
     public func query(_ input: QueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryResult {
@@ -1979,10 +1979,10 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Searches an index given an input query.  If you are working with large language models (LLMs) or implementing retrieval augmented generation (RAG) systems, you can use Amazon Kendra's Retrieve API, which can return longer semantically relevant passages. We recommend using the Retrieve API instead of filing a service limit increase to increase the Query API document excerpt length.  You can configure boosting or relevance tuning at the query level to override boosting at the index level, filter based on document fields/attributes and faceted search, and filter based on the user or their group access to documents. You can also include certain fields in the response that might provide useful additional information. A query response contains three types of results.   Relevant suggested answers. The answers can be either a text excerpt or table excerpt. The answer can be highlighted in the excerpt.   Matching FAQs or questions-answer from your FAQ file.   Relevant documents. This result type includes an excerpt of the document with the document title. The searched terms can be highlighted in the excerpt.   You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results. If you filter result type to only question-answers, a maximum of four results are returned. If you filter result type to only answers, a maximum of three results are returned.
+    /// Searches an index given an input query.  If you are working with large language models (LLMs) or implementing retrieval augmented generation (RAG) systems, you can use Amazon Kendra's Retrieve API, which can return longer semantically relevant passages. We recommend using the Retrieve API instead of filing a service limit increase to increase the Query API document excerpt length.  You can configure boosting or relevance tuning at the query level to override boosting at the index level, filter based on document fields/attributes and faceted search, and filter based on the user or their group access to documents. You can also include certain fields in the response that might provide useful additional information. A query response contains three types of results.   Relevant suggested answers. The answers can be either a text excerpt or table excerpt. The answer can be highlighted in the excerpt.   Matching FAQs or questions-answer from your FAQ file.   Relevant documents. This result type includes an excerpt of the document with the document title. The searched terms can be highlighted in the excerpt.   You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results. If you filter result type to only question-answers, a maximum of four results are returned. If you filter result type to only answers, a maximum of three results are returned.  If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error.
     ///
     /// Parameters:
-    ///   - attributeFilter: Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.
+    ///   - attributeFilter: Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.  For Amazon Kendra Gen AI Enterprise Edition indices use AttributeFilter to enable document filtering for end users using _email_id or include public documents (_email_id=null).
     ///   - collapseConfiguration: Provides configuration to determine how to group results by document attribute value, and how to display them (collapsed or expanded) under a designated primary document for each group.
     ///   - documentRelevanceOverrideConfigurations: Overrides relevance tuning configurations of fields/attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured for fields at the index level, and you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
     ///   - facets: An array of documents fields/attributes for faceted search. Amazon Kendra returns a count for each field key specified. This helps your users narrow their search.
@@ -2037,7 +2037,7 @@ public struct Kendra: AWSService {
         return try await self.query(input, logger: logger)
     }
 
-    /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the Query API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple documents and multiple parts of the same document. If in extreme cases your documents produce zero passages using the Retrieve API, you can alternatively use the Query API and its types of responses. You can also do the following:   Override boosting at the index level   Filter based on document fields or attributes   Filter based on the user or their group access to documents   View the confidence score bucket for a retrieved passage result. The confidence bucket provides a relative ranking that indicates how confident Amazon Kendra is that the response is relevant to the query.  Confidence score buckets are currently available only for English.    You can also include certain fields in the response that might provide useful additional information. The Retrieve API shares the number of query capacity units that you set for your index. For more information on what's included in a single capacity unit and the default base capacity for an index, see Adjusting capacity.
+    /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the Query API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple documents and multiple parts of the same document. If in extreme cases your documents produce zero passages using the Retrieve API, you can alternatively use the Query API and its types of responses. You can also do the following:   Override boosting at the index level   Filter based on document fields or attributes   Filter based on the user or their group access to documents   View the confidence score bucket for a retrieved passage result. The confidence bucket provides a relative ranking that indicates how confident Amazon Kendra is that the response is relevant to the query.  Confidence score buckets are currently available only for English.    You can also include certain fields in the response that might provide useful additional information. The Retrieve API shares the number of query capacity units that you set for your index. For more information on what's included in a single capacity unit and the default base capacity for an index, see Adjusting capacity.  If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error.
     @Sendable
     @inlinable
     public func retrieve(_ input: RetrieveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveResult {
@@ -2050,10 +2050,10 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the Query API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple documents and multiple parts of the same document. If in extreme cases your documents produce zero passages using the Retrieve API, you can alternatively use the Query API and its types of responses. You can also do the following:   Override boosting at the index level   Filter based on document fields or attributes   Filter based on the user or their group access to documents   View the confidence score bucket for a retrieved passage result. The confidence bucket provides a relative ranking that indicates how confident Amazon Kendra is that the response is relevant to the query.  Confidence score buckets are currently available only for English.    You can also include certain fields in the response that might provide useful additional information. The Retrieve API shares the number of query capacity units that you set for your index. For more information on what's included in a single capacity unit and the default base capacity for an index, see Adjusting capacity.
+    /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the Query API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple documents and multiple parts of the same document. If in extreme cases your documents produce zero passages using the Retrieve API, you can alternatively use the Query API and its types of responses. You can also do the following:   Override boosting at the index level   Filter based on document fields or attributes   Filter based on the user or their group access to documents   View the confidence score bucket for a retrieved passage result. The confidence bucket provides a relative ranking that indicates how confident Amazon Kendra is that the response is relevant to the query.  Confidence score buckets are currently available only for English.    You can also include certain fields in the response that might provide useful additional information. The Retrieve API shares the number of query capacity units that you set for your index. For more information on what's included in a single capacity unit and the default base capacity for an index, see Adjusting capacity.  If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error.
     ///
     /// Parameters:
-    ///   - attributeFilter: Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.
+    ///   - attributeFilter: Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.  For Amazon Kendra Gen AI Enterprise Edition indices use AttributeFilter to enable document filtering for end users using _email_id or include public documents (_email_id=null).
     ///   - documentRelevanceOverrideConfigurations: Overrides relevance tuning configurations of fields/attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured for fields at the index level, and you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
     ///   - indexId: The identifier of the index to retrieve relevant passages for the search.
     ///   - pageNumber: Retrieved relevant passages are returned in pages the size of the PageSize parameter. By default, Amazon Kendra returns the first page of results. Use this parameter to get result pages after the first one.
@@ -2189,7 +2189,7 @@ public struct Kendra: AWSService {
         return try await self.submitFeedback(input, logger: logger)
     }
 
-    /// Adds the specified tag to the specified index, FAQ, or data source resource. If the tag already exists, the existing value is replaced with the new value.
+    /// Adds the specified tag to the specified index, FAQ, data source, or other resource. If  the tag already exists, the existing value is replaced with the new value.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -2202,11 +2202,11 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Adds the specified tag to the specified index, FAQ, or data source resource. If the tag already exists, the existing value is replaced with the new value.
+    /// Adds the specified tag to the specified index, FAQ, data source, or other resource. If  the tag already exists, the existing value is replaced with the new value.
     ///
     /// Parameters:
-    ///   - resourceARN: The Amazon Resource Name (ARN) of the index, FAQ, or data source to tag.
-    ///   - tags: A list of tag keys to add to the index, FAQ, or data source. If a tag already exists, the existing value is replaced with the new value.
+    ///   - resourceARN: The Amazon Resource Name (ARN) of the index, FAQ, data source, or other resource to add a tag.  For example, the ARN of an index is constructed as follows:  arn:aws:kendra:your-region:your-account-id:index/index-id   For information on how to construct an ARN for all types of Amazon Kendra resources, see  Resource  types.
+    ///   - tags: A list of tag keys to add to the index, FAQ, data source, or other resource. If a tag already  exists, the existing value is replaced with the new value.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -2221,7 +2221,7 @@ public struct Kendra: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Removes a tag from an index, FAQ, or a data source.
+    /// Removes a tag from an index, FAQ, data source, or other resource.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -2234,11 +2234,11 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Removes a tag from an index, FAQ, or a data source.
+    /// Removes a tag from an index, FAQ, data source, or other resource.
     ///
     /// Parameters:
-    ///   - resourceARN: The Amazon Resource Name (ARN) of the index, FAQ, or data source to remove the tag from.
-    ///   - tagKeys: A list of tag keys to remove from the index, FAQ, or data source. If a tag key does not exist on the resource, it is ignored.
+    ///   - resourceARN: The Amazon Resource Name (ARN) of the index, FAQ, data source, or other resource to remove a tag.  For example, the ARN of an index is constructed as follows:  arn:aws:kendra:your-region:your-account-id:index/index-id  For information on how to construct an ARN for all types of Amazon Kendra resources, see  Resource  types.
+    ///   - tagKeys: A list of tag keys to remove from the index, FAQ, data source, or other resource. If a tag  key doesn't exist for the resource, it is ignored.
     ///   - logger: Logger use during operation
     @inlinable
     public func untagResource(
@@ -2253,7 +2253,7 @@ public struct Kendra: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You created an 'allow' access control configuration for one user who recently joined the 'top-secret' team, switching from a team with 'deny' access to top-secret documents. However, the user suddenly returns to their previous team and should no longer have access to top secret documents. You can update the access control configuration to re-configure access control for your documents as circumstances change. You call the BatchPutDocument API to apply the updated access control configuration, with the AccessControlConfigurationId included in the Document object. If you use an S3 bucket as a data source, you synchronize your data source to apply the AccessControlConfigurationId in the .metadata.json file. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.
+    /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You created an 'allow' access control configuration for one user who recently joined the 'top-secret' team, switching from a team with 'deny' access to top-secret documents. However, the user suddenly returns to their previous team and should no longer have access to top secret documents. You can update the access control configuration to re-configure access control for your documents as circumstances change. You call the BatchPutDocument API to apply the updated access control configuration, with the AccessControlConfigurationId included in the Document object. If you use an S3 bucket as a data source, you synchronize your data source to apply the AccessControlConfigurationId in the .metadata.json file. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.  You can't configure access control using CreateAccessControlConfiguration for an Amazon Kendra Gen AI Enterprise Edition index. Amazon Kendra will return a ValidationException error for a Gen_AI_ENTERPRISE_EDITION index.
     @Sendable
     @inlinable
     public func updateAccessControlConfiguration(_ input: UpdateAccessControlConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccessControlConfigurationResponse {
@@ -2266,7 +2266,7 @@ public struct Kendra: AWSService {
             logger: logger
         )
     }
-    /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You created an 'allow' access control configuration for one user who recently joined the 'top-secret' team, switching from a team with 'deny' access to top-secret documents. However, the user suddenly returns to their previous team and should no longer have access to top secret documents. You can update the access control configuration to re-configure access control for your documents as circumstances change. You call the BatchPutDocument API to apply the updated access control configuration, with the AccessControlConfigurationId included in the Document object. If you use an S3 bucket as a data source, you synchronize your data source to apply the AccessControlConfigurationId in the .metadata.json file. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.
+    /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You created an 'allow' access control configuration for one user who recently joined the 'top-secret' team, switching from a team with 'deny' access to top-secret documents. However, the user suddenly returns to their previous team and should no longer have access to top secret documents. You can update the access control configuration to re-configure access control for your documents as circumstances change. You call the BatchPutDocument API to apply the updated access control configuration, with the AccessControlConfigurationId included in the Document object. If you use an S3 bucket as a data source, you synchronize your data source to apply the AccessControlConfigurationId in the .metadata.json file. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.  You can't configure access control using CreateAccessControlConfiguration for an Amazon Kendra Gen AI Enterprise Edition index. Amazon Kendra will return a ValidationException error for a Gen_AI_ENTERPRISE_EDITION index.
     ///
     /// Parameters:
     ///   - accessControlList: Information you want to update on principals (users and/or groups) and which documents they should have access to. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
@@ -2320,7 +2320,7 @@ public struct Kendra: AWSService {
     ///   - indexId: The identifier of the index used with the data source connector.
     ///   - languageCode: The code for a language you want to update for the data source connector.  This allows you to support a language for all  documents when updating the data source. English is supported  by default. For more information on supported languages, including their codes,  see Adding  documents in languages other than English.
     ///   - name: A new name for the data source connector.
-    ///   - roleArn: The Amazon Resource Name (ARN) of a role with permission to access the data source and required resources. For more information, see IAM roles for Amazon Kendra.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role with permission to access  the data source and required resources. For more information, see IAM roles for Amazon Kendra.
     ///   - schedule: The sync schedule you want to update for the data source connector.
     ///   - vpcConfiguration: Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see Configuring a VPC.
     ///   - logger: Logger use during operation
@@ -2374,7 +2374,7 @@ public struct Kendra: AWSService {
     ///   - id: The identifier of your Amazon Kendra experience you want to update.
     ///   - indexId: The identifier of the index for your Amazon Kendra experience.
     ///   - name: A new name for your Amazon Kendra experience.
-    ///   - roleArn: The Amazon Resource Name (ARN) of a role with permission to access Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your user and group information.  For more information, see IAM roles for Amazon Kendra.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role with permission to access  the Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your users and groups information.  For more information, see IAM roles for Amazon Kendra.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateExperience(
@@ -2466,9 +2466,9 @@ public struct Kendra: AWSService {
     ///   - id: The identifier of the index you want to update.
     ///   - name: A new name for the index.
     ///   - roleArn: An Identity and Access Management (IAM) role that gives Amazon Kendra permission to access Amazon CloudWatch logs and metrics.
-    ///   - userContextPolicy: The user context policy.
-    ///   - userGroupResolutionConfiguration: Gets users and groups from IAM Identity Center identity source. To configure this, see UserGroupResolutionConfiguration. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
-    ///   - userTokenConfigurations: The user token configuration.
+    ///   - userContextPolicy: The user context policy.  If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error.
+    ///   - userGroupResolutionConfiguration: Gets users and groups from IAM Identity Center identity source. To configure this, see UserGroupResolutionConfiguration. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.  If you're using an Amazon Kendra Gen AI Enterprise Edition index, UserGroupResolutionConfiguration isn't supported.
+    ///   - userTokenConfigurations: The user token configuration.  If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use UserTokenConfigurations to configure user context policy, Amazon Kendra returns a ValidationException error.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateIndex(
@@ -2944,7 +2944,7 @@ extension Kendra {
     /// Return PaginatorSequence for operation ``listFaqs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - indexId: The index that contains the FAQ lists.
+    ///   - indexId: The index for the FAQs.
     ///   - maxResults: The maximum number of FAQs to return in the response. If there are fewer results in the list, this response contains only the actual results.
     ///   - logger: Logger used for logging
     @inlinable

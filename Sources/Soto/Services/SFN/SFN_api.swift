@@ -1171,6 +1171,7 @@ public struct SFN: AWSService {
     ///   - inspectionLevel: Determines the values to return when a state is tested. You can specify one of the following types:    INFO: Shows the final state output. By default, Step Functions sets inspectionLevel to INFO if you don't specify a level.    DEBUG: Shows the final state output along with the input and output data processing result.    TRACE: Shows the HTTP request and response for an HTTP Task. This level also shows the final state output along with the input and output data processing result.   Each of these levels also provide information about the status of the state execution and the next state to transition to.
     ///   - revealSecrets: Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds to modify the HTTP request headers, query parameters, and body. Step Functions doesn't omit any information included in the state definition or the HTTP response. If you set revealSecrets to true, you must make sure that the IAM user that calls the TestState API has permission for the states:RevealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see IAM permissions to test a state. Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false.
     ///   - roleArn: The Amazon Resource Name (ARN) of the execution role with the required IAM permissions for the state.
+    ///   - variables: JSON object literal that sets variables used in the state under test. Object keys are the variable names and values are the variable values.
     ///   - logger: Logger use during operation
     @inlinable
     public func testState(
@@ -1178,7 +1179,8 @@ public struct SFN: AWSService {
         input: String? = nil,
         inspectionLevel: InspectionLevel? = nil,
         revealSecrets: Bool? = nil,
-        roleArn: String,
+        roleArn: String? = nil,
+        variables: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> TestStateOutput {
         let input = TestStateInput(
@@ -1186,7 +1188,8 @@ public struct SFN: AWSService {
             input: input, 
             inspectionLevel: inspectionLevel, 
             revealSecrets: revealSecrets, 
-            roleArn: roleArn
+            roleArn: roleArn, 
+            variables: variables
         )
         return try await self.testState(input, logger: logger)
     }
@@ -1346,7 +1349,7 @@ public struct SFN: AWSService {
         return try await self.updateStateMachineAlias(input, logger: logger)
     }
 
-    /// Validates the syntax of a state machine definition. You can validate that a state machine definition is correct without  creating a state machine resource. Step Functions will implicitly perform the same syntax check when you invoke CreateStateMachine and UpdateStateMachine. State machine definitions are specified using a JSON-based, structured language. For more information on Amazon States Language see Amazon States Language (ASL).  Suggested uses for ValidateStateMachineDefinition:   Integrate automated checks into your code review or Continuous Integration (CI) process to validate state machine definitions before starting deployments.   Run the validation from a Git pre-commit hook to check your state machine definitions before committing them to your source repository.    Errors found in the state machine definition will be returned in the response as a list of diagnostic elements, rather than raise an exception.
+    /// Validates the syntax of a state machine definition specified in Amazon States Language (ASL), a JSON-based, structured language. You can validate that a state machine definition is correct without creating a state machine resource. Suggested uses for ValidateStateMachineDefinition:   Integrate automated checks into your code review or Continuous Integration (CI) process to check state machine definitions before starting deployments.   Run validation from a Git pre-commit hook to verify the definition before committing to your source repository.   Validation will look for problems in your state machine definition and return a result and a list of diagnostic elements. The result  value will be OK when your workflow definition can be successfully created or updated. Note the result can be OK even when diagnostic warnings are present in the response. The result value will be FAIL when the workflow definition contains errors that would prevent you from creating or updating your state machine.  The list of ValidateStateMachineDefinitionDiagnostic data elements can contain zero or more WARNING and/or ERROR elements.  The ValidateStateMachineDefinition API might add new diagnostics in the future, adjust diagnostic codes, or change the message wording. Your automated processes should only rely on the value of the result field value (OK, FAIL). Do not rely on the exact order, count, or wording of diagnostic messages.
     @Sendable
     @inlinable
     public func validateStateMachineDefinition(_ input: ValidateStateMachineDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidateStateMachineDefinitionOutput {
@@ -1359,7 +1362,7 @@ public struct SFN: AWSService {
             logger: logger
         )
     }
-    /// Validates the syntax of a state machine definition. You can validate that a state machine definition is correct without  creating a state machine resource. Step Functions will implicitly perform the same syntax check when you invoke CreateStateMachine and UpdateStateMachine. State machine definitions are specified using a JSON-based, structured language. For more information on Amazon States Language see Amazon States Language (ASL).  Suggested uses for ValidateStateMachineDefinition:   Integrate automated checks into your code review or Continuous Integration (CI) process to validate state machine definitions before starting deployments.   Run the validation from a Git pre-commit hook to check your state machine definitions before committing them to your source repository.    Errors found in the state machine definition will be returned in the response as a list of diagnostic elements, rather than raise an exception.
+    /// Validates the syntax of a state machine definition specified in Amazon States Language (ASL), a JSON-based, structured language. You can validate that a state machine definition is correct without creating a state machine resource. Suggested uses for ValidateStateMachineDefinition:   Integrate automated checks into your code review or Continuous Integration (CI) process to check state machine definitions before starting deployments.   Run validation from a Git pre-commit hook to verify the definition before committing to your source repository.   Validation will look for problems in your state machine definition and return a result and a list of diagnostic elements. The result  value will be OK when your workflow definition can be successfully created or updated. Note the result can be OK even when diagnostic warnings are present in the response. The result value will be FAIL when the workflow definition contains errors that would prevent you from creating or updating your state machine.  The list of ValidateStateMachineDefinitionDiagnostic data elements can contain zero or more WARNING and/or ERROR elements.  The ValidateStateMachineDefinition API might add new diagnostics in the future, adjust diagnostic codes, or change the message wording. Your automated processes should only rely on the value of the result field value (OK, FAIL). Do not rely on the exact order, count, or wording of diagnostic messages.
     ///
     /// Parameters:
     ///   - definition: The Amazon States Language definition of the state machine. For more information, see Amazon States Language (ASL).

@@ -52,6 +52,14 @@ extension ChimeSDKVoice {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContactCenterSystemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case avayaAuraCallCenterElite = "AVAYA_AURA_CALL_CENTER_ELITE"
+        case avayaAuraContactCenter = "AVAYA_AURA_CONTACT_CENTER"
+        case ciscoUnifiedContactCenterEnterprise = "CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE"
+        case genesysEngageOnPremises = "GENESYS_ENGAGE_ON_PREMISES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "AccessDenied"
         case badRequest = "BadRequest"
@@ -171,6 +179,15 @@ extension ChimeSDKVoice {
         public var description: String { return self.rawValue }
     }
 
+    public enum SessionBorderControllerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case audiocodesMediantSbc = "AUDIOCODES_MEDIANT_SBC"
+        case avayaSbce = "AVAYA_SBCE"
+        case ciscoUnifiedBorderElement = "CISCO_UNIFIED_BORDER_ELEMENT"
+        case oracleAcmePacketSbc = "ORACLE_ACME_PACKET_SBC"
+        case ribbonSbc = "RIBBON_SBC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SipRuleTriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case requestUriHostname = "RequestUriHostname"
         case toPhoneNumber = "ToPhoneNumber"
@@ -188,6 +205,12 @@ extension ChimeSDKVoice {
         case euWest2 = "eu-west-2"
         case usEast1 = "us-east-1"
         case usWest2 = "us-west-2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VoiceConnectorIntegrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connectAnalyticsConnector = "CONNECT_ANALYTICS_CONNECTOR"
+        case connectCallTransferConnector = "CONNECT_CALL_TRANSFER_CONNECTOR"
         public var description: String { return self.rawValue }
     }
 
@@ -812,6 +835,8 @@ extension ChimeSDKVoice {
     public struct CreateVoiceConnectorRequest: AWSEncodableShape {
         /// The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value:  us-east-1 .
         public let awsRegion: VoiceConnectorAwsRegion?
+        /// The connectors for use with Amazon Connect. The following options are available:    CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Amazon Connect telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Amazon Connect can start with Connect telephony and IVR for immediate modernization ahead of agent migration.    CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems for real-time and post-call analytics. They can use Amazon Connect Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Amazon Connect can start with Contact Lens analytics and performance insights ahead of agent migration.
+        public let integrationType: VoiceConnectorIntegrationType?
         /// The name of the Voice Connector.
         public let name: String
         /// Enables or disables encryption for the Voice Connector.
@@ -820,8 +845,9 @@ extension ChimeSDKVoice {
         public let tags: [Tag]?
 
         @inlinable
-        public init(awsRegion: VoiceConnectorAwsRegion? = nil, name: String, requireEncryption: Bool, tags: [Tag]? = nil) {
+        public init(awsRegion: VoiceConnectorAwsRegion? = nil, integrationType: VoiceConnectorIntegrationType? = nil, name: String, requireEncryption: Bool, tags: [Tag]? = nil) {
             self.awsRegion = awsRegion
+            self.integrationType = integrationType
             self.name = name
             self.requireEncryption = requireEncryption
             self.tags = tags
@@ -840,6 +866,7 @@ extension ChimeSDKVoice {
 
         private enum CodingKeys: String, CodingKey {
             case awsRegion = "AwsRegion"
+            case integrationType = "IntegrationType"
             case name = "Name"
             case requireEncryption = "RequireEncryption"
             case tags = "Tags"
@@ -1097,6 +1124,28 @@ extension ChimeSDKVoice {
 
     public struct DeleteVoiceConnectorEmergencyCallingConfigurationRequest: AWSEncodableShape {
         /// The Voice Connector ID.
+        public let voiceConnectorId: String
+
+        @inlinable
+        public init(voiceConnectorId: String) {
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVoiceConnectorExternalSystemsConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Voice Connector for which to delete the external system configuration.
         public let voiceConnectorId: String
 
         @inlinable
@@ -1434,6 +1483,24 @@ extension ChimeSDKVoice {
 
         private enum CodingKeys: String, CodingKey {
             case dnis = "DNIS"
+        }
+    }
+
+    public struct ExternalSystemsConfiguration: AWSDecodableShape {
+        /// The contact center system.
+        public let contactCenterSystemTypes: [ContactCenterSystemType]?
+        /// The session border controllers.
+        public let sessionBorderControllerTypes: [SessionBorderControllerType]?
+
+        @inlinable
+        public init(contactCenterSystemTypes: [ContactCenterSystemType]? = nil, sessionBorderControllerTypes: [SessionBorderControllerType]? = nil) {
+            self.contactCenterSystemTypes = contactCenterSystemTypes
+            self.sessionBorderControllerTypes = sessionBorderControllerTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactCenterSystemTypes = "ContactCenterSystemTypes"
+            case sessionBorderControllerTypes = "SessionBorderControllerTypes"
         }
     }
 
@@ -1832,6 +1899,42 @@ extension ChimeSDKVoice {
 
         private enum CodingKeys: String, CodingKey {
             case emergencyCallingConfiguration = "EmergencyCallingConfiguration"
+        }
+    }
+
+    public struct GetVoiceConnectorExternalSystemsConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Voice Connector for which to return information about the external system configuration.
+        public let voiceConnectorId: String
+
+        @inlinable
+        public init(voiceConnectorId: String) {
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVoiceConnectorExternalSystemsConfigurationResponse: AWSDecodableShape {
+        /// An object that contains information about an external systems configuration for a Voice Connector.
+        public let externalSystemsConfiguration: ExternalSystemsConfiguration?
+
+        @inlinable
+        public init(externalSystemsConfiguration: ExternalSystemsConfiguration? = nil) {
+            self.externalSystemsConfiguration = externalSystemsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalSystemsConfiguration = "ExternalSystemsConfiguration"
         }
     }
 
@@ -3384,6 +3487,55 @@ extension ChimeSDKVoice {
 
         private enum CodingKeys: String, CodingKey {
             case emergencyCallingConfiguration = "EmergencyCallingConfiguration"
+        }
+    }
+
+    public struct PutVoiceConnectorExternalSystemsConfigurationRequest: AWSEncodableShape {
+        /// The contact center system to use.
+        public let contactCenterSystemTypes: [ContactCenterSystemType]?
+        /// The session border controllers to use.
+        public let sessionBorderControllerTypes: [SessionBorderControllerType]?
+        /// The ID of the Voice Connector for which to add the external system configuration.
+        public let voiceConnectorId: String
+
+        @inlinable
+        public init(contactCenterSystemTypes: [ContactCenterSystemType]? = nil, sessionBorderControllerTypes: [SessionBorderControllerType]? = nil, voiceConnectorId: String) {
+            self.contactCenterSystemTypes = contactCenterSystemTypes
+            self.sessionBorderControllerTypes = sessionBorderControllerTypes
+            self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.contactCenterSystemTypes, forKey: .contactCenterSystemTypes)
+            try container.encodeIfPresent(self.sessionBorderControllerTypes, forKey: .sessionBorderControllerTypes)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactCenterSystemTypes = "ContactCenterSystemTypes"
+            case sessionBorderControllerTypes = "SessionBorderControllerTypes"
+        }
+    }
+
+    public struct PutVoiceConnectorExternalSystemsConfigurationResponse: AWSDecodableShape {
+        /// An object that contains information about an external systems configuration for a Voice Connector.
+        public let externalSystemsConfiguration: ExternalSystemsConfiguration?
+
+        @inlinable
+        public init(externalSystemsConfiguration: ExternalSystemsConfiguration? = nil) {
+            self.externalSystemsConfiguration = externalSystemsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalSystemsConfiguration = "ExternalSystemsConfiguration"
         }
     }
 
@@ -5039,6 +5191,8 @@ extension ChimeSDKVoice {
         /// The Voice Connector's creation timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
+        /// The connectors for use with Amazon Connect.
+        public let integrationType: VoiceConnectorIntegrationType?
         /// The Voice Connector's name.
         public let name: String?
         /// The outbound host name for the Voice Connector.
@@ -5054,9 +5208,10 @@ extension ChimeSDKVoice {
         public let voiceConnectorId: String?
 
         @inlinable
-        public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorArn: String? = nil, voiceConnectorId: String? = nil) {
+        public init(awsRegion: VoiceConnectorAwsRegion? = nil, createdTimestamp: Date? = nil, integrationType: VoiceConnectorIntegrationType? = nil, name: String? = nil, outboundHostName: String? = nil, requireEncryption: Bool? = nil, updatedTimestamp: Date? = nil, voiceConnectorArn: String? = nil, voiceConnectorId: String? = nil) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
+            self.integrationType = integrationType
             self.name = name
             self.outboundHostName = outboundHostName
             self.requireEncryption = requireEncryption
@@ -5068,6 +5223,7 @@ extension ChimeSDKVoice {
         private enum CodingKeys: String, CodingKey {
             case awsRegion = "AwsRegion"
             case createdTimestamp = "CreatedTimestamp"
+            case integrationType = "IntegrationType"
             case name = "Name"
             case outboundHostName = "OutboundHostName"
             case requireEncryption = "RequireEncryption"

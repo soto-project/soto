@@ -83,6 +83,7 @@ extension Organizations {
         case aiservicesOptOutPolicy = "AISERVICES_OPT_OUT_POLICY"
         case backupPolicy = "BACKUP_POLICY"
         case chatbotPolicy = "CHATBOT_POLICY"
+        case declarativePolicyEc2 = "DECLARATIVE_POLICY_EC2"
         case tagPolicy = "TAG_POLICY"
         public var description: String { return self.rawValue }
     }
@@ -138,6 +139,7 @@ extension Organizations {
         case aiservicesOptOutPolicy = "AISERVICES_OPT_OUT_POLICY"
         case backupPolicy = "BACKUP_POLICY"
         case chatbotPolicy = "CHATBOT_POLICY"
+        case declarativePolicyEc2 = "DECLARATIVE_POLICY_EC2"
         case resourceControlPolicy = "RESOURCE_CONTROL_POLICY"
         case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
         case tagPolicy = "TAG_POLICY"
@@ -567,7 +569,7 @@ extension Organizations {
         public let name: String
         /// A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging Organizations resources in the Organizations User Guide.  If any one of the tags is not valid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created.
         public let tags: [Tag]?
-        /// The type of policy to create. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+        /// The type of policy to create. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
         public let type: PolicyType
 
         @inlinable
@@ -839,7 +841,7 @@ extension Organizations {
     }
 
     public struct DescribeEffectivePolicyRequest: AWSEncodableShape {
-        /// The type of policy that you want information about. You can specify one of the following values:    BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+        /// The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
         public let policyType: EffectivePolicyType
         /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
         public let targetId: String?
@@ -1048,7 +1050,7 @@ extension Organizations {
     }
 
     public struct DisablePolicyTypeRequest: AWSEncodableShape {
-        /// The policy type that you want to disable in this root. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+        /// The policy type that you want to disable in this root. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
         public let policyType: PolicyType
         /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by  from 4 to 32 lowercase letters or digits.
         public let rootId: String
@@ -1149,7 +1151,7 @@ extension Organizations {
     }
 
     public struct EnablePolicyTypeRequest: AWSEncodableShape {
-        /// The policy type that you want to enable. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+        /// The policy type that you want to enable. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
         public let policyType: PolicyType
         /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by  from 4 to 32 lowercase letters or digits.
         public let rootId: String
@@ -1888,7 +1890,7 @@ extension Organizations {
     }
 
     public struct ListPoliciesForTargetRequest: AWSEncodableShape {
-        /// The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+        /// The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
         public let filter: PolicyType
         /// The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
         public let maxResults: Int?
@@ -1941,7 +1943,7 @@ extension Organizations {
     }
 
     public struct ListPoliciesRequest: AWSEncodableShape {
-        /// Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
+        /// Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY
         public let filter: PolicyType
         /// The total number of results that you want included on each page of the  response. If you do not include this parameter, it defaults to a value that is specific to the  operation. If additional items exist beyond the maximum you specify, the NextToken  response element is present and has a value (is not null). Include that value as the  NextToken request parameter in the next call to the operation to get the next part  of the results. Note that Organizations might return fewer results than the maximum even when there are  more results available. You should check NextToken after every operation to ensure  that you receive all of the results.
         public let maxResults: Int?

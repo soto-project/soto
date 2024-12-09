@@ -26,9 +26,47 @@ import Foundation
 extension CustomerProfiles {
     // MARK: Enums
 
+    public enum AttributeDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case after = "AFTER"
+        case before = "BEFORE"
+        case beginsWith = "BEGINS_WITH"
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
+        case endsWith = "ENDS_WITH"
+        case equal = "EQUAL"
+        case exclusive = "EXCLUSIVE"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case inclusive = "INCLUSIVE"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
+        case notBetween = "NOT_BETWEEN"
+        case on = "ON"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AttributeMatchingModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case manyToMany = "MANY_TO_MANY"
         case oneToOne = "ONE_TO_ONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case after = "AFTER"
+        case before = "BEFORE"
+        case beginsWith = "BEGINS_WITH"
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
+        case endsWith = "ENDS_WITH"
+        case equal = "EQUAL"
+        case exclusive = "EXCLUSIVE"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case inclusive = "INCLUSIVE"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
+        case notBetween = "NOT_BETWEEN"
+        case on = "ON"
         public var description: String { return self.rawValue }
     }
 
@@ -38,9 +76,32 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case csv = "CSV"
+        case jsonl = "JSONL"
+        case orc = "ORC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataPullMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "Complete"
         case incremental = "Incremental"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DateDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case after = "AFTER"
+        case before = "BEFORE"
+        case between = "BETWEEN"
+        case notBetween = "NOT_BETWEEN"
+        case on = "ON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EstimateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -56,12 +117,38 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventTriggerLogicalOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case any = "ANY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FieldContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case emailAddress = "EMAIL_ADDRESS"
         case name = "NAME"
         case number = "NUMBER"
         case phoneNumber = "PHONE_NUMBER"
         case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case after = "AFTER"
+        case before = "BEFORE"
+        case beginsWith = "BEGINS_WITH"
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
+        case endsWith = "ENDS_WITH"
+        case equal = "EQUAL"
+        case exclusive = "EXCLUSIVE"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case inclusive = "INCLUSIVE"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
+        case notBetween = "NOT_BETWEEN"
+        case on = "ON"
         public var description: String { return self.rawValue }
     }
 
@@ -80,6 +167,20 @@ extension CustomerProfiles {
         case partialSuccess = "PARTIAL_SUCCESS"
         case pending = "PENDING"
         case preprocessing = "PREPROCESSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Include: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case any = "ANY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IncludeOptions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case any = "ANY"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -159,6 +260,25 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum PeriodUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case days = "DAYS"
+        case hours = "HOURS"
+        case months = "MONTHS"
+        case weeks = "WEEKS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case absent = "ABSENT"
+        case present = "PRESENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RangeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case days = "DAYS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RuleBasedMatchingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inProgress = "IN_PROGRESS"
@@ -215,6 +335,13 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum SegmentSnapshotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceNowConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addition = "ADDITION"
         case between = "BETWEEN"
@@ -252,6 +379,7 @@ extension CustomerProfiles {
     public enum StandardIdentifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `case` = "CASE"
         case asset = "ASSET"
+        case communicationRecord = "COMMUNICATION_RECORD"
         case lookupOnly = "LOOKUP_ONLY"
         case newOnly = "NEW_ONLY"
         case order = "ORDER"
@@ -281,6 +409,15 @@ extension CustomerProfiles {
         case notStarted = "NOT_STARTED"
         case retry = "RETRY"
         case split = "SPLIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StringDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case beginsWith = "BEGINS_WITH"
+        case contains = "CONTAINS"
+        case endsWith = "ENDS_WITH"
+        case exclusive = "EXCLUSIVE"
+        case inclusive = "INCLUSIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -328,6 +465,68 @@ extension CustomerProfiles {
         case validateNonZero = "VALIDATE_NON_ZERO"
         case validateNumeric = "VALIDATE_NUMERIC"
         public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case any = "ANY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Dimension: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Object that holds the calculated attributes to segment on.
+        case calculatedAttributes([String: CalculatedAttributeDimension])
+        /// Object that holds the profile attributes to segment on.
+        case profileAttributes(ProfileAttributes)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .calculatedAttributes:
+                let value = try container.decode([String: CalculatedAttributeDimension].self, forKey: .calculatedAttributes)
+                self = .calculatedAttributes(value)
+            case .profileAttributes:
+                let value = try container.decode(ProfileAttributes.self, forKey: .profileAttributes)
+                self = .profileAttributes(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .calculatedAttributes(let value):
+                try container.encode(value, forKey: .calculatedAttributes)
+            case .profileAttributes(let value):
+                try container.encode(value, forKey: .profileAttributes)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .calculatedAttributes(let value):
+                try value.forEach {
+                    try validate($0.key, name: "calculatedAttributes.key", parent: name, max: 255)
+                    try validate($0.key, name: "calculatedAttributes.key", parent: name, min: 1)
+                    try validate($0.key, name: "calculatedAttributes.key", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+                    try $0.value.validate(name: "\(name).calculatedAttributes[\"\($0.key)\"]")
+                }
+            case .profileAttributes(let value):
+                try value.validate(name: "\(name).profileAttributes")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculatedAttributes = "CalculatedAttributes"
+            case profileAttributes = "ProfileAttributes"
+        }
     }
 
     // MARK: Shapes
@@ -499,6 +698,49 @@ extension CustomerProfiles {
         }
     }
 
+    public struct AddressDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The city belonging to the address.
+        public let city: ProfileDimension?
+        /// The country belonging to the address.
+        public let country: ProfileDimension?
+        /// The county belonging to the address.
+        public let county: ProfileDimension?
+        /// The postal code belonging to the address.
+        public let postalCode: ProfileDimension?
+        /// The province belonging to the address.
+        public let province: ProfileDimension?
+        /// The state belonging to the address.
+        public let state: ProfileDimension?
+
+        @inlinable
+        public init(city: ProfileDimension? = nil, country: ProfileDimension? = nil, county: ProfileDimension? = nil, postalCode: ProfileDimension? = nil, province: ProfileDimension? = nil, state: ProfileDimension? = nil) {
+            self.city = city
+            self.country = country
+            self.county = county
+            self.postalCode = postalCode
+            self.province = province
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.city?.validate(name: "\(name).city")
+            try self.country?.validate(name: "\(name).country")
+            try self.county?.validate(name: "\(name).county")
+            try self.postalCode?.validate(name: "\(name).postalCode")
+            try self.province?.validate(name: "\(name).province")
+            try self.state?.validate(name: "\(name).state")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case city = "City"
+            case country = "Country"
+            case county = "County"
+            case postalCode = "PostalCode"
+            case province = "Province"
+            case state = "State"
+        }
+    }
+
     public struct AppflowIntegration: AWSEncodableShape {
         /// Batches in workflow of type APPFLOW_INTEGRATION.
         public let batches: [Batch]?
@@ -634,6 +876,33 @@ extension CustomerProfiles {
         }
     }
 
+    public struct AttributeDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The action to segment with.
+        public let dimensionType: AttributeDimensionType
+        /// The values to apply the DimensionType on.
+        public let values: [String]
+
+        @inlinable
+        public init(dimensionType: AttributeDimensionType, values: [String]) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 50)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionType = "DimensionType"
+            case values = "Values"
+        }
+    }
+
     public struct AttributeItem: AWSEncodableShape & AWSDecodableShape {
         /// The name of an attribute defined in a profile object type.
         public let name: String
@@ -701,6 +970,20 @@ extension CustomerProfiles {
         }
     }
 
+    public struct AttributeValueItem: AWSDecodableShape {
+        /// An individual value belonging to the given attribute.
+        public let value: String?
+
+        @inlinable
+        public init(value: String? = nil) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+        }
+    }
+
     public struct AutoMerging: AWSEncodableShape & AWSDecodableShape {
         /// How the auto-merging process should resolve conflicts between different profiles. For example, if Profile A and Profile B have the same FirstName and LastName (and that is the matching criteria), which EmailAddress should be used?
         public let conflictResolution: ConflictResolution?
@@ -749,6 +1032,253 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct BatchGetCalculatedAttributeForProfileError: AWSDecodableShape {
+        /// Status code for why a specific profile and calculated attribute failed.
+        public let code: String
+        /// Message describing why a specific profile and calculated attribute failed.
+        public let message: String
+        /// The profile id that failed.
+        public let profileId: String
+
+        @inlinable
+        public init(code: String, message: String, profileId: String) {
+            self.code = code
+            self.message = message
+            self.profileId = profileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case profileId = "ProfileId"
+        }
+    }
+
+    public struct BatchGetCalculatedAttributeForProfileRequest: AWSEncodableShape {
+        /// The unique name of the calculated attribute.
+        public let calculatedAttributeName: String
+        /// Overrides the condition block within the original calculated attribute definition.
+        public let conditionOverrides: ConditionOverrides?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// List of unique identifiers for customer profiles to retrieve.
+        public let profileIds: [String]
+
+        @inlinable
+        public init(calculatedAttributeName: String, conditionOverrides: ConditionOverrides? = nil, domainName: String, profileIds: [String]) {
+            self.calculatedAttributeName = calculatedAttributeName
+            self.conditionOverrides = conditionOverrides
+            self.domainName = domainName
+            self.profileIds = profileIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.calculatedAttributeName, key: "CalculatedAttributeName")
+            try container.encodeIfPresent(self.conditionOverrides, forKey: .conditionOverrides)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.profileIds, forKey: .profileIds)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.calculatedAttributeName, name: "calculatedAttributeName", parent: name, max: 255)
+            try self.validate(self.calculatedAttributeName, name: "calculatedAttributeName", parent: name, min: 1)
+            try self.validate(self.calculatedAttributeName, name: "calculatedAttributeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+            try self.conditionOverrides?.validate(name: "\(name).conditionOverrides")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.profileIds.forEach {
+                try validate($0, name: "profileIds[]", parent: name, pattern: "^[a-f0-9]{32}$")
+            }
+            try self.validate(self.profileIds, name: "profileIds", parent: name, max: 100)
+            try self.validate(self.profileIds, name: "profileIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionOverrides = "ConditionOverrides"
+            case profileIds = "ProfileIds"
+        }
+    }
+
+    public struct BatchGetCalculatedAttributeForProfileResponse: AWSDecodableShape {
+        /// List of calculated attribute values retrieved.
+        public let calculatedAttributeValues: [CalculatedAttributeValue]?
+        /// Overrides the condition block within the original calculated attribute definition.
+        public let conditionOverrides: ConditionOverrides?
+        /// List of errors for calculated attribute values that could not be retrieved.
+        public let errors: [BatchGetCalculatedAttributeForProfileError]?
+
+        @inlinable
+        public init(calculatedAttributeValues: [CalculatedAttributeValue]? = nil, conditionOverrides: ConditionOverrides? = nil, errors: [BatchGetCalculatedAttributeForProfileError]? = nil) {
+            self.calculatedAttributeValues = calculatedAttributeValues
+            self.conditionOverrides = conditionOverrides
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculatedAttributeValues = "CalculatedAttributeValues"
+            case conditionOverrides = "ConditionOverrides"
+            case errors = "Errors"
+        }
+    }
+
+    public struct BatchGetProfileError: AWSDecodableShape {
+        /// Status code for why a specific profile failed.
+        public let code: String
+        /// Message describing why a specific profile failed.
+        public let message: String
+        /// The profile id that failed.
+        public let profileId: String
+
+        @inlinable
+        public init(code: String, message: String, profileId: String) {
+            self.code = code
+            self.message = message
+            self.profileId = profileId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case profileId = "ProfileId"
+        }
+    }
+
+    public struct BatchGetProfileRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// List of unique identifiers for customer profiles to retrieve.
+        public let profileIds: [String]
+
+        @inlinable
+        public init(domainName: String, profileIds: [String]) {
+            self.domainName = domainName
+            self.profileIds = profileIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.profileIds, forKey: .profileIds)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.profileIds.forEach {
+                try validate($0, name: "profileIds[]", parent: name, pattern: "^[a-f0-9]{32}$")
+            }
+            try self.validate(self.profileIds, name: "profileIds", parent: name, max: 20)
+            try self.validate(self.profileIds, name: "profileIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileIds = "ProfileIds"
+        }
+    }
+
+    public struct BatchGetProfileResponse: AWSDecodableShape {
+        /// For information about the errors that are common to all actions, see Common Errors.
+        public let errors: [BatchGetProfileError]?
+        /// Array of Profile Objects.
+        public let profiles: [Profile]?
+
+        @inlinable
+        public init(errors: [BatchGetProfileError]? = nil, profiles: [Profile]? = nil) {
+            self.errors = errors
+            self.profiles = profiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case profiles = "Profiles"
+        }
+    }
+
+    public struct CalculatedAttributeDimension: AWSEncodableShape & AWSDecodableShape {
+        /// Applies the given condition over the initial Calculated Attribute's definition.
+        public let conditionOverrides: ConditionOverrides?
+        /// The action to segment with.
+        public let dimensionType: AttributeDimensionType
+        /// The values to apply the DimensionType with.
+        public let values: [String]
+
+        @inlinable
+        public init(conditionOverrides: ConditionOverrides? = nil, dimensionType: AttributeDimensionType, values: [String]) {
+            self.conditionOverrides = conditionOverrides
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.conditionOverrides?.validate(name: "\(name).conditionOverrides")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 50)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionOverrides = "ConditionOverrides"
+            case dimensionType = "DimensionType"
+            case values = "Values"
+        }
+    }
+
+    public struct CalculatedAttributeValue: AWSDecodableShape {
+        /// The unique name of the calculated attribute.
+        public let calculatedAttributeName: String?
+        /// The display name of the calculated attribute.
+        public let displayName: String?
+        /// Indicates whether the calculated attribute's value is based on partial data. If the data is partial, it is set to true.
+        public let isDataPartial: String?
+        /// The profile id belonging to this calculated attribute value.
+        public let profileId: String?
+        /// The value of the calculated attribute.
+        public let value: String?
+
+        @inlinable
+        public init(calculatedAttributeName: String? = nil, displayName: String? = nil, isDataPartial: String? = nil, profileId: String? = nil, value: String? = nil) {
+            self.calculatedAttributeName = calculatedAttributeName
+            self.displayName = displayName
+            self.isDataPartial = isDataPartial
+            self.profileId = profileId
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculatedAttributeName = "CalculatedAttributeName"
+            case displayName = "DisplayName"
+            case isDataPartial = "IsDataPartial"
+            case profileId = "ProfileId"
+            case value = "Value"
+        }
+    }
+
+    public struct ConditionOverrides: AWSEncodableShape & AWSDecodableShape {
+        /// The relative time period over which data is included in the aggregation for this override.
+        public let range: RangeOverride?
+
+        @inlinable
+        public init(range: RangeOverride? = nil) {
+            self.range = range
+        }
+
+        public func validate(name: String) throws {
+            try self.range?.validate(name: "\(name).range")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case range = "Range"
         }
     }
 
@@ -870,19 +1400,22 @@ extension CustomerProfiles {
         public let displayName: String?
         /// The unique name of the domain.
         public let domainName: String
+        /// Defines how to filter incoming objects to include part of the Calculated Attribute.
+        public let filter: Filter?
         /// The aggregation operation to perform for the calculated attribute.
         public let statistic: Statistic
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(attributeDetails: AttributeDetails, calculatedAttributeName: String, conditions: Conditions? = nil, description: String? = nil, displayName: String? = nil, domainName: String, statistic: Statistic, tags: [String: String]? = nil) {
+        public init(attributeDetails: AttributeDetails, calculatedAttributeName: String, conditions: Conditions? = nil, description: String? = nil, displayName: String? = nil, domainName: String, filter: Filter? = nil, statistic: Statistic, tags: [String: String]? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
             self.conditions = conditions
             self.description = description
             self.displayName = displayName
             self.domainName = domainName
+            self.filter = filter
             self.statistic = statistic
             self.tags = tags
         }
@@ -896,6 +1429,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
             request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.filter, forKey: .filter)
             try container.encode(self.statistic, forKey: .statistic)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
@@ -914,6 +1448,7 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.filter?.validate(name: "\(name).filter")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -929,6 +1464,7 @@ extension CustomerProfiles {
             case conditions = "Conditions"
             case description = "Description"
             case displayName = "DisplayName"
+            case filter = "Filter"
             case statistic = "Statistic"
             case tags = "Tags"
         }
@@ -947,6 +1483,8 @@ extension CustomerProfiles {
         public let description: String?
         /// The display name of the calculated attribute.
         public let displayName: String?
+        /// The filter that was used as part of the request.
+        public let filter: Filter?
         /// The timestamp of when the calculated attribute definition was most recently edited.
         public let lastUpdatedAt: Date?
         /// The aggregation operation to perform for the calculated attribute.
@@ -955,13 +1493,14 @@ extension CustomerProfiles {
         public let tags: [String: String]?
 
         @inlinable
-        public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, statistic: Statistic? = nil, tags: [String: String]? = nil) {
+        public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, filter: Filter? = nil, lastUpdatedAt: Date? = nil, statistic: Statistic? = nil, tags: [String: String]? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
             self.conditions = conditions
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
+            self.filter = filter
             self.lastUpdatedAt = lastUpdatedAt
             self.statistic = statistic
             self.tags = tags
@@ -974,6 +1513,7 @@ extension CustomerProfiles {
             case createdAt = "CreatedAt"
             case description = "Description"
             case displayName = "DisplayName"
+            case filter = "Filter"
             case lastUpdatedAt = "LastUpdatedAt"
             case statistic = "Statistic"
             case tags = "Tags"
@@ -1171,6 +1711,136 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case eventStreamArn = "EventStreamArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateEventTriggerRequest: AWSEncodableShape {
+        /// The description of the event trigger.
+        public let description: String?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// A list of conditions that determine when an event should trigger the destination.
+        public let eventTriggerConditions: [EventTriggerCondition]
+        /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+        public let eventTriggerLimits: EventTriggerLimits?
+        /// The unique name of the event trigger.
+        public let eventTriggerName: String
+        /// The unique name of the object type.
+        public let objectTypeName: String
+        /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+        public let segmentFilter: String?
+        /// An array of key-value pairs to apply to this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, domainName: String, eventTriggerConditions: [EventTriggerCondition], eventTriggerLimits: EventTriggerLimits? = nil, eventTriggerName: String, objectTypeName: String, segmentFilter: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.domainName = domainName
+            self.eventTriggerConditions = eventTriggerConditions
+            self.eventTriggerLimits = eventTriggerLimits
+            self.eventTriggerName = eventTriggerName
+            self.objectTypeName = objectTypeName
+            self.segmentFilter = segmentFilter
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.eventTriggerConditions, forKey: .eventTriggerConditions)
+            try container.encodeIfPresent(self.eventTriggerLimits, forKey: .eventTriggerLimits)
+            request.encodePath(self.eventTriggerName, key: "EventTriggerName")
+            try container.encode(self.objectTypeName, forKey: .objectTypeName)
+            try container.encodeIfPresent(self.segmentFilter, forKey: .segmentFilter)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.eventTriggerConditions.forEach {
+                try $0.validate(name: "\(name).eventTriggerConditions[]")
+            }
+            try self.validate(self.eventTriggerConditions, name: "eventTriggerConditions", parent: name, max: 5)
+            try self.validate(self.eventTriggerConditions, name: "eventTriggerConditions", parent: name, min: 1)
+            try self.eventTriggerLimits?.validate(name: "\(name).eventTriggerLimits")
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, max: 64)
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, min: 1)
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+            try self.validate(self.segmentFilter, name: "segmentFilter", parent: name, max: 64)
+            try self.validate(self.segmentFilter, name: "segmentFilter", parent: name, min: 1)
+            try self.validate(self.segmentFilter, name: "segmentFilter", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case eventTriggerConditions = "EventTriggerConditions"
+            case eventTriggerLimits = "EventTriggerLimits"
+            case objectTypeName = "ObjectTypeName"
+            case segmentFilter = "SegmentFilter"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateEventTriggerResponse: AWSDecodableShape {
+        /// The timestamp of when the event trigger was created.
+        public let createdAt: Date?
+        /// The description of the event trigger.
+        public let description: String?
+        /// A list of conditions that determine when an event should trigger the destination.
+        public let eventTriggerConditions: [EventTriggerCondition]?
+        /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+        public let eventTriggerLimits: EventTriggerLimits?
+        /// The unique name of the event trigger.
+        public let eventTriggerName: String?
+        /// The timestamp of when the event trigger was most recently updated.
+        public let lastUpdatedAt: Date?
+        /// The unique name of the object type.
+        public let objectTypeName: String?
+        /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+        public let segmentFilter: String?
+        /// An array of key-value pairs to apply to this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, eventTriggerConditions: [EventTriggerCondition]? = nil, eventTriggerLimits: EventTriggerLimits? = nil, eventTriggerName: String? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String? = nil, segmentFilter: String? = nil, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTriggerConditions = eventTriggerConditions
+            self.eventTriggerLimits = eventTriggerLimits
+            self.eventTriggerName = eventTriggerName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.segmentFilter = segmentFilter
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case eventTriggerConditions = "EventTriggerConditions"
+            case eventTriggerLimits = "EventTriggerLimits"
+            case eventTriggerName = "EventTriggerName"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case objectTypeName = "ObjectTypeName"
+            case segmentFilter = "SegmentFilter"
             case tags = "Tags"
         }
     }
@@ -1453,6 +2123,259 @@ extension CustomerProfiles {
         }
     }
 
+    public struct CreateSegmentDefinitionRequest: AWSEncodableShape {
+        /// The description of the segment definition.
+        public let description: String?
+        /// The display name of the segment definition.
+        public let displayName: String
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the segment definition.
+        public let segmentDefinitionName: String
+        /// Specifies the base segments and dimensions for a segment definition along with their respective relationship.
+        public let segmentGroups: SegmentGroup
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, displayName: String, domainName: String, segmentDefinitionName: String, segmentGroups: SegmentGroup, tags: [String: String]? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.domainName = domainName
+            self.segmentDefinitionName = segmentDefinitionName
+            self.segmentGroups = segmentGroups
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.displayName, forKey: .displayName)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
+            try container.encode(self.segmentGroups, forKey: .segmentGroups)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.segmentGroups.validate(name: "\(name).segmentGroups")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayName = "DisplayName"
+            case segmentGroups = "SegmentGroups"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSegmentDefinitionResponse: AWSDecodableShape {
+        /// The timestamp of when the segment definition was created.
+        public let createdAt: Date?
+        /// The description of the segment definition.
+        public let description: String?
+        /// The display name of the segment definition.
+        public let displayName: String?
+        /// The arn of the segment definition.
+        public let segmentDefinitionArn: String?
+        /// The name of the segment definition.
+        public let segmentDefinitionName: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, segmentDefinitionArn: String? = nil, segmentDefinitionName: String, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.segmentDefinitionArn = segmentDefinitionArn
+            self.segmentDefinitionName = segmentDefinitionName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case segmentDefinitionArn = "SegmentDefinitionArn"
+            case segmentDefinitionName = "SegmentDefinitionName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSegmentEstimateRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The segment query for calculating a segment estimate.
+        public let segmentQuery: SegmentGroupStructure
+
+        @inlinable
+        public init(domainName: String, segmentQuery: SegmentGroupStructure) {
+            self.domainName = domainName
+            self.segmentQuery = segmentQuery
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.segmentQuery, forKey: .segmentQuery)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.segmentQuery.validate(name: "\(name).segmentQuery")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentQuery = "SegmentQuery"
+        }
+    }
+
+    public struct CreateSegmentEstimateResponse: AWSDecodableShape {
+        /// The unique name of the domain.
+        public let domainName: String?
+        /// A unique identifier for the resource. The value can be passed to GetSegmentEstimate to retrieve the result of segment estimate status.
+        public let estimateId: String?
+        /// The status code for the response.
+        public let statusCode: Int?
+
+        @inlinable
+        public init(domainName: String? = nil, estimateId: String? = nil, statusCode: Int? = nil) {
+            self.domainName = domainName
+            self.estimateId = estimateId
+            self.statusCode = statusCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.domainName = try container.decodeIfPresent(String.self, forKey: .domainName)
+            self.estimateId = try container.decodeIfPresent(String.self, forKey: .estimateId)
+            self.statusCode = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case estimateId = "EstimateId"
+        }
+    }
+
+    public struct CreateSegmentSnapshotRequest: AWSEncodableShape {
+        /// The format in which the segment will be exported.
+        public let dataFormat: DataFormat
+        /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Amazon Connect Admin Website.
+        public let destinationUri: String?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment.
+        public let encryptionKey: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting KMS and S3 operations.
+        public let roleArn: String?
+        /// The name of the segment definition used in this snapshot request.
+        public let segmentDefinitionName: String
+
+        @inlinable
+        public init(dataFormat: DataFormat, destinationUri: String? = nil, domainName: String, encryptionKey: String? = nil, roleArn: String? = nil, segmentDefinitionName: String) {
+            self.dataFormat = dataFormat
+            self.destinationUri = destinationUri
+            self.domainName = domainName
+            self.encryptionKey = encryptionKey
+            self.roleArn = roleArn
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.dataFormat, forKey: .dataFormat)
+            try container.encodeIfPresent(self.destinationUri, forKey: .destinationUri)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.encryptionKey, forKey: .encryptionKey)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationUri, name: "destinationUri", parent: name, max: 255)
+            try self.validate(self.destinationUri, name: "destinationUri", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, max: 255)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam:.*:[0-9]+:")
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFormat = "DataFormat"
+            case destinationUri = "DestinationUri"
+            case encryptionKey = "EncryptionKey"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct CreateSegmentSnapshotResponse: AWSDecodableShape {
+        /// The unique identifier of the segment snapshot.
+        public let snapshotId: String
+
+        @inlinable
+        public init(snapshotId: String) {
+            self.snapshotId = snapshotId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
+        }
+    }
+
+    public struct DateDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The action to segment with.
+        public let dimensionType: DateDimensionType
+        /// The values to apply the DimensionType on.
+        public let values: [String]
+
+        @inlinable
+        public init(dimensionType: DateDimensionType, values: [String]) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 50)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionType = "DimensionType"
+            case values = "Values"
+        }
+    }
+
     public struct DeleteCalculatedAttributeDefinitionRequest: AWSEncodableShape {
         /// The unique name of the calculated attribute.
         public let calculatedAttributeName: String
@@ -1559,6 +2482,51 @@ extension CustomerProfiles {
 
     public struct DeleteEventStreamResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteEventTriggerRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the event trigger.
+        public let eventTriggerName: String
+
+        @inlinable
+        public init(domainName: String, eventTriggerName: String) {
+            self.domainName = domainName
+            self.eventTriggerName = eventTriggerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.eventTriggerName, key: "EventTriggerName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, max: 64)
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, min: 1)
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteEventTriggerResponse: AWSDecodableShape {
+        /// A message that indicates the delete request is done.
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
     }
 
     public struct DeleteIntegrationRequest: AWSEncodableShape {
@@ -1819,6 +2787,51 @@ extension CustomerProfiles {
         }
     }
 
+    public struct DeleteSegmentDefinitionRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the segment definition.
+        public let segmentDefinitionName: String
+
+        @inlinable
+        public init(domainName: String, segmentDefinitionName: String) {
+            self.domainName = domainName
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSegmentDefinitionResponse: AWSDecodableShape {
+        /// A message that indicates the delete request is done.
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct DeleteWorkflowRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -2037,6 +3050,114 @@ extension CustomerProfiles {
         }
     }
 
+    public struct EventTriggerCondition: AWSEncodableShape & AWSDecodableShape {
+        /// A list of dimensions to be evaluated for the event.
+        public let eventTriggerDimensions: [EventTriggerDimension]
+        /// The operator used to combine multiple dimensions.
+        public let logicalOperator: EventTriggerLogicalOperator
+
+        @inlinable
+        public init(eventTriggerDimensions: [EventTriggerDimension], logicalOperator: EventTriggerLogicalOperator) {
+            self.eventTriggerDimensions = eventTriggerDimensions
+            self.logicalOperator = logicalOperator
+        }
+
+        public func validate(name: String) throws {
+            try self.eventTriggerDimensions.forEach {
+                try $0.validate(name: "\(name).eventTriggerDimensions[]")
+            }
+            try self.validate(self.eventTriggerDimensions, name: "eventTriggerDimensions", parent: name, max: 10)
+            try self.validate(self.eventTriggerDimensions, name: "eventTriggerDimensions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventTriggerDimensions = "EventTriggerDimensions"
+            case logicalOperator = "LogicalOperator"
+        }
+    }
+
+    public struct EventTriggerDimension: AWSEncodableShape & AWSDecodableShape {
+        /// A list of object attributes to be evaluated.
+        public let objectAttributes: [ObjectAttribute]
+
+        @inlinable
+        public init(objectAttributes: [ObjectAttribute]) {
+            self.objectAttributes = objectAttributes
+        }
+
+        public func validate(name: String) throws {
+            try self.objectAttributes.forEach {
+                try $0.validate(name: "\(name).objectAttributes[]")
+            }
+            try self.validate(self.objectAttributes, name: "objectAttributes", parent: name, max: 10)
+            try self.validate(self.objectAttributes, name: "objectAttributes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectAttributes = "ObjectAttributes"
+        }
+    }
+
+    public struct EventTriggerLimits: AWSEncodableShape & AWSDecodableShape {
+        /// In milliseconds. Specifies that an event will only trigger the destination if it is processed within a certain latency period.
+        public let eventExpiration: Int64?
+        /// A list of time periods during which the limits apply.
+        public let periods: [Period]?
+
+        @inlinable
+        public init(eventExpiration: Int64? = nil, periods: [Period]? = nil) {
+            self.eventExpiration = eventExpiration
+            self.periods = periods
+        }
+
+        public func validate(name: String) throws {
+            try self.periods?.forEach {
+                try $0.validate(name: "\(name).periods[]")
+            }
+            try self.validate(self.periods, name: "periods", parent: name, max: 4)
+            try self.validate(self.periods, name: "periods", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventExpiration = "EventExpiration"
+            case periods = "Periods"
+        }
+    }
+
+    public struct EventTriggerSummaryItem: AWSDecodableShape {
+        /// The timestamp of when the event trigger was created.
+        public let createdAt: Date?
+        /// The description of the event trigger.
+        public let description: String?
+        /// The unique name of the event trigger.
+        public let eventTriggerName: String?
+        /// The timestamp of when the event trigger was most recently updated.
+        public let lastUpdatedAt: Date?
+        /// The unique name of the object type.
+        public let objectTypeName: String?
+        /// An array of key-value pairs to apply to this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, eventTriggerName: String? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String? = nil, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTriggerName = eventTriggerName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case eventTriggerName = "EventTriggerName"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case objectTypeName = "ObjectTypeName"
+            case tags = "Tags"
+        }
+    }
+
     public struct ExportingConfig: AWSEncodableShape & AWSDecodableShape {
         /// The S3 location where Identity Resolution Jobs write result files.
         public let s3Exporting: S3ExportingConfig?
@@ -2066,6 +3187,33 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case s3Exporting = "S3Exporting"
+        }
+    }
+
+    public struct ExtraLengthValueProfileDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The action to segment with.
+        public let dimensionType: StringDimensionType
+        /// The values to apply the DimensionType on.
+        public let values: [String]
+
+        @inlinable
+        public init(dimensionType: StringDimensionType, values: [String]) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1000)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 50)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionType = "DimensionType"
+            case values = "Values"
         }
     }
 
@@ -2188,6 +3336,108 @@ extension CustomerProfiles {
             case personalEmailAddress = "PersonalEmailAddress"
             case phoneNumber = "PhoneNumber"
             case shippingAddress = "ShippingAddress"
+        }
+    }
+
+    public struct Filter: AWSEncodableShape & AWSDecodableShape {
+        /// Holds the list of Filter groups within the Filter definition.
+        public let groups: [FilterGroup]
+        /// Define whether to include or exclude objects for Calculated Attributed calculation that fit the filter groups criteria.
+        public let include: Include
+
+        @inlinable
+        public init(groups: [FilterGroup], include: Include) {
+            self.groups = groups
+            self.include = include
+        }
+
+        public func validate(name: String) throws {
+            try self.groups.forEach {
+                try $0.validate(name: "\(name).groups[]")
+            }
+            try self.validate(self.groups, name: "groups", parent: name, max: 2)
+            try self.validate(self.groups, name: "groups", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case include = "Include"
+        }
+    }
+
+    public struct FilterAttributeDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The action to filter with.
+        public let dimensionType: FilterDimensionType
+        /// The values to apply the DimensionType on.
+        public let values: [String]
+
+        @inlinable
+        public init(dimensionType: FilterDimensionType, values: [String]) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 10)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionType = "DimensionType"
+            case values = "Values"
+        }
+    }
+
+    public struct FilterDimension: AWSEncodableShape & AWSDecodableShape {
+        /// Is the attribute within the FilterDimension map
+        public let attributes: [String: FilterAttributeDimension]
+
+        @inlinable
+        public init(attributes: [String: FilterAttributeDimension]) {
+            self.attributes = attributes
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes.forEach {
+                try validate($0.key, name: "attributes.key", parent: name, max: 64)
+                try validate($0.key, name: "attributes.key", parent: name, min: 1)
+                try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+                try $0.value.validate(name: "\(name).attributes[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
+    public struct FilterGroup: AWSEncodableShape & AWSDecodableShape {
+        /// Object that holds the attributes to filter on.
+        public let dimensions: [FilterDimension]
+        /// The type of logical relationship between the dimensions of the Filter group.
+        public let type: `Type`
+
+        @inlinable
+        public init(dimensions: [FilterDimension], type: `Type`) {
+            self.dimensions = dimensions
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions.forEach {
+                try $0.validate(name: "\(name).dimensions[]")
+            }
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case type = "Type"
         }
     }
 
@@ -2372,6 +3622,8 @@ extension CustomerProfiles {
         public let description: String?
         /// The display name of the calculated attribute.
         public let displayName: String?
+        /// The filter assigned to this calculated attribute definition.
+        public let filter: Filter?
         /// The timestamp of when the calculated attribute definition was most recently edited.
         public let lastUpdatedAt: Date?
         /// The aggregation operation to perform for the calculated attribute.
@@ -2380,13 +3632,14 @@ extension CustomerProfiles {
         public let tags: [String: String]?
 
         @inlinable
-        public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, statistic: Statistic? = nil, tags: [String: String]? = nil) {
+        public init(attributeDetails: AttributeDetails? = nil, calculatedAttributeName: String? = nil, conditions: Conditions? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, filter: Filter? = nil, lastUpdatedAt: Date? = nil, statistic: Statistic? = nil, tags: [String: String]? = nil) {
             self.attributeDetails = attributeDetails
             self.calculatedAttributeName = calculatedAttributeName
             self.conditions = conditions
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
+            self.filter = filter
             self.lastUpdatedAt = lastUpdatedAt
             self.statistic = statistic
             self.tags = tags
@@ -2399,6 +3652,7 @@ extension CustomerProfiles {
             case createdAt = "CreatedAt"
             case description = "Description"
             case displayName = "DisplayName"
+            case filter = "Filter"
             case lastUpdatedAt = "LastUpdatedAt"
             case statistic = "Statistic"
             case tags = "Tags"
@@ -2615,6 +3869,83 @@ extension CustomerProfiles {
         }
     }
 
+    public struct GetEventTriggerRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the event trigger.
+        public let eventTriggerName: String
+
+        @inlinable
+        public init(domainName: String, eventTriggerName: String) {
+            self.domainName = domainName
+            self.eventTriggerName = eventTriggerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.eventTriggerName, key: "EventTriggerName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, max: 64)
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, min: 1)
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEventTriggerResponse: AWSDecodableShape {
+        /// The timestamp of when the event trigger was created.
+        public let createdAt: Date?
+        /// The description of the event trigger.
+        public let description: String?
+        /// A list of conditions that determine when an event should trigger the destination.
+        public let eventTriggerConditions: [EventTriggerCondition]?
+        /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+        public let eventTriggerLimits: EventTriggerLimits?
+        /// The unique name of the event trigger.
+        public let eventTriggerName: String?
+        /// The timestamp of when the event trigger was most recently updated.
+        public let lastUpdatedAt: Date?
+        /// The unique name of the object type.
+        public let objectTypeName: String?
+        /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+        public let segmentFilter: String?
+        /// An array of key-value pairs to apply to this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, eventTriggerConditions: [EventTriggerCondition]? = nil, eventTriggerLimits: EventTriggerLimits? = nil, eventTriggerName: String? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String? = nil, segmentFilter: String? = nil, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTriggerConditions = eventTriggerConditions
+            self.eventTriggerLimits = eventTriggerLimits
+            self.eventTriggerName = eventTriggerName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.segmentFilter = segmentFilter
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case eventTriggerConditions = "EventTriggerConditions"
+            case eventTriggerLimits = "EventTriggerLimits"
+            case eventTriggerName = "EventTriggerName"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case objectTypeName = "ObjectTypeName"
+            case segmentFilter = "SegmentFilter"
+            case tags = "Tags"
+        }
+    }
+
     public struct GetIdentityResolutionJobRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -2735,6 +4066,8 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
+        /// A list of unique names for active event triggers associated with the integration. This list would be empty if no Event Trigger is associated with the integration.
+        public let eventTriggerNames: [String]?
         /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
@@ -2755,9 +4088,10 @@ extension CustomerProfiles {
         public let workflowId: String?
 
         @inlinable
-        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, eventTriggerNames: [String]? = nil, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
+            self.eventTriggerNames = eventTriggerNames
             self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
@@ -2771,6 +4105,7 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
             case domainName = "DomainName"
+            case eventTriggerNames = "EventTriggerNames"
             case isUnstructured = "IsUnstructured"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
@@ -3004,6 +4339,287 @@ extension CustomerProfiles {
         }
     }
 
+    public struct GetSegmentDefinitionRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the segment definition.
+        public let segmentDefinitionName: String
+
+        @inlinable
+        public init(domainName: String, segmentDefinitionName: String) {
+            self.domainName = domainName
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSegmentDefinitionResponse: AWSDecodableShape {
+        /// The timestamp of when the segment definition was created.
+        public let createdAt: Date?
+        /// The description of the segment definition.
+        public let description: String?
+        /// The display name of the segment definition.
+        public let displayName: String?
+        /// The arn of the segment definition.
+        public let segmentDefinitionArn: String
+        /// The name of the segment definition.
+        public let segmentDefinitionName: String?
+        /// The segment criteria associated with this definition.
+        public let segmentGroups: SegmentGroup?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, segmentDefinitionArn: String, segmentDefinitionName: String? = nil, segmentGroups: SegmentGroup? = nil, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.segmentDefinitionArn = segmentDefinitionArn
+            self.segmentDefinitionName = segmentDefinitionName
+            self.segmentGroups = segmentGroups
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case segmentDefinitionArn = "SegmentDefinitionArn"
+            case segmentDefinitionName = "SegmentDefinitionName"
+            case segmentGroups = "SegmentGroups"
+            case tags = "Tags"
+        }
+    }
+
+    public struct GetSegmentEstimateRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The query Id passed by a previous CreateSegmentEstimate operation.
+        public let estimateId: String
+
+        @inlinable
+        public init(domainName: String, estimateId: String) {
+            self.domainName = domainName
+            self.estimateId = estimateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.estimateId, key: "EstimateId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.estimateId, name: "estimateId", parent: name, max: 255)
+            try self.validate(self.estimateId, name: "estimateId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSegmentEstimateResponse: AWSDecodableShape {
+        /// The unique name of the domain.
+        public let domainName: String?
+        /// The estimated number of profiles contained in the segment.
+        public let estimate: String?
+        /// The QueryId which is the same as the value passed in QueryId.
+        public let estimateId: String?
+        /// The error message if there is any error.
+        public let message: String?
+        /// The current status of the query.
+        public let status: EstimateStatus?
+        /// The status code of the segment estimate.
+        public let statusCode: Int?
+
+        @inlinable
+        public init(domainName: String? = nil, estimate: String? = nil, estimateId: String? = nil, message: String? = nil, status: EstimateStatus? = nil, statusCode: Int? = nil) {
+            self.domainName = domainName
+            self.estimate = estimate
+            self.estimateId = estimateId
+            self.message = message
+            self.status = status
+            self.statusCode = statusCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.domainName = try container.decodeIfPresent(String.self, forKey: .domainName)
+            self.estimate = try container.decodeIfPresent(String.self, forKey: .estimate)
+            self.estimateId = try container.decodeIfPresent(String.self, forKey: .estimateId)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.status = try container.decodeIfPresent(EstimateStatus.self, forKey: .status)
+            self.statusCode = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case estimate = "Estimate"
+            case estimateId = "EstimateId"
+            case message = "Message"
+            case status = "Status"
+        }
+    }
+
+    public struct GetSegmentMembershipRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The list of profile IDs to query for.
+        public let profileIds: [String]
+        /// The Id of the wanted segment. Needs to be a valid, and existing segment Id.
+        public let segmentDefinitionName: String
+
+        @inlinable
+        public init(domainName: String, profileIds: [String], segmentDefinitionName: String) {
+            self.domainName = domainName
+            self.profileIds = profileIds
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.profileIds, forKey: .profileIds)
+            request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.profileIds.forEach {
+                try validate($0, name: "profileIds[]", parent: name, pattern: "^[a-f0-9]{32}$")
+            }
+            try self.validate(self.profileIds, name: "profileIds", parent: name, max: 100)
+            try self.validate(self.profileIds, name: "profileIds", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileIds = "ProfileIds"
+        }
+    }
+
+    public struct GetSegmentMembershipResponse: AWSDecodableShape {
+        /// An array of maps where each contains a response per profile failed for the request.
+        public let failures: [ProfileQueryFailures]?
+        /// An array of maps where each contains a response per profile requested.
+        public let profiles: [ProfileQueryResult]?
+        /// The unique name of the segment definition.
+        public let segmentDefinitionName: String?
+
+        @inlinable
+        public init(failures: [ProfileQueryFailures]? = nil, profiles: [ProfileQueryResult]? = nil, segmentDefinitionName: String? = nil) {
+            self.failures = failures
+            self.profiles = profiles
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "Failures"
+            case profiles = "Profiles"
+            case segmentDefinitionName = "SegmentDefinitionName"
+        }
+    }
+
+    public struct GetSegmentSnapshotRequest: AWSEncodableShape {
+        /// The unique identifier of the domain.
+        public let domainName: String
+        /// The unique name of the segment definition.
+        public let segmentDefinitionName: String
+        /// The unique identifier of the segment snapshot.
+        public let snapshotId: String
+
+        @inlinable
+        public init(domainName: String, segmentDefinitionName: String, snapshotId: String) {
+            self.domainName = domainName
+            self.segmentDefinitionName = segmentDefinitionName
+            self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
+            request.encodePath(self.snapshotId, key: "SnapshotId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSegmentSnapshotResponse: AWSDecodableShape {
+        /// The format in which the segment will be exported.
+        public let dataFormat: DataFormat
+        /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Amazon Connect Admin Website.
+        public let destinationUri: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment.
+        public let encryptionKey: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting KMS and S3 operations.
+        public let roleArn: String?
+        /// The unique identifier of the segment snapshot.
+        public let snapshotId: String
+        /// The status of the asynchronous job for exporting the segment snapshot.
+        public let status: SegmentSnapshotStatus
+        /// The status message of the asynchronous job for exporting the segment snapshot.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(dataFormat: DataFormat, destinationUri: String? = nil, encryptionKey: String? = nil, roleArn: String? = nil, snapshotId: String, status: SegmentSnapshotStatus, statusMessage: String? = nil) {
+            self.dataFormat = dataFormat
+            self.destinationUri = destinationUri
+            self.encryptionKey = encryptionKey
+            self.roleArn = roleArn
+            self.snapshotId = snapshotId
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFormat = "DataFormat"
+            case destinationUri = "DestinationUri"
+            case encryptionKey = "EncryptionKey"
+            case roleArn = "RoleArn"
+            case snapshotId = "SnapshotId"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct GetSimilarProfilesRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -3230,6 +4846,41 @@ extension CustomerProfiles {
             case nextToken = "NextToken"
             case workflowId = "WorkflowId"
             case workflowType = "WorkflowType"
+        }
+    }
+
+    public struct Group: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the attributes to segment on.
+        public let dimensions: [Dimension]?
+        /// Defines the starting source of data.
+        public let sourceSegments: [SourceSegment]?
+        /// Defines how to interact with the source data.
+        public let sourceType: IncludeOptions?
+        /// Defines how to interact with the profiles found in the current filtering.
+        public let type: IncludeOptions?
+
+        @inlinable
+        public init(dimensions: [Dimension]? = nil, sourceSegments: [SourceSegment]? = nil, sourceType: IncludeOptions? = nil, type: IncludeOptions? = nil) {
+            self.dimensions = dimensions
+            self.sourceSegments = sourceSegments
+            self.sourceType = sourceType
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions?.forEach {
+                try $0.validate(name: "\(name).dimensions[]")
+            }
+            try self.sourceSegments?.forEach {
+                try $0.validate(name: "\(name).sourceSegments[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case sourceSegments = "SourceSegments"
+            case sourceType = "SourceType"
+            case type = "Type"
         }
     }
 
@@ -3717,6 +5368,60 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ListEventTriggersRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The pagination token to use with ListEventTriggers.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEventTriggersResponse: AWSDecodableShape {
+        /// The list of Event Triggers.
+        public let items: [EventTriggerSummaryItem]?
+        /// The pagination token from the previous call to ListEventTriggers.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [EventTriggerSummaryItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListIdentityResolutionJobsRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -3777,6 +5482,8 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
+        /// A list of unique names for active event triggers associated with the integration.
+        public let eventTriggerNames: [String]?
         /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
@@ -3797,9 +5504,10 @@ extension CustomerProfiles {
         public let workflowId: String?
 
         @inlinable
-        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, eventTriggerNames: [String]? = nil, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
+            self.eventTriggerNames = eventTriggerNames
             self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
@@ -3813,6 +5521,7 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
             case domainName = "DomainName"
+            case eventTriggerNames = "EventTriggerNames"
             case isUnstructured = "IsUnstructured"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
@@ -3872,6 +5581,85 @@ extension CustomerProfiles {
 
         @inlinable
         public init(items: [ListIntegrationItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListObjectTypeAttributeItem: AWSDecodableShape {
+        /// Name of the attribute.
+        public let attributeName: String
+        /// When the attribute was last updated.
+        public let lastUpdatedAt: Date
+
+        @inlinable
+        public init(attributeName: String, lastUpdatedAt: Date) {
+            self.attributeName = attributeName
+            self.lastUpdatedAt = lastUpdatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case lastUpdatedAt = "LastUpdatedAt"
+        }
+    }
+
+    public struct ListObjectTypeAttributesRequest: AWSEncodableShape {
+        /// The unique identifier of the domain.
+        public let domainName: String
+        /// The maximum number of objects returned per page.
+        public let maxResults: Int?
+        /// The pagination token from the previous call.
+        public let nextToken: String?
+        /// The name of the profile object type.
+        public let objectTypeName: String
+
+        @inlinable
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil, objectTypeName: String) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.objectTypeName = objectTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.objectTypeName, key: "ObjectTypeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListObjectTypeAttributesResponse: AWSDecodableShape {
+        /// The items returned as part of the response.
+        public let items: [ListObjectTypeAttributeItem]?
+        /// The pagination token from the previous call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ListObjectTypeAttributeItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -4190,6 +5978,60 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case matchIds = "MatchIds"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSegmentDefinitionsRequest: AWSEncodableShape {
+        /// The unique identifier of the domain.
+        public let domainName: String
+        /// The maximum number of objects returned per page.
+        public let maxResults: Int?
+        /// The pagination token from the previous call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSegmentDefinitionsResponse: AWSDecodableShape {
+        /// List of segment definitions.
+        public let items: [SegmentDefinitionItem]?
+        /// The pagination token from the previous call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [SegmentDefinitionItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
             case nextToken = "NextToken"
         }
     }
@@ -4524,6 +6366,46 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ObjectAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// The operator used to compare an attribute against a list of values.
+        public let comparisonOperator: ComparisonOperator
+        /// A field defined within an object type.
+        public let fieldName: String?
+        /// An attribute contained within a source object.
+        public let source: String?
+        /// A list of attribute values used for comparison.
+        public let values: [String]
+
+        @inlinable
+        public init(comparisonOperator: ComparisonOperator, fieldName: String? = nil, source: String? = nil, values: [String]) {
+            self.comparisonOperator = comparisonOperator
+            self.fieldName = fieldName
+            self.source = source
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldName, name: "fieldName", parent: name, max: 64)
+            try self.validate(self.fieldName, name: "fieldName", parent: name, min: 1)
+            try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.source, name: "source", parent: name, max: 1000)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 10)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case fieldName = "FieldName"
+            case source = "Source"
+            case values = "Values"
+        }
+    }
+
     public struct ObjectFilter: AWSEncodableShape {
         /// A searchable identifier of a profile object. The predefined keys you can use to search for _asset include: _assetId, _assetName, and _serialNumber. The predefined keys you can use to search for _case include: _caseId. The predefined keys you can use to search for _order include: _orderId.
         public let keyName: String
@@ -4604,6 +6486,39 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case fieldNames = "FieldNames"
             case standardIdentifiers = "StandardIdentifiers"
+        }
+    }
+
+    public struct Period: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum allowed number of destination invocations per profile.
+        public let maxInvocationsPerProfile: Int?
+        /// The unit of time.
+        public let unit: PeriodUnit
+        /// If set to true, there is no limit on the number of destination invocations per profile. The default is false.
+        public let unlimited: Bool?
+        /// The amount of time of the specified unit.
+        public let value: Int
+
+        @inlinable
+        public init(maxInvocationsPerProfile: Int? = nil, unit: PeriodUnit, unlimited: Bool? = nil, value: Int) {
+            self.maxInvocationsPerProfile = maxInvocationsPerProfile
+            self.unit = unit
+            self.unlimited = unlimited
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxInvocationsPerProfile, name: "maxInvocationsPerProfile", parent: name, max: 1000)
+            try self.validate(self.maxInvocationsPerProfile, name: "maxInvocationsPerProfile", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 24)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxInvocationsPerProfile = "MaxInvocationsPerProfile"
+            case unit = "Unit"
+            case unlimited = "Unlimited"
+            case value = "Value"
         }
     }
 
@@ -4717,9 +6632,268 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ProfileAttributeValuesRequest: AWSEncodableShape {
+        /// The attribute name.
+        public let attributeName: String
+        /// The unique identifier of the domain.
+        public let domainName: String
+
+        @inlinable
+        public init(attributeName: String, domainName: String) {
+            self.attributeName = attributeName
+            self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeName, key: "AttributeName")
+            request.encodePath(self.domainName, key: "DomainName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 255)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ProfileAttributeValuesResponse: AWSDecodableShape {
+        /// The attribute name.
+        public let attributeName: String?
+        /// The name of the domain.
+        public let domainName: String?
+        /// The items returned as part of the response.
+        public let items: [AttributeValueItem]?
+        /// The status code for the response.
+        public let statusCode: Int?
+
+        @inlinable
+        public init(attributeName: String? = nil, domainName: String? = nil, items: [AttributeValueItem]? = nil, statusCode: Int? = nil) {
+            self.attributeName = attributeName
+            self.domainName = domainName
+            self.items = items
+            self.statusCode = statusCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.attributeName = try container.decodeIfPresent(String.self, forKey: .attributeName)
+            self.domainName = try container.decodeIfPresent(String.self, forKey: .domainName)
+            self.items = try container.decodeIfPresent([AttributeValueItem].self, forKey: .items)
+            self.statusCode = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case domainName = "DomainName"
+            case items = "Items"
+        }
+    }
+
+    public struct ProfileAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// A field to describe values to segment on within account number.
+        public let accountNumber: ProfileDimension?
+        /// A field to describe values to segment on within additional information.
+        public let additionalInformation: ExtraLengthValueProfileDimension?
+        /// A field to describe values to segment on within address.
+        public let address: AddressDimension?
+        /// A field to describe values to segment on within attributes.
+        public let attributes: [String: AttributeDimension]?
+        /// A field to describe values to segment on within billing address.
+        public let billingAddress: AddressDimension?
+        /// A field to describe values to segment on within birthDate.
+        public let birthDate: DateDimension?
+        /// A field to describe values to segment on within business email address.
+        public let businessEmailAddress: ProfileDimension?
+        /// A field to describe values to segment on within business name.
+        public let businessName: ProfileDimension?
+        /// A field to describe values to segment on within business phone number.
+        public let businessPhoneNumber: ProfileDimension?
+        /// A field to describe values to segment on within email address.
+        public let emailAddress: ProfileDimension?
+        /// A field to describe values to segment on within first name.
+        public let firstName: ProfileDimension?
+        /// A field to describe values to segment on within genderString.
+        public let genderString: ProfileDimension?
+        /// A field to describe values to segment on within home phone number.
+        public let homePhoneNumber: ProfileDimension?
+        /// A field to describe values to segment on within last name.
+        public let lastName: ProfileDimension?
+        /// A field to describe values to segment on within mailing address.
+        public let mailingAddress: AddressDimension?
+        /// A field to describe values to segment on within middle name.
+        public let middleName: ProfileDimension?
+        /// A field to describe values to segment on within mobile phone number.
+        public let mobilePhoneNumber: ProfileDimension?
+        /// A field to describe values to segment on within partyTypeString.
+        public let partyTypeString: ProfileDimension?
+        /// A field to describe values to segment on within personal email address.
+        public let personalEmailAddress: ProfileDimension?
+        /// A field to describe values to segment on within phone number.
+        public let phoneNumber: ProfileDimension?
+        /// A field to describe values to segment on within shipping address.
+        public let shippingAddress: AddressDimension?
+
+        @inlinable
+        public init(accountNumber: ProfileDimension? = nil, additionalInformation: ExtraLengthValueProfileDimension? = nil, address: AddressDimension? = nil, attributes: [String: AttributeDimension]? = nil, billingAddress: AddressDimension? = nil, birthDate: DateDimension? = nil, businessEmailAddress: ProfileDimension? = nil, businessName: ProfileDimension? = nil, businessPhoneNumber: ProfileDimension? = nil, emailAddress: ProfileDimension? = nil, firstName: ProfileDimension? = nil, genderString: ProfileDimension? = nil, homePhoneNumber: ProfileDimension? = nil, lastName: ProfileDimension? = nil, mailingAddress: AddressDimension? = nil, middleName: ProfileDimension? = nil, mobilePhoneNumber: ProfileDimension? = nil, partyTypeString: ProfileDimension? = nil, personalEmailAddress: ProfileDimension? = nil, phoneNumber: ProfileDimension? = nil, shippingAddress: AddressDimension? = nil) {
+            self.accountNumber = accountNumber
+            self.additionalInformation = additionalInformation
+            self.address = address
+            self.attributes = attributes
+            self.billingAddress = billingAddress
+            self.birthDate = birthDate
+            self.businessEmailAddress = businessEmailAddress
+            self.businessName = businessName
+            self.businessPhoneNumber = businessPhoneNumber
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.genderString = genderString
+            self.homePhoneNumber = homePhoneNumber
+            self.lastName = lastName
+            self.mailingAddress = mailingAddress
+            self.middleName = middleName
+            self.mobilePhoneNumber = mobilePhoneNumber
+            self.partyTypeString = partyTypeString
+            self.personalEmailAddress = personalEmailAddress
+            self.phoneNumber = phoneNumber
+            self.shippingAddress = shippingAddress
+        }
+
+        public func validate(name: String) throws {
+            try self.accountNumber?.validate(name: "\(name).accountNumber")
+            try self.additionalInformation?.validate(name: "\(name).additionalInformation")
+            try self.address?.validate(name: "\(name).address")
+            try self.attributes?.forEach {
+                try validate($0.key, name: "attributes.key", parent: name, max: 255)
+                try validate($0.key, name: "attributes.key", parent: name, min: 1)
+                try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+                try $0.value.validate(name: "\(name).attributes[\"\($0.key)\"]")
+            }
+            try self.billingAddress?.validate(name: "\(name).billingAddress")
+            try self.birthDate?.validate(name: "\(name).birthDate")
+            try self.businessEmailAddress?.validate(name: "\(name).businessEmailAddress")
+            try self.businessName?.validate(name: "\(name).businessName")
+            try self.businessPhoneNumber?.validate(name: "\(name).businessPhoneNumber")
+            try self.emailAddress?.validate(name: "\(name).emailAddress")
+            try self.firstName?.validate(name: "\(name).firstName")
+            try self.genderString?.validate(name: "\(name).genderString")
+            try self.homePhoneNumber?.validate(name: "\(name).homePhoneNumber")
+            try self.lastName?.validate(name: "\(name).lastName")
+            try self.mailingAddress?.validate(name: "\(name).mailingAddress")
+            try self.middleName?.validate(name: "\(name).middleName")
+            try self.mobilePhoneNumber?.validate(name: "\(name).mobilePhoneNumber")
+            try self.partyTypeString?.validate(name: "\(name).partyTypeString")
+            try self.personalEmailAddress?.validate(name: "\(name).personalEmailAddress")
+            try self.phoneNumber?.validate(name: "\(name).phoneNumber")
+            try self.shippingAddress?.validate(name: "\(name).shippingAddress")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountNumber = "AccountNumber"
+            case additionalInformation = "AdditionalInformation"
+            case address = "Address"
+            case attributes = "Attributes"
+            case billingAddress = "BillingAddress"
+            case birthDate = "BirthDate"
+            case businessEmailAddress = "BusinessEmailAddress"
+            case businessName = "BusinessName"
+            case businessPhoneNumber = "BusinessPhoneNumber"
+            case emailAddress = "EmailAddress"
+            case firstName = "FirstName"
+            case genderString = "GenderString"
+            case homePhoneNumber = "HomePhoneNumber"
+            case lastName = "LastName"
+            case mailingAddress = "MailingAddress"
+            case middleName = "MiddleName"
+            case mobilePhoneNumber = "MobilePhoneNumber"
+            case partyTypeString = "PartyTypeString"
+            case personalEmailAddress = "PersonalEmailAddress"
+            case phoneNumber = "PhoneNumber"
+            case shippingAddress = "ShippingAddress"
+        }
+    }
+
+    public struct ProfileDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The action to segment on.
+        public let dimensionType: StringDimensionType
+        /// The values to apply the DimensionType on.
+        public let values: [String]
+
+        @inlinable
+        public init(dimensionType: StringDimensionType, values: [String]) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 50)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionType = "DimensionType"
+            case values = "Values"
+        }
+    }
+
+    public struct ProfileQueryFailures: AWSDecodableShape {
+        /// A message describing the failure.
+        public let message: String
+        /// The profile id the failure belongs to.
+        public let profileId: String
+        /// The status describing the failure.
+        public let status: Int?
+
+        @inlinable
+        public init(message: String, profileId: String, status: Int? = nil) {
+            self.message = message
+            self.profileId = profileId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case profileId = "ProfileId"
+            case status = "Status"
+        }
+    }
+
+    public struct ProfileQueryResult: AWSDecodableShape {
+        public let profile: Profile?
+        /// The profile id the result belongs to.
+        public let profileId: String
+        /// Describes whether the profile was absent or present in the segment.
+        public let queryResult: QueryResult
+
+        @inlinable
+        public init(profile: Profile? = nil, profileId: String, queryResult: QueryResult) {
+            self.profile = profile
+            self.profileId = profileId
+            self.queryResult = queryResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profile = "Profile"
+            case profileId = "ProfileId"
+            case queryResult = "QueryResult"
+        }
+    }
+
     public struct PutIntegrationRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
+        /// A list of unique names for active event triggers associated with the integration.
+        public let eventTriggerNames: [String]?
         /// The configuration that controls how Customer Profiles retrieves data from the source.
         public let flowDefinition: FlowDefinition?
         /// The name of the profile object type.
@@ -4736,8 +6910,9 @@ extension CustomerProfiles {
         public let uri: String?
 
         @inlinable
-        public init(domainName: String, flowDefinition: FlowDefinition? = nil, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String? = nil) {
+        public init(domainName: String, eventTriggerNames: [String]? = nil, flowDefinition: FlowDefinition? = nil, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String? = nil) {
             self.domainName = domainName
+            self.eventTriggerNames = eventTriggerNames
             self.flowDefinition = flowDefinition
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
@@ -4750,6 +6925,7 @@ extension CustomerProfiles {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.eventTriggerNames, forKey: .eventTriggerNames)
             try container.encodeIfPresent(self.flowDefinition, forKey: .flowDefinition)
             try container.encodeIfPresent(self.objectTypeName, forKey: .objectTypeName)
             try container.encodeIfPresent(self.objectTypeNames, forKey: .objectTypeNames)
@@ -4762,6 +6938,13 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.eventTriggerNames?.forEach {
+                try validate($0, name: "eventTriggerNames[]", parent: name, max: 64)
+                try validate($0, name: "eventTriggerNames[]", parent: name, min: 1)
+                try validate($0, name: "eventTriggerNames[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            }
+            try self.validate(self.eventTriggerNames, name: "eventTriggerNames", parent: name, max: 1)
+            try self.validate(self.eventTriggerNames, name: "eventTriggerNames", parent: name, min: 1)
             try self.flowDefinition?.validate(name: "\(name).flowDefinition")
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
@@ -4788,6 +6971,7 @@ extension CustomerProfiles {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventTriggerNames = "EventTriggerNames"
             case flowDefinition = "FlowDefinition"
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
@@ -4802,6 +6986,8 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
+        /// A list of unique names for active event triggers associated with the integration. This list would be empty if no Event Trigger is associated with the integration.
+        public let eventTriggerNames: [String]?
         /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
@@ -4822,9 +7008,10 @@ extension CustomerProfiles {
         public let workflowId: String?
 
         @inlinable
-        public init(createdAt: Date, domainName: String, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, eventTriggerNames: [String]? = nil, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
+            self.eventTriggerNames = eventTriggerNames
             self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
@@ -4838,6 +7025,7 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
             case domainName = "DomainName"
+            case eventTriggerNames = "EventTriggerNames"
             case isUnstructured = "IsUnstructured"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
@@ -5101,6 +7289,35 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case unit = "Unit"
             case value = "Value"
+        }
+    }
+
+    public struct RangeOverride: AWSEncodableShape & AWSDecodableShape {
+        /// The end time of when to include objects.
+        public let end: Int?
+        /// The start time of when to include objects.
+        public let start: Int
+        /// The unit for start and end.
+        public let unit: RangeUnit
+
+        @inlinable
+        public init(end: Int? = nil, start: Int, unit: RangeUnit) {
+            self.end = end
+            self.start = start
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.end, name: "end", parent: name, max: 366)
+            try self.validate(self.end, name: "end", parent: name, min: 0)
+            try self.validate(self.start, name: "start", parent: name, max: 366)
+            try self.validate(self.start, name: "start", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case start = "Start"
+            case unit = "Unit"
         }
     }
 
@@ -5427,6 +7644,88 @@ extension CustomerProfiles {
         }
     }
 
+    public struct SegmentDefinitionItem: AWSDecodableShape {
+        /// When the segment definition was created.
+        public let createdAt: Date?
+        /// The description of the segment definition.
+        public let description: String?
+        /// Display name of the segment definition.
+        public let displayName: String?
+        /// The arn of the segment definition.
+        public let segmentDefinitionArn: String?
+        /// Name of the segment definition.
+        public let segmentDefinitionName: String?
+        /// The tags belonging to the segment definition.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, segmentDefinitionArn: String? = nil, segmentDefinitionName: String? = nil, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.segmentDefinitionArn = segmentDefinitionArn
+            self.segmentDefinitionName = segmentDefinitionName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case segmentDefinitionArn = "SegmentDefinitionArn"
+            case segmentDefinitionName = "SegmentDefinitionName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct SegmentGroup: AWSEncodableShape & AWSDecodableShape {
+        /// Holds the list of groups within the segment definition.
+        public let groups: [Group]?
+        /// Defines whether to include or exclude the profiles that fit the segment criteria.
+        public let include: IncludeOptions?
+
+        @inlinable
+        public init(groups: [Group]? = nil, include: IncludeOptions? = nil) {
+            self.groups = groups
+            self.include = include
+        }
+
+        public func validate(name: String) throws {
+            try self.groups?.forEach {
+                try $0.validate(name: "\(name).groups[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case include = "Include"
+        }
+    }
+
+    public struct SegmentGroupStructure: AWSEncodableShape {
+        /// Holds the list of groups within the segment definition.
+        public let groups: [Group]?
+        /// Define whether to include or exclude the profiles that fit the segment criteria.
+        public let include: IncludeOptions?
+
+        @inlinable
+        public init(groups: [Group]? = nil, include: IncludeOptions? = nil) {
+            self.groups = groups
+            self.include = include
+        }
+
+        public func validate(name: String) throws {
+            try self.groups?.forEach {
+                try $0.validate(name: "\(name).groups[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case include = "Include"
+        }
+    }
+
     public struct ServiceNowSourceProperties: AWSEncodableShape {
         /// The object specified in the ServiceNow flow source.
         public let object: String
@@ -5514,6 +7813,26 @@ extension CustomerProfiles {
             case connectorType = "ConnectorType"
             case incrementalPullConfig = "IncrementalPullConfig"
             case sourceConnectorProperties = "SourceConnectorProperties"
+        }
+    }
+
+    public struct SourceSegment: AWSEncodableShape & AWSDecodableShape {
+        /// The unique name of the segment definition.
+        public let segmentDefinitionName: String?
+
+        @inlinable
+        public init(segmentDefinitionName: String? = nil) {
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentDefinitionName = "SegmentDefinitionName"
         }
     }
 
@@ -5985,6 +8304,123 @@ extension CustomerProfiles {
             case lastUpdatedAt = "LastUpdatedAt"
             case matching = "Matching"
             case ruleBasedMatching = "RuleBasedMatching"
+            case tags = "Tags"
+        }
+    }
+
+    public struct UpdateEventTriggerRequest: AWSEncodableShape {
+        /// The description of the event trigger.
+        public let description: String?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// A list of conditions that determine when an event should trigger the destination.
+        public let eventTriggerConditions: [EventTriggerCondition]?
+        /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+        public let eventTriggerLimits: EventTriggerLimits?
+        /// The unique name of the event trigger.
+        public let eventTriggerName: String
+        /// The unique name of the object type.
+        public let objectTypeName: String?
+        /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+        public let segmentFilter: String?
+
+        @inlinable
+        public init(description: String? = nil, domainName: String, eventTriggerConditions: [EventTriggerCondition]? = nil, eventTriggerLimits: EventTriggerLimits? = nil, eventTriggerName: String, objectTypeName: String? = nil, segmentFilter: String? = nil) {
+            self.description = description
+            self.domainName = domainName
+            self.eventTriggerConditions = eventTriggerConditions
+            self.eventTriggerLimits = eventTriggerLimits
+            self.eventTriggerName = eventTriggerName
+            self.objectTypeName = objectTypeName
+            self.segmentFilter = segmentFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.eventTriggerConditions, forKey: .eventTriggerConditions)
+            try container.encodeIfPresent(self.eventTriggerLimits, forKey: .eventTriggerLimits)
+            request.encodePath(self.eventTriggerName, key: "EventTriggerName")
+            try container.encodeIfPresent(self.objectTypeName, forKey: .objectTypeName)
+            try container.encodeIfPresent(self.segmentFilter, forKey: .segmentFilter)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.eventTriggerConditions?.forEach {
+                try $0.validate(name: "\(name).eventTriggerConditions[]")
+            }
+            try self.validate(self.eventTriggerConditions, name: "eventTriggerConditions", parent: name, max: 5)
+            try self.validate(self.eventTriggerConditions, name: "eventTriggerConditions", parent: name, min: 1)
+            try self.eventTriggerLimits?.validate(name: "\(name).eventTriggerLimits")
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, max: 64)
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, min: 1)
+            try self.validate(self.eventTriggerName, name: "eventTriggerName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+            try self.validate(self.segmentFilter, name: "segmentFilter", parent: name, max: 64)
+            try self.validate(self.segmentFilter, name: "segmentFilter", parent: name, min: 1)
+            try self.validate(self.segmentFilter, name: "segmentFilter", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case eventTriggerConditions = "EventTriggerConditions"
+            case eventTriggerLimits = "EventTriggerLimits"
+            case objectTypeName = "ObjectTypeName"
+            case segmentFilter = "SegmentFilter"
+        }
+    }
+
+    public struct UpdateEventTriggerResponse: AWSDecodableShape {
+        /// The timestamp of when the event trigger was created.
+        public let createdAt: Date?
+        /// The description of the event trigger.
+        public let description: String?
+        /// A list of conditions that determine when an event should trigger the destination.
+        public let eventTriggerConditions: [EventTriggerCondition]?
+        /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+        public let eventTriggerLimits: EventTriggerLimits?
+        /// The unique name of the event trigger.
+        public let eventTriggerName: String?
+        /// The timestamp of when the event trigger was most recently updated.
+        public let lastUpdatedAt: Date?
+        /// The unique name of the object type.
+        public let objectTypeName: String?
+        /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+        public let segmentFilter: String?
+        /// An array of key-value pairs to apply to this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, eventTriggerConditions: [EventTriggerCondition]? = nil, eventTriggerLimits: EventTriggerLimits? = nil, eventTriggerName: String? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String? = nil, segmentFilter: String? = nil, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTriggerConditions = eventTriggerConditions
+            self.eventTriggerLimits = eventTriggerLimits
+            self.eventTriggerName = eventTriggerName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.segmentFilter = segmentFilter
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case eventTriggerConditions = "EventTriggerConditions"
+            case eventTriggerLimits = "EventTriggerLimits"
+            case eventTriggerName = "EventTriggerName"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case objectTypeName = "ObjectTypeName"
+            case segmentFilter = "SegmentFilter"
             case tags = "Tags"
         }
     }

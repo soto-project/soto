@@ -616,16 +616,19 @@ extension ControlTower {
         public let baselineVersion: String?
         /// Shows the parameters that are applied when enabling this Baseline.
         public let parameters: [EnabledBaselineParameterSummary]?
+        /// An ARN that represents the parent EnabledBaseline at the Organizational Unit (OU) level, from which the child EnabledBaseline inherits its configuration. The value is returned by GetEnabledBaseline.
+        public let parentIdentifier: String?
         public let statusSummary: EnablementStatusSummary
         /// The target on which to enable the Baseline.
         public let targetIdentifier: String
 
         @inlinable
-        public init(arn: String, baselineIdentifier: String, baselineVersion: String? = nil, parameters: [EnabledBaselineParameterSummary]? = nil, statusSummary: EnablementStatusSummary, targetIdentifier: String) {
+        public init(arn: String, baselineIdentifier: String, baselineVersion: String? = nil, parameters: [EnabledBaselineParameterSummary]? = nil, parentIdentifier: String? = nil, statusSummary: EnablementStatusSummary, targetIdentifier: String) {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
             self.parameters = parameters
+            self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
         }
@@ -635,6 +638,7 @@ extension ControlTower {
             case baselineIdentifier = "baselineIdentifier"
             case baselineVersion = "baselineVersion"
             case parameters = "parameters"
+            case parentIdentifier = "parentIdentifier"
             case statusSummary = "statusSummary"
             case targetIdentifier = "targetIdentifier"
         }
@@ -643,12 +647,15 @@ extension ControlTower {
     public struct EnabledBaselineFilter: AWSEncodableShape {
         /// Identifiers for the Baseline objects returned as part of the filter operation.
         public let baselineIdentifiers: [String]?
+        /// An optional filter that sets up a list of parentIdentifiers to filter the results of the ListEnabledBaseline output.
+        public let parentIdentifiers: [String]?
         /// Identifiers for the targets of the Baseline filter operation.
         public let targetIdentifiers: [String]?
 
         @inlinable
-        public init(baselineIdentifiers: [String]? = nil, targetIdentifiers: [String]? = nil) {
+        public init(baselineIdentifiers: [String]? = nil, parentIdentifiers: [String]? = nil, targetIdentifiers: [String]? = nil) {
             self.baselineIdentifiers = baselineIdentifiers
+            self.parentIdentifiers = parentIdentifiers
             self.targetIdentifiers = targetIdentifiers
         }
 
@@ -660,6 +667,13 @@ extension ControlTower {
             }
             try self.validate(self.baselineIdentifiers, name: "baselineIdentifiers", parent: name, max: 5)
             try self.validate(self.baselineIdentifiers, name: "baselineIdentifiers", parent: name, min: 1)
+            try self.parentIdentifiers?.forEach {
+                try validate($0, name: "parentIdentifiers[]", parent: name, max: 2048)
+                try validate($0, name: "parentIdentifiers[]", parent: name, min: 20)
+                try validate($0, name: "parentIdentifiers[]", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
+            }
+            try self.validate(self.parentIdentifiers, name: "parentIdentifiers", parent: name, max: 5)
+            try self.validate(self.parentIdentifiers, name: "parentIdentifiers", parent: name, min: 1)
             try self.targetIdentifiers?.forEach {
                 try validate($0, name: "targetIdentifiers[]", parent: name, max: 2048)
                 try validate($0, name: "targetIdentifiers[]", parent: name, min: 20)
@@ -671,6 +685,7 @@ extension ControlTower {
 
         private enum CodingKeys: String, CodingKey {
             case baselineIdentifiers = "baselineIdentifiers"
+            case parentIdentifiers = "parentIdentifiers"
             case targetIdentifiers = "targetIdentifiers"
         }
     }
@@ -718,15 +733,18 @@ extension ControlTower {
         public let baselineIdentifier: String
         /// The enabled version of the baseline.
         public let baselineVersion: String?
+        /// An ARN that represents an object returned by ListEnabledBaseline, to describe an enabled baseline.
+        public let parentIdentifier: String?
         public let statusSummary: EnablementStatusSummary
         /// The target upon which the baseline is enabled.
         public let targetIdentifier: String
 
         @inlinable
-        public init(arn: String, baselineIdentifier: String, baselineVersion: String? = nil, statusSummary: EnablementStatusSummary, targetIdentifier: String) {
+        public init(arn: String, baselineIdentifier: String, baselineVersion: String? = nil, parentIdentifier: String? = nil, statusSummary: EnablementStatusSummary, targetIdentifier: String) {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
+            self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
         }
@@ -735,6 +753,7 @@ extension ControlTower {
             case arn = "arn"
             case baselineIdentifier = "baselineIdentifier"
             case baselineVersion = "baselineVersion"
+            case parentIdentifier = "parentIdentifier"
             case statusSummary = "statusSummary"
             case targetIdentifier = "targetIdentifier"
         }
@@ -1372,14 +1391,17 @@ extension ControlTower {
     public struct ListEnabledBaselinesInput: AWSEncodableShape {
         /// A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
         public let filter: EnabledBaselineFilter?
+        /// A value that can be  set to include the child enabled baselines in responses. The default value is false.
+        public let includeChildren: Bool?
         /// The maximum number of results to be shown.
         public let maxResults: Int?
         /// A pagination token.
         public let nextToken: String?
 
         @inlinable
-        public init(filter: EnabledBaselineFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filter: EnabledBaselineFilter? = nil, includeChildren: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
+            self.includeChildren = includeChildren
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1393,6 +1415,7 @@ extension ControlTower {
 
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
+            case includeChildren = "includeChildren"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
         }

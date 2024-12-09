@@ -33,6 +33,20 @@ extension TaxSettings {
         public var description: String { return self.rawValue }
     }
 
+    public enum EntityExemptionAccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case expired = "Expired"
+        case none = "None"
+        case pending = "Pending"
+        case valid = "Valid"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HeritageStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optIn = "OptIn"
+        case optOut = "OptOut"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Industries: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case banks = "Banks"
         case circulatingOrg = "CirculatingOrg"
@@ -402,6 +416,33 @@ extension TaxSettings {
         }
     }
 
+    public struct Authority: AWSEncodableShape & AWSDecodableShape {
+        ///  The country code for the country that the address is in.
+        public let country: String
+        ///  The state that the address is located.
+        public let state: String?
+
+        @inlinable
+        public init(country: String, state: String? = nil) {
+            self.country = country
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.country, name: "country", parent: name, max: 2)
+            try self.validate(self.country, name: "country", parent: name, min: 2)
+            try self.validate(self.country, name: "country", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.state, name: "state", parent: name, max: 50)
+            try self.validate(self.state, name: "state", parent: name, min: 1)
+            try self.validate(self.state, name: "state", parent: name, pattern: "^(?!\\s*$)[\\s\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case country = "country"
+            case state = "state"
+        }
+    }
+
     public struct BatchDeleteTaxRegistrationError: AWSDecodableShape {
         ///  The unique account identifier for the account whose tax registration couldn't be deleted during the BatchDeleteTaxRegistration operation.
         public let accountId: String
@@ -459,6 +500,48 @@ extension TaxSettings {
 
         private enum CodingKeys: String, CodingKey {
             case errors = "errors"
+        }
+    }
+
+    public struct BatchGetTaxExemptionsRequest: AWSEncodableShape {
+        ///  List of unique account identifiers.
+        public let accountIds: [String]
+
+        @inlinable
+        public init(accountIds: [String]) {
+            self.accountIds = accountIds
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+                try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d+$")
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 5)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+        }
+    }
+
+    public struct BatchGetTaxExemptionsResponse: AWSDecodableShape {
+        /// The list of accounts that failed to get tax exemptions.
+        public let failedAccounts: [String]?
+        /// The tax exemption details map of accountId and tax exemption details.
+        public let taxExemptionDetailsMap: [String: TaxExemptionDetails]?
+
+        @inlinable
+        public init(failedAccounts: [String]? = nil, taxExemptionDetailsMap: [String: TaxExemptionDetails]? = nil) {
+            self.failedAccounts = failedAccounts
+            self.taxExemptionDetailsMap = taxExemptionDetailsMap
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedAccounts = "failedAccounts"
+            case taxExemptionDetailsMap = "taxExemptionDetailsMap"
         }
     }
 
@@ -677,6 +760,31 @@ extension TaxSettings {
         }
     }
 
+    public struct ExemptionCertificate: AWSEncodableShape {
+        /// The exemption certificate file content.
+        public let documentFile: AWSBase64Data
+        /// The exemption certificate file name.
+        public let documentName: String
+
+        @inlinable
+        public init(documentFile: AWSBase64Data, documentName: String) {
+            self.documentFile = documentFile
+            self.documentName = documentName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.documentFile, name: "documentFile", parent: name, max: 4194304)
+            try self.validate(self.documentFile, name: "documentFile", parent: name, min: 1)
+            try self.validate(self.documentName, name: "documentName", parent: name, max: 128)
+            try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^([A-Za-z0-9-_.]+).(pdf|jpg|png)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentFile = "documentFile"
+            case documentName = "documentName"
+        }
+    }
+
     public struct GeorgiaAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
         ///  The legal person or physical person assigned to this TRN in Georgia.
         public let personType: PersonType
@@ -691,20 +799,56 @@ extension TaxSettings {
         }
     }
 
+    public struct GetTaxExemptionTypesRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetTaxExemptionTypesResponse: AWSDecodableShape {
+        /// The supported types of tax exemptions.
+        public let taxExemptionTypes: [TaxExemptionType]?
+
+        @inlinable
+        public init(taxExemptionTypes: [TaxExemptionType]? = nil) {
+            self.taxExemptionTypes = taxExemptionTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taxExemptionTypes = "taxExemptionTypes"
+        }
+    }
+
+    public struct GetTaxInheritanceRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetTaxInheritanceResponse: AWSDecodableShape {
+        /// The tax inheritance status.
+        public let heritageStatus: HeritageStatus?
+
+        @inlinable
+        public init(heritageStatus: HeritageStatus? = nil) {
+            self.heritageStatus = heritageStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case heritageStatus = "heritageStatus"
+        }
+    }
+
     public struct GetTaxRegistrationDocumentRequest: AWSEncodableShape {
         /// The Amazon S3 bucket that you specify to download your tax documents to.
-        public let destinationS3Location: DestinationS3Location
+        public let destinationS3Location: DestinationS3Location?
         /// The metadata for your tax document.
         public let taxDocumentMetadata: TaxDocumentMetadata
 
         @inlinable
-        public init(destinationS3Location: DestinationS3Location, taxDocumentMetadata: TaxDocumentMetadata) {
+        public init(destinationS3Location: DestinationS3Location? = nil, taxDocumentMetadata: TaxDocumentMetadata) {
             self.destinationS3Location = destinationS3Location
             self.taxDocumentMetadata = taxDocumentMetadata
         }
 
         public func validate(name: String) throws {
-            try self.destinationS3Location.validate(name: "\(name).destinationS3Location")
+            try self.destinationS3Location?.validate(name: "\(name).destinationS3Location")
             try self.taxDocumentMetadata.validate(name: "\(name).taxDocumentMetadata")
         }
 
@@ -717,14 +861,18 @@ extension TaxSettings {
     public struct GetTaxRegistrationDocumentResponse: AWSDecodableShape {
         /// The file path of the Amazon S3 bucket where you want to download your tax document to.
         public let destinationFilePath: String?
+        /// The Amazon S3 presigned URL of the tax registration document.
+        public let presignedS3Url: String?
 
         @inlinable
-        public init(destinationFilePath: String? = nil) {
+        public init(destinationFilePath: String? = nil, presignedS3Url: String? = nil) {
             self.destinationFilePath = destinationFilePath
+            self.presignedS3Url = presignedS3Url
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationFilePath = "destinationFilePath"
+            case presignedS3Url = "presignedS3Url"
         }
     }
 
@@ -903,6 +1051,50 @@ extension TaxSettings {
         }
     }
 
+    public struct ListTaxExemptionsRequest: AWSEncodableShape {
+        /// The number of results you want in one response.
+        public let maxResults: Int?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-A-Za-z0-9_+\\=\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListTaxExemptionsResponse: AWSDecodableShape {
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The tax exemption details map of accountId and tax exemption details.
+        public let taxExemptionDetailsMap: [String: TaxExemptionDetails]?
+
+        @inlinable
+        public init(nextToken: String? = nil, taxExemptionDetailsMap: [String: TaxExemptionDetails]? = nil) {
+            self.nextToken = nextToken
+            self.taxExemptionDetailsMap = taxExemptionDetailsMap
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case taxExemptionDetailsMap = "taxExemptionDetailsMap"
+        }
+    }
+
     public struct ListTaxRegistrationsRequest: AWSEncodableShape {
         /// Number of accountDetails results you want in one response.
         public let maxResults: Int?
@@ -1031,6 +1223,77 @@ extension TaxSettings {
             case authorityId = "authorityId"
             case status = "status"
         }
+    }
+
+    public struct PutTaxExemptionRequest: AWSEncodableShape {
+        ///  The list of unique account identifiers.
+        public let accountIds: [String]
+        public let authority: Authority
+        public let exemptionCertificate: ExemptionCertificate
+        /// The exemption type.
+        public let exemptionType: String
+
+        @inlinable
+        public init(accountIds: [String], authority: Authority, exemptionCertificate: ExemptionCertificate, exemptionType: String) {
+            self.accountIds = accountIds
+            self.authority = authority
+            self.exemptionCertificate = exemptionCertificate
+            self.exemptionType = exemptionType
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+                try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d+$")
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 5)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+            try self.authority.validate(name: "\(name).authority")
+            try self.exemptionCertificate.validate(name: "\(name).exemptionCertificate")
+            try self.validate(self.exemptionType, name: "exemptionType", parent: name, max: 200)
+            try self.validate(self.exemptionType, name: "exemptionType", parent: name, min: 1)
+            try self.validate(self.exemptionType, name: "exemptionType", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case authority = "authority"
+            case exemptionCertificate = "exemptionCertificate"
+            case exemptionType = "exemptionType"
+        }
+    }
+
+    public struct PutTaxExemptionResponse: AWSDecodableShape {
+        /// The customer support case ID.
+        public let caseId: String?
+
+        @inlinable
+        public init(caseId: String? = nil) {
+            self.caseId = caseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+        }
+    }
+
+    public struct PutTaxInheritanceRequest: AWSEncodableShape {
+        /// The tax inheritance status.
+        public let heritageStatus: HeritageStatus?
+
+        @inlinable
+        public init(heritageStatus: HeritageStatus? = nil) {
+            self.heritageStatus = heritageStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case heritageStatus = "heritageStatus"
+        }
+    }
+
+    public struct PutTaxInheritanceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct PutTaxRegistrationRequest: AWSEncodableShape {
@@ -1230,7 +1493,7 @@ extension TaxSettings {
             try self.validate(self.legalName, name: "legalName", parent: name, max: 200)
             try self.validate(self.legalName, name: "legalName", parent: name, min: 1)
             try self.validate(self.legalName, name: "legalName", parent: name, pattern: "^(?!\\s*$)[\\s\\S]+$")
-            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 20)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 200)
             try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
             try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^(?!\\s*$)[\\s\\S]+$")
         }
@@ -1263,6 +1526,88 @@ extension TaxSettings {
         private enum CodingKeys: String, CodingKey {
             case taxDocumentAccessToken = "taxDocumentAccessToken"
             case taxDocumentName = "taxDocumentName"
+        }
+    }
+
+    public struct TaxExemption: AWSDecodableShape {
+        /// The address domain associate with tax exemption.
+        public let authority: Authority
+        /// The tax exemption effective date.
+        public let effectiveDate: Date?
+        /// The tax exemption expiration date.
+        public let expirationDate: Date?
+        /// The tax exemption status.
+        public let status: EntityExemptionAccountStatus?
+        /// The tax exemption recording time in the TaxSettings system.
+        public let systemEffectiveDate: Date?
+        /// The tax exemption type.
+        public let taxExemptionType: TaxExemptionType
+
+        @inlinable
+        public init(authority: Authority, effectiveDate: Date? = nil, expirationDate: Date? = nil, status: EntityExemptionAccountStatus? = nil, systemEffectiveDate: Date? = nil, taxExemptionType: TaxExemptionType) {
+            self.authority = authority
+            self.effectiveDate = effectiveDate
+            self.expirationDate = expirationDate
+            self.status = status
+            self.systemEffectiveDate = systemEffectiveDate
+            self.taxExemptionType = taxExemptionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authority = "authority"
+            case effectiveDate = "effectiveDate"
+            case expirationDate = "expirationDate"
+            case status = "status"
+            case systemEffectiveDate = "systemEffectiveDate"
+            case taxExemptionType = "taxExemptionType"
+        }
+    }
+
+    public struct TaxExemptionDetails: AWSDecodableShape {
+        /// The indicator if the tax exemption is inherited from the consolidated billing family management account.
+        public let heritageObtainedDetails: Bool?
+        /// The consolidated billing family management account the tax exemption inherited from.
+        public let heritageObtainedParentEntity: String?
+        /// The reason of the heritage inheritance.
+        public let heritageObtainedReason: String?
+        /// Tax exemptions.
+        public let taxExemptions: [TaxExemption]?
+
+        @inlinable
+        public init(heritageObtainedDetails: Bool? = nil, heritageObtainedParentEntity: String? = nil, heritageObtainedReason: String? = nil, taxExemptions: [TaxExemption]? = nil) {
+            self.heritageObtainedDetails = heritageObtainedDetails
+            self.heritageObtainedParentEntity = heritageObtainedParentEntity
+            self.heritageObtainedReason = heritageObtainedReason
+            self.taxExemptions = taxExemptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case heritageObtainedDetails = "heritageObtainedDetails"
+            case heritageObtainedParentEntity = "heritageObtainedParentEntity"
+            case heritageObtainedReason = "heritageObtainedReason"
+            case taxExemptions = "taxExemptions"
+        }
+    }
+
+    public struct TaxExemptionType: AWSDecodableShape {
+        /// The tax exemption's applicable jurisdictions.
+        public let applicableJurisdictions: [Authority]?
+        /// The tax exemption's type description.
+        public let description: String?
+        /// The tax exemption's type display name.
+        public let displayName: String?
+
+        @inlinable
+        public init(applicableJurisdictions: [Authority]? = nil, description: String? = nil, displayName: String? = nil) {
+            self.applicableJurisdictions = applicableJurisdictions
+            self.description = description
+            self.displayName = displayName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicableJurisdictions = "applicableJurisdictions"
+            case description = "description"
+            case displayName = "displayName"
         }
     }
 
@@ -1330,20 +1675,49 @@ extension TaxSettings {
         }
     }
 
-    public struct TaxRegistrationDocument: AWSEncodableShape {
-        /// The Amazon S3 location where your tax registration document is stored.
-        public let s3Location: SourceS3Location
+    public struct TaxRegistrationDocFile: AWSEncodableShape {
+        /// The tax registration document content.
+        public let fileContent: AWSBase64Data
+        /// The tax registration document name.
+        public let fileName: String
 
         @inlinable
-        public init(s3Location: SourceS3Location) {
+        public init(fileContent: AWSBase64Data, fileName: String) {
+            self.fileContent = fileContent
+            self.fileName = fileName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileContent, name: "fileContent", parent: name, max: 5242880)
+            try self.validate(self.fileContent, name: "fileContent", parent: name, min: 1)
+            try self.validate(self.fileName, name: "fileName", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileContent = "fileContent"
+            case fileName = "fileName"
+        }
+    }
+
+    public struct TaxRegistrationDocument: AWSEncodableShape {
+        /// The tax registration document.
+        public let file: TaxRegistrationDocFile?
+        /// The Amazon S3 location where your tax registration document is stored.
+        public let s3Location: SourceS3Location?
+
+        @inlinable
+        public init(file: TaxRegistrationDocFile? = nil, s3Location: SourceS3Location? = nil) {
+            self.file = file
             self.s3Location = s3Location
         }
 
         public func validate(name: String) throws {
-            try self.s3Location.validate(name: "\(name).s3Location")
+            try self.file?.validate(name: "\(name).file")
+            try self.s3Location?.validate(name: "\(name).s3Location")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case file = "file"
             case s3Location = "s3Location"
         }
     }
@@ -1385,7 +1759,7 @@ extension TaxSettings {
             try self.validate(self.legalName, name: "legalName", parent: name, max: 200)
             try self.validate(self.legalName, name: "legalName", parent: name, min: 1)
             try self.validate(self.legalName, name: "legalName", parent: name, pattern: "^(?!\\s*$)[\\s\\S]+$")
-            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 20)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 200)
             try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
             try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^(?!\\s*$)[\\s\\S]+$")
             try self.verificationDetails?.validate(name: "\(name).verificationDetails")
@@ -1530,6 +1904,9 @@ extension TaxSettings {
 /// Error enum for TaxSettings
 public struct TaxSettingsErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case attachmentUploadException = "AttachmentUploadException"
+        case caseCreationLimitExceededException = "CaseCreationLimitExceededException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -1554,6 +1931,12 @@ public struct TaxSettingsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The access is denied for the Amazon Web Services Support API.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Failed to upload the tax exemption document to Amazon Web Services Support case.
+    public static var attachmentUploadException: Self { .init(.attachmentUploadException) }
+    /// You've exceeded the Amazon Web Services Support case creation limit for your account.
+    public static var caseCreationLimitExceededException: Self { .init(.caseCreationLimitExceededException) }
     /// The exception when the input is creating conflict with the given state.
     public static var conflictException: Self { .init(.conflictException) }
     /// The exception thrown when an unexpected error occurs when processing a request.

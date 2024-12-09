@@ -27,6 +27,7 @@ extension AppConfig {
     // MARK: Enums
 
     public enum ActionPoint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case atDeploymentTick = "AT_DEPLOYMENT_TICK"
         case onDeploymentBaking = "ON_DEPLOYMENT_BAKING"
         case onDeploymentComplete = "ON_DEPLOYMENT_COMPLETE"
         case onDeploymentRolledBack = "ON_DEPLOYMENT_ROLLED_BACK"
@@ -428,7 +429,7 @@ extension AppConfig {
         public let description: String?
         /// The identifier for an Key Management Service key to encrypt new configuration data versions in the AppConfig hosted configuration store. This attribute is only used for hosted configuration types. The identifier can be an KMS key ID, alias, or the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed in other configuration stores, see the documentation for how to specify an KMS key for that particular service.
         public let kmsKeyIdentifier: String?
-        /// A URI to locate the configuration. You can specify the following:   For the AppConfig hosted configuration store and for feature flags, specify hosted.   For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.   For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline://.   For an Secrets Manager secret, specify the URI in the following format: secretsmanager://.   For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
+        /// A URI to locate the configuration. You can specify the following:   For the AppConfig hosted configuration store and for feature flags, specify hosted.   For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.   For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline://.   For an Secrets Manager secret, specify the URI in the following format: secretsmanager://.   For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
         public let locationUri: String
         /// A name for the configuration profile.
         public let name: String
@@ -2095,7 +2096,7 @@ extension AppConfig {
         public let applicationId: String
         /// The configuration profile ID.
         public let configurationProfileId: String
-        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        /// The maximum number of items to return for this call. If MaxResults is not provided in the call, AppConfig returns the maximum of 50. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?

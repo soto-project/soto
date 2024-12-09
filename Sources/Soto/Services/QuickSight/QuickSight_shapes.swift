@@ -498,6 +498,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum DashboardsQAStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataLabelContent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case percent = "PERCENT"
         case value = "VALUE"
@@ -751,6 +757,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum GeneratedAnswerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case answerDowngrade = "ANSWER_DOWNGRADE"
+        case answerGenerated = "ANSWER_GENERATED"
+        case answerRetrieved = "ANSWER_RETRIEVED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GeoSpatialCountryCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case us = "US"
         public var description: String { return self.rawValue }
@@ -764,6 +777,25 @@ extension QuickSight {
         case longitude = "LONGITUDE"
         case postcode = "POSTCODE"
         case state = "STATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GeospatialColorState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GeospatialLayerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case line = "LINE"
+        case point = "POINT"
+        case polygon = "POLYGON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GeospatialMapNavigation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -840,10 +872,28 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageCustomActionTrigger: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case click = "CLICK"
+        case menu = "MENU"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IncludeFolderMembers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case oneLevel = "ONE_LEVEL"
         case recurse = "RECURSE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IncludeGeneratedAnswer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IncludeQuickSightQIndex: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
@@ -957,8 +1007,15 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum LayerCustomActionTrigger: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataPointClick = "DATA_POINT_CLICK"
+        case dataPointMenu = "DATA_POINT_MENU"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LayoutElementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case filterControl = "FILTER_CONTROL"
+        case image = "IMAGE"
         case parameterControl = "PARAMETER_CONTROL"
         case textBox = "TEXT_BOX"
         case visual = "VISUAL"
@@ -1236,6 +1293,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum PluginVisualAxisName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case groupBy = "GROUP_BY"
+        case value = "VALUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PrimaryValueDisplayType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case actual = "ACTUAL"
         case comparison = "COMPARISON"
@@ -1259,6 +1322,19 @@ extension QuickSight {
     public enum PurchaseMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoPurchase = "AUTO_PURCHASE"
         case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QAResultType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dashboardVisual = "DASHBOARD_VISUAL"
+        case generatedAnswer = "GENERATED_ANSWER"
+        case noAnswer = "NO_ANSWER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QSearchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -1414,6 +1490,7 @@ extension QuickSight {
     }
 
     public enum ServiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case qbusiness = "QBUSINESS"
         case redshift = "REDSHIFT"
         public var description: String { return self.rawValue }
     }
@@ -1445,6 +1522,14 @@ extension QuickSight {
     public enum SheetControlSliderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case range = "RANGE"
         case singlePoint = "SINGLE_POINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SheetImageScalingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case scaleNone = "SCALE_NONE"
+        case scaleToContainer = "SCALE_TO_CONTAINER"
+        case scaleToHeight = "SCALE_TO_HEIGHT"
+        case scaleToWidth = "SCALE_TO_WIDTH"
         public var description: String { return self.rawValue }
     }
 
@@ -1657,6 +1742,23 @@ extension QuickSight {
     public enum TopBottomSortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case absoluteDifference = "ABSOLUTE_DIFFERENCE"
         case percentDifference = "PERCENT_DIFFERENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TopicFilterAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        case quicksightOwner = "QUICKSIGHT_OWNER"
+        case quicksightUser = "QUICKSIGHT_USER"
+        case quicksightViewerOrOwner = "QUICKSIGHT_VIEWER_OR_OWNER"
+        case topicName = "TOPIC_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TopicFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case stringEquals = "StringEquals"
+        case stringLike = "StringLike"
         public var description: String { return self.rawValue }
     }
 
@@ -2723,9 +2825,11 @@ extension QuickSight {
         public let queryExecutionOptions: QueryExecutionOptions?
         /// An array of sheet definitions for an analysis. Each SheetDefinition provides detailed information about a sheet within this analysis.
         public let sheets: [SheetDefinition]?
+        /// The static files for the definition.
+        public let staticFiles: [StaticFile]?
 
         @inlinable
-        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil) {
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil, staticFiles: [StaticFile]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -2735,6 +2839,7 @@ extension QuickSight {
             self.parameterDeclarations = parameterDeclarations
             self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
+            self.staticFiles = staticFiles
         }
 
         public func validate(name: String) throws {
@@ -2763,6 +2868,10 @@ extension QuickSight {
                 try $0.validate(name: "\(name).sheets[]")
             }
             try self.validate(self.sheets, name: "sheets", parent: name, max: 20)
+            try self.staticFiles?.forEach {
+                try $0.validate(name: "\(name).staticFiles[]")
+            }
+            try self.validate(self.staticFiles, name: "staticFiles", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2775,6 +2884,7 @@ extension QuickSight {
             case parameterDeclarations = "ParameterDeclarations"
             case queryExecutionOptions = "QueryExecutionOptions"
             case sheets = "Sheets"
+            case staticFiles = "StaticFiles"
         }
     }
 
@@ -4572,9 +4682,9 @@ extension QuickSight {
     }
 
     public struct AssetBundleImportSource: AWSEncodableShape {
-        /// The bytes of the base64 encoded asset bundle import zip file. This file can't exceed 20 MB. If you are calling the API operations from the Amazon Web Services SDK for Java, JavaScript, Python, or PHP, the SDK encodes base64 automatically to allow the direct setting of the zip file's bytes. If you are using an SDK for a different language or receiving related errors, try to base64 encode your data.
+        /// The bytes of the base64 encoded asset bundle import zip file. This file can't exceed 20 MB. If the size of the file that you want to upload is more than 20 MB, add the file to your Amazon S3 bucket and use S3Uri of the file for this operation. If you are calling the API operations from the Amazon Web Services SDK for Java, JavaScript, Python, or PHP, the SDK encodes base64 automatically to allow the direct setting of the zip file's bytes. If you are using an SDK for a different language or receiving related errors, try to base64 encode your data.
         public let body: AWSBase64Data?
-        /// The Amazon S3 URI for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 20 MB.
+        /// The Amazon S3 URI for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 1 GB.
         public let s3Uri: String?
 
         @inlinable
@@ -5264,16 +5374,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: BarChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: BarChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -5289,6 +5402,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -5300,6 +5415,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -5949,16 +6065,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: BoxPlotChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: BoxPlotChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -5974,6 +6093,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -5985,6 +6106,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -7350,16 +7472,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: ComboChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: ComboChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -7375,6 +7500,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -7386,6 +7513,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -10075,6 +10203,8 @@ extension QuickSight {
     public struct CreateTopicRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that you want to create a topic in.
         public let awsAccountId: String
+        /// The Folder ARN of the folder that you want the topic to reside in.
+        public let folderArns: [String]?
         /// Contains a map of the key-value pairs for the resource tag or tags that are assigned to the dataset.
         public let tags: [Tag]?
         /// The definition of a topic to create.
@@ -10083,8 +10213,9 @@ extension QuickSight {
         public let topicId: String
 
         @inlinable
-        public init(awsAccountId: String, tags: [Tag]? = nil, topic: TopicDetails, topicId: String) {
+        public init(awsAccountId: String, folderArns: [String]? = nil, tags: [Tag]? = nil, topic: TopicDetails, topicId: String) {
             self.awsAccountId = awsAccountId
+            self.folderArns = folderArns
             self.tags = tags
             self.topic = topic
             self.topicId = topicId
@@ -10094,6 +10225,7 @@ extension QuickSight {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.folderArns, forKey: .folderArns)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encode(self.topic, forKey: .topic)
             try container.encode(self.topicId, forKey: .topicId)
@@ -10103,6 +10235,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderArns, name: "folderArns", parent: name, max: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -10114,6 +10247,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case folderArns = "FolderArns"
             case tags = "Tags"
             case topic = "Topic"
             case topicId = "TopicId"
@@ -10584,16 +10718,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: CustomContentConfiguration? = nil, dataSetIdentifier: String, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: CustomContentConfiguration? = nil, dataSetIdentifier: String, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.dataSetIdentifier = dataSetIdentifier
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -10607,6 +10744,8 @@ extension QuickSight {
             try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, min: 1)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -10618,6 +10757,7 @@ extension QuickSight {
             case dataSetIdentifier = "DataSetIdentifier"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -11127,9 +11267,11 @@ extension QuickSight {
         public let parameterDeclarations: [ParameterDeclaration]?
         /// An array of sheet definitions for a dashboard.
         public let sheets: [SheetDefinition]?
+        /// The static files for the definition.
+        public let staticFiles: [StaticFile]?
 
         @inlinable
-        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, sheets: [SheetDefinition]? = nil) {
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, sheets: [SheetDefinition]? = nil, staticFiles: [StaticFile]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -11138,6 +11280,7 @@ extension QuickSight {
             self.options = options
             self.parameterDeclarations = parameterDeclarations
             self.sheets = sheets
+            self.staticFiles = staticFiles
         }
 
         public func validate(name: String) throws {
@@ -11166,6 +11309,10 @@ extension QuickSight {
                 try $0.validate(name: "\(name).sheets[]")
             }
             try self.validate(self.sheets, name: "sheets", parent: name, max: 20)
+            try self.staticFiles?.forEach {
+                try $0.validate(name: "\(name).staticFiles[]")
+            }
+            try self.validate(self.staticFiles, name: "staticFiles", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11177,6 +11324,7 @@ extension QuickSight {
             case options = "Options"
             case parameterDeclarations = "ParameterDeclarations"
             case sheets = "Sheets"
+            case staticFiles = "StaticFiles"
         }
     }
 
@@ -11259,6 +11407,48 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case exportHiddenFieldsOption = "ExportHiddenFieldsOption"
+        }
+    }
+
+    public struct DashboardVisualResult: AWSDecodableShape {
+        /// The ID of the dashboard.
+        public let dashboardId: String?
+        /// The name of the dashboard.
+        public let dashboardName: String?
+        /// The URL of the dashboard.
+        public let dashboardUrl: String?
+        /// The ID of the sheet.
+        public let sheetId: String?
+        /// The name of the sheet.
+        public let sheetName: String?
+        /// The ID of the visual.
+        public let visualId: String?
+        /// The subtitle of the visual.
+        public let visualSubtitle: String?
+        /// The title of the visual.
+        public let visualTitle: String?
+
+        @inlinable
+        public init(dashboardId: String? = nil, dashboardName: String? = nil, dashboardUrl: String? = nil, sheetId: String? = nil, sheetName: String? = nil, visualId: String? = nil, visualSubtitle: String? = nil, visualTitle: String? = nil) {
+            self.dashboardId = dashboardId
+            self.dashboardName = dashboardName
+            self.dashboardUrl = dashboardUrl
+            self.sheetId = sheetId
+            self.sheetName = sheetName
+            self.visualId = visualId
+            self.visualSubtitle = visualSubtitle
+            self.visualTitle = visualTitle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardId = "DashboardId"
+            case dashboardName = "DashboardName"
+            case dashboardUrl = "DashboardUrl"
+            case sheetId = "SheetId"
+            case sheetName = "SheetName"
+            case visualId = "VisualId"
+            case visualSubtitle = "VisualSubtitle"
+            case visualTitle = "VisualTitle"
         }
     }
 
@@ -13679,6 +13869,60 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case dataSourceId = "DataSourceId"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DeleteDefaultQBusinessApplicationRequest: AWSEncodableShape {
+        /// The ID of the Amazon QuickSight account that you want to disconnect from a Amazon Q Business application.
+        public let awsAccountId: String
+        /// The Amazon QuickSight namespace that you want to delete a linked Amazon Q Business application from. If this field is left blank, the Amazon Q Business application is deleted from the default namespace. Currently, the default namespace is the only valid value for this parameter.
+        public let namespace: String?
+
+        @inlinable
+        public init(awsAccountId: String, namespace: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.namespace, key: "namespace")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDefaultQBusinessApplicationResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
         }
     }
@@ -16291,6 +16535,59 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeDashboardsQAConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the dashboard QA configuration that you want described.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(awsAccountId: String) {
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDashboardsQAConfigurationResponse: AWSDecodableShape {
+        /// The status of dashboards QA configuration that you want described.
+        public let dashboardsQAStatus: DashboardsQAStatus?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(dashboardsQAStatus: DashboardsQAStatus? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dashboardsQAStatus = dashboardsQAStatus
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dashboardsQAStatus = try container.decodeIfPresent(DashboardsQAStatus.self, forKey: .dashboardsQAStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardsQAStatus = "DashboardsQAStatus"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DescribeDataSetPermissionsRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
@@ -16592,6 +16889,65 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case dataSource = "DataSource"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeDefaultQBusinessApplicationRequest: AWSEncodableShape {
+        /// The ID of the Amazon QuickSight account that is linked to the Amazon Q Business application that you want described.
+        public let awsAccountId: String
+        /// The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+        public let namespace: String?
+
+        @inlinable
+        public init(awsAccountId: String, namespace: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.namespace, key: "namespace")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDefaultQBusinessApplicationResponse: AWSDecodableShape {
+        /// The ID of the Amazon Q Business application that is linked to the Amazon QuickSight account.
+        public let applicationId: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(applicationId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.applicationId = applicationId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.applicationId = try container.decodeIfPresent(String.self, forKey: .applicationId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
             case requestId = "RequestId"
         }
     }
@@ -17341,6 +17697,59 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case personalizationMode = "PersonalizationMode"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeQuickSightQSearchConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that the user wants described.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(awsAccountId: String) {
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeQuickSightQSearchConfigurationResponse: AWSDecodableShape {
+        /// The status of Amazon QuickSight Q Search configuration.
+        public let qSearchStatus: QSearchStatus?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(qSearchStatus: QSearchStatus? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.qSearchStatus = qSearchStatus
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.qSearchStatus = try container.decodeIfPresent(QSearchStatus.self, forKey: .qSearchStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qSearchStatus = "QSearchStatus"
             case requestId = "RequestId"
         }
     }
@@ -19230,17 +19639,20 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: FilledMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, conditionalFormatting: FilledMapConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: FilledMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, conditionalFormatting: FilledMapConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.conditionalFormatting = conditionalFormatting
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -19257,6 +19669,8 @@ extension QuickSight {
             try self.conditionalFormatting?.validate(name: "\(name).conditionalFormatting")
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -19269,6 +19683,7 @@ extension QuickSight {
             case conditionalFormatting = "ConditionalFormatting"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -20094,6 +20509,8 @@ extension QuickSight {
         public let fontColor: String?
         /// Determines the appearance of decorative lines on the text.
         public let fontDecoration: FontDecoration?
+        /// The font family that you want to use.
+        public let fontFamily: String?
         /// The option that determines the text display size.
         public let fontSize: FontSize?
         /// Determines the text display face that is inherited by the given font family.
@@ -20102,9 +20519,10 @@ extension QuickSight {
         public let fontWeight: FontWeight?
 
         @inlinable
-        public init(fontColor: String? = nil, fontDecoration: FontDecoration? = nil, fontSize: FontSize? = nil, fontStyle: FontStyle? = nil, fontWeight: FontWeight? = nil) {
+        public init(fontColor: String? = nil, fontDecoration: FontDecoration? = nil, fontFamily: String? = nil, fontSize: FontSize? = nil, fontStyle: FontStyle? = nil, fontWeight: FontWeight? = nil) {
             self.fontColor = fontColor
             self.fontDecoration = fontDecoration
+            self.fontFamily = fontFamily
             self.fontSize = fontSize
             self.fontStyle = fontStyle
             self.fontWeight = fontWeight
@@ -20117,6 +20535,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case fontColor = "FontColor"
             case fontDecoration = "FontDecoration"
+            case fontFamily = "FontFamily"
             case fontSize = "FontSize"
             case fontStyle = "FontStyle"
             case fontWeight = "FontWeight"
@@ -20124,15 +20543,19 @@ extension QuickSight {
     }
 
     public struct FontSize: AWSEncodableShape & AWSDecodableShape {
+        /// The font size that you want to use in px.
+        public let absolute: String?
         /// The lexical name for the text size, proportional to its surrounding context.
         public let relative: RelativeFontSize?
 
         @inlinable
-        public init(relative: RelativeFontSize? = nil) {
+        public init(absolute: String? = nil, relative: RelativeFontSize? = nil) {
+            self.absolute = absolute
             self.relative = relative
         }
 
         private enum CodingKeys: String, CodingKey {
+            case absolute = "Absolute"
             case relative = "Relative"
         }
     }
@@ -20655,16 +21078,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: FunnelChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: FunnelChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -20680,6 +21106,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -20691,6 +21119,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -20925,16 +21354,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: GaugeChartConfiguration? = nil, conditionalFormatting: GaugeChartConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: GaugeChartConfiguration? = nil, conditionalFormatting: GaugeChartConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.conditionalFormatting = conditionalFormatting
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -20947,6 +21379,8 @@ extension QuickSight {
             try self.conditionalFormatting?.validate(name: "\(name).conditionalFormatting")
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -20958,6 +21392,7 @@ extension QuickSight {
             case conditionalFormatting = "ConditionalFormatting"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -21138,6 +21573,119 @@ extension QuickSight {
         }
     }
 
+    public struct GenerateEmbedUrlForRegisteredUserWithIdentityRequest: AWSEncodableShape {
+        /// A list of domains to be allowed to generate the embed URL.
+        public let allowedDomains: [String]?
+        /// The ID of the Amazon Web Services registered user.
+        public let awsAccountId: String
+        public let experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration
+        /// The validity of the session in minutes.
+        public let sessionLifetimeInMinutes: Int64?
+
+        @inlinable
+        public init(allowedDomains: [String]? = nil, awsAccountId: String, experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration, sessionLifetimeInMinutes: Int64? = nil) {
+            self.allowedDomains = allowedDomains
+            self.awsAccountId = awsAccountId
+            self.experienceConfiguration = experienceConfiguration
+            self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowedDomains, forKey: .allowedDomains)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.experienceConfiguration, forKey: .experienceConfiguration)
+            try container.encodeIfPresent(self.sessionLifetimeInMinutes, forKey: .sessionLifetimeInMinutes)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.experienceConfiguration.validate(name: "\(name).experienceConfiguration")
+            try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, max: 600)
+            try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, min: 15)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedDomains = "AllowedDomains"
+            case experienceConfiguration = "ExperienceConfiguration"
+            case sessionLifetimeInMinutes = "SessionLifetimeInMinutes"
+        }
+    }
+
+    public struct GenerateEmbedUrlForRegisteredUserWithIdentityResponse: AWSDecodableShape {
+        /// The generated embed URL for the registered user.
+        public let embedUrl: String
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String
+        /// The HTTP status of the request.
+        public let status: Int
+
+        @inlinable
+        public init(embedUrl: String, requestId: String, status: Int) {
+            self.embedUrl = embedUrl
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.embedUrl = try container.decode(String.self, forKey: .embedUrl)
+            self.requestId = try container.decode(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case embedUrl = "EmbedUrl"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct GeneratedAnswerResult: AWSDecodableShape {
+        /// The ID of the answer.
+        public let answerId: String?
+        /// The answer status of the generated answer.
+        public let answerStatus: GeneratedAnswerStatus?
+        /// The ID of the question.
+        public let questionId: String?
+        /// The question text.
+        public let questionText: String?
+        /// The URL of the question.
+        public let questionUrl: String?
+        /// The restatement for the answer.
+        public let restatement: String?
+        /// The ID of the topic.
+        public let topicId: String?
+        /// The name of the topic.
+        public let topicName: String?
+
+        @inlinable
+        public init(answerId: String? = nil, answerStatus: GeneratedAnswerStatus? = nil, questionId: String? = nil, questionText: String? = nil, questionUrl: String? = nil, restatement: String? = nil, topicId: String? = nil, topicName: String? = nil) {
+            self.answerId = answerId
+            self.answerStatus = answerStatus
+            self.questionId = questionId
+            self.questionText = questionText
+            self.questionUrl = questionUrl
+            self.restatement = restatement
+            self.topicId = topicId
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerId = "AnswerId"
+            case answerStatus = "AnswerStatus"
+            case questionId = "QuestionId"
+            case questionText = "QuestionText"
+            case questionUrl = "QuestionUrl"
+            case restatement = "Restatement"
+            case topicId = "TopicId"
+            case topicName = "TopicName"
+        }
+    }
+
     public struct GeoSpatialColumnGroup: AWSEncodableShape & AWSDecodableShape {
         /// Columns in this hierarchy.
         public let columns: [String]
@@ -21168,6 +21716,142 @@ extension QuickSight {
             case columns = "Columns"
             case countryCode = "CountryCode"
             case name = "Name"
+        }
+    }
+
+    public struct GeospatialCategoricalColor: AWSEncodableShape & AWSDecodableShape {
+        /// A list of categorical data colors for each category.
+        public let categoryDataColors: [GeospatialCategoricalDataColor]
+        /// The default opacity of a categorical color.
+        public let defaultOpacity: Double?
+        /// The null data visualization settings.
+        public let nullDataSettings: GeospatialNullDataSettings?
+        /// The state of visibility for null data.
+        public let nullDataVisibility: Visibility?
+
+        @inlinable
+        public init(categoryDataColors: [GeospatialCategoricalDataColor], defaultOpacity: Double? = nil, nullDataSettings: GeospatialNullDataSettings? = nil, nullDataVisibility: Visibility? = nil) {
+            self.categoryDataColors = categoryDataColors
+            self.defaultOpacity = defaultOpacity
+            self.nullDataSettings = nullDataSettings
+            self.nullDataVisibility = nullDataVisibility
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryDataColors.forEach {
+                try $0.validate(name: "\(name).categoryDataColors[]")
+            }
+            try self.validate(self.defaultOpacity, name: "defaultOpacity", parent: name, max: 1.0)
+            try self.validate(self.defaultOpacity, name: "defaultOpacity", parent: name, min: 0.0)
+            try self.nullDataSettings?.validate(name: "\(name).nullDataSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryDataColors = "CategoryDataColors"
+            case defaultOpacity = "DefaultOpacity"
+            case nullDataSettings = "NullDataSettings"
+            case nullDataVisibility = "NullDataVisibility"
+        }
+    }
+
+    public struct GeospatialCategoricalDataColor: AWSEncodableShape & AWSDecodableShape {
+        /// The color and opacity values for the category data color.
+        public let color: String
+        /// The data value for the category data color.
+        public let dataValue: String
+
+        @inlinable
+        public init(color: String, dataValue: String) {
+            self.color = color
+            self.dataValue = dataValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}(?:[A-F0-9]{2})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case dataValue = "DataValue"
+        }
+    }
+
+    public struct GeospatialCircleRadius: AWSEncodableShape & AWSDecodableShape {
+        /// The positive value for the radius of a circle.
+        public let radius: Double?
+
+        @inlinable
+        public init(radius: Double? = nil) {
+            self.radius = radius
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.radius, name: "radius", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case radius = "Radius"
+        }
+    }
+
+    public struct GeospatialCircleSymbolStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The radius of the circle.
+        public let circleRadius: GeospatialCircleRadius?
+        /// The color and opacity values for the fill color.
+        public let fillColor: GeospatialColor?
+        /// The color and opacity values for the stroke color.
+        public let strokeColor: GeospatialColor?
+        /// The width of the stroke (border).
+        public let strokeWidth: GeospatialLineWidth?
+
+        @inlinable
+        public init(circleRadius: GeospatialCircleRadius? = nil, fillColor: GeospatialColor? = nil, strokeColor: GeospatialColor? = nil, strokeWidth: GeospatialLineWidth? = nil) {
+            self.circleRadius = circleRadius
+            self.fillColor = fillColor
+            self.strokeColor = strokeColor
+            self.strokeWidth = strokeWidth
+        }
+
+        public func validate(name: String) throws {
+            try self.circleRadius?.validate(name: "\(name).circleRadius")
+            try self.fillColor?.validate(name: "\(name).fillColor")
+            try self.strokeColor?.validate(name: "\(name).strokeColor")
+            try self.strokeWidth?.validate(name: "\(name).strokeWidth")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case circleRadius = "CircleRadius"
+            case fillColor = "FillColor"
+            case strokeColor = "StrokeColor"
+            case strokeWidth = "StrokeWidth"
+        }
+    }
+
+    public struct GeospatialColor: AWSEncodableShape & AWSDecodableShape {
+        /// The visualization properties for the categorical color.
+        public let categorical: GeospatialCategoricalColor?
+        /// The visualization properties for the gradient color.
+        public let gradient: GeospatialGradientColor?
+        /// The visualization properties for the solid color.
+        public let solid: GeospatialSolidColor?
+
+        @inlinable
+        public init(categorical: GeospatialCategoricalColor? = nil, gradient: GeospatialGradientColor? = nil, solid: GeospatialSolidColor? = nil) {
+            self.categorical = categorical
+            self.gradient = gradient
+            self.solid = solid
+        }
+
+        public func validate(name: String) throws {
+            try self.categorical?.validate(name: "\(name).categorical")
+            try self.gradient?.validate(name: "\(name).gradient")
+            try self.solid?.validate(name: "\(name).solid")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categorical = "Categorical"
+            case gradient = "Gradient"
+            case solid = "Solid"
         }
     }
 
@@ -21205,6 +21889,83 @@ extension QuickSight {
             case north = "North"
             case south = "South"
             case west = "West"
+        }
+    }
+
+    public struct GeospatialDataSourceItem: AWSEncodableShape & AWSDecodableShape {
+        /// The static file data source properties for the geospatial data.
+        public let staticFileDataSource: GeospatialStaticFileSource?
+
+        @inlinable
+        public init(staticFileDataSource: GeospatialStaticFileSource? = nil) {
+            self.staticFileDataSource = staticFileDataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.staticFileDataSource?.validate(name: "\(name).staticFileDataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case staticFileDataSource = "StaticFileDataSource"
+        }
+    }
+
+    public struct GeospatialGradientColor: AWSEncodableShape & AWSDecodableShape {
+        /// The default opacity for the gradient color.
+        public let defaultOpacity: Double?
+        /// The null data visualization settings.
+        public let nullDataSettings: GeospatialNullDataSettings?
+        /// The state of visibility for null data.
+        public let nullDataVisibility: Visibility?
+        /// A list of gradient step colors for the gradient.
+        public let stepColors: [GeospatialGradientStepColor]
+
+        @inlinable
+        public init(defaultOpacity: Double? = nil, nullDataSettings: GeospatialNullDataSettings? = nil, nullDataVisibility: Visibility? = nil, stepColors: [GeospatialGradientStepColor]) {
+            self.defaultOpacity = defaultOpacity
+            self.nullDataSettings = nullDataSettings
+            self.nullDataVisibility = nullDataVisibility
+            self.stepColors = stepColors
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultOpacity, name: "defaultOpacity", parent: name, max: 1.0)
+            try self.validate(self.defaultOpacity, name: "defaultOpacity", parent: name, min: 0.0)
+            try self.nullDataSettings?.validate(name: "\(name).nullDataSettings")
+            try self.stepColors.forEach {
+                try $0.validate(name: "\(name).stepColors[]")
+            }
+            try self.validate(self.stepColors, name: "stepColors", parent: name, max: 3)
+            try self.validate(self.stepColors, name: "stepColors", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultOpacity = "DefaultOpacity"
+            case nullDataSettings = "NullDataSettings"
+            case nullDataVisibility = "NullDataVisibility"
+            case stepColors = "StepColors"
+        }
+    }
+
+    public struct GeospatialGradientStepColor: AWSEncodableShape & AWSDecodableShape {
+        /// The color and opacity values for the gradient step color.
+        public let color: String
+        /// The data value for the gradient step color.
+        public let dataValue: Double
+
+        @inlinable
+        public init(color: String, dataValue: Double) {
+            self.color = color
+            self.dataValue = dataValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}(?:[A-F0-9]{2})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case dataValue = "DataValue"
         }
     }
 
@@ -21263,6 +22024,259 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case color = "Color"
+        }
+    }
+
+    public struct GeospatialLayerColorField: AWSEncodableShape & AWSDecodableShape {
+        /// A list of color dimension fields.
+        public let colorDimensionsFields: [DimensionField]?
+        /// A list of color measure fields.
+        public let colorValuesFields: [MeasureField]?
+
+        @inlinable
+        public init(colorDimensionsFields: [DimensionField]? = nil, colorValuesFields: [MeasureField]? = nil) {
+            self.colorDimensionsFields = colorDimensionsFields
+            self.colorValuesFields = colorValuesFields
+        }
+
+        public func validate(name: String) throws {
+            try self.colorDimensionsFields?.forEach {
+                try $0.validate(name: "\(name).colorDimensionsFields[]")
+            }
+            try self.validate(self.colorDimensionsFields, name: "colorDimensionsFields", parent: name, max: 1)
+            try self.colorValuesFields?.forEach {
+                try $0.validate(name: "\(name).colorValuesFields[]")
+            }
+            try self.validate(self.colorValuesFields, name: "colorValuesFields", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorDimensionsFields = "ColorDimensionsFields"
+            case colorValuesFields = "ColorValuesFields"
+        }
+    }
+
+    public struct GeospatialLayerDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The definition for a line layer.
+        public let lineLayer: GeospatialLineLayer?
+        /// The definition for a point layer.
+        public let pointLayer: GeospatialPointLayer?
+        /// The definition for a polygon layer.
+        public let polygonLayer: GeospatialPolygonLayer?
+
+        @inlinable
+        public init(lineLayer: GeospatialLineLayer? = nil, pointLayer: GeospatialPointLayer? = nil, polygonLayer: GeospatialPolygonLayer? = nil) {
+            self.lineLayer = lineLayer
+            self.pointLayer = pointLayer
+            self.polygonLayer = polygonLayer
+        }
+
+        public func validate(name: String) throws {
+            try self.lineLayer?.validate(name: "\(name).lineLayer")
+            try self.pointLayer?.validate(name: "\(name).pointLayer")
+            try self.polygonLayer?.validate(name: "\(name).polygonLayer")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineLayer = "LineLayer"
+            case pointLayer = "PointLayer"
+            case polygonLayer = "PolygonLayer"
+        }
+    }
+
+    public struct GeospatialLayerItem: AWSEncodableShape & AWSDecodableShape {
+        /// A list of custom actions for a layer.
+        public let actions: [LayerCustomAction]?
+        /// The data source for the layer.
+        public let dataSource: GeospatialDataSourceItem?
+        /// The join definition properties for a layer.
+        public let joinDefinition: GeospatialLayerJoinDefinition?
+        /// The label that is displayed for the layer.
+        public let label: String?
+        /// The definition properties for a layer.
+        public let layerDefinition: GeospatialLayerDefinition?
+        /// The ID of the layer.
+        public let layerId: String
+        /// The layer type.
+        public let layerType: GeospatialLayerType?
+        public let tooltip: TooltipOptions?
+        /// The state of visibility for the layer.
+        public let visibility: Visibility?
+
+        @inlinable
+        public init(actions: [LayerCustomAction]? = nil, dataSource: GeospatialDataSourceItem? = nil, joinDefinition: GeospatialLayerJoinDefinition? = nil, label: String? = nil, layerDefinition: GeospatialLayerDefinition? = nil, layerId: String, layerType: GeospatialLayerType? = nil, tooltip: TooltipOptions? = nil, visibility: Visibility? = nil) {
+            self.actions = actions
+            self.dataSource = dataSource
+            self.joinDefinition = joinDefinition
+            self.label = label
+            self.layerDefinition = layerDefinition
+            self.layerId = layerId
+            self.layerType = layerType
+            self.tooltip = tooltip
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.dataSource?.validate(name: "\(name).dataSource")
+            try self.joinDefinition?.validate(name: "\(name).joinDefinition")
+            try self.layerDefinition?.validate(name: "\(name).layerDefinition")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case dataSource = "DataSource"
+            case joinDefinition = "JoinDefinition"
+            case label = "Label"
+            case layerDefinition = "LayerDefinition"
+            case layerId = "LayerId"
+            case layerType = "LayerType"
+            case tooltip = "Tooltip"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct GeospatialLayerJoinDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The geospatial color field for the join definition.
+        public let colorField: GeospatialLayerColorField?
+        public let datasetKeyField: UnaggregatedField?
+        /// The name of the field or property in the geospatial data source.
+        public let shapeKeyField: String?
+
+        @inlinable
+        public init(colorField: GeospatialLayerColorField? = nil, datasetKeyField: UnaggregatedField? = nil, shapeKeyField: String? = nil) {
+            self.colorField = colorField
+            self.datasetKeyField = datasetKeyField
+            self.shapeKeyField = shapeKeyField
+        }
+
+        public func validate(name: String) throws {
+            try self.colorField?.validate(name: "\(name).colorField")
+            try self.datasetKeyField?.validate(name: "\(name).datasetKeyField")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorField = "ColorField"
+            case datasetKeyField = "DatasetKeyField"
+            case shapeKeyField = "ShapeKeyField"
+        }
+    }
+
+    public struct GeospatialLayerMapConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let interactions: VisualInteractionOptions?
+        public let legend: LegendOptions?
+        /// The geospatial layers to visualize on the map.
+        public let mapLayers: [GeospatialLayerItem]?
+        /// The map state properties for the map.
+        public let mapState: GeospatialMapState?
+        /// The map style properties for the map.
+        public let mapStyle: GeospatialMapStyle?
+
+        @inlinable
+        public init(interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, mapLayers: [GeospatialLayerItem]? = nil, mapState: GeospatialMapState? = nil, mapStyle: GeospatialMapStyle? = nil) {
+            self.interactions = interactions
+            self.legend = legend
+            self.mapLayers = mapLayers
+            self.mapState = mapState
+            self.mapStyle = mapStyle
+        }
+
+        public func validate(name: String) throws {
+            try self.legend?.validate(name: "\(name).legend")
+            try self.mapLayers?.forEach {
+                try $0.validate(name: "\(name).mapLayers[]")
+            }
+            try self.mapState?.validate(name: "\(name).mapState")
+            try self.mapStyle?.validate(name: "\(name).mapStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interactions = "Interactions"
+            case legend = "Legend"
+            case mapLayers = "MapLayers"
+            case mapState = "MapState"
+            case mapStyle = "MapStyle"
+        }
+    }
+
+    public struct GeospatialLineLayer: AWSEncodableShape & AWSDecodableShape {
+        /// The visualization style for a line layer.
+        public let style: GeospatialLineStyle
+
+        @inlinable
+        public init(style: GeospatialLineStyle) {
+            self.style = style
+        }
+
+        public func validate(name: String) throws {
+            try self.style.validate(name: "\(name).style")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case style = "Style"
+        }
+    }
+
+    public struct GeospatialLineStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The symbol style for a line style.
+        public let lineSymbolStyle: GeospatialLineSymbolStyle?
+
+        @inlinable
+        public init(lineSymbolStyle: GeospatialLineSymbolStyle? = nil) {
+            self.lineSymbolStyle = lineSymbolStyle
+        }
+
+        public func validate(name: String) throws {
+            try self.lineSymbolStyle?.validate(name: "\(name).lineSymbolStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineSymbolStyle = "LineSymbolStyle"
+        }
+    }
+
+    public struct GeospatialLineSymbolStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The color and opacity values for the fill color.
+        public let fillColor: GeospatialColor?
+        /// The width value for a line.
+        public let lineWidth: GeospatialLineWidth?
+
+        @inlinable
+        public init(fillColor: GeospatialColor? = nil, lineWidth: GeospatialLineWidth? = nil) {
+            self.fillColor = fillColor
+            self.lineWidth = lineWidth
+        }
+
+        public func validate(name: String) throws {
+            try self.fillColor?.validate(name: "\(name).fillColor")
+            try self.lineWidth?.validate(name: "\(name).lineWidth")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fillColor = "FillColor"
+            case lineWidth = "LineWidth"
+        }
+    }
+
+    public struct GeospatialLineWidth: AWSEncodableShape & AWSDecodableShape {
+        /// The positive value for the width of a line.
+        public let lineWidth: Double?
+
+        @inlinable
+        public init(lineWidth: Double? = nil) {
+            self.lineWidth = lineWidth
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lineWidth, name: "lineWidth", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineWidth = "LineWidth"
         }
     }
 
@@ -21371,6 +22385,53 @@ extension QuickSight {
         }
     }
 
+    public struct GeospatialMapState: AWSEncodableShape & AWSDecodableShape {
+        public let bounds: GeospatialCoordinateBounds?
+        /// Enables or disables map navigation for a map.
+        public let mapNavigation: GeospatialMapNavigation?
+
+        @inlinable
+        public init(bounds: GeospatialCoordinateBounds? = nil, mapNavigation: GeospatialMapNavigation? = nil) {
+            self.bounds = bounds
+            self.mapNavigation = mapNavigation
+        }
+
+        public func validate(name: String) throws {
+            try self.bounds?.validate(name: "\(name).bounds")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bounds = "Bounds"
+            case mapNavigation = "MapNavigation"
+        }
+    }
+
+    public struct GeospatialMapStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The background color and opacity values for a map.
+        public let backgroundColor: String?
+        /// The selected base map style.
+        public let baseMapStyle: BaseMapStyleType?
+        /// The state of visibility for the base map.
+        public let baseMapVisibility: Visibility?
+
+        @inlinable
+        public init(backgroundColor: String? = nil, baseMapStyle: BaseMapStyleType? = nil, baseMapVisibility: Visibility? = nil) {
+            self.backgroundColor = backgroundColor
+            self.baseMapStyle = baseMapStyle
+            self.baseMapVisibility = baseMapVisibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backgroundColor, name: "backgroundColor", parent: name, pattern: "^#[A-F0-9]{6}(?:[A-F0-9]{2})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "BackgroundColor"
+            case baseMapStyle = "BaseMapStyle"
+            case baseMapVisibility = "BaseMapVisibility"
+        }
+    }
+
     public struct GeospatialMapStyleOptions: AWSEncodableShape & AWSDecodableShape {
         /// The base map style of the geospatial map.
         public let baseMapStyle: BaseMapStyleType?
@@ -21396,16 +22457,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: GeospatialMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: GeospatialMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -21421,6 +22485,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -21432,7 +22498,90 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
+        }
+    }
+
+    public struct GeospatialNullDataSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The symbol style for null data.
+        public let symbolStyle: GeospatialNullSymbolStyle
+
+        @inlinable
+        public init(symbolStyle: GeospatialNullSymbolStyle) {
+            self.symbolStyle = symbolStyle
+        }
+
+        public func validate(name: String) throws {
+            try self.symbolStyle.validate(name: "\(name).symbolStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case symbolStyle = "SymbolStyle"
+        }
+    }
+
+    public struct GeospatialNullSymbolStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The color and opacity values for the fill color.
+        public let fillColor: String?
+        /// The color and opacity values for the stroke color.
+        public let strokeColor: String?
+        /// The width of the border stroke.
+        public let strokeWidth: Double?
+
+        @inlinable
+        public init(fillColor: String? = nil, strokeColor: String? = nil, strokeWidth: Double? = nil) {
+            self.fillColor = fillColor
+            self.strokeColor = strokeColor
+            self.strokeWidth = strokeWidth
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fillColor, name: "fillColor", parent: name, pattern: "^#[A-F0-9]{6}(?:[A-F0-9]{2})?$")
+            try self.validate(self.strokeColor, name: "strokeColor", parent: name, pattern: "^#[A-F0-9]{6}(?:[A-F0-9]{2})?$")
+            try self.validate(self.strokeWidth, name: "strokeWidth", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fillColor = "FillColor"
+            case strokeColor = "StrokeColor"
+            case strokeWidth = "StrokeWidth"
+        }
+    }
+
+    public struct GeospatialPointLayer: AWSEncodableShape & AWSDecodableShape {
+        /// The visualization style for a point layer.
+        public let style: GeospatialPointStyle
+
+        @inlinable
+        public init(style: GeospatialPointStyle) {
+            self.style = style
+        }
+
+        public func validate(name: String) throws {
+            try self.style.validate(name: "\(name).style")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case style = "Style"
+        }
+    }
+
+    public struct GeospatialPointStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The circle symbol style for a point layer.
+        public let circleSymbolStyle: GeospatialCircleSymbolStyle?
+
+        @inlinable
+        public init(circleSymbolStyle: GeospatialCircleSymbolStyle? = nil) {
+            self.circleSymbolStyle = circleSymbolStyle
+        }
+
+        public func validate(name: String) throws {
+            try self.circleSymbolStyle?.validate(name: "\(name).circleSymbolStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case circleSymbolStyle = "CircleSymbolStyle"
         }
     }
 
@@ -21460,6 +22609,112 @@ extension QuickSight {
             case clusterMarkerConfiguration = "ClusterMarkerConfiguration"
             case heatmapConfiguration = "HeatmapConfiguration"
             case selectedPointStyle = "SelectedPointStyle"
+        }
+    }
+
+    public struct GeospatialPolygonLayer: AWSEncodableShape & AWSDecodableShape {
+        /// The visualization style for a polygon layer.
+        public let style: GeospatialPolygonStyle
+
+        @inlinable
+        public init(style: GeospatialPolygonStyle) {
+            self.style = style
+        }
+
+        public func validate(name: String) throws {
+            try self.style.validate(name: "\(name).style")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case style = "Style"
+        }
+    }
+
+    public struct GeospatialPolygonStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The polygon symbol style for a polygon layer.
+        public let polygonSymbolStyle: GeospatialPolygonSymbolStyle?
+
+        @inlinable
+        public init(polygonSymbolStyle: GeospatialPolygonSymbolStyle? = nil) {
+            self.polygonSymbolStyle = polygonSymbolStyle
+        }
+
+        public func validate(name: String) throws {
+            try self.polygonSymbolStyle?.validate(name: "\(name).polygonSymbolStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case polygonSymbolStyle = "PolygonSymbolStyle"
+        }
+    }
+
+    public struct GeospatialPolygonSymbolStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The color and opacity values for the fill color.
+        public let fillColor: GeospatialColor?
+        /// The color and opacity values for the stroke color.
+        public let strokeColor: GeospatialColor?
+        /// The width of the border stroke.
+        public let strokeWidth: GeospatialLineWidth?
+
+        @inlinable
+        public init(fillColor: GeospatialColor? = nil, strokeColor: GeospatialColor? = nil, strokeWidth: GeospatialLineWidth? = nil) {
+            self.fillColor = fillColor
+            self.strokeColor = strokeColor
+            self.strokeWidth = strokeWidth
+        }
+
+        public func validate(name: String) throws {
+            try self.fillColor?.validate(name: "\(name).fillColor")
+            try self.strokeColor?.validate(name: "\(name).strokeColor")
+            try self.strokeWidth?.validate(name: "\(name).strokeWidth")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fillColor = "FillColor"
+            case strokeColor = "StrokeColor"
+            case strokeWidth = "StrokeWidth"
+        }
+    }
+
+    public struct GeospatialSolidColor: AWSEncodableShape & AWSDecodableShape {
+        /// The color and opacity values for the color.
+        public let color: String
+        /// Enables and disables the view state of the color.
+        public let state: GeospatialColorState?
+
+        @inlinable
+        public init(color: String, state: GeospatialColorState? = nil) {
+            self.color = color
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}(?:[A-F0-9]{2})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case state = "State"
+        }
+    }
+
+    public struct GeospatialStaticFileSource: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the static file.
+        public let staticFileId: String
+
+        @inlinable
+        public init(staticFileId: String) {
+            self.staticFileId = staticFileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, max: 512)
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, min: 1)
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case staticFileId = "StaticFileId"
         }
     }
 
@@ -22153,16 +23408,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: HeatMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: HeatMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -22178,6 +23436,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -22189,6 +23449,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -22329,15 +23590,18 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: HistogramConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: HistogramConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -22349,6 +23613,8 @@ extension QuickSight {
             try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -22359,6 +23625,7 @@ extension QuickSight {
             case chartConfiguration = "ChartConfiguration"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -22479,6 +23746,102 @@ extension QuickSight {
         }
     }
 
+    public struct ImageCustomAction: AWSEncodableShape & AWSDecodableShape {
+        /// A list of ImageCustomActionOperations. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        public let actionOperations: [ImageCustomActionOperation]
+        /// The ID of the custom action.
+        public let customActionId: String
+        /// The name of the custom action.
+        public let name: String
+        /// The status of the custom action.
+        public let status: WidgetStatus?
+        /// The trigger of the VisualCustomAction. Valid values are defined as follows:    CLICK: Initiates a custom action by a left pointer click on a data point.    MENU: Initiates a custom action by right pointer click from the menu.
+        public let trigger: ImageCustomActionTrigger
+
+        @inlinable
+        public init(actionOperations: [ImageCustomActionOperation], customActionId: String, name: String, status: WidgetStatus? = nil, trigger: ImageCustomActionTrigger) {
+            self.actionOperations = actionOperations
+            self.customActionId = customActionId
+            self.name = name
+            self.status = status
+            self.trigger = trigger
+        }
+
+        public func validate(name: String) throws {
+            try self.actionOperations.forEach {
+                try $0.validate(name: "\(name).actionOperations[]")
+            }
+            try self.validate(self.actionOperations, name: "actionOperations", parent: name, max: 2)
+            try self.validate(self.actionOperations, name: "actionOperations", parent: name, min: 1)
+            try self.validate(self.customActionId, name: "customActionId", parent: name, max: 512)
+            try self.validate(self.customActionId, name: "customActionId", parent: name, min: 1)
+            try self.validate(self.customActionId, name: "customActionId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionOperations = "ActionOperations"
+            case customActionId = "CustomActionId"
+            case name = "Name"
+            case status = "Status"
+            case trigger = "Trigger"
+        }
+    }
+
+    public struct ImageCustomActionOperation: AWSEncodableShape & AWSDecodableShape {
+        public let navigationOperation: CustomActionNavigationOperation?
+        public let setParametersOperation: CustomActionSetParametersOperation?
+        public let urlOperation: CustomActionURLOperation?
+
+        @inlinable
+        public init(navigationOperation: CustomActionNavigationOperation? = nil, setParametersOperation: CustomActionSetParametersOperation? = nil, urlOperation: CustomActionURLOperation? = nil) {
+            self.navigationOperation = navigationOperation
+            self.setParametersOperation = setParametersOperation
+            self.urlOperation = urlOperation
+        }
+
+        public func validate(name: String) throws {
+            try self.navigationOperation?.validate(name: "\(name).navigationOperation")
+            try self.setParametersOperation?.validate(name: "\(name).setParametersOperation")
+            try self.urlOperation?.validate(name: "\(name).urlOperation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case navigationOperation = "NavigationOperation"
+            case setParametersOperation = "SetParametersOperation"
+            case urlOperation = "URLOperation"
+        }
+    }
+
+    public struct ImageInteractionOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The menu options for the image.
+        public let imageMenuOption: ImageMenuOption?
+
+        @inlinable
+        public init(imageMenuOption: ImageMenuOption? = nil) {
+            self.imageMenuOption = imageMenuOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageMenuOption = "ImageMenuOption"
+        }
+    }
+
+    public struct ImageMenuOption: AWSEncodableShape & AWSDecodableShape {
+        /// The availability status of the image menu. If the value of this property is set to ENABLED, dashboard readers can interact with the image menu.
+        public let availabilityStatus: DashboardBehavior?
+
+        @inlinable
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
     public struct ImageSet: AWSDecodableShape {
         /// The image with the height set to 32 pixels.
         public let height32: Image?
@@ -22512,6 +23875,30 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case original = "Original"
+        }
+    }
+
+    public struct ImageStaticFile: AWSEncodableShape & AWSDecodableShape {
+        /// The source of the image static file.
+        public let source: StaticFileSource?
+        /// The ID of the static file that contains an image.
+        public let staticFileId: String
+
+        @inlinable
+        public init(source: StaticFileSource? = nil, staticFileId: String) {
+            self.source = source
+            self.staticFileId = staticFileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, max: 512)
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, min: 1)
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "Source"
+            case staticFileId = "StaticFileId"
         }
     }
 
@@ -22671,16 +24058,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, dataSetIdentifier: String, insightConfiguration: InsightConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, dataSetIdentifier: String, insightConfiguration: InsightConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.dataSetIdentifier = dataSetIdentifier
             self.insightConfiguration = insightConfiguration
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -22694,6 +24084,8 @@ extension QuickSight {
             try self.insightConfiguration?.validate(name: "\(name).insightConfiguration")
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -22705,6 +24097,7 @@ extension QuickSight {
             case insightConfiguration = "InsightConfiguration"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -23308,17 +24701,20 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: KPIConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, conditionalFormatting: KPIConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: KPIConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, conditionalFormatting: KPIConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.conditionalFormatting = conditionalFormatting
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -23335,6 +24731,8 @@ extension QuickSight {
             try self.conditionalFormatting?.validate(name: "\(name).conditionalFormatting")
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -23347,6 +24745,7 @@ extension QuickSight {
             case conditionalFormatting = "ConditionalFormatting"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -23405,6 +24804,123 @@ extension QuickSight {
         }
     }
 
+    public struct LayerCustomAction: AWSEncodableShape & AWSDecodableShape {
+        /// A list of LayerCustomActionOperations. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        public let actionOperations: [LayerCustomActionOperation]
+        /// The ID of the custom action.
+        public let customActionId: String
+        /// The name of the custom action.
+        public let name: String
+        /// The status of the LayerCustomAction.
+        public let status: WidgetStatus?
+        /// The trigger of the LayerCustomAction. Valid values are defined as follows:    DATA_POINT_CLICK: Initiates a custom action by a left pointer click on a data point.    DATA_POINT_MENU: Initiates a custom action by right pointer click from the menu.
+        public let trigger: LayerCustomActionTrigger
+
+        @inlinable
+        public init(actionOperations: [LayerCustomActionOperation], customActionId: String, name: String, status: WidgetStatus? = nil, trigger: LayerCustomActionTrigger) {
+            self.actionOperations = actionOperations
+            self.customActionId = customActionId
+            self.name = name
+            self.status = status
+            self.trigger = trigger
+        }
+
+        public func validate(name: String) throws {
+            try self.actionOperations.forEach {
+                try $0.validate(name: "\(name).actionOperations[]")
+            }
+            try self.validate(self.actionOperations, name: "actionOperations", parent: name, max: 2)
+            try self.validate(self.actionOperations, name: "actionOperations", parent: name, min: 1)
+            try self.validate(self.customActionId, name: "customActionId", parent: name, max: 512)
+            try self.validate(self.customActionId, name: "customActionId", parent: name, min: 1)
+            try self.validate(self.customActionId, name: "customActionId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionOperations = "ActionOperations"
+            case customActionId = "CustomActionId"
+            case name = "Name"
+            case status = "Status"
+            case trigger = "Trigger"
+        }
+    }
+
+    public struct LayerCustomActionOperation: AWSEncodableShape & AWSDecodableShape {
+        public let filterOperation: CustomActionFilterOperation?
+        public let navigationOperation: CustomActionNavigationOperation?
+        public let setParametersOperation: CustomActionSetParametersOperation?
+        public let urlOperation: CustomActionURLOperation?
+
+        @inlinable
+        public init(filterOperation: CustomActionFilterOperation? = nil, navigationOperation: CustomActionNavigationOperation? = nil, setParametersOperation: CustomActionSetParametersOperation? = nil, urlOperation: CustomActionURLOperation? = nil) {
+            self.filterOperation = filterOperation
+            self.navigationOperation = navigationOperation
+            self.setParametersOperation = setParametersOperation
+            self.urlOperation = urlOperation
+        }
+
+        public func validate(name: String) throws {
+            try self.filterOperation?.validate(name: "\(name).filterOperation")
+            try self.navigationOperation?.validate(name: "\(name).navigationOperation")
+            try self.setParametersOperation?.validate(name: "\(name).setParametersOperation")
+            try self.urlOperation?.validate(name: "\(name).urlOperation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterOperation = "FilterOperation"
+            case navigationOperation = "NavigationOperation"
+            case setParametersOperation = "SetParametersOperation"
+            case urlOperation = "URLOperation"
+        }
+    }
+
+    public struct LayerMapVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration settings of the visual.
+        public let chartConfiguration: GeospatialLayerMapConfiguration?
+        /// The dataset that is used to create the layer map visual. You can't create a visual without a dataset.
+        public let dataSetIdentifier: String
+        public let subtitle: VisualSubtitleLabelOptions?
+        public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
+        /// The ID of the visual.
+        public let visualId: String
+
+        @inlinable
+        public init(chartConfiguration: GeospatialLayerMapConfiguration? = nil, dataSetIdentifier: String, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
+            self.chartConfiguration = chartConfiguration
+            self.dataSetIdentifier = dataSetIdentifier
+            self.subtitle = subtitle
+            self.title = title
+            self.visualContentAltText = visualContentAltText
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, max: 2048)
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, min: 1)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chartConfiguration = "ChartConfiguration"
+            case dataSetIdentifier = "DataSetIdentifier"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
+            case visualId = "VisualId"
+        }
+    }
+
     public struct Layout: AWSEncodableShape & AWSDecodableShape {
         /// The configuration that determines what the type of layout for a sheet.
         public let configuration: LayoutConfiguration
@@ -23458,28 +24974,32 @@ extension QuickSight {
         public let position: LegendPosition?
         /// The custom title for the legend.
         public let title: LabelOptions?
+        public let valueFontConfiguration: FontConfiguration?
         /// Determines whether or not the legend is visible.
         public let visibility: Visibility?
         /// The width of the legend. If this value is omitted, a default width is used when rendering.
         public let width: String?
 
         @inlinable
-        public init(height: String? = nil, position: LegendPosition? = nil, title: LabelOptions? = nil, visibility: Visibility? = nil, width: String? = nil) {
+        public init(height: String? = nil, position: LegendPosition? = nil, title: LabelOptions? = nil, valueFontConfiguration: FontConfiguration? = nil, visibility: Visibility? = nil, width: String? = nil) {
             self.height = height
             self.position = position
             self.title = title
+            self.valueFontConfiguration = valueFontConfiguration
             self.visibility = visibility
             self.width = width
         }
 
         public func validate(name: String) throws {
             try self.title?.validate(name: "\(name).title")
+            try self.valueFontConfiguration?.validate(name: "\(name).valueFontConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case height = "Height"
             case position = "Position"
             case title = "Title"
+            case valueFontConfiguration = "ValueFontConfiguration"
             case visibility = "Visibility"
             case width = "Width"
         }
@@ -23831,16 +25351,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: LineChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: LineChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -23856,6 +25379,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -23867,6 +25392,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -26993,6 +28519,10 @@ extension QuickSight {
         public let capacityRegion: String?
         /// The creation status of a namespace that is not yet completely created.
         public let creationStatus: NamespaceStatus?
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center application.
+        public let iamIdentityCenterApplicationArn: String?
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center instance.
+        public let iamIdentityCenterInstanceArn: String?
         /// The identity store used for the namespace.
         public let identityStore: IdentityStore?
         /// The name of the error.
@@ -27001,10 +28531,12 @@ extension QuickSight {
         public let namespaceError: NamespaceError?
 
         @inlinable
-        public init(arn: String? = nil, capacityRegion: String? = nil, creationStatus: NamespaceStatus? = nil, identityStore: IdentityStore? = nil, name: String? = nil, namespaceError: NamespaceError? = nil) {
+        public init(arn: String? = nil, capacityRegion: String? = nil, creationStatus: NamespaceStatus? = nil, iamIdentityCenterApplicationArn: String? = nil, iamIdentityCenterInstanceArn: String? = nil, identityStore: IdentityStore? = nil, name: String? = nil, namespaceError: NamespaceError? = nil) {
             self.arn = arn
             self.capacityRegion = capacityRegion
             self.creationStatus = creationStatus
+            self.iamIdentityCenterApplicationArn = iamIdentityCenterApplicationArn
+            self.iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArn
             self.identityStore = identityStore
             self.name = name
             self.namespaceError = namespaceError
@@ -27014,6 +28546,8 @@ extension QuickSight {
             case arn = "Arn"
             case capacityRegion = "CapacityRegion"
             case creationStatus = "CreationStatus"
+            case iamIdentityCenterApplicationArn = "IamIdentityCenterApplicationArn"
+            case iamIdentityCenterInstanceArn = "IamIdentityCenterInstanceArn"
             case identityStore = "IdentityStore"
             case name = "Name"
             case namespaceError = "NamespaceError"
@@ -28592,16 +30126,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: PieChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: PieChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -28617,6 +30154,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -28628,6 +30167,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -29204,16 +30744,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: PivotTableConfiguration? = nil, conditionalFormatting: PivotTableConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: PivotTableConfiguration? = nil, conditionalFormatting: PivotTableConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.conditionalFormatting = conditionalFormatting
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -29226,6 +30769,8 @@ extension QuickSight {
             try self.conditionalFormatting?.validate(name: "\(name).conditionalFormatting")
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -29237,6 +30782,7 @@ extension QuickSight {
             case conditionalFormatting = "ConditionalFormatting"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -29290,6 +30836,209 @@ extension QuickSight {
             case totalCellStyle = "TotalCellStyle"
             case totalsVisibility = "TotalsVisibility"
             case valueCellStyle = "ValueCellStyle"
+        }
+    }
+
+    public struct PluginVisual: AWSEncodableShape & AWSDecodableShape {
+        ///  A description of the plugin field wells and their persisted properties.
+        public let chartConfiguration: PluginVisualConfiguration?
+        /// The Amazon Resource Name (ARN) that reflects the plugin and version.
+        public let pluginArn: String
+        public let subtitle: VisualSubtitleLabelOptions?
+        public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
+        /// The ID of the visual that you want to use.
+        public let visualId: String
+
+        @inlinable
+        public init(chartConfiguration: PluginVisualConfiguration? = nil, pluginArn: String, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
+            self.chartConfiguration = chartConfiguration
+            self.pluginArn = pluginArn
+            self.subtitle = subtitle
+            self.title = title
+            self.visualContentAltText = visualContentAltText
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chartConfiguration = "ChartConfiguration"
+            case pluginArn = "PluginArn"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct PluginVisualConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The field wells configuration of the plugin visual.
+        public let fieldWells: [PluginVisualFieldWell]?
+        /// The sort configuration of the plugin visual.
+        public let sortConfiguration: PluginVisualSortConfiguration?
+        /// The persisted properties of the plugin visual.
+        public let visualOptions: PluginVisualOptions?
+
+        @inlinable
+        public init(fieldWells: [PluginVisualFieldWell]? = nil, sortConfiguration: PluginVisualSortConfiguration? = nil, visualOptions: PluginVisualOptions? = nil) {
+            self.fieldWells = fieldWells
+            self.sortConfiguration = sortConfiguration
+            self.visualOptions = visualOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldWells?.forEach {
+                try $0.validate(name: "\(name).fieldWells[]")
+            }
+            try self.validate(self.fieldWells, name: "fieldWells", parent: name, max: 10)
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldWells = "FieldWells"
+            case sortConfiguration = "SortConfiguration"
+            case visualOptions = "VisualOptions"
+        }
+    }
+
+    public struct PluginVisualFieldWell: AWSEncodableShape & AWSDecodableShape {
+        /// The semantic axis name for the field well.
+        public let axisName: PluginVisualAxisName?
+        /// A list of dimensions for the field well.
+        public let dimensions: [DimensionField]?
+        /// A list of measures that exist in the field well.
+        public let measures: [MeasureField]?
+        /// A list of unaggregated fields that exist in the field well.
+        public let unaggregated: [UnaggregatedField]?
+
+        @inlinable
+        public init(axisName: PluginVisualAxisName? = nil, dimensions: [DimensionField]? = nil, measures: [MeasureField]? = nil, unaggregated: [UnaggregatedField]? = nil) {
+            self.axisName = axisName
+            self.dimensions = dimensions
+            self.measures = measures
+            self.unaggregated = unaggregated
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions?.forEach {
+                try $0.validate(name: "\(name).dimensions[]")
+            }
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 200)
+            try self.measures?.forEach {
+                try $0.validate(name: "\(name).measures[]")
+            }
+            try self.validate(self.measures, name: "measures", parent: name, max: 200)
+            try self.unaggregated?.forEach {
+                try $0.validate(name: "\(name).unaggregated[]")
+            }
+            try self.validate(self.unaggregated, name: "unaggregated", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case axisName = "AxisName"
+            case dimensions = "Dimensions"
+            case measures = "Measures"
+            case unaggregated = "Unaggregated"
+        }
+    }
+
+    public struct PluginVisualItemsLimitConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines how many values are be fetched at once.
+        public let itemsLimit: Int64?
+
+        @inlinable
+        public init(itemsLimit: Int64? = nil) {
+            self.itemsLimit = itemsLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemsLimit = "ItemsLimit"
+        }
+    }
+
+    public struct PluginVisualOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The persisted properties and their values.
+        public let visualProperties: [PluginVisualProperty]?
+
+        @inlinable
+        public init(visualProperties: [PluginVisualProperty]? = nil) {
+            self.visualProperties = visualProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visualProperties = "VisualProperties"
+        }
+    }
+
+    public struct PluginVisualProperty: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the plugin visual property.
+        public let name: String?
+        /// The value of the plugin visual property.
+        public let value: String?
+
+        @inlinable
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct PluginVisualSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The table query sorting options for the plugin visual.
+        public let pluginVisualTableQuerySort: PluginVisualTableQuerySort?
+
+        @inlinable
+        public init(pluginVisualTableQuerySort: PluginVisualTableQuerySort? = nil) {
+            self.pluginVisualTableQuerySort = pluginVisualTableQuerySort
+        }
+
+        public func validate(name: String) throws {
+            try self.pluginVisualTableQuerySort?.validate(name: "\(name).pluginVisualTableQuerySort")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pluginVisualTableQuerySort = "PluginVisualTableQuerySort"
+        }
+    }
+
+    public struct PluginVisualTableQuerySort: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of data to be returned by a query.
+        public let itemsLimitConfiguration: PluginVisualItemsLimitConfiguration?
+        /// Determines how data is sorted in the response.
+        public let rowSort: [FieldSortOptions]?
+
+        @inlinable
+        public init(itemsLimitConfiguration: PluginVisualItemsLimitConfiguration? = nil, rowSort: [FieldSortOptions]? = nil) {
+            self.itemsLimitConfiguration = itemsLimitConfiguration
+            self.rowSort = rowSort
+        }
+
+        public func validate(name: String) throws {
+            try self.rowSort?.forEach {
+                try $0.validate(name: "\(name).rowSort[]")
+            }
+            try self.validate(self.rowSort, name: "rowSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemsLimitConfiguration = "ItemsLimitConfiguration"
+            case rowSort = "RowSort"
         }
     }
 
@@ -29357,6 +31106,89 @@ extension QuickSight {
             case columns = "Columns"
             case drillDownFilters = "DrillDownFilters"
             case hierarchyId = "HierarchyId"
+        }
+    }
+
+    public struct PredictQAResultsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that the user wants to execute Predict QA results in.
+        public let awsAccountId: String
+        /// Indicates whether generated answers are included or excluded.
+        public let includeGeneratedAnswer: IncludeGeneratedAnswer?
+        /// Indicates whether Q indicies are included or excluded.
+        public let includeQuickSightQIndex: IncludeQuickSightQIndex?
+        /// The number of maximum topics to be considered to predict QA results.
+        public let maxTopicsToConsider: Int?
+        /// The query text to be used to predict QA results.
+        public let queryText: String
+
+        @inlinable
+        public init(awsAccountId: String, includeGeneratedAnswer: IncludeGeneratedAnswer? = nil, includeQuickSightQIndex: IncludeQuickSightQIndex? = nil, maxTopicsToConsider: Int? = nil, queryText: String) {
+            self.awsAccountId = awsAccountId
+            self.includeGeneratedAnswer = includeGeneratedAnswer
+            self.includeQuickSightQIndex = includeQuickSightQIndex
+            self.maxTopicsToConsider = maxTopicsToConsider
+            self.queryText = queryText
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.includeGeneratedAnswer, forKey: .includeGeneratedAnswer)
+            try container.encodeIfPresent(self.includeQuickSightQIndex, forKey: .includeQuickSightQIndex)
+            try container.encodeIfPresent(self.maxTopicsToConsider, forKey: .maxTopicsToConsider)
+            try container.encode(self.queryText, forKey: .queryText)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxTopicsToConsider, name: "maxTopicsToConsider", parent: name, max: 4)
+            try self.validate(self.maxTopicsToConsider, name: "maxTopicsToConsider", parent: name, min: 1)
+            try self.validate(self.queryText, name: "queryText", parent: name, max: 1024)
+            try self.validate(self.queryText, name: "queryText", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeGeneratedAnswer = "IncludeGeneratedAnswer"
+            case includeQuickSightQIndex = "IncludeQuickSightQIndex"
+            case maxTopicsToConsider = "MaxTopicsToConsider"
+            case queryText = "QueryText"
+        }
+    }
+
+    public struct PredictQAResultsResponse: AWSDecodableShape {
+        /// Additional visual responses.
+        public let additionalResults: [QAResult]?
+        /// The primary visual response.
+        public let primaryResult: QAResult?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(additionalResults: [QAResult]? = nil, primaryResult: QAResult? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.additionalResults = additionalResults
+            self.primaryResult = primaryResult
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.additionalResults = try container.decodeIfPresent([QAResult].self, forKey: .additionalResults)
+            self.primaryResult = try container.decodeIfPresent(QAResult.self, forKey: .primaryResult)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalResults = "AdditionalResults"
+            case primaryResult = "PrimaryResult"
+            case requestId = "RequestId"
         }
     }
 
@@ -29479,6 +31311,28 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
+        }
+    }
+
+    public struct QAResult: AWSDecodableShape {
+        /// The representation of a dashboard visual result.
+        public let dashboardVisual: DashboardVisualResult?
+        /// The representation of a generated answer result.
+        public let generatedAnswer: GeneratedAnswerResult?
+        /// The type of QA result.
+        public let resultType: QAResultType?
+
+        @inlinable
+        public init(dashboardVisual: DashboardVisualResult? = nil, generatedAnswer: GeneratedAnswerResult? = nil, resultType: QAResultType? = nil) {
+            self.dashboardVisual = dashboardVisual
+            self.generatedAnswer = generatedAnswer
+            self.resultType = resultType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardVisual = "DashboardVisual"
+            case generatedAnswer = "GeneratedAnswer"
+            case resultType = "ResultType"
         }
     }
 
@@ -29734,16 +31588,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: RadarChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: RadarChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -29759,6 +31616,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -29770,6 +31629,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -31234,15 +33094,18 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: SankeyDiagramChartConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: SankeyDiagramChartConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -31254,6 +33117,8 @@ extension QuickSight {
             try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -31264,6 +33129,7 @@ extension QuickSight {
             case chartConfiguration = "ChartConfiguration"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -31487,16 +33353,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: ScatterPlotConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: ScatterPlotConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -31512,6 +33381,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -31523,6 +33394,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -32044,6 +33916,84 @@ extension QuickSight {
         }
     }
 
+    public struct SearchTopicsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the topic that you want to find.
+        public let awsAccountId: String
+        /// The filters that you want to use to search for the topic.
+        public let filters: [TopicSearchFilter]
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, filters: [TopicSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchTopicsResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// A list of topic summaries that is returned by the search topic request.
+        public let topicSummaryList: [TopicSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, topicSummaryList: [TopicSummary]? = nil) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+            self.topicSummaryList = topicSummaryList
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicSummaryList = try container.decodeIfPresent([TopicSummary].self, forKey: .topicSummaryList)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case topicSummaryList = "TopicSummaryList"
+        }
+    }
+
     public struct SecondaryValueOptions: AWSEncodableShape & AWSDecodableShape {
         /// Determines the visibility of the secondary value.
         public let visibility: Visibility?
@@ -32423,18 +34373,22 @@ extension QuickSight {
     }
 
     public struct Sheet: AWSDecodableShape {
+        /// A list of images on a sheet.
+        public let images: [SheetImage]?
         /// The name of a sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
         public let name: String?
         /// The unique identifier associated with a sheet.
         public let sheetId: String?
 
         @inlinable
-        public init(name: String? = nil, sheetId: String? = nil) {
+        public init(images: [SheetImage]? = nil, name: String? = nil, sheetId: String? = nil) {
+            self.images = images
             self.name = name
             self.sheetId = sheetId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case images = "Images"
             case name = "Name"
             case sheetId = "SheetId"
         }
@@ -32520,6 +34474,8 @@ extension QuickSight {
         public let description: String?
         /// The list of filter controls that are on a sheet. For more information, see Adding filter controls to analysis sheets in the Amazon QuickSight User Guide.
         public let filterControls: [FilterControl]?
+        /// A list of images on a sheet.
+        public let images: [SheetImage]?
         /// Layouts define how the components of a sheet are arranged. For more information, see Types of layout in the Amazon QuickSight User Guide.
         public let layouts: [Layout]?
         /// The name of the sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
@@ -32538,10 +34494,11 @@ extension QuickSight {
         public let visuals: [Visual]?
 
         @inlinable
-        public init(contentType: SheetContentType? = nil, description: String? = nil, filterControls: [FilterControl]? = nil, layouts: [Layout]? = nil, name: String? = nil, parameterControls: [ParameterControl]? = nil, sheetControlLayouts: [SheetControlLayout]? = nil, sheetId: String, textBoxes: [SheetTextBox]? = nil, title: String? = nil, visuals: [Visual]? = nil) {
+        public init(contentType: SheetContentType? = nil, description: String? = nil, filterControls: [FilterControl]? = nil, images: [SheetImage]? = nil, layouts: [Layout]? = nil, name: String? = nil, parameterControls: [ParameterControl]? = nil, sheetControlLayouts: [SheetControlLayout]? = nil, sheetId: String, textBoxes: [SheetTextBox]? = nil, title: String? = nil, visuals: [Visual]? = nil) {
             self.contentType = contentType
             self.description = description
             self.filterControls = filterControls
+            self.images = images
             self.layouts = layouts
             self.name = name
             self.parameterControls = parameterControls
@@ -32559,6 +34516,10 @@ extension QuickSight {
                 try $0.validate(name: "\(name).filterControls[]")
             }
             try self.validate(self.filterControls, name: "filterControls", parent: name, max: 200)
+            try self.images?.forEach {
+                try $0.validate(name: "\(name).images[]")
+            }
+            try self.validate(self.images, name: "images", parent: name, max: 10)
             try self.layouts?.forEach {
                 try $0.validate(name: "\(name).layouts[]")
             }
@@ -32593,6 +34554,7 @@ extension QuickSight {
             case contentType = "ContentType"
             case description = "Description"
             case filterControls = "FilterControls"
+            case images = "Images"
             case layouts = "Layouts"
             case name = "Name"
             case parameterControls = "ParameterControls"
@@ -32638,6 +34600,151 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case configurationOverrides = "ConfigurationOverrides"
             case expression = "Expression"
+        }
+    }
+
+    public struct SheetImage: AWSEncodableShape & AWSDecodableShape {
+        /// A list of custom actions that are configured for an image.
+        public let actions: [ImageCustomAction]?
+        /// The alt text for the image.
+        public let imageContentAltText: String?
+        /// The general image interactions setup for an image.
+        public let interactions: ImageInteractionOptions?
+        /// Determines how the image is scaled.
+        public let scaling: SheetImageScalingConfiguration?
+        /// The ID of the sheet image.
+        public let sheetImageId: String
+        /// The source of the image.
+        public let source: SheetImageSource
+        /// The tooltip to be shown when hovering over the image.
+        public let tooltip: SheetImageTooltipConfiguration?
+
+        @inlinable
+        public init(actions: [ImageCustomAction]? = nil, imageContentAltText: String? = nil, interactions: ImageInteractionOptions? = nil, scaling: SheetImageScalingConfiguration? = nil, sheetImageId: String, source: SheetImageSource, tooltip: SheetImageTooltipConfiguration? = nil) {
+            self.actions = actions
+            self.imageContentAltText = imageContentAltText
+            self.interactions = interactions
+            self.scaling = scaling
+            self.sheetImageId = sheetImageId
+            self.source = source
+            self.tooltip = tooltip
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.validate(self.imageContentAltText, name: "imageContentAltText", parent: name, max: 1024)
+            try self.validate(self.imageContentAltText, name: "imageContentAltText", parent: name, min: 1)
+            try self.validate(self.sheetImageId, name: "sheetImageId", parent: name, max: 512)
+            try self.validate(self.sheetImageId, name: "sheetImageId", parent: name, min: 1)
+            try self.validate(self.sheetImageId, name: "sheetImageId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.source.validate(name: "\(name).source")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case imageContentAltText = "ImageContentAltText"
+            case interactions = "Interactions"
+            case scaling = "Scaling"
+            case sheetImageId = "SheetImageId"
+            case source = "Source"
+            case tooltip = "Tooltip"
+        }
+    }
+
+    public struct SheetImageScalingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The scaling option to use when fitting the image inside the container. Valid values are defined as follows:    SCALE_TO_WIDTH: The image takes up the entire width of the container. The image aspect ratio is preserved.    SCALE_TO_HEIGHT: The image takes up the entire height of the container. The image aspect ratio is preserved.    SCALE_TO_CONTAINER: The image takes up the entire width and height of the container. The image aspect ratio is not preserved.    SCALE_NONE: The image is displayed in its original size and is not scaled to the container.
+        public let scalingType: SheetImageScalingType?
+
+        @inlinable
+        public init(scalingType: SheetImageScalingType? = nil) {
+            self.scalingType = scalingType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scalingType = "ScalingType"
+        }
+    }
+
+    public struct SheetImageSource: AWSEncodableShape & AWSDecodableShape {
+        /// The source of the static file that contains the image.
+        public let sheetImageStaticFileSource: SheetImageStaticFileSource?
+
+        @inlinable
+        public init(sheetImageStaticFileSource: SheetImageStaticFileSource? = nil) {
+            self.sheetImageStaticFileSource = sheetImageStaticFileSource
+        }
+
+        public func validate(name: String) throws {
+            try self.sheetImageStaticFileSource?.validate(name: "\(name).sheetImageStaticFileSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sheetImageStaticFileSource = "SheetImageStaticFileSource"
+        }
+    }
+
+    public struct SheetImageStaticFileSource: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the static file that contains the image.
+        public let staticFileId: String
+
+        @inlinable
+        public init(staticFileId: String) {
+            self.staticFileId = staticFileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, max: 512)
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, min: 1)
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case staticFileId = "StaticFileId"
+        }
+    }
+
+    public struct SheetImageTooltipConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The text that appears in the tooltip.
+        public let tooltipText: SheetImageTooltipText?
+        /// The visibility of the tooltip.
+        public let visibility: Visibility?
+
+        @inlinable
+        public init(tooltipText: SheetImageTooltipText? = nil, visibility: Visibility? = nil) {
+            self.tooltipText = tooltipText
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.tooltipText?.validate(name: "\(name).tooltipText")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tooltipText = "TooltipText"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct SheetImageTooltipText: AWSEncodableShape & AWSDecodableShape {
+        /// The plain text format.
+        public let plainText: String?
+
+        @inlinable
+        public init(plainText: String? = nil) {
+            self.plainText = plainText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.plainText, name: "plainText", parent: name, max: 1024)
+            try self.validate(self.plainText, name: "plainText", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case plainText = "PlainText"
         }
     }
 
@@ -33328,6 +35435,30 @@ extension QuickSight {
         }
     }
 
+    public struct SpatialStaticFile: AWSEncodableShape & AWSDecodableShape {
+        /// The source of the spatial static file.
+        public let source: StaticFileSource?
+        /// The ID of the spatial static file.
+        public let staticFileId: String
+
+        @inlinable
+        public init(source: StaticFileSource? = nil, staticFileId: String) {
+            self.source = source
+            self.staticFileId = staticFileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, max: 512)
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, min: 1)
+            try self.validate(self.staticFileId, name: "staticFileId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "Source"
+            case staticFileId = "StaticFileId"
+        }
+    }
+
     public struct SqlServerParameters: AWSEncodableShape & AWSDecodableShape {
         /// Database.
         public let database: String
@@ -33796,6 +35927,83 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct StaticFile: AWSEncodableShape & AWSDecodableShape {
+        /// The image static file.
+        public let imageStaticFile: ImageStaticFile?
+        /// The spacial static file.
+        public let spatialStaticFile: SpatialStaticFile?
+
+        @inlinable
+        public init(imageStaticFile: ImageStaticFile? = nil, spatialStaticFile: SpatialStaticFile? = nil) {
+            self.imageStaticFile = imageStaticFile
+            self.spatialStaticFile = spatialStaticFile
+        }
+
+        public func validate(name: String) throws {
+            try self.imageStaticFile?.validate(name: "\(name).imageStaticFile")
+            try self.spatialStaticFile?.validate(name: "\(name).spatialStaticFile")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageStaticFile = "ImageStaticFile"
+            case spatialStaticFile = "SpatialStaticFile"
+        }
+    }
+
+    public struct StaticFileS3SourceOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket.
+        public let bucketName: String
+        /// The identifier of the static file in the Amazon S3 bucket.
+        public let objectKey: String
+        /// The Region of the Amazon S3 account that contains the bucket.
+        public let region: String
+
+        @inlinable
+        public init(bucketName: String, objectKey: String, region: String) {
+            self.bucketName = bucketName
+            self.objectKey = objectKey
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case objectKey = "ObjectKey"
+            case region = "Region"
+        }
+    }
+
+    public struct StaticFileSource: AWSEncodableShape & AWSDecodableShape {
+        /// The structure that contains the Amazon S3 location to download the static file from.
+        public let s3Options: StaticFileS3SourceOptions?
+        /// The structure that contains the URL to download the static file from.
+        public let urlOptions: StaticFileUrlSourceOptions?
+
+        @inlinable
+        public init(s3Options: StaticFileS3SourceOptions? = nil, urlOptions: StaticFileUrlSourceOptions? = nil) {
+            self.s3Options = s3Options
+            self.urlOptions = urlOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Options = "S3Options"
+            case urlOptions = "UrlOptions"
+        }
+    }
+
+    public struct StaticFileUrlSourceOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The URL to download the static file from.
+        public let url: String
+
+        @inlinable
+        public init(url: String) {
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "Url"
         }
     }
 
@@ -34751,16 +36959,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: TableConfiguration? = nil, conditionalFormatting: TableConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: TableConfiguration? = nil, conditionalFormatting: TableConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.conditionalFormatting = conditionalFormatting
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -34773,6 +36984,8 @@ extension QuickSight {
             try self.conditionalFormatting?.validate(name: "\(name).conditionalFormatting")
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -34784,6 +36997,7 @@ extension QuickSight {
             case conditionalFormatting = "ConditionalFormatting"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -35133,9 +37347,11 @@ extension QuickSight {
         public let queryExecutionOptions: QueryExecutionOptions?
         /// An array of sheet definitions for a template.
         public let sheets: [SheetDefinition]?
+        /// The static files for the definition.
+        public let staticFiles: [StaticFile]?
 
         @inlinable
-        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetConfigurations: [DataSetConfiguration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil) {
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetConfigurations: [DataSetConfiguration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil, staticFiles: [StaticFile]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -35145,6 +37361,7 @@ extension QuickSight {
             self.parameterDeclarations = parameterDeclarations
             self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
+            self.staticFiles = staticFiles
         }
 
         public func validate(name: String) throws {
@@ -35172,6 +37389,10 @@ extension QuickSight {
                 try $0.validate(name: "\(name).sheets[]")
             }
             try self.validate(self.sheets, name: "sheets", parent: name, max: 20)
+            try self.staticFiles?.forEach {
+                try $0.validate(name: "\(name).staticFiles[]")
+            }
+            try self.validate(self.staticFiles, name: "staticFiles", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -35184,6 +37405,7 @@ extension QuickSight {
             case parameterDeclarations = "ParameterDeclarations"
             case queryExecutionOptions = "QueryExecutionOptions"
             case sheets = "Sheets"
+            case staticFiles = "StaticFiles"
         }
     }
 
@@ -37021,6 +39243,28 @@ extension QuickSight {
         }
     }
 
+    public struct TopicSearchFilter: AWSEncodableShape {
+        /// The name of the topic search filter.
+        public let name: TopicFilterAttribute
+        /// The operator like equals or like.
+        public let `operator`: TopicFilterOperator
+        /// The value of the topic search filter.
+        public let value: String
+
+        @inlinable
+        public init(name: TopicFilterAttribute, operator: TopicFilterOperator, value: String) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
     public struct TopicSingularFilterConstant: AWSEncodableShape & AWSDecodableShape {
         /// The type of the singular filter constant. Valid values for this structure are SINGULAR.
         public let constantType: ConstantType?
@@ -37411,16 +39655,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: TreeMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: TreeMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -37436,6 +39683,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -37447,6 +39696,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -38107,6 +40357,60 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateApplicationWithTokenExchangeGrantRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account to be updated with a token exchange grant.
+        public let awsAccountId: String
+        /// The namespace of the Amazon QuickSight application.
+        public let namespace: String
+
+        @inlinable
+        public init(awsAccountId: String, namespace: String) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.namespace, key: "namespace")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateApplicationWithTokenExchangeGrantResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
     public struct UpdateBrandAssignmentRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that owns the brand assignment.
         public let awsAccountId: String
@@ -38704,6 +41008,65 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateDashboardsQAConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the dashboard QA configuration that you want to update.
+        public let awsAccountId: String
+        /// The status of dashboards QA configuration that you want to update.
+        public let dashboardsQAStatus: DashboardsQAStatus
+
+        @inlinable
+        public init(awsAccountId: String, dashboardsQAStatus: DashboardsQAStatus) {
+            self.awsAccountId = awsAccountId
+            self.dashboardsQAStatus = dashboardsQAStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.dashboardsQAStatus, forKey: .dashboardsQAStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardsQAStatus = "DashboardsQAStatus"
+        }
+    }
+
+    public struct UpdateDashboardsQAConfigurationResponse: AWSDecodableShape {
+        /// A value that indicates whether the dashboard QA configuration is enabled or not.
+        public let dashboardsQAStatus: DashboardsQAStatus?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(dashboardsQAStatus: DashboardsQAStatus? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dashboardsQAStatus = dashboardsQAStatus
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dashboardsQAStatus = try container.decodeIfPresent(DashboardsQAStatus.self, forKey: .dashboardsQAStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardsQAStatus = "DashboardsQAStatus"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct UpdateDataSetPermissionsRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID.
         public let awsAccountId: String
@@ -39137,6 +41500,67 @@ extension QuickSight {
             case dataSourceId = "DataSourceId"
             case requestId = "RequestId"
             case updateStatus = "UpdateStatus"
+        }
+    }
+
+    public struct UpdateDefaultQBusinessApplicationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Q Business application that you want to update.
+        public let applicationId: String
+        /// The ID of the Amazon QuickSight account that is connected to the Amazon Q Business application that you want to update.
+        public let awsAccountId: String
+        /// The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+        public let namespace: String?
+
+        @inlinable
+        public init(applicationId: String, awsAccountId: String, namespace: String? = nil) {
+            self.applicationId = applicationId
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.applicationId, forKey: .applicationId)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.namespace, key: "namespace")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 256)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+        }
+    }
+
+    public struct UpdateDefaultQBusinessApplicationResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
         }
     }
 
@@ -39793,6 +42217,65 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case personalizationMode = "PersonalizationMode"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateQuickSightQSearchConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that you want to update.
+        public let awsAccountId: String
+        /// The status of the Amazon QuickSight Q Search configuration that the user wants to update.
+        public let qSearchStatus: QSearchStatus
+
+        @inlinable
+        public init(awsAccountId: String, qSearchStatus: QSearchStatus) {
+            self.awsAccountId = awsAccountId
+            self.qSearchStatus = qSearchStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.qSearchStatus, forKey: .qSearchStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qSearchStatus = "QSearchStatus"
+        }
+    }
+
+    public struct UpdateQuickSightQSearchConfigurationResponse: AWSDecodableShape {
+        /// The status of the Amazon QuickSight Q Search configuration.
+        public let qSearchStatus: QSearchStatus?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(qSearchStatus: QSearchStatus? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.qSearchStatus = qSearchStatus
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.qSearchStatus = try container.decodeIfPresent(QSearchStatus.self, forKey: .qSearchStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qSearchStatus = "QSearchStatus"
             case requestId = "RequestId"
         }
     }
@@ -41348,12 +43831,16 @@ extension QuickSight {
         public let insightVisual: InsightVisual?
         /// A key performance indicator (KPI). For more information, see Using KPIs in the Amazon QuickSight User Guide.
         public let kpiVisual: KPIVisual?
+        /// The properties for a layer map visual
+        public let layerMapVisual: LayerMapVisual?
         /// A line chart. For more information, see Using line charts in the Amazon QuickSight User Guide.
         public let lineChartVisual: LineChartVisual?
         /// A pie or donut chart. For more information, see Using pie charts in the Amazon QuickSight User Guide.
         public let pieChartVisual: PieChartVisual?
         /// A pivot table. For more information, see Using pivot tables in the Amazon QuickSight User Guide.
         public let pivotTableVisual: PivotTableVisual?
+        /// The custom plugin visual type.
+        public let pluginVisual: PluginVisual?
         /// A radar chart visual. For more information, see Using radar charts in the Amazon QuickSight User Guide.
         public let radarChartVisual: RadarChartVisual?
         /// A sankey diagram. For more information, see Using Sankey diagrams in the Amazon QuickSight User Guide.
@@ -41370,7 +43857,7 @@ extension QuickSight {
         public let wordCloudVisual: WordCloudVisual?
 
         @inlinable
-        public init(barChartVisual: BarChartVisual? = nil, boxPlotVisual: BoxPlotVisual? = nil, comboChartVisual: ComboChartVisual? = nil, customContentVisual: CustomContentVisual? = nil, emptyVisual: EmptyVisual? = nil, filledMapVisual: FilledMapVisual? = nil, funnelChartVisual: FunnelChartVisual? = nil, gaugeChartVisual: GaugeChartVisual? = nil, geospatialMapVisual: GeospatialMapVisual? = nil, heatMapVisual: HeatMapVisual? = nil, histogramVisual: HistogramVisual? = nil, insightVisual: InsightVisual? = nil, kpiVisual: KPIVisual? = nil, lineChartVisual: LineChartVisual? = nil, pieChartVisual: PieChartVisual? = nil, pivotTableVisual: PivotTableVisual? = nil, radarChartVisual: RadarChartVisual? = nil, sankeyDiagramVisual: SankeyDiagramVisual? = nil, scatterPlotVisual: ScatterPlotVisual? = nil, tableVisual: TableVisual? = nil, treeMapVisual: TreeMapVisual? = nil, waterfallVisual: WaterfallVisual? = nil, wordCloudVisual: WordCloudVisual? = nil) {
+        public init(barChartVisual: BarChartVisual? = nil, boxPlotVisual: BoxPlotVisual? = nil, comboChartVisual: ComboChartVisual? = nil, customContentVisual: CustomContentVisual? = nil, emptyVisual: EmptyVisual? = nil, filledMapVisual: FilledMapVisual? = nil, funnelChartVisual: FunnelChartVisual? = nil, gaugeChartVisual: GaugeChartVisual? = nil, geospatialMapVisual: GeospatialMapVisual? = nil, heatMapVisual: HeatMapVisual? = nil, histogramVisual: HistogramVisual? = nil, insightVisual: InsightVisual? = nil, kpiVisual: KPIVisual? = nil, layerMapVisual: LayerMapVisual? = nil, lineChartVisual: LineChartVisual? = nil, pieChartVisual: PieChartVisual? = nil, pivotTableVisual: PivotTableVisual? = nil, pluginVisual: PluginVisual? = nil, radarChartVisual: RadarChartVisual? = nil, sankeyDiagramVisual: SankeyDiagramVisual? = nil, scatterPlotVisual: ScatterPlotVisual? = nil, tableVisual: TableVisual? = nil, treeMapVisual: TreeMapVisual? = nil, waterfallVisual: WaterfallVisual? = nil, wordCloudVisual: WordCloudVisual? = nil) {
             self.barChartVisual = barChartVisual
             self.boxPlotVisual = boxPlotVisual
             self.comboChartVisual = comboChartVisual
@@ -41384,9 +43871,11 @@ extension QuickSight {
             self.histogramVisual = histogramVisual
             self.insightVisual = insightVisual
             self.kpiVisual = kpiVisual
+            self.layerMapVisual = layerMapVisual
             self.lineChartVisual = lineChartVisual
             self.pieChartVisual = pieChartVisual
             self.pivotTableVisual = pivotTableVisual
+            self.pluginVisual = pluginVisual
             self.radarChartVisual = radarChartVisual
             self.sankeyDiagramVisual = sankeyDiagramVisual
             self.scatterPlotVisual = scatterPlotVisual
@@ -41410,9 +43899,11 @@ extension QuickSight {
             try self.histogramVisual?.validate(name: "\(name).histogramVisual")
             try self.insightVisual?.validate(name: "\(name).insightVisual")
             try self.kpiVisual?.validate(name: "\(name).kpiVisual")
+            try self.layerMapVisual?.validate(name: "\(name).layerMapVisual")
             try self.lineChartVisual?.validate(name: "\(name).lineChartVisual")
             try self.pieChartVisual?.validate(name: "\(name).pieChartVisual")
             try self.pivotTableVisual?.validate(name: "\(name).pivotTableVisual")
+            try self.pluginVisual?.validate(name: "\(name).pluginVisual")
             try self.radarChartVisual?.validate(name: "\(name).radarChartVisual")
             try self.sankeyDiagramVisual?.validate(name: "\(name).sankeyDiagramVisual")
             try self.scatterPlotVisual?.validate(name: "\(name).scatterPlotVisual")
@@ -41436,9 +43927,11 @@ extension QuickSight {
             case histogramVisual = "HistogramVisual"
             case insightVisual = "InsightVisual"
             case kpiVisual = "KPIVisual"
+            case layerMapVisual = "LayerMapVisual"
             case lineChartVisual = "LineChartVisual"
             case pieChartVisual = "PieChartVisual"
             case pivotTableVisual = "PivotTableVisual"
+            case pluginVisual = "PluginVisual"
             case radarChartVisual = "RadarChartVisual"
             case sankeyDiagramVisual = "SankeyDiagramVisual"
             case scatterPlotVisual = "ScatterPlotVisual"
@@ -41895,16 +44388,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: WaterfallChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: WaterfallChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -41920,6 +44416,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -41931,6 +44429,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }
@@ -42134,16 +44633,19 @@ extension QuickSight {
         public let subtitle: VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public let title: VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public let visualContentAltText: String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
         @inlinable
-        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: WordCloudChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: WordCloudChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualContentAltText: String? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
 
@@ -42159,6 +44661,8 @@ extension QuickSight {
             try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
             try self.subtitle?.validate(name: "\(name).subtitle")
             try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, max: 1024)
+            try self.validate(self.visualContentAltText, name: "visualContentAltText", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
@@ -42170,6 +44674,7 @@ extension QuickSight {
             case columnHierarchies = "ColumnHierarchies"
             case subtitle = "Subtitle"
             case title = "Title"
+            case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
         }
     }

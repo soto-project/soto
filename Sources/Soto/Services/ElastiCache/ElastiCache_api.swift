@@ -2846,6 +2846,7 @@ public struct ElastiCache: AWSService {
     ///   - accessString: Access permissions string used for this user.
     ///   - appendAccessString: Adds additional user permissions to the access string.
     ///   - authenticationMode: Specifies how to authenticate the user.
+    ///   - engine: The engine for a specific user.
     ///   - noPasswordRequired: Indicates no password is required for the user.
     ///   - passwords: The passwords belonging to the user. You are allowed up to two.
     ///   - userId: The ID of the user.
@@ -2855,6 +2856,7 @@ public struct ElastiCache: AWSService {
         accessString: String? = nil,
         appendAccessString: String? = nil,
         authenticationMode: AuthenticationMode? = nil,
+        engine: String? = nil,
         noPasswordRequired: Bool? = nil,
         passwords: [String]? = nil,
         userId: String? = nil,
@@ -2864,6 +2866,7 @@ public struct ElastiCache: AWSService {
             accessString: accessString, 
             appendAccessString: appendAccessString, 
             authenticationMode: authenticationMode, 
+            engine: engine, 
             noPasswordRequired: noPasswordRequired, 
             passwords: passwords, 
             userId: userId
@@ -2887,18 +2890,21 @@ public struct ElastiCache: AWSService {
     /// Changes the list of users that belong to the user group.
     ///
     /// Parameters:
+    ///   - engine: The engine for a user group.
     ///   - userGroupId: The ID of the user group.
     ///   - userIdsToAdd: The list of user IDs to add to the user group.
     ///   - userIdsToRemove: The list of user IDs to remove from the user group.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyUserGroup(
+        engine: String? = nil,
         userGroupId: String? = nil,
         userIdsToAdd: [String]? = nil,
         userIdsToRemove: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UserGroup {
         let input = ModifyUserGroupMessage(
+            engine: engine, 
             userGroupId: userGroupId, 
             userIdsToAdd: userIdsToAdd, 
             userIdsToRemove: userIdsToRemove

@@ -80,6 +80,53 @@ public struct BedrockAgent: AWSService {
 
     // MARK: API Calls
 
+    /// Makes an agent a collaborator for another agent.
+    @Sendable
+    @inlinable
+    public func associateAgentCollaborator(_ input: AssociateAgentCollaboratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateAgentCollaboratorResponse {
+        try await self.client.execute(
+            operation: "AssociateAgentCollaborator", 
+            path: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Makes an agent a collaborator for another agent.
+    ///
+    /// Parameters:
+    ///   - agentDescriptor: The alias of the collaborator agent.
+    ///   - agentId: The agent's ID.
+    ///   - agentVersion: An agent version.
+    ///   - clientToken: A client token.
+    ///   - collaborationInstruction: Instruction for the collaborator.
+    ///   - collaboratorName: A name for the collaborator.
+    ///   - relayConversationHistory: A relay conversation history for the collaborator.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateAgentCollaborator(
+        agentDescriptor: AgentDescriptor,
+        agentId: String,
+        agentVersion: String,
+        clientToken: String? = AssociateAgentCollaboratorRequest.idempotencyToken(),
+        collaborationInstruction: String,
+        collaboratorName: String,
+        relayConversationHistory: RelayConversationHistory? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateAgentCollaboratorResponse {
+        let input = AssociateAgentCollaboratorRequest(
+            agentDescriptor: agentDescriptor, 
+            agentId: agentId, 
+            agentVersion: agentVersion, 
+            clientToken: clientToken, 
+            collaborationInstruction: collaborationInstruction, 
+            collaboratorName: collaboratorName, 
+            relayConversationHistory: relayConversationHistory
+        )
+        return try await self.associateAgentCollaborator(input, logger: logger)
+    }
+
     /// Associates a knowledge base with an agent. If a knowledge base is associated and its indexState is set to Enabled, the agent queries the knowledge base for information to augment its response to the user.
     @Sendable
     @inlinable
@@ -137,46 +184,55 @@ public struct BedrockAgent: AWSService {
     /// Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.   Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.     To enable your agent to retain conversational context across multiple sessions, include a memoryConfiguration object.  For more information, see Configure memory.   To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   If your agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     ///
     /// Parameters:
+    ///   - agentCollaboration: The agent's collaboration role.
     ///   - agentName: A name for the agent that you create.
     ///   - agentResourceRoleArn: The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
     ///   - customerEncryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
+    ///   - customOrchestration:  Contains details of the custom orchestration configured for the agent.
     ///   - description: A description of the agent.
     ///   - foundationModel: The identifier for the model that you want to be used for orchestration by the agent you create. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
     ///   - guardrailConfiguration: The unique Guardrail configuration assigned to the agent when it is created.
     ///   - idleSessionTTLInSeconds: The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
     ///   - instruction: Instructions that tell the agent what it should do and how it should interact with users.
     ///   - memoryConfiguration:  Contains the details of the memory configured for the agent.
+    ///   - orchestrationType:  Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
     ///   - promptOverrideConfiguration: Contains configurations to override prompts in different parts of an agent sequence. For more information, see Advanced prompts.
     ///   - tags: Any tags that you want to attach to the agent.
     ///   - logger: Logger use during operation
     @inlinable
     public func createAgent(
+        agentCollaboration: AgentCollaboration? = nil,
         agentName: String,
         agentResourceRoleArn: String? = nil,
         clientToken: String? = CreateAgentRequest.idempotencyToken(),
         customerEncryptionKeyArn: String? = nil,
+        customOrchestration: CustomOrchestration? = nil,
         description: String? = nil,
         foundationModel: String? = nil,
         guardrailConfiguration: GuardrailConfiguration? = nil,
         idleSessionTTLInSeconds: Int? = nil,
         instruction: String? = nil,
         memoryConfiguration: MemoryConfiguration? = nil,
+        orchestrationType: OrchestrationType? = nil,
         promptOverrideConfiguration: PromptOverrideConfiguration? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAgentResponse {
         let input = CreateAgentRequest(
+            agentCollaboration: agentCollaboration, 
             agentName: agentName, 
             agentResourceRoleArn: agentResourceRoleArn, 
             clientToken: clientToken, 
             customerEncryptionKeyArn: customerEncryptionKeyArn, 
+            customOrchestration: customOrchestration, 
             description: description, 
             foundationModel: foundationModel, 
             guardrailConfiguration: guardrailConfiguration, 
             idleSessionTTLInSeconds: idleSessionTTLInSeconds, 
             instruction: instruction, 
             memoryConfiguration: memoryConfiguration, 
+            orchestrationType: orchestrationType, 
             promptOverrideConfiguration: promptOverrideConfiguration, 
             tags: tags
         )
@@ -283,7 +339,7 @@ public struct BedrockAgent: AWSService {
         return try await self.createAgentAlias(input, logger: logger)
     }
 
-    /// Creates a data source connector for a knowledge base.  You can't change the chunkingConfiguration after you create the data source connector.
+    /// Connects a knowledge base to a data source. You specify the configuration for the specific data source service in the dataSourceConfiguration field.  You can't change the chunkingConfiguration after you create the data source connector.
     @Sendable
     @inlinable
     public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSourceResponse {
@@ -296,7 +352,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Creates a data source connector for a knowledge base.  You can't change the chunkingConfiguration after you create the data source connector.
+    /// Connects a knowledge base to a data source. You specify the configuration for the specific data source service in the dataSourceConfiguration field.  You can't change the chunkingConfiguration after you create the data source connector.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
@@ -490,7 +546,7 @@ public struct BedrockAgent: AWSService {
         knowledgeBaseConfiguration: KnowledgeBaseConfiguration,
         name: String,
         roleArn: String,
-        storageConfiguration: StorageConfiguration,
+        storageConfiguration: StorageConfiguration? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateKnowledgeBaseResponse {
@@ -888,6 +944,44 @@ public struct BedrockAgent: AWSService {
         return try await self.deleteKnowledgeBase(input, logger: logger)
     }
 
+    /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    @Sendable
+    @inlinable
+    public func deleteKnowledgeBaseDocuments(_ input: DeleteKnowledgeBaseDocumentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKnowledgeBaseDocumentsResponse {
+        try await self.client.execute(
+            operation: "DeleteKnowledgeBaseDocuments", 
+            path: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents/deleteDocuments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+    ///   - dataSourceId: The unique identifier of the data source that contains the documents.
+    ///   - documentIdentifiers: A list of objects, each of which contains information to identify a document to delete.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base that is connected to the data source.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteKnowledgeBaseDocuments(
+        clientToken: String? = DeleteKnowledgeBaseDocumentsRequest.idempotencyToken(),
+        dataSourceId: String,
+        documentIdentifiers: [DocumentIdentifier],
+        knowledgeBaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteKnowledgeBaseDocumentsResponse {
+        let input = DeleteKnowledgeBaseDocumentsRequest(
+            clientToken: clientToken, 
+            dataSourceId: dataSourceId, 
+            documentIdentifiers: documentIdentifiers, 
+            knowledgeBaseId: knowledgeBaseId
+        )
+        return try await self.deleteKnowledgeBaseDocuments(input, logger: logger)
+    }
+
     /// Deletes a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see Delete prompts from the Prompt management tool and Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
@@ -918,6 +1012,41 @@ public struct BedrockAgent: AWSService {
             promptVersion: promptVersion
         )
         return try await self.deletePrompt(input, logger: logger)
+    }
+
+    /// Disassociates an agent collaborator.
+    @Sendable
+    @inlinable
+    public func disassociateAgentCollaborator(_ input: DisassociateAgentCollaboratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateAgentCollaboratorResponse {
+        try await self.client.execute(
+            operation: "DisassociateAgentCollaborator", 
+            path: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates an agent collaborator.
+    ///
+    /// Parameters:
+    ///   - agentId: An agent ID.
+    ///   - agentVersion: The agent's version.
+    ///   - collaboratorId: The collaborator's ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateAgentCollaborator(
+        agentId: String,
+        agentVersion: String,
+        collaboratorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateAgentCollaboratorResponse {
+        let input = DisassociateAgentCollaboratorRequest(
+            agentId: agentId, 
+            agentVersion: agentVersion, 
+            collaboratorId: collaboratorId
+        )
+        return try await self.disassociateAgentCollaborator(input, logger: logger)
     }
 
     /// Disassociates a knowledge base from an agent.
@@ -1049,6 +1178,41 @@ public struct BedrockAgent: AWSService {
             agentId: agentId
         )
         return try await self.getAgentAlias(input, logger: logger)
+    }
+
+    /// Retrieves information about an agent's collaborator.
+    @Sendable
+    @inlinable
+    public func getAgentCollaborator(_ input: GetAgentCollaboratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentCollaboratorResponse {
+        try await self.client.execute(
+            operation: "GetAgentCollaborator", 
+            path: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about an agent's collaborator.
+    ///
+    /// Parameters:
+    ///   - agentId: The agent's ID.
+    ///   - agentVersion: The agent's version.
+    ///   - collaboratorId: The collaborator's ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgentCollaborator(
+        agentId: String,
+        agentVersion: String,
+        collaboratorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgentCollaboratorResponse {
+        let input = GetAgentCollaboratorRequest(
+            agentId: agentId, 
+            agentVersion: agentVersion, 
+            collaboratorId: collaboratorId
+        )
+        return try await self.getAgentCollaborator(input, logger: logger)
     }
 
     /// Gets information about a knowledge base associated with an agent.
@@ -1307,6 +1471,41 @@ public struct BedrockAgent: AWSService {
         return try await self.getKnowledgeBase(input, logger: logger)
     }
 
+    /// Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    @Sendable
+    @inlinable
+    public func getKnowledgeBaseDocuments(_ input: GetKnowledgeBaseDocumentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKnowledgeBaseDocumentsResponse {
+        try await self.client.execute(
+            operation: "GetKnowledgeBaseDocuments", 
+            path: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents/getDocuments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    ///
+    /// Parameters:
+    ///   - dataSourceId: The unique identifier of the data source that contains the documents.
+    ///   - documentIdentifiers: A list of objects, each of which contains information to identify a document for which to retrieve information.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base that is connected to the data source.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getKnowledgeBaseDocuments(
+        dataSourceId: String,
+        documentIdentifiers: [DocumentIdentifier],
+        knowledgeBaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetKnowledgeBaseDocumentsResponse {
+        let input = GetKnowledgeBaseDocumentsRequest(
+            dataSourceId: dataSourceId, 
+            documentIdentifiers: documentIdentifiers, 
+            knowledgeBaseId: knowledgeBaseId
+        )
+        return try await self.getKnowledgeBaseDocuments(input, logger: logger)
+    }
+
     /// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
@@ -1337,6 +1536,44 @@ public struct BedrockAgent: AWSService {
             promptVersion: promptVersion
         )
         return try await self.getPrompt(input, logger: logger)
+    }
+
+    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    @Sendable
+    @inlinable
+    public func ingestKnowledgeBaseDocuments(_ input: IngestKnowledgeBaseDocumentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IngestKnowledgeBaseDocumentsResponse {
+        try await self.client.execute(
+            operation: "IngestKnowledgeBaseDocuments", 
+            path: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+    ///   - dataSourceId: The unique identifier of the data source connected to the knowledge base that you're adding documents to.
+    ///   - documents: A list of objects, each of which contains information about the documents to add.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base to ingest the documents into.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func ingestKnowledgeBaseDocuments(
+        clientToken: String? = IngestKnowledgeBaseDocumentsRequest.idempotencyToken(),
+        dataSourceId: String,
+        documents: [KnowledgeBaseDocument],
+        knowledgeBaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> IngestKnowledgeBaseDocumentsResponse {
+        let input = IngestKnowledgeBaseDocumentsRequest(
+            clientToken: clientToken, 
+            dataSourceId: dataSourceId, 
+            documents: documents, 
+            knowledgeBaseId: knowledgeBaseId
+        )
+        return try await self.ingestKnowledgeBaseDocuments(input, logger: logger)
     }
 
     /// Lists the action groups for an agent and information about each one.
@@ -1410,6 +1647,44 @@ public struct BedrockAgent: AWSService {
             nextToken: nextToken
         )
         return try await self.listAgentAliases(input, logger: logger)
+    }
+
+    /// Retrieve a list of an agent's collaborators.
+    @Sendable
+    @inlinable
+    public func listAgentCollaborators(_ input: ListAgentCollaboratorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentCollaboratorsResponse {
+        try await self.client.execute(
+            operation: "ListAgentCollaborators", 
+            path: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieve a list of an agent's collaborators.
+    ///
+    /// Parameters:
+    ///   - agentId: The agent's ID.
+    ///   - agentVersion: The agent's version.
+    ///   - maxResults: The maximum number of agent collaborators to return in one page of results.
+    ///   - nextToken: Specify the pagination token from a previous request to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgentCollaborators(
+        agentId: String,
+        agentVersion: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgentCollaboratorsResponse {
+        let input = ListAgentCollaboratorsRequest(
+            agentId: agentId, 
+            agentVersion: agentVersion, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAgentCollaborators(input, logger: logger)
     }
 
     /// Lists knowledge bases associated with an agent and information about each one.
@@ -1696,6 +1971,44 @@ public struct BedrockAgent: AWSService {
             sortBy: sortBy
         )
         return try await self.listIngestionJobs(input, logger: logger)
+    }
+
+    /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    @Sendable
+    @inlinable
+    public func listKnowledgeBaseDocuments(_ input: ListKnowledgeBaseDocumentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKnowledgeBaseDocumentsResponse {
+        try await self.client.execute(
+            operation: "ListKnowledgeBaseDocuments", 
+            path: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    ///
+    /// Parameters:
+    ///   - dataSourceId: The unique identifier of the data source that contains the documents.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base that is connected to the data source.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listKnowledgeBaseDocuments(
+        dataSourceId: String,
+        knowledgeBaseId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListKnowledgeBaseDocumentsResponse {
+        let input = ListKnowledgeBaseDocumentsRequest(
+            dataSourceId: dataSourceId, 
+            knowledgeBaseId: knowledgeBaseId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listKnowledgeBaseDocuments(input, logger: logger)
     }
 
     /// Lists the knowledge bases in an account. The list also includesinformation about each knowledge base.
@@ -2005,44 +2318,53 @@ public struct BedrockAgent: AWSService {
     /// Updates the configuration of an agent.
     ///
     /// Parameters:
+    ///   - agentCollaboration: The agent's collaboration role.
     ///   - agentId: The unique identifier of the agent.
     ///   - agentName: Specifies a new name for the agent.
     ///   - agentResourceRoleArn: The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.
     ///   - customerEncryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
+    ///   - customOrchestration:  Contains details of the custom orchestration configured for the agent.
     ///   - description: Specifies a new description of the agent.
     ///   - foundationModel: The identifier for the model that you want to be used for orchestration by the agent you create. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
     ///   - guardrailConfiguration: The unique Guardrail configuration assigned to the agent when it is updated.
     ///   - idleSessionTTLInSeconds: The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
     ///   - instruction: Specifies new instructions that tell the agent what it should do and how it should interact with users.
     ///   - memoryConfiguration: Specifies the new memory configuration for the agent.
+    ///   - orchestrationType:  Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
     ///   - promptOverrideConfiguration: Contains configurations to override prompts in different parts of an agent sequence. For more information, see Advanced prompts.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAgent(
+        agentCollaboration: AgentCollaboration? = nil,
         agentId: String,
         agentName: String,
         agentResourceRoleArn: String,
         customerEncryptionKeyArn: String? = nil,
+        customOrchestration: CustomOrchestration? = nil,
         description: String? = nil,
         foundationModel: String? = nil,
         guardrailConfiguration: GuardrailConfiguration? = nil,
         idleSessionTTLInSeconds: Int? = nil,
         instruction: String? = nil,
         memoryConfiguration: MemoryConfiguration? = nil,
+        orchestrationType: OrchestrationType? = nil,
         promptOverrideConfiguration: PromptOverrideConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateAgentResponse {
         let input = UpdateAgentRequest(
+            agentCollaboration: agentCollaboration, 
             agentId: agentId, 
             agentName: agentName, 
             agentResourceRoleArn: agentResourceRoleArn, 
             customerEncryptionKeyArn: customerEncryptionKeyArn, 
+            customOrchestration: customOrchestration, 
             description: description, 
             foundationModel: foundationModel, 
             guardrailConfiguration: guardrailConfiguration, 
             idleSessionTTLInSeconds: idleSessionTTLInSeconds, 
             instruction: instruction, 
             memoryConfiguration: memoryConfiguration, 
+            orchestrationType: orchestrationType, 
             promptOverrideConfiguration: promptOverrideConfiguration
         )
         return try await self.updateAgent(input, logger: logger)
@@ -2143,6 +2465,53 @@ public struct BedrockAgent: AWSService {
             routingConfiguration: routingConfiguration
         )
         return try await self.updateAgentAlias(input, logger: logger)
+    }
+
+    /// Updates an agent's collaborator.
+    @Sendable
+    @inlinable
+    public func updateAgentCollaborator(_ input: UpdateAgentCollaboratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentCollaboratorResponse {
+        try await self.client.execute(
+            operation: "UpdateAgentCollaborator", 
+            path: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an agent's collaborator.
+    ///
+    /// Parameters:
+    ///   - agentDescriptor: An agent descriptor for the agent collaborator.
+    ///   - agentId: The agent's ID.
+    ///   - agentVersion: The agent's version.
+    ///   - collaborationInstruction: Instruction for the collaborator.
+    ///   - collaboratorId: The collaborator's ID.
+    ///   - collaboratorName: The collaborator's name.
+    ///   - relayConversationHistory: A relay conversation history for the collaborator.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAgentCollaborator(
+        agentDescriptor: AgentDescriptor,
+        agentId: String,
+        agentVersion: String,
+        collaborationInstruction: String,
+        collaboratorId: String,
+        collaboratorName: String,
+        relayConversationHistory: RelayConversationHistory? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAgentCollaboratorResponse {
+        let input = UpdateAgentCollaboratorRequest(
+            agentDescriptor: agentDescriptor, 
+            agentId: agentId, 
+            agentVersion: agentVersion, 
+            collaborationInstruction: collaborationInstruction, 
+            collaboratorId: collaboratorId, 
+            collaboratorName: collaboratorName, 
+            relayConversationHistory: relayConversationHistory
+        )
+        return try await self.updateAgentCollaborator(input, logger: logger)
     }
 
     /// Updates the configuration for a knowledge base that has been associated with an agent.
@@ -2351,7 +2720,7 @@ public struct BedrockAgent: AWSService {
         knowledgeBaseId: String,
         name: String,
         roleArn: String,
-        storageConfiguration: StorageConfiguration,
+        storageConfiguration: StorageConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateKnowledgeBaseResponse {
         let input = UpdateKnowledgeBaseRequest(
@@ -2527,6 +2896,46 @@ extension BedrockAgent {
             maxResults: maxResults
         )
         return self.listAgentAliasesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgentCollaborators(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentCollaboratorsPaginator(
+        _ input: ListAgentCollaboratorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgentCollaboratorsRequest, ListAgentCollaboratorsResponse> {
+        return .init(
+            input: input,
+            command: self.listAgentCollaborators,
+            inputKey: \ListAgentCollaboratorsRequest.nextToken,
+            outputKey: \ListAgentCollaboratorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgentCollaborators(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - agentId: The agent's ID.
+    ///   - agentVersion: The agent's version.
+    ///   - maxResults: The maximum number of agent collaborators to return in one page of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentCollaboratorsPaginator(
+        agentId: String,
+        agentVersion: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgentCollaboratorsRequest, ListAgentCollaboratorsResponse> {
+        let input = ListAgentCollaboratorsRequest(
+            agentId: agentId, 
+            agentVersion: agentVersion, 
+            maxResults: maxResults
+        )
+        return self.listAgentCollaboratorsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listAgentKnowledgeBases(_:logger:)``.
@@ -2831,6 +3240,46 @@ extension BedrockAgent {
         return self.listIngestionJobsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listKnowledgeBaseDocuments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listKnowledgeBaseDocumentsPaginator(
+        _ input: ListKnowledgeBaseDocumentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListKnowledgeBaseDocumentsRequest, ListKnowledgeBaseDocumentsResponse> {
+        return .init(
+            input: input,
+            command: self.listKnowledgeBaseDocuments,
+            inputKey: \ListKnowledgeBaseDocumentsRequest.nextToken,
+            outputKey: \ListKnowledgeBaseDocumentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listKnowledgeBaseDocuments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dataSourceId: The unique identifier of the data source that contains the documents.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base that is connected to the data source.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listKnowledgeBaseDocumentsPaginator(
+        dataSourceId: String,
+        knowledgeBaseId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListKnowledgeBaseDocumentsRequest, ListKnowledgeBaseDocumentsResponse> {
+        let input = ListKnowledgeBaseDocumentsRequest(
+            dataSourceId: dataSourceId, 
+            knowledgeBaseId: knowledgeBaseId, 
+            maxResults: maxResults
+        )
+        return self.listKnowledgeBaseDocumentsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listKnowledgeBases(_:logger:)``.
     ///
     /// - Parameters:
@@ -2926,6 +3375,18 @@ extension BedrockAgent.ListAgentAliasesRequest: AWSPaginateToken {
     }
 }
 
+extension BedrockAgent.ListAgentCollaboratorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgent.ListAgentCollaboratorsRequest {
+        return .init(
+            agentId: self.agentId,
+            agentVersion: self.agentVersion,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension BedrockAgent.ListAgentKnowledgeBasesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgent.ListAgentKnowledgeBasesRequest {
@@ -3012,6 +3473,18 @@ extension BedrockAgent.ListIngestionJobsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy
+        )
+    }
+}
+
+extension BedrockAgent.ListKnowledgeBaseDocumentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgent.ListKnowledgeBaseDocumentsRequest {
+        return .init(
+            dataSourceId: self.dataSourceId,
+            knowledgeBaseId: self.knowledgeBaseId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

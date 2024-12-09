@@ -74,6 +74,12 @@ extension MemoryDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum UpdateStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case coordinated = "coordinated"
+        case uncoordinated = "uncoordinated"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ACL: AWSDecodableShape {
@@ -255,16 +261,18 @@ extension MemoryDB {
         public let dataTiering: DataTieringStatus?
         /// A description of the cluster
         public let description: String?
-        ///  The Redis OSS or Valkey engine used by the cluster.
+        /// The name of the engine used by the cluster.
         public let engine: String?
-        /// The engine patch version used by the cluster
+        /// The Redis OSS engine patch version used by the cluster
         public let enginePatchVersion: String?
-        /// The Redis engine version used by the cluster
+        /// The Redis OSS engine version used by the cluster
         public let engineVersion: String?
         /// The ID of the KMS key used to encrypt the cluster
         public let kmsKeyId: String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
         public let maintenanceWindow: String?
+        /// The name of the multi-Region cluster that this cluster belongs to.
+        public let multiRegionClusterName: String?
         /// The user-supplied name of the cluster. This identifier is a unique key that identifies a cluster.
         public let name: String?
         /// The cluster's node type
@@ -297,7 +305,7 @@ extension MemoryDB {
         public let tlsEnabled: Bool?
 
         @inlinable
-        public init(aclName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, engine: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tlsEnabled: Bool? = nil) {
+        public init(aclName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, engine: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, multiRegionClusterName: String? = nil, name: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tlsEnabled: Bool? = nil) {
             self.aclName = aclName
             self.arn = arn
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -310,6 +318,7 @@ extension MemoryDB {
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
             self.maintenanceWindow = maintenanceWindow
+            self.multiRegionClusterName = multiRegionClusterName
             self.name = name
             self.nodeType = nodeType
             self.numberOfShards = numberOfShards
@@ -340,6 +349,7 @@ extension MemoryDB {
             case engineVersion = "EngineVersion"
             case kmsKeyId = "KmsKeyId"
             case maintenanceWindow = "MaintenanceWindow"
+            case multiRegionClusterName = "MultiRegionClusterName"
             case name = "Name"
             case nodeType = "NodeType"
             case numberOfShards = "NumberOfShards"
@@ -361,12 +371,16 @@ extension MemoryDB {
     public struct ClusterConfiguration: AWSDecodableShape {
         /// The description of the cluster configuration
         public let description: String?
-        /// The configuration for the Redis OSS or Valkey engine used by the cluster.
+        /// The name of the engine used by the cluster configuration.
         public let engine: String?
-        /// The engine version used by the cluster
+        /// The Redis OSS engine version used by the cluster
         public let engineVersion: String?
         /// The specified maintenance window for the cluster
         public let maintenanceWindow: String?
+        /// The name for the multi-Region cluster associated with the cluster configuration.
+        public let multiRegionClusterName: String?
+        /// The name of the multi-Region parameter group associated with the cluster configuration.
+        public let multiRegionParameterGroupName: String?
         /// The name of the cluster
         public let name: String?
         /// The node type used for the cluster
@@ -391,11 +405,13 @@ extension MemoryDB {
         public let vpcId: String?
 
         @inlinable
-        public init(description: String? = nil, engine: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, shards: [ShardDetail]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, subnetGroupName: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
+        public init(description: String? = nil, engine: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, multiRegionClusterName: String? = nil, multiRegionParameterGroupName: String? = nil, name: String? = nil, nodeType: String? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, shards: [ShardDetail]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, subnetGroupName: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
             self.description = description
             self.engine = engine
             self.engineVersion = engineVersion
             self.maintenanceWindow = maintenanceWindow
+            self.multiRegionClusterName = multiRegionClusterName
+            self.multiRegionParameterGroupName = multiRegionParameterGroupName
             self.name = name
             self.nodeType = nodeType
             self.numShards = numShards
@@ -414,6 +430,8 @@ extension MemoryDB {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case maintenanceWindow = "MaintenanceWindow"
+            case multiRegionClusterName = "MultiRegionClusterName"
+            case multiRegionParameterGroupName = "MultiRegionParameterGroupName"
             case name = "Name"
             case nodeType = "NodeType"
             case numShards = "NumShards"
@@ -557,14 +575,16 @@ extension MemoryDB {
         public let dataTiering: Bool?
         /// An optional description of the cluster.
         public let description: String?
-        /// The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
+        /// The name of the engine to be used for the cluster.
         public let engine: String?
-        /// The version number of the engine to be used for the cluster.
+        /// The version number of the Redis OSS engine to be used for the cluster.
         public let engineVersion: String?
         /// The ID of the KMS key used to encrypt the cluster.
         public let kmsKeyId: String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let maintenanceWindow: String?
+        /// The name of the multi-Region cluster to be created.
+        public let multiRegionClusterName: String?
         /// The compute and memory capacity of the nodes in the cluster.
         public let nodeType: String
         /// The number of replicas to apply to each shard. The default value is 1. The maximum is 5.
@@ -595,7 +615,7 @@ extension MemoryDB {
         public let tlsEnabled: Bool?
 
         @inlinable
-        public init(aclName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, dataTiering: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
+        public init(aclName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, dataTiering: Bool? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, multiRegionClusterName: String? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
             self.aclName = aclName
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.clusterName = clusterName
@@ -605,6 +625,7 @@ extension MemoryDB {
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
             self.maintenanceWindow = maintenanceWindow
+            self.multiRegionClusterName = multiRegionClusterName
             self.nodeType = nodeType
             self.numReplicasPerShard = numReplicasPerShard
             self.numShards = numShards
@@ -637,6 +658,7 @@ extension MemoryDB {
             case engineVersion = "EngineVersion"
             case kmsKeyId = "KmsKeyId"
             case maintenanceWindow = "MaintenanceWindow"
+            case multiRegionClusterName = "MultiRegionClusterName"
             case nodeType = "NodeType"
             case numReplicasPerShard = "NumReplicasPerShard"
             case numShards = "NumShards"
@@ -665,6 +687,70 @@ extension MemoryDB {
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "Cluster"
+        }
+    }
+
+    public struct CreateMultiRegionClusterRequest: AWSEncodableShape {
+        /// A description for the multi-Region cluster.
+        public let description: String?
+        /// The name of the engine to be used for the multi-Region cluster.
+        public let engine: String?
+        /// The version of the engine to be used for the multi-Region cluster.
+        public let engineVersion: String?
+        /// A suffix to be added to the multi-Region cluster name.
+        public let multiRegionClusterNameSuffix: String
+        /// The name of the multi-Region parameter group to be associated with the cluster.
+        public let multiRegionParameterGroupName: String?
+        /// The node type to be used for the multi-Region cluster.
+        public let nodeType: String
+        /// The number of shards for the multi-Region cluster.
+        public let numShards: Int?
+        /// A list of tags to be applied to the multi-Region cluster.
+        public let tags: [Tag]?
+        /// Whether to enable TLS encryption for the multi-Region cluster.
+        public let tlsEnabled: Bool?
+
+        @inlinable
+        public init(description: String? = nil, engine: String? = nil, engineVersion: String? = nil, multiRegionClusterNameSuffix: String, multiRegionParameterGroupName: String? = nil, nodeType: String, numShards: Int? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
+            self.description = description
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.multiRegionClusterNameSuffix = multiRegionClusterNameSuffix
+            self.multiRegionParameterGroupName = multiRegionParameterGroupName
+            self.nodeType = nodeType
+            self.numShards = numShards
+            self.tags = tags
+            self.tlsEnabled = tlsEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case engine = "Engine"
+            case engineVersion = "EngineVersion"
+            case multiRegionClusterNameSuffix = "MultiRegionClusterNameSuffix"
+            case multiRegionParameterGroupName = "MultiRegionParameterGroupName"
+            case nodeType = "NodeType"
+            case numShards = "NumShards"
+            case tags = "Tags"
+            case tlsEnabled = "TLSEnabled"
+        }
+    }
+
+    public struct CreateMultiRegionClusterResponse: AWSDecodableShape {
+        /// Details about the newly created multi-Region cluster.
+        public let multiRegionCluster: MultiRegionCluster?
+
+        @inlinable
+        public init(multiRegionCluster: MultiRegionCluster? = nil) {
+            self.multiRegionCluster = multiRegionCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiRegionCluster = "MultiRegionCluster"
         }
     }
 
@@ -787,7 +873,7 @@ extension MemoryDB {
     }
 
     public struct CreateSubnetGroupResponse: AWSDecodableShape {
-        /// The newly-created subnet group
+        /// The newly-created subnet group.
         public let subnetGroup: SubnetGroup?
 
         @inlinable
@@ -849,7 +935,7 @@ extension MemoryDB {
     }
 
     public struct DeleteACLRequest: AWSEncodableShape {
-        /// The name of the Access Control List to delete
+        /// The name of the Access Control List to delete.
         public let aclName: String
 
         @inlinable
@@ -881,21 +967,25 @@ extension MemoryDB {
         public let clusterName: String
         /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes the cluster immediately afterward.
         public let finalSnapshotName: String?
+        /// The name of the multi-Region cluster to be deleted.
+        public let multiRegionClusterName: String?
 
         @inlinable
-        public init(clusterName: String, finalSnapshotName: String? = nil) {
+        public init(clusterName: String, finalSnapshotName: String? = nil, multiRegionClusterName: String? = nil) {
             self.clusterName = clusterName
             self.finalSnapshotName = finalSnapshotName
+            self.multiRegionClusterName = multiRegionClusterName
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "ClusterName"
             case finalSnapshotName = "FinalSnapshotName"
+            case multiRegionClusterName = "MultiRegionClusterName"
         }
     }
 
     public struct DeleteClusterResponse: AWSDecodableShape {
-        /// The cluster object that has been deleted
+        /// The cluster object that has been deleted.
         public let cluster: Cluster?
 
         @inlinable
@@ -905,6 +995,34 @@ extension MemoryDB {
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "Cluster"
+        }
+    }
+
+    public struct DeleteMultiRegionClusterRequest: AWSEncodableShape {
+        /// The name of the multi-Region cluster to be deleted.
+        public let multiRegionClusterName: String
+
+        @inlinable
+        public init(multiRegionClusterName: String) {
+            self.multiRegionClusterName = multiRegionClusterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiRegionClusterName = "MultiRegionClusterName"
+        }
+    }
+
+    public struct DeleteMultiRegionClusterResponse: AWSDecodableShape {
+        /// Details about the deleted multi-Region cluster.
+        public let multiRegionCluster: MultiRegionCluster?
+
+        @inlinable
+        public init(multiRegionCluster: MultiRegionCluster? = nil) {
+            self.multiRegionCluster = multiRegionCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiRegionCluster = "MultiRegionCluster"
         }
     }
 
@@ -937,7 +1055,7 @@ extension MemoryDB {
     }
 
     public struct DeleteSnapshotRequest: AWSEncodableShape {
-        /// The name of the snapshot to delete
+        /// The name of the snapshot to delete.
         public let snapshotName: String
 
         @inlinable
@@ -965,7 +1083,7 @@ extension MemoryDB {
     }
 
     public struct DeleteSubnetGroupRequest: AWSEncodableShape {
-        /// The name of the subnet group to delete
+        /// The name of the subnet group to delete.
         public let subnetGroupName: String
 
         @inlinable
@@ -1026,7 +1144,7 @@ extension MemoryDB {
     }
 
     public struct DescribeACLsRequest: AWSEncodableShape {
-        /// The name of the ACL
+        /// The name of the ACL.
         public let aclName: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -1048,7 +1166,7 @@ extension MemoryDB {
     }
 
     public struct DescribeACLsResponse: AWSDecodableShape {
-        /// The list of ACLs
+        /// The list of ACLs.
         public let acLs: [ACL]?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
         public let nextToken: String?
@@ -1066,7 +1184,7 @@ extension MemoryDB {
     }
 
     public struct DescribeClustersRequest: AWSEncodableShape {
-        /// The name of the cluster
+        /// The name of the cluster.
         public let clusterName: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -1112,9 +1230,9 @@ extension MemoryDB {
     public struct DescribeEngineVersionsRequest: AWSEncodableShape {
         /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
         public let defaultOnly: Bool?
-        /// The engine version to return. Valid values are either valkey or redis.
+        /// The name of the engine for which to list available versions.
         public let engine: String?
-        /// The engine version.
+        /// The Redis OSS engine version
         public let engineVersion: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -1213,6 +1331,50 @@ extension MemoryDB {
 
         private enum CodingKeys: String, CodingKey {
             case events = "Events"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeMultiRegionClustersRequest: AWSEncodableShape {
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The name of a specific multi-Region cluster to describe.
+        public let multiRegionClusterName: String?
+        /// A token to specify where to start paginating.
+        public let nextToken: String?
+        /// Details about the multi-Region cluster.
+        public let showClusterDetails: Bool?
+
+        @inlinable
+        public init(maxResults: Int? = nil, multiRegionClusterName: String? = nil, nextToken: String? = nil, showClusterDetails: Bool? = nil) {
+            self.maxResults = maxResults
+            self.multiRegionClusterName = multiRegionClusterName
+            self.nextToken = nextToken
+            self.showClusterDetails = showClusterDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case multiRegionClusterName = "MultiRegionClusterName"
+            case nextToken = "NextToken"
+            case showClusterDetails = "ShowClusterDetails"
+        }
+    }
+
+    public struct DescribeMultiRegionClustersResponse: AWSDecodableShape {
+        /// A list of multi-Region clusters.
+        public let multiRegionClusters: [MultiRegionCluster]?
+        /// A token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(multiRegionClusters: [MultiRegionCluster]? = nil, nextToken: String? = nil) {
+            self.multiRegionClusters = multiRegionClusters
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiRegionClusters = "MultiRegionClusters"
             case nextToken = "NextToken"
         }
     }
@@ -1406,7 +1568,7 @@ extension MemoryDB {
     }
 
     public struct DescribeServiceUpdatesRequest: AWSEncodableShape {
-        /// The list of cluster names to identify service updates to apply
+        /// The list of cluster names to identify service updates to apply.
         public let clusterNames: [String]?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -1414,7 +1576,7 @@ extension MemoryDB {
         public let nextToken: String?
         /// The unique ID of the service update to describe.
         public let serviceUpdateName: String?
-        /// The status(es) of the service updates to filter on
+        /// The status(es) of the service updates to filter on.
         public let status: [ServiceUpdateStatus]?
 
         @inlinable
@@ -1557,7 +1719,7 @@ extension MemoryDB {
         public let maxResults: Int?
         /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
         public let nextToken: String?
-        /// The name of the user
+        /// The name of the user.
         public let userName: String?
 
         @inlinable
@@ -1621,7 +1783,7 @@ extension MemoryDB {
     }
 
     public struct EngineVersionInfo: AWSDecodableShape {
-        /// The version of the Redis OSS or Valkey engine used by the cluster.
+        /// The name of the engine for which version information is provided.
         public let engine: String?
         /// The patched engine version
         public let enginePatchVersion: String?
@@ -1673,9 +1835,9 @@ extension MemoryDB {
     }
 
     public struct FailoverShardRequest: AWSEncodableShape {
-        /// The cluster being failed over
+        /// The cluster being failed over.
         public let clusterName: String
-        /// The name of the shard
+        /// The name of the shard.
         public let shardName: String
 
         @inlinable
@@ -1691,7 +1853,7 @@ extension MemoryDB {
     }
 
     public struct FailoverShardResponse: AWSDecodableShape {
-        /// The cluster being failed over
+        /// The cluster being failed over.
         public let cluster: Cluster?
 
         @inlinable
@@ -1730,6 +1892,38 @@ extension MemoryDB {
         }
     }
 
+    public struct ListAllowedMultiRegionClusterUpdatesRequest: AWSEncodableShape {
+        /// The name of the multi-Region cluster.
+        public let multiRegionClusterName: String
+
+        @inlinable
+        public init(multiRegionClusterName: String) {
+            self.multiRegionClusterName = multiRegionClusterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiRegionClusterName = "MultiRegionClusterName"
+        }
+    }
+
+    public struct ListAllowedMultiRegionClusterUpdatesResponse: AWSDecodableShape {
+        /// The node types that the cluster can be scaled down to.
+        public let scaleDownNodeTypes: [String]?
+        /// The node types that the cluster can be scaled up to.
+        public let scaleUpNodeTypes: [String]?
+
+        @inlinable
+        public init(scaleDownNodeTypes: [String]? = nil, scaleUpNodeTypes: [String]? = nil) {
+            self.scaleDownNodeTypes = scaleDownNodeTypes
+            self.scaleUpNodeTypes = scaleUpNodeTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scaleDownNodeTypes = "ScaleDownNodeTypes"
+            case scaleUpNodeTypes = "ScaleUpNodeTypes"
+        }
+    }
+
     public struct ListAllowedNodeTypeUpdatesRequest: AWSEncodableShape {
         /// The name of the cluster you want to scale. MemoryDB uses the cluster name to identify the current node type being used by this cluster, and from that to create a list of node types you can scale up to.
         public let clusterName: String
@@ -1763,7 +1957,7 @@ extension MemoryDB {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags
+        /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags.
         public let resourceArn: String
 
         @inlinable
@@ -1787,6 +1981,60 @@ extension MemoryDB {
 
         private enum CodingKeys: String, CodingKey {
             case tagList = "TagList"
+        }
+    }
+
+    public struct MultiRegionCluster: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the multi-Region cluster.
+        public let arn: String?
+        /// The clusters in this multi-Region cluster.
+        public let clusters: [RegionalCluster]?
+        /// The description of the multi-Region cluster.
+        public let description: String?
+        /// The name of the engine used by the multi-Region cluster.
+        public let engine: String?
+        /// The version of the engine used by the multi-Region cluster.
+        public let engineVersion: String?
+        /// The name of the multi-Region cluster.
+        public let multiRegionClusterName: String?
+        /// The name of the multi-Region parameter group associated with the cluster.
+        public let multiRegionParameterGroupName: String?
+        /// The node type used by the multi-Region cluster.
+        public let nodeType: String?
+        /// The number of shards in the multi-Region cluster.
+        public let numberOfShards: Int?
+        /// The current status of the multi-Region cluster.
+        public let status: String?
+        /// Indiciates if the multi-Region cluster is TLS enabled.
+        public let tlsEnabled: Bool?
+
+        @inlinable
+        public init(arn: String? = nil, clusters: [RegionalCluster]? = nil, description: String? = nil, engine: String? = nil, engineVersion: String? = nil, multiRegionClusterName: String? = nil, multiRegionParameterGroupName: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, status: String? = nil, tlsEnabled: Bool? = nil) {
+            self.arn = arn
+            self.clusters = clusters
+            self.description = description
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.multiRegionClusterName = multiRegionClusterName
+            self.multiRegionParameterGroupName = multiRegionParameterGroupName
+            self.nodeType = nodeType
+            self.numberOfShards = numberOfShards
+            self.status = status
+            self.tlsEnabled = tlsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case clusters = "Clusters"
+            case description = "Description"
+            case engine = "Engine"
+            case engineVersion = "EngineVersion"
+            case multiRegionClusterName = "MultiRegionClusterName"
+            case multiRegionParameterGroupName = "MultiRegionParameterGroupName"
+            case nodeType = "NodeType"
+            case numberOfShards = "NumberOfShards"
+            case status = "Status"
+            case tlsEnabled = "TLSEnabled"
         }
     }
 
@@ -1978,6 +2226,32 @@ extension MemoryDB {
         }
     }
 
+    public struct RegionalCluster: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) the Regional cluster
+        public let arn: String?
+        /// The name of the Regional cluster
+        public let clusterName: String?
+        /// The Region the current Regional cluster is assigned to.
+        public let region: String?
+        /// The status of the Regional cluster.
+        public let status: String?
+
+        @inlinable
+        public init(arn: String? = nil, clusterName: String? = nil, region: String? = nil, status: String? = nil) {
+            self.arn = arn
+            self.clusterName = clusterName
+            self.region = region
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case clusterName = "ClusterName"
+            case region = "Region"
+            case status = "Status"
+        }
+    }
+
     public struct ReplicaConfigurationRequest: AWSEncodableShape {
         /// The number of replicas to scale up or down to
         public let replicaCount: Int?
@@ -2155,7 +2429,7 @@ extension MemoryDB {
         public let clusterName: String?
         /// Provides details of the service update
         public let description: String?
-        /// The MemoryDB engine to which the update applies. The values are either Redis or Valkey.
+        /// The name of the engine for which a service update is available.
         public let engine: String?
         /// A list of nodes updated by the service update
         public let nodesUpdated: String?
@@ -2415,7 +2689,7 @@ extension MemoryDB {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added
+        /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added.
         public let resourceArn: String
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         public let tags: [Tag]
@@ -2473,9 +2747,9 @@ extension MemoryDB {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource to which the tags are to be removed
+        /// The Amazon Resource Name (ARN) of the resource to which the tags are to be removed.
         public let resourceArn: String
-        /// The list of keys of the tags that are to be removed
+        /// The list of keys of the tags that are to be removed.
         public let tagKeys: [String]
 
         @inlinable
@@ -2491,7 +2765,7 @@ extension MemoryDB {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        /// The list of tags removed
+        /// The list of tags removed.
         public let tagList: [Tag]?
 
         @inlinable
@@ -2505,11 +2779,11 @@ extension MemoryDB {
     }
 
     public struct UpdateACLRequest: AWSEncodableShape {
-        /// The name of the Access Control List
+        /// The name of the Access Control List.
         public let aclName: String
-        /// The list of users to add to the Access Control List
+        /// The list of users to add to the Access Control List.
         public let userNamesToAdd: [String]?
-        /// The list of users to remove from the Access Control List
+        /// The list of users to remove from the Access Control List.
         public let userNamesToRemove: [String]?
 
         @inlinable
@@ -2540,7 +2814,7 @@ extension MemoryDB {
     }
 
     public struct UpdateACLResponse: AWSDecodableShape {
-        /// The updated Access Control List
+        /// The updated Access Control List.
         public let acl: ACL?
 
         @inlinable
@@ -2554,13 +2828,13 @@ extension MemoryDB {
     }
 
     public struct UpdateClusterRequest: AWSEncodableShape {
-        /// The Access Control List that is associated with the cluster
+        /// The Access Control List that is associated with the cluster.
         public let aclName: String?
-        /// The name of the cluster to update
+        /// The name of the cluster to update.
         public let clusterName: String
-        /// The description of the cluster to update
+        /// The description of the cluster to update.
         public let description: String?
-        /// The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
+        /// The name of the engine to be used for the cluster.
         public let engine: String?
         /// The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
         public let engineVersion: String?
@@ -2568,19 +2842,19 @@ extension MemoryDB {
         public let maintenanceWindow: String?
         /// A valid node type that you want to scale this cluster up or down to.
         public let nodeType: String?
-        /// The name of the parameter group to update
+        /// The name of the parameter group to update.
         public let parameterGroupName: String?
-        /// The number of replicas that will reside in each shard
+        /// The number of replicas that will reside in each shard.
         public let replicaConfiguration: ReplicaConfigurationRequest?
-        /// The SecurityGroupIds to update
+        /// The SecurityGroupIds to update.
         public let securityGroupIds: [String]?
-        /// The number of shards in the cluster
+        /// The number of shards in the cluster.
         public let shardConfiguration: ShardConfigurationRequest?
         /// The number of days for which MemoryDB retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.
         public let snapshotRetentionLimit: Int?
         /// The daily time range (in UTC) during which MemoryDB begins taking a daily snapshot of your cluster.
         public let snapshotWindow: String?
-        /// The SNS topic ARN to update
+        /// The SNS topic ARN to update.
         public let snsTopicArn: String?
         /// The status of the Amazon SNS notification topic. Notifications are sent only if the status is active.
         public let snsTopicStatus: String?
@@ -2629,7 +2903,7 @@ extension MemoryDB {
     }
 
     public struct UpdateClusterResponse: AWSDecodableShape {
-        /// The updated cluster
+        /// The updated cluster.
         public let cluster: Cluster?
 
         @inlinable
@@ -2639,6 +2913,57 @@ extension MemoryDB {
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "Cluster"
+        }
+    }
+
+    public struct UpdateMultiRegionClusterRequest: AWSEncodableShape {
+        /// A new description for the multi-Region cluster.
+        public let description: String?
+        /// The new engine version to be used for the multi-Region cluster.
+        public let engineVersion: String?
+        /// The name of the multi-Region cluster to be updated.
+        public let multiRegionClusterName: String
+        /// The new multi-Region parameter group to be associated with the cluster.
+        public let multiRegionParameterGroupName: String?
+        /// The new node type to be used for the multi-Region cluster.
+        public let nodeType: String?
+        public let shardConfiguration: ShardConfigurationRequest?
+        /// Whether to force the update even if it may cause data loss.
+        public let updateStrategy: UpdateStrategy?
+
+        @inlinable
+        public init(description: String? = nil, engineVersion: String? = nil, multiRegionClusterName: String, multiRegionParameterGroupName: String? = nil, nodeType: String? = nil, shardConfiguration: ShardConfigurationRequest? = nil, updateStrategy: UpdateStrategy? = nil) {
+            self.description = description
+            self.engineVersion = engineVersion
+            self.multiRegionClusterName = multiRegionClusterName
+            self.multiRegionParameterGroupName = multiRegionParameterGroupName
+            self.nodeType = nodeType
+            self.shardConfiguration = shardConfiguration
+            self.updateStrategy = updateStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case engineVersion = "EngineVersion"
+            case multiRegionClusterName = "MultiRegionClusterName"
+            case multiRegionParameterGroupName = "MultiRegionParameterGroupName"
+            case nodeType = "NodeType"
+            case shardConfiguration = "ShardConfiguration"
+            case updateStrategy = "UpdateStrategy"
+        }
+    }
+
+    public struct UpdateMultiRegionClusterResponse: AWSDecodableShape {
+        /// The status of updating the multi-Region cluster.
+        public let multiRegionCluster: MultiRegionCluster?
+
+        @inlinable
+        public init(multiRegionCluster: MultiRegionCluster? = nil) {
+            self.multiRegionCluster = multiRegionCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiRegionCluster = "MultiRegionCluster"
         }
     }
 
@@ -2812,6 +3137,7 @@ public struct MemoryDBErrorType: AWSErrorType {
         case invalidClusterStateFault = "InvalidClusterStateFault"
         case invalidCredentialsException = "InvalidCredentialsException"
         case invalidKMSKeyFault = "InvalidKMSKeyFault"
+        case invalidMultiRegionClusterStateFault = "InvalidMultiRegionClusterStateFault"
         case invalidNodeStateFault = "InvalidNodeStateFault"
         case invalidParameterCombinationException = "InvalidParameterCombinationException"
         case invalidParameterGroupStateFault = "InvalidParameterGroupStateFault"
@@ -2820,6 +3146,9 @@ public struct MemoryDBErrorType: AWSErrorType {
         case invalidSubnet = "InvalidSubnet"
         case invalidUserStateFault = "InvalidUserStateFault"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
+        case multiRegionClusterAlreadyExistsFault = "MultiRegionClusterAlreadyExistsFault"
+        case multiRegionClusterNotFoundFault = "MultiRegionClusterNotFoundFault"
+        case multiRegionParameterGroupNotFoundFault = "MultiRegionParameterGroupNotFoundFault"
         case noOperationFault = "NoOperationFault"
         case nodeQuotaForClusterExceededFault = "NodeQuotaForClusterExceededFault"
         case nodeQuotaForCustomerExceededFault = "NodeQuotaForCustomerExceededFault"
@@ -2885,6 +3214,8 @@ public struct MemoryDBErrorType: AWSErrorType {
     public static var invalidClusterStateFault: Self { .init(.invalidClusterStateFault) }
     public static var invalidCredentialsException: Self { .init(.invalidCredentialsException) }
     public static var invalidKMSKeyFault: Self { .init(.invalidKMSKeyFault) }
+    /// The requested operation cannot be performed on the multi-Region cluster in its current state.
+    public static var invalidMultiRegionClusterStateFault: Self { .init(.invalidMultiRegionClusterStateFault) }
     public static var invalidNodeStateFault: Self { .init(.invalidNodeStateFault) }
     public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
     public static var invalidParameterGroupStateFault: Self { .init(.invalidParameterGroupStateFault) }
@@ -2893,6 +3224,12 @@ public struct MemoryDBErrorType: AWSErrorType {
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
     public static var invalidUserStateFault: Self { .init(.invalidUserStateFault) }
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
+    /// A multi-Region cluster with the specified name already exists.
+    public static var multiRegionClusterAlreadyExistsFault: Self { .init(.multiRegionClusterAlreadyExistsFault) }
+    /// The specified multi-Region cluster does not exist.
+    public static var multiRegionClusterNotFoundFault: Self { .init(.multiRegionClusterNotFoundFault) }
+    /// The specified multi-Region parameter group does not exist.
+    public static var multiRegionParameterGroupNotFoundFault: Self { .init(.multiRegionParameterGroupNotFoundFault) }
     public static var noOperationFault: Self { .init(.noOperationFault) }
     public static var nodeQuotaForClusterExceededFault: Self { .init(.nodeQuotaForClusterExceededFault) }
     public static var nodeQuotaForCustomerExceededFault: Self { .init(.nodeQuotaForCustomerExceededFault) }

@@ -26,8 +26,21 @@ import Foundation
 extension TimestreamQuery {
     // MARK: Enums
 
+    public enum ComputeMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onDemand = "ON_DEMAND"
+        case provisioned = "PROVISIONED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DimensionValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case varchar = "VARCHAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LastUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -103,6 +116,29 @@ extension TimestreamQuery {
     }
 
     // MARK: Shapes
+
+    public struct AccountSettingsNotificationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An Amazon Resource Name (ARN) that grants Timestream permission to publish notifications. This field is only visible if SNS Topic is provided when updating the account settings.
+        public let roleArn: String
+        public let snsConfiguration: SnsConfiguration?
+
+        @inlinable
+        public init(roleArn: String, snsConfiguration: SnsConfiguration? = nil) {
+            self.roleArn = roleArn
+            self.snsConfiguration = snsConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.snsConfiguration?.validate(name: "\(name).snsConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+            case snsConfiguration = "SnsConfiguration"
+        }
+    }
 
     public struct CancelQueryRequest: AWSEncodableShape {
         ///  The ID of the query that needs to be cancelled. QueryID is returned as part of the query result.
@@ -296,19 +332,23 @@ extension TimestreamQuery {
     }
 
     public struct DescribeAccountSettingsResponse: AWSDecodableShape {
-        /// The maximum number of Timestream compute units (TCUs) the service will use at any point in time to serve your queries.
+        /// The maximum number of Timestream compute units (TCUs) the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. This configuration is applicable only for on-demand usage of (TCUs).
         public let maxQueryTCU: Int?
-        /// The pricing model for queries in your account.
+        /// An object that contains the usage settings for Timestream Compute Units (TCUs) in your account for the query workload.
+        public let queryCompute: QueryComputeResponse?
+        /// The pricing model for queries in your account.  The QueryPricingModel parameter is used by several Timestream operations; however, the UpdateAccountSettings API operation doesn't recognize any values other than COMPUTE_UNITS.
         public let queryPricingModel: QueryPricingModel?
 
         @inlinable
-        public init(maxQueryTCU: Int? = nil, queryPricingModel: QueryPricingModel? = nil) {
+        public init(maxQueryTCU: Int? = nil, queryCompute: QueryComputeResponse? = nil, queryPricingModel: QueryPricingModel? = nil) {
             self.maxQueryTCU = maxQueryTCU
+            self.queryCompute = queryCompute
             self.queryPricingModel = queryPricingModel
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxQueryTCU = "MaxQueryTCU"
+            case queryCompute = "QueryCompute"
             case queryPricingModel = "QueryPricingModel"
         }
     }
@@ -499,6 +539,28 @@ extension TimestreamQuery {
         }
     }
 
+    public struct LastUpdate: AWSDecodableShape {
+        /// The status of the last update. Can be either PENDING, FAILED, or SUCCEEDED.
+        public let status: LastUpdateStatus?
+        /// Error message describing the last account settings update status, visible only if an error occurred.
+        public let statusMessage: String?
+        /// The number of TimeStream Compute Units (TCUs) requested in the last account settings update.
+        public let targetQueryTCU: Int?
+
+        @inlinable
+        public init(status: LastUpdateStatus? = nil, statusMessage: String? = nil, targetQueryTCU: Int? = nil) {
+            self.status = status
+            self.statusMessage = statusMessage
+            self.targetQueryTCU = targetQueryTCU
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case targetQueryTCU = "TargetQueryTCU"
+        }
+    }
+
     public struct ListScheduledQueriesRequest: AWSEncodableShape {
         /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as the argument to the subsequent call to ListScheduledQueriesRequest.
         public let maxResults: Int?
@@ -666,7 +728,7 @@ extension TimestreamQuery {
     }
 
     public struct NotificationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Details on SNS configuration.
+        /// Details about the Amazon Simple Notification Service (SNS) configuration. This field is visible only when SNS Topic is provided when updating the account settings.
         public let snsConfiguration: SnsConfiguration
 
         @inlinable
@@ -742,6 +804,90 @@ extension TimestreamQuery {
             case columns = "Columns"
             case parameters = "Parameters"
             case queryString = "QueryString"
+        }
+    }
+
+    public struct ProvisionedCapacityRequest: AWSEncodableShape {
+        /// Configuration settings for notifications related to the provisioned capacity update.
+        public let notificationConfiguration: AccountSettingsNotificationConfiguration?
+        /// The target compute capacity for querying data, specified in Timestream Compute Units (TCUs).
+        public let targetQueryTCU: Int
+
+        @inlinable
+        public init(notificationConfiguration: AccountSettingsNotificationConfiguration? = nil, targetQueryTCU: Int) {
+            self.notificationConfiguration = notificationConfiguration
+            self.targetQueryTCU = targetQueryTCU
+        }
+
+        public func validate(name: String) throws {
+            try self.notificationConfiguration?.validate(name: "\(name).notificationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationConfiguration = "NotificationConfiguration"
+            case targetQueryTCU = "TargetQueryTCU"
+        }
+    }
+
+    public struct ProvisionedCapacityResponse: AWSDecodableShape {
+        /// The number of Timestream Compute Units (TCUs) provisioned in the account. This field is only visible when the compute mode is PROVISIONED.
+        public let activeQueryTCU: Int?
+        /// Information about the last update to the provisioned capacity settings.
+        public let lastUpdate: LastUpdate?
+        /// An object that contains settings for notifications that are sent whenever the provisioned capacity settings are modified. This field is only visible when the compute mode is PROVISIONED.
+        public let notificationConfiguration: AccountSettingsNotificationConfiguration?
+
+        @inlinable
+        public init(activeQueryTCU: Int? = nil, lastUpdate: LastUpdate? = nil, notificationConfiguration: AccountSettingsNotificationConfiguration? = nil) {
+            self.activeQueryTCU = activeQueryTCU
+            self.lastUpdate = lastUpdate
+            self.notificationConfiguration = notificationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeQueryTCU = "ActiveQueryTCU"
+            case lastUpdate = "LastUpdate"
+            case notificationConfiguration = "NotificationConfiguration"
+        }
+    }
+
+    public struct QueryComputeRequest: AWSEncodableShape {
+        /// The mode in which Timestream Compute Units (TCUs) are allocated and utilized within an account. Note that in the Asia Pacific (Mumbai)  region, the API operation only recognizes the value PROVISIONED.
+        public let computeMode: ComputeMode?
+        /// Configuration object that contains settings for provisioned Timestream Compute Units (TCUs) in your account.
+        public let provisionedCapacity: ProvisionedCapacityRequest?
+
+        @inlinable
+        public init(computeMode: ComputeMode? = nil, provisionedCapacity: ProvisionedCapacityRequest? = nil) {
+            self.computeMode = computeMode
+            self.provisionedCapacity = provisionedCapacity
+        }
+
+        public func validate(name: String) throws {
+            try self.provisionedCapacity?.validate(name: "\(name).provisionedCapacity")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeMode = "ComputeMode"
+            case provisionedCapacity = "ProvisionedCapacity"
+        }
+    }
+
+    public struct QueryComputeResponse: AWSDecodableShape {
+        /// The mode in which Timestream Compute Units (TCUs) are allocated and utilized within an account. Note that in the Asia Pacific (Mumbai)  region, the API operation only recognizes the value PROVISIONED.
+        public let computeMode: ComputeMode?
+        /// Configuration object that contains settings for provisioned Timestream Compute Units (TCUs) in your account.
+        public let provisionedCapacity: ProvisionedCapacityResponse?
+
+        @inlinable
+        public init(computeMode: ComputeMode? = nil, provisionedCapacity: ProvisionedCapacityResponse? = nil) {
+            self.computeMode = computeMode
+            self.provisionedCapacity = provisionedCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeMode = "ComputeMode"
+            case provisionedCapacity = "ProvisionedCapacity"
         }
     }
 
@@ -1522,19 +1668,27 @@ extension TimestreamQuery {
     }
 
     public struct UpdateAccountSettingsRequest: AWSEncodableShape {
-        /// The maximum number of compute units the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft limit, contact Amazon Web Services Support. For information about the default quota for maxQueryTCU, see Default quotas.
+        /// The maximum number of compute units the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft limit, contact Amazon Web Services Support. For information about the default quota for maxQueryTCU, see Default quotas. This configuration is applicable only for on-demand usage of Timestream Compute Units (TCUs). The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft limit, contact Amazon Web Services Support. For information about the default quota for maxQueryTCU, see Default quotas.
         public let maxQueryTCU: Int?
+        /// Modifies the query compute settings configured in your account, including the query pricing model and provisioned Timestream Compute Units (TCUs) in your account.  This API is idempotent, meaning that making the same request multiple times will have the same effect as making the request once.
+        public let queryCompute: QueryComputeRequest?
         /// The pricing model for queries in an account.  The QueryPricingModel parameter is used by several Timestream operations; however, the UpdateAccountSettings API operation doesn't recognize any values other than COMPUTE_UNITS.
         public let queryPricingModel: QueryPricingModel?
 
         @inlinable
-        public init(maxQueryTCU: Int? = nil, queryPricingModel: QueryPricingModel? = nil) {
+        public init(maxQueryTCU: Int? = nil, queryCompute: QueryComputeRequest? = nil, queryPricingModel: QueryPricingModel? = nil) {
             self.maxQueryTCU = maxQueryTCU
+            self.queryCompute = queryCompute
             self.queryPricingModel = queryPricingModel
+        }
+
+        public func validate(name: String) throws {
+            try self.queryCompute?.validate(name: "\(name).queryCompute")
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxQueryTCU = "MaxQueryTCU"
+            case queryCompute = "QueryCompute"
             case queryPricingModel = "QueryPricingModel"
         }
     }
@@ -1542,17 +1696,21 @@ extension TimestreamQuery {
     public struct UpdateAccountSettingsResponse: AWSDecodableShape {
         /// The configured maximum number of compute units the service will use at any point in time to serve your queries.
         public let maxQueryTCU: Int?
+        /// Confirms the updated account settings for querying data in your account.
+        public let queryCompute: QueryComputeResponse?
         /// The pricing model for an account.
         public let queryPricingModel: QueryPricingModel?
 
         @inlinable
-        public init(maxQueryTCU: Int? = nil, queryPricingModel: QueryPricingModel? = nil) {
+        public init(maxQueryTCU: Int? = nil, queryCompute: QueryComputeResponse? = nil, queryPricingModel: QueryPricingModel? = nil) {
             self.maxQueryTCU = maxQueryTCU
+            self.queryCompute = queryCompute
             self.queryPricingModel = queryPricingModel
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxQueryTCU = "MaxQueryTCU"
+            case queryCompute = "QueryCompute"
             case queryPricingModel = "QueryPricingModel"
         }
     }
@@ -1615,13 +1773,13 @@ public struct TimestreamQueryErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    ///  You are not authorized to perform this action.
+    /// You do not have the necessary permissions to access the account settings.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     ///  Unable to poll results for a cancelled query.
     public static var conflictException: Self { .init(.conflictException) }
-    ///  The service was unable to fully process this request because of an internal server error.
+    /// An internal server error occurred while processing the request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The requested endpoint was not valid.
+    /// The requested endpoint is invalid.
     public static var invalidEndpointException: Self { .init(.invalidEndpointException) }
     ///  Timestream was unable to run the query successfully.
     public static var queryExecutionException: Self { .init(.queryExecutionException) }
@@ -1629,7 +1787,7 @@ public struct TimestreamQueryErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// You have exceeded the service quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// The request was denied due to request throttling.
+    /// The request was throttled due to excessive requests.
     public static var throttlingException: Self { .init(.throttlingException) }
     ///  Invalid or malformed request.
     public static var validationException: Self { .init(.validationException) }

@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS MemoryDB service.
 ///
-/// MemoryDB for Redis is a fully managed, Redis-compatible, in-memory database that delivers ultra-fast performance and Multi-AZ durability for modern applications built using microservices architectures.  MemoryDB stores the entire database in-memory, enabling low latency and high throughput data access. It is compatible with Redis, a popular open source data store, enabling you to leverage Redis’ flexible and friendly data structures, APIs, and commands.
+/// MemoryDB is a fully managed, Redis OSS-compatible, in-memory database that delivers ultra-fast performance and Multi-AZ durability for modern applications built using microservices architectures.  MemoryDB stores the entire database in-memory, enabling low latency and high throughput data access. It is compatible with Redis OSS, a popular open source data store, enabling you to leverage Redis OSS’ flexible and friendly data structures, APIs, and commands.
 public struct MemoryDB: AWSService {
     // MARK: Member variables
 
@@ -216,10 +216,11 @@ public struct MemoryDB: AWSService {
     ///   - clusterName: The name of the cluster. This value must be unique as it also serves as the cluster identifier.
     ///   - dataTiering: Enables data tiering. Data tiering is only supported for clusters using the r6gd node type.  This parameter must be set when using r6gd nodes. For more information, see Data tiering.
     ///   - description: An optional description of the cluster.
-    ///   - engine: The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
-    ///   - engineVersion: The version number of the engine to be used for the cluster.
+    ///   - engine: The name of the engine to be used for the cluster.
+    ///   - engineVersion: The version number of the Redis OSS engine to be used for the cluster.
     ///   - kmsKeyId: The ID of the KMS key used to encrypt the cluster.
     ///   - maintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
+    ///   - multiRegionClusterName: The name of the multi-Region cluster to be created.
     ///   - nodeType: The compute and memory capacity of the nodes in the cluster.
     ///   - numReplicasPerShard: The number of replicas to apply to each shard. The default value is 1. The maximum is 5.
     ///   - numShards: The number of shards the cluster will contain. The default value is 1.
@@ -246,6 +247,7 @@ public struct MemoryDB: AWSService {
         engineVersion: String? = nil,
         kmsKeyId: String? = nil,
         maintenanceWindow: String? = nil,
+        multiRegionClusterName: String? = nil,
         nodeType: String,
         numReplicasPerShard: Int? = nil,
         numShards: Int? = nil,
@@ -272,6 +274,7 @@ public struct MemoryDB: AWSService {
             engineVersion: engineVersion, 
             kmsKeyId: kmsKeyId, 
             maintenanceWindow: maintenanceWindow, 
+            multiRegionClusterName: multiRegionClusterName, 
             nodeType: nodeType, 
             numReplicasPerShard: numReplicasPerShard, 
             numShards: numShards, 
@@ -288,6 +291,59 @@ public struct MemoryDB: AWSService {
             tlsEnabled: tlsEnabled
         )
         return try await self.createCluster(input, logger: logger)
+    }
+
+    /// Creates a new multi-Region cluster.
+    @Sendable
+    @inlinable
+    public func createMultiRegionCluster(_ input: CreateMultiRegionClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultiRegionClusterResponse {
+        try await self.client.execute(
+            operation: "CreateMultiRegionCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new multi-Region cluster.
+    ///
+    /// Parameters:
+    ///   - description: A description for the multi-Region cluster.
+    ///   - engine: The name of the engine to be used for the multi-Region cluster.
+    ///   - engineVersion: The version of the engine to be used for the multi-Region cluster.
+    ///   - multiRegionClusterNameSuffix: A suffix to be added to the multi-Region cluster name.
+    ///   - multiRegionParameterGroupName: The name of the multi-Region parameter group to be associated with the cluster.
+    ///   - nodeType: The node type to be used for the multi-Region cluster.
+    ///   - numShards: The number of shards for the multi-Region cluster.
+    ///   - tags: A list of tags to be applied to the multi-Region cluster.
+    ///   - tlsEnabled: Whether to enable TLS encryption for the multi-Region cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createMultiRegionCluster(
+        description: String? = nil,
+        engine: String? = nil,
+        engineVersion: String? = nil,
+        multiRegionClusterNameSuffix: String,
+        multiRegionParameterGroupName: String? = nil,
+        nodeType: String,
+        numShards: Int? = nil,
+        tags: [Tag]? = nil,
+        tlsEnabled: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateMultiRegionClusterResponse {
+        let input = CreateMultiRegionClusterRequest(
+            description: description, 
+            engine: engine, 
+            engineVersion: engineVersion, 
+            multiRegionClusterNameSuffix: multiRegionClusterNameSuffix, 
+            multiRegionParameterGroupName: multiRegionParameterGroupName, 
+            nodeType: nodeType, 
+            numShards: numShards, 
+            tags: tags, 
+            tlsEnabled: tlsEnabled
+        )
+        return try await self.createMultiRegionCluster(input, logger: logger)
     }
 
     /// Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For  more information, see Configuring engine parameters using parameter groups.
@@ -458,7 +514,7 @@ public struct MemoryDB: AWSService {
     /// Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see Authenticating users with Access Contol Lists (ACLs).
     ///
     /// Parameters:
-    ///   - aclName: The name of the Access Control List to delete
+    ///   - aclName: The name of the Access Control List to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteACL(
@@ -471,7 +527,7 @@ public struct MemoryDB: AWSService {
         return try await self.deleteACL(input, logger: logger)
     }
 
-    /// Deletes a cluster. It also deletes all associated nodes and node endpoints
+    /// Deletes a cluster. It also deletes all associated nodes and node endpoints.   CreateSnapshot permission is required to create a final snapshot.  Without this permission, the API call will fail with an Access Denied exception.
     @Sendable
     @inlinable
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
@@ -484,23 +540,55 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// Deletes a cluster. It also deletes all associated nodes and node endpoints
+    /// Deletes a cluster. It also deletes all associated nodes and node endpoints.   CreateSnapshot permission is required to create a final snapshot.  Without this permission, the API call will fail with an Access Denied exception.
     ///
     /// Parameters:
     ///   - clusterName: The name of the cluster to be deleted
     ///   - finalSnapshotName: The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes the cluster immediately afterward.
+    ///   - multiRegionClusterName: The name of the multi-Region cluster to be deleted.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteCluster(
         clusterName: String,
         finalSnapshotName: String? = nil,
+        multiRegionClusterName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteClusterResponse {
         let input = DeleteClusterRequest(
             clusterName: clusterName, 
-            finalSnapshotName: finalSnapshotName
+            finalSnapshotName: finalSnapshotName, 
+            multiRegionClusterName: multiRegionClusterName
         )
         return try await self.deleteCluster(input, logger: logger)
+    }
+
+    /// Deletes an existing multi-Region cluster.
+    @Sendable
+    @inlinable
+    public func deleteMultiRegionCluster(_ input: DeleteMultiRegionClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMultiRegionClusterResponse {
+        try await self.client.execute(
+            operation: "DeleteMultiRegionCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing multi-Region cluster.
+    ///
+    /// Parameters:
+    ///   - multiRegionClusterName: The name of the multi-Region cluster to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteMultiRegionCluster(
+        multiRegionClusterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteMultiRegionClusterResponse {
+        let input = DeleteMultiRegionClusterRequest(
+            multiRegionClusterName: multiRegionClusterName
+        )
+        return try await self.deleteMultiRegionCluster(input, logger: logger)
     }
 
     /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters.  You cannot delete the default parameter groups in your account.
@@ -548,7 +636,7 @@ public struct MemoryDB: AWSService {
     /// Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
     ///
     /// Parameters:
-    ///   - snapshotName: The name of the snapshot to delete
+    ///   - snapshotName: The name of the snapshot to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteSnapshot(
@@ -577,7 +665,7 @@ public struct MemoryDB: AWSService {
     /// Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
     ///
     /// Parameters:
-    ///   - subnetGroupName: The name of the subnet group to delete
+    ///   - subnetGroupName: The name of the subnet group to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteSubnetGroup(
@@ -619,7 +707,7 @@ public struct MemoryDB: AWSService {
         return try await self.deleteUser(input, logger: logger)
     }
 
-    /// Returns a list of ACLs
+    /// Returns a list of ACLs.
     @Sendable
     @inlinable
     public func describeACLs(_ input: DescribeACLsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeACLsResponse {
@@ -632,10 +720,10 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of ACLs
+    /// Returns a list of ACLs.
     ///
     /// Parameters:
-    ///   - aclName: The name of the ACL
+    ///   - aclName: The name of the ACL.
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - nextToken: An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     ///   - logger: Logger use during operation
@@ -670,7 +758,7 @@ public struct MemoryDB: AWSService {
     /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
     ///
     /// Parameters:
-    ///   - clusterName: The name of the cluster
+    ///   - clusterName: The name of the cluster.
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - nextToken: An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     ///   - showShardDetails: An optional flag that can be included in the request to retrieve information about the individual shard(s).
@@ -692,7 +780,7 @@ public struct MemoryDB: AWSService {
         return try await self.describeClusters(input, logger: logger)
     }
 
-    /// Returns a list of the available engine versions.
+    /// Returns a list of the available Redis OSS engine versions.
     @Sendable
     @inlinable
     public func describeEngineVersions(_ input: DescribeEngineVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEngineVersionsResponse {
@@ -705,12 +793,12 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the available engine versions.
+    /// Returns a list of the available Redis OSS engine versions.
     ///
     /// Parameters:
     ///   - defaultOnly: If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
-    ///   - engine: The engine version to return. Valid values are either valkey or redis.
-    ///   - engineVersion: The engine version.
+    ///   - engine: The name of the engine for which to list available versions.
+    ///   - engineVersion: The Redis OSS engine version
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - nextToken: An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     ///   - parameterGroupFamily: The name of a specific parameter group family to return details for.
@@ -781,6 +869,44 @@ public struct MemoryDB: AWSService {
             startTime: startTime
         )
         return try await self.describeEvents(input, logger: logger)
+    }
+
+    /// Returns details about one or more multi-Region clusters.
+    @Sendable
+    @inlinable
+    public func describeMultiRegionClusters(_ input: DescribeMultiRegionClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMultiRegionClustersResponse {
+        try await self.client.execute(
+            operation: "DescribeMultiRegionClusters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns details about one or more multi-Region clusters.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - multiRegionClusterName: The name of a specific multi-Region cluster to describe.
+    ///   - nextToken: A token to specify where to start paginating.
+    ///   - showClusterDetails: Details about the multi-Region cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeMultiRegionClusters(
+        maxResults: Int? = nil,
+        multiRegionClusterName: String? = nil,
+        nextToken: String? = nil,
+        showClusterDetails: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeMultiRegionClustersResponse {
+        let input = DescribeMultiRegionClustersRequest(
+            maxResults: maxResults, 
+            multiRegionClusterName: multiRegionClusterName, 
+            nextToken: nextToken, 
+            showClusterDetails: showClusterDetails
+        )
+        return try await self.describeMultiRegionClusters(input, logger: logger)
     }
 
     /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
@@ -944,7 +1070,7 @@ public struct MemoryDB: AWSService {
         return try await self.describeReservedNodesOfferings(input, logger: logger)
     }
 
-    /// Returns details of the service updates
+    /// Returns details of the service updates.
     @Sendable
     @inlinable
     public func describeServiceUpdates(_ input: DescribeServiceUpdatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceUpdatesResponse {
@@ -957,14 +1083,14 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// Returns details of the service updates
+    /// Returns details of the service updates.
     ///
     /// Parameters:
-    ///   - clusterNames: The list of cluster names to identify service updates to apply
+    ///   - clusterNames: The list of cluster names to identify service updates to apply.
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - nextToken: An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     ///   - serviceUpdateName: The unique ID of the service update to describe.
-    ///   - status: The status(es) of the service updates to filter on
+    ///   - status: The status(es) of the service updates to filter on.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeServiceUpdates(
@@ -1083,7 +1209,7 @@ public struct MemoryDB: AWSService {
     ///   - filters: Filter to determine the list of users to return.
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - nextToken: An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
-    ///   - userName: The name of the user
+    ///   - userName: The name of the user.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeUsers(
@@ -1118,8 +1244,8 @@ public struct MemoryDB: AWSService {
     /// Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
     ///
     /// Parameters:
-    ///   - clusterName: The cluster being failed over
-    ///   - shardName: The name of the shard
+    ///   - clusterName: The cluster being failed over.
+    ///   - shardName: The name of the shard.
     ///   - logger: Logger use during operation
     @inlinable
     public func failoverShard(
@@ -1132,6 +1258,35 @@ public struct MemoryDB: AWSService {
             shardName: shardName
         )
         return try await self.failoverShard(input, logger: logger)
+    }
+
+    /// Lists the allowed updates for a multi-Region cluster.
+    @Sendable
+    @inlinable
+    public func listAllowedMultiRegionClusterUpdates(_ input: ListAllowedMultiRegionClusterUpdatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAllowedMultiRegionClusterUpdatesResponse {
+        try await self.client.execute(
+            operation: "ListAllowedMultiRegionClusterUpdates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the allowed updates for a multi-Region cluster.
+    ///
+    /// Parameters:
+    ///   - multiRegionClusterName: The name of the multi-Region cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAllowedMultiRegionClusterUpdates(
+        multiRegionClusterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAllowedMultiRegionClusterUpdatesResponse {
+        let input = ListAllowedMultiRegionClusterUpdatesRequest(
+            multiRegionClusterName: multiRegionClusterName
+        )
+        return try await self.listAllowedMultiRegionClusterUpdates(input, logger: logger)
     }
 
     /// Lists all available node types that you can scale to from your cluster's current node type.  When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
@@ -1163,7 +1318,7 @@ public struct MemoryDB: AWSService {
         return try await self.listAllowedNodeTypeUpdates(input, logger: logger)
     }
 
-    /// Lists all tags currently on a named resource.  A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources.  For more information, see Tagging your MemoryDB resources
+    /// Lists all tags currently on a named resource.  A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources.  For more information, see Tagging your MemoryDB resources.
     @Sendable
     @inlinable
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
@@ -1176,10 +1331,10 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// Lists all tags currently on a named resource.  A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources.  For more information, see Tagging your MemoryDB resources
+    /// Lists all tags currently on a named resource.  A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources.  For more information, see Tagging your MemoryDB resources.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which you want the list of tags
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which you want the list of tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTags(
@@ -1285,7 +1440,7 @@ public struct MemoryDB: AWSService {
     ///  Resource-level permissions. For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value  (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories  (such as cost centers, application names, or owners) to organize your costs across multiple services.  For more information, see Using Cost Allocation Tags.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to which the tags are to be added
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to which the tags are to be added.
     ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1301,7 +1456,7 @@ public struct MemoryDB: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Use this operation to remove tags on a resource
+    /// Use this operation to remove tags on a resource.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -1314,11 +1469,11 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// Use this operation to remove tags on a resource
+    /// Use this operation to remove tags on a resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to which the tags are to be removed
-    ///   - tagKeys: The list of keys of the tags that are to be removed
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to which the tags are to be removed.
+    ///   - tagKeys: The list of keys of the tags that are to be removed.
     ///   - logger: Logger use during operation
     @inlinable
     public func untagResource(
@@ -1349,9 +1504,9 @@ public struct MemoryDB: AWSService {
     /// Changes the list of users that belong to the Access Control List.
     ///
     /// Parameters:
-    ///   - aclName: The name of the Access Control List
-    ///   - userNamesToAdd: The list of users to add to the Access Control List
-    ///   - userNamesToRemove: The list of users to remove from the Access Control List
+    ///   - aclName: The name of the Access Control List.
+    ///   - userNamesToAdd: The list of users to add to the Access Control List.
+    ///   - userNamesToRemove: The list of users to remove from the Access Control List.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateACL(
@@ -1384,20 +1539,20 @@ public struct MemoryDB: AWSService {
     /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
     ///
     /// Parameters:
-    ///   - aclName: The Access Control List that is associated with the cluster
-    ///   - clusterName: The name of the cluster to update
-    ///   - description: The description of the cluster to update
-    ///   - engine: The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
+    ///   - aclName: The Access Control List that is associated with the cluster.
+    ///   - clusterName: The name of the cluster to update.
+    ///   - description: The description of the cluster to update.
+    ///   - engine: The name of the engine to be used for the cluster.
     ///   - engineVersion: The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
     ///   - maintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
     ///   - nodeType: A valid node type that you want to scale this cluster up or down to.
-    ///   - parameterGroupName: The name of the parameter group to update
-    ///   - replicaConfiguration: The number of replicas that will reside in each shard
-    ///   - securityGroupIds: The SecurityGroupIds to update
-    ///   - shardConfiguration: The number of shards in the cluster
+    ///   - parameterGroupName: The name of the parameter group to update.
+    ///   - replicaConfiguration: The number of replicas that will reside in each shard.
+    ///   - securityGroupIds: The SecurityGroupIds to update.
+    ///   - shardConfiguration: The number of shards in the cluster.
     ///   - snapshotRetentionLimit: The number of days for which MemoryDB retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.
     ///   - snapshotWindow: The daily time range (in UTC) during which MemoryDB begins taking a daily snapshot of your cluster.
-    ///   - snsTopicArn: The SNS topic ARN to update
+    ///   - snsTopicArn: The SNS topic ARN to update.
     ///   - snsTopicStatus: The status of the Amazon SNS notification topic. Notifications are sent only if the status is active.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1437,6 +1592,53 @@ public struct MemoryDB: AWSService {
             snsTopicStatus: snsTopicStatus
         )
         return try await self.updateCluster(input, logger: logger)
+    }
+
+    /// Updates the configuration of an existing multi-Region cluster.
+    @Sendable
+    @inlinable
+    public func updateMultiRegionCluster(_ input: UpdateMultiRegionClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMultiRegionClusterResponse {
+        try await self.client.execute(
+            operation: "UpdateMultiRegionCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing multi-Region cluster.
+    ///
+    /// Parameters:
+    ///   - description: A new description for the multi-Region cluster.
+    ///   - engineVersion: The new engine version to be used for the multi-Region cluster.
+    ///   - multiRegionClusterName: The name of the multi-Region cluster to be updated.
+    ///   - multiRegionParameterGroupName: The new multi-Region parameter group to be associated with the cluster.
+    ///   - nodeType: The new node type to be used for the multi-Region cluster.
+    ///   - shardConfiguration: 
+    ///   - updateStrategy: Whether to force the update even if it may cause data loss.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateMultiRegionCluster(
+        description: String? = nil,
+        engineVersion: String? = nil,
+        multiRegionClusterName: String,
+        multiRegionParameterGroupName: String? = nil,
+        nodeType: String? = nil,
+        shardConfiguration: ShardConfigurationRequest? = nil,
+        updateStrategy: UpdateStrategy? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateMultiRegionClusterResponse {
+        let input = UpdateMultiRegionClusterRequest(
+            description: description, 
+            engineVersion: engineVersion, 
+            multiRegionClusterName: multiRegionClusterName, 
+            multiRegionParameterGroupName: multiRegionParameterGroupName, 
+            nodeType: nodeType, 
+            shardConfiguration: shardConfiguration, 
+            updateStrategy: updateStrategy
+        )
+        return try await self.updateMultiRegionCluster(input, logger: logger)
     }
 
     /// Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
@@ -1576,7 +1778,7 @@ extension MemoryDB {
     /// Return PaginatorSequence for operation ``describeACLs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - aclName: The name of the ACL
+    ///   - aclName: The name of the ACL.
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1613,7 +1815,7 @@ extension MemoryDB {
     /// Return PaginatorSequence for operation ``describeClusters(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - clusterName: The name of the cluster
+    ///   - clusterName: The name of the cluster.
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - showShardDetails: An optional flag that can be included in the request to retrieve information about the individual shard(s).
     ///   - logger: Logger used for logging
@@ -1654,8 +1856,8 @@ extension MemoryDB {
     ///
     /// - Parameters:
     ///   - defaultOnly: If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
-    ///   - engine: The engine version to return. Valid values are either valkey or redis.
-    ///   - engineVersion: The engine version.
+    ///   - engine: The name of the engine for which to list available versions.
+    ///   - engineVersion: The Redis OSS engine version
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - parameterGroupFamily: The name of a specific parameter group family to return details for.
     ///   - logger: Logger used for logging
@@ -1725,6 +1927,46 @@ extension MemoryDB {
             startTime: startTime
         )
         return self.describeEventsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeMultiRegionClusters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeMultiRegionClustersPaginator(
+        _ input: DescribeMultiRegionClustersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMultiRegionClustersRequest, DescribeMultiRegionClustersResponse> {
+        return .init(
+            input: input,
+            command: self.describeMultiRegionClusters,
+            inputKey: \DescribeMultiRegionClustersRequest.nextToken,
+            outputKey: \DescribeMultiRegionClustersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeMultiRegionClusters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - multiRegionClusterName: The name of a specific multi-Region cluster to describe.
+    ///   - showClusterDetails: Details about the multi-Region cluster.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeMultiRegionClustersPaginator(
+        maxResults: Int? = nil,
+        multiRegionClusterName: String? = nil,
+        showClusterDetails: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeMultiRegionClustersRequest, DescribeMultiRegionClustersResponse> {
+        let input = DescribeMultiRegionClustersRequest(
+            maxResults: maxResults, 
+            multiRegionClusterName: multiRegionClusterName, 
+            showClusterDetails: showClusterDetails
+        )
+        return self.describeMultiRegionClustersPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``describeParameterGroups(_:logger:)``.
@@ -1917,10 +2159,10 @@ extension MemoryDB {
     /// Return PaginatorSequence for operation ``describeServiceUpdates(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - clusterNames: The list of cluster names to identify service updates to apply
+    ///   - clusterNames: The list of cluster names to identify service updates to apply.
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     ///   - serviceUpdateName: The unique ID of the service update to describe.
-    ///   - status: The status(es) of the service updates to filter on
+    ///   - status: The status(es) of the service updates to filter on.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeServiceUpdatesPaginator(
@@ -2045,7 +2287,7 @@ extension MemoryDB {
     /// - Parameters:
     ///   - filters: Filter to determine the list of users to return.
     ///   - maxResults: The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-    ///   - userName: The name of the user
+    ///   - userName: The name of the user.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeUsersPaginator(
@@ -2111,6 +2353,18 @@ extension MemoryDB.DescribeEventsRequest: AWSPaginateToken {
             sourceName: self.sourceName,
             sourceType: self.sourceType,
             startTime: self.startTime
+        )
+    }
+}
+
+extension MemoryDB.DescribeMultiRegionClustersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MemoryDB.DescribeMultiRegionClustersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            multiRegionClusterName: self.multiRegionClusterName,
+            nextToken: token,
+            showClusterDetails: self.showClusterDetails
         )
     }
 }

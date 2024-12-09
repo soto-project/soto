@@ -26,6 +26,12 @@ import Foundation
 extension QApps {
     // MARK: Enums
 
+    public enum Action: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case read = "read"
+        case write = "write"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AppRequiredCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creatorMode = "CreatorMode"
         case fileUpload = "FileUpload"
@@ -49,6 +55,7 @@ extension QApps {
 
     public enum CardType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fileUpload = "file-upload"
+        case formInput = "form-input"
         case qPlugin = "q-plugin"
         case qQuery = "q-query"
         case textInput = "text-input"
@@ -63,8 +70,15 @@ extension QApps {
 
     public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
+        case error = "ERROR"
         case inProgress = "IN_PROGRESS"
         case waiting = "WAITING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputCardComputeMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case append = "append"
+        case replace = "replace"
         public var description: String { return self.rawValue }
     }
 
@@ -75,11 +89,22 @@ extension QApps {
     }
 
     public enum PluginType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asana = "ASANA"
+        case atlassianConfluence = "ATLASSIAN_CONFLUENCE"
         case custom = "CUSTOM"
+        case googleCalendar = "GOOGLE_CALENDAR"
         case jira = "JIRA"
+        case jiraCloud = "JIRA_CLOUD"
+        case microsoftExchange = "MICROSOFT_EXCHANGE"
+        case microsoftTeams = "MICROSOFT_TEAMS"
+        case pagerdutyAdvance = "PAGERDUTY_ADVANCE"
         case salesforce = "SALESFORCE"
+        case salesforceCrm = "SALESFORCE_CRM"
         case serviceNow = "SERVICE_NOW"
+        case servicenowNowPlatform = "SERVICENOW_NOW_PLATFORM"
+        case smartsheet = "SMARTSHEET"
         case zendesk = "ZENDESK"
+        case zendeskSuite = "ZENDESK_SUITE"
         public var description: String { return self.rawValue }
     }
 
@@ -89,9 +114,24 @@ extension QApps {
         public var description: String { return self.rawValue }
     }
 
+    public enum SubmissionMutationKind: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case add = "add"
+        case delete = "delete"
+        case edit = "edit"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case owner = "owner"
+        case user = "user"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Card: AWSDecodableShape, Sendable {
         /// A container for the properties of the file upload card.
         case fileUpload(FileUploadCard)
+        /// A container for the properties of the form input card.
+        case formInput(FormInputCard)
         /// A container for the properties of the plugin card.
         case qPlugin(QPluginCard)
         /// A container for the properties of the query card.
@@ -112,6 +152,9 @@ extension QApps {
             case .fileUpload:
                 let value = try container.decode(FileUploadCard.self, forKey: .fileUpload)
                 self = .fileUpload(value)
+            case .formInput:
+                let value = try container.decode(FormInputCard.self, forKey: .formInput)
+                self = .formInput(value)
             case .qPlugin:
                 let value = try container.decode(QPluginCard.self, forKey: .qPlugin)
                 self = .qPlugin(value)
@@ -126,6 +169,7 @@ extension QApps {
 
         private enum CodingKeys: String, CodingKey {
             case fileUpload = "fileUpload"
+            case formInput = "formInput"
             case qPlugin = "qPlugin"
             case qQuery = "qQuery"
             case textInput = "textInput"
@@ -135,6 +179,8 @@ extension QApps {
     public enum CardInput: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A container for the properties of the file upload input card.
         case fileUpload(FileUploadCardInput)
+        /// A container for the properties of the form input card.
+        case formInput(FormInputCardInput)
         /// A container for the properties of the plugin input card.
         case qPlugin(QPluginCardInput)
         /// A container for the properties of the query input card.
@@ -155,6 +201,9 @@ extension QApps {
             case .fileUpload:
                 let value = try container.decode(FileUploadCardInput.self, forKey: .fileUpload)
                 self = .fileUpload(value)
+            case .formInput:
+                let value = try container.decode(FormInputCardInput.self, forKey: .formInput)
+                self = .formInput(value)
             case .qPlugin:
                 let value = try container.decode(QPluginCardInput.self, forKey: .qPlugin)
                 self = .qPlugin(value)
@@ -172,6 +221,8 @@ extension QApps {
             switch self {
             case .fileUpload(let value):
                 try container.encode(value, forKey: .fileUpload)
+            case .formInput(let value):
+                try container.encode(value, forKey: .formInput)
             case .qPlugin(let value):
                 try container.encode(value, forKey: .qPlugin)
             case .qQuery(let value):
@@ -185,6 +236,8 @@ extension QApps {
             switch self {
             case .fileUpload(let value):
                 try value.validate(name: "\(name).fileUpload")
+            case .formInput(let value):
+                try value.validate(name: "\(name).formInput")
             case .qPlugin(let value):
                 try value.validate(name: "\(name).qPlugin")
             case .qQuery(let value):
@@ -196,6 +249,7 @@ extension QApps {
 
         private enum CodingKeys: String, CodingKey {
             case fileUpload = "fileUpload"
+            case formInput = "formInput"
             case qPlugin = "qPlugin"
             case qQuery = "qQuery"
             case textInput = "textInput"
@@ -592,37 +646,46 @@ extension QApps {
         public let currentState: ExecutionStatus
         /// The current value or result associated with the card.
         public let currentValue: String
+        /// A list of previous submissions, if the card is a form card.
+        public let submissions: [Submission]?
 
         @inlinable
-        public init(currentState: ExecutionStatus, currentValue: String) {
+        public init(currentState: ExecutionStatus, currentValue: String, submissions: [Submission]? = nil) {
             self.currentState = currentState
             self.currentValue = currentValue
+            self.submissions = submissions
         }
 
         private enum CodingKeys: String, CodingKey {
             case currentState = "currentState"
             case currentValue = "currentValue"
+            case submissions = "submissions"
         }
     }
 
     public struct CardValue: AWSEncodableShape {
         /// The unique identifier of the card.
         public let cardId: String
+        /// The structure that describes how the current form card value is mutated. Only applies for form cards when multiple responses are allowed.
+        public let submissionMutation: SubmissionMutation?
         /// The value or result associated with the card.
         public let value: String
 
         @inlinable
-        public init(cardId: String, value: String) {
+        public init(cardId: String, submissionMutation: SubmissionMutation? = nil, value: String) {
             self.cardId = cardId
+            self.submissionMutation = submissionMutation
             self.value = value
         }
 
         public func validate(name: String) throws {
             try self.validate(self.cardId, name: "cardId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.submissionMutation?.validate(name: "\(name).submissionMutation")
         }
 
         private enum CodingKeys: String, CodingKey {
             case cardId = "cardId"
+            case submissionMutation = "submissionMutation"
             case value = "value"
         }
     }
@@ -782,6 +845,89 @@ extension QApps {
             case status = "status"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct CreatePresignedUrlInput: AWSEncodableShape {
+        /// The unique identifier of the Q App the file is associated with.
+        public let appId: String
+        /// The unique identifier of the card the file is associated with.
+        public let cardId: String
+        /// The Base64-encoded SHA-256 digest of the contents of the file to be uploaded.
+        public let fileContentsSha256: String
+        /// The name of the file to be uploaded.
+        public let fileName: String
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+        /// Whether the file is associated with a Q App definition or a specific Q App session.
+        public let scope: DocumentScope
+        /// The unique identifier of the Q App session the file is associated with, if applicable.
+        public let sessionId: String?
+
+        @inlinable
+        public init(appId: String, cardId: String, fileContentsSha256: String, fileName: String, instanceId: String, scope: DocumentScope, sessionId: String? = nil) {
+            self.appId = appId
+            self.cardId = cardId
+            self.fileContentsSha256 = fileContentsSha256
+            self.fileName = fileName
+            self.instanceId = instanceId
+            self.scope = scope
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.appId, forKey: .appId)
+            try container.encode(self.cardId, forKey: .cardId)
+            try container.encode(self.fileContentsSha256, forKey: .fileContentsSha256)
+            try container.encode(self.fileName, forKey: .fileName)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+            try container.encode(self.scope, forKey: .scope)
+            try container.encodeIfPresent(self.sessionId, forKey: .sessionId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.cardId, name: "cardId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.fileName, name: "fileName", parent: name, max: 100)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case cardId = "cardId"
+            case fileContentsSha256 = "fileContentsSha256"
+            case fileName = "fileName"
+            case scope = "scope"
+            case sessionId = "sessionId"
+        }
+    }
+
+    public struct CreatePresignedUrlOutput: AWSDecodableShape {
+        /// The unique identifier assigned to the file to be uploaded.
+        public let fileId: String
+        /// The URL for a presigned S3 POST operation used to upload a file.
+        public let presignedUrl: String
+        /// The date and time that the presigned URL will expire in ISO 8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var presignedUrlExpiration: Date
+        /// The form fields to include in the presigned S3 POST operation used to upload a file.
+        public let presignedUrlFields: [String: String]
+
+        @inlinable
+        public init(fileId: String, presignedUrl: String, presignedUrlExpiration: Date, presignedUrlFields: [String: String]) {
+            self.fileId = fileId
+            self.presignedUrl = presignedUrl
+            self.presignedUrlExpiration = presignedUrlExpiration
+            self.presignedUrlFields = presignedUrlFields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileId = "fileId"
+            case presignedUrl = "presignedUrl"
+            case presignedUrlExpiration = "presignedUrlExpiration"
+            case presignedUrlFields = "presignedUrlFields"
         }
     }
 
@@ -947,6 +1093,54 @@ extension QApps {
         }
     }
 
+    public struct DescribeQAppPermissionsInput: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q App for which to retrieve permissions.
+        public let appId: String
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(appId: String, instanceId: String) {
+            self.appId = appId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appId, key: "appId")
+            request.encodeHeader(self.instanceId, key: "instance-id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeQAppPermissionsOutput: AWSDecodableShape {
+        /// The unique identifier of the Amazon Q App for which permissions are returned.
+        public let appId: String?
+        /// The list of permissions granted for the Amazon Q App.
+        public let permissions: [PermissionOutput]?
+        /// The Amazon Resource Name (ARN) of the Amazon Q App for which permissions are returned.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(appId: String? = nil, permissions: [PermissionOutput]? = nil, resourceArn: String? = nil) {
+            self.appId = appId
+            self.permissions = permissions
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case permissions = "permissions"
+            case resourceArn = "resourceArn"
+        }
+    }
+
     public struct DisassociateLibraryItemReviewInput: AWSEncodableShape {
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
@@ -1028,6 +1222,57 @@ extension QApps {
         }
     }
 
+    public struct ExportQAppSessionDataInput: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+        /// The unique identifier of the Q App data collection session.
+        public let sessionId: String
+
+        @inlinable
+        public init(instanceId: String, sessionId: String) {
+            self.instanceId = instanceId
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+            try container.encode(self.sessionId, forKey: .sessionId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "sessionId"
+        }
+    }
+
+    public struct ExportQAppSessionDataOutput: AWSDecodableShape {
+        /// The link where the exported Q App session data can be downloaded from.
+        public let csvFileLink: String
+        /// The date and time when the link for the exported Q App session data expires.
+        @CustomCoding<ISO8601DateCoder>
+        public var expiresAt: Date
+        /// The Amazon Resource Name (ARN) of the Q App data collection session.
+        public let sessionArn: String
+
+        @inlinable
+        public init(csvFileLink: String, expiresAt: Date, sessionArn: String) {
+            self.csvFileLink = csvFileLink
+            self.expiresAt = expiresAt
+            self.sessionArn = sessionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csvFileLink = "csvFileLink"
+            case expiresAt = "expiresAt"
+            case sessionArn = "sessionArn"
+        }
+    }
+
     public struct FileUploadCard: AWSDecodableShape {
         /// A flag indicating if the user can override the default file for the upload card.
         public let allowOverride: Bool?
@@ -1105,6 +1350,90 @@ extension QApps {
             case id = "id"
             case title = "title"
             case type = "type"
+        }
+    }
+
+    public struct FormInputCard: AWSDecodableShape {
+        /// The compute mode of the form input card. This property determines whether individual participants of a data collection session can submit multiple response or one response. A compute mode of append shall allow participants to submit the same form multiple times with different values. A compute mode of replacecode&gt; shall overwrite the current value for each participant.
+        public let computeMode: InputCardComputeMode?
+        /// Any dependencies or requirements for the form input card.
+        public let dependencies: [String]
+        /// The unique identifier of the form input card.
+        public let id: String
+        /// The metadata that defines the form input card data.
+        public let metadata: FormInputCardMetadata
+        /// The title of the form input card.
+        public let title: String
+        /// The type of the card.
+        public let type: CardType
+
+        @inlinable
+        public init(computeMode: InputCardComputeMode? = nil, dependencies: [String], id: String, metadata: FormInputCardMetadata, title: String, type: CardType) {
+            self.computeMode = computeMode
+            self.dependencies = dependencies
+            self.id = id
+            self.metadata = metadata
+            self.title = title
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeMode = "computeMode"
+            case dependencies = "dependencies"
+            case id = "id"
+            case metadata = "metadata"
+            case title = "title"
+            case type = "type"
+        }
+    }
+
+    public struct FormInputCardInput: AWSEncodableShape & AWSDecodableShape {
+        /// The compute mode of the form input card. This property determines whether individual participants of a data collection session can submit multiple response or one response. A compute mode of append shall allow participants to submit the same form multiple times with different values. A compute mode of replacecode&gt; shall overwrite the current value for each participant.
+        public let computeMode: InputCardComputeMode?
+        /// The unique identifier of the form input card.
+        public let id: String
+        /// The metadata that defines the form input card data.
+        public let metadata: FormInputCardMetadata
+        /// The title or label of the form input card.
+        public let title: String
+        /// The type of the card.
+        public let type: CardType
+
+        @inlinable
+        public init(computeMode: InputCardComputeMode? = nil, id: String, metadata: FormInputCardMetadata, title: String, type: CardType) {
+            self.computeMode = computeMode
+            self.id = id
+            self.metadata = metadata
+            self.title = title
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.title, name: "title", parent: name, max: 100)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeMode = "computeMode"
+            case id = "id"
+            case metadata = "metadata"
+            case title = "title"
+            case type = "type"
+        }
+    }
+
+    public struct FormInputCardMetadata: AWSEncodableShape & AWSDecodableShape {
+        /// The JSON schema that defines the shape of the response data.
+        public let schema: String
+
+        @inlinable
+        public init(schema: String) {
+            self.schema = schema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schema = "schema"
         }
     }
 
@@ -1206,12 +1535,15 @@ extension QApps {
     public struct GetQAppInput: AWSEncodableShape {
         /// The unique identifier of the Q App to retrieve.
         public let appId: String
+        /// The version of the Q App.
+        public let appVersion: Int?
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
 
         @inlinable
-        public init(appId: String, instanceId: String) {
+        public init(appId: String, appVersion: Int? = nil, instanceId: String) {
             self.appId = appId
+            self.appVersion = appVersion
             self.instanceId = instanceId
         }
 
@@ -1219,11 +1551,14 @@ extension QApps {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.appId, key: "appId")
+            request.encodeQuery(self.appVersion, key: "appVersion")
             request.encodeHeader(self.instanceId, key: "instance-id")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.appVersion, name: "appVersion", parent: name, max: 2147483647)
+            try self.validate(self.appVersion, name: "appVersion", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1319,36 +1654,108 @@ extension QApps {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetQAppSessionOutput: AWSDecodableShape {
-        /// The current status for each card in the Q App session.
-        public let cardStatus: [String: CardStatus]
+    public struct GetQAppSessionMetadataInput: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+        /// The unique identifier of the Q App session.
+        public let sessionId: String
+
+        @inlinable
+        public init(instanceId: String, sessionId: String) {
+            self.instanceId = instanceId
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+            request.encodeQuery(self.sessionId, key: "sessionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetQAppSessionMetadataOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Q App session.
         public let sessionArn: String
         /// The unique identifier of the Q App session.
         public let sessionId: String
-        /// The current status of the Q App session.
-        public let status: ExecutionStatus
+        /// The name of the Q App session.
+        public let sessionName: String?
+        /// Indicates whether the current user is the owner of the Q App session.
+        public let sessionOwner: Bool?
+        /// The sharing configuration of the Q App data collection session.
+        public let sharingConfiguration: SessionSharingConfiguration
 
         @inlinable
-        public init(cardStatus: [String: CardStatus], sessionArn: String, sessionId: String, status: ExecutionStatus) {
-            self.cardStatus = cardStatus
+        public init(sessionArn: String, sessionId: String, sessionName: String? = nil, sessionOwner: Bool? = nil, sharingConfiguration: SessionSharingConfiguration) {
             self.sessionArn = sessionArn
             self.sessionId = sessionId
-            self.status = status
+            self.sessionName = sessionName
+            self.sessionOwner = sessionOwner
+            self.sharingConfiguration = sharingConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cardStatus = "cardStatus"
             case sessionArn = "sessionArn"
             case sessionId = "sessionId"
+            case sessionName = "sessionName"
+            case sessionOwner = "sessionOwner"
+            case sharingConfiguration = "sharingConfiguration"
+        }
+    }
+
+    public struct GetQAppSessionOutput: AWSDecodableShape {
+        /// The version of the Q App used for the session.
+        public let appVersion: Int?
+        /// The current status for each card in the Q App session.
+        public let cardStatus: [String: CardStatus]
+        /// The latest published version of the Q App used for the session.
+        public let latestPublishedAppVersion: Int?
+        /// The Amazon Resource Name (ARN) of the Q App session.
+        public let sessionArn: String
+        /// The unique identifier of the Q App session.
+        public let sessionId: String
+        /// The name of the Q App session.
+        public let sessionName: String?
+        /// The current status of the Q App session.
+        public let status: ExecutionStatus
+        /// Indicates whether the current user is the owner of the Q App data collection session.
+        public let userIsHost: Bool?
+
+        @inlinable
+        public init(appVersion: Int? = nil, cardStatus: [String: CardStatus], latestPublishedAppVersion: Int? = nil, sessionArn: String, sessionId: String, sessionName: String? = nil, status: ExecutionStatus, userIsHost: Bool? = nil) {
+            self.appVersion = appVersion
+            self.cardStatus = cardStatus
+            self.latestPublishedAppVersion = latestPublishedAppVersion
+            self.sessionArn = sessionArn
+            self.sessionId = sessionId
+            self.sessionName = sessionName
+            self.status = status
+            self.userIsHost = userIsHost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appVersion = "appVersion"
+            case cardStatus = "cardStatus"
+            case latestPublishedAppVersion = "latestPublishedAppVersion"
+            case sessionArn = "sessionArn"
+            case sessionId = "sessionId"
+            case sessionName = "sessionName"
             case status = "status"
+            case userIsHost = "userIsHost"
         }
     }
 
     public struct ImportDocumentInput: AWSEncodableShape {
         /// The unique identifier of the Q App the file is associated with.
         public let appId: String
-        /// The unique identifier of the card the file is associated with, if applicable.
+        /// The unique identifier of the card the file is associated with.
         public let cardId: String
         /// The base64-encoded contents of the file to upload.
         public let fileContentsBase64: String
@@ -1356,7 +1763,7 @@ extension QApps {
         public let fileName: String
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
-        /// Whether the file is associated with an Q App definition or a specific Q App session.
+        /// Whether the file is associated with a Q App definition or a specific Q App session.
         public let scope: DocumentScope
         /// The unique identifier of the Q App session the file is associated with, if applicable.
         public let sessionId: String?
@@ -1566,6 +1973,58 @@ extension QApps {
         }
     }
 
+    public struct ListQAppSessionDataInput: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+        /// The unique identifier of the Q App data collection session.
+        public let sessionId: String
+
+        @inlinable
+        public init(instanceId: String, sessionId: String) {
+            self.instanceId = instanceId
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+            request.encodeQuery(self.sessionId, key: "sessionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListQAppSessionDataOutput: AWSDecodableShape {
+        ///  The pagination token that indicates the next set of results to retrieve.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the Q App data collection session.
+        public let sessionArn: String
+        /// The collected responses of a Q App session.
+        public let sessionData: [QAppSessionData]?
+        /// The unique identifier of the Q App data collection session.
+        public let sessionId: String
+
+        @inlinable
+        public init(nextToken: String? = nil, sessionArn: String, sessionData: [QAppSessionData]? = nil, sessionId: String) {
+            self.nextToken = nextToken
+            self.sessionArn = sessionArn
+            self.sessionData = sessionData
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sessionArn = "sessionArn"
+            case sessionData = "sessionData"
+            case sessionId = "sessionId"
+        }
+    }
+
     public struct ListQAppsInput: AWSEncodableShape {
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
@@ -1653,6 +2112,42 @@ extension QApps {
         }
     }
 
+    public struct PermissionInput: AWSEncodableShape {
+        /// The action associated with the permission.
+        public let action: Action
+        /// The principal user to which the permission applies.
+        public let principal: String
+
+        @inlinable
+        public init(action: Action, principal: String) {
+            self.action = action
+            self.principal = principal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case principal = "principal"
+        }
+    }
+
+    public struct PermissionOutput: AWSDecodableShape {
+        /// The action associated with the permission.
+        public let action: Action
+        /// The principal user to which the permission applies.
+        public let principal: PrincipalOutput
+
+        @inlinable
+        public init(action: Action, principal: PrincipalOutput) {
+            self.action = action
+            self.principal = principal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case principal = "principal"
+        }
+    }
+
     public struct PredictAppDefinition: AWSDecodableShape {
         /// The definition specifying the cards and flow of the generated Q App.
         public let appDefinition: AppDefinitionInput
@@ -1717,7 +2212,62 @@ extension QApps {
         }
     }
 
+    public struct PrincipalOutput: AWSDecodableShape {
+        /// The email address associated with the user.
+        public let email: String?
+        /// The unique identifier of the user.
+        public let userId: String?
+        /// The type of the user.
+        public let userType: UserType?
+
+        @inlinable
+        public init(email: String? = nil, userId: String? = nil, userType: UserType? = nil) {
+            self.email = email
+            self.userId = userId
+            self.userType = userType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email = "email"
+            case userId = "userId"
+            case userType = "userType"
+        }
+    }
+
+    public struct QAppSessionData: AWSDecodableShape {
+        /// The card Id associated with the response submitted for a Q App session.
+        public let cardId: String
+        /// The unique identifier of the submission.
+        public let submissionId: String?
+        /// The date and time when the session data is submitted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var timestamp: Date?
+        /// The user who submitted the response for a Q App session.
+        public let user: User
+        /// The response submitted for a Q App session.
+        public let value: String?
+
+        @inlinable
+        public init(cardId: String, submissionId: String? = nil, timestamp: Date? = nil, user: User, value: String? = nil) {
+            self.cardId = cardId
+            self.submissionId = submissionId
+            self.timestamp = timestamp
+            self.user = user
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cardId = "cardId"
+            case submissionId = "submissionId"
+            case timestamp = "timestamp"
+            case user = "user"
+            case value = "value"
+        }
+    }
+
     public struct QPluginCard: AWSDecodableShape {
+        /// The action identifier of the action to be performed by the plugin card.
+        public let actionIdentifier: String?
         /// Any dependencies or requirements for the plugin card.
         public let dependencies: [String]
         /// The unique identifier of the plugin card.
@@ -1734,7 +2284,8 @@ extension QApps {
         public let type: CardType
 
         @inlinable
-        public init(dependencies: [String], id: String, pluginId: String, pluginType: PluginType, prompt: String, title: String, type: CardType) {
+        public init(actionIdentifier: String? = nil, dependencies: [String], id: String, pluginId: String, pluginType: PluginType, prompt: String, title: String, type: CardType) {
+            self.actionIdentifier = actionIdentifier
             self.dependencies = dependencies
             self.id = id
             self.pluginId = pluginId
@@ -1745,6 +2296,7 @@ extension QApps {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionIdentifier = "actionIdentifier"
             case dependencies = "dependencies"
             case id = "id"
             case pluginId = "pluginId"
@@ -1756,6 +2308,8 @@ extension QApps {
     }
 
     public struct QPluginCardInput: AWSEncodableShape & AWSDecodableShape {
+        /// The action identifier of the action to be performed by the plugin card.
+        public let actionIdentifier: String?
         /// The unique identifier of the plugin card.
         public let id: String
         /// The unique identifier of the plugin used by the card.
@@ -1768,7 +2322,8 @@ extension QApps {
         public let type: CardType
 
         @inlinable
-        public init(id: String, pluginId: String, prompt: String, title: String, type: CardType) {
+        public init(actionIdentifier: String? = nil, id: String, pluginId: String, prompt: String, title: String, type: CardType) {
+            self.actionIdentifier = actionIdentifier
             self.id = id
             self.pluginId = pluginId
             self.prompt = prompt
@@ -1777,15 +2332,18 @@ extension QApps {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.actionIdentifier, name: "actionIdentifier", parent: name, max: 256)
+            try self.validate(self.actionIdentifier, name: "actionIdentifier", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.pluginId, name: "pluginId", parent: name, max: 36)
             try self.validate(self.pluginId, name: "pluginId", parent: name, min: 36)
-            try self.validate(self.prompt, name: "prompt", parent: name, max: 7000)
+            try self.validate(self.prompt, name: "prompt", parent: name, max: 50000)
             try self.validate(self.title, name: "title", parent: name, max: 100)
             try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionIdentifier = "actionIdentifier"
             case id = "id"
             case pluginId = "pluginId"
             case prompt = "prompt"
@@ -1801,6 +2359,8 @@ extension QApps {
         public let dependencies: [String]
         /// The unique identifier of the query card.
         public let id: String
+        /// Any dependencies for the query card, where the dependencies are references to the collected responses.
+        public let memoryReferences: [String]?
         /// The source or type of output generated by the query card.
         public let outputSource: CardOutputSource
         /// The prompt or instructions displayed for the query card.
@@ -1811,10 +2371,11 @@ extension QApps {
         public let type: CardType
 
         @inlinable
-        public init(attributeFilter: AttributeFilter? = nil, dependencies: [String], id: String, outputSource: CardOutputSource, prompt: String, title: String, type: CardType) {
+        public init(attributeFilter: AttributeFilter? = nil, dependencies: [String], id: String, memoryReferences: [String]? = nil, outputSource: CardOutputSource, prompt: String, title: String, type: CardType) {
             self.attributeFilter = attributeFilter
             self.dependencies = dependencies
             self.id = id
+            self.memoryReferences = memoryReferences
             self.outputSource = outputSource
             self.prompt = prompt
             self.title = title
@@ -1825,6 +2386,7 @@ extension QApps {
             case attributeFilter = "attributeFilter"
             case dependencies = "dependencies"
             case id = "id"
+            case memoryReferences = "memoryReferences"
             case outputSource = "outputSource"
             case prompt = "prompt"
             case title = "title"
@@ -1859,7 +2421,7 @@ extension QApps {
         public func validate(name: String) throws {
             try self.attributeFilter?.validate(name: "\(name).attributeFilter")
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
-            try self.validate(self.prompt, name: "prompt", parent: name, max: 7000)
+            try self.validate(self.prompt, name: "prompt", parent: name, max: 50000)
             try self.validate(self.title, name: "title", parent: name, max: 100)
             try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
         }
@@ -1874,6 +2436,28 @@ extension QApps {
         }
     }
 
+    public struct SessionSharingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether an Q App session can accept responses from users.
+        public let acceptResponses: Bool?
+        /// Indicates whether an Q App session is shareable with other users.
+        public let enabled: Bool
+        /// Indicates whether collected responses for an Q App session are revealed for all users.
+        public let revealCards: Bool?
+
+        @inlinable
+        public init(acceptResponses: Bool? = nil, enabled: Bool, revealCards: Bool? = nil) {
+            self.acceptResponses = acceptResponses
+            self.enabled = enabled
+            self.revealCards = revealCards
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptResponses = "acceptResponses"
+            case enabled = "enabled"
+            case revealCards = "revealCards"
+        }
+    }
+
     public struct StartQAppSessionInput: AWSEncodableShape {
         /// The unique identifier of the Q App to start a session for.
         public let appId: String
@@ -1883,15 +2467,18 @@ extension QApps {
         public let initialValues: [CardValue]?
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
+        /// The unique identifier of the a Q App session.
+        public let sessionId: String?
         /// Optional tags to associate with the new Q App session.
         public let tags: [String: String]?
 
         @inlinable
-        public init(appId: String, appVersion: Int, initialValues: [CardValue]? = nil, instanceId: String, tags: [String: String]? = nil) {
+        public init(appId: String, appVersion: Int, initialValues: [CardValue]? = nil, instanceId: String, sessionId: String? = nil, tags: [String: String]? = nil) {
             self.appId = appId
             self.appVersion = appVersion
             self.initialValues = initialValues
             self.instanceId = instanceId
+            self.sessionId = sessionId
             self.tags = tags
         }
 
@@ -1902,6 +2489,7 @@ extension QApps {
             try container.encode(self.appVersion, forKey: .appVersion)
             try container.encodeIfPresent(self.initialValues, forKey: .initialValues)
             request.encodeHeader(self.instanceId, key: "instance-id")
+            try container.encodeIfPresent(self.sessionId, forKey: .sessionId)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -1919,6 +2507,7 @@ extension QApps {
             case appId = "appId"
             case appVersion = "appVersion"
             case initialValues = "initialValues"
+            case sessionId = "sessionId"
             case tags = "tags"
         }
     }
@@ -1926,7 +2515,7 @@ extension QApps {
     public struct StartQAppSessionOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the new Q App session.
         public let sessionArn: String
-        /// The unique identifier of the new Q App session.
+        /// The unique identifier of the new or retrieved Q App session.
         public let sessionId: String
 
         @inlinable
@@ -1966,6 +2555,51 @@ extension QApps {
 
         private enum CodingKeys: String, CodingKey {
             case sessionId = "sessionId"
+        }
+    }
+
+    public struct Submission: AWSDecodableShape {
+        /// The unique identifier of the submission.
+        public let submissionId: String?
+        /// The date and time when the card is submitted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var timestamp: Date?
+        /// The data submitted by the user.
+        public let value: String?
+
+        @inlinable
+        public init(submissionId: String? = nil, timestamp: Date? = nil, value: String? = nil) {
+            self.submissionId = submissionId
+            self.timestamp = timestamp
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case submissionId = "submissionId"
+            case timestamp = "timestamp"
+            case value = "value"
+        }
+    }
+
+    public struct SubmissionMutation: AWSEncodableShape {
+        /// The operation that is performed on a submission.
+        public let mutationType: SubmissionMutationKind
+        /// The unique identifier of the submission.
+        public let submissionId: String
+
+        @inlinable
+        public init(mutationType: SubmissionMutationKind, submissionId: String) {
+            self.mutationType = mutationType
+            self.submissionId = submissionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.submissionId, name: "submissionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mutationType = "mutationType"
+            case submissionId = "submissionId"
         }
     }
 
@@ -2361,6 +2995,68 @@ extension QApps {
         }
     }
 
+    public struct UpdateQAppPermissionsInput: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q App for which permissions are being updated.
+        public let appId: String
+        /// The list of permissions to grant for the Amazon Q App.
+        public let grantPermissions: [PermissionInput]?
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+        /// The list of permissions to revoke for the Amazon Q App.
+        public let revokePermissions: [PermissionInput]?
+
+        @inlinable
+        public init(appId: String, grantPermissions: [PermissionInput]? = nil, instanceId: String, revokePermissions: [PermissionInput]? = nil) {
+            self.appId = appId
+            self.grantPermissions = grantPermissions
+            self.instanceId = instanceId
+            self.revokePermissions = revokePermissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.appId, forKey: .appId)
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case grantPermissions = "grantPermissions"
+            case revokePermissions = "revokePermissions"
+        }
+    }
+
+    public struct UpdateQAppPermissionsOutput: AWSDecodableShape {
+        /// The unique identifier of the Amazon Q App for which permissions were updated.
+        public let appId: String?
+        /// The updated list of permissions for the Amazon Q App.
+        public let permissions: [PermissionOutput]?
+        /// The Amazon Resource Name (ARN) of the Amazon Q App for which permissions were updated.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(appId: String? = nil, permissions: [PermissionOutput]? = nil, resourceArn: String? = nil) {
+            self.appId = appId
+            self.permissions = permissions
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case permissions = "permissions"
+            case resourceArn = "resourceArn"
+        }
+    }
+
     public struct UpdateQAppSessionInput: AWSEncodableShape {
         /// The unique identifier of the Amazon Q Business application environment instance.
         public let instanceId: String
@@ -2398,6 +3094,71 @@ extension QApps {
         }
     }
 
+    public struct UpdateQAppSessionMetadataInput: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+        /// The unique identifier of the Q App session to update configuration for.
+        public let sessionId: String
+        /// The new name for the Q App session.
+        public let sessionName: String?
+        /// The new sharing configuration for the Q App data collection session.
+        public let sharingConfiguration: SessionSharingConfiguration
+
+        @inlinable
+        public init(instanceId: String, sessionId: String, sessionName: String? = nil, sharingConfiguration: SessionSharingConfiguration) {
+            self.instanceId = instanceId
+            self.sessionId = sessionId
+            self.sessionName = sessionName
+            self.sharingConfiguration = sharingConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+            try container.encode(self.sessionId, forKey: .sessionId)
+            try container.encodeIfPresent(self.sessionName, forKey: .sessionName)
+            try container.encode(self.sharingConfiguration, forKey: .sharingConfiguration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-[45][\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+            try self.validate(self.sessionName, name: "sessionName", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "sessionId"
+            case sessionName = "sessionName"
+            case sharingConfiguration = "sharingConfiguration"
+        }
+    }
+
+    public struct UpdateQAppSessionMetadataOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated Q App session.
+        public let sessionArn: String
+        /// The unique identifier of the updated Q App session.
+        public let sessionId: String
+        /// The new name of the updated Q App session.
+        public let sessionName: String?
+        /// The new sharing configuration of the updated Q App data collection session.
+        public let sharingConfiguration: SessionSharingConfiguration
+
+        @inlinable
+        public init(sessionArn: String, sessionId: String, sessionName: String? = nil, sharingConfiguration: SessionSharingConfiguration) {
+            self.sessionArn = sessionArn
+            self.sessionId = sessionId
+            self.sessionName = sessionName
+            self.sharingConfiguration = sharingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionArn = "sessionArn"
+            case sessionId = "sessionId"
+            case sessionName = "sessionName"
+            case sharingConfiguration = "sharingConfiguration"
+        }
+    }
+
     public struct UpdateQAppSessionOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the updated Q App session.
         public let sessionArn: String
@@ -2413,6 +3174,20 @@ extension QApps {
         private enum CodingKeys: String, CodingKey {
             case sessionArn = "sessionArn"
             case sessionId = "sessionId"
+        }
+    }
+
+    public struct User: AWSDecodableShape {
+        /// The unique identifier of a user.
+        public let userId: String?
+
+        @inlinable
+        public init(userId: String? = nil) {
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "userId"
         }
     }
 

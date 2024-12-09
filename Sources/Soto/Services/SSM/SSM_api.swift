@@ -643,7 +643,7 @@ public struct SSM: AWSService {
     ///   - approvedPatchesEnableNonSecurity: Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
     ///   - clientToken: User-provided idempotency token.
     ///   - description: A description of the patch baseline.
-    ///   - globalFilters: A set of global filters used to include patches in the baseline.
+    ///   - globalFilters: A set of global filters used to include patches in the baseline.  The GlobalFilters parameter can be configured only by using the CLI or an Amazon Web Services SDK. It can't be configured from the Patch Manager console, and its value isn't displayed in the console.
     ///   - name: The name of the patch baseline.
     ///   - operatingSystem: Defines the operating system the patch baseline applies to. The default value is WINDOWS.
     ///   - rejectedPatches: A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
@@ -686,7 +686,7 @@ public struct SSM: AWSService {
         return try await self.createPatchBaseline(input, logger: logger)
     }
 
-    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creatinga a resource data sync for Inventory in the Amazon Web Services Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncFromSource type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple Amazon Web Services Regions to a single Amazon S3 bucket. This type can synchronize OpsItems and OpsData from multiple Amazon Web Services accounts and Amazon Web Services Regions or EntireOrganization by using Organizations. For more information, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the Amazon Web Services Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the ListResourceDataSync.  By default, data isn't encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
+    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creating a resource data sync for Inventory in the Amazon Web Services Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncFromSource type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple Amazon Web Services Regions to a single Amazon S3 bucket. This type can synchronize OpsItems and OpsData from multiple Amazon Web Services accounts and Amazon Web Services Regions or EntireOrganization by using Organizations. For more information, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the Amazon Web Services Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the ListResourceDataSync.  By default, data isn't encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
     @Sendable
     @inlinable
     public func createResourceDataSync(_ input: CreateResourceDataSyncRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceDataSyncResult {
@@ -699,7 +699,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creatinga a resource data sync for Inventory in the Amazon Web Services Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncFromSource type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple Amazon Web Services Regions to a single Amazon S3 bucket. This type can synchronize OpsItems and OpsData from multiple Amazon Web Services accounts and Amazon Web Services Regions or EntireOrganization by using Organizations. For more information, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the Amazon Web Services Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the ListResourceDataSync.  By default, data isn't encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
+    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creating a resource data sync for Inventory in the Amazon Web Services Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncFromSource type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple Amazon Web Services Regions to a single Amazon S3 bucket. This type can synchronize OpsItems and OpsData from multiple Amazon Web Services accounts and Amazon Web Services Regions or EntireOrganization by using Organizations. For more information, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the Amazon Web Services Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the ListResourceDataSync.  By default, data isn't encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
     ///
     /// Parameters:
     ///   - s3Destination: Amazon S3 configuration details for the sync. This parameter is required if the SyncType value is SyncToDestination.
@@ -2719,6 +2719,35 @@ public struct SSM: AWSService {
         return try await self.getDocument(input, logger: logger)
     }
 
+    /// Initiates the process of retrieving an existing preview that shows the effects that running a specified Automation runbook would have on the targeted resources.
+    @Sendable
+    @inlinable
+    public func getExecutionPreview(_ input: GetExecutionPreviewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExecutionPreviewResponse {
+        try await self.client.execute(
+            operation: "GetExecutionPreview", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates the process of retrieving an existing preview that shows the effects that running a specified Automation runbook would have on the targeted resources.
+    ///
+    /// Parameters:
+    ///   - executionPreviewId: The ID of the existing execution preview.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getExecutionPreview(
+        executionPreviewId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetExecutionPreviewResponse {
+        let input = GetExecutionPreviewRequest(
+            executionPreviewId: executionPreviewId
+        )
+        return try await self.getExecutionPreview(input, logger: logger)
+    }
+
     /// Query inventory information. This includes managed node status, such as Stopped or Terminated.
     @Sendable
     @inlinable
@@ -3327,7 +3356,7 @@ public struct SSM: AWSService {
     ///  ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of false. This means the user can't use this feature unless they change the setting to true and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the UpdateServiceSetting API operation to change the default setting. Or use the ResetServiceSetting to change the value back to the original value defined by the Amazon Web Services service team. Query the current service setting for the Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - settingId: The ID of the service setting to get. The setting ID can be one of the following.    /ssm/managed-instance/default-ec2-instance-management-role     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled
+    ///   - settingId: The ID of the service setting to get. The setting ID can be one of the following.    /ssm/appmanager/appmanager-enabled     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name    /ssm/automation/enable-adaptive-concurrency    /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/managed-instance/default-ec2-instance-management-role     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled
     ///   - logger: Logger use during operation
     @inlinable
     public func getServiceSetting(
@@ -3759,6 +3788,85 @@ public struct SSM: AWSService {
             typeName: typeName
         )
         return try await self.listInventoryEntries(input, logger: logger)
+    }
+
+    /// Takes in filters and returns a list of managed nodes matching the filter criteria.
+    @Sendable
+    @inlinable
+    public func listNodes(_ input: ListNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNodesResult {
+        try await self.client.execute(
+            operation: "ListNodes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Takes in filters and returns a list of managed nodes matching the filter criteria.
+    ///
+    /// Parameters:
+    ///   - filters: One or more filters. Use a filter to return a more specific list of managed nodes.
+    ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - syncName: The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configurations. Optional for single account/single-Region configurations.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNodes(
+        filters: [NodeFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        syncName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNodesResult {
+        let input = ListNodesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            syncName: syncName
+        )
+        return try await self.listNodes(input, logger: logger)
+    }
+
+    /// Generates a summary of managed instance/node metadata based on the filters and aggregators you specify. Results are grouped by the input aggregator you specify.
+    @Sendable
+    @inlinable
+    public func listNodesSummary(_ input: ListNodesSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNodesSummaryResult {
+        try await self.client.execute(
+            operation: "ListNodesSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Generates a summary of managed instance/node metadata based on the filters and aggregators you specify. Results are grouped by the input aggregator you specify.
+    ///
+    /// Parameters:
+    ///   - aggregators: Specify one or more aggregators to return a count of managed nodes that match that expression. For example, a count of managed nodes by operating system.
+    ///   - filters: One or more filters. Use a filter to generate a summary that matches your specified filter criteria.
+    ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.) The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - syncName: The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configuration. Optional for single account/single-Region configurations.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNodesSummary(
+        aggregators: [NodeAggregator],
+        filters: [NodeFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        syncName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNodesSummaryResult {
+        let input = ListNodesSummaryRequest(
+            aggregators: aggregators, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            syncName: syncName
+        )
+        return try await self.listNodesSummary(input, logger: logger)
     }
 
     /// Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon Web Services account. You can limit the results to events associated with specific OpsItems by specifying a filter.
@@ -4421,7 +4529,7 @@ public struct SSM: AWSService {
     ///  ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the GetServiceSetting API operation to view the current value. Use the UpdateServiceSetting API operation to change the default setting.  Reset the service setting for the account to the default value as provisioned by the Amazon Web Services service team.
     ///
     /// Parameters:
-    ///   - settingId: The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following.    /ssm/managed-instance/default-ec2-instance-management-role     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled
+    ///   - settingId: The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following.    /ssm/appmanager/appmanager-enabled     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name    /ssm/automation/enable-adaptive-concurrency    /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/managed-instance/default-ec2-instance-management-role     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled
     ///   - logger: Logger use during operation
     @inlinable
     public func resetServiceSetting(
@@ -4732,6 +4840,41 @@ public struct SSM: AWSService {
             tags: tags
         )
         return try await self.startChangeRequestExecution(input, logger: logger)
+    }
+
+    /// Initiates the process of creating a preview showing the effects that running a specified Automation runbook would have on the targeted resources.
+    @Sendable
+    @inlinable
+    public func startExecutionPreview(_ input: StartExecutionPreviewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExecutionPreviewResponse {
+        try await self.client.execute(
+            operation: "StartExecutionPreview", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates the process of creating a preview showing the effects that running a specified Automation runbook would have on the targeted resources.
+    ///
+    /// Parameters:
+    ///   - documentName: The name of the Automation runbook to run. The result of the execution preview indicates what the impact would be of running this runbook.
+    ///   - documentVersion: The version of the Automation runbook to run. The default value is $DEFAULT.
+    ///   - executionInputs: Information about the inputs that can be specified for the preview operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startExecutionPreview(
+        documentName: String,
+        documentVersion: String? = nil,
+        executionInputs: ExecutionInputs? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartExecutionPreviewResponse {
+        let input = StartExecutionPreviewRequest(
+            documentName: documentName, 
+            documentVersion: documentVersion, 
+            executionInputs: executionInputs
+        )
+        return try await self.startExecutionPreview(input, logger: logger)
     }
 
     /// Initiates a connection to a target (for example, a managed node) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs.  Amazon Web Services CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the Amazon Web Services CLI in the Amazon Web Services Systems Manager User Guide. Amazon Web Services Tools for PowerShell usage: Start-SSMSession isn't currently supported by Amazon Web Services Tools for PowerShell on Windows local machines.
@@ -5458,7 +5601,7 @@ public struct SSM: AWSService {
     ///   - approvedPatchesEnableNonSecurity: Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
     ///   - baselineId: The ID of the patch baseline to update.
     ///   - description: A description of the patch baseline.
-    ///   - globalFilters: A set of global filters used to include patches in the baseline.
+    ///   - globalFilters: A set of global filters used to include patches in the baseline.  The GlobalFilters parameter can be configured only by using the CLI or an Amazon Web Services SDK. It can't be configured from the Patch Manager console, and its value isn't displayed in the console.
     ///   - name: The name of the patch baseline.
     ///   - rejectedPatches: A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see Package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
     ///   - rejectedPatchesAction: The action for Patch Manager to take on patches included in the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified.  BLOCK   All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
@@ -5549,8 +5692,8 @@ public struct SSM: AWSService {
     ///  ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the GetServiceSetting API operation to view the current value. Or, use the ResetServiceSetting to change the value back to the original value defined by the Amazon Web Services service team. Update the service setting for the account.
     ///
     /// Parameters:
-    ///   - settingId: The Amazon Resource Name (ARN) of the service setting to update. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/managed-instance/default-ec2-instance-management-role     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     Permissions to update the /ssm/managed-instance/default-ec2-instance-management-role setting should only be provided to administrators. Implement least privilege access when allowing individuals to configure or modify the Default Host Management Configuration.
-    ///   - settingValue: The new value to specify for the service setting. The following list specifies the available values for each setting.   For /ssm/managed-instance/default-ec2-instance-management-role, enter the name of an IAM role.    For /ssm/automation/customer-script-log-destination, enter CloudWatch.   For /ssm/automation/customer-script-log-group-name, enter the name of an Amazon CloudWatch Logs log group.   For /ssm/documents/console/public-sharing-permission, enter Enable or Disable.   For /ssm/managed-instance/activation-tier, enter standard or advanced.   For /ssm/opsinsights/opscenter, enter Enabled or Disabled.    For /ssm/parameter-store/default-parameter-tier, enter Standard, Advanced, or Intelligent-Tiering    For /ssm/parameter-store/high-throughput-enabled, enter true or false.
+    ///   - settingId: The Amazon Resource Name (ARN) of the service setting to update. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/appmanager/appmanager-enabled     /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name    /ssm/automation/enable-adaptive-concurrency    /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier     /ssm/managed-instance/default-ec2-instance-management-role     /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     Permissions to update the /ssm/managed-instance/default-ec2-instance-management-role setting should only be provided to administrators. Implement least privilege access when allowing individuals to configure or modify the Default Host Management Configuration.
+    ///   - settingValue: The new value to specify for the service setting. The following list specifies the available values for each setting.   For /ssm/appmanager/appmanager-enabled, enter True or False.   For /ssm/automation/customer-script-log-destination, enter CloudWatch.   For /ssm/automation/customer-script-log-group-name, enter the name of an Amazon CloudWatch Logs log group.   For /ssm/documents/console/public-sharing-permission, enter Enable or Disable.   For /ssm/managed-instance/activation-tier, enter standard or advanced.   For /ssm/managed-instance/default-ec2-instance-management-role, enter the name of an IAM role.    For /ssm/opsinsights/opscenter, enter Enabled or Disabled.    For /ssm/parameter-store/default-parameter-tier, enter Standard, Advanced, or Intelligent-Tiering    For /ssm/parameter-store/high-throughput-enabled, enter true or false.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateServiceSetting(
@@ -7299,6 +7442,89 @@ extension SSM {
         return self.listDocumentsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listNodes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNodesPaginator(
+        _ input: ListNodesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNodesRequest, ListNodesResult> {
+        return .init(
+            input: input,
+            command: self.listNodes,
+            inputKey: \ListNodesRequest.nextToken,
+            outputKey: \ListNodesResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNodes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: One or more filters. Use a filter to return a more specific list of managed nodes.
+    ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - syncName: The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configurations. Optional for single account/single-Region configurations.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNodesPaginator(
+        filters: [NodeFilter]? = nil,
+        maxResults: Int? = nil,
+        syncName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNodesRequest, ListNodesResult> {
+        let input = ListNodesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            syncName: syncName
+        )
+        return self.listNodesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNodesSummary(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNodesSummaryPaginator(
+        _ input: ListNodesSummaryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNodesSummaryRequest, ListNodesSummaryResult> {
+        return .init(
+            input: input,
+            command: self.listNodesSummary,
+            inputKey: \ListNodesSummaryRequest.nextToken,
+            outputKey: \ListNodesSummaryResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNodesSummary(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - aggregators: Specify one or more aggregators to return a count of managed nodes that match that expression. For example, a count of managed nodes by operating system.
+    ///   - filters: One or more filters. Use a filter to generate a summary that matches your specified filter criteria.
+    ///   - maxResults: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    ///   - syncName: The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configuration. Optional for single account/single-Region configurations.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNodesSummaryPaginator(
+        aggregators: [NodeAggregator],
+        filters: [NodeFilter]? = nil,
+        maxResults: Int? = nil,
+        syncName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNodesSummaryRequest, ListNodesSummaryResult> {
+        let input = ListNodesSummaryRequest(
+            aggregators: aggregators, 
+            filters: filters, 
+            maxResults: maxResults, 
+            syncName: syncName
+        )
+        return self.listNodesSummaryPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listOpsItemEvents(_:logger:)``.
     ///
     /// - Parameters:
@@ -8000,6 +8226,31 @@ extension SSM.ListDocumentsRequest: AWSPaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension SSM.ListNodesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SSM.ListNodesRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            syncName: self.syncName
+        )
+    }
+}
+
+extension SSM.ListNodesSummaryRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SSM.ListNodesSummaryRequest {
+        return .init(
+            aggregators: self.aggregators,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            syncName: self.syncName
         )
     }
 }

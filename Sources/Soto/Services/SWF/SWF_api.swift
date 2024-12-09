@@ -88,10 +88,15 @@ public struct SWF: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "swf-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "swf-fips.ca-west-1.amazonaws.com",
             "us-east-1": "swf-fips.us-east-1.amazonaws.com",
             "us-east-2": "swf-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "swf.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "swf.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "swf-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "swf-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "swf-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "swf-fips.us-west-1.amazonaws.com",
             "us-west-2": "swf-fips.us-west-2.amazonaws.com"
         ])

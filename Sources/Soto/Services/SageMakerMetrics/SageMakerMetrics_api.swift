@@ -66,6 +66,7 @@ public struct SageMakerMetrics: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2022-09-30",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -76,6 +77,17 @@ public struct SageMakerMetrics: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "metrics-fips.sagemaker.ca-central-1.amazonaws.com",
+            "ca-west-1": "metrics-fips.sagemaker.ca-west-1.amazonaws.com",
+            "us-east-1": "metrics-fips.sagemaker.us-east-1.amazonaws.com",
+            "us-east-2": "metrics-fips.sagemaker.us-east-2.amazonaws.com",
+            "us-west-1": "metrics-fips.sagemaker.us-west-1.amazonaws.com",
+            "us-west-2": "metrics-fips.sagemaker.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

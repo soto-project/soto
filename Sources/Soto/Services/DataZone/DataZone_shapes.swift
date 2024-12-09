@@ -38,15 +38,64 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basic = "BASIC"
+        case custom = "CUSTOM"
+        case oauth2 = "OAUTH2"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case publish = "PUBLISH"
         case unpublish = "UNPUBLISH"
         public var description: String { return self.rawValue }
     }
 
+    public enum ComputeEnvironments: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case athena = "ATHENA"
+        case python = "PYTHON"
+        case spark = "SPARK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigurableActionTypeAuthorization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case https = "HTTPS"
         case iam = "IAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case ready = "READY"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case athena = "ATHENA"
+        case bigquery = "BIGQUERY"
+        case databricks = "DATABRICKS"
+        case documentdb = "DOCUMENTDB"
+        case dynamodb = "DYNAMODB"
+        case hyperpod = "HYPERPOD"
+        case iam = "IAM"
+        case mysql = "MYSQL"
+        case opensearch = "OPENSEARCH"
+        case oracle = "ORACLE"
+        case postgresql = "POSTGRESQL"
+        case redshift = "REDSHIFT"
+        case saphana = "SAPHANA"
+        case snowflake = "SNOWFLAKE"
+        case spark = "SPARK"
+        case sqlserver = "SQLSERVER"
+        case teradata = "TERADATA"
+        case vertica = "VERTICA"
+        case workflowsMwaa = "WORKFLOWS_MWAA"
         public var description: String { return self.rawValue }
     }
 
@@ -117,6 +166,12 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeploymentMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onCreate = "ON_CREATE"
+        case onDemand = "ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -144,6 +199,12 @@ extension DataZone {
 
     public enum DomainUnitDesignation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case owner = "OWNER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case v1 = "V1"
+        case v2 = "V2"
         public var description: String { return self.rawValue }
     }
 
@@ -212,6 +273,29 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum GlueConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bigquery = "BIGQUERY"
+        case documentdb = "DOCUMENTDB"
+        case dynamodb = "DYNAMODB"
+        case mysql = "MYSQL"
+        case opensearch = "OPENSEARCH"
+        case oracle = "ORACLE"
+        case postgresql = "POSTGRESQL"
+        case redshift = "REDSHIFT"
+        case saphana = "SAPHANA"
+        case snowflake = "SNOWFLAKE"
+        case sqlserver = "SQLSERVER"
+        case teradata = "TERADATA"
+        case vertica = "VERTICA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GovernanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsManaged = "AWS_MANAGED"
+        case userManaged = "USER_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GroupProfileStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assigned = "ASSIGNED"
         case notAssigned = "NOT_ASSIGNED"
@@ -224,11 +308,56 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum HyperPodOrchestrator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eks = "EKS"
+        case slurm = "SLURM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InventorySearchScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asset = "ASSET"
         case dataProduct = "DATA_PRODUCT"
         case glossary = "GLOSSARY"
         case glossaryTerm = "GLOSSARY_TERM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobRunMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onDemand = "ON_DEMAND"
+        case scheduled = "SCHEDULED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aborted = "ABORTED"
+        case canceled = "CANCELED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case partiallySucceeded = "PARTIALLY_SUCCEEDED"
+        case scheduled = "SCHEDULED"
+        case success = "SUCCESS"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lineage = "LINEAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LineageEventProcessingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case processing = "PROCESSING"
+        case requested = "REQUESTED"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LineageImportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case partiallySucceeded = "PARTIALLY_SUCCEEDED"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -244,10 +373,12 @@ extension DataZone {
         case createAssetType = "CREATE_ASSET_TYPE"
         case createDomainUnit = "CREATE_DOMAIN_UNIT"
         case createEnvironment = "CREATE_ENVIRONMENT"
+        case createEnvironmentFromBlueprint = "CREATE_ENVIRONMENT_FROM_BLUEPRINT"
         case createEnvironmentProfile = "CREATE_ENVIRONMENT_PROFILE"
         case createFormType = "CREATE_FORM_TYPE"
         case createGlossary = "CREATE_GLOSSARY"
         case createProject = "CREATE_PROJECT"
+        case createProjectFromProjectProfile = "CREATE_PROJECT_FROM_PROJECT_PROFILE"
         case delegateCreateEnvironmentProfile = "DELEGATE_CREATE_ENVIRONMENT_PROFILE"
         case overrideDomainUnitOwners = "OVERRIDE_DOMAIN_UNIT_OWNERS"
         case overrideProjectOwners = "OVERRIDE_PROJECT_OWNERS"
@@ -293,6 +424,32 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum OAuth2GrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case authorizationCode = "AUTHORIZATION_CODE"
+        case clientCredentials = "CLIENT_CREDENTIALS"
+        case jwtBearer = "JWT_BEARER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpenLineageRunState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case abort = "ABORT"
+        case complete = "COMPLETE"
+        case fail = "FAIL"
+        case other = "OTHER"
+        case running = "RUNNING"
+        case start = "START"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OverallDeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failedDeployment = "FAILED_DEPLOYMENT"
+        case failedValidation = "FAILED_VALIDATION"
+        case inProgress = "IN_PROGRESS"
+        case pendingDeployment = "PENDING_DEPLOYMENT"
+        case successful = "SUCCESSFUL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProjectDesignation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contributor = "CONTRIBUTOR"
         case owner = "OWNER"
@@ -313,6 +470,27 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum RuleAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createSubscriptionRequest = "CREATE_SUBSCRIPTION_REQUEST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleScopeSelectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case specific = "SPECIFIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleTargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case domainUnit = "DOMAIN_UNIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case metadataFormEnforcement = "METADATA_FORM_ENFORCEMENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SearchOutputAdditionalAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case forms = "FORMS"
         case timeSeriesDataPointForms = "TIME_SERIES_DATA_POINT_FORMS"
@@ -330,6 +508,11 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum SortFieldConnection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case name = "NAME"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortFieldProject: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case name = "NAME"
         public var description: String { return self.rawValue }
@@ -344,6 +527,12 @@ extension DataZone {
     public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -522,6 +711,17 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case athena = "ATHENA"
+        case glueInteractiveSession = "GLUE_INTERACTIVE_SESSION"
+        case https = "HTTPS"
+        case jdbc = "JDBC"
+        case livy = "LIVY"
+        case odbc = "ODBC"
+        case prism = "PRISM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssetFilterConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The column configuration of the asset filter.
         case columnConfiguration(ColumnFilterConfiguration)
@@ -563,11 +763,229 @@ extension DataZone {
         }
     }
 
+    public enum AwsAccount: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The account ID of a project.
+        case awsAccountId(String)
+        /// The account ID path of a project.
+        case awsAccountIdPath(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .awsAccountId:
+                let value = try container.decode(String.self, forKey: .awsAccountId)
+                self = .awsAccountId(value)
+            case .awsAccountIdPath:
+                let value = try container.decode(String.self, forKey: .awsAccountIdPath)
+                self = .awsAccountIdPath(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .awsAccountId(let value):
+                try container.encode(value, forKey: .awsAccountId)
+            case .awsAccountIdPath(let value):
+                try container.encode(value, forKey: .awsAccountIdPath)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .awsAccountId(let value):
+                try self.validate(value, name: "awsAccountId", parent: name, pattern: "^\\d{12}$")
+            case .awsAccountIdPath(let value):
+                try self.validate(value, name: "awsAccountIdPath", parent: name, max: 2048)
+                try self.validate(value, name: "awsAccountIdPath", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "awsAccountId"
+            case awsAccountIdPath = "awsAccountIdPath"
+        }
+    }
+
+    public enum ConnectionPropertiesInput: AWSEncodableShape, Sendable {
+        /// The Amazon Athena properties of a connection.
+        case athenaProperties(AthenaPropertiesInput)
+        /// The Amazon Web Services Glue properties of a connection.
+        case glueProperties(GluePropertiesInput)
+        /// The hyper pod properties of a connection.
+        case hyperPodProperties(HyperPodPropertiesInput)
+        /// The IAM properties of a connection.
+        case iamProperties(IamPropertiesInput)
+        /// The Amazon Redshift properties of a connection.
+        case redshiftProperties(RedshiftPropertiesInput)
+        /// The Spark EMR properties of a connection.
+        case sparkEmrProperties(SparkEmrPropertiesInput)
+        /// The Spark Amazon Web Services Glue properties of a connection.
+        case sparkGlueProperties(SparkGluePropertiesInput)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .athenaProperties(let value):
+                try container.encode(value, forKey: .athenaProperties)
+            case .glueProperties(let value):
+                try container.encode(value, forKey: .glueProperties)
+            case .hyperPodProperties(let value):
+                try container.encode(value, forKey: .hyperPodProperties)
+            case .iamProperties(let value):
+                try container.encode(value, forKey: .iamProperties)
+            case .redshiftProperties(let value):
+                try container.encode(value, forKey: .redshiftProperties)
+            case .sparkEmrProperties(let value):
+                try container.encode(value, forKey: .sparkEmrProperties)
+            case .sparkGlueProperties(let value):
+                try container.encode(value, forKey: .sparkGlueProperties)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .glueProperties(let value):
+                try value.validate(name: "\(name).glueProperties")
+            case .redshiftProperties(let value):
+                try value.validate(name: "\(name).redshiftProperties")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case athenaProperties = "athenaProperties"
+            case glueProperties = "glueProperties"
+            case hyperPodProperties = "hyperPodProperties"
+            case iamProperties = "iamProperties"
+            case redshiftProperties = "redshiftProperties"
+            case sparkEmrProperties = "sparkEmrProperties"
+            case sparkGlueProperties = "sparkGlueProperties"
+        }
+    }
+
+    public enum ConnectionPropertiesOutput: AWSDecodableShape, Sendable {
+        /// The Amazon Athena properties of a connection.
+        case athenaProperties(AthenaPropertiesOutput)
+        /// The Amazon Web Services Glue properties of a connection.
+        case glueProperties(GluePropertiesOutput)
+        /// The hyper pod properties of a connection.
+        case hyperPodProperties(HyperPodPropertiesOutput)
+        /// The IAM properties of a connection.
+        case iamProperties(IamPropertiesOutput)
+        /// The Amazon Redshift properties of a connection.
+        case redshiftProperties(RedshiftPropertiesOutput)
+        /// The Spark EMR properties of a connection.
+        case sparkEmrProperties(SparkEmrPropertiesOutput)
+        /// The Spark Amazon Web Services Glue properties of a connection.
+        case sparkGlueProperties(SparkGluePropertiesOutput)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .athenaProperties:
+                let value = try container.decode(AthenaPropertiesOutput.self, forKey: .athenaProperties)
+                self = .athenaProperties(value)
+            case .glueProperties:
+                let value = try container.decode(GluePropertiesOutput.self, forKey: .glueProperties)
+                self = .glueProperties(value)
+            case .hyperPodProperties:
+                let value = try container.decode(HyperPodPropertiesOutput.self, forKey: .hyperPodProperties)
+                self = .hyperPodProperties(value)
+            case .iamProperties:
+                let value = try container.decode(IamPropertiesOutput.self, forKey: .iamProperties)
+                self = .iamProperties(value)
+            case .redshiftProperties:
+                let value = try container.decode(RedshiftPropertiesOutput.self, forKey: .redshiftProperties)
+                self = .redshiftProperties(value)
+            case .sparkEmrProperties:
+                let value = try container.decode(SparkEmrPropertiesOutput.self, forKey: .sparkEmrProperties)
+                self = .sparkEmrProperties(value)
+            case .sparkGlueProperties:
+                let value = try container.decode(SparkGluePropertiesOutput.self, forKey: .sparkGlueProperties)
+                self = .sparkGlueProperties(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case athenaProperties = "athenaProperties"
+            case glueProperties = "glueProperties"
+            case hyperPodProperties = "hyperPodProperties"
+            case iamProperties = "iamProperties"
+            case redshiftProperties = "redshiftProperties"
+            case sparkEmrProperties = "sparkEmrProperties"
+            case sparkGlueProperties = "sparkGlueProperties"
+        }
+    }
+
+    public enum ConnectionPropertiesPatch: AWSEncodableShape, Sendable {
+        /// The Amazon Athena properties of a connection properties patch.
+        case athenaProperties(AthenaPropertiesPatch)
+        /// The Amazon Web Services Glue properties of a connection properties patch.
+        case glueProperties(GluePropertiesPatch)
+        /// The IAM properties of a connection properties patch.
+        case iamProperties(IamPropertiesPatch)
+        /// The Amazon Redshift properties of a connection properties patch.
+        case redshiftProperties(RedshiftPropertiesPatch)
+        /// The Spark EMR properties of a connection properties patch.
+        case sparkEmrProperties(SparkEmrPropertiesPatch)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .athenaProperties(let value):
+                try container.encode(value, forKey: .athenaProperties)
+            case .glueProperties(let value):
+                try container.encode(value, forKey: .glueProperties)
+            case .iamProperties(let value):
+                try container.encode(value, forKey: .iamProperties)
+            case .redshiftProperties(let value):
+                try container.encode(value, forKey: .redshiftProperties)
+            case .sparkEmrProperties(let value):
+                try container.encode(value, forKey: .sparkEmrProperties)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .redshiftProperties(let value):
+                try value.validate(name: "\(name).redshiftProperties")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case athenaProperties = "athenaProperties"
+            case glueProperties = "glueProperties"
+            case iamProperties = "iamProperties"
+            case redshiftProperties = "redshiftProperties"
+            case sparkEmrProperties = "sparkEmrProperties"
+        }
+    }
+
     public enum DataSourceConfigurationInput: AWSEncodableShape, Sendable {
         /// The configuration of the Amazon Web Services Glue data source.
         case glueRunConfiguration(GlueRunConfigurationInput)
         /// The configuration of the Amazon Redshift data source.
         case redshiftRunConfiguration(RedshiftRunConfigurationInput)
+        /// The Amazon SageMaker run configuration.
+        case sageMakerRunConfiguration(SageMakerRunConfigurationInput)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -576,12 +994,24 @@ extension DataZone {
                 try container.encode(value, forKey: .glueRunConfiguration)
             case .redshiftRunConfiguration(let value):
                 try container.encode(value, forKey: .redshiftRunConfiguration)
+            case .sageMakerRunConfiguration(let value):
+                try container.encode(value, forKey: .sageMakerRunConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .sageMakerRunConfiguration(let value):
+                try value.validate(name: "\(name).sageMakerRunConfiguration")
+            default:
+                break
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case glueRunConfiguration = "glueRunConfiguration"
             case redshiftRunConfiguration = "redshiftRunConfiguration"
+            case sageMakerRunConfiguration = "sageMakerRunConfiguration"
         }
     }
 
@@ -590,6 +1020,8 @@ extension DataZone {
         case glueRunConfiguration(GlueRunConfigurationOutput)
         /// The configuration of the Amazon Redshift data source.
         case redshiftRunConfiguration(RedshiftRunConfigurationOutput)
+        /// The Amazon SageMaker run configuration.
+        case sageMakerRunConfiguration(SageMakerRunConfigurationOutput)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -607,12 +1039,16 @@ extension DataZone {
             case .redshiftRunConfiguration:
                 let value = try container.decode(RedshiftRunConfigurationOutput.self, forKey: .redshiftRunConfiguration)
                 self = .redshiftRunConfiguration(value)
+            case .sageMakerRunConfiguration:
+                let value = try container.decode(SageMakerRunConfigurationOutput.self, forKey: .sageMakerRunConfiguration)
+                self = .sageMakerRunConfiguration(value)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case glueRunConfiguration = "glueRunConfiguration"
             case redshiftRunConfiguration = "redshiftRunConfiguration"
+            case sageMakerRunConfiguration = "sageMakerRunConfiguration"
         }
     }
 
@@ -848,6 +1284,7 @@ extension DataZone {
         case createDomainUnit(CreateDomainUnitPolicyGrantDetail)
         /// Specifies that this is a create environment policy.
         case createEnvironment(Unit)
+        case createEnvironmentFromBlueprint(Unit)
         /// Specifies that this is a create environment profile policy.
         case createEnvironmentProfile(CreateEnvironmentProfilePolicyGrantDetail)
         /// Specifies that this is a create form type policy.
@@ -856,6 +1293,8 @@ extension DataZone {
         case createGlossary(CreateGlossaryPolicyGrantDetail)
         /// Specifies that this is a create project policy.
         case createProject(CreateProjectPolicyGrantDetail)
+        /// Specifies whether to create a project from project profile.
+        case createProjectFromProjectProfile(CreateProjectFromProjectProfilePolicyGrantDetail)
         /// Specifies that this is the delegation of the create environment profile policy.
         case delegateCreateEnvironmentProfile(Unit)
         /// Specifies whether to override domain unit owners.
@@ -885,6 +1324,9 @@ extension DataZone {
             case .createEnvironment:
                 let value = try container.decode(Unit.self, forKey: .createEnvironment)
                 self = .createEnvironment(value)
+            case .createEnvironmentFromBlueprint:
+                let value = try container.decode(Unit.self, forKey: .createEnvironmentFromBlueprint)
+                self = .createEnvironmentFromBlueprint(value)
             case .createEnvironmentProfile:
                 let value = try container.decode(CreateEnvironmentProfilePolicyGrantDetail.self, forKey: .createEnvironmentProfile)
                 self = .createEnvironmentProfile(value)
@@ -897,6 +1339,9 @@ extension DataZone {
             case .createProject:
                 let value = try container.decode(CreateProjectPolicyGrantDetail.self, forKey: .createProject)
                 self = .createProject(value)
+            case .createProjectFromProjectProfile:
+                let value = try container.decode(CreateProjectFromProjectProfilePolicyGrantDetail.self, forKey: .createProjectFromProjectProfile)
+                self = .createProjectFromProjectProfile(value)
             case .delegateCreateEnvironmentProfile:
                 let value = try container.decode(Unit.self, forKey: .delegateCreateEnvironmentProfile)
                 self = .delegateCreateEnvironmentProfile(value)
@@ -920,6 +1365,8 @@ extension DataZone {
                 try container.encode(value, forKey: .createDomainUnit)
             case .createEnvironment(let value):
                 try container.encode(value, forKey: .createEnvironment)
+            case .createEnvironmentFromBlueprint(let value):
+                try container.encode(value, forKey: .createEnvironmentFromBlueprint)
             case .createEnvironmentProfile(let value):
                 try container.encode(value, forKey: .createEnvironmentProfile)
             case .createFormType(let value):
@@ -928,6 +1375,8 @@ extension DataZone {
                 try container.encode(value, forKey: .createGlossary)
             case .createProject(let value):
                 try container.encode(value, forKey: .createProject)
+            case .createProjectFromProjectProfile(let value):
+                try container.encode(value, forKey: .createProjectFromProjectProfile)
             case .delegateCreateEnvironmentProfile(let value):
                 try container.encode(value, forKey: .delegateCreateEnvironmentProfile)
             case .overrideDomainUnitOwners(let value):
@@ -951,10 +1400,12 @@ extension DataZone {
             case createAssetType = "createAssetType"
             case createDomainUnit = "createDomainUnit"
             case createEnvironment = "createEnvironment"
+            case createEnvironmentFromBlueprint = "createEnvironmentFromBlueprint"
             case createEnvironmentProfile = "createEnvironmentProfile"
             case createFormType = "createFormType"
             case createGlossary = "createGlossary"
             case createProject = "createProject"
+            case createProjectFromProjectProfile = "createProjectFromProjectProfile"
             case delegateCreateEnvironmentProfile = "delegateCreateEnvironmentProfile"
             case overrideDomainUnitOwners = "overrideDomainUnitOwners"
             case overrideProjectOwners = "overrideProjectOwners"
@@ -1031,6 +1482,56 @@ extension DataZone {
         }
     }
 
+    public enum RedshiftCredentials: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The secret ARN of the Amazon Redshift credentials of a connection.
+        case secretArn(String)
+        /// The username and password of the Amazon Redshift credentials of a connection.
+        case usernamePassword(UsernamePassword)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .secretArn:
+                let value = try container.decode(String.self, forKey: .secretArn)
+                self = .secretArn(value)
+            case .usernamePassword:
+                let value = try container.decode(UsernamePassword.self, forKey: .usernamePassword)
+                self = .usernamePassword(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .secretArn(let value):
+                try container.encode(value, forKey: .secretArn)
+            case .usernamePassword(let value):
+                try container.encode(value, forKey: .usernamePassword)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .usernamePassword(let value):
+                try value.validate(name: "\(name).usernamePassword")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArn = "secretArn"
+            case usernamePassword = "usernamePassword"
+        }
+    }
+
     public enum RedshiftStorage: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The details of the Amazon Redshift cluster source.
         case redshiftClusterSource(RedshiftClusterStorage)
@@ -1069,6 +1570,100 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case redshiftClusterSource = "redshiftClusterSource"
             case redshiftServerlessSource = "redshiftServerlessSource"
+        }
+    }
+
+    public enum RedshiftStorageProperties: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The cluster name in the Amazon Redshift storage properties.
+        case clusterName(String)
+        /// The workgroup name in the Amazon Redshift storage properties.
+        case workgroupName(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .clusterName:
+                let value = try container.decode(String.self, forKey: .clusterName)
+                self = .clusterName(value)
+            case .workgroupName:
+                let value = try container.decode(String.self, forKey: .workgroupName)
+                self = .workgroupName(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .clusterName(let value):
+                try container.encode(value, forKey: .clusterName)
+            case .workgroupName(let value):
+                try container.encode(value, forKey: .workgroupName)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+            case workgroupName = "workgroupName"
+        }
+    }
+
+    public enum Region: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Amazon Web Services Region name.
+        case regionName(String)
+        /// The region name path.
+        case regionNamePath(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .regionName:
+                let value = try container.decode(String.self, forKey: .regionName)
+                self = .regionName(value)
+            case .regionNamePath:
+                let value = try container.decode(String.self, forKey: .regionNamePath)
+                self = .regionNamePath(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .regionName(let value):
+                try container.encode(value, forKey: .regionName)
+            case .regionNamePath(let value):
+                try container.encode(value, forKey: .regionNamePath)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .regionName(let value):
+                try self.validate(value, name: "regionName", parent: name, max: 16)
+                try self.validate(value, name: "regionName", parent: name, min: 4)
+                try self.validate(value, name: "regionName", parent: name, pattern: "^[a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9]$")
+            case .regionNamePath(let value):
+                try self.validate(value, name: "regionNamePath", parent: name, max: 2048)
+                try self.validate(value, name: "regionNamePath", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "regionName"
+            case regionNamePath = "regionNamePath"
         }
     }
 
@@ -1672,8 +2267,12 @@ extension DataZone {
         public let decisionComment: String?
         /// The unique identifier of the Amazon DataZone domain where the specified subscription request was accepted.
         public let domainId: String
+        /// The ID of the existing subscription.
+        public let existingSubscriptionId: String?
         /// The identifier of the subscription request.
         public let id: String
+        /// The metadata form in the subscription request.
+        public let metadataForms: [FormOutput]?
         /// Specifies the reason for requesting a subscription to the asset.
         public let requestReason: String
         /// Specifes the ID of the Amazon DataZone user who reviewed the subscription request.
@@ -1690,12 +2289,14 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, existingSubscriptionId: String? = nil, id: String, metadataForms: [FormOutput]? = nil, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.decisionComment = decisionComment
             self.domainId = domainId
+            self.existingSubscriptionId = existingSubscriptionId
             self.id = id
+            self.metadataForms = metadataForms
             self.requestReason = requestReason
             self.reviewerId = reviewerId
             self.status = status
@@ -1710,7 +2311,9 @@ extension DataZone {
             case createdBy = "createdBy"
             case decisionComment = "decisionComment"
             case domainId = "domainId"
+            case existingSubscriptionId = "existingSubscriptionId"
             case id = "id"
+            case metadataForms = "metadataForms"
             case requestReason = "requestReason"
             case reviewerId = "reviewerId"
             case status = "status"
@@ -2313,6 +2916,33 @@ extension DataZone {
         }
     }
 
+    public struct AssetTypesForRule: AWSEncodableShape & AWSDecodableShape {
+        /// The selection mode for the rule.
+        public let selectionMode: RuleScopeSelectionMode
+        /// The specific asset types that are included in the rule.
+        public let specificAssetTypes: [String]?
+
+        @inlinable
+        public init(selectionMode: RuleScopeSelectionMode, specificAssetTypes: [String]? = nil) {
+            self.selectionMode = selectionMode
+            self.specificAssetTypes = specificAssetTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.specificAssetTypes?.forEach {
+                try validate($0, name: "specificAssetTypes[]", parent: name, max: 513)
+                try validate($0, name: "specificAssetTypes[]", parent: name, min: 1)
+                try validate($0, name: "specificAssetTypes[]", parent: name, pattern: "^(?!\\.)[\\w\\.]*\\w$")
+            }
+            try self.validate(self.specificAssetTypes, name: "specificAssetTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectionMode = "selectionMode"
+            case specificAssetTypes = "specificAssetTypes"
+        }
+    }
+
     public struct AssociateEnvironmentRoleInput: AWSEncodableShape {
         /// The ID of the Amazon DataZone domain in which the environment role is associated.
         public let domainIdentifier: String
@@ -2348,6 +2978,140 @@ extension DataZone {
         public init() {}
     }
 
+    public struct AthenaPropertiesInput: AWSEncodableShape {
+        /// The Amazon Athena workgroup name of a connection.
+        public let workgroupName: String?
+
+        @inlinable
+        public init(workgroupName: String? = nil) {
+            self.workgroupName = workgroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workgroupName = "workgroupName"
+        }
+    }
+
+    public struct AthenaPropertiesOutput: AWSDecodableShape {
+        /// The Amazon Athena workgroup name of a connection.
+        public let workgroupName: String?
+
+        @inlinable
+        public init(workgroupName: String? = nil) {
+            self.workgroupName = workgroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workgroupName = "workgroupName"
+        }
+    }
+
+    public struct AthenaPropertiesPatch: AWSEncodableShape {
+        /// The Amazon Athena workgroup name of a connection.
+        public let workgroupName: String?
+
+        @inlinable
+        public init(workgroupName: String? = nil) {
+            self.workgroupName = workgroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workgroupName = "workgroupName"
+        }
+    }
+
+    public struct AuthenticationConfiguration: AWSDecodableShape {
+        /// The authentication type of a connection.
+        public let authenticationType: AuthenticationType?
+        /// The oAuth2 properties of a connection.
+        public let oAuth2Properties: OAuth2Properties?
+        /// The secret ARN of a connection.
+        public let secretArn: String?
+
+        @inlinable
+        public init(authenticationType: AuthenticationType? = nil, oAuth2Properties: OAuth2Properties? = nil, secretArn: String? = nil) {
+            self.authenticationType = authenticationType
+            self.oAuth2Properties = oAuth2Properties
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationType = "authenticationType"
+            case oAuth2Properties = "oAuth2Properties"
+            case secretArn = "secretArn"
+        }
+    }
+
+    public struct AuthenticationConfigurationInput: AWSEncodableShape {
+        /// The authentication type of a connection.
+        public let authenticationType: AuthenticationType?
+        /// The basic authentication credentials of a connection.
+        public let basicAuthenticationCredentials: BasicAuthenticationCredentials?
+        /// The custom authentication credentials of a connection.
+        public let customAuthenticationCredentials: [String: String]?
+        /// The KMS key ARN of a connection.
+        public let kmsKeyArn: String?
+        /// The oAuth2 properties of a connection.
+        public let oAuth2Properties: OAuth2Properties?
+        /// The secret ARN of a connection.
+        public let secretArn: String?
+
+        @inlinable
+        public init(authenticationType: AuthenticationType? = nil, basicAuthenticationCredentials: BasicAuthenticationCredentials? = nil, customAuthenticationCredentials: [String: String]? = nil, kmsKeyArn: String? = nil, oAuth2Properties: OAuth2Properties? = nil, secretArn: String? = nil) {
+            self.authenticationType = authenticationType
+            self.basicAuthenticationCredentials = basicAuthenticationCredentials
+            self.customAuthenticationCredentials = customAuthenticationCredentials
+            self.kmsKeyArn = kmsKeyArn
+            self.oAuth2Properties = oAuth2Properties
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationType = "authenticationType"
+            case basicAuthenticationCredentials = "basicAuthenticationCredentials"
+            case customAuthenticationCredentials = "customAuthenticationCredentials"
+            case kmsKeyArn = "kmsKeyArn"
+            case oAuth2Properties = "oAuth2Properties"
+            case secretArn = "secretArn"
+        }
+    }
+
+    public struct AuthenticationConfigurationPatch: AWSEncodableShape {
+        /// The basic authentication credentials of a connection.
+        public let basicAuthenticationCredentials: BasicAuthenticationCredentials?
+        /// The secret ARN of a connection.
+        public let secretArn: String?
+
+        @inlinable
+        public init(basicAuthenticationCredentials: BasicAuthenticationCredentials? = nil, secretArn: String? = nil) {
+            self.basicAuthenticationCredentials = basicAuthenticationCredentials
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basicAuthenticationCredentials = "basicAuthenticationCredentials"
+            case secretArn = "secretArn"
+        }
+    }
+
+    public struct AuthorizationCodeProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The authorization code of a connection.
+        public let authorizationCode: String?
+        /// The redirect URI of a connection.
+        public let redirectUri: String?
+
+        @inlinable
+        public init(authorizationCode: String? = nil, redirectUri: String? = nil) {
+            self.authorizationCode = authorizationCode
+            self.redirectUri = redirectUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationCode = "authorizationCode"
+            case redirectUri = "redirectUri"
+        }
+    }
+
     public struct AwsConsoleLinkParameters: AWSEncodableShape & AWSDecodableShape {
         /// The URI of the console link specified as part of the environment action.
         public let uri: String?
@@ -2359,6 +3123,56 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case uri = "uri"
+        }
+    }
+
+    public struct AwsLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The access role of a connection.
+        public let accessRole: String?
+        /// The account ID of a connection.
+        public let awsAccountId: String?
+        /// The Region of a connection.
+        public let awsRegion: String?
+        /// The IAM connection ID of a connection.
+        public let iamConnectionId: String?
+
+        @inlinable
+        public init(accessRole: String? = nil, awsAccountId: String? = nil, awsRegion: String? = nil, iamConnectionId: String? = nil) {
+            self.accessRole = accessRole
+            self.awsAccountId = awsAccountId
+            self.awsRegion = awsRegion
+            self.iamConnectionId = iamConnectionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "^[a-z]{2}-[a-z]{4,10}-\\d$")
+            try self.validate(self.iamConnectionId, name: "iamConnectionId", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRole = "accessRole"
+            case awsAccountId = "awsAccountId"
+            case awsRegion = "awsRegion"
+            case iamConnectionId = "iamConnectionId"
+        }
+    }
+
+    public struct BasicAuthenticationCredentials: AWSEncodableShape {
+        /// The password for a connection.
+        public let password: String?
+        /// The user name for the connecion.
+        public let userName: String?
+
+        @inlinable
+        public init(password: String? = nil, userName: String? = nil) {
+            self.password = password
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "password"
+            case userName = "userName"
         }
     }
 
@@ -2556,6 +3370,78 @@ extension DataZone {
         }
     }
 
+    public struct ConnectionCredentials: AWSDecodableShape {
+        /// The access key ID of a connection.
+        public let accessKeyId: String?
+        /// The expiration of the connection credentials.
+        public let expiration: Date?
+        /// The secret access key of a connection.
+        public let secretAccessKey: String?
+        /// The session token of a connection credentials.
+        public let sessionToken: String?
+
+        @inlinable
+        public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "accessKeyId"
+            case expiration = "expiration"
+            case secretAccessKey = "secretAccessKey"
+            case sessionToken = "sessionToken"
+        }
+    }
+
+    public struct ConnectionSummary: AWSDecodableShape {
+        /// The ID of a connection.
+        public let connectionId: String
+        /// The domain ID of a connection.
+        public let domainId: String
+        /// The domain unit ID of a connection.
+        public let domainUnitId: String
+        /// The environment ID of a connection.
+        public let environmentId: String?
+        /// The connection name.
+        public let name: String
+        /// The connection physical endpoints.
+        public let physicalEndpoints: [PhysicalEndpoint]
+        /// The connection project ID.
+        public let projectId: String?
+        /// The connection props.
+        public let props: ConnectionPropertiesOutput?
+        /// The connection type.
+        public let type: ConnectionType
+
+        @inlinable
+        public init(connectionId: String, domainId: String, domainUnitId: String, environmentId: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, type: ConnectionType) {
+            self.connectionId = connectionId
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.environmentId = environmentId
+            self.name = name
+            self.physicalEndpoints = physicalEndpoints
+            self.projectId = projectId
+            self.props = props
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case environmentId = "environmentId"
+            case name = "name"
+            case physicalEndpoints = "physicalEndpoints"
+            case projectId = "projectId"
+            case props = "props"
+            case type = "type"
+        }
+    }
+
     public struct CreateAssetFilterInput: AWSEncodableShape {
         /// The ID of the data asset.
         public let assetIdentifier: String
@@ -2723,7 +3609,7 @@ extension DataZone {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
-            try self.validate(self.externalIdentifier, name: "externalIdentifier", parent: name, max: 256)
+            try self.validate(self.externalIdentifier, name: "externalIdentifier", parent: name, max: 600)
             try self.validate(self.externalIdentifier, name: "externalIdentifier", parent: name, min: 1)
             try self.formsInput?.forEach {
                 try $0.validate(name: "\(name).formsInput[]")
@@ -3137,6 +4023,114 @@ extension DataZone {
         }
     }
 
+    public struct CreateConnectionInput: AWSEncodableShape {
+        /// The location where the connection is created.
+        public let awsLocation: AwsLocation?
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// A connection description.
+        public let description: String?
+        /// The ID of the domain where the connection is created.
+        public let domainIdentifier: String
+        /// The ID of the environment where the connection is created.
+        public let environmentIdentifier: String
+        /// The connection name.
+        public let name: String
+        /// The connection props.
+        public let props: ConnectionPropertiesInput?
+
+        @inlinable
+        public init(awsLocation: AwsLocation? = nil, clientToken: String? = CreateConnectionInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, environmentIdentifier: String, name: String, props: ConnectionPropertiesInput? = nil) {
+            self.awsLocation = awsLocation
+            self.clientToken = clientToken
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.environmentIdentifier = environmentIdentifier
+            self.name = name
+            self.props = props
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.awsLocation, forKey: .awsLocation)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.environmentIdentifier, forKey: .environmentIdentifier)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.props, forKey: .props)
+        }
+
+        public func validate(name: String) throws {
+            try self.awsLocation?.validate(name: "\(name).awsLocation")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.props?.validate(name: "\(name).props")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsLocation = "awsLocation"
+            case clientToken = "clientToken"
+            case description = "description"
+            case environmentIdentifier = "environmentIdentifier"
+            case name = "name"
+            case props = "props"
+        }
+    }
+
+    public struct CreateConnectionOutput: AWSDecodableShape {
+        /// The ID of the connection.
+        public let connectionId: String
+        /// The connection description.
+        public let description: String?
+        /// The ID of the domain where the connection is created.
+        public let domainId: String
+        /// The ID of the domain unit where the connection is created.
+        public let domainUnitId: String
+        /// The ID of the environment where the connection is created.
+        public let environmentId: String?
+        /// The connection name.
+        public let name: String
+        /// The physical endpoints of the connection.
+        public let physicalEndpoints: [PhysicalEndpoint]
+        /// The ID of the project where the connection is created.
+        public let projectId: String?
+        /// The connection props.
+        public let props: ConnectionPropertiesOutput?
+        /// The connection type.
+        public let type: ConnectionType
+
+        @inlinable
+        public init(connectionId: String, description: String? = nil, domainId: String, domainUnitId: String, environmentId: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, type: ConnectionType) {
+            self.connectionId = connectionId
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.environmentId = environmentId
+            self.name = name
+            self.physicalEndpoints = physicalEndpoints
+            self.projectId = projectId
+            self.props = props
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case description = "description"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case environmentId = "environmentId"
+            case name = "name"
+            case physicalEndpoints = "physicalEndpoints"
+            case projectId = "projectId"
+            case props = "props"
+            case type = "type"
+        }
+    }
+
     public struct CreateDataProductInput: AWSEncodableShape {
         /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
         public let clientToken: String?
@@ -3433,6 +4427,8 @@ extension DataZone {
         public let clientToken: String?
         /// Specifies the configuration of the data source. It can be set to either glueRunConfiguration or redshiftRunConfiguration.
         public let configuration: DataSourceConfigurationInput?
+        /// The ID of the connection.
+        public let connectionIdentifier: String?
         /// The description of the data source.
         public let description: String?
         /// The ID of the Amazon DataZone domain where the data source is created.
@@ -3440,7 +4436,7 @@ extension DataZone {
         /// Specifies whether the data source is enabled.
         public let enableSetting: EnableSetting?
         /// The unique identifier of the Amazon DataZone environment to which the data source publishes assets.
-        public let environmentIdentifier: String
+        public let environmentIdentifier: String?
         /// The name of the data source.
         public let name: String
         /// The identifier of the Amazon DataZone project in which you want to add this data source.
@@ -3455,10 +4451,11 @@ extension DataZone {
         public let type: String
 
         @inlinable
-        public init(assetFormsInput: [FormInput]? = nil, clientToken: String? = CreateDataSourceInput.idempotencyToken(), configuration: DataSourceConfigurationInput? = nil, description: String? = nil, domainIdentifier: String, enableSetting: EnableSetting? = nil, environmentIdentifier: String, name: String, projectIdentifier: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, schedule: ScheduleConfiguration? = nil, type: String) {
+        public init(assetFormsInput: [FormInput]? = nil, clientToken: String? = CreateDataSourceInput.idempotencyToken(), configuration: DataSourceConfigurationInput? = nil, connectionIdentifier: String? = nil, description: String? = nil, domainIdentifier: String, enableSetting: EnableSetting? = nil, environmentIdentifier: String? = nil, name: String, projectIdentifier: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, schedule: ScheduleConfiguration? = nil, type: String) {
             self.assetFormsInput = assetFormsInput
             self.clientToken = clientToken
             self.configuration = configuration
+            self.connectionIdentifier = connectionIdentifier
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.enableSetting = enableSetting
@@ -3477,10 +4474,11 @@ extension DataZone {
             try container.encodeIfPresent(self.assetFormsInput, forKey: .assetFormsInput)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.connectionIdentifier, forKey: .connectionIdentifier)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encodeIfPresent(self.enableSetting, forKey: .enableSetting)
-            try container.encode(self.environmentIdentifier, forKey: .environmentIdentifier)
+            try container.encodeIfPresent(self.environmentIdentifier, forKey: .environmentIdentifier)
             try container.encode(self.name, forKey: .name)
             try container.encode(self.projectIdentifier, forKey: .projectIdentifier)
             try container.encodeIfPresent(self.publishOnImport, forKey: .publishOnImport)
@@ -3494,6 +4492,7 @@ extension DataZone {
                 try $0.validate(name: "\(name).assetFormsInput[]")
             }
             try self.validate(self.assetFormsInput, name: "assetFormsInput", parent: name, max: 10)
+            try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
@@ -3507,6 +4506,7 @@ extension DataZone {
             case assetFormsInput = "assetFormsInput"
             case clientToken = "clientToken"
             case configuration = "configuration"
+            case connectionIdentifier = "connectionIdentifier"
             case description = "description"
             case enableSetting = "enableSetting"
             case environmentIdentifier = "environmentIdentifier"
@@ -3524,6 +4524,8 @@ extension DataZone {
         public let assetFormsOutput: [FormOutput]?
         /// Specifies the configuration of the data source. It can be set to either glueRunConfiguration or redshiftRunConfiguration.
         public let configuration: DataSourceConfigurationOutput?
+        /// The ID of the connection.
+        public let connectionId: String?
         /// The timestamp of when the data source was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -3534,7 +4536,7 @@ extension DataZone {
         /// Specifies whether the data source is enabled.
         public let enableSetting: EnableSetting?
         /// The unique identifier of the Amazon DataZone environment to which the data source publishes assets.
-        public let environmentId: String
+        public let environmentId: String?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let errorMessage: DataSourceErrorMessage?
         /// The unique identifier of the data source.
@@ -3565,9 +4567,10 @@ extension DataZone {
         public var updatedAt: Date?
 
         @inlinable
-        public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, schedule: ScheduleConfiguration? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
+        public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, connectionId: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String? = nil, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, schedule: ScheduleConfiguration? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.assetFormsOutput = assetFormsOutput
             self.configuration = configuration
+            self.connectionId = connectionId
             self.createdAt = createdAt
             self.description = description
             self.domainId = domainId
@@ -3591,6 +4594,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case assetFormsOutput = "assetFormsOutput"
             case configuration = "configuration"
+            case connectionId = "connectionId"
             case createdAt = "createdAt"
             case description = "description"
             case domainId = "domainId"
@@ -3619,22 +4623,28 @@ extension DataZone {
         public let description: String?
         /// The domain execution role that is created when an Amazon DataZone domain is created. The domain execution role is created in the Amazon Web Services account that houses the Amazon DataZone domain.
         public let domainExecutionRole: String
+        /// The version of the domain that is created.
+        public let domainVersion: DomainVersion?
         /// The identifier of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt the Amazon DataZone domain, metadata, and reporting data.
         public let kmsKeyIdentifier: String?
         /// The name of the Amazon DataZone domain.
         public let name: String
+        /// The service role of the domain that is created.
+        public let serviceRole: String?
         /// The single-sign on configuration of the Amazon DataZone domain.
         public let singleSignOn: SingleSignOn?
         /// The tags specified for the Amazon DataZone domain.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateDomainInput.idempotencyToken(), description: String? = nil, domainExecutionRole: String, kmsKeyIdentifier: String? = nil, name: String, singleSignOn: SingleSignOn? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateDomainInput.idempotencyToken(), description: String? = nil, domainExecutionRole: String, domainVersion: DomainVersion? = nil, kmsKeyIdentifier: String? = nil, name: String, serviceRole: String? = nil, singleSignOn: SingleSignOn? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.domainExecutionRole = domainExecutionRole
+            self.domainVersion = domainVersion
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.name = name
+            self.serviceRole = serviceRole
             self.singleSignOn = singleSignOn
             self.tags = tags
         }
@@ -3644,6 +4654,7 @@ extension DataZone {
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 1024)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.validate(self.serviceRole, name: "serviceRole", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3657,8 +4668,10 @@ extension DataZone {
             case clientToken = "clientToken"
             case description = "description"
             case domainExecutionRole = "domainExecutionRole"
+            case domainVersion = "domainVersion"
             case kmsKeyIdentifier = "kmsKeyIdentifier"
             case name = "name"
+            case serviceRole = "serviceRole"
             case singleSignOn = "singleSignOn"
             case tags = "tags"
         }
@@ -3671,6 +4684,8 @@ extension DataZone {
         public let description: String?
         /// The domain execution role that is created when an Amazon DataZone domain is created. The domain execution role is created in the Amazon Web Services account that houses the Amazon DataZone domain.
         public let domainExecutionRole: String?
+        /// The version of the domain that is created.
+        public let domainVersion: DomainVersion?
         /// The identifier of the Amazon DataZone domain.
         public let id: String
         /// The identifier of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt the Amazon DataZone domain, metadata, and reporting data.
@@ -3681,6 +4696,8 @@ extension DataZone {
         public let portalUrl: String?
         /// The ID of the root domain unit.
         public let rootDomainUnitId: String?
+        /// Te service role of the domain that is created.
+        public let serviceRole: String?
         /// The single-sign on configuration of the Amazon DataZone domain.
         public let singleSignOn: SingleSignOn?
         /// The status of the Amazon DataZone domain.
@@ -3689,15 +4706,17 @@ extension DataZone {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, description: String? = nil, domainExecutionRole: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String? = nil, portalUrl: String? = nil, rootDomainUnitId: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, description: String? = nil, domainExecutionRole: String? = nil, domainVersion: DomainVersion? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String? = nil, portalUrl: String? = nil, rootDomainUnitId: String? = nil, serviceRole: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
             self.domainExecutionRole = domainExecutionRole
+            self.domainVersion = domainVersion
             self.id = id
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.name = name
             self.portalUrl = portalUrl
             self.rootDomainUnitId = rootDomainUnitId
+            self.serviceRole = serviceRole
             self.singleSignOn = singleSignOn
             self.status = status
             self.tags = tags
@@ -3707,11 +4726,13 @@ extension DataZone {
             case arn = "arn"
             case description = "description"
             case domainExecutionRole = "domainExecutionRole"
+            case domainVersion = "domainVersion"
             case id = "id"
             case kmsKeyIdentifier = "kmsKeyIdentifier"
             case name = "name"
             case portalUrl = "portalUrl"
             case rootDomainUnitId = "rootDomainUnitId"
+            case serviceRole = "serviceRole"
             case singleSignOn = "singleSignOn"
             case status = "status"
             case tags = "tags"
@@ -3909,6 +4930,8 @@ extension DataZone {
     }
 
     public struct CreateEnvironmentInput: AWSEncodableShape {
+        /// The deployment order of the environment.
+        public let deploymentOrder: Int?
         /// The description of the Amazon DataZone environment.
         public let description: String?
         /// The identifier of the Amazon DataZone domain in which the environment is created.
@@ -3919,6 +4942,8 @@ extension DataZone {
         public let environmentAccountRegion: String?
         /// The ID of the blueprint with which the environment is being created.
         public let environmentBlueprintIdentifier: String?
+        /// The configuration ID of the environment.
+        public let environmentConfigurationId: String?
         /// The identifier of the environment profile that is used to create this Amazon DataZone environment.
         public let environmentProfileIdentifier: String
         /// The glossary terms that can be used in this Amazon DataZone environment.
@@ -3931,12 +4956,14 @@ extension DataZone {
         public let userParameters: [EnvironmentParameter]?
 
         @inlinable
-        public init(description: String? = nil, domainIdentifier: String, environmentAccountIdentifier: String? = nil, environmentAccountRegion: String? = nil, environmentBlueprintIdentifier: String? = nil, environmentProfileIdentifier: String, glossaryTerms: [String]? = nil, name: String, projectIdentifier: String, userParameters: [EnvironmentParameter]? = nil) {
+        public init(deploymentOrder: Int? = nil, description: String? = nil, domainIdentifier: String, environmentAccountIdentifier: String? = nil, environmentAccountRegion: String? = nil, environmentBlueprintIdentifier: String? = nil, environmentConfigurationId: String? = nil, environmentProfileIdentifier: String, glossaryTerms: [String]? = nil, name: String, projectIdentifier: String, userParameters: [EnvironmentParameter]? = nil) {
+            self.deploymentOrder = deploymentOrder
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.environmentAccountIdentifier = environmentAccountIdentifier
             self.environmentAccountRegion = environmentAccountRegion
             self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
+            self.environmentConfigurationId = environmentConfigurationId
             self.environmentProfileIdentifier = environmentProfileIdentifier
             self.glossaryTerms = glossaryTerms
             self.name = name
@@ -3947,11 +4974,13 @@ extension DataZone {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.deploymentOrder, forKey: .deploymentOrder)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encodeIfPresent(self.environmentAccountIdentifier, forKey: .environmentAccountIdentifier)
             try container.encodeIfPresent(self.environmentAccountRegion, forKey: .environmentAccountRegion)
             try container.encodeIfPresent(self.environmentBlueprintIdentifier, forKey: .environmentBlueprintIdentifier)
+            try container.encodeIfPresent(self.environmentConfigurationId, forKey: .environmentConfigurationId)
             try container.encode(self.environmentProfileIdentifier, forKey: .environmentProfileIdentifier)
             try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
             try container.encode(self.name, forKey: .name)
@@ -3971,10 +5000,12 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deploymentOrder = "deploymentOrder"
             case description = "description"
             case environmentAccountIdentifier = "environmentAccountIdentifier"
             case environmentAccountRegion = "environmentAccountRegion"
             case environmentBlueprintIdentifier = "environmentBlueprintIdentifier"
+            case environmentConfigurationId = "environmentConfigurationId"
             case environmentProfileIdentifier = "environmentProfileIdentifier"
             case glossaryTerms = "glossaryTerms"
             case name = "name"
@@ -4675,6 +5706,24 @@ extension DataZone {
         }
     }
 
+    public struct CreateProjectFromProjectProfilePolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to include child domain units when creating a project from project profile policy grant details
+        public let includeChildDomainUnits: Bool?
+        /// Specifies project profiles when creating a project from project profile policy grant details
+        public let projectProfiles: [String]?
+
+        @inlinable
+        public init(includeChildDomainUnits: Bool? = nil, projectProfiles: [String]? = nil) {
+            self.includeChildDomainUnits = includeChildDomainUnits
+            self.projectProfiles = projectProfiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeChildDomainUnits = "includeChildDomainUnits"
+            case projectProfiles = "projectProfiles"
+        }
+    }
+
     public struct CreateProjectInput: AWSEncodableShape {
         /// The description of the Amazon DataZone project.
         public let description: String?
@@ -4686,14 +5735,20 @@ extension DataZone {
         public let glossaryTerms: [String]?
         /// The name of the Amazon DataZone project.
         public let name: String
+        /// The ID of the project profile.
+        public let projectProfileId: String?
+        /// The user parameters of the project.
+        public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(description: String? = nil, domainIdentifier: String, domainUnitId: String? = nil, glossaryTerms: [String]? = nil, name: String) {
+        public init(description: String? = nil, domainIdentifier: String, domainUnitId: String? = nil, glossaryTerms: [String]? = nil, name: String, projectProfileId: String? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.domainUnitId = domainUnitId
             self.glossaryTerms = glossaryTerms
             self.name = name
+            self.projectProfileId = projectProfileId
+            self.userParameters = userParameters
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4704,6 +5759,8 @@ extension DataZone {
             try container.encodeIfPresent(self.domainUnitId, forKey: .domainUnitId)
             try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
             try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.projectProfileId, forKey: .projectProfileId)
+            try container.encodeIfPresent(self.userParameters, forKey: .userParameters)
         }
 
         public func validate(name: String) throws {
@@ -4720,6 +5777,10 @@ extension DataZone {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.validate(self.projectProfileId, name: "projectProfileId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.userParameters?.forEach {
+                try $0.validate(name: "\(name).userParameters[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4727,6 +5788,8 @@ extension DataZone {
             case domainUnitId = "domainUnitId"
             case glossaryTerms = "glossaryTerms"
             case name = "name"
+            case projectProfileId = "projectProfileId"
+            case userParameters = "userParameters"
         }
     }
 
@@ -4783,6 +5846,8 @@ extension DataZone {
         public let domainId: String
         /// The ID of the domain unit.
         public let domainUnitId: String?
+        /// The environment deployment details.
+        public let environmentDeploymentDetails: EnvironmentDeploymentDetails?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let failureReasons: [ProjectDeletionError]?
         /// The glossary terms that can be used in the project.
@@ -4793,22 +5858,29 @@ extension DataZone {
         public let lastUpdatedAt: Date?
         /// The name of the project.
         public let name: String
+        /// The project profile ID.
+        public let projectProfileId: String?
         /// The status of the Amazon DataZone project that was created.
         public let projectStatus: ProjectStatus?
+        /// The user parameters of the project.
+        public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectProfileId: String? = nil, projectStatus: ProjectStatus? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
             self.domainId = domainId
             self.domainUnitId = domainUnitId
+            self.environmentDeploymentDetails = environmentDeploymentDetails
             self.failureReasons = failureReasons
             self.glossaryTerms = glossaryTerms
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.projectProfileId = projectProfileId
             self.projectStatus = projectStatus
+            self.userParameters = userParameters
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4817,12 +5889,15 @@ extension DataZone {
             case description = "description"
             case domainId = "domainId"
             case domainUnitId = "domainUnitId"
+            case environmentDeploymentDetails = "environmentDeploymentDetails"
             case failureReasons = "failureReasons"
             case glossaryTerms = "glossaryTerms"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case projectProfileId = "projectProfileId"
             case projectStatus = "projectStatus"
+            case userParameters = "userParameters"
         }
     }
 
@@ -4840,6 +5915,236 @@ extension DataZone {
         }
     }
 
+    public struct CreateProjectProfileInput: AWSEncodableShape {
+        /// A description of a project profile.
+        public let description: String?
+        /// A domain ID of the project profile.
+        public let domainIdentifier: String
+        /// A domain unit ID of the project profile.
+        public let domainUnitIdentifier: String?
+        /// Environment configurations of the project profile.
+        public let environmentConfigurations: [EnvironmentConfiguration]?
+        /// Project profile name.
+        public let name: String
+        /// Project profile status.
+        public let status: Status?
+
+        @inlinable
+        public init(description: String? = nil, domainIdentifier: String, domainUnitIdentifier: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, name: String, status: Status? = nil) {
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.domainUnitIdentifier = domainUnitIdentifier
+            self.environmentConfigurations = environmentConfigurations
+            self.name = name
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encodeIfPresent(self.domainUnitIdentifier, forKey: .domainUnitIdentifier)
+            try container.encodeIfPresent(self.environmentConfigurations, forKey: .environmentConfigurations)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.status, forKey: .status)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.domainUnitIdentifier, name: "domainUnitIdentifier", parent: name, max: 256)
+            try self.validate(self.domainUnitIdentifier, name: "domainUnitIdentifier", parent: name, min: 1)
+            try self.validate(self.domainUnitIdentifier, name: "domainUnitIdentifier", parent: name, pattern: "^[a-z0-9_\\-]+$")
+            try self.environmentConfigurations?.forEach {
+                try $0.validate(name: "\(name).environmentConfigurations[]")
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case domainUnitIdentifier = "domainUnitIdentifier"
+            case environmentConfigurations = "environmentConfigurations"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct CreateProjectProfileOutput: AWSDecodableShape {
+        /// A timestamp at which a project profile is created.
+        public let createdAt: Date?
+        /// A user who created a project profile.
+        public let createdBy: String
+        /// A project profile description.
+        public let description: String?
+        /// The ID of the domain where a project profile is created.
+        public let domainId: String
+        /// The ID of the domain unit where a project profile is created.
+        public let domainUnitId: String?
+        /// Environment configurations of a project profile.
+        public let environmentConfigurations: [EnvironmentConfiguration]?
+        /// Project profile ID.
+        public let id: String
+        /// A timestamp when a project profile was last updated.
+        public let lastUpdatedAt: Date?
+        /// Project profile name.
+        public let name: String
+        /// Project profile status.
+        public let status: Status?
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, status: Status? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.environmentConfigurations = environmentConfigurations
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case environmentConfigurations = "environmentConfigurations"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct CreateRuleInput: AWSEncodableShape {
+        /// The action of the rule.
+        public let action: RuleAction
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The description of the rule.
+        public let description: String?
+        /// The detail of the rule.
+        public let detail: RuleDetail
+        /// The ID of the domain where the rule is created.
+        public let domainIdentifier: String
+        /// The name of the rule.
+        public let name: String
+        /// The scope of the rule.
+        public let scope: RuleScope
+        /// The target of the rule.
+        public let target: RuleTarget
+
+        @inlinable
+        public init(action: RuleAction, clientToken: String? = CreateRuleInput.idempotencyToken(), description: String? = nil, detail: RuleDetail, domainIdentifier: String, name: String, scope: RuleScope, target: RuleTarget) {
+            self.action = action
+            self.clientToken = clientToken
+            self.description = description
+            self.detail = detail
+            self.domainIdentifier = domainIdentifier
+            self.name = name
+            self.scope = scope
+            self.target = target
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.detail, forKey: .detail)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.scope, forKey: .scope)
+            try container.encode(self.target, forKey: .target)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.detail.validate(name: "\(name).detail")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.scope.validate(name: "\(name).scope")
+            try self.target.validate(name: "\(name).target")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case clientToken = "clientToken"
+            case description = "description"
+            case detail = "detail"
+            case name = "name"
+            case scope = "scope"
+            case target = "target"
+        }
+    }
+
+    public struct CreateRuleOutput: AWSDecodableShape {
+        /// The action of the rule.
+        public let action: RuleAction
+        /// The timestamp at which the rule is created.
+        public let createdAt: Date
+        /// The user who creates the rule.
+        public let createdBy: String
+        /// The description of the rule.
+        public let description: String?
+        /// The detail of the rule.
+        public let detail: RuleDetail
+        /// The ID of the rule.
+        public let identifier: String
+        /// The name of the rule.
+        public let name: String
+        /// The type of the rule.
+        public let ruleType: RuleType
+        /// The scope of the rule.
+        public let scope: RuleScope
+        /// The target of the rule.
+        public let target: RuleTarget
+        /// The target type of the rule.
+        public let targetType: RuleTargetType?
+
+        @inlinable
+        public init(action: RuleAction, createdAt: Date, createdBy: String, description: String? = nil, detail: RuleDetail, identifier: String, name: String, ruleType: RuleType, scope: RuleScope, target: RuleTarget, targetType: RuleTargetType? = nil) {
+            self.action = action
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.detail = detail
+            self.identifier = identifier
+            self.name = name
+            self.ruleType = ruleType
+            self.scope = scope
+            self.target = target
+            self.targetType = targetType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case detail = "detail"
+            case identifier = "identifier"
+            case name = "name"
+            case ruleType = "ruleType"
+            case scope = "scope"
+            case target = "target"
+            case targetType = "targetType"
+        }
+    }
+
     public struct CreateSubscriptionGrantInput: AWSEncodableShape {
         /// The names of the assets for which the subscription grant is created.
         public let assetTargetNames: [AssetTargetNameMap]?
@@ -4852,10 +6157,10 @@ extension DataZone {
         /// The entity to which the subscription is to be granted.
         public let grantedEntity: GrantedEntityInput
         /// The ID of the subscription target for which the subscription grant is created.
-        public let subscriptionTargetIdentifier: String
+        public let subscriptionTargetIdentifier: String?
 
         @inlinable
-        public init(assetTargetNames: [AssetTargetNameMap]? = nil, clientToken: String? = CreateSubscriptionGrantInput.idempotencyToken(), domainIdentifier: String, environmentIdentifier: String, grantedEntity: GrantedEntityInput, subscriptionTargetIdentifier: String) {
+        public init(assetTargetNames: [AssetTargetNameMap]? = nil, clientToken: String? = CreateSubscriptionGrantInput.idempotencyToken(), domainIdentifier: String, environmentIdentifier: String, grantedEntity: GrantedEntityInput, subscriptionTargetIdentifier: String? = nil) {
             self.assetTargetNames = assetTargetNames
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -4872,7 +6177,7 @@ extension DataZone {
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encode(self.environmentIdentifier, forKey: .environmentIdentifier)
             try container.encode(self.grantedEntity, forKey: .grantedEntity)
-            try container.encode(self.subscriptionTargetIdentifier, forKey: .subscriptionTargetIdentifier)
+            try container.encodeIfPresent(self.subscriptionTargetIdentifier, forKey: .subscriptionTargetIdentifier)
         }
 
         public func validate(name: String) throws {
@@ -4969,6 +6274,8 @@ extension DataZone {
         public let clientToken: String?
         /// The ID of the Amazon DataZone domain in which the subscription request is created.
         public let domainIdentifier: String
+        /// The metadata form included in the subscription request.
+        public let metadataForms: [FormInput]?
         /// The reason for the subscription request.
         public let requestReason: String
         /// The published asset for which the subscription grant is to be created.
@@ -4977,9 +6284,10 @@ extension DataZone {
         public let subscribedPrincipals: [SubscribedPrincipalInput]
 
         @inlinable
-        public init(clientToken: String? = CreateSubscriptionRequestInput.idempotencyToken(), domainIdentifier: String, requestReason: String, subscribedListings: [SubscribedListingInput], subscribedPrincipals: [SubscribedPrincipalInput]) {
+        public init(clientToken: String? = CreateSubscriptionRequestInput.idempotencyToken(), domainIdentifier: String, metadataForms: [FormInput]? = nil, requestReason: String, subscribedListings: [SubscribedListingInput], subscribedPrincipals: [SubscribedPrincipalInput]) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
+            self.metadataForms = metadataForms
             self.requestReason = requestReason
             self.subscribedListings = subscribedListings
             self.subscribedPrincipals = subscribedPrincipals
@@ -4990,6 +6298,7 @@ extension DataZone {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encodeIfPresent(self.metadataForms, forKey: .metadataForms)
             try container.encode(self.requestReason, forKey: .requestReason)
             try container.encode(self.subscribedListings, forKey: .subscribedListings)
             try container.encode(self.subscribedPrincipals, forKey: .subscribedPrincipals)
@@ -4997,6 +6306,9 @@ extension DataZone {
 
         public func validate(name: String) throws {
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.metadataForms?.forEach {
+                try $0.validate(name: "\(name).metadataForms[]")
+            }
             try self.validate(self.requestReason, name: "requestReason", parent: name, max: 4096)
             try self.validate(self.requestReason, name: "requestReason", parent: name, min: 1)
             try self.subscribedListings.forEach {
@@ -5013,6 +6325,7 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case metadataForms = "metadataForms"
             case requestReason = "requestReason"
             case subscribedListings = "subscribedListings"
             case subscribedPrincipals = "subscribedPrincipals"
@@ -5028,8 +6341,12 @@ extension DataZone {
         public let decisionComment: String?
         /// The ID of the Amazon DataZone domain in whcih the subscription request is created.
         public let domainId: String
+        /// The ID of the existing subscription.
+        public let existingSubscriptionId: String?
         /// The ID of the subscription request.
         public let id: String
+        /// The metadata form included in the subscription request.
+        public let metadataForms: [FormOutput]?
         /// The reason for the subscription request.
         public let requestReason: String
         /// The ID of the reviewer of the subscription request.
@@ -5046,12 +6363,14 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, existingSubscriptionId: String? = nil, id: String, metadataForms: [FormOutput]? = nil, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.decisionComment = decisionComment
             self.domainId = domainId
+            self.existingSubscriptionId = existingSubscriptionId
             self.id = id
+            self.metadataForms = metadataForms
             self.requestReason = requestReason
             self.reviewerId = reviewerId
             self.status = status
@@ -5066,7 +6385,9 @@ extension DataZone {
             case createdBy = "createdBy"
             case decisionComment = "decisionComment"
             case domainId = "domainId"
+            case existingSubscriptionId = "existingSubscriptionId"
             case id = "id"
+            case metadataForms = "metadataForms"
             case requestReason = "requestReason"
             case reviewerId = "reviewerId"
             case status = "status"
@@ -5141,6 +6462,7 @@ extension DataZone {
             try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, min: 1)
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.manageAccessRole, name: "manageAccessRole", parent: name, pattern: "^arn:aws(|-cn|-us-gov):iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.subscriptionTargetConfig.forEach {
@@ -5176,7 +6498,7 @@ extension DataZone {
         /// The ID of the subscription target.
         public let id: String
         /// The manage access role with which the subscription target was created.
-        public let manageAccessRole: String
+        public let manageAccessRole: String?
         /// The name of the subscription target.
         public let name: String
         /// ???
@@ -5193,7 +6515,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.createdAt = createdAt
@@ -5594,6 +6916,8 @@ extension DataZone {
         /// The identifier of the data source for the data source run activity.
         public let dataSourceRunId: String
         public let errorMessage: DataSourceErrorMessage?
+        /// The data lineage summary.
+        public let lineageSummary: LineageInfo?
         /// The project ID included in the data source run activity.
         public let projectId: String
         /// The technical description included in the data source run activity.
@@ -5605,13 +6929,14 @@ extension DataZone {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, dataAssetId: String? = nil, dataAssetStatus: DataAssetActivityStatus, database: String, dataSourceRunId: String, errorMessage: DataSourceErrorMessage? = nil, projectId: String, technicalDescription: String? = nil, technicalName: String, updatedAt: Date) {
+        public init(createdAt: Date, dataAssetId: String? = nil, dataAssetStatus: DataAssetActivityStatus, database: String, dataSourceRunId: String, errorMessage: DataSourceErrorMessage? = nil, lineageSummary: LineageInfo? = nil, projectId: String, technicalDescription: String? = nil, technicalName: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.dataAssetId = dataAssetId
             self.dataAssetStatus = dataAssetStatus
             self.database = database
             self.dataSourceRunId = dataSourceRunId
             self.errorMessage = errorMessage
+            self.lineageSummary = lineageSummary
             self.projectId = projectId
             self.technicalDescription = technicalDescription
             self.technicalName = technicalName
@@ -5625,10 +6950,25 @@ extension DataZone {
             case database = "database"
             case dataSourceRunId = "dataSourceRunId"
             case errorMessage = "errorMessage"
+            case lineageSummary = "lineageSummary"
             case projectId = "projectId"
             case technicalDescription = "technicalDescription"
             case technicalName = "technicalName"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct DataSourceRunLineageSummary: AWSDecodableShape {
+        /// The import status that's part of the run lineage summary of a data source.
+        public let importStatus: LineageImportStatus?
+
+        @inlinable
+        public init(importStatus: LineageImportStatus? = nil) {
+            self.importStatus = importStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importStatus = "importStatus"
         }
     }
 
@@ -5641,6 +6981,8 @@ extension DataZone {
         public let errorMessage: DataSourceErrorMessage?
         /// The identifier of the data source run.
         public let id: String
+        /// The run lineage summary of a data source.
+        public let lineageSummary: DataSourceRunLineageSummary?
         /// The project ID of the data source run.
         public let projectId: String
         public let runStatisticsForAssets: RunStatisticsForAssets?
@@ -5659,11 +7001,12 @@ extension DataZone {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, dataSourceId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, projectId: String, runStatisticsForAssets: RunStatisticsForAssets? = nil, startedAt: Date? = nil, status: DataSourceRunStatus, stoppedAt: Date? = nil, type: DataSourceRunType, updatedAt: Date) {
+        public init(createdAt: Date, dataSourceId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, lineageSummary: DataSourceRunLineageSummary? = nil, projectId: String, runStatisticsForAssets: RunStatisticsForAssets? = nil, startedAt: Date? = nil, status: DataSourceRunStatus, stoppedAt: Date? = nil, type: DataSourceRunType, updatedAt: Date) {
             self.createdAt = createdAt
             self.dataSourceId = dataSourceId
             self.errorMessage = errorMessage
             self.id = id
+            self.lineageSummary = lineageSummary
             self.projectId = projectId
             self.runStatisticsForAssets = runStatisticsForAssets
             self.startedAt = startedAt
@@ -5678,6 +7021,7 @@ extension DataZone {
             case dataSourceId = "dataSourceId"
             case errorMessage = "errorMessage"
             case id = "id"
+            case lineageSummary = "lineageSummary"
             case projectId = "projectId"
             case runStatisticsForAssets = "runStatisticsForAssets"
             case startedAt = "startedAt"
@@ -5689,17 +7033,21 @@ extension DataZone {
     }
 
     public struct DataSourceSummary: AWSDecodableShape {
+        /// The connection ID that's part of the data source summary.
+        public let connectionId: String?
         /// The timestamp of when the data source was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The ID of the data source.
         public let dataSourceId: String
+        /// The data source description.
+        public let description: String?
         /// The ID of the Amazon DataZone domain in which the data source exists.
         public let domainId: String
         /// Specifies whether the data source is enabled.
         public let enableSetting: EnableSetting?
         /// The ID of the environment in which the data source exists.
-        public let environmentId: String
+        public let environmentId: String?
         /// The count of the assets created during the last data source run.
         public let lastRunAssetCount: Int?
         /// The timestamp of when the data source run was last performed.
@@ -5720,9 +7068,11 @@ extension DataZone {
         public var updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, dataSourceId: String, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String, lastRunAssetCount: Int? = nil, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, schedule: ScheduleConfiguration? = nil, status: DataSourceStatus, type: String, updatedAt: Date? = nil) {
+        public init(connectionId: String? = nil, createdAt: Date? = nil, dataSourceId: String, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String? = nil, lastRunAssetCount: Int? = nil, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, schedule: ScheduleConfiguration? = nil, status: DataSourceStatus, type: String, updatedAt: Date? = nil) {
+            self.connectionId = connectionId
             self.createdAt = createdAt
             self.dataSourceId = dataSourceId
+            self.description = description
             self.domainId = domainId
             self.enableSetting = enableSetting
             self.environmentId = environmentId
@@ -5738,8 +7088,10 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
             case createdAt = "createdAt"
             case dataSourceId = "dataSourceId"
+            case description = "description"
             case domainId = "domainId"
             case enableSetting = "enableSetting"
             case environmentId = "environmentId"
@@ -5851,6 +7203,47 @@ extension DataZone {
         public init() {}
     }
 
+    public struct DeleteConnectionInput: AWSEncodableShape {
+        /// The ID of the domain where the connection is deleted.
+        public let domainIdentifier: String
+        /// The ID of the connection that is deleted.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConnectionOutput: AWSDecodableShape {
+        /// The status of the action.
+        public let status: String?
+
+        @inlinable
+        public init(status: String? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct DeleteDataProductInput: AWSEncodableShape {
         /// The ID of the Amazon DataZone domain in which the data product is deleted.
         public let domainIdentifier: String
@@ -5893,6 +7286,15 @@ extension DataZone {
         public let retainPermissionsOnRevokeFailure: Bool?
 
         @inlinable
+        public init(domainIdentifier: String, identifier: String, retainPermissionsOnRevokeFailure: Bool? = nil) {
+            self.clientToken = DeleteDataSourceInput.idempotencyToken()
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.retainPermissionsOnRevokeFailure = retainPermissionsOnRevokeFailure
+        }
+
+        @available(*, deprecated, message: "Members clientToken have been deprecated")
+        @inlinable
         public init(clientToken: String? = DeleteDataSourceInput.idempotencyToken(), domainIdentifier: String, identifier: String, retainPermissionsOnRevokeFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -5922,6 +7324,8 @@ extension DataZone {
         public let assetFormsOutput: [FormOutput]?
         /// The configuration of the data source that is deleted.
         public let configuration: DataSourceConfigurationOutput?
+        /// The ID of the connection that is deleted.
+        public let connectionId: String?
         /// The timestamp of when this data source was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -5932,7 +7336,7 @@ extension DataZone {
         /// The enable setting of the data source that specifies whether the data source is enabled or disabled.
         public let enableSetting: EnableSetting?
         /// The ID of the environemnt associated with this data source.
-        public let environmentId: String
+        public let environmentId: String?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let errorMessage: DataSourceErrorMessage?
         /// The ID of the data source that is deleted.
@@ -5965,9 +7369,10 @@ extension DataZone {
         public var updatedAt: Date?
 
         @inlinable
-        public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, retainPermissionsOnRevokeFailure: Bool? = nil, schedule: ScheduleConfiguration? = nil, selfGrantStatus: SelfGrantStatusOutput? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
+        public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, connectionId: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String? = nil, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, retainPermissionsOnRevokeFailure: Bool? = nil, schedule: ScheduleConfiguration? = nil, selfGrantStatus: SelfGrantStatusOutput? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.assetFormsOutput = assetFormsOutput
             self.configuration = configuration
+            self.connectionId = connectionId
             self.createdAt = createdAt
             self.description = description
             self.domainId = domainId
@@ -5992,6 +7397,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case assetFormsOutput = "assetFormsOutput"
             case configuration = "configuration"
+            case connectionId = "connectionId"
             case createdAt = "createdAt"
             case description = "description"
             case domainId = "domainId"
@@ -6405,6 +7811,68 @@ extension DataZone {
         public init() {}
     }
 
+    public struct DeleteProjectProfileInput: AWSEncodableShape {
+        /// The ID of the domain where a project profile is deleted.
+        public let domainIdentifier: String
+        /// The ID of the project profile that is deleted.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteProjectProfileOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteRuleInput: AWSEncodableShape {
+        /// The ID of the domain that where the rule is to be deleted.
+        public let domainIdentifier: String
+        /// The ID of the rule that is to be deleted.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRuleOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteSubscriptionGrantInput: AWSEncodableShape {
         /// The ID of the Amazon DataZone domain where the subscription grant is deleted.
         public let domainIdentifier: String
@@ -6721,6 +8189,8 @@ extension DataZone {
         public let createdAt: Date
         /// A description of an Amazon DataZone domain.
         public let description: String?
+        /// The domain version.
+        public let domainVersion: DomainVersion?
         /// The ID of the Amazon DataZone domain.
         public let id: String
         /// A timestamp of when a Amazon DataZone domain was last updated.
@@ -6735,10 +8205,11 @@ extension DataZone {
         public let status: DomainStatus
 
         @inlinable
-        public init(arn: String, createdAt: Date, description: String? = nil, id: String, lastUpdatedAt: Date? = nil, managedAccountId: String, name: String, portalUrl: String? = nil, status: DomainStatus) {
+        public init(arn: String, createdAt: Date, description: String? = nil, domainVersion: DomainVersion? = nil, id: String, lastUpdatedAt: Date? = nil, managedAccountId: String, name: String, portalUrl: String? = nil, status: DomainStatus) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
+            self.domainVersion = domainVersion
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.managedAccountId = managedAccountId
@@ -6751,6 +8222,7 @@ extension DataZone {
             case arn = "arn"
             case createdAt = "createdAt"
             case description = "description"
+            case domainVersion = "domainVersion"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case managedAccountId = "managedAccountId"
@@ -6844,6 +8316,30 @@ extension DataZone {
         }
     }
 
+    public struct DomainUnitTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the domain unit.
+        public let domainUnitId: String
+        /// Specifies whether to apply a rule to the child domain units.
+        public let includeChildDomainUnits: Bool?
+
+        @inlinable
+        public init(domainUnitId: String, includeChildDomainUnits: Bool? = nil) {
+            self.domainUnitId = domainUnitId
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, max: 256)
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, min: 1)
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, pattern: "^[a-z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainUnitId = "domainUnitId"
+            case includeChildDomainUnits = "includeChildDomainUnits"
+        }
+    }
+
     public struct DomainUnitUserProperties: AWSDecodableShape {
         /// The ID of teh domain unit user.
         public let userId: String?
@@ -6901,6 +8397,8 @@ extension DataZone {
         public let enabledRegions: [String]?
         /// The identifier of the environment blueprint.
         public let environmentBlueprintId: String
+        /// The environment role permission boundary.
+        public let environmentRolePermissionBoundary: String?
         /// The ARN of the manage access role specified in the environment blueprint configuration.
         public let manageAccessRoleArn: String?
         /// The provisioning configuration of a blueprint.
@@ -6913,11 +8411,12 @@ extension DataZone {
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, environmentRolePermissionBoundary: String? = nil, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
             self.environmentBlueprintId = environmentBlueprintId
+            self.environmentRolePermissionBoundary = environmentRolePermissionBoundary
             self.manageAccessRoleArn = manageAccessRoleArn
             self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
@@ -6930,6 +8429,7 @@ extension DataZone {
             case domainId = "domainId"
             case enabledRegions = "enabledRegions"
             case environmentBlueprintId = "environmentBlueprintId"
+            case environmentRolePermissionBoundary = "environmentRolePermissionBoundary"
             case manageAccessRoleArn = "manageAccessRoleArn"
             case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
@@ -6976,7 +8476,168 @@ extension DataZone {
         }
     }
 
-    public struct EnvironmentError: AWSDecodableShape {
+    public struct EnvironmentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Web Services account of the environment.
+        public let awsAccount: AwsAccount
+        /// The Amazon Web Services Region of the environment.
+        public let awsRegion: Region
+        /// The configuration parameters of the environment.
+        public let configurationParameters: EnvironmentConfigurationParametersDetails?
+        /// The deployment mode of the environment.
+        public let deploymentMode: DeploymentMode?
+        /// The deployment order of the environment.
+        public let deploymentOrder: Int?
+        /// The environment description.
+        public let description: String?
+        /// The environment blueprint ID.
+        public let environmentBlueprintId: String
+        /// The environment ID.
+        public let id: String?
+        /// The environment name.
+        public let name: String
+
+        @inlinable
+        public init(awsAccount: AwsAccount, awsRegion: Region, configurationParameters: EnvironmentConfigurationParametersDetails? = nil, deploymentMode: DeploymentMode? = nil, deploymentOrder: Int? = nil, description: String? = nil, environmentBlueprintId: String, id: String? = nil, name: String) {
+            self.awsAccount = awsAccount
+            self.awsRegion = awsRegion
+            self.configurationParameters = configurationParameters
+            self.deploymentMode = deploymentMode
+            self.deploymentOrder = deploymentOrder
+            self.description = description
+            self.environmentBlueprintId = environmentBlueprintId
+            self.id = id
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.awsAccount.validate(name: "\(name).awsAccount")
+            try self.awsRegion.validate(name: "\(name).awsRegion")
+            try self.configurationParameters?.validate(name: "\(name).configurationParameters")
+            try self.validate(self.deploymentOrder, name: "deploymentOrder", parent: name, max: 16)
+            try self.validate(self.deploymentOrder, name: "deploymentOrder", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.environmentBlueprintId, name: "environmentBlueprintId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccount = "awsAccount"
+            case awsRegion = "awsRegion"
+            case configurationParameters = "configurationParameters"
+            case deploymentMode = "deploymentMode"
+            case deploymentOrder = "deploymentOrder"
+            case description = "description"
+            case environmentBlueprintId = "environmentBlueprintId"
+            case id = "id"
+            case name = "name"
+        }
+    }
+
+    public struct EnvironmentConfigurationParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the environment parameter is editable.
+        public let isEditable: Bool?
+        /// The name of the environment configuration parameter.
+        public let name: String?
+        /// The value of the environment configuration parameter.
+        public let value: String?
+
+        @inlinable
+        public init(isEditable: Bool? = nil, name: String? = nil, value: String? = nil) {
+            self.isEditable = isEditable
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isEditable = "isEditable"
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct EnvironmentConfigurationParametersDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The parameter overrides.
+        public let parameterOverrides: [EnvironmentConfigurationParameter]?
+        /// The resolved environment configuration parameters.
+        public let resolvedParameters: [EnvironmentConfigurationParameter]?
+        /// Ssm path environment configuration parameters.
+        public let ssmPath: String?
+
+        @inlinable
+        public init(parameterOverrides: [EnvironmentConfigurationParameter]? = nil, resolvedParameters: [EnvironmentConfigurationParameter]? = nil, ssmPath: String? = nil) {
+            self.parameterOverrides = parameterOverrides
+            self.resolvedParameters = resolvedParameters
+            self.ssmPath = ssmPath
+        }
+
+        public func validate(name: String) throws {
+            try self.parameterOverrides?.forEach {
+                try $0.validate(name: "\(name).parameterOverrides[]")
+            }
+            try self.resolvedParameters?.forEach {
+                try $0.validate(name: "\(name).resolvedParameters[]")
+            }
+            try self.validate(self.ssmPath, name: "ssmPath", parent: name, max: 2048)
+            try self.validate(self.ssmPath, name: "ssmPath", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterOverrides = "parameterOverrides"
+            case resolvedParameters = "resolvedParameters"
+            case ssmPath = "ssmPath"
+        }
+    }
+
+    public struct EnvironmentConfigurationUserParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The environment configuration name.
+        public let environmentConfigurationName: String?
+        /// The environment parameters.
+        public let environmentParameters: [EnvironmentParameter]?
+
+        @inlinable
+        public init(environmentConfigurationName: String? = nil, environmentParameters: [EnvironmentParameter]? = nil) {
+            self.environmentConfigurationName = environmentConfigurationName
+            self.environmentParameters = environmentParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.environmentConfigurationName, name: "environmentConfigurationName", parent: name, max: 64)
+            try self.validate(self.environmentConfigurationName, name: "environmentConfigurationName", parent: name, min: 1)
+            try self.validate(self.environmentConfigurationName, name: "environmentConfigurationName", parent: name, pattern: "^[\\w -]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentConfigurationName = "environmentConfigurationName"
+            case environmentParameters = "environmentParameters"
+        }
+    }
+
+    public struct EnvironmentDeploymentDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Environment failure reasons.
+        public let environmentFailureReasons: [String: [EnvironmentError]]?
+        /// The overall deployment status of the environment.
+        public let overallDeploymentStatus: OverallDeploymentStatus?
+
+        @inlinable
+        public init(environmentFailureReasons: [String: [EnvironmentError]]? = nil, overallDeploymentStatus: OverallDeploymentStatus? = nil) {
+            self.environmentFailureReasons = environmentFailureReasons
+            self.overallDeploymentStatus = overallDeploymentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentFailureReasons = "environmentFailureReasons"
+            case overallDeploymentStatus = "overallDeploymentStatus"
+        }
+    }
+
+    public struct EnvironmentError: AWSEncodableShape & AWSDecodableShape {
         /// The error code for the failure reason for the environment deployment.
         public let code: String?
         /// The error message for the failure reason for the environment deployment.
@@ -6994,7 +8655,7 @@ extension DataZone {
         }
     }
 
-    public struct EnvironmentParameter: AWSEncodableShape {
+    public struct EnvironmentParameter: AWSEncodableShape & AWSDecodableShape {
         /// The name of an environment profile parameter.
         public let name: String?
         /// The value of an environment profile parameter.
@@ -7280,6 +8941,7 @@ extension DataZone {
             try self.validate(self.typeIdentifier, name: "typeIdentifier", parent: name, pattern: "^(?!\\.)[\\w\\.]*\\w$")
             try self.validate(self.typeRevision, name: "typeRevision", parent: name, max: 64)
             try self.validate(self.typeRevision, name: "typeRevision", parent: name, min: 1)
+            try self.validate(self.typeRevision, name: "typeRevision", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7668,6 +9330,95 @@ extension DataZone {
         }
     }
 
+    public struct GetConnectionInput: AWSEncodableShape {
+        /// The ID of the domain where we get the connection.
+        public let domainIdentifier: String
+        /// The connection ID.
+        public let identifier: String
+        /// Specifies whether a connection has a secret.
+        public let withSecret: Bool?
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String, withSecret: Bool? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.withSecret = withSecret
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            request.encodeQuery(self.withSecret, key: "withSecret")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionOutput: AWSDecodableShape {
+        /// Connection credentials.
+        public let connectionCredentials: ConnectionCredentials?
+        /// The ID of the connection.
+        public let connectionId: String
+        /// Connection description.
+        public let description: String?
+        /// The domain ID of the connection.
+        public let domainId: String
+        /// The domain unit ID of the connection.
+        public let domainUnitId: String
+        /// The ID of the environment.
+        public let environmentId: String?
+        /// The environment user role.
+        public let environmentUserRole: String?
+        /// The name of the connection.
+        public let name: String
+        /// The physical endpoints of the connection.
+        public let physicalEndpoints: [PhysicalEndpoint]
+        /// The ID of the project.
+        public let projectId: String?
+        /// Connection props.
+        public let props: ConnectionPropertiesOutput?
+        /// The type of the connection.
+        public let type: ConnectionType
+
+        @inlinable
+        public init(connectionCredentials: ConnectionCredentials? = nil, connectionId: String, description: String? = nil, domainId: String, domainUnitId: String, environmentId: String? = nil, environmentUserRole: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, type: ConnectionType) {
+            self.connectionCredentials = connectionCredentials
+            self.connectionId = connectionId
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.environmentId = environmentId
+            self.environmentUserRole = environmentUserRole
+            self.name = name
+            self.physicalEndpoints = physicalEndpoints
+            self.projectId = projectId
+            self.props = props
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionCredentials = "connectionCredentials"
+            case connectionId = "connectionId"
+            case description = "description"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case environmentId = "environmentId"
+            case environmentUserRole = "environmentUserRole"
+            case name = "name"
+            case physicalEndpoints = "physicalEndpoints"
+            case projectId = "projectId"
+            case props = "props"
+            case type = "type"
+        }
+    }
+
     public struct GetDataProductInput: AWSEncodableShape {
         /// The ID of the domain where the data product lives.
         public let domainIdentifier: String
@@ -7799,6 +9550,8 @@ extension DataZone {
         public let assetFormsOutput: [FormOutput]?
         /// The configuration of the data source.
         public let configuration: DataSourceConfigurationOutput?
+        /// The ID of the connection.
+        public let connectionId: String?
         /// The timestamp of when the data source was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -7809,7 +9562,7 @@ extension DataZone {
         /// Specifies whether this data source is enabled or not.
         public let enableSetting: EnableSetting?
         /// The ID of the environment where this data source creates and publishes assets,
-        public let environmentId: String
+        public let environmentId: String?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let errorMessage: DataSourceErrorMessage?
         /// The ID of the data source.
@@ -7844,9 +9597,10 @@ extension DataZone {
         public var updatedAt: Date?
 
         @inlinable
-        public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAssetCount: Int? = nil, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, schedule: ScheduleConfiguration? = nil, selfGrantStatus: SelfGrantStatusOutput? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
+        public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, connectionId: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String? = nil, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAssetCount: Int? = nil, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, schedule: ScheduleConfiguration? = nil, selfGrantStatus: SelfGrantStatusOutput? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.assetFormsOutput = assetFormsOutput
             self.configuration = configuration
+            self.connectionId = connectionId
             self.createdAt = createdAt
             self.description = description
             self.domainId = domainId
@@ -7872,6 +9626,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case assetFormsOutput = "assetFormsOutput"
             case configuration = "configuration"
+            case connectionId = "connectionId"
             case createdAt = "createdAt"
             case description = "description"
             case domainId = "domainId"
@@ -7936,6 +9691,8 @@ extension DataZone {
         public let errorMessage: DataSourceErrorMessage?
         /// The ID of the data source run.
         public let id: String
+        /// The summary of the data lineage.
+        public let lineageSummary: DataSourceRunLineageSummary?
         /// The ID of the project in which this data source run occured.
         public let projectId: String
         /// The asset statistics from this data source run.
@@ -7955,13 +9712,14 @@ extension DataZone {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, dataSourceConfigurationSnapshot: String? = nil, dataSourceId: String, domainId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, projectId: String, runStatisticsForAssets: RunStatisticsForAssets? = nil, startedAt: Date? = nil, status: DataSourceRunStatus, stoppedAt: Date? = nil, type: DataSourceRunType, updatedAt: Date) {
+        public init(createdAt: Date, dataSourceConfigurationSnapshot: String? = nil, dataSourceId: String, domainId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, lineageSummary: DataSourceRunLineageSummary? = nil, projectId: String, runStatisticsForAssets: RunStatisticsForAssets? = nil, startedAt: Date? = nil, status: DataSourceRunStatus, stoppedAt: Date? = nil, type: DataSourceRunType, updatedAt: Date) {
             self.createdAt = createdAt
             self.dataSourceConfigurationSnapshot = dataSourceConfigurationSnapshot
             self.dataSourceId = dataSourceId
             self.domainId = domainId
             self.errorMessage = errorMessage
             self.id = id
+            self.lineageSummary = lineageSummary
             self.projectId = projectId
             self.runStatisticsForAssets = runStatisticsForAssets
             self.startedAt = startedAt
@@ -7978,6 +9736,7 @@ extension DataZone {
             case domainId = "domainId"
             case errorMessage = "errorMessage"
             case id = "id"
+            case lineageSummary = "lineageSummary"
             case projectId = "projectId"
             case runStatisticsForAssets = "runStatisticsForAssets"
             case startedAt = "startedAt"
@@ -8019,6 +9778,8 @@ extension DataZone {
         public let description: String?
         /// The domain execution role with which the Amazon DataZone domain is created.
         public let domainExecutionRole: String
+        /// The version of the domain.
+        public let domainVersion: DomainVersion?
         /// The identifier of the specified Amazon DataZone domain.
         public let id: String
         /// The identifier of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt the Amazon DataZone domain, metadata, and reporting data.
@@ -8031,6 +9792,8 @@ extension DataZone {
         public let portalUrl: String?
         /// The ID of the root domain in Amazon Datazone.
         public let rootDomainUnitId: String?
+        /// The service role of the domain.
+        public let serviceRole: String?
         /// The single sing-on option of the specified Amazon DataZone domain.
         public let singleSignOn: SingleSignOn?
         /// The status of the specified Amazon DataZone domain.
@@ -8039,17 +9802,19 @@ extension DataZone {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainExecutionRole: String, id: String, kmsKeyIdentifier: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, portalUrl: String? = nil, rootDomainUnitId: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainExecutionRole: String, domainVersion: DomainVersion? = nil, id: String, kmsKeyIdentifier: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, portalUrl: String? = nil, rootDomainUnitId: String? = nil, serviceRole: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
             self.domainExecutionRole = domainExecutionRole
+            self.domainVersion = domainVersion
             self.id = id
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.portalUrl = portalUrl
             self.rootDomainUnitId = rootDomainUnitId
+            self.serviceRole = serviceRole
             self.singleSignOn = singleSignOn
             self.status = status
             self.tags = tags
@@ -8060,12 +9825,14 @@ extension DataZone {
             case createdAt = "createdAt"
             case description = "description"
             case domainExecutionRole = "domainExecutionRole"
+            case domainVersion = "domainVersion"
             case id = "id"
             case kmsKeyIdentifier = "kmsKeyIdentifier"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
             case portalUrl = "portalUrl"
             case rootDomainUnitId = "rootDomainUnitId"
+            case serviceRole = "serviceRole"
             case singleSignOn = "singleSignOn"
             case status = "status"
             case tags = "tags"
@@ -8252,6 +10019,8 @@ extension DataZone {
         public let enabledRegions: [String]?
         /// The ID of the blueprint.
         public let environmentBlueprintId: String
+        /// The environment role permissions boundary.
+        public let environmentRolePermissionBoundary: String?
         /// The ARN of the manage access role with which this blueprint is created.
         public let manageAccessRoleArn: String?
         /// The provisioning configuration of a blueprint.
@@ -8264,11 +10033,12 @@ extension DataZone {
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, environmentRolePermissionBoundary: String? = nil, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
             self.environmentBlueprintId = environmentBlueprintId
+            self.environmentRolePermissionBoundary = environmentRolePermissionBoundary
             self.manageAccessRoleArn = manageAccessRoleArn
             self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
@@ -8281,6 +10051,7 @@ extension DataZone {
             case domainId = "domainId"
             case enabledRegions = "enabledRegions"
             case environmentBlueprintId = "environmentBlueprintId"
+            case environmentRolePermissionBoundary = "environmentRolePermissionBoundary"
             case manageAccessRoleArn = "manageAccessRoleArn"
             case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
@@ -8973,6 +10744,163 @@ extension DataZone {
         }
     }
 
+    public struct GetJobRunInput: AWSEncodableShape {
+        /// The ID of the domain.
+        public let domainIdentifier: String
+        /// The ID of the job run.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetJobRunOutput: AWSDecodableShape {
+        /// The timestamp of when the job run was created.
+        public let createdAt: Date?
+        /// The user who created the job run.
+        public let createdBy: String?
+        /// The details of the job run.
+        public let details: JobRunDetails?
+        /// The ID of the domain.
+        public let domainId: String?
+        /// The timestamp of when the job run ended.
+        public let endTime: Date?
+        /// The error generated if the action is not completed successfully.
+        public let error: JobRunError?
+        /// The ID of the job run.
+        public let id: String?
+        /// The ID of the job run.
+        public let jobId: String?
+        /// The type of the job run.
+        public let jobType: JobType?
+        /// The mode of the job run.
+        public let runMode: JobRunMode?
+        /// The timestamp of when the job run started.
+        public let startTime: Date?
+        /// The status of the job run.
+        public let status: JobRunStatus?
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String? = nil, details: JobRunDetails? = nil, domainId: String? = nil, endTime: Date? = nil, error: JobRunError? = nil, id: String? = nil, jobId: String? = nil, jobType: JobType? = nil, runMode: JobRunMode? = nil, startTime: Date? = nil, status: JobRunStatus? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.details = details
+            self.domainId = domainId
+            self.endTime = endTime
+            self.error = error
+            self.id = id
+            self.jobId = jobId
+            self.jobType = jobType
+            self.runMode = runMode
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case details = "details"
+            case domainId = "domainId"
+            case endTime = "endTime"
+            case error = "error"
+            case id = "id"
+            case jobId = "jobId"
+            case jobType = "jobType"
+            case runMode = "runMode"
+            case startTime = "startTime"
+            case status = "status"
+        }
+    }
+
+    public struct GetLineageEventInput: AWSEncodableShape {
+        /// The ID of the domain.
+        public let domainIdentifier: String
+        /// The ID of the lineage event.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{14}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetLineageEventOutput: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        /// The timestamp of when the lineage event was created.
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var createdAt: Date?
+        /// The user who created the lineage event.
+        public let createdBy: String?
+        /// The ID of the domain.
+        public let domainId: String?
+        /// The lineage event details.
+        public let event: AWSHTTPBody
+        /// The time of the lineage event.
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var eventTime: Date?
+        /// The ID of the lineage event.
+        public let id: String?
+        /// The progressing status of the lineage event.
+        public let processingStatus: LineageEventProcessingStatus?
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String? = nil, event: AWSHTTPBody, eventTime: Date? = nil, id: String? = nil, processingStatus: LineageEventProcessingStatus? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.event = event
+            self.eventTime = eventTime
+            self.id = id
+            self.processingStatus = processingStatus
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.createdAt = try response.decodeHeaderIfPresent(Date.self, key: "Created-At")
+            self.createdBy = try response.decodeHeaderIfPresent(String.self, key: "Created-By")
+            self.domainId = try response.decodeHeaderIfPresent(String.self, key: "Domain-Id")
+            self.event = try container.decode(AWSHTTPBody.self)
+            self.eventTime = try response.decodeHeaderIfPresent(Date.self, key: "Event-Time")
+            self.id = try response.decodeHeaderIfPresent(String.self, key: "Id")
+            self.processingStatus = try response.decodeHeaderIfPresent(LineageEventProcessingStatus.self, key: "Processing-Status")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct GetLineageNodeInput: AWSEncodableShape {
         /// The ID of the domain in which you want to get the data lineage node.
         public let domainIdentifier: String
@@ -9269,6 +11197,8 @@ extension DataZone {
         public let domainId: String
         /// The ID of the domain unit.
         public let domainUnitId: String?
+        /// The environment deployment status of a project.
+        public let environmentDeploymentDetails: EnvironmentDeploymentDetails?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let failureReasons: [ProjectDeletionError]?
         /// The business glossary terms that can be used in the project.
@@ -9279,22 +11209,29 @@ extension DataZone {
         public let lastUpdatedAt: Date?
         /// The name of the project.
         public let name: String
+        /// The ID of the project profile of a project.
+        public let projectProfileId: String?
         /// The status of the project.
         public let projectStatus: ProjectStatus?
+        /// The user parameters of a project.
+        public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectProfileId: String? = nil, projectStatus: ProjectStatus? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
             self.domainId = domainId
             self.domainUnitId = domainUnitId
+            self.environmentDeploymentDetails = environmentDeploymentDetails
             self.failureReasons = failureReasons
             self.glossaryTerms = glossaryTerms
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.projectProfileId = projectProfileId
             self.projectStatus = projectStatus
+            self.userParameters = userParameters
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9303,12 +11240,191 @@ extension DataZone {
             case description = "description"
             case domainId = "domainId"
             case domainUnitId = "domainUnitId"
+            case environmentDeploymentDetails = "environmentDeploymentDetails"
             case failureReasons = "failureReasons"
             case glossaryTerms = "glossaryTerms"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case projectProfileId = "projectProfileId"
             case projectStatus = "projectStatus"
+            case userParameters = "userParameters"
+        }
+    }
+
+    public struct GetProjectProfileInput: AWSEncodableShape {
+        /// The ID of the domain.
+        public let domainIdentifier: String
+        /// The ID of the project profile.
+        public let identifier: String
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetProjectProfileOutput: AWSDecodableShape {
+        /// The timestamp of when the project profile was created.
+        public let createdAt: Date?
+        /// The user who created the project profile.
+        public let createdBy: String
+        /// The description of the project profile.
+        public let description: String?
+        /// The ID of the domain of the project profile.
+        public let domainId: String
+        /// The ID of the domain unit of the project profile.
+        public let domainUnitId: String?
+        /// The environment configurations of the project profile.
+        public let environmentConfigurations: [EnvironmentConfiguration]?
+        /// The ID of the project profile.
+        public let id: String
+        /// The timestamp of when project profile was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of the project profile.
+        public let name: String
+        /// The status of the project profile.
+        public let status: Status?
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, status: Status? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.environmentConfigurations = environmentConfigurations
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case environmentConfigurations = "environmentConfigurations"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct GetRuleInput: AWSEncodableShape {
+        /// The ID of the domain where the GetRule action is to be invoked.
+        public let domainIdentifier: String
+        /// The ID of the rule.
+        public let identifier: String
+        /// The revision of the rule.
+        public let revision: String?
+
+        @inlinable
+        public init(domainIdentifier: String, identifier: String, revision: String? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.revision = revision
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            request.encodeQuery(self.revision, key: "revision")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.revision, name: "revision", parent: name, max: 64)
+            try self.validate(self.revision, name: "revision", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRuleOutput: AWSDecodableShape {
+        /// The action of the rule.
+        public let action: RuleAction
+        /// The timestamp at which the rule was created.
+        public let createdAt: Date
+        /// The user who created the rule.
+        public let createdBy: String
+        /// The description of the rule.
+        public let description: String?
+        /// The detail of the rule.
+        public let detail: RuleDetail
+        /// The ID of the rule.
+        public let identifier: String
+        /// The timestamp at which the rule was last updated.
+        public let lastUpdatedBy: String
+        /// The name of the rule.
+        public let name: String
+        /// The revision of the rule.
+        public let revision: String
+        /// The type of the rule.
+        public let ruleType: RuleType
+        /// The scope of the rule.
+        public let scope: RuleScope
+        /// The target of the rule.
+        public let target: RuleTarget
+        /// The target type of the rule.
+        public let targetType: RuleTargetType?
+        /// The timestamp at which the rule was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(action: RuleAction, createdAt: Date, createdBy: String, description: String? = nil, detail: RuleDetail, identifier: String, lastUpdatedBy: String, name: String, revision: String, ruleType: RuleType, scope: RuleScope, target: RuleTarget, targetType: RuleTargetType? = nil, updatedAt: Date) {
+            self.action = action
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.detail = detail
+            self.identifier = identifier
+            self.lastUpdatedBy = lastUpdatedBy
+            self.name = name
+            self.revision = revision
+            self.ruleType = ruleType
+            self.scope = scope
+            self.target = target
+            self.targetType = targetType
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case detail = "detail"
+            case identifier = "identifier"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case name = "name"
+            case revision = "revision"
+            case ruleType = "ruleType"
+            case scope = "scope"
+            case target = "target"
+            case targetType = "targetType"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -9526,8 +11642,12 @@ extension DataZone {
         public let decisionComment: String?
         /// The Amazon DataZone domain of the subscription request.
         public let domainId: String
+        /// The ID of the existing subscription.
+        public let existingSubscriptionId: String?
         /// The identifier of the subscription request.
         public let id: String
+        /// The metadata forms included in the subscription request.
+        public let metadataForms: [FormOutput]?
         /// The reason for the subscription request.
         public let requestReason: String
         /// The identifier of the Amazon DataZone user who reviewed the subscription request.
@@ -9544,12 +11664,14 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, existingSubscriptionId: String? = nil, id: String, metadataForms: [FormOutput]? = nil, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.decisionComment = decisionComment
             self.domainId = domainId
+            self.existingSubscriptionId = existingSubscriptionId
             self.id = id
+            self.metadataForms = metadataForms
             self.requestReason = requestReason
             self.reviewerId = reviewerId
             self.status = status
@@ -9564,7 +11686,9 @@ extension DataZone {
             case createdBy = "createdBy"
             case decisionComment = "decisionComment"
             case domainId = "domainId"
+            case existingSubscriptionId = "existingSubscriptionId"
             case id = "id"
+            case metadataForms = "metadataForms"
             case requestReason = "requestReason"
             case reviewerId = "reviewerId"
             case status = "status"
@@ -9623,7 +11747,7 @@ extension DataZone {
         /// The ID of the subscription target.
         public let id: String
         /// The manage access role with which the subscription target was created.
-        public let manageAccessRole: String
+        public let manageAccessRole: String?
         /// The name of the subscription target.
         public let name: String
         /// The ID of the project associated with the subscription target.
@@ -9640,7 +11764,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.createdAt = createdAt
@@ -9917,23 +12041,271 @@ extension DataZone {
         }
     }
 
+    public struct GlueConnection: AWSDecodableShape {
+        /// The Amazon Athena properties of the Amazon Web Services Glue connection.
+        public let athenaProperties: [String: String]?
+        /// The authentication configuration of the Amazon Web Services Glue connection.
+        public let authenticationConfiguration: AuthenticationConfiguration?
+        /// The compatible compute environments of the Amazon Web Services Glue connection.
+        public let compatibleComputeEnvironments: [ComputeEnvironments]?
+        /// The properties of the Amazon Web Services Glue connection.
+        public let connectionProperties: [String: String]?
+        /// The connection schema version of the Amazon Web Services Glue connection.
+        public let connectionSchemaVersion: Int?
+        /// The type of the Amazon Web Services Glue connection.
+        public let connectionType: ConnectionType?
+        /// The creation time of the Amazon Web Services Glue connection.
+        public let creationTime: Date?
+        /// The description of the Amazon Web Services Glue connection.
+        public let description: String?
+        /// The last validation time of the Amazon Web Services Glue connection.
+        public let lastConnectionValidationTime: Date?
+        /// The user who last updated the Amazon Web Services Glue connection.
+        public let lastUpdatedBy: String?
+        /// The timestamp at which the Amazon Web Services Glue connection was last updated.
+        public let lastUpdatedTime: Date?
+        /// The match criteria of the Amazon Web Services Glue connection.
+        public let matchCriteria: [String]?
+        /// The name of the Amazon Web Services Glue connection.
+        public let name: String?
+        /// The physical connection requirements of the Amazon Web Services Glue connection.
+        public let physicalConnectionRequirements: PhysicalConnectionRequirements?
+        /// The Python properties of the Amazon Web Services Glue connection.
+        public let pythonProperties: [String: String]?
+        /// The Spark properties of the Amazon Web Services Glue connection.
+        public let sparkProperties: [String: String]?
+        /// The status of the Amazon Web Services Glue connection.
+        public let status: ConnectionStatus?
+        /// The status reason of the Amazon Web Services Glue connection.
+        public let statusReason: String?
+
+        @inlinable
+        public init(athenaProperties: [String: String]? = nil, authenticationConfiguration: AuthenticationConfiguration? = nil, compatibleComputeEnvironments: [ComputeEnvironments]? = nil, connectionProperties: [String: String]? = nil, connectionSchemaVersion: Int? = nil, connectionType: ConnectionType? = nil, creationTime: Date? = nil, description: String? = nil, lastConnectionValidationTime: Date? = nil, lastUpdatedBy: String? = nil, lastUpdatedTime: Date? = nil, matchCriteria: [String]? = nil, name: String? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil, pythonProperties: [String: String]? = nil, sparkProperties: [String: String]? = nil, status: ConnectionStatus? = nil, statusReason: String? = nil) {
+            self.athenaProperties = athenaProperties
+            self.authenticationConfiguration = authenticationConfiguration
+            self.compatibleComputeEnvironments = compatibleComputeEnvironments
+            self.connectionProperties = connectionProperties
+            self.connectionSchemaVersion = connectionSchemaVersion
+            self.connectionType = connectionType
+            self.creationTime = creationTime
+            self.description = description
+            self.lastConnectionValidationTime = lastConnectionValidationTime
+            self.lastUpdatedBy = lastUpdatedBy
+            self.lastUpdatedTime = lastUpdatedTime
+            self.matchCriteria = matchCriteria
+            self.name = name
+            self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.pythonProperties = pythonProperties
+            self.sparkProperties = sparkProperties
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case athenaProperties = "athenaProperties"
+            case authenticationConfiguration = "authenticationConfiguration"
+            case compatibleComputeEnvironments = "compatibleComputeEnvironments"
+            case connectionProperties = "connectionProperties"
+            case connectionSchemaVersion = "connectionSchemaVersion"
+            case connectionType = "connectionType"
+            case creationTime = "creationTime"
+            case description = "description"
+            case lastConnectionValidationTime = "lastConnectionValidationTime"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case matchCriteria = "matchCriteria"
+            case name = "name"
+            case physicalConnectionRequirements = "physicalConnectionRequirements"
+            case pythonProperties = "pythonProperties"
+            case sparkProperties = "sparkProperties"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct GlueConnectionInput: AWSEncodableShape {
+        /// The Amazon Athena properties of the Amazon Web Services Glue connection.
+        public let athenaProperties: [String: String]?
+        /// The authentication configuration of the Amazon Web Services Glue connection.
+        public let authenticationConfiguration: AuthenticationConfigurationInput?
+        /// The connection properties of the Amazon Web Services Glue connection.
+        public let connectionProperties: [String: String]?
+        /// The connection type of the Amazon Web Services Glue connection.
+        public let connectionType: GlueConnectionType?
+        /// The description of the Amazon Web Services Glue connection.
+        public let description: String?
+        /// The match criteria of the Amazon Web Services Glue connection.
+        public let matchCriteria: String?
+        /// The name of the Amazon Web Services Glue connection.
+        public let name: String?
+        /// The physical connection requirements for the Amazon Web Services Glue connection.
+        public let physicalConnectionRequirements: PhysicalConnectionRequirements?
+        /// The Python properties of the Amazon Web Services Glue connection.
+        public let pythonProperties: [String: String]?
+        /// The Spark properties of the Amazon Web Services Glue connection.
+        public let sparkProperties: [String: String]?
+        /// Speciefies whether to validate credentials of the Amazon Web Services Glue connection.
+        public let validateCredentials: Bool?
+        /// Speciefies whether to validate for compute environments of the Amazon Web Services Glue connection.
+        public let validateForComputeEnvironments: [ComputeEnvironments]?
+
+        @inlinable
+        public init(athenaProperties: [String: String]? = nil, authenticationConfiguration: AuthenticationConfigurationInput? = nil, connectionProperties: [String: String]? = nil, connectionType: GlueConnectionType? = nil, description: String? = nil, matchCriteria: String? = nil, name: String? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil, pythonProperties: [String: String]? = nil, sparkProperties: [String: String]? = nil, validateCredentials: Bool? = nil, validateForComputeEnvironments: [ComputeEnvironments]? = nil) {
+            self.athenaProperties = athenaProperties
+            self.authenticationConfiguration = authenticationConfiguration
+            self.connectionProperties = connectionProperties
+            self.connectionType = connectionType
+            self.description = description
+            self.matchCriteria = matchCriteria
+            self.name = name
+            self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.pythonProperties = pythonProperties
+            self.sparkProperties = sparkProperties
+            self.validateCredentials = validateCredentials
+            self.validateForComputeEnvironments = validateForComputeEnvironments
+        }
+
+        public func validate(name: String) throws {
+            try self.physicalConnectionRequirements?.validate(name: "\(name).physicalConnectionRequirements")
+            try self.validate(self.validateForComputeEnvironments, name: "validateForComputeEnvironments", parent: name, max: 50)
+            try self.validate(self.validateForComputeEnvironments, name: "validateForComputeEnvironments", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case athenaProperties = "athenaProperties"
+            case authenticationConfiguration = "authenticationConfiguration"
+            case connectionProperties = "connectionProperties"
+            case connectionType = "connectionType"
+            case description = "description"
+            case matchCriteria = "matchCriteria"
+            case name = "name"
+            case physicalConnectionRequirements = "physicalConnectionRequirements"
+            case pythonProperties = "pythonProperties"
+            case sparkProperties = "sparkProperties"
+            case validateCredentials = "validateCredentials"
+            case validateForComputeEnvironments = "validateForComputeEnvironments"
+        }
+    }
+
+    public struct GlueConnectionPatch: AWSEncodableShape {
+        /// The authentication configuration of the Amazon Web Services Glue connection patch.
+        public let authenticationConfiguration: AuthenticationConfigurationPatch?
+        /// The properties of the Amazon Web Services Glue connection patch.
+        public let connectionProperties: [String: String]?
+        /// The description of the Amazon Web Services Glue connection patch.
+        public let description: String?
+
+        @inlinable
+        public init(authenticationConfiguration: AuthenticationConfigurationPatch? = nil, connectionProperties: [String: String]? = nil, description: String? = nil) {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.connectionProperties = connectionProperties
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationConfiguration = "authenticationConfiguration"
+            case connectionProperties = "connectionProperties"
+            case description = "description"
+        }
+    }
+
+    public struct GlueOAuth2Credentials: AWSEncodableShape & AWSDecodableShape {
+        /// The access token of a connection.
+        public let accessToken: String?
+        /// The jwt token of the connection.
+        public let jwtToken: String?
+        /// The refresh token of the connection.
+        public let refreshToken: String?
+        /// The user managed client application client secret of the connection.
+        public let userManagedClientApplicationClientSecret: String?
+
+        @inlinable
+        public init(accessToken: String? = nil, jwtToken: String? = nil, refreshToken: String? = nil, userManagedClientApplicationClientSecret: String? = nil) {
+            self.accessToken = accessToken
+            self.jwtToken = jwtToken
+            self.refreshToken = refreshToken
+            self.userManagedClientApplicationClientSecret = userManagedClientApplicationClientSecret
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "accessToken"
+            case jwtToken = "jwtToken"
+            case refreshToken = "refreshToken"
+            case userManagedClientApplicationClientSecret = "userManagedClientApplicationClientSecret"
+        }
+    }
+
+    public struct GluePropertiesInput: AWSEncodableShape {
+        /// The Amazon Web Services Glue connection.
+        public let glueConnectionInput: GlueConnectionInput?
+
+        @inlinable
+        public init(glueConnectionInput: GlueConnectionInput? = nil) {
+            self.glueConnectionInput = glueConnectionInput
+        }
+
+        public func validate(name: String) throws {
+            try self.glueConnectionInput?.validate(name: "\(name).glueConnectionInput")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueConnectionInput = "glueConnectionInput"
+        }
+    }
+
+    public struct GluePropertiesOutput: AWSDecodableShape {
+        /// The error message generated if the action is not completed successfully.
+        public let errorMessage: String?
+        /// The status of a connection.
+        public let status: ConnectionStatus?
+
+        @inlinable
+        public init(errorMessage: String? = nil, status: ConnectionStatus? = nil) {
+            self.errorMessage = errorMessage
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case status = "status"
+        }
+    }
+
+    public struct GluePropertiesPatch: AWSEncodableShape {
+        /// The Amazon Web Services Glue properties patch of a connection.
+        public let glueConnectionInput: GlueConnectionPatch?
+
+        @inlinable
+        public init(glueConnectionInput: GlueConnectionPatch? = nil) {
+            self.glueConnectionInput = glueConnectionInput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueConnectionInput = "glueConnectionInput"
+        }
+    }
+
     public struct GlueRunConfigurationInput: AWSEncodableShape {
         /// Specifies whether to automatically import data quality metrics as part of the data source run.
         public let autoImportDataQualityResult: Bool?
+        /// The catalog name in the Amazon Web Services Glue run configuration.
+        public let catalogName: String?
         /// The data access role included in the configuration details of the Amazon Web Services Glue data source.
         public let dataAccessRole: String?
         /// The relational filter configurations included in the configuration details of the Amazon Web Services Glue data source.
         public let relationalFilterConfigurations: [RelationalFilterConfiguration]
 
         @inlinable
-        public init(autoImportDataQualityResult: Bool? = nil, dataAccessRole: String? = nil, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
+        public init(autoImportDataQualityResult: Bool? = nil, catalogName: String? = nil, dataAccessRole: String? = nil, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
             self.autoImportDataQualityResult = autoImportDataQualityResult
+            self.catalogName = catalogName
             self.dataAccessRole = dataAccessRole
             self.relationalFilterConfigurations = relationalFilterConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoImportDataQualityResult = "autoImportDataQualityResult"
+            case catalogName = "catalogName"
             case dataAccessRole = "dataAccessRole"
             case relationalFilterConfigurations = "relationalFilterConfigurations"
         }
@@ -9944,6 +12316,8 @@ extension DataZone {
         public let accountId: String?
         /// Specifies whether to automatically import data quality metrics as part of the data source run.
         public let autoImportDataQualityResult: Bool?
+        /// The catalog name in the Amazon Web Services Glue run configuration.
+        public let catalogName: String?
         /// The data access role included in the configuration details of the Amazon Web Services Glue data source.
         public let dataAccessRole: String?
         /// The Amazon Web Services region included in the configuration details of the Amazon Web Services Glue data source.
@@ -9952,9 +12326,10 @@ extension DataZone {
         public let relationalFilterConfigurations: [RelationalFilterConfiguration]
 
         @inlinable
-        public init(accountId: String? = nil, autoImportDataQualityResult: Bool? = nil, dataAccessRole: String? = nil, region: String? = nil, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
+        public init(accountId: String? = nil, autoImportDataQualityResult: Bool? = nil, catalogName: String? = nil, dataAccessRole: String? = nil, region: String? = nil, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
             self.accountId = accountId
             self.autoImportDataQualityResult = autoImportDataQualityResult
+            self.catalogName = catalogName
             self.dataAccessRole = dataAccessRole
             self.region = region
             self.relationalFilterConfigurations = relationalFilterConfigurations
@@ -9963,6 +12338,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case autoImportDataQualityResult = "autoImportDataQualityResult"
+            case catalogName = "catalogName"
             case dataAccessRole = "dataAccessRole"
             case region = "region"
             case relationalFilterConfigurations = "relationalFilterConfigurations"
@@ -10059,6 +12435,88 @@ extension DataZone {
         }
     }
 
+    public struct HyperPodPropertiesInput: AWSEncodableShape {
+        /// The cluster name the hyper pod properties.
+        public let clusterName: String
+
+        @inlinable
+        public init(clusterName: String) {
+            self.clusterName = clusterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+        }
+    }
+
+    public struct HyperPodPropertiesOutput: AWSDecodableShape {
+        /// The cluster ARN of the hyper pod properties.
+        public let clusterArn: String?
+        /// The cluster name the hyper pod properties.
+        public let clusterName: String
+        /// The orchestrator of the hyper pod properties.
+        public let orchestrator: HyperPodOrchestrator?
+
+        @inlinable
+        public init(clusterArn: String? = nil, clusterName: String, orchestrator: HyperPodOrchestrator? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
+            self.orchestrator = orchestrator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case orchestrator = "orchestrator"
+        }
+    }
+
+    public struct IamPropertiesInput: AWSEncodableShape {
+        /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a connection.
+        public let glueLineageSyncEnabled: Bool?
+
+        @inlinable
+        public init(glueLineageSyncEnabled: Bool? = nil) {
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueLineageSyncEnabled = "glueLineageSyncEnabled"
+        }
+    }
+
+    public struct IamPropertiesOutput: AWSDecodableShape {
+        /// The environment ID of the connection.
+        public let environmentId: String?
+        /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a connection.
+        public let glueLineageSyncEnabled: Bool?
+
+        @inlinable
+        public init(environmentId: String? = nil, glueLineageSyncEnabled: Bool? = nil) {
+            self.environmentId = environmentId
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentId = "environmentId"
+            case glueLineageSyncEnabled = "glueLineageSyncEnabled"
+        }
+    }
+
+    public struct IamPropertiesPatch: AWSEncodableShape {
+        /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a connection.
+        public let glueLineageSyncEnabled: Bool?
+
+        @inlinable
+        public init(glueLineageSyncEnabled: Bool? = nil) {
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueLineageSyncEnabled = "glueLineageSyncEnabled"
+        }
+    }
+
     public struct IamUserProfileDetails: AWSDecodableShape {
         /// The ARN of an IAM user profile in Amazon DataZone.
         public let arn: String?
@@ -10134,6 +12592,74 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case columnName = "columnName"
+        }
+    }
+
+    public struct JobRunError: AWSDecodableShape {
+        /// The job run error message.
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct JobRunSummary: AWSDecodableShape {
+        /// The timestamp at which job run was created.
+        public let createdAt: Date?
+        /// The user who created the job run.
+        public let createdBy: String?
+        /// The domain ID of the job run.
+        public let domainId: String?
+        /// The end time of a job run.
+        public let endTime: Date?
+        /// The error of a job run.
+        public let error: JobRunError?
+        /// The job ID of a job run.
+        public let jobId: String?
+        /// The job type of a job run.
+        public let jobType: JobType?
+        /// The run ID of a job run.
+        public let runId: String?
+        /// The run mode of a job run.
+        public let runMode: JobRunMode?
+        /// The start time of a job run.
+        public let startTime: Date?
+        /// The status of a job run.
+        public let status: JobRunStatus?
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String? = nil, endTime: Date? = nil, error: JobRunError? = nil, jobId: String? = nil, jobType: JobType? = nil, runId: String? = nil, runMode: JobRunMode? = nil, startTime: Date? = nil, status: JobRunStatus? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.endTime = endTime
+            self.error = error
+            self.jobId = jobId
+            self.jobType = jobType
+            self.runId = runId
+            self.runMode = runMode
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case domainId = "domainId"
+            case endTime = "endTime"
+            case error = "error"
+            case jobId = "jobId"
+            case jobType = "jobType"
+            case runId = "runId"
+            case runMode = "runMode"
+            case startTime = "startTime"
+            case status = "status"
         }
     }
 
@@ -10216,6 +12742,66 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case columnName = "columnName"
             case value = "value"
+        }
+    }
+
+    public struct LineageEventSummary: AWSDecodableShape {
+        /// The timestamp at which data lineage event was created.
+        public let createdAt: Date?
+        /// The user who created the data lineage event.
+        public let createdBy: String?
+        /// The domain ID of the lineage event.
+        public let domainId: String?
+        /// The summary of the data lineate event.
+        public let eventSummary: EventSummary?
+        /// The time of the data lineage event.
+        public let eventTime: Date?
+        /// The ID of the data lineage event.
+        public let id: String?
+        /// The processing status of the data lineage event.
+        public let processingStatus: LineageEventProcessingStatus?
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String? = nil, eventSummary: EventSummary? = nil, eventTime: Date? = nil, id: String? = nil, processingStatus: LineageEventProcessingStatus? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.eventSummary = eventSummary
+            self.eventTime = eventTime
+            self.id = id
+            self.processingStatus = processingStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case domainId = "domainId"
+            case eventSummary = "eventSummary"
+            case eventTime = "eventTime"
+            case id = "id"
+            case processingStatus = "processingStatus"
+        }
+    }
+
+    public struct LineageInfo: AWSDecodableShape {
+        /// The data lineage error message.
+        public let errorMessage: String?
+        /// The data lineage event ID.
+        public let eventId: String?
+        /// The data lineage event status.
+        public let eventStatus: LineageEventProcessingStatus?
+
+        @inlinable
+        public init(errorMessage: String? = nil, eventId: String? = nil, eventStatus: LineageEventProcessingStatus? = nil) {
+            self.errorMessage = errorMessage
+            self.eventId = eventId
+            self.eventStatus = eventStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case eventId = "eventId"
+            case eventStatus = "eventStatus"
         }
     }
 
@@ -10341,6 +12927,64 @@ extension DataZone {
         }
     }
 
+    public struct LineageRunDetails: AWSDecodableShape {
+        /// The SQL query run details of a data lineage run.
+        public let sqlQueryRunDetails: LineageSqlQueryRunDetails?
+
+        @inlinable
+        public init(sqlQueryRunDetails: LineageSqlQueryRunDetails? = nil) {
+            self.sqlQueryRunDetails = sqlQueryRunDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sqlQueryRunDetails = "sqlQueryRunDetails"
+        }
+    }
+
+    public struct LineageSqlQueryRunDetails: AWSDecodableShape {
+        /// The error message of the SQL query run details of a data lineage run.
+        public let errorMessages: [String]?
+        /// The number of queries that failed in the SQL query run details of a data lineage run.
+        public let numQueriesFailed: Int?
+        /// The query end time in the SQL query run details of a data lineage run.
+        public let queryEndTime: Date?
+        /// The query start time in the SQL query run details of a data lineage run.
+        public let queryStartTime: Date?
+        /// The total queries processed in the SQL query run details of a data lineage run.
+        public let totalQueriesProcessed: Int?
+
+        @inlinable
+        public init(errorMessages: [String]? = nil, numQueriesFailed: Int? = nil, queryEndTime: Date? = nil, queryStartTime: Date? = nil, totalQueriesProcessed: Int? = nil) {
+            self.errorMessages = errorMessages
+            self.numQueriesFailed = numQueriesFailed
+            self.queryEndTime = queryEndTime
+            self.queryStartTime = queryStartTime
+            self.totalQueriesProcessed = totalQueriesProcessed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessages = "errorMessages"
+            case numQueriesFailed = "numQueriesFailed"
+            case queryEndTime = "queryEndTime"
+            case queryStartTime = "queryStartTime"
+            case totalQueriesProcessed = "totalQueriesProcessed"
+        }
+    }
+
+    public struct LineageSyncSchedule: AWSEncodableShape & AWSDecodableShape {
+        /// The lineage sync schedule.
+        public let schedule: String?
+
+        @inlinable
+        public init(schedule: String? = nil) {
+            self.schedule = schedule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schedule = "schedule"
+        }
+    }
+
     public struct ListAssetFiltersInput: AWSEncodableShape {
         /// The ID of the data asset.
         public let assetIdentifier: String
@@ -10449,6 +13093,85 @@ extension DataZone {
 
         @inlinable
         public init(items: [AssetRevision]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConnectionsInput: AWSEncodableShape {
+        /// The ID of the domain where you want to list connections.
+        public let domainIdentifier: String
+        /// The ID of the environment where you want to list connections.
+        public let environmentIdentifier: String?
+        /// The maximum number of connections to return in a single call to ListConnections. When the number of connections to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListConnections to list the next set of connections.
+        public let maxResults: Int?
+        /// The name of the connection.
+        public let name: String?
+        /// When the number of connections is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of connections, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListConnections to list the next set of connections.
+        public let nextToken: String?
+        /// The ID of the project where you want to list connections.
+        public let projectIdentifier: String
+        /// Specifies how you want to sort the listed connections.
+        public let sortBy: SortFieldConnection?
+        /// Specifies the sort order for the listed connections.
+        public let sortOrder: SortOrder?
+        /// The type of connection.
+        public let type: ConnectionType?
+
+        @inlinable
+        public init(domainIdentifier: String, environmentIdentifier: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, projectIdentifier: String, sortBy: SortFieldConnection? = nil, sortOrder: SortOrder? = nil, type: ConnectionType? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.environmentIdentifier = environmentIdentifier
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+            self.projectIdentifier = projectIdentifier
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodeQuery(self.environmentIdentifier, key: "environmentIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.projectIdentifier, key: "projectIdentifier")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+            request.encodeQuery(self.type, key: "type")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.projectIdentifier, name: "projectIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListConnectionsOutput: AWSDecodableShape {
+        /// The results of the ListConnections action.
+        public let items: [ConnectionSummary]
+        /// When the number of connections is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of connections, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListConnections to list the next set of connections.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ConnectionSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -10639,6 +13362,8 @@ extension DataZone {
     }
 
     public struct ListDataSourcesInput: AWSEncodableShape {
+        /// The ID of the connection.
+        public let connectionIdentifier: String?
         /// The identifier of the Amazon DataZone domain in which to list the data sources.
         public let domainIdentifier: String
         /// The identifier of the environment in which to list the data sources.
@@ -10657,7 +13382,8 @@ extension DataZone {
         public let type: String?
 
         @inlinable
-        public init(domainIdentifier: String, environmentIdentifier: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, projectIdentifier: String, status: DataSourceStatus? = nil, type: String? = nil) {
+        public init(connectionIdentifier: String? = nil, domainIdentifier: String, environmentIdentifier: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, projectIdentifier: String, status: DataSourceStatus? = nil, type: String? = nil) {
+            self.connectionIdentifier = connectionIdentifier
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
             self.maxResults = maxResults
@@ -10671,6 +13397,7 @@ extension DataZone {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.connectionIdentifier, key: "connectionIdentifier")
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             request.encodeQuery(self.environmentIdentifier, key: "environmentIdentifier")
             request.encodeQuery(self.maxResults, key: "maxResults")
@@ -11223,6 +13950,138 @@ extension DataZone {
         }
     }
 
+    public struct ListJobRunsInput: AWSEncodableShape {
+        /// The ID of the domain where you want to list job runs.
+        public let domainIdentifier: String
+        /// The ID of the job run.
+        public let jobIdentifier: String
+        /// The maximum number of job runs to return in a single call to ListJobRuns. When the number of job runs to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListJobRuns to list the next set of job runs.
+        public let maxResults: Int?
+        /// When the number of job runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of job runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListJobRuns to list the next set of job runs.
+        public let nextToken: String?
+        /// Specifies the order in which job runs are to be sorted.
+        public let sortOrder: SortOrder?
+        /// The status of a job run.
+        public let status: JobRunStatus?
+
+        @inlinable
+        public init(domainIdentifier: String, jobIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil, status: JobRunStatus? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.jobIdentifier = jobIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortOrder = sortOrder
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.jobIdentifier, key: "jobIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListJobRunsOutput: AWSDecodableShape {
+        /// The results of the ListJobRuns action.
+        public let items: [JobRunSummary]?
+        /// When the number of job runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of job runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListJobRuns to list the next set of job runs.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [JobRunSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLineageEventsInput: AWSEncodableShape {
+        /// The ID of the domain where you want to list lineage events.
+        public let domainIdentifier: String
+        /// The maximum number of lineage events to return in a single call to ListLineageEvents. When the number of lineage events to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListLineageEvents to list the next set of lineage events.
+        public let maxResults: Int?
+        /// When the number of lineage events is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of lineage events, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListLineageEvents to list the next set of lineage events.
+        public let nextToken: String?
+        /// The processing status of a lineage event.
+        public let processingStatus: LineageEventProcessingStatus?
+        /// The sort order of the lineage events.
+        public let sortOrder: SortOrder?
+        /// The after timestamp of a lineage event.
+        public let timestampAfter: Date?
+        /// The before timestamp of a lineage event.
+        public let timestampBefore: Date?
+
+        @inlinable
+        public init(domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, processingStatus: LineageEventProcessingStatus? = nil, sortOrder: SortOrder? = nil, timestampAfter: Date? = nil, timestampBefore: Date? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.processingStatus = processingStatus
+            self.sortOrder = sortOrder
+            self.timestampAfter = timestampAfter
+            self.timestampBefore = timestampBefore
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.processingStatus, key: "processingStatus")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+            request.encodeQuery(self.timestampAfter, key: "timestampAfter")
+            request.encodeQuery(self.timestampBefore, key: "timestampBefore")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListLineageEventsOutput: AWSDecodableShape {
+        /// The results of the ListLineageEvents action.
+        public let items: [LineageEventSummary]?
+        /// When the number of lineage events is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of lineage events, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListLineageEvents to list the next set of lineage events.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [LineageEventSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListLineageNodeHistoryInput: AWSEncodableShape {
         /// The direction of the data lineage node refers to the lineage node having neighbors in that direction. For example, if direction is UPSTREAM, the ListLineageNodeHistory API responds with historical versions with upstream neighbors only.
         public let direction: EdgeDirection?
@@ -11558,6 +14417,73 @@ extension DataZone {
         }
     }
 
+    public struct ListProjectProfilesInput: AWSEncodableShape {
+        /// The ID of the domain where you want to list project profiles.
+        public let domainIdentifier: String
+        /// The maximum number of project profiles to return in a single call to ListProjectProfiles. When the number of project profiles to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListProjectProfiles to list the next set of project profiles.
+        public let maxResults: Int?
+        /// The name of a project profile.
+        public let name: String?
+        /// When the number of project profiles is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of project profiles, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjectProfiles to list the next set of project profiles.
+        public let nextToken: String?
+        /// Specifies by what to sort project profiles.
+        public let sortBy: SortFieldProject?
+        /// Specifies the sort order of the project profiles.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(domainIdentifier: String, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, sortBy: SortFieldProject? = nil, sortOrder: SortOrder? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProjectProfilesOutput: AWSDecodableShape {
+        /// The results of the ListProjectProfiles action.
+        public let items: [ProjectProfileSummary]?
+        /// When the number of project profiles is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of project profiles, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjectProfiles to list the next set of project profiles.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ProjectProfileSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListProjectsInput: AWSEncodableShape {
         /// The identifier of the Amazon DataZone domain.
         public let domainIdentifier: String
@@ -11615,6 +14541,96 @@ extension DataZone {
 
         @inlinable
         public init(items: [ProjectSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListRulesInput: AWSEncodableShape {
+        /// The action of the rule.
+        public let action: RuleAction?
+        /// The asset types of the rule.
+        public let assetTypes: [String]?
+        /// The data product of the rule.
+        public let dataProduct: Bool?
+        /// The ID of the domain in which the rules are to be listed.
+        public let domainIdentifier: String
+        /// Specifies whether to include cascading rules in the results.
+        public let includeCascaded: Bool?
+        /// The maximum number of rules to return in a single call to ListRules. When the number of rules to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListRules to list the next set of rules.
+        public let maxResults: Int?
+        /// When the number of rules is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of rules, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListRules to list the next set of rules.
+        public let nextToken: String?
+        /// The IDs of projects in which rules are to be listed.
+        public let projectIds: [String]?
+        /// The type of the rule.
+        public let ruleType: RuleType?
+        /// The target ID of the rule.
+        public let targetIdentifier: String
+        /// The target type of the rule.
+        public let targetType: RuleTargetType
+
+        @inlinable
+        public init(action: RuleAction? = nil, assetTypes: [String]? = nil, dataProduct: Bool? = nil, domainIdentifier: String, includeCascaded: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, projectIds: [String]? = nil, ruleType: RuleType? = nil, targetIdentifier: String, targetType: RuleTargetType) {
+            self.action = action
+            self.assetTypes = assetTypes
+            self.dataProduct = dataProduct
+            self.domainIdentifier = domainIdentifier
+            self.includeCascaded = includeCascaded
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.projectIds = projectIds
+            self.ruleType = ruleType
+            self.targetIdentifier = targetIdentifier
+            self.targetType = targetType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.action, key: "ruleAction")
+            request.encodeQuery(self.assetTypes, key: "assetTypes")
+            request.encodeQuery(self.dataProduct, key: "dataProduct")
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodeQuery(self.includeCascaded, key: "includeCascaded")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.projectIds, key: "projectIds")
+            request.encodeQuery(self.ruleType, key: "ruleType")
+            request.encodePath(self.targetIdentifier, key: "targetIdentifier")
+            request.encodePath(self.targetType, key: "targetType")
+        }
+
+        public func validate(name: String) throws {
+            try self.assetTypes?.forEach {
+                try validate($0, name: "assetTypes[]", parent: name, max: 513)
+                try validate($0, name: "assetTypes[]", parent: name, min: 1)
+                try validate($0, name: "assetTypes[]", parent: name, pattern: "^(?!\\.)[\\w\\.]*\\w$")
+            }
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.projectIds?.forEach {
+                try validate($0, name: "projectIds[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            }
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRulesOutput: AWSDecodableShape {
+        /// The results of the ListRules action.
+        public let items: [RuleSummary]
+        /// When the number of rules is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of rules, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListRules to list the next set of rules.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [RuleSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -12131,6 +15147,76 @@ extension DataZone {
         }
     }
 
+    public struct MetadataFormEnforcementDetail: AWSEncodableShape & AWSDecodableShape {
+        /// The required metadata forms.
+        public let requiredMetadataForms: [MetadataFormReference]?
+
+        @inlinable
+        public init(requiredMetadataForms: [MetadataFormReference]? = nil) {
+            self.requiredMetadataForms = requiredMetadataForms
+        }
+
+        public func validate(name: String) throws {
+            try self.requiredMetadataForms?.forEach {
+                try $0.validate(name: "\(name).requiredMetadataForms[]")
+            }
+            try self.validate(self.requiredMetadataForms, name: "requiredMetadataForms", parent: name, max: 5)
+            try self.validate(self.requiredMetadataForms, name: "requiredMetadataForms", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requiredMetadataForms = "requiredMetadataForms"
+        }
+    }
+
+    public struct MetadataFormReference: AWSEncodableShape & AWSDecodableShape {
+        /// The type ID of the metadata form reference.
+        public let typeIdentifier: String
+        /// The type revision of the metadata form reference.
+        public let typeRevision: String
+
+        @inlinable
+        public init(typeIdentifier: String, typeRevision: String) {
+            self.typeIdentifier = typeIdentifier
+            self.typeRevision = typeRevision
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.typeIdentifier, name: "typeIdentifier", parent: name, max: 385)
+            try self.validate(self.typeIdentifier, name: "typeIdentifier", parent: name, min: 1)
+            try self.validate(self.typeIdentifier, name: "typeIdentifier", parent: name, pattern: "^(?!\\.)[\\w\\.]*\\w$")
+            try self.validate(self.typeRevision, name: "typeRevision", parent: name, max: 64)
+            try self.validate(self.typeRevision, name: "typeRevision", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typeIdentifier = "typeIdentifier"
+            case typeRevision = "typeRevision"
+        }
+    }
+
+    public struct MetadataFormSummary: AWSDecodableShape {
+        /// The form name of the metadata form.
+        public let formName: String?
+        /// The type name of the metadata form.
+        public let typeName: String
+        /// The type revision of the metadata form.
+        public let typeRevision: String
+
+        @inlinable
+        public init(formName: String? = nil, typeName: String, typeRevision: String) {
+            self.formName = formName
+            self.typeName = typeName
+            self.typeRevision = typeRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formName = "formName"
+            case typeName = "typeName"
+            case typeRevision = "typeRevision"
+        }
+    }
+
     public struct MetadataGenerationRunItem: AWSDecodableShape {
         /// The timestamp at which the metadata generation run was created.
         public let createdAt: Date?
@@ -12197,6 +15283,24 @@ extension DataZone {
             case identifier = "identifier"
             case revision = "revision"
             case type = "type"
+        }
+    }
+
+    public struct NameIdentifier: AWSDecodableShape {
+        /// The name in the name identifier.
+        public let name: String?
+        /// The namespace in the name identifier.
+        public let namespace: String?
+
+        @inlinable
+        public init(name: String? = nil, namespace: String? = nil) {
+            self.name = name
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case namespace = "namespace"
         }
     }
 
@@ -12330,6 +15434,88 @@ extension DataZone {
         }
     }
 
+    public struct OAuth2ClientApplication: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Web Services managed client application reference in the OAuth2Client application.
+        public let aWSManagedClientApplicationReference: String?
+        /// The user managed client application client ID in the OAuth2Client application.
+        public let userManagedClientApplicationClientId: String?
+
+        @inlinable
+        public init(aWSManagedClientApplicationReference: String? = nil, userManagedClientApplicationClientId: String? = nil) {
+            self.aWSManagedClientApplicationReference = aWSManagedClientApplicationReference
+            self.userManagedClientApplicationClientId = userManagedClientApplicationClientId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aWSManagedClientApplicationReference = "aWSManagedClientApplicationReference"
+            case userManagedClientApplicationClientId = "userManagedClientApplicationClientId"
+        }
+    }
+
+    public struct OAuth2Properties: AWSEncodableShape & AWSDecodableShape {
+        /// The authorization code properties of the OAuth2 properties.
+        public let authorizationCodeProperties: AuthorizationCodeProperties?
+        /// The OAuth2 client application of the OAuth2 properties.
+        public let oAuth2ClientApplication: OAuth2ClientApplication?
+        /// The OAuth2 credentials of the OAuth2 properties.
+        public let oAuth2Credentials: GlueOAuth2Credentials?
+        /// The OAuth2 grant type of the OAuth2 properties.
+        public let oAuth2GrantType: OAuth2GrantType?
+        /// The OAuth2 token URL of the OAuth2 properties.
+        public let tokenUrl: String?
+        /// The OAuth2 token URL parameter map of the OAuth2 properties.
+        public let tokenUrlParametersMap: [String: String]?
+
+        @inlinable
+        public init(authorizationCodeProperties: AuthorizationCodeProperties? = nil, oAuth2ClientApplication: OAuth2ClientApplication? = nil, oAuth2Credentials: GlueOAuth2Credentials? = nil, oAuth2GrantType: OAuth2GrantType? = nil, tokenUrl: String? = nil, tokenUrlParametersMap: [String: String]? = nil) {
+            self.authorizationCodeProperties = authorizationCodeProperties
+            self.oAuth2ClientApplication = oAuth2ClientApplication
+            self.oAuth2Credentials = oAuth2Credentials
+            self.oAuth2GrantType = oAuth2GrantType
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParametersMap = tokenUrlParametersMap
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationCodeProperties = "authorizationCodeProperties"
+            case oAuth2ClientApplication = "oAuth2ClientApplication"
+            case oAuth2Credentials = "oAuth2Credentials"
+            case oAuth2GrantType = "oAuth2GrantType"
+            case tokenUrl = "tokenUrl"
+            case tokenUrlParametersMap = "tokenUrlParametersMap"
+        }
+    }
+
+    public struct OpenLineageRunEventSummary: AWSDecodableShape {
+        /// The event type of the open lineage run event summary.
+        public let eventType: OpenLineageRunState?
+        /// The inputs of the open lineage run event summary.
+        public let inputs: [NameIdentifier]?
+        /// The job of the open lineage run event summary.
+        public let job: NameIdentifier?
+        /// The outputs of the open lineage run event summary.
+        public let outputs: [NameIdentifier]?
+        /// The runID of the open lineage run event summary.
+        public let runId: String?
+
+        @inlinable
+        public init(eventType: OpenLineageRunState? = nil, inputs: [NameIdentifier]? = nil, job: NameIdentifier? = nil, outputs: [NameIdentifier]? = nil, runId: String? = nil) {
+            self.eventType = eventType
+            self.inputs = inputs
+            self.job = job
+            self.outputs = outputs
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventType = "eventType"
+            case inputs = "inputs"
+            case job = "job"
+            case outputs = "outputs"
+            case runId = "runId"
+        }
+    }
+
     public struct OverrideDomainUnitOwnersPolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether the policy is inherited by child domain units.
         public let includeChildDomainUnits: Bool?
@@ -12422,6 +15608,82 @@ extension DataZone {
         }
     }
 
+    public struct PhysicalConnectionRequirements: AWSEncodableShape & AWSDecodableShape {
+        /// The availability zone of the physical connection requirements of a connection.
+        public let availabilityZone: String?
+        /// The group ID list of the physical connection requirements of a connection.
+        public let securityGroupIdList: [String]?
+        /// The subnet ID of the physical connection requirements of a connection.
+        public let subnetId: String?
+        /// The subnet ID list of the physical connection requirements of a connection.
+        public let subnetIdList: [String]?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, securityGroupIdList: [String]? = nil, subnetId: String? = nil, subnetIdList: [String]? = nil) {
+            self.availabilityZone = availabilityZone
+            self.securityGroupIdList = securityGroupIdList
+            self.subnetId = subnetId
+            self.subnetIdList = subnetIdList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.securityGroupIdList, name: "securityGroupIdList", parent: name, max: 50)
+            try self.validate(self.subnetId, name: "subnetId", parent: name, max: 32)
+            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "^subnet-[a-z0-9]+$")
+            try self.subnetIdList?.forEach {
+                try validate($0, name: "subnetIdList[]", parent: name, max: 32)
+                try validate($0, name: "subnetIdList[]", parent: name, pattern: "^subnet-[a-z0-9]+$")
+            }
+            try self.validate(self.subnetIdList, name: "subnetIdList", parent: name, max: 50)
+            try self.validate(self.subnetIdList, name: "subnetIdList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case securityGroupIdList = "securityGroupIdList"
+            case subnetId = "subnetId"
+            case subnetIdList = "subnetIdList"
+        }
+    }
+
+    public struct PhysicalEndpoint: AWSDecodableShape {
+        /// The location of a connection.
+        public let awsLocation: AwsLocation?
+        /// The Amazon Web Services Glue connection.
+        public let glueConnection: GlueConnection?
+        /// The Amazon Web Services Glue connection name.
+        public let glueConnectionName: String?
+        /// The host in the physical endpoints of a connection.
+        public let host: String?
+        /// The port in the physical endpoints of a connection.
+        public let port: Int?
+        /// The protocol in the physical endpoints of a connection.
+        public let `protocol`: `Protocol`?
+        /// The stage in the physical endpoints of a connection.
+        public let stage: String?
+
+        @inlinable
+        public init(awsLocation: AwsLocation? = nil, glueConnection: GlueConnection? = nil, glueConnectionName: String? = nil, host: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, stage: String? = nil) {
+            self.awsLocation = awsLocation
+            self.glueConnection = glueConnection
+            self.glueConnectionName = glueConnectionName
+            self.host = host
+            self.port = port
+            self.`protocol` = `protocol`
+            self.stage = stage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsLocation = "awsLocation"
+            case glueConnection = "glueConnection"
+            case glueConnectionName = "glueConnectionName"
+            case host = "host"
+            case port = "port"
+            case `protocol` = "protocol"
+            case stage = "stage"
+        }
+    }
+
     public struct PolicyGrantMember: AWSDecodableShape {
         /// Specifies the timestamp at which policy grant member was created.
         public let createdAt: Date?
@@ -12466,7 +15728,7 @@ extension DataZone {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.singleValueContainer()
-            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodeHeader(self.clientToken, key: "Client-Token")
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encode(self.event)
         }
@@ -12483,7 +15745,21 @@ extension DataZone {
     }
 
     public struct PostLineageEventOutput: AWSDecodableShape {
-        public init() {}
+        /// The ID of the domain.
+        public let domainId: String?
+        /// The ID of the lineage event.
+        public let id: String?
+
+        @inlinable
+        public init(domainId: String? = nil, id: String? = nil) {
+            self.domainId = domainId
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "domainId"
+            case id = "id"
+        }
     }
 
     public struct PostTimeSeriesDataPointsInput: AWSEncodableShape {
@@ -12637,6 +15913,52 @@ extension DataZone {
         }
     }
 
+    public struct ProjectProfileSummary: AWSDecodableShape {
+        /// The timestamp of when the project profile was created.
+        public let createdAt: Date?
+        /// The user who created the project profile.
+        public let createdBy: String
+        /// The description of the project profile.
+        public let description: String?
+        /// The domain ID of the project profile.
+        public let domainId: String
+        /// The domain unit ID of the project profile.
+        public let domainUnitId: String?
+        /// The ID of the project profile.
+        public let id: String
+        /// The timestamp at which a project profile was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of a project profile.
+        public let name: String
+        /// The status of a project profile.
+        public let status: Status?
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, status: Status? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
     public struct ProjectSummary: AWSDecodableShape {
         /// The timestamp of when a project was created.
         public let createdAt: Date?
@@ -12687,6 +16009,31 @@ extension DataZone {
         }
     }
 
+    public struct ProjectsForRule: AWSEncodableShape & AWSDecodableShape {
+        /// The selection mode of the rule.
+        public let selectionMode: RuleScopeSelectionMode
+        /// The specific projects in which the rule is created.
+        public let specificProjects: [String]?
+
+        @inlinable
+        public init(selectionMode: RuleScopeSelectionMode, specificProjects: [String]? = nil) {
+            self.selectionMode = selectionMode
+            self.specificProjects = specificProjects
+        }
+
+        public func validate(name: String) throws {
+            try self.specificProjects?.forEach {
+                try validate($0, name: "specificProjects[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            }
+            try self.validate(self.specificProjects, name: "specificProjects", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectionMode = "selectionMode"
+            case specificProjects = "specificProjects"
+        }
+    }
+
     public struct PutEnvironmentBlueprintConfigurationInput: AWSEncodableShape {
         /// The identifier of the Amazon DataZone domain.
         public let domainIdentifier: String
@@ -12694,6 +16041,8 @@ extension DataZone {
         public let enabledRegions: [String]
         /// The identifier of the environment blueprint.
         public let environmentBlueprintIdentifier: String
+        /// The environment role permissions boundary.
+        public let environmentRolePermissionBoundary: String?
         /// The ARN of the manage access role.
         public let manageAccessRoleArn: String?
         /// The provisioning configuration of a blueprint.
@@ -12704,10 +16053,11 @@ extension DataZone {
         public let regionalParameters: [String: [String: String]]?
 
         @inlinable
-        public init(domainIdentifier: String, enabledRegions: [String], environmentBlueprintIdentifier: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil) {
+        public init(domainIdentifier: String, enabledRegions: [String], environmentBlueprintIdentifier: String, environmentRolePermissionBoundary: String? = nil, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil) {
             self.domainIdentifier = domainIdentifier
             self.enabledRegions = enabledRegions
             self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
+            self.environmentRolePermissionBoundary = environmentRolePermissionBoundary
             self.manageAccessRoleArn = manageAccessRoleArn
             self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
@@ -12720,6 +16070,7 @@ extension DataZone {
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encode(self.enabledRegions, forKey: .enabledRegions)
             request.encodePath(self.environmentBlueprintIdentifier, key: "environmentBlueprintIdentifier")
+            try container.encodeIfPresent(self.environmentRolePermissionBoundary, forKey: .environmentRolePermissionBoundary)
             try container.encodeIfPresent(self.manageAccessRoleArn, forKey: .manageAccessRoleArn)
             try container.encodeIfPresent(self.provisioningConfigurations, forKey: .provisioningConfigurations)
             try container.encodeIfPresent(self.provisioningRoleArn, forKey: .provisioningRoleArn)
@@ -12734,6 +16085,7 @@ extension DataZone {
                 try validate($0, name: "enabledRegions[]", parent: name, pattern: "^[a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9]$")
             }
             try self.validate(self.environmentBlueprintIdentifier, name: "environmentBlueprintIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.environmentRolePermissionBoundary, name: "environmentRolePermissionBoundary", parent: name, pattern: "^arn:aws[^:]*:iam::(aws|\\d{12}):policy/[\\w+=,.@-]*$")
             try self.validate(self.manageAccessRoleArn, name: "manageAccessRoleArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
             try self.provisioningConfigurations?.forEach {
                 try $0.validate(name: "\(name).provisioningConfigurations[]")
@@ -12748,6 +16100,7 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case enabledRegions = "enabledRegions"
+            case environmentRolePermissionBoundary = "environmentRolePermissionBoundary"
             case manageAccessRoleArn = "manageAccessRoleArn"
             case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
@@ -12764,6 +16117,8 @@ extension DataZone {
         public let enabledRegions: [String]?
         /// The identifier of the environment blueprint.
         public let environmentBlueprintId: String
+        /// The environment role permissions boundary.
+        public let environmentRolePermissionBoundary: String?
         /// The ARN of the manage access role.
         public let manageAccessRoleArn: String?
         /// The provisioning configuration of a blueprint.
@@ -12776,11 +16131,12 @@ extension DataZone {
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, environmentRolePermissionBoundary: String? = nil, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
             self.environmentBlueprintId = environmentBlueprintId
+            self.environmentRolePermissionBoundary = environmentRolePermissionBoundary
             self.manageAccessRoleArn = manageAccessRoleArn
             self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
@@ -12793,6 +16149,7 @@ extension DataZone {
             case domainId = "domainId"
             case enabledRegions = "enabledRegions"
             case environmentBlueprintId = "environmentBlueprintId"
+            case environmentRolePermissionBoundary = "environmentRolePermissionBoundary"
             case manageAccessRoleArn = "manageAccessRoleArn"
             case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
@@ -12843,16 +16200,178 @@ extension DataZone {
         }
     }
 
+    public struct RedshiftLineageSyncConfigurationInput: AWSEncodableShape {
+        /// Specifies whether the Amaon Redshift lineage sync configuration is enabled.
+        public let enabled: Bool?
+        /// The schedule of the Amaon Redshift lineage sync configuration.
+        public let schedule: LineageSyncSchedule?
+
+        @inlinable
+        public init(enabled: Bool? = nil, schedule: LineageSyncSchedule? = nil) {
+            self.enabled = enabled
+            self.schedule = schedule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case schedule = "schedule"
+        }
+    }
+
+    public struct RedshiftLineageSyncConfigurationOutput: AWSDecodableShape {
+        /// Specifies whether the Amaon Redshift lineage sync configuration is enabled.
+        public let enabled: Bool?
+        /// The lineage job ID of the Amaon Redshift lineage sync configuration.
+        public let lineageJobId: String?
+        /// The schedule of teh Amaon Redshift lineage sync configuration.
+        public let schedule: LineageSyncSchedule?
+
+        @inlinable
+        public init(enabled: Bool? = nil, lineageJobId: String? = nil, schedule: LineageSyncSchedule? = nil) {
+            self.enabled = enabled
+            self.lineageJobId = lineageJobId
+            self.schedule = schedule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case lineageJobId = "lineageJobId"
+            case schedule = "schedule"
+        }
+    }
+
+    public struct RedshiftPropertiesInput: AWSEncodableShape {
+        /// The Amaon Redshift credentials.
+        public let credentials: RedshiftCredentials?
+        /// The Amazon Redshift database name.
+        public let databaseName: String?
+        /// The Amazon Redshift host.
+        public let host: String?
+        /// The lineage sync of the Amazon Redshift.
+        public let lineageSync: RedshiftLineageSyncConfigurationInput?
+        /// The Amaon Redshift port.
+        public let port: Int?
+        /// The Amazon Redshift storage.
+        public let storage: RedshiftStorageProperties?
+
+        @inlinable
+        public init(credentials: RedshiftCredentials? = nil, databaseName: String? = nil, host: String? = nil, lineageSync: RedshiftLineageSyncConfigurationInput? = nil, port: Int? = nil, storage: RedshiftStorageProperties? = nil) {
+            self.credentials = credentials
+            self.databaseName = databaseName
+            self.host = host
+            self.lineageSync = lineageSync
+            self.port = port
+            self.storage = storage
+        }
+
+        public func validate(name: String) throws {
+            try self.credentials?.validate(name: "\(name).credentials")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "credentials"
+            case databaseName = "databaseName"
+            case host = "host"
+            case lineageSync = "lineageSync"
+            case port = "port"
+            case storage = "storage"
+        }
+    }
+
+    public struct RedshiftPropertiesOutput: AWSDecodableShape {
+        /// The Amazon Redshift credentials.
+        public let credentials: RedshiftCredentials?
+        /// The Amazon Redshift database name.
+        public let databaseName: String?
+        /// Specifies whether Amaon Redshift properties has a provisioned secret.
+        public let isProvisionedSecret: Bool?
+        /// The jdbcIam URL of the Amazon Redshift properties.
+        public let jdbcIamUrl: String?
+        /// The jdbcURL of the Amazon Redshift properties.
+        public let jdbcUrl: String?
+        /// The lineage syn of the Amazon Redshift properties.
+        public let lineageSync: RedshiftLineageSyncConfigurationOutput?
+        /// The redshiftTempDir of the Amazon Redshift properties.
+        public let redshiftTempDir: String?
+        /// The status in the Amazon Redshift properties.
+        public let status: ConnectionStatus?
+        /// The storage in the Amazon Redshift properties.
+        public let storage: RedshiftStorageProperties?
+
+        @inlinable
+        public init(credentials: RedshiftCredentials? = nil, databaseName: String? = nil, isProvisionedSecret: Bool? = nil, jdbcIamUrl: String? = nil, jdbcUrl: String? = nil, lineageSync: RedshiftLineageSyncConfigurationOutput? = nil, redshiftTempDir: String? = nil, status: ConnectionStatus? = nil, storage: RedshiftStorageProperties? = nil) {
+            self.credentials = credentials
+            self.databaseName = databaseName
+            self.isProvisionedSecret = isProvisionedSecret
+            self.jdbcIamUrl = jdbcIamUrl
+            self.jdbcUrl = jdbcUrl
+            self.lineageSync = lineageSync
+            self.redshiftTempDir = redshiftTempDir
+            self.status = status
+            self.storage = storage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "credentials"
+            case databaseName = "databaseName"
+            case isProvisionedSecret = "isProvisionedSecret"
+            case jdbcIamUrl = "jdbcIamUrl"
+            case jdbcUrl = "jdbcUrl"
+            case lineageSync = "lineageSync"
+            case redshiftTempDir = "redshiftTempDir"
+            case status = "status"
+            case storage = "storage"
+        }
+    }
+
+    public struct RedshiftPropertiesPatch: AWSEncodableShape {
+        /// The credentials in the Amazon Redshift properties patch.
+        public let credentials: RedshiftCredentials?
+        /// The name in the Amazon Redshift properties patch.
+        public let databaseName: String?
+        /// The host in the Amazon Redshift properties patch.
+        public let host: String?
+        /// The lineage sync in the Amazon Redshift properties patch.
+        public let lineageSync: RedshiftLineageSyncConfigurationInput?
+        /// The port in the Amazon Redshift properties patch.
+        public let port: Int?
+        /// The storage in the Amazon Redshift properties patch.
+        public let storage: RedshiftStorageProperties?
+
+        @inlinable
+        public init(credentials: RedshiftCredentials? = nil, databaseName: String? = nil, host: String? = nil, lineageSync: RedshiftLineageSyncConfigurationInput? = nil, port: Int? = nil, storage: RedshiftStorageProperties? = nil) {
+            self.credentials = credentials
+            self.databaseName = databaseName
+            self.host = host
+            self.lineageSync = lineageSync
+            self.port = port
+            self.storage = storage
+        }
+
+        public func validate(name: String) throws {
+            try self.credentials?.validate(name: "\(name).credentials")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "credentials"
+            case databaseName = "databaseName"
+            case host = "host"
+            case lineageSync = "lineageSync"
+            case port = "port"
+            case storage = "storage"
+        }
+    }
+
     public struct RedshiftRunConfigurationInput: AWSEncodableShape {
         /// The data access role included in the configuration details of the Amazon Redshift data source.
         public let dataAccessRole: String?
-        public let redshiftCredentialConfiguration: RedshiftCredentialConfiguration
-        public let redshiftStorage: RedshiftStorage
+        public let redshiftCredentialConfiguration: RedshiftCredentialConfiguration?
+        public let redshiftStorage: RedshiftStorage?
         /// The relational filger configurations included in the configuration details of the Amazon Redshift data source.
         public let relationalFilterConfigurations: [RelationalFilterConfiguration]
 
         @inlinable
-        public init(dataAccessRole: String? = nil, redshiftCredentialConfiguration: RedshiftCredentialConfiguration, redshiftStorage: RedshiftStorage, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
+        public init(dataAccessRole: String? = nil, redshiftCredentialConfiguration: RedshiftCredentialConfiguration? = nil, redshiftStorage: RedshiftStorage? = nil, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
             self.dataAccessRole = dataAccessRole
             self.redshiftCredentialConfiguration = redshiftCredentialConfiguration
             self.redshiftStorage = redshiftStorage
@@ -12872,7 +16391,7 @@ extension DataZone {
         public let accountId: String?
         /// The data access role included in the configuration details of the Amazon Redshift data source.
         public let dataAccessRole: String?
-        public let redshiftCredentialConfiguration: RedshiftCredentialConfiguration
+        public let redshiftCredentialConfiguration: RedshiftCredentialConfiguration?
         public let redshiftStorage: RedshiftStorage
         /// The Amazon Web Services region included in the configuration details of the Amazon Redshift data source.
         public let region: String?
@@ -12880,7 +16399,7 @@ extension DataZone {
         public let relationalFilterConfigurations: [RelationalFilterConfiguration]
 
         @inlinable
-        public init(accountId: String? = nil, dataAccessRole: String? = nil, redshiftCredentialConfiguration: RedshiftCredentialConfiguration, redshiftStorage: RedshiftStorage, region: String? = nil, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
+        public init(accountId: String? = nil, dataAccessRole: String? = nil, redshiftCredentialConfiguration: RedshiftCredentialConfiguration? = nil, redshiftStorage: RedshiftStorage, region: String? = nil, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
             self.accountId = accountId
             self.dataAccessRole = dataAccessRole
             self.redshiftCredentialConfiguration = redshiftCredentialConfiguration
@@ -13081,8 +16600,12 @@ extension DataZone {
         public let decisionComment: String?
         /// The identifier of the Amazon DataZone domain in which the subscription request was rejected.
         public let domainId: String
+        /// The ID of the existing subscription.
+        public let existingSubscriptionId: String?
         /// The identifier of the subscription request that was rejected.
         public let id: String
+        /// Metadata forms included in the subscription request.
+        public let metadataForms: [FormOutput]?
         /// The reason for the subscription request.
         public let requestReason: String
         /// The identifier of the subscription request reviewer.
@@ -13099,12 +16622,14 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, existingSubscriptionId: String? = nil, id: String, metadataForms: [FormOutput]? = nil, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.decisionComment = decisionComment
             self.domainId = domainId
+            self.existingSubscriptionId = existingSubscriptionId
             self.id = id
+            self.metadataForms = metadataForms
             self.requestReason = requestReason
             self.reviewerId = reviewerId
             self.status = status
@@ -13119,7 +16644,9 @@ extension DataZone {
             case createdBy = "createdBy"
             case decisionComment = "decisionComment"
             case domainId = "domainId"
+            case existingSubscriptionId = "existingSubscriptionId"
             case id = "id"
+            case metadataForms = "metadataForms"
             case requestReason = "requestReason"
             case reviewerId = "reviewerId"
             case status = "status"
@@ -13386,6 +16913,83 @@ extension DataZone {
         }
     }
 
+    public struct RuleScope: AWSEncodableShape & AWSDecodableShape {
+        /// The asset type included in the rule scope.
+        public let assetType: AssetTypesForRule?
+        /// The data product included in the rule scope.
+        public let dataProduct: Bool?
+        /// The project included in the rule scope.
+        public let project: ProjectsForRule?
+
+        @inlinable
+        public init(assetType: AssetTypesForRule? = nil, dataProduct: Bool? = nil, project: ProjectsForRule? = nil) {
+            self.assetType = assetType
+            self.dataProduct = dataProduct
+            self.project = project
+        }
+
+        public func validate(name: String) throws {
+            try self.assetType?.validate(name: "\(name).assetType")
+            try self.project?.validate(name: "\(name).project")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetType = "assetType"
+            case dataProduct = "dataProduct"
+            case project = "project"
+        }
+    }
+
+    public struct RuleSummary: AWSDecodableShape {
+        /// The action of the rule.
+        public let action: RuleAction?
+        /// The ID of the rule.
+        public let identifier: String?
+        /// The timestamp at which the rule was last updated.
+        public let lastUpdatedBy: String?
+        /// The name of the rule.
+        public let name: String?
+        /// The revision of the rule.
+        public let revision: String?
+        /// The type of the rule.
+        public let ruleType: RuleType?
+        /// The scope of the rule.
+        public let scope: RuleScope?
+        /// The target of the rule.
+        public let target: RuleTarget?
+        /// The target type of the rule.
+        public let targetType: RuleTargetType?
+        /// The timestamp at which the rule was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(action: RuleAction? = nil, identifier: String? = nil, lastUpdatedBy: String? = nil, name: String? = nil, revision: String? = nil, ruleType: RuleType? = nil, scope: RuleScope? = nil, target: RuleTarget? = nil, targetType: RuleTargetType? = nil, updatedAt: Date? = nil) {
+            self.action = action
+            self.identifier = identifier
+            self.lastUpdatedBy = lastUpdatedBy
+            self.name = name
+            self.revision = revision
+            self.ruleType = ruleType
+            self.scope = scope
+            self.target = target
+            self.targetType = targetType
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case identifier = "identifier"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case name = "name"
+            case revision = "revision"
+            case ruleType = "ruleType"
+            case scope = "scope"
+            case target = "target"
+            case targetType = "targetType"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct RunStatisticsForAssets: AWSDecodableShape {
         /// The added statistic for the data source run.
         public let added: Int?
@@ -13416,6 +17020,52 @@ extension DataZone {
         }
     }
 
+    public struct SageMakerRunConfigurationInput: AWSEncodableShape {
+        /// The tracking assets of the Amazon SageMaker run.
+        public let trackingAssets: [String: [String]]
+
+        @inlinable
+        public init(trackingAssets: [String: [String]]) {
+            self.trackingAssets = trackingAssets
+        }
+
+        public func validate(name: String) throws {
+            try self.trackingAssets.forEach {
+                try validate($0.key, name: "trackingAssets.key", parent: name, max: 64)
+                try validate($0.key, name: "trackingAssets.key", parent: name, min: 1)
+                try validate($0.value, name: "trackingAssets[\"\($0.key)\"]", parent: name, max: 500)
+            }
+            try self.validate(self.trackingAssets, name: "trackingAssets", parent: name, max: 1)
+            try self.validate(self.trackingAssets, name: "trackingAssets", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trackingAssets = "trackingAssets"
+        }
+    }
+
+    public struct SageMakerRunConfigurationOutput: AWSDecodableShape {
+        /// The Amazon SageMaker account ID.
+        public let accountId: String?
+        /// The Amazon SageMaker Region.
+        public let region: String?
+        /// The tracking assets of the Amazon SageMaker.
+        public let trackingAssets: [String: [String]]
+
+        @inlinable
+        public init(accountId: String? = nil, region: String? = nil, trackingAssets: [String: [String]]) {
+            self.accountId = accountId
+            self.region = region
+            self.trackingAssets = trackingAssets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case region = "region"
+            case trackingAssets = "trackingAssets"
+        }
+    }
+
     public struct ScheduleConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The schedule of the data source runs.
         public let schedule: String?
@@ -13431,7 +17081,7 @@ extension DataZone {
         public func validate(name: String) throws {
             try self.validate(self.schedule, name: "schedule", parent: name, max: 256)
             try self.validate(self.schedule, name: "schedule", parent: name, min: 1)
-            try self.validate(self.schedule, name: "schedule", parent: name, pattern: "cron\\((\\b[0-5]?[0-9]\\b) (\\b2[0-3]\\b|\\b[0-1]?[0-9]\\b) (.*){1,5} (.*){1,5} (.*){1,5} (.*){1,5}\\)")
+            try self.validate(self.schedule, name: "schedule", parent: name, pattern: "cron\\((\\b[0-5]?[0-9]\\b) (\\b2[0-3]\\b|\\b[0-1]?[0-9]\\b) ([-?*,/\\dLW]){1,83} ([-*,/\\d]|[a-zA-Z]{3}){1,23} ([-?#*,/\\dL]|[a-zA-Z]{3}){1,13} ([^\\)]+)\\)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13951,6 +17601,234 @@ extension DataZone {
         }
     }
 
+    public struct SparkEmrPropertiesInput: AWSEncodableShape {
+        /// The compute ARN of Spark EMR.
+        public let computeArn: String?
+        /// The instance profile ARN of Spark EMR.
+        public let instanceProfileArn: String?
+        /// The java virtual env of the Spark EMR.
+        public let javaVirtualEnv: String?
+        /// The log URI of the Spark EMR.
+        public let logUri: String?
+        /// The Python virtual env of the Spark EMR.
+        public let pythonVirtualEnv: String?
+        /// The runtime role of the Spark EMR.
+        public let runtimeRole: String?
+        /// The certificates S3 URI of the Spark EMR.
+        public let trustedCertificatesS3Uri: String?
+
+        @inlinable
+        public init(computeArn: String? = nil, instanceProfileArn: String? = nil, javaVirtualEnv: String? = nil, logUri: String? = nil, pythonVirtualEnv: String? = nil, runtimeRole: String? = nil, trustedCertificatesS3Uri: String? = nil) {
+            self.computeArn = computeArn
+            self.instanceProfileArn = instanceProfileArn
+            self.javaVirtualEnv = javaVirtualEnv
+            self.logUri = logUri
+            self.pythonVirtualEnv = pythonVirtualEnv
+            self.runtimeRole = runtimeRole
+            self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeArn = "computeArn"
+            case instanceProfileArn = "instanceProfileArn"
+            case javaVirtualEnv = "javaVirtualEnv"
+            case logUri = "logUri"
+            case pythonVirtualEnv = "pythonVirtualEnv"
+            case runtimeRole = "runtimeRole"
+            case trustedCertificatesS3Uri = "trustedCertificatesS3Uri"
+        }
+    }
+
+    public struct SparkEmrPropertiesOutput: AWSDecodableShape {
+        /// The compute ARN of the Spark EMR.
+        public let computeArn: String?
+        /// The credentials of the Spark EMR.
+        public let credentials: UsernamePassword?
+        /// The credential expiration of the Spark EMR.
+        public let credentialsExpiration: Date?
+        /// The governance type of the Spark EMR.
+        public let governanceType: GovernanceType?
+        /// The instance profile ARN of the Spark EMR.
+        public let instanceProfileArn: String?
+        /// The Java virtual env of the Spark EMR.
+        public let javaVirtualEnv: String?
+        /// The livy endpoint of the Spark EMR.
+        public let livyEndpoint: String?
+        /// The log URI of the Spark EMR.
+        public let logUri: String?
+        /// The Python virtual env of the Spark EMR.
+        public let pythonVirtualEnv: String?
+        /// The runtime role of the Spark EMR.
+        public let runtimeRole: String?
+        /// The trusted certificate S3 URL of the Spark EMR.
+        public let trustedCertificatesS3Uri: String?
+
+        @inlinable
+        public init(computeArn: String? = nil, credentials: UsernamePassword? = nil, credentialsExpiration: Date? = nil, governanceType: GovernanceType? = nil, instanceProfileArn: String? = nil, javaVirtualEnv: String? = nil, livyEndpoint: String? = nil, logUri: String? = nil, pythonVirtualEnv: String? = nil, runtimeRole: String? = nil, trustedCertificatesS3Uri: String? = nil) {
+            self.computeArn = computeArn
+            self.credentials = credentials
+            self.credentialsExpiration = credentialsExpiration
+            self.governanceType = governanceType
+            self.instanceProfileArn = instanceProfileArn
+            self.javaVirtualEnv = javaVirtualEnv
+            self.livyEndpoint = livyEndpoint
+            self.logUri = logUri
+            self.pythonVirtualEnv = pythonVirtualEnv
+            self.runtimeRole = runtimeRole
+            self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeArn = "computeArn"
+            case credentials = "credentials"
+            case credentialsExpiration = "credentialsExpiration"
+            case governanceType = "governanceType"
+            case instanceProfileArn = "instanceProfileArn"
+            case javaVirtualEnv = "javaVirtualEnv"
+            case livyEndpoint = "livyEndpoint"
+            case logUri = "logUri"
+            case pythonVirtualEnv = "pythonVirtualEnv"
+            case runtimeRole = "runtimeRole"
+            case trustedCertificatesS3Uri = "trustedCertificatesS3Uri"
+        }
+    }
+
+    public struct SparkEmrPropertiesPatch: AWSEncodableShape {
+        /// The compute ARN in the Spark EMR properties patch.
+        public let computeArn: String?
+        /// The instance profile ARN in the Spark EMR properties patch.
+        public let instanceProfileArn: String?
+        /// The Java virtual evn in the Spark EMR properties patch.
+        public let javaVirtualEnv: String?
+        /// The log URI in the Spark EMR properties patch.
+        public let logUri: String?
+        /// The Python virtual env in the Spark EMR properties patch.
+        public let pythonVirtualEnv: String?
+        /// The runtime role in the Spark EMR properties patch.
+        public let runtimeRole: String?
+        /// The trusted certificates S3 URI in the Spark EMR properties patch.
+        public let trustedCertificatesS3Uri: String?
+
+        @inlinable
+        public init(computeArn: String? = nil, instanceProfileArn: String? = nil, javaVirtualEnv: String? = nil, logUri: String? = nil, pythonVirtualEnv: String? = nil, runtimeRole: String? = nil, trustedCertificatesS3Uri: String? = nil) {
+            self.computeArn = computeArn
+            self.instanceProfileArn = instanceProfileArn
+            self.javaVirtualEnv = javaVirtualEnv
+            self.logUri = logUri
+            self.pythonVirtualEnv = pythonVirtualEnv
+            self.runtimeRole = runtimeRole
+            self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeArn = "computeArn"
+            case instanceProfileArn = "instanceProfileArn"
+            case javaVirtualEnv = "javaVirtualEnv"
+            case logUri = "logUri"
+            case pythonVirtualEnv = "pythonVirtualEnv"
+            case runtimeRole = "runtimeRole"
+            case trustedCertificatesS3Uri = "trustedCertificatesS3Uri"
+        }
+    }
+
+    public struct SparkGlueArgs: AWSEncodableShape & AWSDecodableShape {
+        /// The connection in the Spark Amazon Web Services Glue args.
+        public let connection: String?
+
+        @inlinable
+        public init(connection: String? = nil) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "connection"
+        }
+    }
+
+    public struct SparkGluePropertiesInput: AWSEncodableShape {
+        /// The additional args in the Spark Amazon Web Services Glue properties.
+        public let additionalArgs: SparkGlueArgs?
+        /// The Amazon Web Services Glue connection name in the Spark Amazon Web Services Glue properties.
+        public let glueConnectionName: String?
+        /// The Amazon Web Services Glue version in the Spark Amazon Web Services Glue properties.
+        public let glueVersion: String?
+        /// The idle timeout in the Spark Amazon Web Services Glue properties.
+        public let idleTimeout: Int?
+        /// The Java virtual env in the Spark Amazon Web Services Glue properties.
+        public let javaVirtualEnv: String?
+        /// The number of workers in the Spark Amazon Web Services Glue properties.
+        public let numberOfWorkers: Int?
+        /// The Python virtual env in the Spark Amazon Web Services Glue properties.
+        public let pythonVirtualEnv: String?
+        /// The worker type in the Spark Amazon Web Services Glue properties.
+        public let workerType: String?
+
+        @inlinable
+        public init(additionalArgs: SparkGlueArgs? = nil, glueConnectionName: String? = nil, glueVersion: String? = nil, idleTimeout: Int? = nil, javaVirtualEnv: String? = nil, numberOfWorkers: Int? = nil, pythonVirtualEnv: String? = nil, workerType: String? = nil) {
+            self.additionalArgs = additionalArgs
+            self.glueConnectionName = glueConnectionName
+            self.glueVersion = glueVersion
+            self.idleTimeout = idleTimeout
+            self.javaVirtualEnv = javaVirtualEnv
+            self.numberOfWorkers = numberOfWorkers
+            self.pythonVirtualEnv = pythonVirtualEnv
+            self.workerType = workerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalArgs = "additionalArgs"
+            case glueConnectionName = "glueConnectionName"
+            case glueVersion = "glueVersion"
+            case idleTimeout = "idleTimeout"
+            case javaVirtualEnv = "javaVirtualEnv"
+            case numberOfWorkers = "numberOfWorkers"
+            case pythonVirtualEnv = "pythonVirtualEnv"
+            case workerType = "workerType"
+        }
+    }
+
+    public struct SparkGluePropertiesOutput: AWSDecodableShape {
+        /// The additional args in the Spark Amazon Web Services Glue properties.
+        public let additionalArgs: SparkGlueArgs?
+        /// The Amazon Web Services Glue connection name in the Spark Amazon Web Services Glue properties.
+        public let glueConnectionName: String?
+        /// The Amazon Web Services Glue version in the Spark Amazon Web Services Glue properties.
+        public let glueVersion: String?
+        /// The idle timeout in the Spark Amazon Web Services Glue properties.
+        public let idleTimeout: Int?
+        /// The Java virtual env in the Spark Amazon Web Services Glue properties.
+        public let javaVirtualEnv: String?
+        /// The number of workers in the Spark Amazon Web Services Glue properties.
+        public let numberOfWorkers: Int?
+        /// The Python virtual env in the Spark Amazon Web Services Glue properties.
+        public let pythonVirtualEnv: String?
+        /// The worker type in the Spark Amazon Web Services Glue properties.
+        public let workerType: String?
+
+        @inlinable
+        public init(additionalArgs: SparkGlueArgs? = nil, glueConnectionName: String? = nil, glueVersion: String? = nil, idleTimeout: Int? = nil, javaVirtualEnv: String? = nil, numberOfWorkers: Int? = nil, pythonVirtualEnv: String? = nil, workerType: String? = nil) {
+            self.additionalArgs = additionalArgs
+            self.glueConnectionName = glueConnectionName
+            self.glueVersion = glueVersion
+            self.idleTimeout = idleTimeout
+            self.javaVirtualEnv = javaVirtualEnv
+            self.numberOfWorkers = numberOfWorkers
+            self.pythonVirtualEnv = pythonVirtualEnv
+            self.workerType = workerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalArgs = "additionalArgs"
+            case glueConnectionName = "glueConnectionName"
+            case glueVersion = "glueVersion"
+            case idleTimeout = "idleTimeout"
+            case javaVirtualEnv = "javaVirtualEnv"
+            case numberOfWorkers = "numberOfWorkers"
+            case pythonVirtualEnv = "pythonVirtualEnv"
+            case workerType = "workerType"
+        }
+    }
+
     public struct SsoUserProfileDetails: AWSDecodableShape {
         /// The first name included in the single sign-on details of the user profile.
         public let firstName: String?
@@ -14439,8 +18317,12 @@ extension DataZone {
         public let decisionComment: String?
         /// The identifier of the Amazon DataZone domain in which a subscription request exists.
         public let domainId: String
+        /// The ID of the existing subscription.
+        public let existingSubscriptionId: String?
         /// The identifier of the subscription request.
         public let id: String
+        /// The summary of the metadata forms.
+        public let metadataFormsSummary: [MetadataFormSummary]?
         /// The reason for the subscription request.
         public let requestReason: String
         /// The identifier of the subscription request reviewer.
@@ -14457,12 +18339,14 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, existingSubscriptionId: String? = nil, id: String, metadataFormsSummary: [MetadataFormSummary]? = nil, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.decisionComment = decisionComment
             self.domainId = domainId
+            self.existingSubscriptionId = existingSubscriptionId
             self.id = id
+            self.metadataFormsSummary = metadataFormsSummary
             self.requestReason = requestReason
             self.reviewerId = reviewerId
             self.status = status
@@ -14477,7 +18361,9 @@ extension DataZone {
             case createdBy = "createdBy"
             case decisionComment = "decisionComment"
             case domainId = "domainId"
+            case existingSubscriptionId = "existingSubscriptionId"
             case id = "id"
+            case metadataFormsSummary = "metadataFormsSummary"
             case requestReason = "requestReason"
             case reviewerId = "reviewerId"
             case status = "status"
@@ -14582,7 +18468,7 @@ extension DataZone {
         /// The identifier of the subscription target.
         public let id: String
         /// The manage access role specified in the subscription target.
-        public let manageAccessRole: String
+        public let manageAccessRole: String?
         /// The name of the subscription target.
         public let name: String
         /// The identifier of the project specified in the subscription target.
@@ -14599,7 +18485,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.createdAt = createdAt
@@ -14975,6 +18861,102 @@ extension DataZone {
         }
     }
 
+    public struct UpdateConnectionInput: AWSEncodableShape {
+        /// The location where a connection is to be updated.
+        public let awsLocation: AwsLocation?
+        /// The description of a connection.
+        public let description: String?
+        /// The ID of the domain where a connection is to be updated.
+        public let domainIdentifier: String
+        /// The ID of the connection to be updated.
+        public let identifier: String
+        /// The connection props.
+        public let props: ConnectionPropertiesPatch?
+
+        @inlinable
+        public init(awsLocation: AwsLocation? = nil, description: String? = nil, domainIdentifier: String, identifier: String, props: ConnectionPropertiesPatch? = nil) {
+            self.awsLocation = awsLocation
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.props = props
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.awsLocation, forKey: .awsLocation)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.props, forKey: .props)
+        }
+
+        public func validate(name: String) throws {
+            try self.awsLocation?.validate(name: "\(name).awsLocation")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+            try self.props?.validate(name: "\(name).props")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsLocation = "awsLocation"
+            case description = "description"
+            case props = "props"
+        }
+    }
+
+    public struct UpdateConnectionOutput: AWSDecodableShape {
+        /// The ID of the connection.
+        public let connectionId: String
+        /// The connection description.
+        public let description: String?
+        /// The ID of the domain where a connection is to be updated.
+        public let domainId: String
+        /// The ID of the domain unit where a connection is to be updated.
+        public let domainUnitId: String
+        /// The ID of the environment where a connection is to be updated.
+        public let environmentId: String?
+        /// The name of the connection.
+        public let name: String
+        /// The physical endpoints of the connection.
+        public let physicalEndpoints: [PhysicalEndpoint]
+        /// The project ID of the connection.
+        public let projectId: String?
+        /// The connection props.
+        public let props: ConnectionPropertiesOutput?
+        /// The connection type.
+        public let type: ConnectionType
+
+        @inlinable
+        public init(connectionId: String, description: String? = nil, domainId: String, domainUnitId: String, environmentId: String? = nil, name: String, physicalEndpoints: [PhysicalEndpoint], projectId: String? = nil, props: ConnectionPropertiesOutput? = nil, type: ConnectionType) {
+            self.connectionId = connectionId
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.environmentId = environmentId
+            self.name = name
+            self.physicalEndpoints = physicalEndpoints
+            self.projectId = projectId
+            self.props = props
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case description = "description"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case environmentId = "environmentId"
+            case name = "name"
+            case physicalEndpoints = "physicalEndpoints"
+            case projectId = "projectId"
+            case props = "props"
+            case type = "type"
+        }
+    }
+
     public struct UpdateDataSourceInput: AWSEncodableShape {
         /// The asset forms to be updated as part of the UpdateDataSource action.
         public let assetFormsInput: [FormInput]?
@@ -15035,6 +19017,7 @@ extension DataZone {
                 try $0.validate(name: "\(name).assetFormsInput[]")
             }
             try self.validate(self.assetFormsInput, name: "assetFormsInput", parent: name, max: 10)
+            try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
@@ -15061,6 +19044,8 @@ extension DataZone {
         public let assetFormsOutput: [FormOutput]?
         /// The configuration to be updated as part of the UpdateDataSource action.
         public let configuration: DataSourceConfigurationOutput?
+        /// The connection ID.
+        public let connectionId: String?
         /// The timestamp of when the data source was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -15071,7 +19056,7 @@ extension DataZone {
         /// The enable setting to be updated as part of the UpdateDataSource action.
         public let enableSetting: EnableSetting?
         /// The identifier of the environment in which a data source is to be updated.
-        public let environmentId: String
+        public let environmentId: String?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let errorMessage: DataSourceErrorMessage?
         /// The identifier of the data source to be updated.
@@ -15106,9 +19091,10 @@ extension DataZone {
         public var updatedAt: Date?
 
         @inlinable
-        public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, retainPermissionsOnRevokeFailure: Bool? = nil, schedule: ScheduleConfiguration? = nil, selfGrantStatus: SelfGrantStatusOutput? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
+        public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, connectionId: String? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String? = nil, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, retainPermissionsOnRevokeFailure: Bool? = nil, schedule: ScheduleConfiguration? = nil, selfGrantStatus: SelfGrantStatusOutput? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.assetFormsOutput = assetFormsOutput
             self.configuration = configuration
+            self.connectionId = connectionId
             self.createdAt = createdAt
             self.description = description
             self.domainId = domainId
@@ -15134,6 +19120,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case assetFormsOutput = "assetFormsOutput"
             case configuration = "configuration"
+            case connectionId = "connectionId"
             case createdAt = "createdAt"
             case description = "description"
             case domainId = "domainId"
@@ -15168,16 +19155,19 @@ extension DataZone {
         public let identifier: String
         /// The name to be updated as part of the UpdateDomain action.
         public let name: String?
+        /// The service role of the domain.
+        public let serviceRole: String?
         /// The single sign-on option to be updated as part of the UpdateDomain action.
         public let singleSignOn: SingleSignOn?
 
         @inlinable
-        public init(clientToken: String? = UpdateDomainInput.idempotencyToken(), description: String? = nil, domainExecutionRole: String? = nil, identifier: String, name: String? = nil, singleSignOn: SingleSignOn? = nil) {
+        public init(clientToken: String? = UpdateDomainInput.idempotencyToken(), description: String? = nil, domainExecutionRole: String? = nil, identifier: String, name: String? = nil, serviceRole: String? = nil, singleSignOn: SingleSignOn? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.domainExecutionRole = domainExecutionRole
             self.identifier = identifier
             self.name = name
+            self.serviceRole = serviceRole
             self.singleSignOn = singleSignOn
         }
 
@@ -15189,18 +19179,21 @@ extension DataZone {
             try container.encodeIfPresent(self.domainExecutionRole, forKey: .domainExecutionRole)
             request.encodePath(self.identifier, key: "identifier")
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.serviceRole, forKey: .serviceRole)
             try container.encodeIfPresent(self.singleSignOn, forKey: .singleSignOn)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.domainExecutionRole, name: "domainExecutionRole", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.serviceRole, name: "serviceRole", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case domainExecutionRole = "domainExecutionRole"
             case name = "name"
+            case serviceRole = "serviceRole"
             case singleSignOn = "singleSignOn"
         }
     }
@@ -15218,17 +19211,20 @@ extension DataZone {
         public let name: String?
         /// The ID of the root domain unit.
         public let rootDomainUnitId: String?
+        /// The service role of the domain.
+        public let serviceRole: String?
         /// The single sign-on option of the Amazon DataZone domain.
         public let singleSignOn: SingleSignOn?
 
         @inlinable
-        public init(description: String? = nil, domainExecutionRole: String? = nil, id: String, lastUpdatedAt: Date? = nil, name: String? = nil, rootDomainUnitId: String? = nil, singleSignOn: SingleSignOn? = nil) {
+        public init(description: String? = nil, domainExecutionRole: String? = nil, id: String, lastUpdatedAt: Date? = nil, name: String? = nil, rootDomainUnitId: String? = nil, serviceRole: String? = nil, singleSignOn: SingleSignOn? = nil) {
             self.description = description
             self.domainExecutionRole = domainExecutionRole
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.rootDomainUnitId = rootDomainUnitId
+            self.serviceRole = serviceRole
             self.singleSignOn = singleSignOn
         }
 
@@ -15239,6 +19235,7 @@ extension DataZone {
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
             case rootDomainUnitId = "rootDomainUnitId"
+            case serviceRole = "serviceRole"
             case singleSignOn = "singleSignOn"
         }
     }
@@ -15934,6 +19931,8 @@ extension DataZone {
         public let description: String?
         /// The ID of the Amazon DataZone domain where a project is being updated.
         public let domainIdentifier: String
+        /// The environment deployment details of the project.
+        public let environmentDeploymentDetails: EnvironmentDeploymentDetails?
         /// The glossary terms to be updated as part of the UpdateProject action.
         public let glossaryTerms: [String]?
         /// The identifier of the project that is to be updated.
@@ -15942,9 +19941,10 @@ extension DataZone {
         public let name: String?
 
         @inlinable
-        public init(description: String? = nil, domainIdentifier: String, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil) {
+        public init(description: String? = nil, domainIdentifier: String, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
+            self.environmentDeploymentDetails = environmentDeploymentDetails
             self.glossaryTerms = glossaryTerms
             self.identifier = identifier
             self.name = name
@@ -15955,6 +19955,7 @@ extension DataZone {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encodeIfPresent(self.environmentDeploymentDetails, forKey: .environmentDeploymentDetails)
             try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
             request.encodePath(self.identifier, key: "identifier")
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -15976,6 +19977,7 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case environmentDeploymentDetails = "environmentDeploymentDetails"
             case glossaryTerms = "glossaryTerms"
             case name = "name"
         }
@@ -15992,6 +19994,8 @@ extension DataZone {
         public let domainId: String
         /// The ID of the domain unit.
         public let domainUnitId: String?
+        /// The environment deployment details of the project.
+        public let environmentDeploymentDetails: EnvironmentDeploymentDetails?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let failureReasons: [ProjectDeletionError]?
         /// The glossary terms of the project that are to be updated.
@@ -16002,22 +20006,29 @@ extension DataZone {
         public let lastUpdatedAt: Date?
         /// The name of the project that is to be updated.
         public let name: String
+        /// The ID of the project profile.
+        public let projectProfileId: String?
         /// The status of the project.
         public let projectStatus: ProjectStatus?
+        /// The user parameters of the project.
+        public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectProfileId: String? = nil, projectStatus: ProjectStatus? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
             self.domainId = domainId
             self.domainUnitId = domainUnitId
+            self.environmentDeploymentDetails = environmentDeploymentDetails
             self.failureReasons = failureReasons
             self.glossaryTerms = glossaryTerms
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.projectProfileId = projectProfileId
             self.projectStatus = projectStatus
+            self.userParameters = userParameters
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16026,12 +20037,249 @@ extension DataZone {
             case description = "description"
             case domainId = "domainId"
             case domainUnitId = "domainUnitId"
+            case environmentDeploymentDetails = "environmentDeploymentDetails"
             case failureReasons = "failureReasons"
             case glossaryTerms = "glossaryTerms"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case projectProfileId = "projectProfileId"
             case projectStatus = "projectStatus"
+            case userParameters = "userParameters"
+        }
+    }
+
+    public struct UpdateProjectProfileInput: AWSEncodableShape {
+        /// The description of a project profile.
+        public let description: String?
+        /// The ID of the domain where a project profile is to be updated.
+        public let domainIdentifier: String
+        /// The ID of the domain unit where a project profile is to be updated.
+        public let domainUnitIdentifier: String?
+        /// The environment configurations of a project profile.
+        public let environmentConfigurations: [EnvironmentConfiguration]?
+        /// The ID of a project profile that is to be updated.
+        public let identifier: String
+        /// The name of a project profile.
+        public let name: String?
+        /// The status of a project profile.
+        public let status: Status?
+
+        @inlinable
+        public init(description: String? = nil, domainIdentifier: String, domainUnitIdentifier: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, identifier: String, name: String? = nil, status: Status? = nil) {
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.domainUnitIdentifier = domainUnitIdentifier
+            self.environmentConfigurations = environmentConfigurations
+            self.identifier = identifier
+            self.name = name
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encodeIfPresent(self.domainUnitIdentifier, forKey: .domainUnitIdentifier)
+            try container.encodeIfPresent(self.environmentConfigurations, forKey: .environmentConfigurations)
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.status, forKey: .status)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.domainUnitIdentifier, name: "domainUnitIdentifier", parent: name, max: 256)
+            try self.validate(self.domainUnitIdentifier, name: "domainUnitIdentifier", parent: name, min: 1)
+            try self.validate(self.domainUnitIdentifier, name: "domainUnitIdentifier", parent: name, pattern: "^[a-z0-9_\\-]+$")
+            try self.environmentConfigurations?.forEach {
+                try $0.validate(name: "\(name).environmentConfigurations[]")
+            }
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case domainUnitIdentifier = "domainUnitIdentifier"
+            case environmentConfigurations = "environmentConfigurations"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct UpdateProjectProfileOutput: AWSDecodableShape {
+        /// The timestamp at which a project profile is created.
+        public let createdAt: Date?
+        /// The user who created a project profile.
+        public let createdBy: String
+        /// The description of a project profile.
+        public let description: String?
+        /// The ID of the domain where project profile is to be updated.
+        public let domainId: String
+        /// The domain unit ID of the project profile to be updated.
+        public let domainUnitId: String?
+        /// The environment configurations of a project profile.
+        public let environmentConfigurations: [EnvironmentConfiguration]?
+        /// The ID of the project profile.
+        public let id: String
+        /// The timestamp at which a project profile was last updated.
+        public let lastUpdatedAt: Date?
+        /// The name of the project profile.
+        public let name: String
+        /// The status of the project profile.
+        public let status: Status?
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, status: Status? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.environmentConfigurations = environmentConfigurations
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
+            case environmentConfigurations = "environmentConfigurations"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct UpdateRuleInput: AWSEncodableShape {
+        /// The description of the rule.
+        public let description: String?
+        /// The detail of the rule.
+        public let detail: RuleDetail?
+        /// The ID of the domain in which a rule is to be updated.
+        public let domainIdentifier: String
+        /// The ID of the rule that is to be updated
+        public let identifier: String
+        /// Specifies whether to update this rule in the child domain units.
+        public let includeChildDomainUnits: Bool?
+        /// The name of the rule.
+        public let name: String?
+        /// The scrope of the rule.
+        public let scope: RuleScope?
+
+        @inlinable
+        public init(description: String? = nil, detail: RuleDetail? = nil, domainIdentifier: String, identifier: String, includeChildDomainUnits: Bool? = nil, name: String? = nil, scope: RuleScope? = nil) {
+            self.description = description
+            self.detail = detail
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.includeChildDomainUnits = includeChildDomainUnits
+            self.name = name
+            self.scope = scope
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.detail, forKey: .detail)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.includeChildDomainUnits, forKey: .includeChildDomainUnits)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.scope, forKey: .scope)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.detail?.validate(name: "\(name).detail")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.scope?.validate(name: "\(name).scope")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case detail = "detail"
+            case includeChildDomainUnits = "includeChildDomainUnits"
+            case name = "name"
+            case scope = "scope"
+        }
+    }
+
+    public struct UpdateRuleOutput: AWSDecodableShape {
+        /// The action of the rule.
+        public let action: RuleAction
+        /// The timestamp at which the rule was created.
+        public let createdAt: Date
+        /// The user who created the rule.
+        public let createdBy: String
+        /// The description of the rule.
+        public let description: String?
+        /// The detail of the rule.
+        public let detail: RuleDetail
+        /// The ID of the rule.
+        public let identifier: String
+        /// The timestamp at which the rule was last updated.
+        public let lastUpdatedBy: String
+        /// The name of the rule.
+        public let name: String
+        /// The revision of the rule.
+        public let revision: String
+        /// The type of the rule.
+        public let ruleType: RuleType
+        /// The scope of the rule.
+        public let scope: RuleScope
+        /// The target of the rule.
+        public let target: RuleTarget
+        /// The timestamp at which the rule was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(action: RuleAction, createdAt: Date, createdBy: String, description: String? = nil, detail: RuleDetail, identifier: String, lastUpdatedBy: String, name: String, revision: String, ruleType: RuleType, scope: RuleScope, target: RuleTarget, updatedAt: Date) {
+            self.action = action
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.detail = detail
+            self.identifier = identifier
+            self.lastUpdatedBy = lastUpdatedBy
+            self.name = name
+            self.revision = revision
+            self.ruleType = ruleType
+            self.scope = scope
+            self.target = target
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case detail = "detail"
+            case identifier = "identifier"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case name = "name"
+            case revision = "revision"
+            case ruleType = "ruleType"
+            case scope = "scope"
+            case target = "target"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -16197,8 +20445,12 @@ extension DataZone {
         public let decisionComment: String?
         /// The identifier of the Amazon DataZone domain in which a subscription request is to be updated.
         public let domainId: String
+        /// The ID of the existing subscription.
+        public let existingSubscriptionId: String?
         /// The identifier of the subscription request that is to be updated.
         public let id: String
+        /// Metadata forms included in the subscription request.
+        public let metadataForms: [FormOutput]?
         /// The reason for the UpdateSubscriptionRequest action.
         public let requestReason: String
         /// The identifier of the Amazon DataZone user who reviews the subscription request.
@@ -16215,12 +20467,14 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, existingSubscriptionId: String? = nil, id: String, metadataForms: [FormOutput]? = nil, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.decisionComment = decisionComment
             self.domainId = domainId
+            self.existingSubscriptionId = existingSubscriptionId
             self.id = id
+            self.metadataForms = metadataForms
             self.requestReason = requestReason
             self.reviewerId = reviewerId
             self.status = status
@@ -16235,7 +20489,9 @@ extension DataZone {
             case createdBy = "createdBy"
             case decisionComment = "decisionComment"
             case domainId = "domainId"
+            case existingSubscriptionId = "existingSubscriptionId"
             case id = "id"
+            case metadataForms = "metadataForms"
             case requestReason = "requestReason"
             case reviewerId = "reviewerId"
             case status = "status"
@@ -16307,6 +20563,7 @@ extension DataZone {
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.manageAccessRole, name: "manageAccessRole", parent: name, pattern: "^arn:aws(|-cn|-us-gov):iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.subscriptionTargetConfig?.forEach {
@@ -16340,7 +20597,7 @@ extension DataZone {
         /// Identifier of the subscription target that is to be updated.
         public let id: String
         /// The manage access role to be updated as part of the UpdateSubscriptionTarget action.
-        public let manageAccessRole: String
+        public let manageAccessRole: String?
         /// The name to be updated as part of the UpdateSubscriptionTarget action.
         public let name: String
         /// The identifier of the project in which a subscription target is to be updated.
@@ -16357,7 +20614,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.createdAt = createdAt
@@ -16505,6 +20762,29 @@ extension DataZone {
         }
     }
 
+    public struct UsernamePassword: AWSEncodableShape & AWSDecodableShape {
+        /// The password of a connection.
+        public let password: String
+        /// The username of a connection.
+        public let username: String
+
+        @inlinable
+        public init(password: String, username: String) {
+            self.password = password
+            self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.password, name: "password", parent: name, max: 64)
+            try self.validate(self.username, name: "username", parent: name, max: 64)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "password"
+            case username = "username"
+        }
+    }
+
     public struct ActionParameters: AWSEncodableShape & AWSDecodableShape {
         /// The console link specified as part of the environment action.
         public let awsConsoleLink: AwsConsoleLinkParameters?
@@ -16530,6 +20810,20 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case allDomainUnitsGrantFilter = "allDomainUnitsGrantFilter"
+        }
+    }
+
+    public struct EventSummary: AWSDecodableShape {
+        /// The open lineage run event summary.
+        public let openLineageRunEventSummary: OpenLineageRunEventSummary?
+
+        @inlinable
+        public init(openLineageRunEventSummary: OpenLineageRunEventSummary? = nil) {
+            self.openLineageRunEventSummary = openLineageRunEventSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openLineageRunEventSummary = "openLineageRunEventSummary"
         }
     }
 
@@ -16580,6 +20874,20 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case groupIdentifier = "groupIdentifier"
+        }
+    }
+
+    public struct JobRunDetails: AWSDecodableShape {
+        /// The data lineage details of a job run.
+        public let lineageRunDetails: LineageRunDetails?
+
+        @inlinable
+        public init(lineageRunDetails: LineageRunDetails? = nil) {
+            self.lineageRunDetails = lineageRunDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineageRunDetails = "lineageRunDetails"
         }
     }
 
@@ -16649,6 +20957,42 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFormation = "cloudFormation"
+        }
+    }
+
+    public struct RuleDetail: AWSEncodableShape & AWSDecodableShape {
+        /// The enforcement detail of the metadata form.
+        public let metadataFormEnforcementDetail: MetadataFormEnforcementDetail?
+
+        @inlinable
+        public init(metadataFormEnforcementDetail: MetadataFormEnforcementDetail? = nil) {
+            self.metadataFormEnforcementDetail = metadataFormEnforcementDetail
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataFormEnforcementDetail?.validate(name: "\(name).metadataFormEnforcementDetail")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataFormEnforcementDetail = "metadataFormEnforcementDetail"
+        }
+    }
+
+    public struct RuleTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the domain unit.
+        public let domainUnitTarget: DomainUnitTarget?
+
+        @inlinable
+        public init(domainUnitTarget: DomainUnitTarget? = nil) {
+            self.domainUnitTarget = domainUnitTarget
+        }
+
+        public func validate(name: String) throws {
+            try self.domainUnitTarget?.validate(name: "\(name).domainUnitTarget")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainUnitTarget = "domainUnitTarget"
         }
     }
 
