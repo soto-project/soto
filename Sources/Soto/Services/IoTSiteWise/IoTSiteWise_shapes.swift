@@ -157,6 +157,25 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum DatasetSourceFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case knowledgeBase = "KNOWLEDGE_BASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kendra = "KENDRA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DetailedErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case incompatibleComputeLocation = "INCOMPATIBLE_COMPUTE_LOCATION"
         case incompatibleForwardingConfiguration = "INCOMPATIBLE_FORWARDING_CONFIGURATION"
@@ -269,7 +288,14 @@ extension IoTSiteWise {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case pending = "PENDING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PortalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sitewisePortalV1 = "SITEWISE_PORTAL_V1"
+        case sitewisePortalV2 = "SITEWISE_PORTAL_V2"
         public var description: String { return self.rawValue }
     }
 
@@ -344,7 +370,86 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResponseStream: AWSDecodableShape, Sendable {
+        case accessDeniedException(AccessDeniedException)
+        case conflictingOperationException(ConflictingOperationException)
+        case internalFailureException(InternalFailureException)
+        case invalidRequestException(InvalidRequestException)
+        case limitExceededException(LimitExceededException)
+        /// Contains the SiteWise Assistant's response.
+        case output(InvocationOutput)
+        case resourceNotFoundException(ResourceNotFoundException)
+        case throttlingException(ThrottlingException)
+        /// Contains tracing information of the SiteWise Assistant's reasoning and data access.
+        case trace(Trace)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .accessDeniedException:
+                let value = try container.decode(AccessDeniedException.self, forKey: .accessDeniedException)
+                self = .accessDeniedException(value)
+            case .conflictingOperationException:
+                let value = try container.decode(ConflictingOperationException.self, forKey: .conflictingOperationException)
+                self = .conflictingOperationException(value)
+            case .internalFailureException:
+                let value = try container.decode(InternalFailureException.self, forKey: .internalFailureException)
+                self = .internalFailureException(value)
+            case .invalidRequestException:
+                let value = try container.decode(InvalidRequestException.self, forKey: .invalidRequestException)
+                self = .invalidRequestException(value)
+            case .limitExceededException:
+                let value = try container.decode(LimitExceededException.self, forKey: .limitExceededException)
+                self = .limitExceededException(value)
+            case .output:
+                let value = try container.decode(InvocationOutput.self, forKey: .output)
+                self = .output(value)
+            case .resourceNotFoundException:
+                let value = try container.decode(ResourceNotFoundException.self, forKey: .resourceNotFoundException)
+                self = .resourceNotFoundException(value)
+            case .throttlingException:
+                let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
+                self = .throttlingException(value)
+            case .trace:
+                let value = try container.decode(Trace.self, forKey: .trace)
+                self = .trace(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessDeniedException = "accessDeniedException"
+            case conflictingOperationException = "conflictingOperationException"
+            case internalFailureException = "internalFailureException"
+            case invalidRequestException = "invalidRequestException"
+            case limitExceededException = "limitExceededException"
+            case output = "output"
+            case resourceNotFoundException = "resourceNotFoundException"
+            case throttlingException = "throttlingException"
+            case trace = "trace"
+        }
+    }
+
     // MARK: Shapes
+
+    public struct AccessDeniedException: AWSDecodableShape {
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
 
     public struct AccessPolicySummary: AWSDecodableShape {
         /// The date the access policy was created, in Unix epoch time.
@@ -513,7 +618,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, max: 1600)
             try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, min: 1)
-            try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
+            try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.\\+=,@]+$")
             try self.validate(self.notificationLambdaArn, name: "notificationLambdaArn", parent: name, max: 1600)
             try self.validate(self.notificationLambdaArn, name: "notificationLambdaArn", parent: name, min: 1)
             try self.validate(self.notificationLambdaArn, name: "notificationLambdaArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
@@ -918,7 +1023,7 @@ extension IoTSiteWise {
     }
 
     public struct AssetModelProperty: AWSEncodableShape & AWSDecodableShape {
-        /// The data type of the asset model property.
+        /// The data type of the asset model property. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
         public let dataType: PropertyDataType
         /// The data type of the structure for this property. This parameter exists on properties that have the STRUCT data type.
         public let dataTypeSpec: String?
@@ -2325,6 +2430,24 @@ extension IoTSiteWise {
         }
     }
 
+    public struct Citation: AWSDecodableShape {
+        /// Contains the cited text from the data source.
+        public let content: Content?
+        /// Contains information about the data source.
+        public let reference: Reference?
+
+        @inlinable
+        public init(content: Content? = nil, reference: Reference? = nil) {
+            self.content = content
+            self.reference = reference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case reference = "reference"
+        }
+    }
+
     public struct ColumnInfo: AWSDecodableShape {
         /// The name of the column description.
         public let name: String?
@@ -2469,6 +2592,41 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case error = "error"
             case state = "state"
+        }
+    }
+
+    public struct ConflictingOperationException: AWSDecodableShape {
+        public let message: String
+        /// The ARN of the resource that conflicts with this operation.
+        public let resourceArn: String
+        /// The ID of the resource that conflicts with this operation.
+        public let resourceId: String
+
+        @inlinable
+        public init(message: String, resourceArn: String, resourceId: String) {
+            self.message = message
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceArn = "resourceArn"
+            case resourceId = "resourceId"
+        }
+    }
+
+    public struct Content: AWSDecodableShape {
+        /// The cited text from the data source.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
         }
     }
 
@@ -2937,7 +3095,7 @@ extension IoTSiteWise {
     public struct CreateDashboardRequest: AWSEncodableShape {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The dashboard definition specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the IoT SiteWise User Guide.
+        /// The dashboard definition specified in a JSON literal.   IoT SiteWise Monitor (Classic) see Create dashboards (CLI)    IoT SiteWise Monitor (AI-aware) see Create dashboards (CLI)    in the IoT SiteWise User Guide
         public let dashboardDefinition: String
         /// A description for the dashboard.
         public let dashboardDescription: String?
@@ -3007,6 +3165,85 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case dashboardArn = "dashboardArn"
             case dashboardId = "dashboardId"
+        }
+    }
+
+    public struct CreateDatasetRequest: AWSEncodableShape {
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// A description about the dataset, and its functionality.
+        public let datasetDescription: String?
+        /// The ID of the dataset.
+        public let datasetId: String?
+        /// The name of the dataset.
+        public let datasetName: String
+        /// The data source for the dataset.
+        public let datasetSource: DatasetSource
+        /// A list of key-value pairs that contain metadata for the access policy. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateDatasetRequest.idempotencyToken(), datasetDescription: String? = nil, datasetId: String? = nil, datasetName: String, datasetSource: DatasetSource, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.datasetDescription = datasetDescription
+            self.datasetId = datasetId
+            self.datasetName = datasetName
+            self.datasetSource = datasetSource
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 2048)
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.datasetName, name: "datasetName", parent: name, max: 256)
+            try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
+            try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.datasetSource.validate(name: "\(name).datasetSource")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case datasetDescription = "datasetDescription"
+            case datasetId = "datasetId"
+            case datasetName = "datasetName"
+            case datasetSource = "datasetSource"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDatasetResponse: AWSDecodableShape {
+        /// The ARN of the dataset.  The format is arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}.
+        public let datasetArn: String
+        /// The ID of the dataset.
+        public let datasetId: String
+        /// The status of the dataset. This contains the state and any error messages.  State is CREATING after a successfull call to this API, and any associated error message. The state is  ACTIVE when ready to use.
+        public let datasetStatus: DatasetStatus
+
+        @inlinable
+        public init(datasetArn: String, datasetId: String, datasetStatus: DatasetStatus) {
+            self.datasetArn = datasetArn
+            self.datasetId = datasetId
+            self.datasetStatus = datasetStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "datasetArn"
+            case datasetId = "datasetId"
+            case datasetStatus = "datasetStatus"
         }
     }
 
@@ -3081,13 +3318,17 @@ extension IoTSiteWise {
         public let portalLogoImageFile: ImageFile?
         /// A friendly name for the portal.
         public let portalName: String
+        /// Define the type of portal. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
+        public let portalType: PortalType?
+        /// The configuration entry associated with the specific portal type. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
+        public let portalTypeConfiguration: [String: PortalTypeEntry]?
         /// The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String
         /// A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
         @inlinable
-        public init(alarms: Alarms? = nil, clientToken: String? = CreatePortalRequest.idempotencyToken(), notificationSenderEmail: String? = nil, portalAuthMode: AuthMode? = nil, portalContactEmail: String, portalDescription: String? = nil, portalLogoImageFile: ImageFile? = nil, portalName: String, roleArn: String, tags: [String: String]? = nil) {
+        public init(alarms: Alarms? = nil, clientToken: String? = CreatePortalRequest.idempotencyToken(), notificationSenderEmail: String? = nil, portalAuthMode: AuthMode? = nil, portalContactEmail: String, portalDescription: String? = nil, portalLogoImageFile: ImageFile? = nil, portalName: String, portalType: PortalType? = nil, portalTypeConfiguration: [String: PortalTypeEntry]? = nil, roleArn: String, tags: [String: String]? = nil) {
             self.alarms = alarms
             self.clientToken = clientToken
             self.notificationSenderEmail = notificationSenderEmail
@@ -3096,6 +3337,8 @@ extension IoTSiteWise {
             self.portalDescription = portalDescription
             self.portalLogoImageFile = portalLogoImageFile
             self.portalName = portalName
+            self.portalType = portalType
+            self.portalTypeConfiguration = portalTypeConfiguration
             self.roleArn = roleArn
             self.tags = tags
         }
@@ -3107,10 +3350,10 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, max: 255)
             try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, min: 1)
-            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, pattern: "^[^@]+@[^@]+$")
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, pattern: "^[a-zA-Z0-9_\\-\\.\\+]+@[a-zA-Z0-9_\\-\\.\\+]+\\.[a-zA-Z]{2,}$")
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, max: 255)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, min: 1)
-            try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, pattern: "^[^@]+@[^@]+$")
+            try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, pattern: "^[a-zA-Z0-9_\\-\\.\\+]+@[a-zA-Z0-9_\\-\\.\\+]+\\.[a-zA-Z]{2,}$")
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, max: 2048)
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, min: 1)
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -3118,9 +3361,14 @@ extension IoTSiteWise {
             try self.validate(self.portalName, name: "portalName", parent: name, max: 256)
             try self.validate(self.portalName, name: "portalName", parent: name, min: 1)
             try self.validate(self.portalName, name: "portalName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.portalTypeConfiguration?.forEach {
+                try validate($0.key, name: "portalTypeConfiguration.key", parent: name, max: 128)
+                try validate($0.key, name: "portalTypeConfiguration.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).portalTypeConfiguration[\"\($0.key)\"]")
+            }
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.\\+=,@]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3139,6 +3387,8 @@ extension IoTSiteWise {
             case portalDescription = "portalDescription"
             case portalLogoImageFile = "portalLogoImageFile"
             case portalName = "portalName"
+            case portalType = "portalType"
+            case portalTypeConfiguration = "portalTypeConfiguration"
             case roleArn = "roleArn"
             case tags = "tags"
         }
@@ -3312,6 +3562,105 @@ extension IoTSiteWise {
             case id = "id"
             case lastUpdateDate = "lastUpdateDate"
             case name = "name"
+        }
+    }
+
+    public struct DataSetReference: AWSDecodableShape {
+        /// The ARN of the dataset.  The format is arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}.
+        public let datasetArn: String?
+        /// The data source for the dataset.
+        public let source: Source?
+
+        @inlinable
+        public init(datasetArn: String? = nil, source: Source? = nil) {
+            self.datasetArn = datasetArn
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "datasetArn"
+            case source = "source"
+        }
+    }
+
+    public struct DatasetSource: AWSEncodableShape & AWSDecodableShape {
+        /// The details of the dataset source associated with the dataset.
+        public let sourceDetail: SourceDetail?
+        /// The format of the dataset source associated with the dataset.
+        public let sourceFormat: DatasetSourceFormat
+        /// The type of data source for the dataset.
+        public let sourceType: DatasetSourceType
+
+        @inlinable
+        public init(sourceDetail: SourceDetail? = nil, sourceFormat: DatasetSourceFormat, sourceType: DatasetSourceType) {
+            self.sourceDetail = sourceDetail
+            self.sourceFormat = sourceFormat
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceDetail?.validate(name: "\(name).sourceDetail")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceDetail = "sourceDetail"
+            case sourceFormat = "sourceFormat"
+            case sourceType = "sourceType"
+        }
+    }
+
+    public struct DatasetStatus: AWSDecodableShape {
+        public let error: ErrorDetails?
+        /// The current status of the dataset.
+        public let state: DatasetState
+
+        @inlinable
+        public init(error: ErrorDetails? = nil, state: DatasetState) {
+            self.error = error
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case state = "state"
+        }
+    }
+
+    public struct DatasetSummary: AWSDecodableShape {
+        /// The ARN of the dataset.  The format is arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}.
+        public let arn: String
+        /// The dataset creation date, in Unix epoch time.
+        public let creationDate: Date
+        /// A description about the dataset, and its functionality.
+        public let description: String
+        /// The ID of the dataset.
+        public let id: String
+        /// The date the dataset was last updated, in Unix epoch time.
+        public let lastUpdateDate: Date
+        /// The name of the dataset.
+        public let name: String
+        /// The status of the dataset. This contains the state and any error messages. The state is  ACTIVE when ready to use.
+        public let status: DatasetStatus
+
+        @inlinable
+        public init(arn: String, creationDate: Date, description: String, id: String, lastUpdateDate: Date, name: String, status: DatasetStatus) {
+            self.arn = arn
+            self.creationDate = creationDate
+            self.description = description
+            self.id = id
+            self.lastUpdateDate = lastUpdateDate
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationDate = "creationDate"
+            case description = "description"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -3578,6 +3927,51 @@ extension IoTSiteWise {
 
     public struct DeleteDashboardResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteDatasetRequest: AWSEncodableShape {
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The ID of the dataset.
+        public let datasetId: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteDatasetRequest.idempotencyToken(), datasetId: String) {
+            self.clientToken = clientToken
+            self.datasetId = datasetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.datasetId, key: "datasetId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 139)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 13)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDatasetResponse: AWSDecodableShape {
+        /// The status of the dataset. This contains the state and any error messages.  State is DELETING after a successfull call to this API, and any associated error message.
+        public let datasetStatus: DatasetStatus
+
+        @inlinable
+        public init(datasetStatus: DatasetStatus) {
+            self.datasetStatus = datasetStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetStatus = "datasetStatus"
+        }
     }
 
     public struct DeleteGatewayRequest: AWSEncodableShape {
@@ -4079,7 +4473,7 @@ extension IoTSiteWise {
         public let assetModelType: AssetModelType?
         /// The version of the asset model. See  Asset model versions in the IoT SiteWise User Guide.
         public let assetModelVersion: String?
-        /// The entity tag (ETag) is a hash of the retrieved version of the asset model. It's used to make concurrent updates safely to the resource. See Optimistic locking for asset model writes in the IoT SiteWise User Guide.  See  Optimistic locking for asset model writes  in the IoT SiteWise User Guide.
+        /// The entity tag (ETag) is a hash of the retrieved version of the asset model. It's used to make concurrent updates safely to the resource. See Optimistic locking for asset model writes in the IoT SiteWise User Guide.  See  Optimistic locking for asset model writes in the IoT SiteWise User Guide.
         public let eTag: String?
 
         @inlinable
@@ -4438,6 +4832,76 @@ extension IoTSiteWise {
         }
     }
 
+    public struct DescribeDatasetRequest: AWSEncodableShape {
+        /// The ID of the dataset.
+        public let datasetId: String
+
+        @inlinable
+        public init(datasetId: String) {
+            self.datasetId = datasetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetId, key: "datasetId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 139)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 13)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDatasetResponse: AWSDecodableShape {
+        /// The ARN of the dataset.  The format is arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}.
+        public let datasetArn: String
+        /// The dataset creation date, in Unix epoch time.
+        public let datasetCreationDate: Date
+        /// A description about the dataset, and its functionality.
+        public let datasetDescription: String
+        /// The ID of the dataset.
+        public let datasetId: String
+        /// The date the dataset was last updated, in Unix epoch time.
+        public let datasetLastUpdateDate: Date
+        /// The name of the dataset.
+        public let datasetName: String
+        /// The data source for the dataset.
+        public let datasetSource: DatasetSource
+        /// The status of the dataset. This contains the state and any error messages.  State is CREATING after a successfull call to this API, and any associated error message. The state is  ACTIVE when ready to use.
+        public let datasetStatus: DatasetStatus
+        /// The version of the dataset.
+        public let datasetVersion: String?
+
+        @inlinable
+        public init(datasetArn: String, datasetCreationDate: Date, datasetDescription: String, datasetId: String, datasetLastUpdateDate: Date, datasetName: String, datasetSource: DatasetSource, datasetStatus: DatasetStatus, datasetVersion: String? = nil) {
+            self.datasetArn = datasetArn
+            self.datasetCreationDate = datasetCreationDate
+            self.datasetDescription = datasetDescription
+            self.datasetId = datasetId
+            self.datasetLastUpdateDate = datasetLastUpdateDate
+            self.datasetName = datasetName
+            self.datasetSource = datasetSource
+            self.datasetStatus = datasetStatus
+            self.datasetVersion = datasetVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "datasetArn"
+            case datasetCreationDate = "datasetCreationDate"
+            case datasetDescription = "datasetDescription"
+            case datasetId = "datasetId"
+            case datasetLastUpdateDate = "datasetLastUpdateDate"
+            case datasetName = "datasetName"
+            case datasetSource = "datasetSource"
+            case datasetStatus = "datasetStatus"
+            case datasetVersion = "datasetVersion"
+        }
+    }
+
     public struct DescribeDefaultEncryptionConfigurationRequest: AWSEncodableShape {
         public init() {}
     }
@@ -4500,7 +4964,7 @@ extension IoTSiteWise {
         public let capabilityConfiguration: String
         /// The namespace of the gateway capability.
         public let capabilityNamespace: String
-        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.
+        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    NOT_APPLICABLE – Synchronization is not required for this capability configuration. This is most common when integrating partner data sources, because the data integration is handled externally by the partner.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.    UNKNOWN – The synchronization status is currently unknown due to an undetermined or temporary error.
         public let capabilitySyncStatus: CapabilitySyncStatus
         /// The ID of the gateway that defines the capability configuration.
         public let gatewayId: String
@@ -4654,11 +5118,15 @@ extension IoTSiteWise {
         public let portalStartUrl: String
         /// The current status of the portal, which contains a state and any error message.
         public let portalStatus: PortalStatus
+        /// Define the type of portal. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
+        public let portalType: PortalType?
+        /// The configuration entry associated with the specific portal type. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
+        public let portalTypeConfiguration: [String: PortalTypeEntry]?
         /// The ARN of the service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String?
 
         @inlinable
-        public init(alarms: Alarms? = nil, notificationSenderEmail: String? = nil, portalArn: String, portalAuthMode: AuthMode? = nil, portalClientId: String, portalContactEmail: String, portalCreationDate: Date, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: Date, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
+        public init(alarms: Alarms? = nil, notificationSenderEmail: String? = nil, portalArn: String, portalAuthMode: AuthMode? = nil, portalClientId: String, portalContactEmail: String, portalCreationDate: Date, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: Date, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, portalType: PortalType? = nil, portalTypeConfiguration: [String: PortalTypeEntry]? = nil, roleArn: String? = nil) {
             self.alarms = alarms
             self.notificationSenderEmail = notificationSenderEmail
             self.portalArn = portalArn
@@ -4673,6 +5141,8 @@ extension IoTSiteWise {
             self.portalName = portalName
             self.portalStartUrl = portalStartUrl
             self.portalStatus = portalStatus
+            self.portalType = portalType
+            self.portalTypeConfiguration = portalTypeConfiguration
             self.roleArn = roleArn
         }
 
@@ -4691,6 +5161,8 @@ extension IoTSiteWise {
             case portalName = "portalName"
             case portalStartUrl = "portalStartUrl"
             case portalStatus = "portalStatus"
+            case portalType = "portalType"
+            case portalTypeConfiguration = "portalTypeConfiguration"
             case roleArn = "roleArn"
         }
     }
@@ -5095,6 +5567,8 @@ extension IoTSiteWise {
     }
 
     public struct ExecuteQueryRequest: AWSEncodableShape {
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
         /// The maximum number of results to return at one time. The default is 25.
         public let maxResults: Int?
         /// The string that specifies the next page of results.
@@ -5103,13 +5577,17 @@ extension IoTSiteWise {
         public let queryStatement: String
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, queryStatement: String) {
+        public init(clientToken: String? = ExecuteQueryRequest.idempotencyToken(), maxResults: Int? = nil, nextToken: String? = nil, queryStatement: String) {
+            self.clientToken = clientToken
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.queryStatement = queryStatement
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -5118,6 +5596,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case queryStatement = "queryStatement"
@@ -5233,7 +5712,7 @@ extension IoTSiteWise {
     public struct GatewayCapabilitySummary: AWSDecodableShape {
         /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
         public let capabilityNamespace: String
-        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.
+        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    NOT_APPLICABLE – Synchronization is not required for this capability configuration. This is most common when integrating partner data sources, because the data integration is handled externally by the partner.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.    UNKNOWN – The synchronization status is currently unknown due to an undetermined or temporary error.
         public let capabilitySyncStatus: CapabilitySyncStatus
 
         @inlinable
@@ -5731,7 +6210,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.\\+=,@]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5751,7 +6230,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.\\+=,@]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5857,6 +6336,19 @@ extension IoTSiteWise {
         }
     }
 
+    public struct InternalFailureException: AWSDecodableShape {
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct InterpolatedAssetPropertyValue: AWSDecodableShape {
         public let timestamp: TimeInNanos
         public let value: Variant
@@ -5871,6 +6363,89 @@ extension IoTSiteWise {
             case timestamp = "timestamp"
             case value = "value"
         }
+    }
+
+    public struct InvalidRequestException: AWSDecodableShape {
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct InvocationOutput: AWSDecodableShape {
+        /// A list of citations, and related information for the SiteWise Assistant's response.
+        public let citations: [Citation]?
+        /// The text message of the SiteWise Assistant's response.
+        public let message: String?
+
+        @inlinable
+        public init(citations: [Citation]? = nil, message: String? = nil) {
+            self.citations = citations
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case citations = "citations"
+            case message = "message"
+        }
+    }
+
+    public struct InvokeAssistantRequest: AWSEncodableShape {
+        /// The ID assigned to a conversation. IoT SiteWise automatically generates a unique ID for you, and this parameter is never required.  However, if you prefer to have your own ID, you must specify it here in UUID format. If you specify your own ID, it must be globally unique.
+        public let conversationId: String?
+        /// Specifies if to turn trace on or not. It is used to track the SiteWise Assistant's  reasoning, and data access process.
+        public let enableTrace: Bool?
+        /// A text message sent to the SiteWise Assistant by the user.
+        public let message: String
+
+        @inlinable
+        public init(conversationId: String? = nil, enableTrace: Bool? = nil, message: String) {
+            self.conversationId = conversationId
+            self.enableTrace = enableTrace
+            self.message = message
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.conversationId, name: "conversationId", parent: name, max: 36)
+            try self.validate(self.conversationId, name: "conversationId", parent: name, min: 36)
+            try self.validate(self.conversationId, name: "conversationId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.message, name: "message", parent: name, max: 10000)
+            try self.validate(self.message, name: "message", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversationId = "conversationId"
+            case enableTrace = "enableTrace"
+            case message = "message"
+        }
+    }
+
+    public struct InvokeAssistantResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        public let body: AWSEventStream<ResponseStream>
+        /// The ID of the conversation, in UUID format. This ID uniquely identifies the conversation within IoT SiteWise.
+        public let conversationId: String
+
+        @inlinable
+        public init(body: AWSEventStream<ResponseStream>, conversationId: String) {
+            self.body = body
+            self.conversationId = conversationId
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.body = try container.decode(AWSEventStream<ResponseStream>.self)
+            self.conversationId = try response.decodeHeader(String.self, key: "x-amz-iotsitewise-assistant-conversation-id")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct JobConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -5906,6 +6481,46 @@ extension IoTSiteWise {
             case id = "id"
             case name = "name"
             case status = "status"
+        }
+    }
+
+    public struct KendraSourceDetail: AWSEncodableShape & AWSDecodableShape {
+        /// The knowledgeBaseArn details for the Kendra dataset source.
+        public let knowledgeBaseArn: String
+        /// The roleARN details for the Kendra dataset source.
+        public let roleArn: String
+
+        @inlinable
+        public init(knowledgeBaseArn: String, roleArn: String) {
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.knowledgeBaseArn, name: "knowledgeBaseArn", parent: name, max: 1600)
+            try self.validate(self.knowledgeBaseArn, name: "knowledgeBaseArn", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseArn, name: "knowledgeBaseArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct LimitExceededException: AWSDecodableShape {
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -5951,7 +6566,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.iamArn, name: "iamArn", parent: name, max: 1600)
             try self.validate(self.iamArn, name: "iamArn", parent: name, min: 1)
-            try self.validate(self.iamArn, name: "iamArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
+            try self.validate(self.iamArn, name: "iamArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.\\+=,@]+$")
             try self.validate(self.identityId, name: "identityId", parent: name, max: 256)
             try self.validate(self.identityId, name: "identityId", parent: name, min: 1)
             try self.validate(self.identityId, name: "identityId", parent: name, pattern: "^\\S+$")
@@ -6170,7 +6785,7 @@ extension IoTSiteWise {
     }
 
     public struct ListAssetModelsRequest: AWSEncodableShape {
-        /// The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. 		Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite 		models of other asset models. You can't create assets directly from this type of asset model.
+        /// The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
         public let assetModelTypes: [AssetModelType]?
         /// The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
         public let assetModelVersion: String?
@@ -6406,7 +7021,7 @@ extension IoTSiteWise {
     public struct ListAssociatedAssetsRequest: AWSEncodableShape {
         /// The ID of the asset to query. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let assetId: String
-        /// (Optional) If you don't provide a hierarchyId, all the immediate assets in the traversalDirection will be returned.   The ID of the hierarchy by which child assets are associated to the asset. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.) For more information, see Asset hierarchies in the IoT SiteWise User Guide.
+        /// (Optional) If you don't provide a hierarchyId, all the immediate assets in the traversalDirection will be returned.  The ID of the hierarchy by which child assets are associated to the asset. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.) For more information, see Asset hierarchies in the IoT SiteWise User Guide.
         public let hierarchyId: String?
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
@@ -6627,6 +7242,58 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case dashboardSummaries = "dashboardSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDatasetsRequest: AWSEncodableShape {
+        /// The maximum number of results to return for each paginated request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// The type of data source for the dataset.
+        public let sourceType: DatasetSourceType
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sourceType: DatasetSourceType) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sourceType = sourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sourceType, key: "sourceType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDatasetsResponse: AWSDecodableShape {
+        /// A list that summarizes the dataset response.
+        public let datasetSummaries: [DatasetSummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(datasetSummaries: [DatasetSummary], nextToken: String? = nil) {
+            self.datasetSummaries = datasetSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetSummaries = "datasetSummaries"
             case nextToken = "nextToken"
         }
     }
@@ -6939,6 +7606,20 @@ extension IoTSiteWise {
         }
     }
 
+    public struct Location: AWSDecodableShape {
+        /// The URI of the location.
+        public let uri: String?
+
+        @inlinable
+        public init(uri: String? = nil) {
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uri = "uri"
+        }
+    }
+
     public struct LoggingOptions: AWSEncodableShape & AWSDecodableShape {
         /// The IoT SiteWise logging verbosity level.
         public let level: LoggingLevel
@@ -7137,6 +7818,8 @@ extension IoTSiteWise {
         public let lastUpdateDate: Date?
         /// The name of the portal.
         public let name: String
+        /// Define the type of portal. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
+        public let portalType: PortalType?
         /// The ARN of the service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String?
         /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access portals that use IAM Identity Center for authentication. For portals that use IAM for authentication, you must use the IoT SiteWise console to get a URL that you can use to access the portal.
@@ -7144,12 +7827,13 @@ extension IoTSiteWise {
         public let status: PortalStatus
 
         @inlinable
-        public init(creationDate: Date? = nil, description: String? = nil, id: String, lastUpdateDate: Date? = nil, name: String, roleArn: String? = nil, startUrl: String, status: PortalStatus) {
+        public init(creationDate: Date? = nil, description: String? = nil, id: String, lastUpdateDate: Date? = nil, name: String, portalType: PortalType? = nil, roleArn: String? = nil, startUrl: String, status: PortalStatus) {
             self.creationDate = creationDate
             self.description = description
             self.id = id
             self.lastUpdateDate = lastUpdateDate
             self.name = name
+            self.portalType = portalType
             self.roleArn = roleArn
             self.startUrl = startUrl
             self.status = status
@@ -7161,9 +7845,32 @@ extension IoTSiteWise {
             case id = "id"
             case lastUpdateDate = "lastUpdateDate"
             case name = "name"
+            case portalType = "portalType"
             case roleArn = "roleArn"
             case startUrl = "startUrl"
             case status = "status"
+        }
+    }
+
+    public struct PortalTypeEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The array of tools associated with the specified portal type. The possible values are ASSISTANT and DASHBOARD.
+        public let portalTools: [String]?
+
+        @inlinable
+        public init(portalTools: [String]? = nil) {
+            self.portalTools = portalTools
+        }
+
+        public func validate(name: String) throws {
+            try self.portalTools?.forEach {
+                try validate($0, name: "portalTools[]", parent: name, max: 256)
+                try validate($0, name: "portalTools[]", parent: name, min: 1)
+                try validate($0, name: "portalTools[]", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portalTools = "portalTools"
         }
     }
 
@@ -7499,6 +8206,20 @@ extension IoTSiteWise {
         }
     }
 
+    public struct Reference: AWSDecodableShape {
+        /// Contains the dataset reference information.
+        public let dataset: DataSetReference?
+
+        @inlinable
+        public init(dataset: DataSetReference? = nil) {
+            self.dataset = dataset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataset = "dataset"
+        }
+    }
+
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
         /// A portal resource.
         public let portal: PortalResource?
@@ -7519,6 +8240,19 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case portal = "portal"
             case project = "project"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSDecodableShape {
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -7575,6 +8309,42 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case iotCoreThingName = "iotCoreThingName"
+        }
+    }
+
+    public struct Source: AWSDecodableShape {
+        /// Contains the ARN of the dataset. If the source is Kendra, it's the ARN of the Kendra index.
+        public let arn: String?
+        /// Contains the location information where the cited text is originally stored.  For example, if the data source is Kendra, and the text synchronized is from an S3 bucket, then the location refers to an S3 object.
+        public let location: Location?
+
+        @inlinable
+        public init(arn: String? = nil, location: Location? = nil) {
+            self.arn = arn
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case location = "location"
+        }
+    }
+
+    public struct SourceDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Contains details about the Kendra dataset source.
+        public let kendra: KendraSourceDetail?
+
+        @inlinable
+        public init(kendra: KendraSourceDetail? = nil) {
+            self.kendra = kendra
+        }
+
+        public func validate(name: String) throws {
+            try self.kendra?.validate(name: "\(name).kendra")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kendra = "kendra"
         }
     }
 
@@ -7635,6 +8405,19 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case assetId = "assetId"
+        }
+    }
+
+    public struct ThrottlingException: AWSDecodableShape {
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -7706,6 +8489,20 @@ extension IoTSiteWise {
             case timeSeriesCreationDate = "timeSeriesCreationDate"
             case timeSeriesId = "timeSeriesId"
             case timeSeriesLastUpdateDate = "timeSeriesLastUpdateDate"
+        }
+    }
+
+    public struct Trace: AWSDecodableShape {
+        /// The cited text from the data source.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
         }
     }
 
@@ -8217,7 +9014,7 @@ extension IoTSiteWise {
     public struct UpdateDashboardRequest: AWSEncodableShape {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The new dashboard definition, as specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the IoT SiteWise User Guide.
+        /// The new dashboard definition, as specified in a JSON literal.   IoT SiteWise Monitor (Classic) see Create dashboards (CLI)    IoT SiteWise Monitor (AI-aware) see Create dashboards (CLI)    in the IoT SiteWise User Guide
         public let dashboardDefinition: String
         /// A new description for the dashboard.
         public let dashboardDescription: String?
@@ -8274,6 +9071,83 @@ extension IoTSiteWise {
         public init() {}
     }
 
+    public struct UpdateDatasetRequest: AWSEncodableShape {
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// A description about the dataset, and its functionality.
+        public let datasetDescription: String?
+        /// The ID of the dataset.
+        public let datasetId: String
+        /// The name of the dataset.
+        public let datasetName: String
+        /// The data source for the dataset.
+        public let datasetSource: DatasetSource
+
+        @inlinable
+        public init(clientToken: String? = UpdateDatasetRequest.idempotencyToken(), datasetDescription: String? = nil, datasetId: String, datasetName: String, datasetSource: DatasetSource) {
+            self.clientToken = clientToken
+            self.datasetDescription = datasetDescription
+            self.datasetId = datasetId
+            self.datasetName = datasetName
+            self.datasetSource = datasetSource
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.datasetDescription, forKey: .datasetDescription)
+            request.encodePath(self.datasetId, key: "datasetId")
+            try container.encode(self.datasetName, forKey: .datasetName)
+            try container.encode(self.datasetSource, forKey: .datasetSource)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 2048)
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 139)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 13)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.datasetName, name: "datasetName", parent: name, max: 256)
+            try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
+            try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.datasetSource.validate(name: "\(name).datasetSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case datasetDescription = "datasetDescription"
+            case datasetName = "datasetName"
+            case datasetSource = "datasetSource"
+        }
+    }
+
+    public struct UpdateDatasetResponse: AWSDecodableShape {
+        /// The ARN of the dataset.  The format is arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}.
+        public let datasetArn: String?
+        /// The ID of the dataset.
+        public let datasetId: String?
+        /// The status of the dataset. This contains the state and any error messages.  State is UPDATING after a successfull call to this API, and any associated error message. The state is  ACTIVE when ready to use.
+        public let datasetStatus: DatasetStatus?
+
+        @inlinable
+        public init(datasetArn: String? = nil, datasetId: String? = nil, datasetStatus: DatasetStatus? = nil) {
+            self.datasetArn = datasetArn
+            self.datasetId = datasetId
+            self.datasetStatus = datasetStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "datasetArn"
+            case datasetId = "datasetId"
+            case datasetStatus = "datasetStatus"
+        }
+    }
+
     public struct UpdateGatewayCapabilityConfigurationRequest: AWSEncodableShape {
         /// The JSON document that defines the configuration for the gateway capability. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide.
         public let capabilityConfiguration: String
@@ -8317,7 +9191,7 @@ extension IoTSiteWise {
     public struct UpdateGatewayCapabilityConfigurationResponse: AWSDecodableShape {
         /// The namespace of the gateway capability.
         public let capabilityNamespace: String
-        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.   After you update a capability configuration, its sync status is OUT_OF_SYNC until the gateway receives and applies or rejects the updated configuration.
+        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    NOT_APPLICABLE – Synchronization is not required for this capability configuration. This is most common when integrating partner data sources, because the data integration is handled externally by the partner.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.    UNKNOWN – The synchronization status is currently unknown due to an undetermined or temporary error.   After you update a capability configuration, its sync status is OUT_OF_SYNC until the gateway receives and applies or rejects the updated configuration.
         public let capabilitySyncStatus: CapabilitySyncStatus
 
         @inlinable
@@ -8381,11 +9255,15 @@ extension IoTSiteWise {
         public let portalLogoImage: Image?
         /// A new friendly name for the portal.
         public let portalName: String
+        /// Define the type of portal. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
+        public let portalType: PortalType?
+        /// The configuration entry associated with the specific portal type. The value for IoT SiteWise Monitor (Classic) is SITEWISE_PORTAL_V1. The value for IoT SiteWise Monitor (AI-aware) is SITEWISE_PORTAL_V2.
+        public let portalTypeConfiguration: [String: PortalTypeEntry]?
         /// The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String
 
         @inlinable
-        public init(alarms: Alarms? = nil, clientToken: String? = UpdatePortalRequest.idempotencyToken(), notificationSenderEmail: String? = nil, portalContactEmail: String, portalDescription: String? = nil, portalId: String, portalLogoImage: Image? = nil, portalName: String, roleArn: String) {
+        public init(alarms: Alarms? = nil, clientToken: String? = UpdatePortalRequest.idempotencyToken(), notificationSenderEmail: String? = nil, portalContactEmail: String, portalDescription: String? = nil, portalId: String, portalLogoImage: Image? = nil, portalName: String, portalType: PortalType? = nil, portalTypeConfiguration: [String: PortalTypeEntry]? = nil, roleArn: String) {
             self.alarms = alarms
             self.clientToken = clientToken
             self.notificationSenderEmail = notificationSenderEmail
@@ -8394,6 +9272,8 @@ extension IoTSiteWise {
             self.portalId = portalId
             self.portalLogoImage = portalLogoImage
             self.portalName = portalName
+            self.portalType = portalType
+            self.portalTypeConfiguration = portalTypeConfiguration
             self.roleArn = roleArn
         }
 
@@ -8408,6 +9288,8 @@ extension IoTSiteWise {
             request.encodePath(self.portalId, key: "portalId")
             try container.encodeIfPresent(self.portalLogoImage, forKey: .portalLogoImage)
             try container.encode(self.portalName, forKey: .portalName)
+            try container.encodeIfPresent(self.portalType, forKey: .portalType)
+            try container.encodeIfPresent(self.portalTypeConfiguration, forKey: .portalTypeConfiguration)
             try container.encode(self.roleArn, forKey: .roleArn)
         }
 
@@ -8418,10 +9300,10 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, max: 255)
             try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, min: 1)
-            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, pattern: "^[^@]+@[^@]+$")
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, pattern: "^[a-zA-Z0-9_\\-\\.\\+]+@[a-zA-Z0-9_\\-\\.\\+]+\\.[a-zA-Z]{2,}$")
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, max: 255)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, min: 1)
-            try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, pattern: "^[^@]+@[^@]+$")
+            try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, pattern: "^[a-zA-Z0-9_\\-\\.\\+]+@[a-zA-Z0-9_\\-\\.\\+]+\\.[a-zA-Z]{2,}$")
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, max: 2048)
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, min: 1)
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
@@ -8432,9 +9314,14 @@ extension IoTSiteWise {
             try self.validate(self.portalName, name: "portalName", parent: name, max: 256)
             try self.validate(self.portalName, name: "portalName", parent: name, min: 1)
             try self.validate(self.portalName, name: "portalName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.portalTypeConfiguration?.forEach {
+                try validate($0.key, name: "portalTypeConfiguration.key", parent: name, max: 128)
+                try validate($0.key, name: "portalTypeConfiguration.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).portalTypeConfiguration[\"\($0.key)\"]")
+            }
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.\\+=,@]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8445,6 +9332,8 @@ extension IoTSiteWise {
             case portalDescription = "portalDescription"
             case portalLogoImage = "portalLogoImage"
             case portalName = "portalName"
+            case portalType = "portalType"
+            case portalTypeConfiguration = "portalTypeConfiguration"
             case roleArn = "roleArn"
         }
     }

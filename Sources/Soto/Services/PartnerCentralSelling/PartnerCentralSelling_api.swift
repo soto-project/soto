@@ -80,7 +80,39 @@ public struct PartnerCentralSelling: AWSService {
 
     // MARK: API Calls
 
-    ///  Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportunity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity.   This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
+    ///  Use the AcceptEngagementInvitation action to accept an engagement invitation shared by AWS.  Accepting the invitation indicates your willingness to participate in the engagement,  granting you access to all engagement-related data.
+    @Sendable
+    @inlinable
+    public func acceptEngagementInvitation(_ input: AcceptEngagementInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "AcceptEngagementInvitation", 
+            path: "/AcceptEngagementInvitation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Use the AcceptEngagementInvitation action to accept an engagement invitation shared by AWS.  Accepting the invitation indicates your willingness to participate in the engagement,  granting you access to all engagement-related data.
+    ///
+    /// Parameters:
+    ///   - catalog:  The CatalogType parameter specifies the catalog associated with the engagement invitation.  Accepted values are AWS and Sandbox,  which determine the environment in which the engagement invitation is managed.
+    ///   - identifier:  The Identifier parameter in the AcceptEngagementInvitationRequest specifies the unique  identifier of the EngagementInvitation to be accepted.  Providing the correct identifier ensures that the intended invitation is accepted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func acceptEngagementInvitation(
+        catalog: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = AcceptEngagementInvitationRequest(
+            catalog: catalog, 
+            identifier: identifier
+        )
+        return try await self.acceptEngagementInvitation(input, logger: logger)
+    }
+
+    /// Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportunity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity. This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
     @Sendable
     @inlinable
     public func assignOpportunity(_ input: AssignOpportunityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -93,12 +125,12 @@ public struct PartnerCentralSelling: AWSService {
             logger: logger
         )
     }
-    ///  Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportunity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity.   This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
+    /// Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportunity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity. This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
     ///
     /// Parameters:
     ///   - assignee: Specifies the user or team member responsible for managing the assigned opportunity. This field identifies the Assignee based on the partner's internal team structure. Ensure that the email address is associated with a registered user in your Partner Central account.
-    ///   - catalog:  Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is assigned in. Use AWS to assign real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
-    ///   - identifier:  Requires the Opportunity's unique identifier when you want to assign it to another user. Provide the correct identifier so the intended opportunity is reassigned.
+    ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is assigned in. Use AWS to assign real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
+    ///   - identifier: Requires the Opportunity's unique identifier when you want to assign it to another user. Provide the correct identifier so the intended opportunity is reassigned.
     ///   - logger: Logger use during operation
     @inlinable
     public func assignOpportunity(
@@ -115,7 +147,7 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.assignOpportunity(input, logger: logger)
     }
 
-    ///  Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the opportunity for better collaboration and decision making. You can associate an opportunity with the following entity types:     Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services.     Amazon Web Services Products: Amazon Web Services offers many products and services that provide scalable, reliable, and cost-effective infrastructure solutions. For the latest list of Amazon Web Services products, see Amazon Web Services products.     Amazon Web Services Marketplace private offer: Allows Amazon Web Services Marketplace sellers to extend custom pricing and terms to individual Amazon Web Services customers. Sellers can negotiate custom prices, payment schedules, and end user license terms through private offers, enabling Amazon Web Services customers to acquire software solutions tailored to their specific needs. For more information, see Private offers in Amazon Web Services Marketplace.    To obtain identifiers for these entities, use the following methods:   Solution: Use the ListSolutions operation.    AWS Products: For the latest list of Amazon Web Services products, see Amazon Web Services products.     Amazon Web Services Marketplace private offer: Use the Using the Amazon Web Services Marketplace Catalog API to list entities. Specifically, use the ListEntities operation to retrieve a list of private offers. The request returns the details of available private offers. For more information, see ListEntities.
+    /// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the opportunity for better collaboration and decision making. You can associate an opportunity with the following entity types:   Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services.   Amazon Web Services Products: Amazon Web Services offers many products and services that provide scalable, reliable, and cost-effective infrastructure solutions. For the latest list of Amazon Web Services products, see Amazon Web Services products.   Amazon Web Services Marketplace private offer: Allows Amazon Web Services Marketplace sellers to extend custom pricing and terms to individual Amazon Web Services customers. Sellers can negotiate custom prices, payment schedules, and end user license terms through private offers, enabling Amazon Web Services customers to acquire software solutions tailored to their specific needs. For more information, see Private offers in Amazon Web Services Marketplace.   To obtain identifiers for these entities, use the following methods:   Solution: Use the ListSolutions operation.   AWS Products: For the latest list of Amazon Web Services products, see Amazon Web Services products.   Amazon Web Services Marketplace private offer: Use the Using the Amazon Web Services Marketplace Catalog API to list entities. Specifically, use the ListEntities operation to retrieve a list of private offers. The request returns the details of available private offers. For more information, see ListEntities.
     @Sendable
     @inlinable
     public func associateOpportunity(_ input: AssociateOpportunityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -128,12 +160,12 @@ public struct PartnerCentralSelling: AWSService {
             logger: logger
         )
     }
-    ///  Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the opportunity for better collaboration and decision making. You can associate an opportunity with the following entity types:     Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services.     Amazon Web Services Products: Amazon Web Services offers many products and services that provide scalable, reliable, and cost-effective infrastructure solutions. For the latest list of Amazon Web Services products, see Amazon Web Services products.     Amazon Web Services Marketplace private offer: Allows Amazon Web Services Marketplace sellers to extend custom pricing and terms to individual Amazon Web Services customers. Sellers can negotiate custom prices, payment schedules, and end user license terms through private offers, enabling Amazon Web Services customers to acquire software solutions tailored to their specific needs. For more information, see Private offers in Amazon Web Services Marketplace.    To obtain identifiers for these entities, use the following methods:   Solution: Use the ListSolutions operation.    AWS Products: For the latest list of Amazon Web Services products, see Amazon Web Services products.     Amazon Web Services Marketplace private offer: Use the Using the Amazon Web Services Marketplace Catalog API to list entities. Specifically, use the ListEntities operation to retrieve a list of private offers. The request returns the details of available private offers. For more information, see ListEntities.
+    /// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the opportunity for better collaboration and decision making. You can associate an opportunity with the following entity types:   Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services.   Amazon Web Services Products: Amazon Web Services offers many products and services that provide scalable, reliable, and cost-effective infrastructure solutions. For the latest list of Amazon Web Services products, see Amazon Web Services products.   Amazon Web Services Marketplace private offer: Allows Amazon Web Services Marketplace sellers to extend custom pricing and terms to individual Amazon Web Services customers. Sellers can negotiate custom prices, payment schedules, and end user license terms through private offers, enabling Amazon Web Services customers to acquire software solutions tailored to their specific needs. For more information, see Private offers in Amazon Web Services Marketplace.   To obtain identifiers for these entities, use the following methods:   Solution: Use the ListSolutions operation.   AWS Products: For the latest list of Amazon Web Services products, see Amazon Web Services products.   Amazon Web Services Marketplace private offer: Use the Using the Amazon Web Services Marketplace Catalog API to list entities. Specifically, use the ListEntities operation to retrieve a list of private offers. The request returns the details of available private offers. For more information, see ListEntities.
     ///
     /// Parameters:
-    ///   - catalog:  Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
+    ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     ///   - opportunityIdentifier: Requires the Opportunity's unique identifier when you want to associate it with a related entity. Provide the correct identifier so the intended opportunity is updated with the association.
-    ///   - relatedEntityIdentifier: Requires the related entity's unique identifier when you want to associate it with the  Opportunity. For Amazon Web Services Marketplace entities, provide the Amazon Resource Name (ARN). Use the  Amazon Web Services Marketplace API to obtain the ARN.
+    ///   - relatedEntityIdentifier: Requires the related entity's unique identifier when you want to associate it with the Opportunity. For Amazon Web Services Marketplace entities, provide the Amazon Resource Name (ARN). Use the  Amazon Web Services Marketplace API to obtain the ARN.
     ///   - relatedEntityType: Specifies the entity type that you're associating with the  Opportunity. This helps to categorize and properly process the association.
     ///   - logger: Logger use during operation
     @inlinable
@@ -153,7 +185,86 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.associateOpportunity(input, logger: logger)
     }
 
-    ///  Creates an Opportunity record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets Lifecycle.ReviewStatus to Pending Submission.   To submit an opportunity, follow these steps:    To create the opportunity, use CreateOpportunity.   To associate a solution with the opportunity, use AssociateOpportunity.   To submit the opportunity, use StartEngagementFromOpportunityTask.    After submission, you can't edit the opportunity until the review is complete. But opportunities in the Pending Submission state must have complete details. You can update the opportunity while it's in the Pending Submission state.   There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
+    ///  The CreateEngagement action allows you to create an Engagement,  which serves as a collaborative space between different parties such as AWS Partners and AWS Sellers.  This action automatically adds the caller's AWS account as an active member of the newly created Engagement.
+    @Sendable
+    @inlinable
+    public func createEngagement(_ input: CreateEngagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEngagementResponse {
+        try await self.client.execute(
+            operation: "CreateEngagement", 
+            path: "/CreateEngagement", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  The CreateEngagement action allows you to create an Engagement,  which serves as a collaborative space between different parties such as AWS Partners and AWS Sellers.  This action automatically adds the caller's AWS account as an active member of the newly created Engagement.
+    ///
+    /// Parameters:
+    ///   - catalog:  The CreateEngagementRequest$Catalog parameter specifies the catalog related to the engagement.  Accepted values are AWS and Sandbox,  which determine the environment in which the engagement is managed.
+    ///   - clientToken:  The CreateEngagementRequest$ClientToken parameter specifies a unique, case-sensitive identifier to ensure that the request is handled exactly once.  The value must not exceed sixty-four alphanumeric characters.
+    ///   - contexts:  The Contexts field is a required array of objects, with a maximum of 5 contexts allowed,  specifying detailed information about customer projects associated with the Engagement.  Each context object contains a Type field indicating the context type,  which must be CustomerProject in this version, and a Payload field containing the CustomerProject details. The CustomerProject object is composed of two main components: Customer and Project. The Customer object includes information such as CompanyName, WebsiteUrl, Industry, and CountryCode, providing essential details about the customer. The Project object contains Title, BusinessProblem, and TargetCompletionDate, offering insights into the specific project associated with the customer. This structure allows comprehensive context to be included within the Engagement,  facilitating effective collaboration between parties by providing relevant customer and project information.
+    ///   - description: Provides a description of the Engagement.
+    ///   - title: Specifies the title of the Engagement.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createEngagement(
+        catalog: String,
+        clientToken: String = CreateEngagementRequest.idempotencyToken(),
+        contexts: [EngagementContextDetails]? = nil,
+        description: String,
+        title: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateEngagementResponse {
+        let input = CreateEngagementRequest(
+            catalog: catalog, 
+            clientToken: clientToken, 
+            contexts: contexts, 
+            description: description, 
+            title: title
+        )
+        return try await self.createEngagement(input, logger: logger)
+    }
+
+    /// This action creates an invitation from a sender to a single receiver to join an engagement.
+    @Sendable
+    @inlinable
+    public func createEngagementInvitation(_ input: CreateEngagementInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEngagementInvitationResponse {
+        try await self.client.execute(
+            operation: "CreateEngagementInvitation", 
+            path: "/CreateEngagementInvitation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This action creates an invitation from a sender to a single receiver to join an engagement.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the engagement.  Accepted values are AWS and Sandbox,  which determine the environment in which the engagement is managed.
+    ///   - clientToken:  Specifies a unique, client-generated UUID to ensure that the request is handled exactly once.  This token helps prevent duplicate invitation creations.
+    ///   - engagementIdentifier:  The unique identifier of the Engagement associated with the invitation.  This parameter ensures the invitation is created within the correct Engagement context.
+    ///   - invitation: The Invitation object all information necessary to initiate an engagement invitation to a partner.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createEngagementInvitation(
+        catalog: String,
+        clientToken: String = CreateEngagementInvitationRequest.idempotencyToken(),
+        engagementIdentifier: String,
+        invitation: Invitation,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateEngagementInvitationResponse {
+        let input = CreateEngagementInvitationRequest(
+            catalog: catalog, 
+            clientToken: clientToken, 
+            engagementIdentifier: engagementIdentifier, 
+            invitation: invitation
+        )
+        return try await self.createEngagementInvitation(input, logger: logger)
+    }
+
+    /// Creates an Opportunity record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets Lifecycle.ReviewStatus to Pending Submission. To submit an opportunity, follow these steps:   To create the opportunity, use CreateOpportunity.   To associate a solution with the opportunity, use AssociateOpportunity.   To submit the opportunity, use StartEngagementFromOpportunityTask.   After submission, you can't edit the opportunity until the review is complete. But opportunities in the Pending Submission state must have complete details. You can update the opportunity while it's in the Pending Submission state. There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
     @Sendable
     @inlinable
     public func createOpportunity(_ input: CreateOpportunityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOpportunityResponse {
@@ -166,20 +277,20 @@ public struct PartnerCentralSelling: AWSService {
             logger: logger
         )
     }
-    ///  Creates an Opportunity record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets Lifecycle.ReviewStatus to Pending Submission.   To submit an opportunity, follow these steps:    To create the opportunity, use CreateOpportunity.   To associate a solution with the opportunity, use AssociateOpportunity.   To submit the opportunity, use StartEngagementFromOpportunityTask.    After submission, you can't edit the opportunity until the review is complete. But opportunities in the Pending Submission state must have complete details. You can update the opportunity while it's in the Pending Submission state.   There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
+    /// Creates an Opportunity record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets Lifecycle.ReviewStatus to Pending Submission. To submit an opportunity, follow these steps:   To create the opportunity, use CreateOpportunity.   To associate a solution with the opportunity, use AssociateOpportunity.   To submit the opportunity, use StartEngagementFromOpportunityTask.   After submission, you can't edit the opportunity until the review is complete. But opportunities in the Pending Submission state must have complete details. You can update the opportunity while it's in the Pending Submission state. There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
     ///
     /// Parameters:
-    ///   - catalog:  Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is created in. Use AWS to create opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
-    ///   - clientToken:  Required to be unique, and should be unchanging, it can be randomly generated or a meaningful string.   Default: None   Best practice: To help ensure uniqueness and avoid conflicts, use a Universally Unique Identifier (UUID) as the ClientToken. You can use standard libraries from most programming languages to generate this. If you use the same client token, the API returns the following error: "Conflicting client token submitted for a new request body."
+    ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is created in. Use AWS to create opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
+    ///   - clientToken: Required to be unique, and should be unchanging, it can be randomly generated or a meaningful string. Default: None Best practice: To help ensure uniqueness and avoid conflicts, use a Universally Unique Identifier (UUID) as the ClientToken. You can use standard libraries from most programming languages to generate this. If you use the same client token, the API returns the following error: "Conflicting client token submitted for a new request body."
     ///   - customer: Specifies customer details associated with the Opportunity.
     ///   - lifeCycle: An object that contains lifecycle details for the Opportunity.
     ///   - marketing: This object contains marketing details and is optional for an opportunity.
     ///   - nationalSecurity: Indicates whether the Opportunity pertains to a national security project. This field must be set to true only when the customer's industry is Government. Additional privacy and security measures apply during the review and management process for opportunities marked as NationalSecurity.
     ///   - opportunityTeam: Represents the internal team handling the opportunity. Specify collaborating members of this opportunity who are within the partner's organization.
-    ///   - opportunityType:  Specifies the opportunity type as a renewal, new, or expansion.   Opportunity types:     New opportunity: Represents a new business opportunity with a potential customer that's not previously engaged with your solutions or services.     Renewal opportunity: Represents an opportunity to renew an existing contract or subscription with a current customer, ensuring continuity of service.     Expansion opportunity: Represents an opportunity to expand the scope of an existing contract or subscription, either by adding new services or increasing the volume of existing services for a current customer.
-    ///   - origin:  Specifies the origin of the opportunity, indicating if it was sourced from Amazon Web Services or the partner. For all opportunities created with Catalog: AWS, this field must only be Partner Referral. However, when using Catalog: Sandbox, you can set this field to AWS Referral to simulate Amazon Web Services referral creation. This allows Amazon Web Services-originated flows testing in the sandbox catalog.
-    ///   - partnerOpportunityIdentifier:  Specifies the opportunity's unique identifier in the partner's CRM system. This value is essential to track and reconcile because it's included in the outbound payload to the partner.   This field allows partners to link an opportunity to their CRM, which helps to ensure seamless integration and accurate synchronization between the Partner Central API and the partner's internal systems.
-    ///   - primaryNeedsFromAws:  Identifies the type of support the partner needs from Amazon Web Services.   Valid values:     Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.     Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.     Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.     Cosell—Pricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).     Cosell—Technical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.     Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.     Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).     Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx support.     Do Not Need Support from AWS Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services sales representative, and the partner solely manages the opportunity. It's possible to request coselling support on these opportunities at any stage during their lifecycles. This is also known as a for-visibility-only (FVO) opportunity.
+    ///   - opportunityType: Specifies the opportunity type as a renewal, new, or expansion. Opportunity types:   New opportunity: Represents a new business opportunity with a potential customer that's not previously engaged with your solutions or services.   Renewal opportunity: Represents an opportunity to renew an existing contract or subscription with a current customer, ensuring continuity of service.   Expansion opportunity: Represents an opportunity to expand the scope of an existing contract or subscription, either by adding new services or increasing the volume of existing services for a current customer.
+    ///   - origin: Specifies the origin of the opportunity, indicating if it was sourced from Amazon Web Services or the partner. For all opportunities created with Catalog: AWS, this field must only be Partner Referral. However, when using Catalog: Sandbox, you can set this field to AWS Referral to simulate Amazon Web Services referral creation. This allows Amazon Web Services-originated flows testing in the sandbox catalog.
+    ///   - partnerOpportunityIdentifier: Specifies the opportunity's unique identifier in the partner's CRM system. This value is essential to track and reconcile because it's included in the outbound payload to the partner. This field allows partners to link an opportunity to their CRM, which helps to ensure seamless integration and accurate synchronization between the Partner Central API and the partner's internal systems.
+    ///   - primaryNeedsFromAws: Identifies the type of support the partner needs from Amazon Web Services. Valid values:   Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.   Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.   Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.   Cosell—Pricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).   Cosell—Technical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.   Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.   Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).   Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx support.   Do Not Need Support from AWS Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services sales representative, and the partner solely manages the opportunity. It's possible to request coselling support on these opportunities at any stage during their lifecycles. This is also known as a for-visibility-only (FVO) opportunity.
     ///   - project: An object that contains project details for the Opportunity.
     ///   - softwareRevenue: Specifies details of a customer's procurement terms. This is required only for partners in eligible programs.
     ///   - logger: Logger use during operation
@@ -218,7 +329,127 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.createOpportunity(input, logger: logger)
     }
 
-    ///  Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services product, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity, and it provides flexibility to manage associations as business needs change.   Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
+    ///  This action allows you to create an immutable snapshot of a specific resource, such as an opportunity,  within the context of an engagement.  The snapshot captures a subset of the resource's data based on the schema defined by the provided template.
+    @Sendable
+    @inlinable
+    public func createResourceSnapshot(_ input: CreateResourceSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceSnapshotResponse {
+        try await self.client.execute(
+            operation: "CreateResourceSnapshot", 
+            path: "/CreateResourceSnapshot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  This action allows you to create an immutable snapshot of a specific resource, such as an opportunity,  within the context of an engagement.  The snapshot captures a subset of the resource's data based on the schema defined by the provided template.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog where the snapshot is created. Valid values are AWS and Sandbox.
+    ///   - clientToken:  Specifies a unique, client-generated UUID to ensure that the request is handled exactly once.  This token helps prevent duplicate snapshot creations.
+    ///   - engagementIdentifier:  The unique identifier of the engagement associated with this snapshot. This field links the snapshot to a specific engagement context.
+    ///   - resourceIdentifier:  The unique identifier of the specific resource to be snapshotted. The format and constraints of this identifier depend on the ResourceType specified. For example: For Opportunity type, it will be an opportunity ID.
+    ///   - resourceSnapshotTemplateIdentifier:  The name of the template that defines the schema for the snapshot. This template determines which subset of the resource data will be included in the snapshot. Must correspond to an existing and valid template for the specified ResourceType.
+    ///   - resourceType:  Specifies the type of resource for which the snapshot is being created. This field determines the structure and content of the snapshot. Must be one of the supported resource types, such as: Opportunity.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createResourceSnapshot(
+        catalog: String,
+        clientToken: String = CreateResourceSnapshotRequest.idempotencyToken(),
+        engagementIdentifier: String,
+        resourceIdentifier: String,
+        resourceSnapshotTemplateIdentifier: String,
+        resourceType: ResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateResourceSnapshotResponse {
+        let input = CreateResourceSnapshotRequest(
+            catalog: catalog, 
+            clientToken: clientToken, 
+            engagementIdentifier: engagementIdentifier, 
+            resourceIdentifier: resourceIdentifier, 
+            resourceSnapshotTemplateIdentifier: resourceSnapshotTemplateIdentifier, 
+            resourceType: resourceType
+        )
+        return try await self.createResourceSnapshot(input, logger: logger)
+    }
+
+    ///  Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation.
+    @Sendable
+    @inlinable
+    public func createResourceSnapshotJob(_ input: CreateResourceSnapshotJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceSnapshotJobResponse {
+        try await self.client.execute(
+            operation: "CreateResourceSnapshotJob", 
+            path: "/CreateResourceSnapshotJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog in which to create the snapshot job. Valid values are AWS and  Sandbox.
+    ///   - clientToken:  Specifies a unique, client-generated UUID to ensure that the request is handled exactly once.  This token helps prevent duplicate snapshot job creations.
+    ///   - engagementIdentifier:  Specifies the identifier of the engagement associated with the resource to be snapshotted.
+    ///   - resourceIdentifier:  Specifies the identifier of the specific resource to be snapshotted. The format depends on the ResourceType.
+    ///   - resourceSnapshotTemplateIdentifier:  Specifies the name of the template that defines the schema for the snapshot.
+    ///   - resourceType:  The type of resource for which the snapshot job is being created. Must be one of the supported resource types  Opportunity.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createResourceSnapshotJob(
+        catalog: String,
+        clientToken: String = CreateResourceSnapshotJobRequest.idempotencyToken(),
+        engagementIdentifier: String,
+        resourceIdentifier: String,
+        resourceSnapshotTemplateIdentifier: String,
+        resourceType: ResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateResourceSnapshotJobResponse {
+        let input = CreateResourceSnapshotJobRequest(
+            catalog: catalog, 
+            clientToken: clientToken, 
+            engagementIdentifier: engagementIdentifier, 
+            resourceIdentifier: resourceIdentifier, 
+            resourceSnapshotTemplateIdentifier: resourceSnapshotTemplateIdentifier, 
+            resourceType: resourceType
+        )
+        return try await self.createResourceSnapshotJob(input, logger: logger)
+    }
+
+    ///  Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted.
+    @Sendable
+    @inlinable
+    public func deleteResourceSnapshotJob(_ input: DeleteResourceSnapshotJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteResourceSnapshotJob", 
+            path: "/DeleteResourceSnapshotJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog from which to delete the snapshot job. Valid values are AWS and Sandbox.
+    ///   - resourceSnapshotJobIdentifier:  The unique identifier of the resource snapshot job to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourceSnapshotJob(
+        catalog: String,
+        resourceSnapshotJobIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteResourceSnapshotJobRequest(
+            catalog: catalog, 
+            resourceSnapshotJobIdentifier: resourceSnapshotJobIdentifier
+        )
+        return try await self.deleteResourceSnapshotJob(input, logger: logger)
+    }
+
+    /// Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services product, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity, and it provides flexibility to manage associations as business needs change. Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
     @Sendable
     @inlinable
     public func disassociateOpportunity(_ input: DisassociateOpportunityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -231,13 +462,13 @@ public struct PartnerCentralSelling: AWSService {
             logger: logger
         )
     }
-    ///  Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services product, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity, and it provides flexibility to manage associations as business needs change.   Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
+    /// Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services product, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity, and it provides flexibility to manage associations as business needs change. Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
     ///
     /// Parameters:
-    ///   - catalog:  Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity disassociation is made in. Use AWS to disassociate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
-    ///   - opportunityIdentifier: The opportunity's unique identifier for when you want to disassociate it from related entities. This identifier helps to ensure that the correct opportunity is updated.  Validation: Ensure that the provided identifier corresponds to an existing opportunity in the Amazon Web Services system because incorrect identifiers result in an error and no changes are made.
-    ///   - relatedEntityIdentifier: The related entity's identifier that you want to disassociate from the opportunity. Depending on the type of entity, this could be a simple identifier or an Amazon Resource Name (ARN) for entities managed through Amazon Web Services Marketplace.  For Amazon Web Services Marketplace entities, use the Amazon Web Services Marketplace API to obtain the necessary ARNs. For guidance on retrieving these ARNs, see  Amazon Web Services MarketplaceUsing the Amazon Web Services Marketplace Catalog API.  Validation: Ensure the identifier or ARN is valid and corresponds to an existing entity. An incorrect or invalid identifier results in an error.
-    ///   - relatedEntityType: The type of the entity that you're disassociating from the opportunity. When you specify the entity type, it helps the system correctly process the disassociation request to ensure that the right connections are removed.  Examples of entity types include Partner Solution, Amazon Web Services product, and Amazon Web Services Marketplaceoffer. Ensure that the value matches one of the expected entity types.  Validation: Provide a valid entity type to help ensure successful disassociation. An invalid or incorrect entity type results in an error.
+    ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity disassociation is made in. Use AWS to disassociate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
+    ///   - opportunityIdentifier: The opportunity's unique identifier for when you want to disassociate it from related entities. This identifier helps to ensure that the correct opportunity is updated. Validation: Ensure that the provided identifier corresponds to an existing opportunity in the Amazon Web Services system because incorrect identifiers result in an error and no changes are made.
+    ///   - relatedEntityIdentifier: The related entity's identifier that you want to disassociate from the opportunity. Depending on the type of entity, this could be a simple identifier or an Amazon Resource Name (ARN) for entities managed through Amazon Web Services Marketplace. For Amazon Web Services Marketplace entities, use the Amazon Web Services Marketplace API to obtain the necessary ARNs. For guidance on retrieving these ARNs, see  Amazon Web Services MarketplaceUsing the Amazon Web Services Marketplace Catalog API. Validation: Ensure the identifier or ARN is valid and corresponds to an existing entity. An incorrect or invalid identifier results in an error.
+    ///   - relatedEntityType: The type of the entity that you're disassociating from the opportunity. When you specify the entity type, it helps the system correctly process the disassociation request to ensure that the right connections are removed. Examples of entity types include Partner Solution, Amazon Web Services product, and Amazon Web Services Marketplaceoffer. Ensure that the value matches one of the expected entity types. Validation: Provide a valid entity type to help ensure successful disassociation. An invalid or incorrect entity type results in an error.
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateOpportunity(
@@ -256,7 +487,7 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.disassociateOpportunity(input, logger: logger)
     }
 
-    ///  Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
+    /// Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
     @Sendable
     @inlinable
     public func getAwsOpportunitySummary(_ input: GetAwsOpportunitySummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAwsOpportunitySummaryResponse {
@@ -269,11 +500,11 @@ public struct PartnerCentralSelling: AWSService {
             logger: logger
         )
     }
-    ///  Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
+    /// Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
     ///
     /// Parameters:
-    ///   - catalog:  Specifies the catalog in which the AWS Opportunity is located. Accepted values include AWS for production opportunities or Sandbox for testing purposes. The catalog determines which environment the opportunity data is pulled from.
-    ///   - relatedOpportunityIdentifier:  The unique identifier for the related partner opportunity. Use this field to correlate an AWS opportunity with its corresponding partner opportunity.
+    ///   - catalog: Specifies the catalog in which the AWS Opportunity is located. Accepted values include AWS for production opportunities or Sandbox for testing purposes. The catalog determines which environment the opportunity data is pulled from.
+    ///   - relatedOpportunityIdentifier: The unique identifier for the related partner opportunity. Use this field to correlate an AWS opportunity with its corresponding partner opportunity.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAwsOpportunitySummary(
@@ -286,6 +517,38 @@ public struct PartnerCentralSelling: AWSService {
             relatedOpportunityIdentifier: relatedOpportunityIdentifier
         )
         return try await self.getAwsOpportunitySummary(input, logger: logger)
+    }
+
+    ///  Use this action to retrieve the engagement record for a given EngagementIdentifier.
+    @Sendable
+    @inlinable
+    public func getEngagement(_ input: GetEngagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEngagementResponse {
+        try await self.client.execute(
+            operation: "GetEngagement", 
+            path: "/GetEngagement", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Use this action to retrieve the engagement record for a given EngagementIdentifier.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the engagement request. Valid values are AWS and Sandbox.
+    ///   - identifier:  Specifies the identifier of the Engagement record to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getEngagement(
+        catalog: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetEngagementResponse {
+        let input = GetEngagementRequest(
+            catalog: catalog, 
+            identifier: identifier
+        )
+        return try await self.getEngagement(input, logger: logger)
     }
 
     /// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitation’s Payload.Project.Title with opportunity Project.Title.
@@ -320,7 +583,7 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.getEngagementInvitation(input, logger: logger)
     }
 
-    ///  Fetches the Opportunity record from Partner Central by a given Identifier.   Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier.
+    /// Fetches the Opportunity record from Partner Central by a given Identifier. Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier.
     @Sendable
     @inlinable
     public func getOpportunity(_ input: GetOpportunityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOpportunityResponse {
@@ -333,10 +596,10 @@ public struct PartnerCentralSelling: AWSService {
             logger: logger
         )
     }
-    ///  Fetches the Opportunity record from Partner Central by a given Identifier.   Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier.
+    /// Fetches the Opportunity record from Partner Central by a given Identifier. Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier.
     ///
     /// Parameters:
-    ///   - catalog:  Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is fetched from. Use AWS to retrieve opportunities in the Amazon Web Services catalog, and Sandbox to retrieve opportunities in a secure, isolated testing environment.
+    ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is fetched from. Use AWS to retrieve opportunities in the Amazon Web Services catalog, and Sandbox to retrieve opportunities in a secure, isolated testing environment.
     ///   - identifier: Read-only, system generated Opportunity unique identifier.
     ///   - logger: Logger use during operation
     @inlinable
@@ -350,6 +613,211 @@ public struct PartnerCentralSelling: AWSService {
             identifier: identifier
         )
         return try await self.getOpportunity(input, logger: logger)
+    }
+
+    /// Use this action to retrieve a specific snapshot record.
+    @Sendable
+    @inlinable
+    public func getResourceSnapshot(_ input: GetResourceSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceSnapshotResponse {
+        try await self.client.execute(
+            operation: "GetResourceSnapshot", 
+            path: "/GetResourceSnapshot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Use this action to retrieve a specific snapshot record.
+    ///
+    /// Parameters:
+    ///   - catalog: Specifies the catalog related to the request. Valid values are:   AWS: Retrieves the snapshot from the production AWS environment.   Sandbox: Retrieves the snapshot from a sandbox environment used for testing or development purposes.
+    ///   - engagementIdentifier: The unique identifier of the engagement associated with the snapshot. This field links the snapshot to a specific engagement context.
+    ///   - resourceIdentifier: The unique identifier of the specific resource that was snapshotted. The format and constraints of this identifier depend on the ResourceType specified. For Opportunity type, it will be an opportunity ID
+    ///   - resourceSnapshotTemplateIdentifier: he name of the template that defines the schema for the snapshot. This template determines which subset of the resource data is included in the snapshot and must correspond to an existing and valid template for the specified ResourceType.
+    ///   - resourceType: Specifies the type of resource that was snapshotted. This field determines the structure and content of the snapshot payload. Valid value includes:Opportunity: For opportunity-related data.
+    ///   - revision: Specifies which revision of the snapshot to retrieve. If omitted returns the latest revision.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourceSnapshot(
+        catalog: String,
+        engagementIdentifier: String,
+        resourceIdentifier: String,
+        resourceSnapshotTemplateIdentifier: String,
+        resourceType: ResourceType,
+        revision: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourceSnapshotResponse {
+        let input = GetResourceSnapshotRequest(
+            catalog: catalog, 
+            engagementIdentifier: engagementIdentifier, 
+            resourceIdentifier: resourceIdentifier, 
+            resourceSnapshotTemplateIdentifier: resourceSnapshotTemplateIdentifier, 
+            resourceType: resourceType, 
+            revision: revision
+        )
+        return try await self.getResourceSnapshot(input, logger: logger)
+    }
+
+    ///  Use this action to retrieves information about a specific resource snapshot job.
+    @Sendable
+    @inlinable
+    public func getResourceSnapshotJob(_ input: GetResourceSnapshotJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceSnapshotJobResponse {
+        try await self.client.execute(
+            operation: "GetResourceSnapshotJob", 
+            path: "/GetResourceSnapshotJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Use this action to retrieves information about a specific resource snapshot job.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the request. Valid values are:
+    ///   - resourceSnapshotJobIdentifier:  The unique identifier of the resource snapshot job to be retrieved. This identifier is crucial for pinpointing the specific job you want to query.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourceSnapshotJob(
+        catalog: String,
+        resourceSnapshotJobIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourceSnapshotJobResponse {
+        let input = GetResourceSnapshotJobRequest(
+            catalog: catalog, 
+            resourceSnapshotJobIdentifier: resourceSnapshotJobIdentifier
+        )
+        return try await self.getResourceSnapshotJob(input, logger: logger)
+    }
+
+    /// Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs.
+    @Sendable
+    @inlinable
+    public func getSellingSystemSettings(_ input: GetSellingSystemSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSellingSystemSettingsResponse {
+        try await self.client.execute(
+            operation: "GetSellingSystemSettings", 
+            path: "/GetSellingSystemSettings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs.
+    ///
+    /// Parameters:
+    ///   - catalog: Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSellingSystemSettings(
+        catalog: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSellingSystemSettingsResponse {
+        let input = GetSellingSystemSettingsRequest(
+            catalog: catalog
+        )
+        return try await self.getSellingSystemSettings(input, logger: logger)
+    }
+
+    ///  Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account.
+    @Sendable
+    @inlinable
+    public func listEngagementByAcceptingInvitationTasks(_ input: ListEngagementByAcceptingInvitationTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEngagementByAcceptingInvitationTasksResponse {
+        try await self.client.execute(
+            operation: "ListEngagementByAcceptingInvitationTasks", 
+            path: "/ListEngagementByAcceptingInvitationTasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the request. Valid values are:
+    ///   - engagementInvitationIdentifier:  Filters tasks by the identifiers of the engagement invitations they are processing.
+    ///   - maxResults:  Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
+    ///   - nextToken:  Use this parameter for pagination when the result set spans multiple pages. This value is obtained from the NextToken field in the response of a previous call to this API.
+    ///   - opportunityIdentifier:  Filters tasks by the identifiers of the opportunities they created or are associated with.
+    ///   - sort:  Specifies the sorting criteria for the returned results. This allows you to order the tasks based on specific attributes.
+    ///   - taskIdentifier:  Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks.
+    ///   - taskStatus:  Filters the tasks based on their current status. This allows you to focus on tasks in specific states.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEngagementByAcceptingInvitationTasks(
+        catalog: String,
+        engagementInvitationIdentifier: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        opportunityIdentifier: [String]? = nil,
+        sort: ListTasksSortBase? = nil,
+        taskIdentifier: [String]? = nil,
+        taskStatus: [TaskStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEngagementByAcceptingInvitationTasksResponse {
+        let input = ListEngagementByAcceptingInvitationTasksRequest(
+            catalog: catalog, 
+            engagementInvitationIdentifier: engagementInvitationIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            opportunityIdentifier: opportunityIdentifier, 
+            sort: sort, 
+            taskIdentifier: taskIdentifier, 
+            taskStatus: taskStatus
+        )
+        return try await self.listEngagementByAcceptingInvitationTasks(input, logger: logger)
+    }
+
+    ///  Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account.
+    @Sendable
+    @inlinable
+    public func listEngagementFromOpportunityTasks(_ input: ListEngagementFromOpportunityTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEngagementFromOpportunityTasksResponse {
+        try await self.client.execute(
+            operation: "ListEngagementFromOpportunityTasks", 
+            path: "/ListEngagementFromOpportunityTasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the request. Valid values are:
+    ///   - engagementIdentifier:  Filters tasks by the identifiers of the engagements they created or are associated with.
+    ///   - maxResults:  Specifies the maximum number of results to return in a single page of the response.Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
+    ///   - nextToken:  The token for requesting the next page of results. This value is obtained from the NextToken field in the response of a previous call to this API. Use this parameter for pagination when the result set spans multiple pages.
+    ///   - opportunityIdentifier:  The identifier of the original opportunity associated with this task.
+    ///   - sort:  Specifies the sorting criteria for the returned results. This allows you to order the tasks based on specific attributes.
+    ///   - taskIdentifier:  Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks.
+    ///   - taskStatus:  Filters the tasks based on their current status. This allows you to focus on tasks in specific states.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEngagementFromOpportunityTasks(
+        catalog: String,
+        engagementIdentifier: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        opportunityIdentifier: [String]? = nil,
+        sort: ListTasksSortBase? = nil,
+        taskIdentifier: [String]? = nil,
+        taskStatus: [TaskStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEngagementFromOpportunityTasksResponse {
+        let input = ListEngagementFromOpportunityTasksRequest(
+            catalog: catalog, 
+            engagementIdentifier: engagementIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            opportunityIdentifier: opportunityIdentifier, 
+            sort: sort, 
+            taskIdentifier: taskIdentifier, 
+            taskStatus: taskStatus
+        )
+        return try await self.listEngagementFromOpportunityTasks(input, logger: logger)
     }
 
     /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS.
@@ -369,34 +837,175 @@ public struct PartnerCentralSelling: AWSService {
     ///
     /// Parameters:
     ///   - catalog: Specifies the catalog from which to list the engagement invitations. Use AWS for production invitations or Sandbox for testing environments.
+    ///   - engagementIdentifier:  Retrieves a list of engagement invitation summaries based on specified filters. The ListEngagementInvitations operation allows you to view all invitations that you have sent or received. You must specify the ParticipantType to filter invitations where you are either the SENDER or the RECEIVER. Invitations will automatically expire if not accepted within 15 days.
     ///   - maxResults: Specifies the maximum number of engagement invitations to return in the response. If more results are available, a pagination token will be provided.
     ///   - nextToken: A pagination token used to retrieve additional pages of results when the response to a previous request was truncated. Pass this token to continue listing invitations from where the previous call left off.
     ///   - participantType: Specifies the type of participant for which to list engagement invitations. Identifies the role of the participant.
     ///   - payloadType: Defines the type of payload associated with the engagement invitations to be listed. The attributes in this payload help decide on acceptance or rejection of the invitation.
+    ///   - senderAwsAccountId:  List of sender AWS account IDs to filter the invitations.
     ///   - sort: Specifies the sorting options for listing engagement invitations. Invitations can be sorted by fields such as InvitationDate or Status to help partners view results in their preferred order.
+    ///   - status:  Status values to filter the invitations.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEngagementInvitations(
         catalog: String,
+        engagementIdentifier: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         participantType: ParticipantType,
         payloadType: [EngagementInvitationPayloadType]? = nil,
+        senderAwsAccountId: [String]? = nil,
         sort: OpportunityEngagementInvitationSort? = nil,
+        status: [InvitationStatus]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListEngagementInvitationsResponse {
         let input = ListEngagementInvitationsRequest(
             catalog: catalog, 
+            engagementIdentifier: engagementIdentifier, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             participantType: participantType, 
             payloadType: payloadType, 
-            sort: sort
+            senderAwsAccountId: senderAwsAccountId, 
+            sort: sort, 
+            status: status
         )
         return try await self.listEngagementInvitations(input, logger: logger)
     }
 
-    /// This request accepts a list of filters that retrieve opportunity subsets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action.  To synchronize your system with Amazon Web Services, only list the opportunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services account’s Amazon EventBridge default event bus, you can also use the ListOpportunities action.  We recommend the following approach:   Find the latest LastModifiedDate that you stored, and only use the values that came from Amazon Web Services. Don’t use values generated by your system.    When you send a ListOpportunities request, submit the date in ISO 8601 format in the AfterLastModifiedDate filter.    Amazon Web Services only returns opportunities created or updated on or after that date and time. Use NextToken to iterate over all pages.
+    ///  Retrieves the details of member partners in an engagement. This operation can only be invoked by members of the engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific engagement. This action is restricted to members of the engagement being queried.
+    @Sendable
+    @inlinable
+    public func listEngagementMembers(_ input: ListEngagementMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEngagementMembersResponse {
+        try await self.client.execute(
+            operation: "ListEngagementMembers", 
+            path: "/ListEngagementMembers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves the details of member partners in an engagement. This operation can only be invoked by members of the engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific engagement. This action is restricted to members of the engagement being queried.
+    ///
+    /// Parameters:
+    ///   - catalog:  The catalog related to the request.
+    ///   - identifier:  Identifier of the engagement record to retrieve members from.
+    ///   - maxResults:  The maximum number of results to return in a single call.
+    ///   - nextToken:  The token for the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEngagementMembers(
+        catalog: String,
+        identifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEngagementMembersResponse {
+        let input = ListEngagementMembersRequest(
+            catalog: catalog, 
+            identifier: identifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listEngagementMembers(input, logger: logger)
+    }
+
+    ///  Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement.
+    @Sendable
+    @inlinable
+    public func listEngagementResourceAssociations(_ input: ListEngagementResourceAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEngagementResourceAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListEngagementResourceAssociations", 
+            path: "/ListEngagementResourceAssociations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog in which to search for engagement-resource associations.
+    ///   - createdBy:  Filters the results to include only associations with resources owned by the specified AWS account. Use this when you want to find associations related to resources owned by a particular account.
+    ///   - engagementIdentifier:  Filters the results to include only associations related to the specified engagement. Use this when you want to find all resources associated with a specific engagement.
+    ///   - maxResults:  Limits the number of results returned in a single call. Use this to control the number of results returned, especially useful for pagination.
+    ///   - nextToken:  A token used for pagination of results. Include this token in subsequent requests to retrieve the next set of results.
+    ///   - resourceIdentifier:  Filters the results to include only associations with the specified resource. Varies depending on the resource type. Use this when you want to find all engagements associated with a specific resource.
+    ///   - resourceType:  Filters the results to include only associations with resources of the specified type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEngagementResourceAssociations(
+        catalog: String,
+        createdBy: String? = nil,
+        engagementIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceIdentifier: String? = nil,
+        resourceType: ResourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEngagementResourceAssociationsResponse {
+        let input = ListEngagementResourceAssociationsRequest(
+            catalog: catalog, 
+            createdBy: createdBy, 
+            engagementIdentifier: engagementIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceIdentifier: resourceIdentifier, 
+            resourceType: resourceType
+        )
+        return try await self.listEngagementResourceAssociations(input, logger: logger)
+    }
+
+    ///  This action allows users to retrieve a list of engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
+    @Sendable
+    @inlinable
+    public func listEngagements(_ input: ListEngagementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEngagementsResponse {
+        try await self.client.execute(
+            operation: "ListEngagements", 
+            path: "/ListEngagements", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  This action allows users to retrieve a list of engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the request.
+    ///   - createdBy:  A list of AWS account IDs. When specified, the response includes engagements created by these accounts. This filter is useful for finding engagements created by specific team members.
+    ///   - engagementIdentifier:  An array of strings representing engagement identifiers to retrieve.
+    ///   - excludeCreatedBy:  An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
+    ///   - maxResults:  The maximum number of results to return in a single call.
+    ///   - nextToken:  The token for the next set of results. This value is returned from a previous call.
+    ///   - sort:  An object that specifies the sort order of the results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEngagements(
+        catalog: String,
+        createdBy: [String]? = nil,
+        engagementIdentifier: [String]? = nil,
+        excludeCreatedBy: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sort: EngagementSort? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEngagementsResponse {
+        let input = ListEngagementsRequest(
+            catalog: catalog, 
+            createdBy: createdBy, 
+            engagementIdentifier: engagementIdentifier, 
+            excludeCreatedBy: excludeCreatedBy, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sort: sort
+        )
+        return try await self.listEngagements(input, logger: logger)
+    }
+
+    /// This request accepts a list of filters that retrieve opportunity subsets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action. To synchronize your system with Amazon Web Services, only list the opportunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services account’s Amazon EventBridge default event bus, you can also use the ListOpportunities action. We recommend the following approach:   Find the latest LastModifiedDate that you stored, and only use the values that came from Amazon Web Services. Don’t use values generated by your system.   When you send a ListOpportunities request, submit the date in ISO 8601 format in the AfterLastModifiedDate filter.   Amazon Web Services only returns opportunities created or updated on or after that date and time. Use NextToken to iterate over all pages.
     @Sendable
     @inlinable
     public func listOpportunities(_ input: ListOpportunitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOpportunitiesResponse {
@@ -409,18 +1018,18 @@ public struct PartnerCentralSelling: AWSService {
             logger: logger
         )
     }
-    /// This request accepts a list of filters that retrieve opportunity subsets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action.  To synchronize your system with Amazon Web Services, only list the opportunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services account’s Amazon EventBridge default event bus, you can also use the ListOpportunities action.  We recommend the following approach:   Find the latest LastModifiedDate that you stored, and only use the values that came from Amazon Web Services. Don’t use values generated by your system.    When you send a ListOpportunities request, submit the date in ISO 8601 format in the AfterLastModifiedDate filter.    Amazon Web Services only returns opportunities created or updated on or after that date and time. Use NextToken to iterate over all pages.
+    /// This request accepts a list of filters that retrieve opportunity subsets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action. To synchronize your system with Amazon Web Services, only list the opportunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services account’s Amazon EventBridge default event bus, you can also use the ListOpportunities action. We recommend the following approach:   Find the latest LastModifiedDate that you stored, and only use the values that came from Amazon Web Services. Don’t use values generated by your system.   When you send a ListOpportunities request, submit the date in ISO 8601 format in the AfterLastModifiedDate filter.   Amazon Web Services only returns opportunities created or updated on or after that date and time. Use NextToken to iterate over all pages.
     ///
     /// Parameters:
-    ///   - catalog:  Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
+    ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     ///   - customerCompanyName: Filters the opportunities based on the customer's company name. This allows partners to search for opportunities associated with a specific customer by matching the provided company name string.
     ///   - identifier: Filters the opportunities based on the opportunity identifier. This allows partners to retrieve specific opportunities by providing their unique identifiers, ensuring precise results.
     ///   - lastModifiedDate: Filters the opportunities based on their last modified date. This filter helps retrieve opportunities that were updated after the specified date, allowing partners to track recent changes or updates.
     ///   - lifeCycleReviewStatus: Filters the opportunities based on their current lifecycle approval status. Use this filter to retrieve opportunities with statuses such as Pending Submission, In Review, Action Required, or Approved.
     ///   - lifeCycleStage: Filters the opportunities based on their lifecycle stage. This filter allows partners to retrieve opportunities at various stages in the sales cycle, such as Qualified, Technical Validation, Business Validation, or Closed Won.
-    ///   - maxResults:  Specifies the maximum number of results to return in a single call. This limits the number of opportunities returned in the response to avoid providing too many results at once.   Default: 20
-    ///   - nextToken:  A pagination token used to retrieve the next set of results in subsequent calls. This token is included in the response only if there are additional result pages available.
-    ///   - sort:  An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate.
+    ///   - maxResults: Specifies the maximum number of results to return in a single call. This limits the number of opportunities returned in the response to avoid providing too many results at once. Default: 20
+    ///   - nextToken: A pagination token used to retrieve the next set of results in subsequent calls. This token is included in the response only if there are additional result pages available.
+    ///   - sort: An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate.
     ///   - logger: Logger use during operation
     @inlinable
     public func listOpportunities(
@@ -449,7 +1058,101 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.listOpportunities(input, logger: logger)
     }
 
-    ///  Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
+    ///  Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
+    @Sendable
+    @inlinable
+    public func listResourceSnapshotJobs(_ input: ListResourceSnapshotJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceSnapshotJobsResponse {
+        try await self.client.execute(
+            operation: "ListResourceSnapshotJobs", 
+            path: "/ListResourceSnapshotJobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the request.
+    ///   - engagementIdentifier:  The identifier of the engagement to filter the response.
+    ///   - maxResults:  The maximum number of results to return in a single call. If omitted, defaults to 50.
+    ///   - nextToken:  The token for the next set of results.
+    ///   - sort:  Configures the sorting of the response. If omitted, results are sorted by CreatedDate in descending order.
+    ///   - status:  The status of the jobs to filter the response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResourceSnapshotJobs(
+        catalog: String,
+        engagementIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sort: SortObject? = nil,
+        status: ResourceSnapshotJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResourceSnapshotJobsResponse {
+        let input = ListResourceSnapshotJobsRequest(
+            catalog: catalog, 
+            engagementIdentifier: engagementIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sort: sort, 
+            status: status
+        )
+        return try await self.listResourceSnapshotJobs(input, logger: logger)
+    }
+
+    ///  Retrieves a list of resource view snapshots based on specified criteria.
+    @Sendable
+    @inlinable
+    public func listResourceSnapshots(_ input: ListResourceSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceSnapshotsResponse {
+        try await self.client.execute(
+            operation: "ListResourceSnapshots", 
+            path: "/ListResourceSnapshots", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves a list of resource view snapshots based on specified criteria.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the request.
+    ///   - createdBy:  Filters the response to include only snapshots of resources created by the specified AWS account.
+    ///   - engagementIdentifier:  The unique identifier of the engagement associated with the snapshots.
+    ///   - maxResults:  The maximum number of results to return in a single call.
+    ///   - nextToken:  The token for the next set of results.
+    ///   - resourceIdentifier:  Filters the response to include only snapshots of the specified resource.
+    ///   - resourceSnapshotTemplateIdentifier:  Filters the response to include only snapshots created using the specified template.
+    ///   - resourceType:  Filters the response to include only snapshots of the specified resource type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResourceSnapshots(
+        catalog: String,
+        createdBy: String? = nil,
+        engagementIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceIdentifier: String? = nil,
+        resourceSnapshotTemplateIdentifier: String? = nil,
+        resourceType: ResourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResourceSnapshotsResponse {
+        let input = ListResourceSnapshotsRequest(
+            catalog: catalog, 
+            createdBy: createdBy, 
+            engagementIdentifier: engagementIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceIdentifier: resourceIdentifier, 
+            resourceSnapshotTemplateIdentifier: resourceSnapshotTemplateIdentifier, 
+            resourceType: resourceType
+        )
+        return try await self.listResourceSnapshots(input, logger: logger)
+    }
+
+    /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
     @Sendable
     @inlinable
     public func listSolutions(_ input: ListSolutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSolutionsResponse {
@@ -462,14 +1165,14 @@ public struct PartnerCentralSelling: AWSService {
             logger: logger
         )
     }
-    ///  Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
+    /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
     ///
     /// Parameters:
-    ///   - catalog:  Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the solutions are listed in. Use AWS to list solutions in the Amazon Web Services catalog, and Sandbox to list solutions in a secure and isolated testing environment.
+    ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the solutions are listed in. Use AWS to list solutions in the Amazon Web Services catalog, and Sandbox to list solutions in a secure and isolated testing environment.
     ///   - category: Filters the solutions based on the category to which they belong. This allows partners to search for solutions within specific categories, such as Software, Consulting, or Managed Services.
     ///   - identifier: Filters the solutions based on their unique identifier. Use this filter to retrieve specific solutions by providing the solution's identifier for accurate results.
-    ///   - maxResults: The maximum number of results returned by a single call. This value must be provided in the next call to retrieve the next set of results.  Default: 20
-    ///   - nextToken:  A pagination token used to retrieve the next set of results in subsequent calls. This token is included in the response only if there are additional result pages available.
+    ///   - maxResults: The maximum number of results returned by a single call. This value must be provided in the next call to retrieve the next set of results. Default: 20
+    ///   - nextToken: A pagination token used to retrieve the next set of results in subsequent calls. This token is included in the response only if there are additional result pages available.
     ///   - sort: Object that configures sorting done on the response. Default Sort.SortBy is Identifier.
     ///   - status: Filters solutions based on their status. This filter helps partners manage their solution portfolios effectively.
     ///   - logger: Logger use during operation
@@ -494,6 +1197,38 @@ public struct PartnerCentralSelling: AWSService {
             status: status
         )
         return try await self.listSolutions(input, logger: logger)
+    }
+
+    /// Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.
+    @Sendable
+    @inlinable
+    public func putSellingSystemSettings(_ input: PutSellingSystemSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSellingSystemSettingsResponse {
+        try await self.client.execute(
+            operation: "PutSellingSystemSettings", 
+            path: "/PutSellingSystemSettings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.
+    ///
+    /// Parameters:
+    ///   - catalog: Specifies the catalog in which the settings will be updated. Acceptable values include AWS for production and Sandbox for testing environments.
+    ///   - resourceSnapshotJobRoleIdentifier: Specifies the ARN of the IAM Role used for resource snapshot job executions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putSellingSystemSettings(
+        catalog: String,
+        resourceSnapshotJobRoleIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutSellingSystemSettingsResponse {
+        let input = PutSellingSystemSettingsRequest(
+            catalog: catalog, 
+            resourceSnapshotJobRoleIdentifier: resourceSnapshotJobRoleIdentifier
+        )
+        return try await self.putSellingSystemSettings(input, logger: logger)
     }
 
     /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter.
@@ -604,7 +1339,109 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.startEngagementFromOpportunityTask(input, logger: logger)
     }
 
-    ///  Updates the Opportunity record identified by a given Identifier. This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate.   When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null. The best practice is to always perform a GetOpportunity to retrieve the latest values, then send the complete payload with the updated values to be changed.
+    ///  Starts a resource snapshot job that has been previously created.
+    @Sendable
+    @inlinable
+    public func startResourceSnapshotJob(_ input: StartResourceSnapshotJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "StartResourceSnapshotJob", 
+            path: "/StartResourceSnapshotJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Starts a resource snapshot job that has been previously created.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the request.
+    ///   - resourceSnapshotJobIdentifier:  The identifier of the resource snapshot job to start.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startResourceSnapshotJob(
+        catalog: String,
+        resourceSnapshotJobIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = StartResourceSnapshotJobRequest(
+            catalog: catalog, 
+            resourceSnapshotJobIdentifier: resourceSnapshotJobIdentifier
+        )
+        return try await self.startResourceSnapshotJob(input, logger: logger)
+    }
+
+    ///  Stops a resource snapshot job. The job must be started prior to being stopped.
+    @Sendable
+    @inlinable
+    public func stopResourceSnapshotJob(_ input: StopResourceSnapshotJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "StopResourceSnapshotJob", 
+            path: "/StopResourceSnapshotJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Stops a resource snapshot job. The job must be started prior to being stopped.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the request.
+    ///   - resourceSnapshotJobIdentifier:  The identifier of the job to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopResourceSnapshotJob(
+        catalog: String,
+        resourceSnapshotJobIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = StopResourceSnapshotJobRequest(
+            catalog: catalog, 
+            resourceSnapshotJobIdentifier: resourceSnapshotJobIdentifier
+        )
+        return try await self.stopResourceSnapshotJob(input, logger: logger)
+    }
+
+    ///  Use this action to submit an opportunity that was previously created by partner for AWS review. After you perform this action, the opportunity becomes non-editable until it is reviewed by AWS and has  LifeCycle.ReviewStatus  as either Approved or Action Required.
+    @Sendable
+    @inlinable
+    public func submitOpportunity(_ input: SubmitOpportunityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "SubmitOpportunity", 
+            path: "/SubmitOpportunity", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Use this action to submit an opportunity that was previously created by partner for AWS review. After you perform this action, the opportunity becomes non-editable until it is reviewed by AWS and has  LifeCycle.ReviewStatus  as either Approved or Action Required.
+    ///
+    /// Parameters:
+    ///   - catalog:  Specifies the catalog related to the request.
+    ///   - identifier:  The identifier of the opportunity previously created by partner and needs to be submitted.
+    ///   - involvementType:  Specifies the level of AWS sellers' involvement on the opportunity.
+    ///   - visibility:  Determines whether to restrict visibility of the opportunity from AWS sales. Default value is Full.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func submitOpportunity(
+        catalog: String,
+        identifier: String,
+        involvementType: SalesInvolvementType,
+        visibility: Visibility? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = SubmitOpportunityRequest(
+            catalog: catalog, 
+            identifier: identifier, 
+            involvementType: involvementType, 
+            visibility: visibility
+        )
+        return try await self.submitOpportunity(input, logger: logger)
+    }
+
+    /// Updates the Opportunity record identified by a given Identifier. This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate. When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null. The best practice is to always perform a GetOpportunity to retrieve the latest values, then send the complete payload with the updated values to be changed.
     @Sendable
     @inlinable
     public func updateOpportunity(_ input: UpdateOpportunityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOpportunityResponse {
@@ -617,19 +1454,19 @@ public struct PartnerCentralSelling: AWSService {
             logger: logger
         )
     }
-    ///  Updates the Opportunity record identified by a given Identifier. This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate.   When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null. The best practice is to always perform a GetOpportunity to retrieve the latest values, then send the complete payload with the updated values to be changed.
+    /// Updates the Opportunity record identified by a given Identifier. This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate. When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null. The best practice is to always perform a GetOpportunity to retrieve the latest values, then send the complete payload with the updated values to be changed.
     ///
     /// Parameters:
-    ///   - catalog:  Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is updated in. Use AWS to update real opportunities in the production environment, and Sandbox for testing in secure, isolated environments. When you use the Sandbox catalog, it allows you to simulate and validate your interactions with Amazon Web Services services without affecting live data or operations.
+    ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is updated in. Use AWS to update real opportunities in the production environment, and Sandbox for testing in secure, isolated environments. When you use the Sandbox catalog, it allows you to simulate and validate your interactions with Amazon Web Services services without affecting live data or operations.
     ///   - customer: Specifies details of the customer associated with the Opportunity.
     ///   - identifier: Read-only, system generated Opportunity unique identifier.
     ///   - lastModifiedDate:  DateTime when the opportunity was last modified.
     ///   - lifeCycle: An object that contains lifecycle details for the Opportunity.
     ///   - marketing: An object that contains marketing details for the Opportunity.
     ///   - nationalSecurity: Specifies if the opportunity is associated with national security concerns. This flag is only applicable when the industry is Government. For national-security-related opportunities, validation and compliance rules may apply, impacting the opportunity's visibility and processing.
-    ///   - opportunityType:  Specifies the opportunity type as a renewal, new, or expansion.   Opportunity types:     New opportunity: Represents a new business opportunity with a potential customer that's not previously engaged with your solutions or services.     Renewal opportunity: Represents an opportunity to renew an existing contract or subscription with a current customer, ensuring continuity of service.     Expansion opportunity: Represents an opportunity to expand the scope of an existing contract or subscription, either by adding new services or increasing the volume of existing services for a current customer.
+    ///   - opportunityType: Specifies the opportunity type as a renewal, new, or expansion. Opportunity types:   New opportunity: Represents a new business opportunity with a potential customer that's not previously engaged with your solutions or services.   Renewal opportunity: Represents an opportunity to renew an existing contract or subscription with a current customer, ensuring continuity of service.   Expansion opportunity: Represents an opportunity to expand the scope of an existing contract or subscription, either by adding new services or increasing the volume of existing services for a current customer.
     ///   - partnerOpportunityIdentifier: Specifies the opportunity's unique identifier in the partner's CRM system. This value is essential to track and reconcile because it's included in the outbound payload sent back to the partner.
-    ///   - primaryNeedsFromAws:  Identifies the type of support the partner needs from Amazon Web Services.   Valid values:     Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.     Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.     Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.     Cosell—Pricing Assistance: Connect with an AWS seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).     Cosell—Technical Consultation: Connection with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.     Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.     Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).     Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs RFx support from Amazon Web Services.     Do Not Need Support from AWS Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services Sales representative. The opportunity is managed solely by the partner. It's possible to request coselling support on these opportunities at any stage during their lifecycle. Also known as, for-visibility-only (FVO) opportunity.
+    ///   - primaryNeedsFromAws: Identifies the type of support the partner needs from Amazon Web Services. Valid values:   Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.   Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.   Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.   Cosell—Pricing Assistance: Connect with an AWS seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).   Cosell—Technical Consultation: Connection with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.   Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.   Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).   Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs RFx support from Amazon Web Services.   Do Not Need Support from AWS Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services Sales representative. The opportunity is managed solely by the partner. It's possible to request coselling support on these opportunities at any stage during their lifecycle. Also known as, for-visibility-only (FVO) opportunity.
     ///   - project: An object that contains project details summary for the Opportunity.
     ///   - softwareRevenue: Specifies details of a customer's procurement terms. Required only for partners in eligible programs.
     ///   - logger: Logger use during operation
@@ -680,6 +1517,110 @@ extension PartnerCentralSelling {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension PartnerCentralSelling {
+    /// Return PaginatorSequence for operation ``listEngagementByAcceptingInvitationTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEngagementByAcceptingInvitationTasksPaginator(
+        _ input: ListEngagementByAcceptingInvitationTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEngagementByAcceptingInvitationTasksRequest, ListEngagementByAcceptingInvitationTasksResponse> {
+        return .init(
+            input: input,
+            command: self.listEngagementByAcceptingInvitationTasks,
+            inputKey: \ListEngagementByAcceptingInvitationTasksRequest.nextToken,
+            outputKey: \ListEngagementByAcceptingInvitationTasksResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEngagementByAcceptingInvitationTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalog:  Specifies the catalog related to the request. Valid values are:
+    ///   - engagementInvitationIdentifier:  Filters tasks by the identifiers of the engagement invitations they are processing.
+    ///   - maxResults:  Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
+    ///   - opportunityIdentifier:  Filters tasks by the identifiers of the opportunities they created or are associated with.
+    ///   - sort:  Specifies the sorting criteria for the returned results. This allows you to order the tasks based on specific attributes.
+    ///   - taskIdentifier:  Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks.
+    ///   - taskStatus:  Filters the tasks based on their current status. This allows you to focus on tasks in specific states.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEngagementByAcceptingInvitationTasksPaginator(
+        catalog: String,
+        engagementInvitationIdentifier: [String]? = nil,
+        maxResults: Int? = nil,
+        opportunityIdentifier: [String]? = nil,
+        sort: ListTasksSortBase? = nil,
+        taskIdentifier: [String]? = nil,
+        taskStatus: [TaskStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEngagementByAcceptingInvitationTasksRequest, ListEngagementByAcceptingInvitationTasksResponse> {
+        let input = ListEngagementByAcceptingInvitationTasksRequest(
+            catalog: catalog, 
+            engagementInvitationIdentifier: engagementInvitationIdentifier, 
+            maxResults: maxResults, 
+            opportunityIdentifier: opportunityIdentifier, 
+            sort: sort, 
+            taskIdentifier: taskIdentifier, 
+            taskStatus: taskStatus
+        )
+        return self.listEngagementByAcceptingInvitationTasksPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listEngagementFromOpportunityTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEngagementFromOpportunityTasksPaginator(
+        _ input: ListEngagementFromOpportunityTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEngagementFromOpportunityTasksRequest, ListEngagementFromOpportunityTasksResponse> {
+        return .init(
+            input: input,
+            command: self.listEngagementFromOpportunityTasks,
+            inputKey: \ListEngagementFromOpportunityTasksRequest.nextToken,
+            outputKey: \ListEngagementFromOpportunityTasksResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEngagementFromOpportunityTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalog:  Specifies the catalog related to the request. Valid values are:
+    ///   - engagementIdentifier:  Filters tasks by the identifiers of the engagements they created or are associated with.
+    ///   - maxResults:  Specifies the maximum number of results to return in a single page of the response.Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
+    ///   - opportunityIdentifier:  The identifier of the original opportunity associated with this task.
+    ///   - sort:  Specifies the sorting criteria for the returned results. This allows you to order the tasks based on specific attributes.
+    ///   - taskIdentifier:  Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks.
+    ///   - taskStatus:  Filters the tasks based on their current status. This allows you to focus on tasks in specific states.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEngagementFromOpportunityTasksPaginator(
+        catalog: String,
+        engagementIdentifier: [String]? = nil,
+        maxResults: Int? = nil,
+        opportunityIdentifier: [String]? = nil,
+        sort: ListTasksSortBase? = nil,
+        taskIdentifier: [String]? = nil,
+        taskStatus: [TaskStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEngagementFromOpportunityTasksRequest, ListEngagementFromOpportunityTasksResponse> {
+        let input = ListEngagementFromOpportunityTasksRequest(
+            catalog: catalog, 
+            engagementIdentifier: engagementIdentifier, 
+            maxResults: maxResults, 
+            opportunityIdentifier: opportunityIdentifier, 
+            sort: sort, 
+            taskIdentifier: taskIdentifier, 
+            taskStatus: taskStatus
+        )
+        return self.listEngagementFromOpportunityTasksPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEngagementInvitations(_:logger:)``.
     ///
     /// - Parameters:
@@ -702,28 +1643,175 @@ extension PartnerCentralSelling {
     ///
     /// - Parameters:
     ///   - catalog: Specifies the catalog from which to list the engagement invitations. Use AWS for production invitations or Sandbox for testing environments.
+    ///   - engagementIdentifier:  Retrieves a list of engagement invitation summaries based on specified filters. The ListEngagementInvitations operation allows you to view all invitations that you have sent or received. You must specify the ParticipantType to filter invitations where you are either the SENDER or the RECEIVER. Invitations will automatically expire if not accepted within 15 days.
     ///   - maxResults: Specifies the maximum number of engagement invitations to return in the response. If more results are available, a pagination token will be provided.
     ///   - participantType: Specifies the type of participant for which to list engagement invitations. Identifies the role of the participant.
     ///   - payloadType: Defines the type of payload associated with the engagement invitations to be listed. The attributes in this payload help decide on acceptance or rejection of the invitation.
+    ///   - senderAwsAccountId:  List of sender AWS account IDs to filter the invitations.
     ///   - sort: Specifies the sorting options for listing engagement invitations. Invitations can be sorted by fields such as InvitationDate or Status to help partners view results in their preferred order.
+    ///   - status:  Status values to filter the invitations.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEngagementInvitationsPaginator(
         catalog: String,
+        engagementIdentifier: [String]? = nil,
         maxResults: Int? = nil,
         participantType: ParticipantType,
         payloadType: [EngagementInvitationPayloadType]? = nil,
+        senderAwsAccountId: [String]? = nil,
         sort: OpportunityEngagementInvitationSort? = nil,
+        status: [InvitationStatus]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListEngagementInvitationsRequest, ListEngagementInvitationsResponse> {
         let input = ListEngagementInvitationsRequest(
             catalog: catalog, 
+            engagementIdentifier: engagementIdentifier, 
             maxResults: maxResults, 
             participantType: participantType, 
             payloadType: payloadType, 
-            sort: sort
+            senderAwsAccountId: senderAwsAccountId, 
+            sort: sort, 
+            status: status
         )
         return self.listEngagementInvitationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listEngagementMembers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEngagementMembersPaginator(
+        _ input: ListEngagementMembersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEngagementMembersRequest, ListEngagementMembersResponse> {
+        return .init(
+            input: input,
+            command: self.listEngagementMembers,
+            inputKey: \ListEngagementMembersRequest.nextToken,
+            outputKey: \ListEngagementMembersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEngagementMembers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalog:  The catalog related to the request.
+    ///   - identifier:  Identifier of the engagement record to retrieve members from.
+    ///   - maxResults:  The maximum number of results to return in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEngagementMembersPaginator(
+        catalog: String,
+        identifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEngagementMembersRequest, ListEngagementMembersResponse> {
+        let input = ListEngagementMembersRequest(
+            catalog: catalog, 
+            identifier: identifier, 
+            maxResults: maxResults
+        )
+        return self.listEngagementMembersPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listEngagementResourceAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEngagementResourceAssociationsPaginator(
+        _ input: ListEngagementResourceAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEngagementResourceAssociationsRequest, ListEngagementResourceAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listEngagementResourceAssociations,
+            inputKey: \ListEngagementResourceAssociationsRequest.nextToken,
+            outputKey: \ListEngagementResourceAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEngagementResourceAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalog:  Specifies the catalog in which to search for engagement-resource associations.
+    ///   - createdBy:  Filters the results to include only associations with resources owned by the specified AWS account. Use this when you want to find associations related to resources owned by a particular account.
+    ///   - engagementIdentifier:  Filters the results to include only associations related to the specified engagement. Use this when you want to find all resources associated with a specific engagement.
+    ///   - maxResults:  Limits the number of results returned in a single call. Use this to control the number of results returned, especially useful for pagination.
+    ///   - resourceIdentifier:  Filters the results to include only associations with the specified resource. Varies depending on the resource type. Use this when you want to find all engagements associated with a specific resource.
+    ///   - resourceType:  Filters the results to include only associations with resources of the specified type.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEngagementResourceAssociationsPaginator(
+        catalog: String,
+        createdBy: String? = nil,
+        engagementIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        resourceIdentifier: String? = nil,
+        resourceType: ResourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEngagementResourceAssociationsRequest, ListEngagementResourceAssociationsResponse> {
+        let input = ListEngagementResourceAssociationsRequest(
+            catalog: catalog, 
+            createdBy: createdBy, 
+            engagementIdentifier: engagementIdentifier, 
+            maxResults: maxResults, 
+            resourceIdentifier: resourceIdentifier, 
+            resourceType: resourceType
+        )
+        return self.listEngagementResourceAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listEngagements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEngagementsPaginator(
+        _ input: ListEngagementsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEngagementsRequest, ListEngagementsResponse> {
+        return .init(
+            input: input,
+            command: self.listEngagements,
+            inputKey: \ListEngagementsRequest.nextToken,
+            outputKey: \ListEngagementsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEngagements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalog:  Specifies the catalog related to the request.
+    ///   - createdBy:  A list of AWS account IDs. When specified, the response includes engagements created by these accounts. This filter is useful for finding engagements created by specific team members.
+    ///   - engagementIdentifier:  An array of strings representing engagement identifiers to retrieve.
+    ///   - excludeCreatedBy:  An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
+    ///   - maxResults:  The maximum number of results to return in a single call.
+    ///   - sort:  An object that specifies the sort order of the results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEngagementsPaginator(
+        catalog: String,
+        createdBy: [String]? = nil,
+        engagementIdentifier: [String]? = nil,
+        excludeCreatedBy: [String]? = nil,
+        maxResults: Int? = nil,
+        sort: EngagementSort? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEngagementsRequest, ListEngagementsResponse> {
+        let input = ListEngagementsRequest(
+            catalog: catalog, 
+            createdBy: createdBy, 
+            engagementIdentifier: engagementIdentifier, 
+            excludeCreatedBy: excludeCreatedBy, 
+            maxResults: maxResults, 
+            sort: sort
+        )
+        return self.listEngagementsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listOpportunities(_:logger:)``.
@@ -747,14 +1835,14 @@ extension PartnerCentralSelling {
     /// Return PaginatorSequence for operation ``listOpportunities(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - catalog:  Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
+    ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     ///   - customerCompanyName: Filters the opportunities based on the customer's company name. This allows partners to search for opportunities associated with a specific customer by matching the provided company name string.
     ///   - identifier: Filters the opportunities based on the opportunity identifier. This allows partners to retrieve specific opportunities by providing their unique identifiers, ensuring precise results.
     ///   - lastModifiedDate: Filters the opportunities based on their last modified date. This filter helps retrieve opportunities that were updated after the specified date, allowing partners to track recent changes or updates.
     ///   - lifeCycleReviewStatus: Filters the opportunities based on their current lifecycle approval status. Use this filter to retrieve opportunities with statuses such as Pending Submission, In Review, Action Required, or Approved.
     ///   - lifeCycleStage: Filters the opportunities based on their lifecycle stage. This filter allows partners to retrieve opportunities at various stages in the sales cycle, such as Qualified, Technical Validation, Business Validation, or Closed Won.
-    ///   - maxResults:  Specifies the maximum number of results to return in a single call. This limits the number of opportunities returned in the response to avoid providing too many results at once.   Default: 20
-    ///   - sort:  An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate.
+    ///   - maxResults: Specifies the maximum number of results to return in a single call. This limits the number of opportunities returned in the response to avoid providing too many results at once. Default: 20
+    ///   - sort: An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate.
     ///   - logger: Logger used for logging
     @inlinable
     public func listOpportunitiesPaginator(
@@ -781,6 +1869,104 @@ extension PartnerCentralSelling {
         return self.listOpportunitiesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listResourceSnapshotJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceSnapshotJobsPaginator(
+        _ input: ListResourceSnapshotJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceSnapshotJobsRequest, ListResourceSnapshotJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceSnapshotJobs,
+            inputKey: \ListResourceSnapshotJobsRequest.nextToken,
+            outputKey: \ListResourceSnapshotJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listResourceSnapshotJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalog:  Specifies the catalog related to the request.
+    ///   - engagementIdentifier:  The identifier of the engagement to filter the response.
+    ///   - maxResults:  The maximum number of results to return in a single call. If omitted, defaults to 50.
+    ///   - sort:  Configures the sorting of the response. If omitted, results are sorted by CreatedDate in descending order.
+    ///   - status:  The status of the jobs to filter the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceSnapshotJobsPaginator(
+        catalog: String,
+        engagementIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        sort: SortObject? = nil,
+        status: ResourceSnapshotJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListResourceSnapshotJobsRequest, ListResourceSnapshotJobsResponse> {
+        let input = ListResourceSnapshotJobsRequest(
+            catalog: catalog, 
+            engagementIdentifier: engagementIdentifier, 
+            maxResults: maxResults, 
+            sort: sort, 
+            status: status
+        )
+        return self.listResourceSnapshotJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listResourceSnapshots(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceSnapshotsPaginator(
+        _ input: ListResourceSnapshotsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceSnapshotsRequest, ListResourceSnapshotsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceSnapshots,
+            inputKey: \ListResourceSnapshotsRequest.nextToken,
+            outputKey: \ListResourceSnapshotsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listResourceSnapshots(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalog:  Specifies the catalog related to the request.
+    ///   - createdBy:  Filters the response to include only snapshots of resources created by the specified AWS account.
+    ///   - engagementIdentifier:  The unique identifier of the engagement associated with the snapshots.
+    ///   - maxResults:  The maximum number of results to return in a single call.
+    ///   - resourceIdentifier:  Filters the response to include only snapshots of the specified resource.
+    ///   - resourceSnapshotTemplateIdentifier:  Filters the response to include only snapshots created using the specified template.
+    ///   - resourceType:  Filters the response to include only snapshots of the specified resource type.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourceSnapshotsPaginator(
+        catalog: String,
+        createdBy: String? = nil,
+        engagementIdentifier: String,
+        maxResults: Int? = nil,
+        resourceIdentifier: String? = nil,
+        resourceSnapshotTemplateIdentifier: String? = nil,
+        resourceType: ResourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListResourceSnapshotsRequest, ListResourceSnapshotsResponse> {
+        let input = ListResourceSnapshotsRequest(
+            catalog: catalog, 
+            createdBy: createdBy, 
+            engagementIdentifier: engagementIdentifier, 
+            maxResults: maxResults, 
+            resourceIdentifier: resourceIdentifier, 
+            resourceSnapshotTemplateIdentifier: resourceSnapshotTemplateIdentifier, 
+            resourceType: resourceType
+        )
+        return self.listResourceSnapshotsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listSolutions(_:logger:)``.
     ///
     /// - Parameters:
@@ -802,10 +1988,10 @@ extension PartnerCentralSelling {
     /// Return PaginatorSequence for operation ``listSolutions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - catalog:  Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the solutions are listed in. Use AWS to list solutions in the Amazon Web Services catalog, and Sandbox to list solutions in a secure and isolated testing environment.
+    ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the solutions are listed in. Use AWS to list solutions in the Amazon Web Services catalog, and Sandbox to list solutions in a secure and isolated testing environment.
     ///   - category: Filters the solutions based on the category to which they belong. This allows partners to search for solutions within specific categories, such as Software, Consulting, or Managed Services.
     ///   - identifier: Filters the solutions based on their unique identifier. Use this filter to retrieve specific solutions by providing the solution's identifier for accurate results.
-    ///   - maxResults: The maximum number of results returned by a single call. This value must be provided in the next call to retrieve the next set of results.  Default: 20
+    ///   - maxResults: The maximum number of results returned by a single call. This value must be provided in the next call to retrieve the next set of results. Default: 20
     ///   - sort: Object that configures sorting done on the response. Default Sort.SortBy is Identifier.
     ///   - status: Filters solutions based on their status. This filter helps partners manage their solution portfolios effectively.
     ///   - logger: Logger used for logging
@@ -831,15 +2017,92 @@ extension PartnerCentralSelling {
     }
 }
 
+extension PartnerCentralSelling.ListEngagementByAcceptingInvitationTasksRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListEngagementByAcceptingInvitationTasksRequest {
+        return .init(
+            catalog: self.catalog,
+            engagementInvitationIdentifier: self.engagementInvitationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            opportunityIdentifier: self.opportunityIdentifier,
+            sort: self.sort,
+            taskIdentifier: self.taskIdentifier,
+            taskStatus: self.taskStatus
+        )
+    }
+}
+
+extension PartnerCentralSelling.ListEngagementFromOpportunityTasksRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListEngagementFromOpportunityTasksRequest {
+        return .init(
+            catalog: self.catalog,
+            engagementIdentifier: self.engagementIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            opportunityIdentifier: self.opportunityIdentifier,
+            sort: self.sort,
+            taskIdentifier: self.taskIdentifier,
+            taskStatus: self.taskStatus
+        )
+    }
+}
+
 extension PartnerCentralSelling.ListEngagementInvitationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListEngagementInvitationsRequest {
         return .init(
             catalog: self.catalog,
+            engagementIdentifier: self.engagementIdentifier,
             maxResults: self.maxResults,
             nextToken: token,
             participantType: self.participantType,
             payloadType: self.payloadType,
+            senderAwsAccountId: self.senderAwsAccountId,
+            sort: self.sort,
+            status: self.status
+        )
+    }
+}
+
+extension PartnerCentralSelling.ListEngagementMembersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListEngagementMembersRequest {
+        return .init(
+            catalog: self.catalog,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension PartnerCentralSelling.ListEngagementResourceAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListEngagementResourceAssociationsRequest {
+        return .init(
+            catalog: self.catalog,
+            createdBy: self.createdBy,
+            engagementIdentifier: self.engagementIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceIdentifier: self.resourceIdentifier,
+            resourceType: self.resourceType
+        )
+    }
+}
+
+extension PartnerCentralSelling.ListEngagementsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListEngagementsRequest {
+        return .init(
+            catalog: self.catalog,
+            createdBy: self.createdBy,
+            engagementIdentifier: self.engagementIdentifier,
+            excludeCreatedBy: self.excludeCreatedBy,
+            maxResults: self.maxResults,
+            nextToken: token,
             sort: self.sort
         )
     }
@@ -858,6 +2121,36 @@ extension PartnerCentralSelling.ListOpportunitiesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sort: self.sort
+        )
+    }
+}
+
+extension PartnerCentralSelling.ListResourceSnapshotJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListResourceSnapshotJobsRequest {
+        return .init(
+            catalog: self.catalog,
+            engagementIdentifier: self.engagementIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sort: self.sort,
+            status: self.status
+        )
+    }
+}
+
+extension PartnerCentralSelling.ListResourceSnapshotsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListResourceSnapshotsRequest {
+        return .init(
+            catalog: self.catalog,
+            createdBy: self.createdBy,
+            engagementIdentifier: self.engagementIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceIdentifier: self.resourceIdentifier,
+            resourceSnapshotTemplateIdentifier: self.resourceSnapshotTemplateIdentifier,
+            resourceType: self.resourceType
         )
     }
 }

@@ -190,18 +190,21 @@ public struct ApplicationDiscoveryService: AWSService {
     /// Creates an application with the given name and description.
     ///
     /// Parameters:
-    ///   - description: Description of the application to be created.
-    ///   - name: Name of the application to be created.
+    ///   - description: The description of the application to be created.
+    ///   - name: The name of the application to be created.
+    ///   - wave: The name of the migration wave of the application to be created.
     ///   - logger: Logger use during operation
     @inlinable
     public func createApplication(
         description: String? = nil,
         name: String,
+        wave: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateApplicationResponse {
         let input = CreateApplicationRequest(
             description: description, 
-            name: name
+            name: name, 
+            wave: wave
         )
         return try await self.createApplication(input, logger: logger)
     }
@@ -966,18 +969,21 @@ public struct ApplicationDiscoveryService: AWSService {
     ///   - configurationId: Configuration ID of the application to be updated.
     ///   - description: New description of the application to be updated.
     ///   - name: New name of the application to be updated.
+    ///   - wave: The new migration wave of the application that you want to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateApplication(
         configurationId: String,
         description: String? = nil,
         name: String? = nil,
+        wave: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateApplicationResponse {
         let input = UpdateApplicationRequest(
             configurationId: configurationId, 
             description: description, 
-            name: name
+            name: name, 
+            wave: wave
         )
         return try await self.updateApplication(input, logger: logger)
     }

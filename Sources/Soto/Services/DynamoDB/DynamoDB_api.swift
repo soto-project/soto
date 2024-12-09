@@ -2276,6 +2276,7 @@ public struct DynamoDB: AWSService {
     ///   - billingMode: Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provisioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes.    PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to Provisioned capacity mode.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to On-demand capacity mode.
     ///   - deletionProtectionEnabled: Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
     ///   - globalSecondaryIndexUpdates: An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   You can create or delete only one global secondary index per UpdateTable operation. For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide.
+    ///   - multiRegionConsistency: Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more Create actions in the ReplicaUpdates action list. You can specify one of the following consistency modes:    EVENTUAL: Configures a new global table for multi-Region eventual consistency. This is the default consistency mode for global tables.    STRONG: Configures a new global table for multi-Region strong consistency (preview).  Multi-Region strong consistency (MRSC) is a new DynamoDB global tables capability currently available in preview mode. For more information, see Global tables multi-Region strong consistency.    If you don't specify this parameter, the global table consistency mode defaults to EVENTUAL.
     ///   - onDemandThroughput: Updates the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
     ///   - provisionedThroughput: The new provisioned throughput settings for the specified table or index.
     ///   - replicaUpdates: A list of replica update actions (create, delete, or update) for the table.  For global tables, this property only applies to global tables using Version 2019.11.21 (Current version).
@@ -2291,6 +2292,7 @@ public struct DynamoDB: AWSService {
         billingMode: BillingMode? = nil,
         deletionProtectionEnabled: Bool? = nil,
         globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil,
+        multiRegionConsistency: MultiRegionConsistency? = nil,
         onDemandThroughput: OnDemandThroughput? = nil,
         provisionedThroughput: ProvisionedThroughput? = nil,
         replicaUpdates: [ReplicationGroupUpdate]? = nil,
@@ -2306,6 +2308,7 @@ public struct DynamoDB: AWSService {
             billingMode: billingMode, 
             deletionProtectionEnabled: deletionProtectionEnabled, 
             globalSecondaryIndexUpdates: globalSecondaryIndexUpdates, 
+            multiRegionConsistency: multiRegionConsistency, 
             onDemandThroughput: onDemandThroughput, 
             provisionedThroughput: provisionedThroughput, 
             replicaUpdates: replicaUpdates, 

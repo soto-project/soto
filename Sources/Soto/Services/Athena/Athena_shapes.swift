@@ -67,7 +67,45 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bigquery = "BIGQUERY"
+        case cmdb = "CMDB"
+        case datalakegen2 = "DATALAKEGEN2"
+        case db2 = "DB2"
+        case db2as400 = "DB2AS400"
+        case documentdb = "DOCUMENTDB"
+        case dynamodb = "DYNAMODB"
+        case googlecloudstorage = "GOOGLECLOUDSTORAGE"
+        case hbase = "HBASE"
+        case mysql = "MYSQL"
+        case opensearch = "OPENSEARCH"
+        case oracle = "ORACLE"
+        case postgresql = "POSTGRESQL"
+        case redshift = "REDSHIFT"
+        case saphana = "SAPHANA"
+        case snowflake = "SNOWFLAKE"
+        case sqlserver = "SQLSERVER"
+        case synapse = "SYNAPSE"
+        case timestream = "TIMESTREAM"
+        case tpcds = "TPCDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataCatalogStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        case createFailedCleanupComplete = "CREATE_FAILED_CLEANUP_COMPLETE"
+        case createFailedCleanupFailed = "CREATE_FAILED_CLEANUP_FAILED"
+        case createFailedCleanupInProgress = "CREATE_FAILED_CLEANUP_IN_PROGRESS"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case deleteComplete = "DELETE_COMPLETE"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataCatalogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case federated = "FEDERATED"
         case glue = "GLUE"
         case hive = "HIVE"
         case lambda = "LAMBDA"
@@ -677,13 +715,13 @@ extension Athena {
     public struct CreateDataCatalogInput: AWSEncodableShape {
         /// A description of the data catalog to be created.
         public let description: String?
-        /// The name of the data catalog to create. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
+        /// The name of the data catalog to create. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena. For FEDERATED type the catalog name has following considerations and limits:   The catalog name allows special characters such as _ , @ , \ , - . These characters are replaced with a hyphen (-) when creating the CFN Stack Name and with an underscore (_) when creating the Lambda Function and Glue Connection Name.   The catalog name has a theoretical limit of 128 characters. However, since we use it to create other resources that allow less characters and we prepend a prefix to it, the actual catalog name limit for FEDERATED catalog is 64 - 23 = 41 characters.
         public let name: String
-        /// Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn     If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The  catalog_id is the account ID of the Amazon Web Services account to which the Glue Data Catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
+        /// Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn     If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The  catalog_id is the account ID of the Amazon Web Services account to which the Glue Data Catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.     The FEDERATED data catalog type uses one of the following parameters, but not both. Use connection-arn for an existing Glue connection. Use connection-type and connection-properties to specify the configuration setting for a new connection.    connection-arn:      lambda-role-arn (optional): The execution role to use for the Lambda function. If not provided, one is created.    connection-type:MYSQL|REDSHIFT|...., connection-properties:""  For   , use escaped JSON text, as in the following example.  "{\"spill_bucket\":\"my_spill\",\"spill_prefix\":\"athena-spill\",\"host\":\"abc12345.snowflakecomputing.com\",\"port\":\"1234\",\"warehouse\":\"DEV_WH\",\"database\":\"TEST\",\"schema\":\"PUBLIC\",\"SecretArn\":\"arn:aws:secretsmanager:ap-south-1:111122223333:secret:snowflake-XHb67j\"}"
         public let parameters: [String: String]?
-        /// A list of comma separated tags to add to the data catalog that is created.
+        /// A list of comma separated tags to add to the data catalog that is created. All the resources that are created by the CreateDataCatalog API operation with FEDERATED type will have the tag federated_athena_datacatalog="true". This includes the CFN Stack, Glue Connection, Athena DataCatalog, and all the resources created as part of the CFN Stack (Lambda Function, IAM policies/roles).
         public let tags: [Tag]?
-        /// The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
+        /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for an Glue Data Catalog, and HIVE for an external Apache Hive metastore. FEDERATED is a federated catalog for which Athena creates the connection and the Lambda function for you based on the parameters that you pass.
         public let type: DataCatalogType
 
         @inlinable
@@ -722,7 +760,16 @@ extension Athena {
     }
 
     public struct CreateDataCatalogOutput: AWSDecodableShape {
-        public init() {}
+        public let dataCatalog: DataCatalog?
+
+        @inlinable
+        public init(dataCatalog: DataCatalog? = nil) {
+            self.dataCatalog = dataCatalog
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataCatalog = "DataCatalog"
+        }
     }
 
     public struct CreateNamedQueryInput: AWSEncodableShape {
@@ -975,27 +1022,39 @@ extension Athena {
     }
 
     public struct DataCatalog: AWSDecodableShape {
+        /// The type of connection for a FEDERATED data catalog (for example, REDSHIFT, MYSQL, or SQLSERVER). For information about individual connectors, see Available data source connectors.
+        public let connectionType: ConnectionType?
         /// An optional description of the data catalog.
         public let description: String?
+        /// Text of the error that occurred during data catalog creation or deletion.
+        public let error: String?
         /// The name of the data catalog. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
         public let name: String
-        /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn     If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The  catalog_id is the account ID of the Amazon Web Services account to which the Glue catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
+        /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn     If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The  catalog_id is the account ID of the Amazon Web Services account to which the Glue catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.     The FEDERATED data catalog type uses one of the following parameters, but not both. Use connection-arn for an existing Glue connection. Use connection-type and connection-properties to specify the configuration setting for a new connection.    connection-arn:      connection-type:MYSQL|REDSHIFT|...., connection-properties:""  For   , use escaped JSON text, as in the following example.  "{\"spill_bucket\":\"my_spill\",\"spill_prefix\":\"athena-spill\",\"host\":\"abc12345.snowflakecomputing.com\",\"port\":\"1234\",\"warehouse\":\"DEV_WH\",\"database\":\"TEST\",\"schema\":\"PUBLIC\",\"SecretArn\":\"arn:aws:secretsmanager:ap-south-1:111122223333:secret:snowflake-XHb67j\"}"
         public let parameters: [String: String]?
-        /// The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
+        /// The status of the creation or deletion of the data catalog.   The LAMBDA, GLUE, and HIVE data catalog types are created synchronously. Their status is either CREATE_COMPLETE or CREATE_FAILED.   The FEDERATED data catalog type is created asynchronously.   Data catalog creation status:    CREATE_IN_PROGRESS: Federated data catalog creation in progress.    CREATE_COMPLETE: Data catalog creation complete.    CREATE_FAILED: Data catalog could not be created.    CREATE_FAILED_CLEANUP_IN_PROGRESS: Federated data catalog creation failed and is being removed.    CREATE_FAILED_CLEANUP_COMPLETE: Federated data catalog creation failed and was removed.    CREATE_FAILED_CLEANUP_FAILED: Federated data catalog creation failed but could not be removed.   Data catalog deletion status:    DELETE_IN_PROGRESS: Federated data catalog deletion in progress.    DELETE_COMPLETE: Federated data catalog deleted.    DELETE_FAILED: Federated data catalog could not be deleted.
+        public let status: DataCatalogStatus?
+        /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for an Glue Data Catalog, and HIVE for an external Apache Hive metastore. FEDERATED is a federated catalog for which Athena creates the connection and the Lambda function for you based on the parameters that you pass.
         public let type: DataCatalogType
 
         @inlinable
-        public init(description: String? = nil, name: String, parameters: [String: String]? = nil, type: DataCatalogType) {
+        public init(connectionType: ConnectionType? = nil, description: String? = nil, error: String? = nil, name: String, parameters: [String: String]? = nil, status: DataCatalogStatus? = nil, type: DataCatalogType) {
+            self.connectionType = connectionType
             self.description = description
+            self.error = error
             self.name = name
             self.parameters = parameters
+            self.status = status
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionType = "ConnectionType"
             case description = "Description"
+            case error = "Error"
             case name = "Name"
             case parameters = "Parameters"
+            case status = "Status"
             case type = "Type"
         }
     }
@@ -1003,17 +1062,29 @@ extension Athena {
     public struct DataCatalogSummary: AWSDecodableShape {
         /// The name of the data catalog. The catalog name is unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
         public let catalogName: String?
+        /// The type of connection for a FEDERATED data catalog (for example, REDSHIFT, MYSQL, or SQLSERVER). For information about individual connectors, see Available data source connectors.
+        public let connectionType: ConnectionType?
+        /// Text of the error that occurred during data catalog creation or deletion.
+        public let error: String?
+        /// The status of the creation or deletion of the data catalog.   The LAMBDA, GLUE, and HIVE data catalog types are created synchronously. Their status is either CREATE_COMPLETE or CREATE_FAILED.   The FEDERATED data catalog type is created asynchronously.   Data catalog creation status:    CREATE_IN_PROGRESS: Federated data catalog creation in progress.    CREATE_COMPLETE: Data catalog creation complete.    CREATE_FAILED: Data catalog could not be created.    CREATE_FAILED_CLEANUP_IN_PROGRESS: Federated data catalog creation failed and is being removed.    CREATE_FAILED_CLEANUP_COMPLETE: Federated data catalog creation failed and was removed.    CREATE_FAILED_CLEANUP_FAILED: Federated data catalog creation failed but could not be removed.   Data catalog deletion status:    DELETE_IN_PROGRESS: Federated data catalog deletion in progress.    DELETE_COMPLETE: Federated data catalog deleted.    DELETE_FAILED: Federated data catalog could not be deleted.
+        public let status: DataCatalogStatus?
         /// The data catalog type.
         public let type: DataCatalogType?
 
         @inlinable
-        public init(catalogName: String? = nil, type: DataCatalogType? = nil) {
+        public init(catalogName: String? = nil, connectionType: ConnectionType? = nil, error: String? = nil, status: DataCatalogStatus? = nil, type: DataCatalogType? = nil) {
             self.catalogName = catalogName
+            self.connectionType = connectionType
+            self.error = error
+            self.status = status
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogName = "CatalogName"
+            case connectionType = "ConnectionType"
+            case error = "Error"
+            case status = "Status"
             case type = "Type"
         }
     }
@@ -1079,11 +1150,14 @@ extension Athena {
     }
 
     public struct DeleteDataCatalogInput: AWSEncodableShape {
+        /// Deletes the Athena Data Catalog. You can only use this with the FEDERATED catalogs. You usually perform this before registering the connector with Glue Data Catalog. After deletion, you will have to manage the Glue Connection and Lambda function.
+        public let deleteCatalogOnly: Bool?
         /// The name of the data catalog to delete.
         public let name: String
 
         @inlinable
-        public init(name: String) {
+        public init(deleteCatalogOnly: Bool? = nil, name: String) {
+            self.deleteCatalogOnly = deleteCatalogOnly
             self.name = name
         }
 
@@ -1094,12 +1168,22 @@ extension Athena {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deleteCatalogOnly = "DeleteCatalogOnly"
             case name = "Name"
         }
     }
 
     public struct DeleteDataCatalogOutput: AWSDecodableShape {
-        public init() {}
+        public let dataCatalog: DataCatalog?
+
+        @inlinable
+        public init(dataCatalog: DataCatalog? = nil) {
+            self.dataCatalog = dataCatalog
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataCatalog = "DataCatalog"
+        }
     }
 
     public struct DeleteNamedQueryInput: AWSEncodableShape {

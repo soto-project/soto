@@ -553,6 +553,66 @@ extension CleanRooms {
         }
     }
 
+    public enum TableReference: AWSEncodableShape & AWSDecodableShape, Sendable {
+        ///  If present, a reference to the Athena table referred to by this table reference.
+        case athena(AthenaTableReference)
+        /// If present, a reference to the Glue table referred to by this table reference.
+        case glue(GlueTableReference)
+        ///  If present, a reference to the Snowflake table referred to by this table reference.
+        case snowflake(SnowflakeTableReference)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .athena:
+                let value = try container.decode(AthenaTableReference.self, forKey: .athena)
+                self = .athena(value)
+            case .glue:
+                let value = try container.decode(GlueTableReference.self, forKey: .glue)
+                self = .glue(value)
+            case .snowflake:
+                let value = try container.decode(SnowflakeTableReference.self, forKey: .snowflake)
+                self = .snowflake(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .athena(let value):
+                try container.encode(value, forKey: .athena)
+            case .glue(let value):
+                try container.encode(value, forKey: .glue)
+            case .snowflake(let value):
+                try container.encode(value, forKey: .snowflake)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .athena(let value):
+                try value.validate(name: "\(name).athena")
+            case .glue(let value):
+                try value.validate(name: "\(name).glue")
+            case .snowflake(let value):
+                try value.validate(name: "\(name).snowflake")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case athena = "athena"
+            case glue = "glue"
+            case snowflake = "snowflake"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AggregateColumn: AWSEncodableShape & AWSDecodableShape {
@@ -1012,6 +1072,45 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct AthenaTableReference: AWSEncodableShape & AWSDecodableShape {
+        ///  The database name.
+        public let databaseName: String
+        ///  The output location for the Athena table.
+        public let outputLocation: String?
+        ///  The table reference.
+        public let tableName: String
+        ///  The workgroup of the Athena table reference.
+        public let workGroup: String
+
+        @inlinable
+        public init(databaseName: String, outputLocation: String? = nil, tableName: String, workGroup: String) {
+            self.databaseName = databaseName
+            self.outputLocation = outputLocation
+            self.tableName = tableName
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 128)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[a-zA-Z0-9_](([a-zA-Z0-9_]+-)*([a-zA-Z0-9_]+))?$")
+            try self.validate(self.outputLocation, name: "outputLocation", parent: name, max: 1024)
+            try self.validate(self.outputLocation, name: "outputLocation", parent: name, min: 8)
+            try self.validate(self.outputLocation, name: "outputLocation", parent: name, pattern: "^s3://[a-z0-9.-]{3,63}(.*)$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 128)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?$")
+            try self.validate(self.workGroup, name: "workGroup", parent: name, max: 128)
+            try self.validate(self.workGroup, name: "workGroup", parent: name, min: 1)
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^([a-zA-Z0-9._-])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "databaseName"
+            case outputLocation = "outputLocation"
+            case tableName = "tableName"
+            case workGroup = "workGroup"
         }
     }
 
@@ -1988,7 +2087,7 @@ extension CleanRooms {
         public let id: String
         /// A name for the configured table.
         public let name: String
-        /// The Glue table that this configured table represents.
+        /// The table that this configured table represents.
         public let tableReference: TableReference
         /// The time the configured table was last updated
         public let updateTime: Date
@@ -2773,7 +2872,7 @@ extension CleanRooms {
         public let description: String?
         /// The name of the configured table.
         public let name: String
-        /// A reference to the Glue table being configured.
+        /// A reference to the table being configured.
         public let tableReference: TableReference
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
@@ -7143,6 +7242,83 @@ extension CleanRooms {
         }
     }
 
+    public struct SnowflakeTableReference: AWSEncodableShape & AWSDecodableShape {
+        ///  The account identifier for the Snowflake table reference.
+        public let accountIdentifier: String
+        ///  The name of the database the Snowflake table belongs to.
+        public let databaseName: String
+        ///  The schema name of the Snowflake table reference.
+        public let schemaName: String
+        ///  The secret ARN of the Snowflake table reference.
+        public let secretArn: String
+        ///  The name of the Snowflake table.
+        public let tableName: String
+        ///  The schema of the Snowflake table.
+        public let tableSchema: SnowflakeTableSchema
+
+        @inlinable
+        public init(accountIdentifier: String, databaseName: String, schemaName: String, secretArn: String, tableName: String, tableSchema: SnowflakeTableSchema) {
+            self.accountIdentifier = accountIdentifier
+            self.databaseName = databaseName
+            self.schemaName = schemaName
+            self.secretArn = secretArn
+            self.tableName = tableName
+            self.tableSchema = tableSchema
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountIdentifier, name: "accountIdentifier", parent: name, max: 256)
+            try self.validate(self.accountIdentifier, name: "accountIdentifier", parent: name, min: 3)
+            try self.validate(self.accountIdentifier, name: "accountIdentifier", parent: name, pattern: "^[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}\\p{Zs}.]+$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 256)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}\\p{Zs}]+$")
+            try self.validate(self.schemaName, name: "schemaName", parent: name, max: 256)
+            try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "^[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}\\p{Zs}]+$")
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 256)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:aws:secretsmanager:[a-z]{2}-[a-z]+-[0-9]:\\d{12}:secret:.*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 256)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\p{L}\\p{M}\\p{N}\\p{Pc}\\p{Pd}\\p{Zs}]+$")
+            try self.tableSchema.validate(name: "\(name).tableSchema")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIdentifier = "accountIdentifier"
+            case databaseName = "databaseName"
+            case schemaName = "schemaName"
+            case secretArn = "secretArn"
+            case tableName = "tableName"
+            case tableSchema = "tableSchema"
+        }
+    }
+
+    public struct SnowflakeTableSchemaV1: AWSEncodableShape & AWSDecodableShape {
+        ///  The column name.
+        public let columnName: String
+        ///  The column's data type. Supported data types: ARRAY, BIGINT, BOOLEAN, CHAR, DATE, DECIMAL, DOUBLE, DOUBLE PRECISION, FLOAT, FLOAT4, INT, INTEGER, MAP, NUMERIC, NUMBER, REAL, SMALLINT, STRING, TIMESTAMP, TIMESTAMP_LTZ, TIMESTAMP_NTZ, DATETIME, TINYINT, VARCHAR, TEXT, CHARACTER.
+        public let columnType: String
+
+        @inlinable
+        public init(columnName: String, columnType: String) {
+            self.columnName = columnName
+            self.columnType = columnType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.columnName, name: "columnName", parent: name, max: 128)
+            try self.validate(self.columnName, name: "columnName", parent: name, pattern: "^[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?$")
+            try self.validate(self.columnType, name: "columnType", parent: name, max: 255)
+            try self.validate(self.columnType, name: "columnType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case columnType = "columnType"
+        }
+    }
+
     public struct StartProtectedQueryInput: AWSEncodableShape {
         ///  The compute configuration for the protected query.
         public let computeConfiguration: ComputeConfiguration?
@@ -8206,21 +8382,25 @@ extension CleanRooms {
         }
     }
 
-    public struct TableReference: AWSEncodableShape & AWSDecodableShape {
-        /// If present, a reference to the Glue table referred to by this table reference.
-        public let glue: GlueTableReference?
+    public struct SnowflakeTableSchema: AWSEncodableShape & AWSDecodableShape {
+        ///  The schema of a Snowflake table.
+        public let v1: [SnowflakeTableSchemaV1]?
 
         @inlinable
-        public init(glue: GlueTableReference? = nil) {
-            self.glue = glue
+        public init(v1: [SnowflakeTableSchemaV1]? = nil) {
+            self.v1 = v1
         }
 
         public func validate(name: String) throws {
-            try self.glue?.validate(name: "\(name).glue")
+            try self.v1?.forEach {
+                try $0.validate(name: "\(name).v1[]")
+            }
+            try self.validate(self.v1, name: "v1", parent: name, max: 250)
+            try self.validate(self.v1, name: "v1", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case glue = "glue"
+            case v1 = "v1"
         }
     }
 }

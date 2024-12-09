@@ -32,6 +32,19 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnalysisStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case processing = "PROCESSING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customCommitment = "CUSTOM_COMMITMENT"
+        case maxSavings = "MAX_SAVINGS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnomalyFeedbackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case no = "NO"
         case plannedActivity = "PLANNED_ACTIVITY"
@@ -153,6 +166,15 @@ extension CostExplorer {
         case tenancy = "TENANCY"
         case usageType = "USAGE_TYPE"
         case usageTypeGroup = "USAGE_TYPE_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalFailure = "INTERNAL_FAILURE"
+        case invalidAccountId = "INVALID_ACCOUNT_ID"
+        case invalidSavingsPlansToAdd = "INVALID_SAVINGS_PLANS_TO_ADD"
+        case invalidSavingsPlansToExclude = "INVALID_SAVINGS_PLANS_TO_EXCLUDE"
+        case noUsageFound = "NO_USAGE_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -326,6 +348,58 @@ extension CostExplorer {
 
     // MARK: Shapes
 
+    public struct AnalysisDetails: AWSDecodableShape {
+        /// Details about the Savings Plans purchase analysis.
+        public let savingsPlansPurchaseAnalysisDetails: SavingsPlansPurchaseAnalysisDetails?
+
+        @inlinable
+        public init(savingsPlansPurchaseAnalysisDetails: SavingsPlansPurchaseAnalysisDetails? = nil) {
+            self.savingsPlansPurchaseAnalysisDetails = savingsPlansPurchaseAnalysisDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case savingsPlansPurchaseAnalysisDetails = "SavingsPlansPurchaseAnalysisDetails"
+        }
+    }
+
+    public struct AnalysisSummary: AWSDecodableShape {
+        /// The completion time of the analysis.
+        public let analysisCompletionTime: String?
+        /// The analysis ID that's associated with the commitment purchase analysis.
+        public let analysisId: String?
+        /// The start time of the analysis.
+        public let analysisStartedTime: String?
+        /// The status of the analysis.
+        public let analysisStatus: AnalysisStatus?
+        /// The configuration for the commitment purchase analysis.
+        public let commitmentPurchaseAnalysisConfiguration: CommitmentPurchaseAnalysisConfiguration?
+        /// The error code used for the analysis.
+        public let errorCode: ErrorCode?
+        /// The estimated time for when the analysis will complete.
+        public let estimatedCompletionTime: String?
+
+        @inlinable
+        public init(analysisCompletionTime: String? = nil, analysisId: String? = nil, analysisStartedTime: String? = nil, analysisStatus: AnalysisStatus? = nil, commitmentPurchaseAnalysisConfiguration: CommitmentPurchaseAnalysisConfiguration? = nil, errorCode: ErrorCode? = nil, estimatedCompletionTime: String? = nil) {
+            self.analysisCompletionTime = analysisCompletionTime
+            self.analysisId = analysisId
+            self.analysisStartedTime = analysisStartedTime
+            self.analysisStatus = analysisStatus
+            self.commitmentPurchaseAnalysisConfiguration = commitmentPurchaseAnalysisConfiguration
+            self.errorCode = errorCode
+            self.estimatedCompletionTime = estimatedCompletionTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisCompletionTime = "AnalysisCompletionTime"
+            case analysisId = "AnalysisId"
+            case analysisStartedTime = "AnalysisStartedTime"
+            case analysisStatus = "AnalysisStatus"
+            case commitmentPurchaseAnalysisConfiguration = "CommitmentPurchaseAnalysisConfiguration"
+            case errorCode = "ErrorCode"
+            case estimatedCompletionTime = "EstimatedCompletionTime"
+        }
+    }
+
     public struct Anomaly: AWSDecodableShape {
         /// The last day the anomaly is detected.
         public let anomalyEndDate: String?
@@ -335,7 +409,7 @@ extension CostExplorer {
         public let anomalyScore: AnomalyScore
         /// The first day the anomaly is detected.
         public let anomalyStartDate: String?
-        /// The dimension for the anomaly (for example, an Amazon Web Servicesservice in a service monitor).
+        /// The dimension for the anomaly (for example, an Amazon Web Services service in a service monitor).
         public let dimensionValue: String?
         /// The feedback value.
         public let feedback: AnomalyFeedbackType?
@@ -546,6 +620,24 @@ extension CostExplorer {
             case subscriptionName = "SubscriptionName"
             case threshold = "Threshold"
             case thresholdExpression = "ThresholdExpression"
+        }
+    }
+
+    public struct CommitmentPurchaseAnalysisConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for the Savings Plans purchase analysis.
+        public let savingsPlansPurchaseAnalysisConfiguration: SavingsPlansPurchaseAnalysisConfiguration?
+
+        @inlinable
+        public init(savingsPlansPurchaseAnalysisConfiguration: SavingsPlansPurchaseAnalysisConfiguration? = nil) {
+            self.savingsPlansPurchaseAnalysisConfiguration = savingsPlansPurchaseAnalysisConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.savingsPlansPurchaseAnalysisConfiguration?.validate(name: "\(name).savingsPlansPurchaseAnalysisConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case savingsPlansPurchaseAnalysisConfiguration = "SavingsPlansPurchaseAnalysisConfiguration"
         }
     }
 
@@ -1997,6 +2089,68 @@ extension CostExplorer {
         }
     }
 
+    public struct GetCommitmentPurchaseAnalysisRequest: AWSEncodableShape {
+        /// The analysis ID that's associated with the commitment purchase analysis.
+        public let analysisId: String
+
+        @inlinable
+        public init(analysisId: String) {
+            self.analysisId = analysisId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 36)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, min: 36)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "^[\\S\\s]{8}-[\\S\\s]{4}-[\\S\\s]{4}-[\\S\\s]{4}-[\\S\\s]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "AnalysisId"
+        }
+    }
+
+    public struct GetCommitmentPurchaseAnalysisResponse: AWSDecodableShape {
+        /// The completion time of the analysis.
+        public let analysisCompletionTime: String?
+        /// Details about the analysis.
+        public let analysisDetails: AnalysisDetails?
+        /// The analysis ID that's associated with the commitment purchase analysis.
+        public let analysisId: String
+        /// The start time of the analysis.
+        public let analysisStartedTime: String
+        /// The status of the analysis.
+        public let analysisStatus: AnalysisStatus
+        /// The configuration for the commitment purchase analysis.
+        public let commitmentPurchaseAnalysisConfiguration: CommitmentPurchaseAnalysisConfiguration
+        /// The error code used for the analysis.
+        public let errorCode: ErrorCode?
+        /// The estimated time for when the analysis will complete.
+        public let estimatedCompletionTime: String
+
+        @inlinable
+        public init(analysisCompletionTime: String? = nil, analysisDetails: AnalysisDetails? = nil, analysisId: String, analysisStartedTime: String, analysisStatus: AnalysisStatus, commitmentPurchaseAnalysisConfiguration: CommitmentPurchaseAnalysisConfiguration, errorCode: ErrorCode? = nil, estimatedCompletionTime: String) {
+            self.analysisCompletionTime = analysisCompletionTime
+            self.analysisDetails = analysisDetails
+            self.analysisId = analysisId
+            self.analysisStartedTime = analysisStartedTime
+            self.analysisStatus = analysisStatus
+            self.commitmentPurchaseAnalysisConfiguration = commitmentPurchaseAnalysisConfiguration
+            self.errorCode = errorCode
+            self.estimatedCompletionTime = estimatedCompletionTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisCompletionTime = "AnalysisCompletionTime"
+            case analysisDetails = "AnalysisDetails"
+            case analysisId = "AnalysisId"
+            case analysisStartedTime = "AnalysisStartedTime"
+            case analysisStatus = "AnalysisStatus"
+            case commitmentPurchaseAnalysisConfiguration = "CommitmentPurchaseAnalysisConfiguration"
+            case errorCode = "ErrorCode"
+            case estimatedCompletionTime = "EstimatedCompletionTime"
+        }
+    }
+
     public struct GetCostAndUsageRequest: AWSEncodableShape {
         /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
         public let filter: Expression?
@@ -2282,7 +2436,7 @@ extension CostExplorer {
     }
 
     public struct GetDimensionValuesRequest: AWSEncodableShape {
-        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Servicesservices. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Servicesservices in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
+        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
         public let context: Context?
         /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.
         public let dimension: Dimension
@@ -2524,7 +2678,7 @@ extension CostExplorer {
     }
 
     public struct GetReservationUtilizationRequest: AWSEncodableShape {
-        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
+        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE  If  not specified, the SERVICE filter defaults to Amazon Elastic Compute Cloud - Compute. Supported values for SERVICE are Amazon Elastic Compute Cloud - Compute, Amazon Relational Database Service, Amazon ElastiCache, Amazon Redshift, and Amazon Elasticsearch Service. The value for the SERVICE filter should not exceed "1".    SCOPE   TENANCY    GetReservationUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
         public let filter: Expression?
         /// If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. If both GroupBy and Granularity aren't set, GetReservationUtilization defaults to DAILY. The GetReservationUtilization operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
@@ -3201,6 +3355,62 @@ extension CostExplorer {
             case memoryDBInstanceDetails = "MemoryDBInstanceDetails"
             case rdsInstanceDetails = "RDSInstanceDetails"
             case redshiftInstanceDetails = "RedshiftInstanceDetails"
+        }
+    }
+
+    public struct ListCommitmentPurchaseAnalysesRequest: AWSEncodableShape {
+        /// The analysis IDs associated with the commitment purchase analyses.
+        public let analysisIds: [String]?
+        /// The status of the analysis.
+        public let analysisStatus: AnalysisStatus?
+        /// The token to retrieve the next set of results.
+        public let nextPageToken: String?
+        /// The number of analyses that you want returned in a single response object.
+        public let pageSize: Int?
+
+        @inlinable
+        public init(analysisIds: [String]? = nil, analysisStatus: AnalysisStatus? = nil, nextPageToken: String? = nil, pageSize: Int? = nil) {
+            self.analysisIds = analysisIds
+            self.analysisStatus = analysisStatus
+            self.nextPageToken = nextPageToken
+            self.pageSize = pageSize
+        }
+
+        public func validate(name: String) throws {
+            try self.analysisIds?.forEach {
+                try validate($0, name: "analysisIds[]", parent: name, max: 36)
+                try validate($0, name: "analysisIds[]", parent: name, min: 36)
+                try validate($0, name: "analysisIds[]", parent: name, pattern: "^[\\S\\s]{8}-[\\S\\s]{4}-[\\S\\s]{4}-[\\S\\s]{4}-[\\S\\s]{12}$")
+            }
+            try self.validate(self.analysisIds, name: "analysisIds", parent: name, max: 600)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisIds = "AnalysisIds"
+            case analysisStatus = "AnalysisStatus"
+            case nextPageToken = "NextPageToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListCommitmentPurchaseAnalysesResponse: AWSDecodableShape {
+        /// The list of analyses.
+        public let analysisSummaryList: [AnalysisSummary]?
+        /// The token to retrieve the next set of results.
+        public let nextPageToken: String?
+
+        @inlinable
+        public init(analysisSummaryList: [AnalysisSummary]? = nil, nextPageToken: String? = nil) {
+            self.analysisSummaryList = analysisSummaryList
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisSummaryList = "AnalysisSummaryList"
+            case nextPageToken = "NextPageToken"
         }
     }
 
@@ -3940,15 +4150,15 @@ extension CostExplorer {
         public let accountId: String?
         /// The average number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let averageNormalizedUnitsUsedPerHour: String?
-        /// The average number of provisioned capacity units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        /// The average number of provisioned capacity units that you used in an hour during the  historical period. Amazon Web Services uses this to calculate your recommended  reservation purchases.
         public let averageNumberOfCapacityUnitsUsedPerHour: String?
         /// The average number of instances that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let averageNumberOfInstancesUsedPerHour: String?
-        /// The average utilization of your recommendations. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        /// The average utilization of your instances. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let averageUtilization: String?
-        /// The currency code that Amazon Web Services used to calculate the costs for this recommendation.
+        /// The currency code that Amazon Web Services used to calculate the costs for this instance.
         public let currencyCode: String?
-        /// How long Amazon Web Services estimates that it takes for this recommendation to start saving you money, in months.
+        /// How long Amazon Web Services estimates that it takes for this instance to start saving you money, in months.
         public let estimatedBreakEvenInMonths: String?
         /// How much Amazon Web Services estimates that you spend on On-Demand Instances in a month.
         public let estimatedMonthlyOnDemandCost: String?
@@ -3962,27 +4172,27 @@ extension CostExplorer {
         public let instanceDetails: InstanceDetails?
         /// The maximum number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let maximumNormalizedUnitsUsedPerHour: String?
-        /// The maximum number of provisioned capacity units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        /// The maximum number of provisioned capacity units that you used in an hour during the  historical period. Amazon Web Services uses this to calculate your recommended  reservation purchases.
         public let maximumNumberOfCapacityUnitsUsedPerHour: String?
         /// The maximum number of instances that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let maximumNumberOfInstancesUsedPerHour: String?
         /// The minimum number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let minimumNormalizedUnitsUsedPerHour: String?
-        /// The minimum number of provisioned capacity units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        /// The minimum number of provisioned capacity units that you used in an hour during the  historical period. Amazon Web Services uses this to calculate your recommended  reservation purchases.
         public let minimumNumberOfCapacityUnitsUsedPerHour: String?
         /// The minimum number of instances that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let minimumNumberOfInstancesUsedPerHour: String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public let recommendedNormalizedUnitsToPurchase: String?
-        /// The number of reserved capacity units that Amazon Web Services recommends that you purchase.
+        /// The number of reserved capacity units that Amazon Web Services recommends that you  purchase.
         public let recommendedNumberOfCapacityUnitsToPurchase: String?
         /// The number of instances that Amazon Web Services recommends that you purchase.
         public let recommendedNumberOfInstancesToPurchase: String?
-        /// How much purchasing this recommendation costs you on a monthly basis.
+        /// How much purchasing this instance costs you on a monthly basis.
         public let recurringStandardMonthlyCost: String?
-        /// Details about the reservations that Amazon Web Services recommends that you purchase.
+        /// Details about the reservations that Amazon Web Services recommends that you  purchase.
         public let reservedCapacityDetails: ReservedCapacityDetails?
-        /// How much purchasing this recommendation costs you upfront.
+        /// How much purchasing this instance costs you upfront.
         public let upfrontCost: String?
 
         @inlinable
@@ -4310,19 +4520,22 @@ extension CostExplorer {
     }
 
     public struct RootCause: AWSDecodableShape {
+        /// The dollar impact for the root cause.
+        public let impact: RootCauseImpact?
         /// The member account value that's associated with the cost anomaly.
         public let linkedAccount: String?
         /// The member account name value that's associated with the cost anomaly.
         public let linkedAccountName: String?
         /// The Amazon Web Services Region that's associated with the cost anomaly.
         public let region: String?
-        /// The Amazon Web Servicesservice name that's associated with the cost anomaly.
+        /// The Amazon Web Services service name that's associated with the cost anomaly.
         public let service: String?
         /// The UsageType value that's associated with the cost anomaly.
         public let usageType: String?
 
         @inlinable
-        public init(linkedAccount: String? = nil, linkedAccountName: String? = nil, region: String? = nil, service: String? = nil, usageType: String? = nil) {
+        public init(impact: RootCauseImpact? = nil, linkedAccount: String? = nil, linkedAccountName: String? = nil, region: String? = nil, service: String? = nil, usageType: String? = nil) {
+            self.impact = impact
             self.linkedAccount = linkedAccount
             self.linkedAccountName = linkedAccountName
             self.region = region
@@ -4331,11 +4544,75 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case impact = "Impact"
             case linkedAccount = "LinkedAccount"
             case linkedAccountName = "LinkedAccountName"
             case region = "Region"
             case service = "Service"
             case usageType = "UsageType"
+        }
+    }
+
+    public struct RootCauseImpact: AWSDecodableShape {
+        /// The dollar amount that this root cause contributed to the anomaly's TotalImpact.
+        public let contribution: Double
+
+        @inlinable
+        public init(contribution: Double) {
+            self.contribution = contribution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contribution = "Contribution"
+        }
+    }
+
+    public struct SavingsPlans: AWSEncodableShape & AWSDecodableShape {
+        /// The instance family of the Savings Plans commitment.
+        public let instanceFamily: String?
+        /// The unique ID that's used to distinguish Savings Plans commitments from one another.
+        public let offeringId: String?
+        /// The payment option for the Savings Plans commitment.
+        public let paymentOption: PaymentOption?
+        /// The Region associated with the Savings Plans commitment.
+        public let region: String?
+        /// The Savings Plans commitment.
+        public let savingsPlansCommitment: Double?
+        /// The Savings Plans type.
+        public let savingsPlansType: SupportedSavingsPlansType?
+        /// The term that you want the Savings Plans commitment for.
+        public let termInYears: TermInYears?
+
+        @inlinable
+        public init(instanceFamily: String? = nil, offeringId: String? = nil, paymentOption: PaymentOption? = nil, region: String? = nil, savingsPlansCommitment: Double? = nil, savingsPlansType: SupportedSavingsPlansType? = nil, termInYears: TermInYears? = nil) {
+            self.instanceFamily = instanceFamily
+            self.offeringId = offeringId
+            self.paymentOption = paymentOption
+            self.region = region
+            self.savingsPlansCommitment = savingsPlansCommitment
+            self.savingsPlansType = savingsPlansType
+            self.termInYears = termInYears
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceFamily, name: "instanceFamily", parent: name, max: 1024)
+            try self.validate(self.instanceFamily, name: "instanceFamily", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.offeringId, name: "offeringId", parent: name, max: 1024)
+            try self.validate(self.offeringId, name: "offeringId", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.region, name: "region", parent: name, max: 1024)
+            try self.validate(self.region, name: "region", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.savingsPlansCommitment, name: "savingsPlansCommitment", parent: name, max: 5000.0)
+            try self.validate(self.savingsPlansCommitment, name: "savingsPlansCommitment", parent: name, min: 0.001)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceFamily = "InstanceFamily"
+            case offeringId = "OfferingId"
+            case paymentOption = "PaymentOption"
+            case region = "Region"
+            case savingsPlansCommitment = "SavingsPlansCommitment"
+            case savingsPlansType = "SavingsPlansType"
+            case termInYears = "TermInYears"
         }
     }
 
@@ -4427,6 +4704,156 @@ extension CostExplorer {
             case instanceFamily = "InstanceFamily"
             case offeringId = "OfferingId"
             case region = "Region"
+        }
+    }
+
+    public struct SavingsPlansPurchaseAnalysisConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The account that the analysis is for.
+        public let accountId: String?
+        /// The account scope that you want your analysis for.
+        public let accountScope: AccountScope?
+        /// The type of analysis.
+        public let analysisType: AnalysisType
+        /// The time period associated with the analysis.
+        public let lookBackTimePeriod: DateInterval
+        /// Savings Plans to include in the analysis.
+        public let savingsPlansToAdd: [SavingsPlans]
+        /// Savings Plans to exclude from the analysis.
+        public let savingsPlansToExclude: [String]?
+
+        @inlinable
+        public init(accountId: String? = nil, accountScope: AccountScope? = nil, analysisType: AnalysisType, lookBackTimePeriod: DateInterval, savingsPlansToAdd: [SavingsPlans], savingsPlansToExclude: [String]? = nil) {
+            self.accountId = accountId
+            self.accountScope = accountScope
+            self.analysisType = analysisType
+            self.lookBackTimePeriod = lookBackTimePeriod
+            self.savingsPlansToAdd = savingsPlansToAdd
+            self.savingsPlansToExclude = savingsPlansToExclude
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.lookBackTimePeriod.validate(name: "\(name).lookBackTimePeriod")
+            try self.savingsPlansToAdd.forEach {
+                try $0.validate(name: "\(name).savingsPlansToAdd[]")
+            }
+            try self.validate(self.savingsPlansToAdd, name: "savingsPlansToAdd", parent: name, max: 1)
+            try self.validate(self.savingsPlansToAdd, name: "savingsPlansToAdd", parent: name, min: 1)
+            try self.savingsPlansToExclude?.forEach {
+                try validate($0, name: "savingsPlansToExclude[]", parent: name, max: 36)
+                try validate($0, name: "savingsPlansToExclude[]", parent: name, min: 36)
+                try validate($0, name: "savingsPlansToExclude[]", parent: name, pattern: "^[\\S\\s]{8}-[\\S\\s]{4}-[\\S\\s]{4}-[\\S\\s]{4}-[\\S\\s]{12}$")
+            }
+            try self.validate(self.savingsPlansToExclude, name: "savingsPlansToExclude", parent: name, max: 1000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case accountScope = "AccountScope"
+            case analysisType = "AnalysisType"
+            case lookBackTimePeriod = "LookBackTimePeriod"
+            case savingsPlansToAdd = "SavingsPlansToAdd"
+            case savingsPlansToExclude = "SavingsPlansToExclude"
+        }
+    }
+
+    public struct SavingsPlansPurchaseAnalysisDetails: AWSDecodableShape {
+        /// Additional metadata that might be applicable to the commitment.
+        public let additionalMetadata: String?
+        /// The currency code used for the analysis.
+        public let currencyCode: String?
+        /// The average value of hourly coverage over the lookback period.
+        public let currentAverageCoverage: String?
+        /// The average value of hourly On-Demand spend over the lookback period.
+        public let currentAverageHourlyOnDemandSpend: String?
+        /// The highest value of hourly On-Demand spend over the lookback period.
+        public let currentMaximumHourlyOnDemandSpend: String?
+        /// The lowest value of hourly On-Demand spend over the lookback period.
+        public let currentMinimumHourlyOnDemandSpend: String?
+        /// The current total On-Demand spend over the lookback period.
+        public let currentOnDemandSpend: String?
+        /// The estimated coverage of the Savings Plan.
+        public let estimatedAverageCoverage: String?
+        /// The estimated utilization of the Savings Plan.
+        public let estimatedAverageUtilization: String?
+        /// The estimated cost of the Savings Plan over the length of the lookback period.
+        public let estimatedCommitmentCost: String?
+        /// The estimated monthly savings amount based on the Savings Plan.
+        public let estimatedMonthlySavingsAmount: String?
+        /// The remaining On-Demand cost estimated to not be covered by the Savings Plan over the length of the lookback period.
+        public let estimatedOnDemandCost: String?
+        /// The estimated On-Demand cost you expect with no additional commitment based on your usage of the selected time period and the Savings Plan you own.
+        public let estimatedOnDemandCostWithCurrentCommitment: String?
+        /// The estimated return on investment that's based on the Savings Plan and estimated savings. This is calculated as estimatedSavingsAmount/estimatedSPCost*100.
+        public let estimatedROI: String?
+        /// The estimated savings amount that's based on the Savings Plan over the length of the lookback period.
+        public let estimatedSavingsAmount: String?
+        /// The estimated savings percentage relative to the total cost over the cost calculation lookback period.
+        public let estimatedSavingsPercentage: String?
+        /// The existing hourly commitment for the Savings Plan type.
+        public let existingHourlyCommitment: String?
+        /// The recommended or custom hourly commitment.
+        public let hourlyCommitmentToPurchase: String?
+        /// The date and time of the last hour that went into the analysis.
+        public let latestUsageTimestamp: String?
+        /// The lookback period in hours that's used to generate the analysis.
+        public let lookbackPeriodInHours: String?
+        /// The related hourly cost, coverage, and utilization metrics over the lookback period.
+        public let metricsOverLookbackPeriod: [RecommendationDetailHourlyMetrics]?
+        /// The upfront cost of the Savings Plan based on the selected payment option.
+        public let upfrontCost: String?
+
+        @inlinable
+        public init(additionalMetadata: String? = nil, currencyCode: String? = nil, currentAverageCoverage: String? = nil, currentAverageHourlyOnDemandSpend: String? = nil, currentMaximumHourlyOnDemandSpend: String? = nil, currentMinimumHourlyOnDemandSpend: String? = nil, currentOnDemandSpend: String? = nil, estimatedAverageCoverage: String? = nil, estimatedAverageUtilization: String? = nil, estimatedCommitmentCost: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCost: String? = nil, estimatedOnDemandCostWithCurrentCommitment: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, existingHourlyCommitment: String? = nil, hourlyCommitmentToPurchase: String? = nil, latestUsageTimestamp: String? = nil, lookbackPeriodInHours: String? = nil, metricsOverLookbackPeriod: [RecommendationDetailHourlyMetrics]? = nil, upfrontCost: String? = nil) {
+            self.additionalMetadata = additionalMetadata
+            self.currencyCode = currencyCode
+            self.currentAverageCoverage = currentAverageCoverage
+            self.currentAverageHourlyOnDemandSpend = currentAverageHourlyOnDemandSpend
+            self.currentMaximumHourlyOnDemandSpend = currentMaximumHourlyOnDemandSpend
+            self.currentMinimumHourlyOnDemandSpend = currentMinimumHourlyOnDemandSpend
+            self.currentOnDemandSpend = currentOnDemandSpend
+            self.estimatedAverageCoverage = estimatedAverageCoverage
+            self.estimatedAverageUtilization = estimatedAverageUtilization
+            self.estimatedCommitmentCost = estimatedCommitmentCost
+            self.estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmount
+            self.estimatedOnDemandCost = estimatedOnDemandCost
+            self.estimatedOnDemandCostWithCurrentCommitment = estimatedOnDemandCostWithCurrentCommitment
+            self.estimatedROI = estimatedROI
+            self.estimatedSavingsAmount = estimatedSavingsAmount
+            self.estimatedSavingsPercentage = estimatedSavingsPercentage
+            self.existingHourlyCommitment = existingHourlyCommitment
+            self.hourlyCommitmentToPurchase = hourlyCommitmentToPurchase
+            self.latestUsageTimestamp = latestUsageTimestamp
+            self.lookbackPeriodInHours = lookbackPeriodInHours
+            self.metricsOverLookbackPeriod = metricsOverLookbackPeriod
+            self.upfrontCost = upfrontCost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalMetadata = "AdditionalMetadata"
+            case currencyCode = "CurrencyCode"
+            case currentAverageCoverage = "CurrentAverageCoverage"
+            case currentAverageHourlyOnDemandSpend = "CurrentAverageHourlyOnDemandSpend"
+            case currentMaximumHourlyOnDemandSpend = "CurrentMaximumHourlyOnDemandSpend"
+            case currentMinimumHourlyOnDemandSpend = "CurrentMinimumHourlyOnDemandSpend"
+            case currentOnDemandSpend = "CurrentOnDemandSpend"
+            case estimatedAverageCoverage = "EstimatedAverageCoverage"
+            case estimatedAverageUtilization = "EstimatedAverageUtilization"
+            case estimatedCommitmentCost = "EstimatedCommitmentCost"
+            case estimatedMonthlySavingsAmount = "EstimatedMonthlySavingsAmount"
+            case estimatedOnDemandCost = "EstimatedOnDemandCost"
+            case estimatedOnDemandCostWithCurrentCommitment = "EstimatedOnDemandCostWithCurrentCommitment"
+            case estimatedROI = "EstimatedROI"
+            case estimatedSavingsAmount = "EstimatedSavingsAmount"
+            case estimatedSavingsPercentage = "EstimatedSavingsPercentage"
+            case existingHourlyCommitment = "ExistingHourlyCommitment"
+            case hourlyCommitmentToPurchase = "HourlyCommitmentToPurchase"
+            case latestUsageTimestamp = "LatestUsageTimestamp"
+            case lookbackPeriodInHours = "LookbackPeriodInHours"
+            case metricsOverLookbackPeriod = "MetricsOverLookbackPeriod"
+            case upfrontCost = "UpfrontCost"
         }
     }
 
@@ -4777,6 +5204,46 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct StartCommitmentPurchaseAnalysisRequest: AWSEncodableShape {
+        /// The configuration for the commitment purchase analysis.
+        public let commitmentPurchaseAnalysisConfiguration: CommitmentPurchaseAnalysisConfiguration
+
+        @inlinable
+        public init(commitmentPurchaseAnalysisConfiguration: CommitmentPurchaseAnalysisConfiguration) {
+            self.commitmentPurchaseAnalysisConfiguration = commitmentPurchaseAnalysisConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.commitmentPurchaseAnalysisConfiguration.validate(name: "\(name).commitmentPurchaseAnalysisConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitmentPurchaseAnalysisConfiguration = "CommitmentPurchaseAnalysisConfiguration"
+        }
+    }
+
+    public struct StartCommitmentPurchaseAnalysisResponse: AWSDecodableShape {
+        /// The analysis ID that's associated with the commitment purchase analysis.
+        public let analysisId: String
+        /// The start time of the analysis.
+        public let analysisStartedTime: String
+        /// The estimated time for when the analysis will complete.
+        public let estimatedCompletionTime: String
+
+        @inlinable
+        public init(analysisId: String, analysisStartedTime: String, estimatedCompletionTime: String) {
+            self.analysisId = analysisId
+            self.analysisStartedTime = analysisStartedTime
+            self.estimatedCompletionTime = estimatedCompletionTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "AnalysisId"
+            case analysisStartedTime = "AnalysisStartedTime"
+            case estimatedCompletionTime = "EstimatedCompletionTime"
         }
     }
 
@@ -5321,6 +5788,7 @@ extension CostExplorer {
 /// Error enum for CostExplorer
 public struct CostExplorerErrorType: AWSErrorType {
     enum Code: String {
+        case analysisNotFoundException = "AnalysisNotFoundException"
         case backfillLimitExceededException = "BackfillLimitExceededException"
         case billExpirationException = "BillExpirationException"
         case dataUnavailableException = "DataUnavailableException"
@@ -5354,13 +5822,15 @@ public struct CostExplorerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The requested analysis can't be found.
+    public static var analysisNotFoundException: Self { .init(.analysisNotFoundException) }
     ///  A request to backfill is already in progress. Once the previous request is complete, you can create another request.
     public static var backfillLimitExceededException: Self { .init(.backfillLimitExceededException) }
     /// The requested report expired. Update the date interval and try again.
     public static var billExpirationException: Self { .init(.billExpirationException) }
     /// The requested data is unavailable.
     public static var dataUnavailableException: Self { .init(.dataUnavailableException) }
-    /// A request to generate a recommendation is already in progress.
+    /// A request to generate a recommendation or analysis is already in progress.
     public static var generationExistsException: Self { .init(.generationExistsException) }
     /// The pagination token is invalid. Try again without a pagination token.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }

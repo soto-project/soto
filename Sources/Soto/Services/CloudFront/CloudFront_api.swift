@@ -192,6 +192,41 @@ public struct CloudFront: AWSService {
         return try await self.copyDistribution(input, logger: logger)
     }
 
+    /// Creates an Anycast static IP list.
+    @Sendable
+    @inlinable
+    public func createAnycastIpList(_ input: CreateAnycastIpListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnycastIpListResult {
+        try await self.client.execute(
+            operation: "CreateAnycastIpList", 
+            path: "/2020-05-31/anycast-ip-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Anycast static IP list.
+    ///
+    /// Parameters:
+    ///   - ipCount: The number of static IP addresses that are allocated to the Anycast static IP list.
+    ///   - name: Name of the Anycast static IP list.
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAnycastIpList(
+        ipCount: Int,
+        name: String,
+        tags: Tags? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAnycastIpListResult {
+        let input = CreateAnycastIpListRequest(
+            ipCount: ipCount, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createAnycastIpList(input, logger: logger)
+    }
+
     /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors.
     /// 			When it's attached to a cache behavior, the cache policy determines the
     /// 			following:   The values that CloudFront includes in the cache key. These
@@ -904,6 +939,70 @@ public struct CloudFront: AWSService {
         return try await self.createStreamingDistributionWithTags(input, logger: logger)
     }
 
+    /// Create an Amazon CloudFront VPC origin.
+    @Sendable
+    @inlinable
+    public func createVpcOrigin(_ input: CreateVpcOriginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcOriginResult {
+        try await self.client.execute(
+            operation: "CreateVpcOrigin", 
+            path: "/2020-05-31/vpc-origin", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create an Amazon CloudFront VPC origin.
+    ///
+    /// Parameters:
+    ///   - tags: 
+    ///   - vpcOriginEndpointConfig: The VPC origin endpoint configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createVpcOrigin(
+        tags: Tags? = nil,
+        vpcOriginEndpointConfig: VpcOriginEndpointConfig,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateVpcOriginResult {
+        let input = CreateVpcOriginRequest(
+            tags: tags, 
+            vpcOriginEndpointConfig: vpcOriginEndpointConfig
+        )
+        return try await self.createVpcOrigin(input, logger: logger)
+    }
+
+    /// Deletes an Anycast static IP list.
+    @Sendable
+    @inlinable
+    public func deleteAnycastIpList(_ input: DeleteAnycastIpListRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteAnycastIpList", 
+            path: "/2020-05-31/anycast-ip-list/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Anycast static IP list.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the Anycast static IP list.
+    ///   - ifMatch: The current version (ETag value) of the Anycast static IP list that
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAnycastIpList(
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteAnycastIpListRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.deleteAnycastIpList(input, logger: logger)
+    }
+
     /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update
     /// 			your distributions to remove the cache policy from all cache behaviors, then delete the
     /// 			cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get
@@ -1507,6 +1606,38 @@ public struct CloudFront: AWSService {
         return try await self.deleteStreamingDistribution(input, logger: logger)
     }
 
+    /// Delete an Amazon CloudFront VPC origin.
+    @Sendable
+    @inlinable
+    public func deleteVpcOrigin(_ input: DeleteVpcOriginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVpcOriginResult {
+        try await self.client.execute(
+            operation: "DeleteVpcOrigin", 
+            path: "/2020-05-31/vpc-origin/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete an Amazon CloudFront VPC origin.
+    ///
+    /// Parameters:
+    ///   - id: The VPC origin ID.
+    ///   - ifMatch: The VPC origin to delete, if a match occurs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteVpcOrigin(
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteVpcOriginResult {
+        let input = DeleteVpcOriginRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.deleteVpcOrigin(input, logger: logger)
+    }
+
     /// Gets configuration information and metadata about a CloudFront function, but not the
     /// 			function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the
     /// 			function's name and stage. To get these values, you can use
@@ -1572,6 +1703,35 @@ public struct CloudFront: AWSService {
             name: name
         )
         return try await self.describeKeyValueStore(input, logger: logger)
+    }
+
+    /// Gets an Anycast static IP list.
+    @Sendable
+    @inlinable
+    public func getAnycastIpList(_ input: GetAnycastIpListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnycastIpListResult {
+        try await self.client.execute(
+            operation: "GetAnycastIpList", 
+            path: "/2020-05-31/anycast-ip-list/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets an Anycast static IP list.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the Anycast static IP list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAnycastIpList(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAnycastIpListResult {
+        let input = GetAnycastIpListRequest(
+            id: id
+        )
+        return try await self.getAnycastIpList(input, logger: logger)
     }
 
     /// Gets a cache policy, including the following metadata:   The policy's identifier.   The date and time when the policy was last modified.   To get a cache policy, you must provide the policy's identifier. If the cache policy
@@ -2485,6 +2645,67 @@ public struct CloudFront: AWSService {
         return try await self.getStreamingDistributionConfig(input, logger: logger)
     }
 
+    /// Get the details of an Amazon CloudFront VPC origin.
+    @Sendable
+    @inlinable
+    public func getVpcOrigin(_ input: GetVpcOriginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVpcOriginResult {
+        try await self.client.execute(
+            operation: "GetVpcOrigin", 
+            path: "/2020-05-31/vpc-origin/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the details of an Amazon CloudFront VPC origin.
+    ///
+    /// Parameters:
+    ///   - id: The VPC origin ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getVpcOrigin(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetVpcOriginResult {
+        let input = GetVpcOriginRequest(
+            id: id
+        )
+        return try await self.getVpcOrigin(input, logger: logger)
+    }
+
+    /// Lists your Anycast static IP lists.
+    @Sendable
+    @inlinable
+    public func listAnycastIpLists(_ input: ListAnycastIpListsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnycastIpListsResult {
+        try await self.client.execute(
+            operation: "ListAnycastIpLists", 
+            path: "/2020-05-31/anycast-ip-list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists your Anycast static IP lists.
+    ///
+    /// Parameters:
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur
+    ///   - maxItems: The maximum number of Anycast static IP lists that you want returned in the
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAnycastIpLists(
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAnycastIpListsResult {
+        let input = ListAnycastIpListsRequest(
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listAnycastIpLists(input, logger: logger)
+    }
+
     /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by
     /// 			Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
     /// 			the total number of items in the list exceeds the maximum that you specify, or the
@@ -2708,6 +2929,41 @@ public struct CloudFront: AWSService {
             maxItems: maxItems
         )
         return try await self.listDistributions(input, logger: logger)
+    }
+
+    /// Lists the distributions in your account that are associated with the specified AnycastIpListId.
+    @Sendable
+    @inlinable
+    public func listDistributionsByAnycastIpListId(_ input: ListDistributionsByAnycastIpListIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByAnycastIpListIdResult {
+        try await self.client.execute(
+            operation: "ListDistributionsByAnycastIpListId", 
+            path: "/2020-05-31/distributionsByAnycastIpListId/{AnycastIpListId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the distributions in your account that are associated with the specified AnycastIpListId.
+    ///
+    /// Parameters:
+    ///   - anycastIpListId: The ID of the Anycast static IP list.
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur
+    ///   - maxItems: The maximum number of distributions that you want returned in the
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionsByAnycastIpListId(
+        anycastIpListId: String,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionsByAnycastIpListIdResult {
+        let input = ListDistributionsByAnycastIpListIdRequest(
+            anycastIpListId: anycastIpListId, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listDistributionsByAnycastIpListId(input, logger: logger)
     }
 
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's
@@ -2940,6 +3196,41 @@ public struct CloudFront: AWSService {
             responseHeadersPolicyId: responseHeadersPolicyId
         )
         return try await self.listDistributionsByResponseHeadersPolicyId(input, logger: logger)
+    }
+
+    /// List CloudFront distributions by their VPC origin ID.
+    @Sendable
+    @inlinable
+    public func listDistributionsByVpcOriginId(_ input: ListDistributionsByVpcOriginIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByVpcOriginIdResult {
+        try await self.client.execute(
+            operation: "ListDistributionsByVpcOriginId", 
+            path: "/2020-05-31/distributionsByVpcOriginId/{VpcOriginId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List CloudFront distributions by their VPC origin ID.
+    ///
+    /// Parameters:
+    ///   - marker: The marker associated with the VPC origin distributions list.
+    ///   - maxItems: The maximum number of items included in the list.
+    ///   - vpcOriginId: The VPC origin ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionsByVpcOriginId(
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        vpcOriginId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionsByVpcOriginIdResult {
+        let input = ListDistributionsByVpcOriginIdRequest(
+            marker: marker, 
+            maxItems: maxItems, 
+            vpcOriginId: vpcOriginId
+        )
+        return try await self.listDistributionsByVpcOriginId(input, logger: logger)
     }
 
     /// List the distributions that are associated with a specified WAF web ACL.
@@ -3465,6 +3756,38 @@ public struct CloudFront: AWSService {
             resource: resource
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// List the CloudFront VPC origins in your account.
+    @Sendable
+    @inlinable
+    public func listVpcOrigins(_ input: ListVpcOriginsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcOriginsResult {
+        try await self.client.execute(
+            operation: "ListVpcOrigins", 
+            path: "/2020-05-31/vpc-origin", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the CloudFront VPC origins in your account.
+    ///
+    /// Parameters:
+    ///   - marker: The marker associated with the VPC origins list.
+    ///   - maxItems: The maximum number of items included in the list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listVpcOrigins(
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListVpcOriginsResult {
+        let input = ListVpcOriginsRequest(
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listVpcOrigins(input, logger: logger)
     }
 
     /// Publishes a CloudFront function by copying the function code from the
@@ -4316,6 +4639,41 @@ public struct CloudFront: AWSService {
             streamingDistributionConfig: streamingDistributionConfig
         )
         return try await self.updateStreamingDistribution(input, logger: logger)
+    }
+
+    /// Update an Amazon CloudFront VPC origin in your account.
+    @Sendable
+    @inlinable
+    public func updateVpcOrigin(_ input: UpdateVpcOriginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVpcOriginResult {
+        try await self.client.execute(
+            operation: "UpdateVpcOrigin", 
+            path: "/2020-05-31/vpc-origin/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update an Amazon CloudFront VPC origin in your account.
+    ///
+    /// Parameters:
+    ///   - id: The VPC origin ID.
+    ///   - ifMatch: The VPC origin to update, if a match occurs.
+    ///   - vpcOriginEndpointConfig: The VPC origin endpoint configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateVpcOrigin(
+        id: String,
+        ifMatch: String,
+        vpcOriginEndpointConfig: VpcOriginEndpointConfig,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateVpcOriginResult {
+        let input = UpdateVpcOriginRequest(
+            id: id, 
+            ifMatch: ifMatch, 
+            vpcOriginEndpointConfig: vpcOriginEndpointConfig
+        )
+        return try await self.updateVpcOrigin(input, logger: logger)
     }
 }
 

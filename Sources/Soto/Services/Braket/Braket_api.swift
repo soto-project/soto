@@ -65,6 +65,7 @@ public struct Braket: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-09-01",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: BraketErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -76,6 +77,16 @@ public struct Braket: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "eu-north-1": "braket.eu-north-1.api.aws",
+            "eu-west-2": "braket.eu-west-2.api.aws",
+            "us-east-1": "braket.us-east-1.api.aws",
+            "us-west-1": "braket.us-west-1.api.aws",
+            "us-west-2": "braket.us-west-2.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 

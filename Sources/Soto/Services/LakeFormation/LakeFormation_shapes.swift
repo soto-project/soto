@@ -84,6 +84,7 @@ extension LakeFormation {
         case all = "ALL"
         case alter = "ALTER"
         case associate = "ASSOCIATE"
+        case createCatalog = "CREATE_CATALOG"
         case createDatabase = "CREATE_DATABASE"
         case createLfTag = "CREATE_LF_TAG"
         case createLfTagExpression = "CREATE_LF_TAG_EXPRESSION"
@@ -95,6 +96,7 @@ extension LakeFormation {
         case grantWithLfTagExpression = "GRANT_WITH_LF_TAG_EXPRESSION"
         case insert = "INSERT"
         case select = "SELECT"
+        case superUser = "SUPER_USER"
         public var description: String { return self.rawValue }
     }
 
@@ -486,7 +488,23 @@ extension LakeFormation {
     }
 
     public struct CatalogResource: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+        /// An identifier for the catalog resource.
+        public let id: String?
+
+        @inlinable
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
     }
 
     public struct ColumnLFTag: AWSDecodableShape {
@@ -560,6 +578,20 @@ extension LakeFormation {
 
         private enum CodingKeys: String, CodingKey {
             case transactionStatus = "TransactionStatus"
+        }
+    }
+
+    public struct Condition: AWSDecodableShape {
+        /// An expression written based on the Cedar Policy Language used to match the principal attributes.
+        public let expression: String?
+
+        @inlinable
+        public init(expression: String? = nil) {
+            self.expression = expression
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
         }
     }
 
@@ -2477,6 +2509,8 @@ extension LakeFormation {
     }
 
     public struct LakeFormationOptInsInfo: AWSDecodableShape {
+        /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+        public let condition: Condition?
         /// The last modified date and time of the record.
         public let lastModified: Date?
         /// The user who updated the record.
@@ -2485,7 +2519,8 @@ extension LakeFormation {
         public let resource: Resource?
 
         @inlinable
-        public init(lastModified: Date? = nil, lastUpdatedBy: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+        public init(condition: Condition? = nil, lastModified: Date? = nil, lastUpdatedBy: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+            self.condition = condition
             self.lastModified = lastModified
             self.lastUpdatedBy = lastUpdatedBy
             self.principal = principal
@@ -2493,6 +2528,7 @@ extension LakeFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
             case lastModified = "LastModified"
             case lastUpdatedBy = "LastUpdatedBy"
             case principal = "Principal"
@@ -3018,6 +3054,8 @@ extension LakeFormation {
     public struct PrincipalResourcePermissions: AWSDecodableShape {
         /// This attribute can be used to return any additional details of PrincipalResourcePermissions. Currently returns only as a RAM resource share ARN.
         public let additionalDetails: DetailsMap?
+        /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+        public let condition: Condition?
         /// The date and time when the resource was last updated.
         public let lastUpdated: Date?
         /// The user who updated the record.
@@ -3032,8 +3070,9 @@ extension LakeFormation {
         public let resource: Resource?
 
         @inlinable
-        public init(additionalDetails: DetailsMap? = nil, lastUpdated: Date? = nil, lastUpdatedBy: String? = nil, permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+        public init(additionalDetails: DetailsMap? = nil, condition: Condition? = nil, lastUpdated: Date? = nil, lastUpdatedBy: String? = nil, permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
             self.additionalDetails = additionalDetails
+            self.condition = condition
             self.lastUpdated = lastUpdated
             self.lastUpdatedBy = lastUpdatedBy
             self.permissions = permissions
@@ -3044,6 +3083,7 @@ extension LakeFormation {
 
         private enum CodingKeys: String, CodingKey {
             case additionalDetails = "AdditionalDetails"
+            case condition = "Condition"
             case lastUpdated = "LastUpdated"
             case lastUpdatedBy = "LastUpdatedBy"
             case permissions = "Permissions"
@@ -3287,6 +3327,7 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalog?.validate(name: "\(name).catalog")
             try self.database?.validate(name: "\(name).database")
             try self.dataCellsFilter?.validate(name: "\(name).dataCellsFilter")
             try self.dataLocation?.validate(name: "\(name).dataLocation")

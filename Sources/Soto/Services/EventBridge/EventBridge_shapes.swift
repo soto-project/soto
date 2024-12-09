@@ -74,12 +74,14 @@ extension EventBridge {
     }
 
     public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
         case authorized = "AUTHORIZED"
         case authorizing = "AUTHORIZING"
         case creating = "CREATING"
         case deauthorized = "DEAUTHORIZED"
         case deauthorizing = "DEAUTHORIZING"
         case deleting = "DELETING"
+        case failedConnectivity = "FAILED_CONNECTIVITY"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -511,15 +513,18 @@ extension EventBridge {
         public let apiKeyAuthParameters: ConnectionApiKeyAuthResponseParameters?
         /// The authorization parameters for Basic authorization.
         public let basicAuthParameters: ConnectionBasicAuthResponseParameters?
+        /// For private OAuth authentication endpoints. The parameters EventBridge uses to authenticate against the endpoint. For more information, see Authorization methods for connections in the  Amazon EventBridge User Guide .
+        public let connectivityParameters: DescribeConnectionConnectivityParameters?
         /// Additional parameters for the connection that are passed through with every invocation to the HTTP endpoint.
         public let invocationHttpParameters: ConnectionHttpParameters?
         /// The OAuth parameters to use for authorization.
         public let oAuthParameters: ConnectionOAuthResponseParameters?
 
         @inlinable
-        public init(apiKeyAuthParameters: ConnectionApiKeyAuthResponseParameters? = nil, basicAuthParameters: ConnectionBasicAuthResponseParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: ConnectionOAuthResponseParameters? = nil) {
+        public init(apiKeyAuthParameters: ConnectionApiKeyAuthResponseParameters? = nil, basicAuthParameters: ConnectionBasicAuthResponseParameters? = nil, connectivityParameters: DescribeConnectionConnectivityParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: ConnectionOAuthResponseParameters? = nil) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
+            self.connectivityParameters = connectivityParameters
             self.invocationHttpParameters = invocationHttpParameters
             self.oAuthParameters = oAuthParameters
         }
@@ -527,6 +532,7 @@ extension EventBridge {
         private enum CodingKeys: String, CodingKey {
             case apiKeyAuthParameters = "ApiKeyAuthParameters"
             case basicAuthParameters = "BasicAuthParameters"
+            case connectivityParameters = "ConnectivityParameters"
             case invocationHttpParameters = "InvocationHttpParameters"
             case oAuthParameters = "OAuthParameters"
         }
@@ -547,7 +553,7 @@ extension EventBridge {
     }
 
     public struct ConnectionBodyParameter: AWSEncodableShape & AWSDecodableShape {
-        /// Specified whether the value is secret.
+        /// Specifies whether the value is secret.
         public let isValueSecret: Bool?
         /// The key for the parameter.
         public let key: String?
@@ -569,7 +575,7 @@ extension EventBridge {
     }
 
     public struct ConnectionHeaderParameter: AWSEncodableShape & AWSDecodableShape {
-        /// Specified whether the value is a secret.
+        /// Specifies whether the value is a secret.
         public let isValueSecret: Bool?
         /// The key for the parameter.
         public let key: String?
@@ -598,11 +604,11 @@ extension EventBridge {
     }
 
     public struct ConnectionHttpParameters: AWSEncodableShape & AWSDecodableShape {
-        /// Contains additional body string parameters for the connection.
+        /// Any additional body string parameters for the connection.
         public let bodyParameters: [ConnectionBodyParameter]?
-        /// Contains additional header parameters for the connection.
+        /// Any additional header parameters for the connection.
         public let headerParameters: [ConnectionHeaderParameter]?
-        /// Contains additional query string parameters for the connection.
+        /// Any additional query string parameters for the connection.
         public let queryStringParameters: [ConnectionQueryStringParameter]?
 
         @inlinable
@@ -648,7 +654,7 @@ extension EventBridge {
     public struct ConnectionOAuthResponseParameters: AWSDecodableShape {
         /// The URL to the HTTP endpoint that authorized the request.
         public let authorizationEndpoint: String?
-        /// A ConnectionOAuthClientResponseParameters object that contains details about the client parameters returned when OAuth is specified as the authorization type.
+        /// Details about the client parameters returned when OAuth is specified as the authorization type.
         public let clientParameters: ConnectionOAuthClientResponseParameters?
         /// The method used to connect to the HTTP endpoint.
         public let httpMethod: ConnectionOAuthHttpMethod?
@@ -697,6 +703,43 @@ extension EventBridge {
             case isValueSecret = "IsValueSecret"
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct ConnectivityResourceConfigurationArn: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource configuration for the resource endpoint.
+        public let resourceConfigurationArn: String
+
+        @inlinable
+        public init(resourceConfigurationArn: String) {
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceConfigurationArn, name: "resourceConfigurationArn", parent: name, max: 2048)
+            try self.validate(self.resourceConfigurationArn, name: "resourceConfigurationArn", parent: name, pattern: "^(?:^arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:resourceconfiguration/rcfg-[0-9a-z]{17}$|^$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceConfigurationArn = "ResourceConfigurationArn"
+        }
+    }
+
+    public struct ConnectivityResourceParameters: AWSEncodableShape {
+        /// The parameters for EventBridge to use when invoking the resource endpoint.
+        public let resourceParameters: ConnectivityResourceConfigurationArn
+
+        @inlinable
+        public init(resourceParameters: ConnectivityResourceConfigurationArn) {
+            self.resourceParameters = resourceParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceParameters.validate(name: "\(name).resourceParameters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceParameters = "ResourceParameters"
         }
     }
 
@@ -871,19 +914,22 @@ extension EventBridge {
     }
 
     public struct CreateConnectionAuthRequestParameters: AWSEncodableShape {
-        /// A CreateConnectionApiKeyAuthRequestParameters object that contains the API key authorization parameters to use for the connection.
+        /// The API key authorization parameters to use for the connection.
         public let apiKeyAuthParameters: CreateConnectionApiKeyAuthRequestParameters?
-        /// A CreateConnectionBasicAuthRequestParameters object that contains the Basic authorization parameters to use for the connection.
+        /// The Basic authorization parameters to use for the connection.
         public let basicAuthParameters: CreateConnectionBasicAuthRequestParameters?
-        /// A ConnectionHttpParameters object that contains the API key authorization parameters to use for the connection. Note that if you include additional parameters for the target of a rule via HttpParameters, including query strings, the parameters added for the connection take precedence.
+        /// If you specify a private OAuth endpoint, the parameters for EventBridge to use when authenticating against the endpoint. For more information, see Authorization methods for connections in the  Amazon EventBridge User Guide .
+        public let connectivityParameters: ConnectivityResourceParameters?
+        /// The API key authorization parameters to use for the connection. Note that if you include additional parameters for the target of a rule via HttpParameters, including query strings, the parameters added for the connection take precedence.
         public let invocationHttpParameters: ConnectionHttpParameters?
-        /// A CreateConnectionOAuthRequestParameters object that contains the OAuth authorization parameters to use for the connection.
+        /// The OAuth authorization parameters to use for the connection.
         public let oAuthParameters: CreateConnectionOAuthRequestParameters?
 
         @inlinable
-        public init(apiKeyAuthParameters: CreateConnectionApiKeyAuthRequestParameters? = nil, basicAuthParameters: CreateConnectionBasicAuthRequestParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: CreateConnectionOAuthRequestParameters? = nil) {
+        public init(apiKeyAuthParameters: CreateConnectionApiKeyAuthRequestParameters? = nil, basicAuthParameters: CreateConnectionBasicAuthRequestParameters? = nil, connectivityParameters: ConnectivityResourceParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: CreateConnectionOAuthRequestParameters? = nil) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
+            self.connectivityParameters = connectivityParameters
             self.invocationHttpParameters = invocationHttpParameters
             self.oAuthParameters = oAuthParameters
         }
@@ -891,6 +937,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.apiKeyAuthParameters?.validate(name: "\(name).apiKeyAuthParameters")
             try self.basicAuthParameters?.validate(name: "\(name).basicAuthParameters")
+            try self.connectivityParameters?.validate(name: "\(name).connectivityParameters")
             try self.invocationHttpParameters?.validate(name: "\(name).invocationHttpParameters")
             try self.oAuthParameters?.validate(name: "\(name).oAuthParameters")
         }
@@ -898,6 +945,7 @@ extension EventBridge {
         private enum CodingKeys: String, CodingKey {
             case apiKeyAuthParameters = "ApiKeyAuthParameters"
             case basicAuthParameters = "BasicAuthParameters"
+            case connectivityParameters = "ConnectivityParameters"
             case invocationHttpParameters = "InvocationHttpParameters"
             case oAuthParameters = "OAuthParameters"
         }
@@ -960,11 +1008,11 @@ extension EventBridge {
     public struct CreateConnectionOAuthRequestParameters: AWSEncodableShape {
         /// The URL to the authorization endpoint when OAuth is specified as the authorization type.
         public let authorizationEndpoint: String
-        /// A CreateConnectionOAuthClientRequestParameters object that contains the client parameters for OAuth authorization.
+        /// The client parameters for OAuth authorization.
         public let clientParameters: CreateConnectionOAuthClientRequestParameters
         /// The method to use for the authorization request.
         public let httpMethod: ConnectionOAuthHttpMethod
-        /// A ConnectionHttpParameters object that contains details about the additional parameters to use for the connection.
+        /// Details about the additional parameters to use for the connection.
         public let oAuthHttpParameters: ConnectionHttpParameters?
 
         @inlinable
@@ -994,18 +1042,21 @@ extension EventBridge {
     public struct CreateConnectionRequest: AWSEncodableShape {
         /// The type of authorization to use for the connection.  OAUTH tokens are refreshed when a 401 or 407 response is returned.
         public let authorizationType: ConnectionAuthorizationType
-        /// A CreateConnectionAuthRequestParameters object that contains the authorization parameters to use to authorize with the endpoint.
+        /// The authorization parameters to use to authorize with the endpoint.  You must include only authorization parameters for the AuthorizationType you specify.
         public let authParameters: CreateConnectionAuthRequestParameters
         /// A description for the connection to create.
         public let description: String?
+        /// For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see Connecting to private resources in the  Amazon EventBridge User Guide .
+        public let invocationConnectivityParameters: ConnectivityResourceParameters?
         /// The name for the connection to create.
         public let name: String
 
         @inlinable
-        public init(authorizationType: ConnectionAuthorizationType, authParameters: CreateConnectionAuthRequestParameters, description: String? = nil, name: String) {
+        public init(authorizationType: ConnectionAuthorizationType, authParameters: CreateConnectionAuthRequestParameters, description: String? = nil, invocationConnectivityParameters: ConnectivityResourceParameters? = nil, name: String) {
             self.authorizationType = authorizationType
             self.authParameters = authParameters
             self.description = description
+            self.invocationConnectivityParameters = invocationConnectivityParameters
             self.name = name
         }
 
@@ -1013,6 +1064,7 @@ extension EventBridge {
             try self.authParameters.validate(name: "\(name).authParameters")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.invocationConnectivityParameters?.validate(name: "\(name).invocationConnectivityParameters")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -1022,6 +1074,7 @@ extension EventBridge {
             case authorizationType = "AuthorizationType"
             case authParameters = "AuthParameters"
             case description = "Description"
+            case invocationConnectivityParameters = "InvocationConnectivityParameters"
             case name = "Name"
         }
     }
@@ -1688,6 +1741,20 @@ extension EventBridge {
         }
     }
 
+    public struct DescribeConnectionConnectivityParameters: AWSDecodableShape {
+        /// The parameters for EventBridge to use when invoking the resource endpoint.
+        public let resourceParameters: DescribeConnectionResourceParameters
+
+        @inlinable
+        public init(resourceParameters: DescribeConnectionResourceParameters) {
+            self.resourceParameters = resourceParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceParameters = "ResourceParameters"
+        }
+    }
+
     public struct DescribeConnectionRequest: AWSEncodableShape {
         /// The name of the connection to retrieve.
         public let name: String
@@ -1708,6 +1775,24 @@ extension EventBridge {
         }
     }
 
+    public struct DescribeConnectionResourceParameters: AWSDecodableShape {
+        /// For connections to private APIs, the Amazon Resource Name (ARN) of the resource association EventBridge created between the connection and the private API's resource configuration.
+        public let resourceAssociationArn: String
+        /// The Amazon Resource Name (ARN) of the resource configuration for the private API.
+        public let resourceConfigurationArn: String
+
+        @inlinable
+        public init(resourceAssociationArn: String, resourceConfigurationArn: String) {
+            self.resourceAssociationArn = resourceAssociationArn
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceAssociationArn = "ResourceAssociationArn"
+            case resourceConfigurationArn = "ResourceConfigurationArn"
+        }
+    }
+
     public struct DescribeConnectionResponse: AWSDecodableShape {
         /// The type of authorization specified for the connection.
         public let authorizationType: ConnectionAuthorizationType?
@@ -1721,6 +1806,8 @@ extension EventBridge {
         public let creationTime: Date?
         /// The description for the connection retrieved.
         public let description: String?
+        /// For connections to private resource endpoints. The parameters EventBridge uses to invoke the resource endpoint. For more information, see Connecting to private resources in the  Amazon EventBridge User Guide .
+        public let invocationConnectivityParameters: DescribeConnectionConnectivityParameters?
         /// A time stamp for the time that the connection was last authorized.
         public let lastAuthorizedTime: Date?
         /// A time stamp for the time that the connection was last modified.
@@ -1733,13 +1820,14 @@ extension EventBridge {
         public let stateReason: String?
 
         @inlinable
-        public init(authorizationType: ConnectionAuthorizationType? = nil, authParameters: ConnectionAuthResponseParameters? = nil, connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, description: String? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil, name: String? = nil, secretArn: String? = nil, stateReason: String? = nil) {
+        public init(authorizationType: ConnectionAuthorizationType? = nil, authParameters: ConnectionAuthResponseParameters? = nil, connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, description: String? = nil, invocationConnectivityParameters: DescribeConnectionConnectivityParameters? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil, name: String? = nil, secretArn: String? = nil, stateReason: String? = nil) {
             self.authorizationType = authorizationType
             self.authParameters = authParameters
             self.connectionArn = connectionArn
             self.connectionState = connectionState
             self.creationTime = creationTime
             self.description = description
+            self.invocationConnectivityParameters = invocationConnectivityParameters
             self.lastAuthorizedTime = lastAuthorizedTime
             self.lastModifiedTime = lastModifiedTime
             self.name = name
@@ -1754,6 +1842,7 @@ extension EventBridge {
             case connectionState = "ConnectionState"
             case creationTime = "CreationTime"
             case description = "Description"
+            case invocationConnectivityParameters = "InvocationConnectivityParameters"
             case lastAuthorizedTime = "LastAuthorizedTime"
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
@@ -2569,7 +2658,7 @@ extension EventBridge {
         public let limit: Int?
         /// A name prefix to filter results returned. Only API destinations with a name that starts with the prefix are returned.
         public let namePrefix: String?
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2602,9 +2691,9 @@ extension EventBridge {
     }
 
     public struct ListApiDestinationsResponse: AWSDecodableShape {
-        /// An array of ApiDestination objects that include information about an API destination.
+        /// An array that includes information about each API destination.
         public let apiDestinations: [ApiDestination]?
-        /// A token you can use in a subsequent request to retrieve the next set of results.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2626,7 +2715,7 @@ extension EventBridge {
         public let limit: Int?
         /// A name prefix to filter the archives returned. Only archives with name that match the prefix are returned.
         public let namePrefix: String?
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The state of the archive.
         public let state: ArchiveState?
@@ -2664,7 +2753,7 @@ extension EventBridge {
     public struct ListArchivesResponse: AWSDecodableShape {
         /// An array of Archive objects that include details about an archive.
         public let archives: [Archive]?
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2686,7 +2775,7 @@ extension EventBridge {
         public let limit: Int?
         /// A name prefix to filter results returned. Only connections with a name that starts with the prefix are returned.
         public let namePrefix: String?
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2718,7 +2807,7 @@ extension EventBridge {
     public struct ListConnectionsResponse: AWSDecodableShape {
         /// An array of connections objects that include details about the connections.
         public let connections: [Connection]?
-        /// A token you can use in a subsequent request to retrieve the next set of results.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2740,7 +2829,7 @@ extension EventBridge {
         public let maxResults: Int?
         /// A value that will return a subset of the endpoints associated with this account. For example, "NamePrefix": "ABC" will return all endpoints with "ABC" in the name.
         public let namePrefix: String?
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2775,7 +2864,7 @@ extension EventBridge {
     public struct ListEndpointsResponse: AWSDecodableShape {
         /// The endpoints returned by the call.
         public let endpoints: [Endpoint]?
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2795,7 +2884,7 @@ extension EventBridge {
         public let limit: Int?
         /// Specifying this limits the results to only those event buses with names that start with the specified prefix.
         public let namePrefix: String?
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2825,7 +2914,7 @@ extension EventBridge {
     public struct ListEventBusesResponse: AWSDecodableShape {
         /// This list of event buses.
         public let eventBuses: [EventBus]?
-        /// A token you can use in a subsequent operation to retrieve the next set of results.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2845,7 +2934,7 @@ extension EventBridge {
         public let limit: Int?
         /// Specifying this limits the results to only those partner event sources with names that start with the specified prefix.
         public let namePrefix: String?
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2875,7 +2964,7 @@ extension EventBridge {
     public struct ListEventSourcesResponse: AWSDecodableShape {
         /// The list of event sources.
         public let eventSources: [EventSource]?
-        /// A token you can use in a subsequent operation to retrieve the next set of results.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2895,7 +2984,7 @@ extension EventBridge {
         public let eventSourceName: String
         /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
-        /// The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2923,7 +3012,7 @@ extension EventBridge {
     }
 
     public struct ListPartnerEventSourceAccountsResponse: AWSDecodableShape {
-        /// A token you can use in a subsequent operation to retrieve the next set of results.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The list of partner event sources returned by the operation.
         public let partnerEventSourceAccounts: [PartnerEventSourceAccount]?
@@ -2945,7 +3034,7 @@ extension EventBridge {
         public let limit: Int?
         /// If you specify this, the results are limited to only those partner event sources that start with the string you specify.
         public let namePrefix: String
-        /// The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -2973,7 +3062,7 @@ extension EventBridge {
     }
 
     public struct ListPartnerEventSourcesResponse: AWSDecodableShape {
-        /// A token you can use in a subsequent operation to retrieve the next set of results.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The list of partner event sources returned by the operation.
         public let partnerEventSources: [PartnerEventSource]?
@@ -2997,7 +3086,7 @@ extension EventBridge {
         public let limit: Int?
         /// A name prefix to filter the replays returned. Only replays with name that match the prefix are returned.
         public let namePrefix: String?
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The state of the replay.
         public let state: ReplayState?
@@ -3033,7 +3122,7 @@ extension EventBridge {
     }
 
     public struct ListReplaysResponse: AWSDecodableShape {
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// An array of Replay objects that contain information about the replay.
         public let replays: [Replay]?
@@ -3055,7 +3144,7 @@ extension EventBridge {
         public let eventBusName: String?
         /// The maximum number of results to return.
         public let limit: Int?
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the target resource.
         public let targetArn: String
@@ -3089,7 +3178,7 @@ extension EventBridge {
     }
 
     public struct ListRuleNamesByTargetResponse: AWSDecodableShape {
-        /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The names of the rules that can invoke the given target.
         public let ruleNames: [String]?
@@ -3113,7 +3202,7 @@ extension EventBridge {
         public let limit: Int?
         /// The prefix matching the rule name.
         public let namePrefix: String?
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         @inlinable
@@ -3146,7 +3235,7 @@ extension EventBridge {
     }
 
     public struct ListRulesResponse: AWSDecodableShape {
-        /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The rules that match the specified criteria.
         public let rules: [Rule]?
@@ -3201,7 +3290,7 @@ extension EventBridge {
         public let eventBusName: String?
         /// The maximum number of results to return.
         public let limit: Int?
-        /// The token returned by a previous call to retrieve the next set of results.
+        /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The name of the rule.
         public let rule: String
@@ -3236,7 +3325,7 @@ extension EventBridge {
     }
 
     public struct ListTargetsByRuleResponse: AWSDecodableShape {
-        /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
+        /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
         public let nextToken: String?
         /// The targets assigned to the rule.
         public let targets: [Target]?
@@ -4424,7 +4513,7 @@ extension EventBridge {
         public let kinesisParameters: KinesisParameters?
         /// Contains the Amazon Redshift Data API parameters to use when the target is a Amazon Redshift cluster. If you specify a Amazon Redshift Cluster as a Target, you can use this to specify parameters to invoke the Amazon Redshift Data API ExecuteStatement based on EventBridge events.
         public let redshiftDataParameters: RedshiftDataParameters?
-        /// The RetryPolicy object that contains the retry policy configuration to use for the dead-letter queue.
+        /// The retry policy configuration to use for the dead-letter queue.
         public let retryPolicy: RetryPolicy?
         /// The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
         public let roleArn: String?
@@ -4707,7 +4796,7 @@ extension EventBridge {
     public struct UpdateConnectionApiKeyAuthRequestParameters: AWSEncodableShape {
         /// The name of the API key to use for authorization.
         public let apiKeyName: String?
-        /// The value associated with teh API key to use for authorization.
+        /// The value associated with the API key to use for authorization.
         public let apiKeyValue: String?
 
         @inlinable
@@ -4732,19 +4821,22 @@ extension EventBridge {
     }
 
     public struct UpdateConnectionAuthRequestParameters: AWSEncodableShape {
-        /// A UpdateConnectionApiKeyAuthRequestParameters object that contains the authorization parameters for API key authorization.
+        /// The authorization parameters for API key authorization.
         public let apiKeyAuthParameters: UpdateConnectionApiKeyAuthRequestParameters?
-        /// A UpdateConnectionBasicAuthRequestParameters object that contains the authorization parameters for Basic authorization.
+        /// The authorization parameters for Basic authorization.
         public let basicAuthParameters: UpdateConnectionBasicAuthRequestParameters?
-        /// A ConnectionHttpParameters object that contains the additional parameters to use for the connection.
+        /// If you specify a private OAuth endpoint, the parameters for EventBridge to use when authenticating against the endpoint. For more information, see Authorization methods for connections in the  Amazon EventBridge User Guide .
+        public let connectivityParameters: ConnectivityResourceParameters?
+        /// The additional parameters to use for the connection.
         public let invocationHttpParameters: ConnectionHttpParameters?
-        /// A UpdateConnectionOAuthRequestParameters object that contains the authorization parameters for OAuth authorization.
+        /// The authorization parameters for OAuth authorization.
         public let oAuthParameters: UpdateConnectionOAuthRequestParameters?
 
         @inlinable
-        public init(apiKeyAuthParameters: UpdateConnectionApiKeyAuthRequestParameters? = nil, basicAuthParameters: UpdateConnectionBasicAuthRequestParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: UpdateConnectionOAuthRequestParameters? = nil) {
+        public init(apiKeyAuthParameters: UpdateConnectionApiKeyAuthRequestParameters? = nil, basicAuthParameters: UpdateConnectionBasicAuthRequestParameters? = nil, connectivityParameters: ConnectivityResourceParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: UpdateConnectionOAuthRequestParameters? = nil) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
+            self.connectivityParameters = connectivityParameters
             self.invocationHttpParameters = invocationHttpParameters
             self.oAuthParameters = oAuthParameters
         }
@@ -4752,6 +4844,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.apiKeyAuthParameters?.validate(name: "\(name).apiKeyAuthParameters")
             try self.basicAuthParameters?.validate(name: "\(name).basicAuthParameters")
+            try self.connectivityParameters?.validate(name: "\(name).connectivityParameters")
             try self.invocationHttpParameters?.validate(name: "\(name).invocationHttpParameters")
             try self.oAuthParameters?.validate(name: "\(name).oAuthParameters")
         }
@@ -4759,6 +4852,7 @@ extension EventBridge {
         private enum CodingKeys: String, CodingKey {
             case apiKeyAuthParameters = "ApiKeyAuthParameters"
             case basicAuthParameters = "BasicAuthParameters"
+            case connectivityParameters = "ConnectivityParameters"
             case invocationHttpParameters = "InvocationHttpParameters"
             case oAuthParameters = "OAuthParameters"
         }
@@ -4821,7 +4915,7 @@ extension EventBridge {
     public struct UpdateConnectionOAuthRequestParameters: AWSEncodableShape {
         /// The URL to the authorization endpoint when OAuth is specified as the authorization type.
         public let authorizationEndpoint: String?
-        /// A UpdateConnectionOAuthClientRequestParameters object that contains the client parameters to use for the connection when OAuth is specified as the authorization type.
+        /// The client parameters to use for the connection when OAuth is specified as the authorization type.
         public let clientParameters: UpdateConnectionOAuthClientRequestParameters?
         /// The method used to connect to the HTTP endpoint.
         public let httpMethod: ConnectionOAuthHttpMethod?
@@ -4859,14 +4953,17 @@ extension EventBridge {
         public let authParameters: UpdateConnectionAuthRequestParameters?
         /// A description for the connection.
         public let description: String?
+        /// For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see Connecting to private resources in the  Amazon EventBridge User Guide .
+        public let invocationConnectivityParameters: ConnectivityResourceParameters?
         /// The name of the connection to update.
         public let name: String
 
         @inlinable
-        public init(authorizationType: ConnectionAuthorizationType? = nil, authParameters: UpdateConnectionAuthRequestParameters? = nil, description: String? = nil, name: String) {
+        public init(authorizationType: ConnectionAuthorizationType? = nil, authParameters: UpdateConnectionAuthRequestParameters? = nil, description: String? = nil, invocationConnectivityParameters: ConnectivityResourceParameters? = nil, name: String) {
             self.authorizationType = authorizationType
             self.authParameters = authParameters
             self.description = description
+            self.invocationConnectivityParameters = invocationConnectivityParameters
             self.name = name
         }
 
@@ -4874,6 +4971,7 @@ extension EventBridge {
             try self.authParameters?.validate(name: "\(name).authParameters")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.invocationConnectivityParameters?.validate(name: "\(name).invocationConnectivityParameters")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -4883,6 +4981,7 @@ extension EventBridge {
             case authorizationType = "AuthorizationType"
             case authParameters = "AuthParameters"
             case description = "Description"
+            case invocationConnectivityParameters = "InvocationConnectivityParameters"
             case name = "Name"
         }
     }
@@ -5083,6 +5182,7 @@ extension EventBridge {
 /// Error enum for EventBridge
 public struct EventBridgeErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case concurrentModificationException = "ConcurrentModificationException"
         case illegalStatusException = "IllegalStatusException"
         case internalException = "InternalException"
@@ -5094,6 +5194,7 @@ public struct EventBridgeErrorType: AWSErrorType {
         case policyLengthExceededException = "PolicyLengthExceededException"
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
     }
 
     private let error: Code
@@ -5114,6 +5215,8 @@ public struct EventBridgeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have the necessary permissons for this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// There is concurrent modification on a rule, target, archive, or replay.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// An error occurred because a replay can be canceled only when the state is Running or Starting.
@@ -5136,6 +5239,8 @@ public struct EventBridgeErrorType: AWSErrorType {
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
     /// An entity that you specified does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// This request cannot be completed due to throttling issues.
+    public static var throttlingException: Self { .init(.throttlingException) }
 }
 
 extension EventBridgeErrorType: Equatable {

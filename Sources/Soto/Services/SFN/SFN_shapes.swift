@@ -64,6 +64,7 @@ extension SFN {
         case activityTimedOut = "ActivityTimedOut"
         case choiceStateEntered = "ChoiceStateEntered"
         case choiceStateExited = "ChoiceStateExited"
+        case evaluationFailed = "EvaluationFailed"
         case executionAborted = "ExecutionAborted"
         case executionFailed = "ExecutionFailed"
         case executionRedriven = "ExecutionRedriven"
@@ -325,6 +326,20 @@ extension SFN {
         private enum CodingKeys: String, CodingKey {
             case cause = "cause"
             case error = "error"
+        }
+    }
+
+    public struct AssignedVariablesDetails: AWSDecodableShape {
+        /// Indicates whether assigned variables were truncated in the response. Always false for API calls. In CloudWatch logs, the value will be true if the data is truncated due to size limits.
+        public let truncated: Bool?
+
+        @inlinable
+        public init(truncated: Bool? = nil) {
+            self.truncated = truncated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case truncated = "truncated"
         }
     }
 
@@ -990,9 +1005,11 @@ extension SFN {
         public let tracingConfiguration: TracingConfiguration?
         /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
         public let updateDate: Date
+        /// A map of state name to a list of variables referenced by that state. States that do not use variable references will not be shown in the response.
+        public let variableReferences: [String: [String]]?
 
         @inlinable
-        public init(definition: String, encryptionConfiguration: EncryptionConfiguration? = nil, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, mapRunArn: String? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, updateDate: Date) {
+        public init(definition: String, encryptionConfiguration: EncryptionConfiguration? = nil, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, mapRunArn: String? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, updateDate: Date, variableReferences: [String: [String]]? = nil) {
             self.definition = definition
             self.encryptionConfiguration = encryptionConfiguration
             self.label = label
@@ -1004,6 +1021,7 @@ extension SFN {
             self.stateMachineArn = stateMachineArn
             self.tracingConfiguration = tracingConfiguration
             self.updateDate = updateDate
+            self.variableReferences = variableReferences
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1018,6 +1036,7 @@ extension SFN {
             case stateMachineArn = "stateMachineArn"
             case tracingConfiguration = "tracingConfiguration"
             case updateDate = "updateDate"
+            case variableReferences = "variableReferences"
         }
     }
 
@@ -1070,9 +1089,11 @@ extension SFN {
         public let tracingConfiguration: TracingConfiguration?
         /// The type of the state machine (STANDARD or EXPRESS).
         public let type: StateMachineType
+        /// A map of state name to a list of variables referenced by that state. States that do not use variable references will not be shown in the response.
+        public let variableReferences: [String: [String]]?
 
         @inlinable
-        public init(creationDate: Date, definition: String, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType) {
+        public init(creationDate: Date, definition: String, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType, variableReferences: [String: [String]]? = nil) {
             self.creationDate = creationDate
             self.definition = definition
             self.description = description
@@ -1086,6 +1107,7 @@ extension SFN {
             self.status = status
             self.tracingConfiguration = tracingConfiguration
             self.type = type
+            self.variableReferences = variableReferences
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1102,6 +1124,7 @@ extension SFN {
             case status = "status"
             case tracingConfiguration = "tracingConfiguration"
             case type = "type"
+            case variableReferences = "variableReferences"
         }
     }
 
@@ -1131,6 +1154,32 @@ extension SFN {
             case kmsDataKeyReusePeriodSeconds = "kmsDataKeyReusePeriodSeconds"
             case kmsKeyId = "kmsKeyId"
             case type = "type"
+        }
+    }
+
+    public struct EvaluationFailedEventDetails: AWSDecodableShape {
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+        /// The error code of the failure.
+        public let error: String?
+        /// The location of the field in the state in which the evaluation error occurred.
+        public let location: String?
+        /// The name of the state in which the evaluation error occurred.
+        public let state: String
+
+        @inlinable
+        public init(cause: String? = nil, error: String? = nil, location: String? = nil, state: String) {
+            self.cause = cause
+            self.error = error
+            self.location = location
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
+            case location = "location"
+            case state = "state"
         }
     }
 
@@ -1416,6 +1465,8 @@ extension SFN {
         public let activityStartedEventDetails: ActivityStartedEventDetails?
         public let activitySucceededEventDetails: ActivitySucceededEventDetails?
         public let activityTimedOutEventDetails: ActivityTimedOutEventDetails?
+        /// Contains details about an evaluation failure that occurred while processing a state.
+        public let evaluationFailedEventDetails: EvaluationFailedEventDetails?
         public let executionAbortedEventDetails: ExecutionAbortedEventDetails?
         public let executionFailedEventDetails: ExecutionFailedEventDetails?
         /// Contains details about the redrive attempt of an execution.
@@ -1475,13 +1526,14 @@ extension SFN {
         public let type: HistoryEventType
 
         @inlinable
-        public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionRedrivenEventDetails: ExecutionRedrivenEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, mapIterationAbortedEventDetails: MapIterationEventDetails? = nil, mapIterationFailedEventDetails: MapIterationEventDetails? = nil, mapIterationStartedEventDetails: MapIterationEventDetails? = nil, mapIterationSucceededEventDetails: MapIterationEventDetails? = nil, mapRunFailedEventDetails: MapRunFailedEventDetails? = nil, mapRunRedrivenEventDetails: MapRunRedrivenEventDetails? = nil, mapRunStartedEventDetails: MapRunStartedEventDetails? = nil, mapStateStartedEventDetails: MapStateStartedEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: Date, type: HistoryEventType) {
+        public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, evaluationFailedEventDetails: EvaluationFailedEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionRedrivenEventDetails: ExecutionRedrivenEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, mapIterationAbortedEventDetails: MapIterationEventDetails? = nil, mapIterationFailedEventDetails: MapIterationEventDetails? = nil, mapIterationStartedEventDetails: MapIterationEventDetails? = nil, mapIterationSucceededEventDetails: MapIterationEventDetails? = nil, mapRunFailedEventDetails: MapRunFailedEventDetails? = nil, mapRunRedrivenEventDetails: MapRunRedrivenEventDetails? = nil, mapRunStartedEventDetails: MapRunStartedEventDetails? = nil, mapStateStartedEventDetails: MapStateStartedEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: Date, type: HistoryEventType) {
             self.activityFailedEventDetails = activityFailedEventDetails
             self.activityScheduledEventDetails = activityScheduledEventDetails
             self.activityScheduleFailedEventDetails = activityScheduleFailedEventDetails
             self.activityStartedEventDetails = activityStartedEventDetails
             self.activitySucceededEventDetails = activitySucceededEventDetails
             self.activityTimedOutEventDetails = activityTimedOutEventDetails
+            self.evaluationFailedEventDetails = evaluationFailedEventDetails
             self.executionAbortedEventDetails = executionAbortedEventDetails
             self.executionFailedEventDetails = executionFailedEventDetails
             self.executionRedrivenEventDetails = executionRedrivenEventDetails
@@ -1525,6 +1577,7 @@ extension SFN {
             case activityStartedEventDetails = "activityStartedEventDetails"
             case activitySucceededEventDetails = "activitySucceededEventDetails"
             case activityTimedOutEventDetails = "activityTimedOutEventDetails"
+            case evaluationFailedEventDetails = "evaluationFailedEventDetails"
             case executionAbortedEventDetails = "executionAbortedEventDetails"
             case executionFailedEventDetails = "executionFailedEventDetails"
             case executionRedrivenEventDetails = "executionRedrivenEventDetails"
@@ -1563,7 +1616,7 @@ extension SFN {
     }
 
     public struct HistoryEventExecutionDataDetails: AWSDecodableShape {
-        /// Indicates whether input or output was truncated in the response. Always false for API calls.
+        /// Indicates whether input or output was truncated in the response. Always false for API calls. In CloudWatch logs, the value will be true if the data is truncated due to size limits.
         public let truncated: Bool?
 
         @inlinable
@@ -1577,13 +1630,15 @@ extension SFN {
     }
 
     public struct InspectionData: AWSDecodableShape {
-        /// The input after Step Functions applies the InputPath filter.
+        /// The input after Step Functions applies an Arguments filter. This event will only be present when QueryLanguage for the state machine or individual states is set to JSONata. For more info, see Transforming data with Step Functions.
+        public let afterArguments: String?
+        /// The input after Step Functions applies the InputPath filter. Not populated when QueryLanguage is JSONata.
         public let afterInputPath: String?
-        /// The effective input after Step Functions applies the Parameters filter.
+        /// The effective input after Step Functions applies the Parameters filter. Not populated when QueryLanguage is JSONata.
         public let afterParameters: String?
-        /// The effective result combined with the raw state input after Step Functions applies the ResultPath filter.
+        /// The effective result combined with the raw state input after Step Functions applies the ResultPath filter. Not populated when QueryLanguage is JSONata.
         public let afterResultPath: String?
-        /// The effective result after Step Functions applies the ResultSelector filter.
+        /// The effective result after Step Functions applies the ResultSelector filter. Not populated when QueryLanguage is JSONata.
         public let afterResultSelector: String?
         /// The raw state input.
         public let input: String?
@@ -1593,9 +1648,12 @@ extension SFN {
         public let response: InspectionDataResponse?
         /// The state's raw result.
         public let result: String?
+        /// JSON string that contains the set of workflow variables after execution of the state. The set will include variables assigned in the state and variables set up as test state input.
+        public let variables: String?
 
         @inlinable
-        public init(afterInputPath: String? = nil, afterParameters: String? = nil, afterResultPath: String? = nil, afterResultSelector: String? = nil, input: String? = nil, request: InspectionDataRequest? = nil, response: InspectionDataResponse? = nil, result: String? = nil) {
+        public init(afterArguments: String? = nil, afterInputPath: String? = nil, afterParameters: String? = nil, afterResultPath: String? = nil, afterResultSelector: String? = nil, input: String? = nil, request: InspectionDataRequest? = nil, response: InspectionDataResponse? = nil, result: String? = nil, variables: String? = nil) {
+            self.afterArguments = afterArguments
             self.afterInputPath = afterInputPath
             self.afterParameters = afterParameters
             self.afterResultPath = afterResultPath
@@ -1604,9 +1662,11 @@ extension SFN {
             self.request = request
             self.response = response
             self.result = result
+            self.variables = variables
         }
 
         private enum CodingKeys: String, CodingKey {
+            case afterArguments = "afterArguments"
             case afterInputPath = "afterInputPath"
             case afterParameters = "afterParameters"
             case afterResultPath = "afterResultPath"
@@ -1615,6 +1675,7 @@ extension SFN {
             case request = "request"
             case response = "response"
             case result = "result"
+            case variables = "variables"
         }
     }
 
@@ -2760,6 +2821,10 @@ extension SFN {
     }
 
     public struct StateExitedEventDetails: AWSDecodableShape {
+        /// Map of variable name and value as a serialized JSON representation.
+        public let assignedVariables: [String: String]?
+        /// Provides details about input or output in an execution history event.
+        public let assignedVariablesDetails: AssignedVariablesDetails?
         /// The name of the state. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The JSON output data of the state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
@@ -2768,13 +2833,17 @@ extension SFN {
         public let outputDetails: HistoryEventExecutionDataDetails?
 
         @inlinable
-        public init(name: String, output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil) {
+        public init(assignedVariables: [String: String]? = nil, assignedVariablesDetails: AssignedVariablesDetails? = nil, name: String, output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil) {
+            self.assignedVariables = assignedVariables
+            self.assignedVariablesDetails = assignedVariablesDetails
             self.name = name
             self.output = output
             self.outputDetails = outputDetails
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assignedVariables = "assignedVariables"
+            case assignedVariablesDetails = "assignedVariablesDetails"
             case name = "name"
             case output = "output"
             case outputDetails = "outputDetails"
@@ -3175,15 +3244,18 @@ extension SFN {
         /// Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds to modify the HTTP request headers, query parameters, and body. Step Functions doesn't omit any information included in the state definition or the HTTP response. If you set revealSecrets to true, you must make sure that the IAM user that calls the TestState API has permission for the states:RevealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see IAM permissions to test a state. Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false.
         public let revealSecrets: Bool?
         /// The Amazon Resource Name (ARN) of the execution role with the required IAM permissions for the state.
-        public let roleArn: String
+        public let roleArn: String?
+        /// JSON object literal that sets variables used in the state under test. Object keys are the variable names and values are the variable values.
+        public let variables: String?
 
         @inlinable
-        public init(definition: String, input: String? = nil, inspectionLevel: InspectionLevel? = nil, revealSecrets: Bool? = nil, roleArn: String) {
+        public init(definition: String, input: String? = nil, inspectionLevel: InspectionLevel? = nil, revealSecrets: Bool? = nil, roleArn: String? = nil, variables: String? = nil) {
             self.definition = definition
             self.input = input
             self.inspectionLevel = inspectionLevel
             self.revealSecrets = revealSecrets
             self.roleArn = roleArn
+            self.variables = variables
         }
 
         public func validate(name: String) throws {
@@ -3192,6 +3264,7 @@ extension SFN {
             try self.validate(self.input, name: "input", parent: name, max: 262144)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.variables, name: "variables", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3200,6 +3273,7 @@ extension SFN {
             case inspectionLevel = "inspectionLevel"
             case revealSecrets = "revealSecrets"
             case roleArn = "roleArn"
+            case variables = "variables"
         }
     }
 
@@ -3451,7 +3525,7 @@ extension SFN {
         public let location: String?
         /// Message describing the diagnostic condition.
         public let message: String
-        /// A value of ERROR means that you cannot create or update a state machine with this definition.
+        /// A value of ERROR means that you cannot create or update a state machine with this definition.  WARNING level diagnostics alert you to potential issues, but they will not prevent you from creating or updating your state machine.
         public let severity: ValidateStateMachineDefinitionSeverity
 
         @inlinable
@@ -3504,7 +3578,7 @@ extension SFN {
     }
 
     public struct ValidateStateMachineDefinitionOutput: AWSDecodableShape {
-        /// If the result is OK, this field will be empty. When there are errors, this field will contain an array of Diagnostic objects to help you troubleshoot.
+        /// An array of diagnostic errors and warnings found during validation of the state machine definition. Since warnings do not prevent deploying your workflow definition, the result value could be OK even when warning diagnostics are present in the response.
         public let diagnostics: [ValidateStateMachineDefinitionDiagnostic]
         /// The result value will be OK when no syntax errors are found, or FAIL if the workflow definition does not pass verification.
         public let result: ValidateStateMachineDefinitionResultCode

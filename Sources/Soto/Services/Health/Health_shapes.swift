@@ -91,6 +91,8 @@ extension Health {
         public let awsAccountId: String?
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K
         public let entityArn: String?
+        /// Additional metadata about the affected entity.
+        public let entityMetadata: [String: String]?
         /// The URL of the affected entity.
         public let entityUrl: String?
         /// The ID of the affected entity.
@@ -107,9 +109,10 @@ extension Health {
         public let tags: [String: String]?
 
         @inlinable
-        public init(awsAccountId: String? = nil, entityArn: String? = nil, entityUrl: String? = nil, entityValue: String? = nil, eventArn: String? = nil, lastUpdatedTime: Date? = nil, statusCode: EntityStatusCode? = nil, tags: [String: String]? = nil) {
+        public init(awsAccountId: String? = nil, entityArn: String? = nil, entityMetadata: [String: String]? = nil, entityUrl: String? = nil, entityValue: String? = nil, eventArn: String? = nil, lastUpdatedTime: Date? = nil, statusCode: EntityStatusCode? = nil, tags: [String: String]? = nil) {
             self.awsAccountId = awsAccountId
             self.entityArn = entityArn
+            self.entityMetadata = entityMetadata
             self.entityUrl = entityUrl
             self.entityValue = entityValue
             self.eventArn = eventArn
@@ -121,6 +124,7 @@ extension Health {
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "awsAccountId"
             case entityArn = "entityArn"
+            case entityMetadata = "entityMetadata"
             case entityUrl = "entityUrl"
             case entityValue = "entityValue"
             case eventArn = "eventArn"
@@ -188,7 +192,7 @@ extension Health {
     public struct DescribeAffectedAccountsForOrganizationResponse: AWSDecodableShape {
         /// A JSON set of elements of the affected accounts.
         public let affectedAccounts: [String]?
-        /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected Amazon Web Services accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have Amazon Web Services accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
+        /// This parameter specifies if the Health event is a public Amazon Web Services service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected Amazon Web Services accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have Amazon Web Services accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
         public let eventScopeCode: EventScopeCode?
         /// If the results of a search are large, only a portion of the
         /// results are returned, and a nextToken pagination token is returned in the response. To
@@ -928,7 +932,7 @@ extension Health {
         public let availabilityZone: String?
         /// The date and time that the event ended.
         public let endTime: Date?
-        /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected Amazon Web Services accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have Amazon Web Services accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
+        /// This parameter specifies if the Health event is a public Amazon Web Services service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected Amazon Web Services accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have Amazon Web Services accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
         public let eventScopeCode: EventScopeCode?
         /// A list of event type category codes. Possible values are
         /// issue, accountNotification, or scheduledChange. Currently,
@@ -940,7 +944,7 @@ extension Health {
         public let lastUpdatedTime: Date?
         /// The Amazon Web Services Region name of the event.
         public let region: String?
-        /// The Amazon Web Service that is affected by the event. For example, EC2, RDS.
+        /// The Amazon Web Services service that is affected by the event. For example, EC2, RDS.
         public let service: String?
         /// The date and time that the event began.
         public let startTime: Date?
@@ -1105,7 +1109,7 @@ extension Health {
         public let lastUpdatedTimes: [DateTimeRange]?
         /// A list of Amazon Web Services Regions.
         public let regions: [String]?
-        /// The Amazon Web Services associated with the event. For example, EC2, RDS.
+        /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
         public let services: [String]?
         /// A list of dates and times that the event began.
         public let startTimes: [DateTimeRange]?
@@ -1214,7 +1218,7 @@ extension Health {
         public let category: EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public let code: String?
-        /// The Amazon Web Service that is affected by the event. For example, EC2, RDS.
+        /// The Amazon Web Services service that is affected by the event. For example, EC2, RDS.
         public let service: String?
 
         @inlinable
@@ -1238,7 +1242,7 @@ extension Health {
         public let eventTypeCategories: [EventTypeCategory]?
         /// A list of event type codes.
         public let eventTypeCodes: [String]?
-        /// The Amazon Web Services associated with the event. For example, EC2, RDS.
+        /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
         public let services: [String]?
 
         @inlinable
@@ -1335,7 +1339,7 @@ extension Health {
         public let arn: String?
         /// The date and time that the event ended.
         public let endTime: Date?
-        /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected Amazon Web Services accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have Amazon Web Services accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
+        /// This parameter specifies if the Health event is a public Amazon Web Services service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected Amazon Web Services accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have Amazon Web Services accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
         public let eventScopeCode: EventScopeCode?
         /// A list of event type category codes. Possible values are
         /// issue, accountNotification, or scheduledChange. Currently,
@@ -1347,7 +1351,7 @@ extension Health {
         public let lastUpdatedTime: Date?
         /// The Amazon Web Services Region name of the event.
         public let region: String?
-        /// The Amazon Web Service that is affected by the event, such as EC2 and RDS.
+        /// The Amazon Web Services service that is affected by the event, such as EC2 and RDS.
         public let service: String?
         /// The date and time that the event began.
         public let startTime: Date?
@@ -1454,7 +1458,7 @@ extension Health {
         public let lastUpdatedTime: DateTimeRange?
         /// A list of Amazon Web Services Regions.
         public let regions: [String]?
-        /// The Amazon Web Services associated with the event. For example, EC2, RDS.
+        /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
         public let services: [String]?
         public let startTime: DateTimeRange?
 

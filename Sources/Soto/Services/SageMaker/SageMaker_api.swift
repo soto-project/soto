@@ -667,6 +667,47 @@ public struct SageMaker: AWSService {
         return try await self.createCluster(input, logger: logger)
     }
 
+    /// Create cluster policy configuration. This policy is used for task prioritization and fair-share allocation of idle compute. This helps prioritize critical workloads and distributes idle compute across entities.
+    @Sendable
+    @inlinable
+    public func createClusterSchedulerConfig(_ input: CreateClusterSchedulerConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterSchedulerConfigResponse {
+        try await self.client.execute(
+            operation: "CreateClusterSchedulerConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create cluster policy configuration. This policy is used for task prioritization and fair-share allocation of idle compute. This helps prioritize critical workloads and distributes idle compute across entities.
+    ///
+    /// Parameters:
+    ///   - clusterArn: ARN of the cluster.
+    ///   - description: Description of the cluster policy.
+    ///   - name: Name for the cluster policy.
+    ///   - schedulerConfig: Configuration about the monitoring schedule.
+    ///   - tags: Tags of the cluster policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createClusterSchedulerConfig(
+        clusterArn: String? = nil,
+        description: String? = nil,
+        name: String? = nil,
+        schedulerConfig: SchedulerConfig? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateClusterSchedulerConfigResponse {
+        let input = CreateClusterSchedulerConfigRequest(
+            clusterArn: clusterArn, 
+            description: description, 
+            name: name, 
+            schedulerConfig: schedulerConfig, 
+            tags: tags
+        )
+        return try await self.createClusterSchedulerConfig(input, logger: logger)
+    }
+
     /// Creates a Git repository as a resource in your SageMaker account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your SageMaker account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in any other Git repository.
     @Sendable
     @inlinable
@@ -750,6 +791,53 @@ public struct SageMaker: AWSService {
             vpcConfig: vpcConfig
         )
         return try await self.createCompilationJob(input, logger: logger)
+    }
+
+    /// Create compute allocation definition. This defines how compute is allocated, shared, and borrowed for specified entities. Specifically, how to lend and borrow idle compute and assign a fair-share weight to the specified entities.
+    @Sendable
+    @inlinable
+    public func createComputeQuota(_ input: CreateComputeQuotaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComputeQuotaResponse {
+        try await self.client.execute(
+            operation: "CreateComputeQuota", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create compute allocation definition. This defines how compute is allocated, shared, and borrowed for specified entities. Specifically, how to lend and borrow idle compute and assign a fair-share weight to the specified entities.
+    ///
+    /// Parameters:
+    ///   - activationState: The state of the compute allocation being described. Use to enable or disable compute allocation. Default is Enabled.
+    ///   - clusterArn: ARN of the cluster.
+    ///   - computeQuotaConfig: Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
+    ///   - computeQuotaTarget: The target entity to allocate compute resources to.
+    ///   - description: Description of the compute allocation definition.
+    ///   - name: Name to the compute allocation definition.
+    ///   - tags: Tags of the compute allocation definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createComputeQuota(
+        activationState: ActivationState? = nil,
+        clusterArn: String? = nil,
+        computeQuotaConfig: ComputeQuotaConfig? = nil,
+        computeQuotaTarget: ComputeQuotaTarget? = nil,
+        description: String? = nil,
+        name: String? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateComputeQuotaResponse {
+        let input = CreateComputeQuotaRequest(
+            activationState: activationState, 
+            clusterArn: clusterArn, 
+            computeQuotaConfig: computeQuotaConfig, 
+            computeQuotaTarget: computeQuotaTarget, 
+            description: description, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createComputeQuota(input, logger: logger)
     }
 
     /// Creates a context. A context is a lineage tracking entity that represents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see Amazon SageMaker ML Lineage Tracking.
@@ -2472,6 +2560,97 @@ public struct SageMaker: AWSService {
         return try await self.createOptimizationJob(input, logger: logger)
     }
 
+    /// Creates an Amazon SageMaker Partner AI App.
+    @Sendable
+    @inlinable
+    public func createPartnerApp(_ input: CreatePartnerAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePartnerAppResponse {
+        try await self.client.execute(
+            operation: "CreatePartnerApp", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon SageMaker Partner AI App.
+    ///
+    /// Parameters:
+    ///   - applicationConfig: Configuration settings for the SageMaker Partner AI App.
+    ///   - authType: The authorization type that users use to access the SageMaker Partner AI App.
+    ///   - clientToken: A unique token that guarantees that the call to this API is idempotent.
+    ///   - enableIamSessionBasedIdentity: When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
+    ///   - executionRoleArn: The ARN of the IAM role that the partner application uses.
+    ///   - maintenanceConfig: Maintenance configuration settings for the SageMaker Partner AI App.
+    ///   - name: The name to give the SageMaker Partner AI App.
+    ///   - tags: Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+    ///   - tier: Indicates the instance type and size of the cluster attached to the SageMaker Partner AI App.
+    ///   - type: The type of SageMaker Partner AI App to create. Must be one of the following: lakera-guard, comet, deepchecks-llm-evaluation, or fiddler.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPartnerApp(
+        applicationConfig: PartnerAppConfig? = nil,
+        authType: PartnerAppAuthType? = nil,
+        clientToken: String? = CreatePartnerAppRequest.idempotencyToken(),
+        enableIamSessionBasedIdentity: Bool? = nil,
+        executionRoleArn: String? = nil,
+        maintenanceConfig: PartnerAppMaintenanceConfig? = nil,
+        name: String? = nil,
+        tags: [Tag]? = nil,
+        tier: String? = nil,
+        type: PartnerAppType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePartnerAppResponse {
+        let input = CreatePartnerAppRequest(
+            applicationConfig: applicationConfig, 
+            authType: authType, 
+            clientToken: clientToken, 
+            enableIamSessionBasedIdentity: enableIamSessionBasedIdentity, 
+            executionRoleArn: executionRoleArn, 
+            maintenanceConfig: maintenanceConfig, 
+            name: name, 
+            tags: tags, 
+            tier: tier, 
+            type: type
+        )
+        return try await self.createPartnerApp(input, logger: logger)
+    }
+
+    /// Creates a presigned URL to access an Amazon SageMaker Partner AI App.
+    @Sendable
+    @inlinable
+    public func createPartnerAppPresignedUrl(_ input: CreatePartnerAppPresignedUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePartnerAppPresignedUrlResponse {
+        try await self.client.execute(
+            operation: "CreatePartnerAppPresignedUrl", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a presigned URL to access an Amazon SageMaker Partner AI App.
+    ///
+    /// Parameters:
+    ///   - arn: The ARN of the SageMaker Partner AI App to create the presigned URL for.
+    ///   - expiresInSeconds: The time that will pass before the presigned URL expires.
+    ///   - sessionExpirationDurationInSeconds: Indicates how long the Amazon SageMaker Partner AI App session can be accessed for after logging in.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPartnerAppPresignedUrl(
+        arn: String? = nil,
+        expiresInSeconds: Int? = nil,
+        sessionExpirationDurationInSeconds: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePartnerAppPresignedUrlResponse {
+        let input = CreatePartnerAppPresignedUrlRequest(
+            arn: arn, 
+            expiresInSeconds: expiresInSeconds, 
+            sessionExpirationDurationInSeconds: sessionExpirationDurationInSeconds
+        )
+        return try await self.createPartnerAppPresignedUrl(input, logger: logger)
+    }
+
     /// Creates a pipeline using a JSON pipeline definition.
     @Sendable
     @inlinable
@@ -2917,6 +3096,41 @@ public struct SageMaker: AWSService {
             vpcConfig: vpcConfig
         )
         return try await self.createTrainingJob(input, logger: logger)
+    }
+
+    /// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to computational resources within specific timelines and budgets, without the need to manage underlying infrastructure.   How it works  Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker HyperPod clusters, automatically provisioning resources, setting up infrastructure, executing workloads, and handling infrastructure failures.  Plan creation workflow    Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration) using the  SearchTrainingPlanOfferings API operation.   They create a plan that best matches their needs using the ID of the plan offering they want to use.    After successful upfront payment, the plan's status becomes Scheduled.    The plan can be used to:   Queue training jobs.   Allocate to an instance group of a SageMaker HyperPod cluster.      When the plan start date arrives, it becomes Active. Based on available reserved capacity:   Training jobs are launched.   Instance groups are provisioned.      Plan composition  A plan can consist of one or more Reserved Capacities, each defined by a specific instance type, quantity, Availability Zone, duration, and start and end times. For more information about Reserved Capacity, see  ReservedCapacitySummary .
+    @Sendable
+    @inlinable
+    public func createTrainingPlan(_ input: CreateTrainingPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrainingPlanResponse {
+        try await self.client.execute(
+            operation: "CreateTrainingPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new training plan in SageMaker to reserve compute capacity. Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to reserve and manage GPU capacity for large-scale AI model training. It provides a way to secure predictable access to computational resources within specific timelines and budgets, without the need to manage underlying infrastructure.   How it works  Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker HyperPod clusters, automatically provisioning resources, setting up infrastructure, executing workloads, and handling infrastructure failures.  Plan creation workflow    Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration) using the  SearchTrainingPlanOfferings API operation.   They create a plan that best matches their needs using the ID of the plan offering they want to use.    After successful upfront payment, the plan's status becomes Scheduled.    The plan can be used to:   Queue training jobs.   Allocate to an instance group of a SageMaker HyperPod cluster.      When the plan start date arrives, it becomes Active. Based on available reserved capacity:   Training jobs are launched.   Instance groups are provisioned.      Plan composition  A plan can consist of one or more Reserved Capacities, each defined by a specific instance type, quantity, Availability Zone, duration, and start and end times. For more information about Reserved Capacity, see  ReservedCapacitySummary .
+    ///
+    /// Parameters:
+    ///   - tags: An array of key-value pairs to apply to this training plan.
+    ///   - trainingPlanName: The name of the training plan to create.
+    ///   - trainingPlanOfferingId: The unique identifier of the training plan offering to use for creating this plan.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTrainingPlan(
+        tags: [Tag]? = nil,
+        trainingPlanName: String? = nil,
+        trainingPlanOfferingId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTrainingPlanResponse {
+        let input = CreateTrainingPlanRequest(
+            tags: tags, 
+            trainingPlanName: trainingPlanName, 
+            trainingPlanOfferingId: trainingPlanOfferingId
+        )
+        return try await self.createTrainingPlan(input, logger: logger)
     }
 
     /// Starts a transform job. A transform job uses a trained model to get inferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following:    TransformJobName - Identifies the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.    ModelName - Identifies the model to use. ModelName must be the name of an existing Amazon SageMaker model in the same Amazon Web Services Region and Amazon Web Services
@@ -3442,6 +3656,35 @@ public struct SageMaker: AWSService {
         return try await self.deleteCluster(input, logger: logger)
     }
 
+    /// Deletes the cluster policy of the cluster.
+    @Sendable
+    @inlinable
+    public func deleteClusterSchedulerConfig(_ input: DeleteClusterSchedulerConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteClusterSchedulerConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the cluster policy of the cluster.
+    ///
+    /// Parameters:
+    ///   - clusterSchedulerConfigId: ID of the cluster policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteClusterSchedulerConfig(
+        clusterSchedulerConfigId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteClusterSchedulerConfigRequest(
+            clusterSchedulerConfigId: clusterSchedulerConfigId
+        )
+        return try await self.deleteClusterSchedulerConfig(input, logger: logger)
+    }
+
     /// Deletes the specified Git repository from your account.
     @Sendable
     @inlinable
@@ -3498,6 +3741,35 @@ public struct SageMaker: AWSService {
             compilationJobName: compilationJobName
         )
         return try await self.deleteCompilationJob(input, logger: logger)
+    }
+
+    /// Deletes the compute allocation from the cluster.
+    @Sendable
+    @inlinable
+    public func deleteComputeQuota(_ input: DeleteComputeQuotaRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteComputeQuota", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the compute allocation from the cluster.
+    ///
+    /// Parameters:
+    ///   - computeQuotaId: ID of the compute allocation definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteComputeQuota(
+        computeQuotaId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteComputeQuotaRequest(
+            computeQuotaId: computeQuotaId
+        )
+        return try await self.deleteComputeQuota(input, logger: logger)
     }
 
     /// Deletes an context.
@@ -4484,6 +4756,38 @@ public struct SageMaker: AWSService {
         return try await self.deleteOptimizationJob(input, logger: logger)
     }
 
+    /// Deletes a SageMaker Partner AI App.
+    @Sendable
+    @inlinable
+    public func deletePartnerApp(_ input: DeletePartnerAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePartnerAppResponse {
+        try await self.client.execute(
+            operation: "DeletePartnerApp", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a SageMaker Partner AI App.
+    ///
+    /// Parameters:
+    ///   - arn: The ARN of the SageMaker Partner AI App to delete.
+    ///   - clientToken: A unique token that guarantees that the call to this API is idempotent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePartnerApp(
+        arn: String? = nil,
+        clientToken: String? = DeletePartnerAppRequest.idempotencyToken(),
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePartnerAppResponse {
+        let input = DeletePartnerAppRequest(
+            arn: arn, 
+            clientToken: clientToken
+        )
+        return try await self.deletePartnerApp(input, logger: logger)
+    }
+
     /// Deletes a pipeline if there are no running instances of the pipeline. To delete a pipeline, you must stop all running instances of the pipeline using the StopPipelineExecution API. When you delete a pipeline, all instances of the pipeline are deleted.
     @Sendable
     @inlinable
@@ -5094,6 +5398,38 @@ public struct SageMaker: AWSService {
         return try await self.describeClusterNode(input, logger: logger)
     }
 
+    /// Description of the cluster policy. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities.
+    @Sendable
+    @inlinable
+    public func describeClusterSchedulerConfig(_ input: DescribeClusterSchedulerConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterSchedulerConfigResponse {
+        try await self.client.execute(
+            operation: "DescribeClusterSchedulerConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Description of the cluster policy. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities.
+    ///
+    /// Parameters:
+    ///   - clusterSchedulerConfigId: ID of the cluster policy.
+    ///   - clusterSchedulerConfigVersion: Version of the cluster policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeClusterSchedulerConfig(
+        clusterSchedulerConfigId: String? = nil,
+        clusterSchedulerConfigVersion: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeClusterSchedulerConfigResponse {
+        let input = DescribeClusterSchedulerConfigRequest(
+            clusterSchedulerConfigId: clusterSchedulerConfigId, 
+            clusterSchedulerConfigVersion: clusterSchedulerConfigVersion
+        )
+        return try await self.describeClusterSchedulerConfig(input, logger: logger)
+    }
+
     /// Gets details about the specified Git repository.
     @Sendable
     @inlinable
@@ -5150,6 +5486,38 @@ public struct SageMaker: AWSService {
             compilationJobName: compilationJobName
         )
         return try await self.describeCompilationJob(input, logger: logger)
+    }
+
+    /// Description of the compute allocation definition.
+    @Sendable
+    @inlinable
+    public func describeComputeQuota(_ input: DescribeComputeQuotaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeComputeQuotaResponse {
+        try await self.client.execute(
+            operation: "DescribeComputeQuota", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Description of the compute allocation definition.
+    ///
+    /// Parameters:
+    ///   - computeQuotaId: ID of the compute allocation definition.
+    ///   - computeQuotaVersion: Version of the compute allocation definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeComputeQuota(
+        computeQuotaId: String? = nil,
+        computeQuotaVersion: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeComputeQuotaResponse {
+        let input = DescribeComputeQuotaRequest(
+            computeQuotaId: computeQuotaId, 
+            computeQuotaVersion: computeQuotaVersion
+        )
+        return try await self.describeComputeQuota(input, logger: logger)
     }
 
     /// Describes a context.
@@ -6261,6 +6629,35 @@ public struct SageMaker: AWSService {
         return try await self.describeOptimizationJob(input, logger: logger)
     }
 
+    /// Gets information about a SageMaker Partner AI App.
+    @Sendable
+    @inlinable
+    public func describePartnerApp(_ input: DescribePartnerAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePartnerAppResponse {
+        try await self.client.execute(
+            operation: "DescribePartnerApp", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a SageMaker Partner AI App.
+    ///
+    /// Parameters:
+    ///   - arn: The ARN of the SageMaker Partner AI App to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describePartnerApp(
+        arn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribePartnerAppResponse {
+        let input = DescribePartnerAppRequest(
+            arn: arn
+        )
+        return try await self.describePartnerApp(input, logger: logger)
+    }
+
     /// Describes the details of a pipeline.
     @Sendable
     @inlinable
@@ -6523,6 +6920,35 @@ public struct SageMaker: AWSService {
             trainingJobName: trainingJobName
         )
         return try await self.describeTrainingJob(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific training plan.
+    @Sendable
+    @inlinable
+    public func describeTrainingPlan(_ input: DescribeTrainingPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrainingPlanResponse {
+        try await self.client.execute(
+            operation: "DescribeTrainingPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific training plan.
+    ///
+    /// Parameters:
+    ///   - trainingPlanName: The name of the training plan to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTrainingPlan(
+        trainingPlanName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTrainingPlanResponse {
+        let input = DescribeTrainingPlanRequest(
+            trainingPlanName: trainingPlanName
+        )
+        return try await self.describeTrainingPlan(input, logger: logger)
     }
 
     /// Returns information about a transform job.
@@ -7531,6 +7957,59 @@ public struct SageMaker: AWSService {
         return try await self.listClusterNodes(input, logger: logger)
     }
 
+    /// List the cluster policy configurations.
+    @Sendable
+    @inlinable
+    public func listClusterSchedulerConfigs(_ input: ListClusterSchedulerConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClusterSchedulerConfigsResponse {
+        try await self.client.execute(
+            operation: "ListClusterSchedulerConfigs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the cluster policy configurations.
+    ///
+    /// Parameters:
+    ///   - clusterArn: Filter for ARN of the cluster.
+    ///   - createdAfter: Filter for after this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter.
+    ///   - createdBefore: Filter for before this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter.
+    ///   - maxResults: The maximum number of cluster policies to list.
+    ///   - nameContains: Filter for name containing this string.
+    ///   - nextToken: If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    ///   - sortBy: Filter for sorting the list by a given value. For example, sort by name, creation time, or status.
+    ///   - sortOrder: The order of the list. By default, listed in Descending order according to by SortBy. To change the list order, you can specify SortOrder to be Ascending.
+    ///   - status: Filter for status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listClusterSchedulerConfigs(
+        clusterArn: String? = nil,
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        nextToken: String? = nil,
+        sortBy: SortClusterSchedulerConfigBy? = nil,
+        sortOrder: SortOrder? = nil,
+        status: SchedulerResourceStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListClusterSchedulerConfigsResponse {
+        let input = ListClusterSchedulerConfigsRequest(
+            clusterArn: clusterArn, 
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return try await self.listClusterSchedulerConfigs(input, logger: logger)
+    }
+
     /// Retrieves the list of SageMaker HyperPod clusters.
     @Sendable
     @inlinable
@@ -7554,6 +8033,7 @@ public struct SageMaker: AWSService {
     ///   - nextToken: Set the next token to retrieve the list of SageMaker HyperPod clusters.
     ///   - sortBy: The field by which to sort results. The default value is CREATION_TIME.
     ///   - sortOrder: The sort order for results. The default value is Ascending.
+    ///   - trainingPlanArn: The Amazon Resource Name (ARN); of the training plan to filter clusters by. For more information about reserving GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see  CreateTrainingPlan .
     ///   - logger: Logger use during operation
     @inlinable
     public func listClusters(
@@ -7564,6 +8044,7 @@ public struct SageMaker: AWSService {
         nextToken: String? = nil,
         sortBy: ClusterSortBy? = nil,
         sortOrder: SortOrder? = nil,
+        trainingPlanArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListClustersResponse {
         let input = ListClustersRequest(
@@ -7573,7 +8054,8 @@ public struct SageMaker: AWSService {
             nameContains: nameContains, 
             nextToken: nextToken, 
             sortBy: sortBy, 
-            sortOrder: sortOrder
+            sortOrder: sortOrder, 
+            trainingPlanArn: trainingPlanArn
         )
         return try await self.listClusters(input, logger: logger)
     }
@@ -7685,6 +8167,59 @@ public struct SageMaker: AWSService {
             statusEquals: statusEquals
         )
         return try await self.listCompilationJobs(input, logger: logger)
+    }
+
+    /// List the resource allocation definitions.
+    @Sendable
+    @inlinable
+    public func listComputeQuotas(_ input: ListComputeQuotasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComputeQuotasResponse {
+        try await self.client.execute(
+            operation: "ListComputeQuotas", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the resource allocation definitions.
+    ///
+    /// Parameters:
+    ///   - clusterArn: Filter for ARN of the cluster.
+    ///   - createdAfter: Filter for after this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter.
+    ///   - createdBefore: Filter for before this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter.
+    ///   - maxResults: The maximum number of compute allocation definitions to list.
+    ///   - nameContains: Filter for name containing this string.
+    ///   - nextToken: If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    ///   - sortBy: Filter for sorting the list by a given value. For example, sort by name, creation time, or status.
+    ///   - sortOrder: The order of the list. By default, listed in Descending order according to by SortBy. To change the list order, you can specify SortOrder to be Ascending.
+    ///   - status: Filter for status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listComputeQuotas(
+        clusterArn: String? = nil,
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        nextToken: String? = nil,
+        sortBy: SortQuotaBy? = nil,
+        sortOrder: SortOrder? = nil,
+        status: SchedulerResourceStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListComputeQuotasResponse {
+        let input = ListComputeQuotasRequest(
+            clusterArn: clusterArn, 
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return try await self.listComputeQuotas(input, logger: logger)
     }
 
     /// Lists the contexts in your account and their properties.
@@ -9959,6 +10494,38 @@ public struct SageMaker: AWSService {
         return try await self.listOptimizationJobs(input, logger: logger)
     }
 
+    /// Lists all of the SageMaker Partner AI Apps in an account.
+    @Sendable
+    @inlinable
+    public func listPartnerApps(_ input: ListPartnerAppsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPartnerAppsResponse {
+        try await self.client.execute(
+            operation: "ListPartnerApps", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all of the SageMaker Partner AI Apps in an account.
+    ///
+    /// Parameters:
+    ///   - maxResults: This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
+    ///   - nextToken: If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPartnerApps(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPartnerAppsResponse {
+        let input = ListPartnerAppsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPartnerApps(input, logger: logger)
+    }
+
     /// Gets a list of PipeLineExecutionStep objects.
     @Sendable
     @inlinable
@@ -10513,6 +11080,7 @@ public struct SageMaker: AWSService {
     ///   - sortBy: The field to sort results by. The default is CreationTime.
     ///   - sortOrder: The sort order for results. The default is Ascending.
     ///   - statusEquals: A filter that retrieves only training jobs with a specific status.
+    ///   - trainingPlanArnEquals: The Amazon Resource Name (ARN); of the training plan to filter training jobs by. For more information about reserving GPU capacity for your SageMaker training jobs using Amazon SageMaker Training Plan, see  CreateTrainingPlan .
     ///   - warmPoolStatusEquals: A filter that retrieves only training jobs with a specific warm pool status.
     ///   - logger: Logger use during operation
     @inlinable
@@ -10527,6 +11095,7 @@ public struct SageMaker: AWSService {
         sortBy: SortBy? = nil,
         sortOrder: SortOrder? = nil,
         statusEquals: TrainingJobStatus? = nil,
+        trainingPlanArnEquals: String? = nil,
         warmPoolStatusEquals: WarmPoolResourceStatus? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListTrainingJobsResponse {
@@ -10541,6 +11110,7 @@ public struct SageMaker: AWSService {
             sortBy: sortBy, 
             sortOrder: sortOrder, 
             statusEquals: statusEquals, 
+            trainingPlanArnEquals: trainingPlanArnEquals, 
             warmPoolStatusEquals: warmPoolStatusEquals
         )
         return try await self.listTrainingJobs(input, logger: logger)
@@ -10588,6 +11158,53 @@ public struct SageMaker: AWSService {
             statusEquals: statusEquals
         )
         return try await self.listTrainingJobsForHyperParameterTuningJob(input, logger: logger)
+    }
+
+    /// Retrieves a list of training plans for the current account.
+    @Sendable
+    @inlinable
+    public func listTrainingPlans(_ input: ListTrainingPlansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrainingPlansResponse {
+        try await self.client.execute(
+            operation: "ListTrainingPlans", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of training plans for the current account.
+    ///
+    /// Parameters:
+    ///   - filters: Additional filters to apply to the list of training plans.
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - nextToken: A token to continue pagination if more results are available.
+    ///   - sortBy: The training plan field to sort the results by (e.g., StartTime, Status).
+    ///   - sortOrder: The order to sort the results (Ascending or Descending).
+    ///   - startTimeAfter: Filter to list only training plans with an actual start time after this date.
+    ///   - startTimeBefore: Filter to list only training plans with an actual start time before this date.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTrainingPlans(
+        filters: [TrainingPlanFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortBy: TrainingPlanSortBy? = nil,
+        sortOrder: TrainingPlanSortOrder? = nil,
+        startTimeAfter: Date? = nil,
+        startTimeBefore: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTrainingPlansResponse {
+        let input = ListTrainingPlansRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            startTimeAfter: startTimeAfter, 
+            startTimeBefore: startTimeBefore
+        )
+        return try await self.listTrainingPlans(input, logger: logger)
     }
 
     /// Lists transform jobs.
@@ -11110,6 +11727,50 @@ public struct SageMaker: AWSService {
             visibilityConditions: visibilityConditions
         )
         return try await self.search(input, logger: logger)
+    }
+
+    /// Searches for available training plan offerings based on specified criteria.    Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration).    And then, they create a plan that best matches their needs using the ID of the plan offering they want to use.    For more information about how to reserve GPU capacity for your SageMaker training jobs or SageMaker HyperPod clusters using Amazon SageMaker Training Plan , see  CreateTrainingPlan .
+    @Sendable
+    @inlinable
+    public func searchTrainingPlanOfferings(_ input: SearchTrainingPlanOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchTrainingPlanOfferingsResponse {
+        try await self.client.execute(
+            operation: "SearchTrainingPlanOfferings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for available training plan offerings based on specified criteria.    Users search for available plan offerings based on their requirements (e.g., instance type, count, start time, duration).    And then, they create a plan that best matches their needs using the ID of the plan offering they want to use.    For more information about how to reserve GPU capacity for your SageMaker training jobs or SageMaker HyperPod clusters using Amazon SageMaker Training Plan , see  CreateTrainingPlan .
+    ///
+    /// Parameters:
+    ///   - durationHours: The desired duration in hours for the training plan offerings.
+    ///   - endTimeBefore: A filter to search for reserved capacity offerings with an end time before a specified date.
+    ///   - instanceCount: The number of instances you want to reserve in the training plan offerings. This allows you to specify the quantity of compute resources needed for your SageMaker training jobs or SageMaker HyperPod clusters, helping you find reserved capacity offerings that match your requirements.
+    ///   - instanceType: The type of instance you want to search for in the available training plan offerings. This field allows you to filter the search results based on the specific compute resources you require for your SageMaker training jobs or SageMaker HyperPod clusters. When searching for training plan offerings, specifying the instance type helps you find Reserved Instances that match your computational needs.
+    ///   - startTimeAfter: A filter to search for training plan offerings with a start time after a specified date.
+    ///   - targetResources: The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchTrainingPlanOfferings(
+        durationHours: Int64? = nil,
+        endTimeBefore: Date? = nil,
+        instanceCount: Int? = nil,
+        instanceType: ReservedCapacityInstanceType? = nil,
+        startTimeAfter: Date? = nil,
+        targetResources: [SageMakerResourceName]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchTrainingPlanOfferingsResponse {
+        let input = SearchTrainingPlanOfferingsRequest(
+            durationHours: durationHours, 
+            endTimeBefore: endTimeBefore, 
+            instanceCount: instanceCount, 
+            instanceType: instanceType, 
+            startTimeAfter: startTimeAfter, 
+            targetResources: targetResources
+        )
+        return try await self.searchTrainingPlanOfferings(input, logger: logger)
     }
 
     /// Notifies the pipeline that the execution of a callback step failed, along with a message describing why. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
@@ -12011,6 +12672,44 @@ public struct SageMaker: AWSService {
         return try await self.updateCluster(input, logger: logger)
     }
 
+    /// Update the cluster policy configuration.
+    @Sendable
+    @inlinable
+    public func updateClusterSchedulerConfig(_ input: UpdateClusterSchedulerConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterSchedulerConfigResponse {
+        try await self.client.execute(
+            operation: "UpdateClusterSchedulerConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update the cluster policy configuration.
+    ///
+    /// Parameters:
+    ///   - clusterSchedulerConfigId: ID of the cluster policy.
+    ///   - description: Description of the cluster policy.
+    ///   - schedulerConfig: Cluster policy configuration.
+    ///   - targetVersion: Target version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateClusterSchedulerConfig(
+        clusterSchedulerConfigId: String? = nil,
+        description: String? = nil,
+        schedulerConfig: SchedulerConfig? = nil,
+        targetVersion: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateClusterSchedulerConfigResponse {
+        let input = UpdateClusterSchedulerConfigRequest(
+            clusterSchedulerConfigId: clusterSchedulerConfigId, 
+            description: description, 
+            schedulerConfig: schedulerConfig, 
+            targetVersion: targetVersion
+        )
+        return try await self.updateClusterSchedulerConfig(input, logger: logger)
+    }
+
     /// Updates the platform software of a SageMaker HyperPod cluster for security patching. To learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster.  The UpgradeClusterSoftware API call may impact your SageMaker HyperPod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads.
     @Sendable
     @inlinable
@@ -12070,6 +12769,50 @@ public struct SageMaker: AWSService {
             gitConfig: gitConfig
         )
         return try await self.updateCodeRepository(input, logger: logger)
+    }
+
+    /// Update the compute allocation definition.
+    @Sendable
+    @inlinable
+    public func updateComputeQuota(_ input: UpdateComputeQuotaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateComputeQuotaResponse {
+        try await self.client.execute(
+            operation: "UpdateComputeQuota", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update the compute allocation definition.
+    ///
+    /// Parameters:
+    ///   - activationState: The state of the compute allocation being described. Use to enable or disable compute allocation. Default is Enabled.
+    ///   - computeQuotaConfig: Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
+    ///   - computeQuotaId: ID of the compute allocation definition.
+    ///   - computeQuotaTarget: The target entity to allocate compute resources to.
+    ///   - description: Description of the compute allocation definition.
+    ///   - targetVersion: Target version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateComputeQuota(
+        activationState: ActivationState? = nil,
+        computeQuotaConfig: ComputeQuotaConfig? = nil,
+        computeQuotaId: String? = nil,
+        computeQuotaTarget: ComputeQuotaTarget? = nil,
+        description: String? = nil,
+        targetVersion: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateComputeQuotaResponse {
+        let input = UpdateComputeQuotaRequest(
+            activationState: activationState, 
+            computeQuotaConfig: computeQuotaConfig, 
+            computeQuotaId: computeQuotaId, 
+            computeQuotaTarget: computeQuotaTarget, 
+            description: description, 
+            targetVersion: targetVersion
+        )
+        return try await self.updateComputeQuota(input, logger: logger)
     }
 
     /// Updates a context.
@@ -12983,6 +13726,53 @@ public struct SageMaker: AWSService {
         return try await self.updateNotebookInstanceLifecycleConfig(input, logger: logger)
     }
 
+    /// Updates  all of the SageMaker Partner AI Apps in an account.
+    @Sendable
+    @inlinable
+    public func updatePartnerApp(_ input: UpdatePartnerAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePartnerAppResponse {
+        try await self.client.execute(
+            operation: "UpdatePartnerApp", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates  all of the SageMaker Partner AI Apps in an account.
+    ///
+    /// Parameters:
+    ///   - applicationConfig: Configuration settings for the SageMaker Partner AI App.
+    ///   - arn: The ARN of the SageMaker Partner AI App to update.
+    ///   - clientToken: A unique token that guarantees that the call to this API is idempotent.
+    ///   - enableIamSessionBasedIdentity: When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
+    ///   - maintenanceConfig: Maintenance configuration settings for the SageMaker Partner AI App.
+    ///   - tags: Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+    ///   - tier: Indicates the instance type and size of the cluster attached to the SageMaker Partner AI App.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePartnerApp(
+        applicationConfig: PartnerAppConfig? = nil,
+        arn: String? = nil,
+        clientToken: String? = UpdatePartnerAppRequest.idempotencyToken(),
+        enableIamSessionBasedIdentity: Bool? = nil,
+        maintenanceConfig: PartnerAppMaintenanceConfig? = nil,
+        tags: [Tag]? = nil,
+        tier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePartnerAppResponse {
+        let input = UpdatePartnerAppRequest(
+            applicationConfig: applicationConfig, 
+            arn: arn, 
+            clientToken: clientToken, 
+            enableIamSessionBasedIdentity: enableIamSessionBasedIdentity, 
+            maintenanceConfig: maintenanceConfig, 
+            tags: tags, 
+            tier: tier
+        )
+        return try await self.updatePartnerApp(input, logger: logger)
+    }
+
     /// Updates a pipeline.
     @Sendable
     @inlinable
@@ -13872,6 +14662,61 @@ extension SageMaker {
         return self.listCandidatesForAutoMLJobPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listClusterSchedulerConfigs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClusterSchedulerConfigsPaginator(
+        _ input: ListClusterSchedulerConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListClusterSchedulerConfigsRequest, ListClusterSchedulerConfigsResponse> {
+        return .init(
+            input: input,
+            command: self.listClusterSchedulerConfigs,
+            inputKey: \ListClusterSchedulerConfigsRequest.nextToken,
+            outputKey: \ListClusterSchedulerConfigsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listClusterSchedulerConfigs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterArn: Filter for ARN of the cluster.
+    ///   - createdAfter: Filter for after this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter.
+    ///   - createdBefore: Filter for before this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter.
+    ///   - maxResults: The maximum number of cluster policies to list.
+    ///   - nameContains: Filter for name containing this string.
+    ///   - sortBy: Filter for sorting the list by a given value. For example, sort by name, creation time, or status.
+    ///   - sortOrder: The order of the list. By default, listed in Descending order according to by SortBy. To change the list order, you can specify SortOrder to be Ascending.
+    ///   - status: Filter for status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClusterSchedulerConfigsPaginator(
+        clusterArn: String? = nil,
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        sortBy: SortClusterSchedulerConfigBy? = nil,
+        sortOrder: SortOrder? = nil,
+        status: SchedulerResourceStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListClusterSchedulerConfigsRequest, ListClusterSchedulerConfigsResponse> {
+        let input = ListClusterSchedulerConfigsRequest(
+            clusterArn: clusterArn, 
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return self.listClusterSchedulerConfigsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCodeRepositories(_:logger:)``.
     ///
     /// - Parameters:
@@ -13983,6 +14828,61 @@ extension SageMaker {
             statusEquals: statusEquals
         )
         return self.listCompilationJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listComputeQuotas(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComputeQuotasPaginator(
+        _ input: ListComputeQuotasRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListComputeQuotasRequest, ListComputeQuotasResponse> {
+        return .init(
+            input: input,
+            command: self.listComputeQuotas,
+            inputKey: \ListComputeQuotasRequest.nextToken,
+            outputKey: \ListComputeQuotasResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listComputeQuotas(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterArn: Filter for ARN of the cluster.
+    ///   - createdAfter: Filter for after this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter.
+    ///   - createdBefore: Filter for before this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see EpochConverter.
+    ///   - maxResults: The maximum number of compute allocation definitions to list.
+    ///   - nameContains: Filter for name containing this string.
+    ///   - sortBy: Filter for sorting the list by a given value. For example, sort by name, creation time, or status.
+    ///   - sortOrder: The order of the list. By default, listed in Descending order according to by SortBy. To change the list order, you can specify SortOrder to be Ascending.
+    ///   - status: Filter for status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComputeQuotasPaginator(
+        clusterArn: String? = nil,
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        sortBy: SortQuotaBy? = nil,
+        sortOrder: SortOrder? = nil,
+        status: SchedulerResourceStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListComputeQuotasRequest, ListComputeQuotasResponse> {
+        let input = ListComputeQuotasRequest(
+            clusterArn: clusterArn, 
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return self.listComputeQuotasPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listContexts(_:logger:)``.
@@ -16171,6 +17071,40 @@ extension SageMaker {
         return self.listOptimizationJobsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listPartnerApps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPartnerAppsPaginator(
+        _ input: ListPartnerAppsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPartnerAppsRequest, ListPartnerAppsResponse> {
+        return .init(
+            input: input,
+            command: self.listPartnerApps,
+            inputKey: \ListPartnerAppsRequest.nextToken,
+            outputKey: \ListPartnerAppsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPartnerApps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPartnerAppsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPartnerAppsRequest, ListPartnerAppsResponse> {
+        let input = ListPartnerAppsRequest(
+            maxResults: maxResults
+        )
+        return self.listPartnerAppsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listPipelineExecutionSteps(_:logger:)``.
     ///
     /// - Parameters:
@@ -16753,6 +17687,7 @@ extension SageMaker {
     ///   - sortBy: The field to sort results by. The default is CreationTime.
     ///   - sortOrder: The sort order for results. The default is Ascending.
     ///   - statusEquals: A filter that retrieves only training jobs with a specific status.
+    ///   - trainingPlanArnEquals: The Amazon Resource Name (ARN); of the training plan to filter training jobs by. For more information about reserving GPU capacity for your SageMaker training jobs using Amazon SageMaker Training Plan, see  CreateTrainingPlan .
     ///   - warmPoolStatusEquals: A filter that retrieves only training jobs with a specific warm pool status.
     ///   - logger: Logger used for logging
     @inlinable
@@ -16766,6 +17701,7 @@ extension SageMaker {
         sortBy: SortBy? = nil,
         sortOrder: SortOrder? = nil,
         statusEquals: TrainingJobStatus? = nil,
+        trainingPlanArnEquals: String? = nil,
         warmPoolStatusEquals: WarmPoolResourceStatus? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListTrainingJobsRequest, ListTrainingJobsResponse> {
@@ -16779,6 +17715,7 @@ extension SageMaker {
             sortBy: sortBy, 
             sortOrder: sortOrder, 
             statusEquals: statusEquals, 
+            trainingPlanArnEquals: trainingPlanArnEquals, 
             warmPoolStatusEquals: warmPoolStatusEquals
         )
         return self.listTrainingJobsPaginator(input, logger: logger)
@@ -16828,6 +17765,55 @@ extension SageMaker {
             statusEquals: statusEquals
         )
         return self.listTrainingJobsForHyperParameterTuningJobPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTrainingPlans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainingPlansPaginator(
+        _ input: ListTrainingPlansRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrainingPlansRequest, ListTrainingPlansResponse> {
+        return .init(
+            input: input,
+            command: self.listTrainingPlans,
+            inputKey: \ListTrainingPlansRequest.nextToken,
+            outputKey: \ListTrainingPlansResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTrainingPlans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Additional filters to apply to the list of training plans.
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - sortBy: The training plan field to sort the results by (e.g., StartTime, Status).
+    ///   - sortOrder: The order to sort the results (Ascending or Descending).
+    ///   - startTimeAfter: Filter to list only training plans with an actual start time after this date.
+    ///   - startTimeBefore: Filter to list only training plans with an actual start time before this date.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrainingPlansPaginator(
+        filters: [TrainingPlanFilter]? = nil,
+        maxResults: Int? = nil,
+        sortBy: TrainingPlanSortBy? = nil,
+        sortOrder: TrainingPlanSortOrder? = nil,
+        startTimeAfter: Date? = nil,
+        startTimeBefore: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTrainingPlansRequest, ListTrainingPlansResponse> {
+        let input = ListTrainingPlansRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            startTimeAfter: startTimeAfter, 
+            startTimeBefore: startTimeBefore
+        )
+        return self.listTrainingPlansPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listTransformJobs(_:logger:)``.
@@ -17373,6 +18359,23 @@ extension SageMaker.ListCandidatesForAutoMLJobRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListClusterSchedulerConfigsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListClusterSchedulerConfigsRequest {
+        return .init(
+            clusterArn: self.clusterArn,
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            status: self.status
+        )
+    }
+}
+
 extension SageMaker.ListCodeRepositoriesInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SageMaker.ListCodeRepositoriesInput {
@@ -17404,6 +18407,23 @@ extension SageMaker.ListCompilationJobsRequest: AWSPaginateToken {
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             statusEquals: self.statusEquals
+        )
+    }
+}
+
+extension SageMaker.ListComputeQuotasRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListComputeQuotasRequest {
+        return .init(
+            clusterArn: self.clusterArn,
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            status: self.status
         )
     }
 }
@@ -18082,6 +19102,16 @@ extension SageMaker.ListOptimizationJobsRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListPartnerAppsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListPartnerAppsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension SageMaker.ListPipelineExecutionStepsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SageMaker.ListPipelineExecutionStepsRequest {
@@ -18278,7 +19308,23 @@ extension SageMaker.ListTrainingJobsRequest: AWSPaginateToken {
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             statusEquals: self.statusEquals,
+            trainingPlanArnEquals: self.trainingPlanArnEquals,
             warmPoolStatusEquals: self.warmPoolStatusEquals
+        )
+    }
+}
+
+extension SageMaker.ListTrainingPlansRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListTrainingPlansRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            startTimeAfter: self.startTimeAfter,
+            startTimeBefore: self.startTimeBefore
         )
     }
 }

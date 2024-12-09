@@ -1233,6 +1233,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that you want to create a topic in.
+    ///   - folderArns: The Folder ARN of the folder that you want the topic to reside in.
     ///   - tags: Contains a map of the key-value pairs for the resource tag or tags that are assigned to the dataset.
     ///   - topic: The definition of a topic to create.
     ///   - topicId: The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -1240,6 +1241,7 @@ public struct QuickSight: AWSService {
     @inlinable
     public func createTopic(
         awsAccountId: String,
+        folderArns: [String]? = nil,
         tags: [Tag]? = nil,
         topic: TopicDetails,
         topicId: String,
@@ -1247,6 +1249,7 @@ public struct QuickSight: AWSService {
     ) async throws -> CreateTopicResponse {
         let input = CreateTopicRequest(
             awsAccountId: awsAccountId, 
+            folderArns: folderArns, 
             tags: tags, 
             topic: topic, 
             topicId: topicId
@@ -1668,6 +1671,38 @@ public struct QuickSight: AWSService {
             dataSourceId: dataSourceId
         )
         return try await self.deleteDataSource(input, logger: logger)
+    }
+
+    /// Deletes a linked Amazon Q Business application from an Amazon QuickSight account
+    @Sendable
+    @inlinable
+    public func deleteDefaultQBusinessApplication(_ input: DeleteDefaultQBusinessApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDefaultQBusinessApplicationResponse {
+        try await self.client.execute(
+            operation: "DeleteDefaultQBusinessApplication", 
+            path: "/accounts/{AwsAccountId}/default-qbusiness-application", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a linked Amazon Q Business application from an Amazon QuickSight account
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon QuickSight account that you want to disconnect from a Amazon Q Business application.
+    ///   - namespace: The Amazon QuickSight namespace that you want to delete a linked Amazon Q Business application from. If this field is left blank, the Amazon Q Business application is deleted from the default namespace. Currently, the default namespace is the only valid value for this parameter.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDefaultQBusinessApplication(
+        awsAccountId: String,
+        namespace: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDefaultQBusinessApplicationResponse {
+        let input = DeleteDefaultQBusinessApplicationRequest(
+            awsAccountId: awsAccountId, 
+            namespace: namespace
+        )
+        return try await self.deleteDefaultQBusinessApplication(input, logger: logger)
     }
 
     /// Deletes an empty folder.
@@ -2933,6 +2968,35 @@ public struct QuickSight: AWSService {
         return try await self.describeDashboardSnapshotJobResult(input, logger: logger)
     }
 
+    /// Describes an existing dashboard QA configuration.
+    @Sendable
+    @inlinable
+    public func describeDashboardsQAConfiguration(_ input: DescribeDashboardsQAConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDashboardsQAConfigurationResponse {
+        try await self.client.execute(
+            operation: "DescribeDashboardsQAConfiguration", 
+            path: "/accounts/{AwsAccountId}/dashboards-qa-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes an existing dashboard QA configuration.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the dashboard QA configuration that you want described.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDashboardsQAConfiguration(
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDashboardsQAConfigurationResponse {
+        let input = DescribeDashboardsQAConfigurationRequest(
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeDashboardsQAConfiguration(input, logger: logger)
+    }
+
     /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
     @Sendable
     @inlinable
@@ -3091,6 +3155,38 @@ public struct QuickSight: AWSService {
             dataSourceId: dataSourceId
         )
         return try await self.describeDataSourcePermissions(input, logger: logger)
+    }
+
+    /// Describes a Amazon Q Business application that is linked to an Amazon QuickSight account.
+    @Sendable
+    @inlinable
+    public func describeDefaultQBusinessApplication(_ input: DescribeDefaultQBusinessApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDefaultQBusinessApplicationResponse {
+        try await self.client.execute(
+            operation: "DescribeDefaultQBusinessApplication", 
+            path: "/accounts/{AwsAccountId}/default-qbusiness-application", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a Amazon Q Business application that is linked to an Amazon QuickSight account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon QuickSight account that is linked to the Amazon Q Business application that you want described.
+    ///   - namespace: The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDefaultQBusinessApplication(
+        awsAccountId: String,
+        namespace: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDefaultQBusinessApplicationResponse {
+        let input = DescribeDefaultQBusinessApplicationRequest(
+            awsAccountId: awsAccountId, 
+            namespace: namespace
+        )
+        return try await self.describeDefaultQBusinessApplication(input, logger: logger)
     }
 
     /// Describes a folder.
@@ -3476,6 +3572,35 @@ public struct QuickSight: AWSService {
             awsAccountId: awsAccountId
         )
         return try await self.describeQPersonalizationConfiguration(input, logger: logger)
+    }
+
+    /// Describes the state of a Amazon QuickSight Q Search configuration.
+    @Sendable
+    @inlinable
+    public func describeQuickSightQSearchConfiguration(_ input: DescribeQuickSightQSearchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQuickSightQSearchConfigurationResponse {
+        try await self.client.execute(
+            operation: "DescribeQuickSightQSearchConfiguration", 
+            path: "/accounts/{AwsAccountId}/quicksight-q-search-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the state of a Amazon QuickSight Q Search configuration.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that the user wants described.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeQuickSightQSearchConfiguration(
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeQuickSightQSearchConfigurationResponse {
+        let input = DescribeQuickSightQSearchConfigurationRequest(
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeQuickSightQSearchConfiguration(input, logger: logger)
     }
 
     /// Provides a summary of a refresh schedule.
@@ -4089,6 +4214,44 @@ public struct QuickSight: AWSService {
             userArn: userArn
         )
         return try await self.generateEmbedUrlForRegisteredUser(input, logger: logger)
+    }
+
+    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user that is registered in an Amazon QuickSight account that uses IAM Identity Center for authentication. This API requires identity-enhanced IAM Role sessions for the authenticated user that the API call is being made for. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Amazon QuickSight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions.
+    @Sendable
+    @inlinable
+    public func generateEmbedUrlForRegisteredUserWithIdentity(_ input: GenerateEmbedUrlForRegisteredUserWithIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateEmbedUrlForRegisteredUserWithIdentityResponse {
+        try await self.client.execute(
+            operation: "GenerateEmbedUrlForRegisteredUserWithIdentity", 
+            path: "/accounts/{AwsAccountId}/embed-url/registered-user-with-identity", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user that is registered in an Amazon QuickSight account that uses IAM Identity Center for authentication. This API requires identity-enhanced IAM Role sessions for the authenticated user that the API call is being made for. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Amazon QuickSight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions.
+    ///
+    /// Parameters:
+    ///   - allowedDomains: A list of domains to be allowed to generate the embed URL.
+    ///   - awsAccountId: The ID of the Amazon Web Services registered user.
+    ///   - experienceConfiguration: 
+    ///   - sessionLifetimeInMinutes: The validity of the session in minutes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func generateEmbedUrlForRegisteredUserWithIdentity(
+        allowedDomains: [String]? = nil,
+        awsAccountId: String,
+        experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration,
+        sessionLifetimeInMinutes: Int64? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GenerateEmbedUrlForRegisteredUserWithIdentityResponse {
+        let input = GenerateEmbedUrlForRegisteredUserWithIdentityRequest(
+            allowedDomains: allowedDomains, 
+            awsAccountId: awsAccountId, 
+            experienceConfiguration: experienceConfiguration, 
+            sessionLifetimeInMinutes: sessionLifetimeInMinutes
+        )
+        return try await self.generateEmbedUrlForRegisteredUserWithIdentity(input, logger: logger)
     }
 
     /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon QuickSight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
@@ -5441,6 +5604,47 @@ public struct QuickSight: AWSService {
         return try await self.listVPCConnections(input, logger: logger)
     }
 
+    /// Predicts existing visuals or generates new visuals to answer a given query.
+    @Sendable
+    @inlinable
+    public func predictQAResults(_ input: PredictQAResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PredictQAResultsResponse {
+        try await self.client.execute(
+            operation: "PredictQAResults", 
+            path: "/accounts/{AwsAccountId}/qa/predict", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Predicts existing visuals or generates new visuals to answer a given query.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that the user wants to execute Predict QA results in.
+    ///   - includeGeneratedAnswer: Indicates whether generated answers are included or excluded.
+    ///   - includeQuickSightQIndex: Indicates whether Q indicies are included or excluded.
+    ///   - maxTopicsToConsider: The number of maximum topics to be considered to predict QA results.
+    ///   - queryText: The query text to be used to predict QA results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func predictQAResults(
+        awsAccountId: String,
+        includeGeneratedAnswer: IncludeGeneratedAnswer? = nil,
+        includeQuickSightQIndex: IncludeQuickSightQIndex? = nil,
+        maxTopicsToConsider: Int? = nil,
+        queryText: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PredictQAResultsResponse {
+        let input = PredictQAResultsRequest(
+            awsAccountId: awsAccountId, 
+            includeGeneratedAnswer: includeGeneratedAnswer, 
+            includeQuickSightQIndex: includeQuickSightQIndex, 
+            maxTopicsToConsider: maxTopicsToConsider, 
+            queryText: queryText
+        )
+        return try await self.predictQAResults(input, logger: logger)
+    }
+
     /// Creates or updates the dataset refresh properties for the dataset.
     @Sendable
     @inlinable
@@ -5805,6 +6009,44 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.searchGroups(input, logger: logger)
+    }
+
+    /// Searches for any Q topic that exists in an Amazon QuickSight account.
+    @Sendable
+    @inlinable
+    public func searchTopics(_ input: SearchTopicsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchTopicsResponse {
+        try await self.client.execute(
+            operation: "SearchTopics", 
+            path: "/accounts/{AwsAccountId}/search/topics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for any Q topic that exists in an Amazon QuickSight account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to find.
+    ///   - filters: The filters that you want to use to search for the topic.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchTopics(
+        awsAccountId: String,
+        filters: [TopicSearchFilter],
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchTopicsResponse {
+        let input = SearchTopicsRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.searchTopics(input, logger: logger)
     }
 
     /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
@@ -6233,6 +6475,38 @@ public struct QuickSight: AWSService {
         return try await self.updateAnalysisPermissions(input, logger: logger)
     }
 
+    /// Updates an Amazon QuickSight application with a token exchange grant. This operation only supports Amazon QuickSight applications that are registered with IAM Identity Center.
+    @Sendable
+    @inlinable
+    public func updateApplicationWithTokenExchangeGrant(_ input: UpdateApplicationWithTokenExchangeGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationWithTokenExchangeGrantResponse {
+        try await self.client.execute(
+            operation: "UpdateApplicationWithTokenExchangeGrant", 
+            path: "/accounts/{AwsAccountId}/application-with-token-exchange-grant", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an Amazon QuickSight application with a token exchange grant. This operation only supports Amazon QuickSight applications that are registered with IAM Identity Center.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account to be updated with a token exchange grant.
+    ///   - namespace: The namespace of the Amazon QuickSight application.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateApplicationWithTokenExchangeGrant(
+        awsAccountId: String,
+        namespace: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateApplicationWithTokenExchangeGrantResponse {
+        let input = UpdateApplicationWithTokenExchangeGrantRequest(
+            awsAccountId: awsAccountId, 
+            namespace: namespace
+        )
+        return try await self.updateApplicationWithTokenExchangeGrant(input, logger: logger)
+    }
+
     /// Updates a brand.
     @Sendable
     @inlinable
@@ -6540,6 +6814,38 @@ public struct QuickSight: AWSService {
         return try await self.updateDashboardPublishedVersion(input, logger: logger)
     }
 
+    /// Updates a Dashboard QA configuration.
+    @Sendable
+    @inlinable
+    public func updateDashboardsQAConfiguration(_ input: UpdateDashboardsQAConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardsQAConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateDashboardsQAConfiguration", 
+            path: "/accounts/{AwsAccountId}/dashboards-qa-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a Dashboard QA configuration.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the dashboard QA configuration that you want to update.
+    ///   - dashboardsQAStatus: The status of dashboards QA configuration that you want to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDashboardsQAConfiguration(
+        awsAccountId: String,
+        dashboardsQAStatus: DashboardsQAStatus,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDashboardsQAConfigurationResponse {
+        let input = UpdateDashboardsQAConfigurationRequest(
+            awsAccountId: awsAccountId, 
+            dashboardsQAStatus: dashboardsQAStatus
+        )
+        return try await self.updateDashboardsQAConfiguration(input, logger: logger)
+    }
+
     /// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation.
     @Sendable
     @inlinable
@@ -6726,6 +7032,41 @@ public struct QuickSight: AWSService {
             revokePermissions: revokePermissions
         )
         return try await self.updateDataSourcePermissions(input, logger: logger)
+    }
+
+    /// Updates a Amazon Q Business application that is linked to a Amazon QuickSight account.
+    @Sendable
+    @inlinable
+    public func updateDefaultQBusinessApplication(_ input: UpdateDefaultQBusinessApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDefaultQBusinessApplicationResponse {
+        try await self.client.execute(
+            operation: "UpdateDefaultQBusinessApplication", 
+            path: "/accounts/{AwsAccountId}/default-qbusiness-application", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a Amazon Q Business application that is linked to a Amazon QuickSight account.
+    ///
+    /// Parameters:
+    ///   - applicationId: The ID of the Amazon Q Business application that you want to update.
+    ///   - awsAccountId: The ID of the Amazon QuickSight account that is connected to the Amazon Q Business application that you want to update.
+    ///   - namespace: The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDefaultQBusinessApplication(
+        applicationId: String,
+        awsAccountId: String,
+        namespace: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDefaultQBusinessApplicationResponse {
+        let input = UpdateDefaultQBusinessApplicationRequest(
+            applicationId: applicationId, 
+            awsAccountId: awsAccountId, 
+            namespace: namespace
+        )
+        return try await self.updateDefaultQBusinessApplication(input, logger: logger)
     }
 
     /// Updates the name of a folder.
@@ -7057,6 +7398,38 @@ public struct QuickSight: AWSService {
             personalizationMode: personalizationMode
         )
         return try await self.updateQPersonalizationConfiguration(input, logger: logger)
+    }
+
+    /// Updates the state of a Amazon QuickSight Q Search configuration.
+    @Sendable
+    @inlinable
+    public func updateQuickSightQSearchConfiguration(_ input: UpdateQuickSightQSearchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQuickSightQSearchConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateQuickSightQSearchConfiguration", 
+            path: "/accounts/{AwsAccountId}/quicksight-q-search-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the state of a Amazon QuickSight Q Search configuration.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that you want to update.
+    ///   - qSearchStatus: The status of the Amazon QuickSight Q Search configuration that the user wants to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateQuickSightQSearchConfiguration(
+        awsAccountId: String,
+        qSearchStatus: QSearchStatus,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateQuickSightQSearchConfigurationResponse {
+        let input = UpdateQuickSightQSearchConfigurationRequest(
+            awsAccountId: awsAccountId, 
+            qSearchStatus: qSearchStatus
+        )
+        return try await self.updateQuickSightQSearchConfiguration(input, logger: logger)
     }
 
     /// Updates a refresh schedule for a dataset.
@@ -9101,6 +9474,46 @@ extension QuickSight {
         )
         return self.searchGroupsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``searchTopics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchTopicsPaginator(
+        _ input: SearchTopicsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchTopicsRequest, SearchTopicsResponse> {
+        return .init(
+            input: input,
+            command: self.searchTopics,
+            inputKey: \SearchTopicsRequest.nextToken,
+            outputKey: \SearchTopicsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchTopics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to find.
+    ///   - filters: The filters that you want to use to search for the topic.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchTopicsPaginator(
+        awsAccountId: String,
+        filters: [TopicSearchFilter],
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchTopicsRequest, SearchTopicsResponse> {
+        let input = SearchTopicsRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.searchTopicsPaginator(input, logger: logger)
+    }
 }
 
 extension QuickSight.DescribeFolderPermissionsRequest: AWSPaginateToken {
@@ -9525,6 +9938,18 @@ extension QuickSight.SearchGroupsRequest: AWSPaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             namespace: self.namespace,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.SearchTopicsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.SearchTopicsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

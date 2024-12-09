@@ -354,7 +354,7 @@ public struct CleanRooms: AWSService {
     ///   - analysisMethod: The analysis method for the configured tables. The only valid value is currently `DIRECT_QUERY`.
     ///   - description: A description for the configured table.
     ///   - name: The name of the configured table.
-    ///   - tableReference: A reference to the Glue table being configured.
+    ///   - tableReference: A reference to the table being configured.
     ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     ///   - logger: Logger use during operation
     @inlinable

@@ -79,6 +79,35 @@ public struct NeptuneGraph: AWSService {
 
     // MARK: API Calls
 
+    /// Cancel the specified export task.
+    @Sendable
+    @inlinable
+    public func cancelExportTask(_ input: CancelExportTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelExportTaskOutput {
+        try await self.client.execute(
+            operation: "CancelExportTask", 
+            path: "/exporttasks/{taskIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancel the specified export task.
+    ///
+    /// Parameters:
+    ///   - taskIdentifier: The unique identifier of the export task.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelExportTask(
+        taskIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelExportTaskOutput {
+        let input = CancelExportTaskInput(
+            taskIdentifier: taskIdentifier
+        )
+        return try await self.cancelExportTask(input, logger: logger)
+    }
+
     /// Deletes the specified import task.
     @Sendable
     @inlinable
@@ -251,6 +280,7 @@ public struct NeptuneGraph: AWSService {
     ///   - kmsKeyIdentifier: Specifies a KMS key to use to encrypt data imported into the new graph.
     ///   - maxProvisionedMemory: The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the max of the min-provisioned-memory and max-provisioned memory is used to create the graph. If neither value is specified 128 m-NCUs are used.
     ///   - minProvisionedMemory: The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
+    ///   - parquetType: The parquet type of the import task.
     ///   - publicConnectivity: Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     ///   - replicaCount: The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2.   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
     ///   - roleArn: The ARN of the IAM role that will allow access to the data that is to be imported.
@@ -269,6 +299,7 @@ public struct NeptuneGraph: AWSService {
         kmsKeyIdentifier: String? = nil,
         maxProvisionedMemory: Int? = nil,
         minProvisionedMemory: Int? = nil,
+        parquetType: ParquetType? = nil,
         publicConnectivity: Bool? = nil,
         replicaCount: Int? = nil,
         roleArn: String,
@@ -287,6 +318,7 @@ public struct NeptuneGraph: AWSService {
             kmsKeyIdentifier: kmsKeyIdentifier, 
             maxProvisionedMemory: maxProvisionedMemory, 
             minProvisionedMemory: minProvisionedMemory, 
+            parquetType: parquetType, 
             publicConnectivity: publicConnectivity, 
             replicaCount: replicaCount, 
             roleArn: roleArn, 
@@ -476,6 +508,35 @@ public struct NeptuneGraph: AWSService {
         return try await self.executeQuery(input, logger: logger)
     }
 
+    /// Retrieves a specified export task.
+    @Sendable
+    @inlinable
+    public func getExportTask(_ input: GetExportTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExportTaskOutput {
+        try await self.client.execute(
+            operation: "GetExportTask", 
+            path: "/exporttasks/{taskIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a specified export task.
+    ///
+    /// Parameters:
+    ///   - taskIdentifier: The unique identifier of the export task.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getExportTask(
+        taskIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetExportTaskOutput {
+        let input = GetExportTaskInput(
+            taskIdentifier: taskIdentifier
+        )
+        return try await self.getExportTask(input, logger: logger)
+    }
+
     /// Gets information about a specified graph.
     @Sendable
     @inlinable
@@ -659,6 +720,38 @@ public struct NeptuneGraph: AWSService {
             queryId: queryId
         )
         return try await self.getQuery(input, logger: logger)
+    }
+
+    /// Retrieves a list of export tasks.
+    @Sendable
+    @inlinable
+    public func listExportTasks(_ input: ListExportTasksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExportTasksOutput {
+        try await self.client.execute(
+            operation: "ListExportTasks", 
+            path: "/exporttasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of export tasks.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of export tasks to return.
+    ///   - nextToken: Pagination token used to paginate input.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExportTasks(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListExportTasksOutput {
+        let input = ListExportTasksInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listExportTasks(input, logger: logger)
     }
 
     /// Lists available snapshots of a specified Neptune Analytics graph.
@@ -939,6 +1032,56 @@ public struct NeptuneGraph: AWSService {
         return try await self.restoreGraphFromSnapshot(input, logger: logger)
     }
 
+    /// Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be AVAILABLE.
+    @Sendable
+    @inlinable
+    public func startExportTask(_ input: StartExportTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExportTaskOutput {
+        try await self.client.execute(
+            operation: "StartExportTask", 
+            path: "/exporttasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be AVAILABLE.
+    ///
+    /// Parameters:
+    ///   - destination: The Amazon S3 URI where data will be exported to.
+    ///   - exportFilter: The export filter of the export task.
+    ///   - format: The format of the export task.
+    ///   - graphIdentifier: The source graph identifier of the export task.
+    ///   - kmsKeyIdentifier: The KMS key identifier of the export task.
+    ///   - parquetType: The parquet type of the export task.
+    ///   - roleArn: The ARN of the IAM role that will allow data to be exported to the destination.
+    ///   - tags: Tags to be applied to the export task.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startExportTask(
+        destination: String,
+        exportFilter: ExportFilter? = nil,
+        format: ExportFormat,
+        graphIdentifier: String,
+        kmsKeyIdentifier: String,
+        parquetType: ParquetType? = nil,
+        roleArn: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartExportTaskOutput {
+        let input = StartExportTaskInput(
+            destination: destination, 
+            exportFilter: exportFilter, 
+            format: format, 
+            graphIdentifier: graphIdentifier, 
+            kmsKeyIdentifier: kmsKeyIdentifier, 
+            parquetType: parquetType, 
+            roleArn: roleArn, 
+            tags: tags
+        )
+        return try await self.startExportTask(input, logger: logger)
+    }
+
     /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
     @Sendable
     @inlinable
@@ -960,6 +1103,7 @@ public struct NeptuneGraph: AWSService {
     ///   - format: Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or  OPENCYPHER, which identies the openCypher load format.
     ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
     ///   - importOptions: 
+    ///   - parquetType: The parquet type of the import task.
     ///   - roleArn: The ARN of the IAM role that will allow access to the data that is to be imported.
     ///   - source: A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a  Neptune database endpoint or snapshot.
     ///   - logger: Logger use during operation
@@ -970,6 +1114,7 @@ public struct NeptuneGraph: AWSService {
         format: Format? = nil,
         graphIdentifier: String,
         importOptions: ImportOptions? = nil,
+        parquetType: ParquetType? = nil,
         roleArn: String,
         source: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -980,6 +1125,7 @@ public struct NeptuneGraph: AWSService {
             format: format, 
             graphIdentifier: graphIdentifier, 
             importOptions: importOptions, 
+            parquetType: parquetType, 
             roleArn: roleArn, 
             source: source
         )
@@ -1102,6 +1248,40 @@ extension NeptuneGraph {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension NeptuneGraph {
+    /// Return PaginatorSequence for operation ``listExportTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExportTasksPaginator(
+        _ input: ListExportTasksInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExportTasksInput, ListExportTasksOutput> {
+        return .init(
+            input: input,
+            command: self.listExportTasks,
+            inputKey: \ListExportTasksInput.nextToken,
+            outputKey: \ListExportTasksOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExportTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of export tasks to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExportTasksPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExportTasksInput, ListExportTasksOutput> {
+        let input = ListExportTasksInput(
+            maxResults: maxResults
+        )
+        return self.listExportTasksPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listGraphSnapshots(_:logger:)``.
     ///
     /// - Parameters:
@@ -1245,6 +1425,16 @@ extension NeptuneGraph {
     }
 }
 
+extension NeptuneGraph.ListExportTasksInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NeptuneGraph.ListExportTasksInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension NeptuneGraph.ListGraphSnapshotsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> NeptuneGraph.ListGraphSnapshotsInput {
@@ -1291,6 +1481,84 @@ extension NeptuneGraph.ListPrivateGraphEndpointsInput: AWSPaginateToken {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension NeptuneGraph {
+    /// Waiter for operation ``getExportTask(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilExportTaskCancelled(
+        _ input: GetExportTaskInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetExportTaskInput, _>(
+            acceptors: [
+                .init(state: .failure, matcher: try! JMESPathMatcher("status != 'cancellinG' && status != 'cancelleD'", expected: "true")),
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "CANCELLED")),
+            ],
+            minDelayTime: .seconds(60),
+            maxDelayTime: .seconds(3600),
+            command: self.getExportTask
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getExportTask(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - taskIdentifier: The unique identifier of the export task.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilExportTaskCancelled(
+        taskIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetExportTaskInput(
+            taskIdentifier: taskIdentifier
+        )
+        try await self.waitUntilExportTaskCancelled(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getExportTask(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilExportTaskSuccessful(
+        _ input: GetExportTaskInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetExportTaskInput, _>(
+            acceptors: [
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "CANCELLING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "CANCELLED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "SUCCEEDED")),
+            ],
+            minDelayTime: .seconds(60),
+            maxDelayTime: .seconds(28800),
+            command: self.getExportTask
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getExportTask(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - taskIdentifier: The unique identifier of the export task.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilExportTaskSuccessful(
+        taskIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetExportTaskInput(
+            taskIdentifier: taskIdentifier
+        )
+        try await self.waitUntilExportTaskSuccessful(input, logger: logger)
+    }
+
     /// Waiter for operation ``getGraph(_:logger:)``.
     ///
     /// - Parameters:

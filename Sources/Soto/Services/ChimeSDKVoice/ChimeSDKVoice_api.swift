@@ -439,6 +439,7 @@ public struct ChimeSDKVoice: AWSService {
     ///
     /// Parameters:
     ///   - awsRegion: The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value:  us-east-1 .
+    ///   - integrationType: The connectors for use with Amazon Connect. The following options are available:    CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Amazon Connect telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Amazon Connect can start with Connect telephony and IVR for immediate modernization ahead of agent migration.    CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems for real-time and post-call analytics. They can use Amazon Connect Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Amazon Connect can start with Contact Lens analytics and performance insights ahead of agent migration.
     ///   - name: The name of the Voice Connector.
     ///   - requireEncryption: Enables or disables encryption for the Voice Connector.
     ///   - tags: The tags assigned to the Voice Connector.
@@ -446,6 +447,7 @@ public struct ChimeSDKVoice: AWSService {
     @inlinable
     public func createVoiceConnector(
         awsRegion: VoiceConnectorAwsRegion? = nil,
+        integrationType: VoiceConnectorIntegrationType? = nil,
         name: String,
         requireEncryption: Bool,
         tags: [Tag]? = nil,
@@ -453,6 +455,7 @@ public struct ChimeSDKVoice: AWSService {
     ) async throws -> CreateVoiceConnectorResponse {
         let input = CreateVoiceConnectorRequest(
             awsRegion: awsRegion, 
+            integrationType: integrationType, 
             name: name, 
             requireEncryption: requireEncryption, 
             tags: tags
@@ -737,6 +740,35 @@ public struct ChimeSDKVoice: AWSService {
             voiceConnectorId: voiceConnectorId
         )
         return try await self.deleteVoiceConnectorEmergencyCallingConfiguration(input, logger: logger)
+    }
+
+    /// Deletes the external systems configuration for a Voice Connector.
+    @Sendable
+    @inlinable
+    public func deleteVoiceConnectorExternalSystemsConfiguration(_ input: DeleteVoiceConnectorExternalSystemsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteVoiceConnectorExternalSystemsConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/external-systems-configuration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the external systems configuration for a Voice Connector.
+    ///
+    /// Parameters:
+    ///   - voiceConnectorId: The ID of the Voice Connector for which to delete the external system configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteVoiceConnectorExternalSystemsConfiguration(
+        voiceConnectorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteVoiceConnectorExternalSystemsConfigurationRequest(
+            voiceConnectorId: voiceConnectorId
+        )
+        return try await self.deleteVoiceConnectorExternalSystemsConfiguration(input, logger: logger)
     }
 
     /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnectorItems  and phone numbers associated with the group must be removed before it can be  deleted.
@@ -1360,6 +1392,35 @@ public struct ChimeSDKVoice: AWSService {
             voiceConnectorId: voiceConnectorId
         )
         return try await self.getVoiceConnectorEmergencyCallingConfiguration(input, logger: logger)
+    }
+
+    /// Gets information about an external systems configuration for a Voice Connector.
+    @Sendable
+    @inlinable
+    public func getVoiceConnectorExternalSystemsConfiguration(_ input: GetVoiceConnectorExternalSystemsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorExternalSystemsConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetVoiceConnectorExternalSystemsConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/external-systems-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about an external systems configuration for a Voice Connector.
+    ///
+    /// Parameters:
+    ///   - voiceConnectorId: The ID of the Voice Connector for which to return information about the external system configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getVoiceConnectorExternalSystemsConfiguration(
+        voiceConnectorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetVoiceConnectorExternalSystemsConfigurationResponse {
+        let input = GetVoiceConnectorExternalSystemsConfigurationRequest(
+            voiceConnectorId: voiceConnectorId
+        )
+        return try await self.getVoiceConnectorExternalSystemsConfiguration(input, logger: logger)
     }
 
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector group,  such as timestamps,name, and associated VoiceConnectorItems.
@@ -2166,6 +2227,41 @@ public struct ChimeSDKVoice: AWSService {
             voiceConnectorId: voiceConnectorId
         )
         return try await self.putVoiceConnectorEmergencyCallingConfiguration(input, logger: logger)
+    }
+
+    /// Adds an external systems configuration to a Voice Connector.
+    @Sendable
+    @inlinable
+    public func putVoiceConnectorExternalSystemsConfiguration(_ input: PutVoiceConnectorExternalSystemsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVoiceConnectorExternalSystemsConfigurationResponse {
+        try await self.client.execute(
+            operation: "PutVoiceConnectorExternalSystemsConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/external-systems-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds an external systems configuration to a Voice Connector.
+    ///
+    /// Parameters:
+    ///   - contactCenterSystemTypes: The contact center system to use.
+    ///   - sessionBorderControllerTypes: The session border controllers to use.
+    ///   - voiceConnectorId: The ID of the Voice Connector for which to add the external system configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putVoiceConnectorExternalSystemsConfiguration(
+        contactCenterSystemTypes: [ContactCenterSystemType]? = nil,
+        sessionBorderControllerTypes: [SessionBorderControllerType]? = nil,
+        voiceConnectorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutVoiceConnectorExternalSystemsConfigurationResponse {
+        let input = PutVoiceConnectorExternalSystemsConfigurationRequest(
+            contactCenterSystemTypes: contactCenterSystemTypes, 
+            sessionBorderControllerTypes: sessionBorderControllerTypes, 
+            voiceConnectorId: voiceConnectorId
+        )
+        return try await self.putVoiceConnectorExternalSystemsConfiguration(input, logger: logger)
     }
 
     /// Updates a Voice Connector's logging configuration.

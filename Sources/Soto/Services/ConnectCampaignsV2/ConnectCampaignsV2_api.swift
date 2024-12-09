@@ -695,6 +695,38 @@ public struct ConnectCampaignsV2: AWSService {
         return try await self.putOutboundRequestBatch(input, logger: logger)
     }
 
+    /// Takes in a list of profile outbound requests to be placed as part of an outbound campaign. This API is idempotent.
+    @Sendable
+    @inlinable
+    public func putProfileOutboundRequestBatch(_ input: PutProfileOutboundRequestBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutProfileOutboundRequestBatchResponse {
+        try await self.client.execute(
+            operation: "PutProfileOutboundRequestBatch", 
+            path: "/v2/campaigns/{id}/profile-outbound-requests", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Takes in a list of profile outbound requests to be placed as part of an outbound campaign. This API is idempotent.
+    ///
+    /// Parameters:
+    ///   - id: 
+    ///   - profileOutboundRequests: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putProfileOutboundRequestBatch(
+        id: String,
+        profileOutboundRequests: [ProfileOutboundRequest],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutProfileOutboundRequestBatchResponse {
+        let input = PutProfileOutboundRequestBatchRequest(
+            id: id, 
+            profileOutboundRequests: profileOutboundRequests
+        )
+        return try await self.putProfileOutboundRequestBatch(input, logger: logger)
+    }
+
     /// Stops a campaign for the specified Amazon Connect account.
     @Sendable
     @inlinable

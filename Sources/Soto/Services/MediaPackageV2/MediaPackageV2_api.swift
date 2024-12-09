@@ -140,7 +140,9 @@ public struct MediaPackageV2: AWSService {
     ///   - channelName: The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. You can't change the name after you create the channel.
     ///   - clientToken: A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     ///   - description: Enter any descriptive text that helps you to identify the channel.
+    ///   - inputSwitchConfiguration: The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
     ///   - inputType: The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+    ///   - outputHeaderConfiguration: The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     ///   - tags: A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
     ///   - logger: Logger use during operation
     @inlinable
@@ -149,7 +151,9 @@ public struct MediaPackageV2: AWSService {
         channelName: String,
         clientToken: String? = CreateChannelRequest.idempotencyToken(),
         description: String? = nil,
+        inputSwitchConfiguration: InputSwitchConfiguration? = nil,
         inputType: InputType? = nil,
+        outputHeaderConfiguration: OutputHeaderConfiguration? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateChannelResponse {
@@ -158,7 +162,9 @@ public struct MediaPackageV2: AWSService {
             channelName: channelName, 
             clientToken: clientToken, 
             description: description, 
+            inputSwitchConfiguration: inputSwitchConfiguration, 
             inputType: inputType, 
+            outputHeaderConfiguration: outputHeaderConfiguration, 
             tags: tags
         )
         return try await self.createChannel(input, logger: logger)
@@ -1022,6 +1028,8 @@ public struct MediaPackageV2: AWSService {
     ///   - channelName: The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
     ///   - description: Any descriptive information that you want to add to the channel for future identification purposes.
     ///   - eTag: The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
+    ///   - inputSwitchConfiguration: The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    ///   - outputHeaderConfiguration: The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateChannel(
@@ -1029,13 +1037,17 @@ public struct MediaPackageV2: AWSService {
         channelName: String,
         description: String? = nil,
         eTag: String? = nil,
+        inputSwitchConfiguration: InputSwitchConfiguration? = nil,
+        outputHeaderConfiguration: OutputHeaderConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateChannelResponse {
         let input = UpdateChannelRequest(
             channelGroupName: channelGroupName, 
             channelName: channelName, 
             description: description, 
-            eTag: eTag
+            eTag: eTag, 
+            inputSwitchConfiguration: inputSwitchConfiguration, 
+            outputHeaderConfiguration: outputHeaderConfiguration
         )
         return try await self.updateChannel(input, logger: logger)
     }

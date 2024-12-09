@@ -26,6 +26,12 @@ import Foundation
 extension EFS {
     // MARK: Enums
 
+    public enum DeletionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allConfigurations = "ALL_CONFIGURATIONS"
+        case localConfigurationOnly = "LOCAL_CONFIGURATION_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LifeCycleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case creating = "creating"
@@ -241,7 +247,7 @@ extension EFS {
     }
 
     public struct CreateFileSystemRequest: AWSEncodableShape {
-        /// Used to create a One Zone file system. It specifies the Amazon Web Services Availability Zone in which to create the file system. Use the format us-east-1a to specify the  Availability Zone. For more information about One Zone file systems, see Using EFS storage classes in the Amazon EFS User Guide.  One Zone file systems are not available in all Availability Zones in Amazon Web Services Regions where Amazon EFS is available.
+        /// For One Zone file systems, specify the Amazon Web Services Availability Zone in which to create the file system. Use the format us-east-1a to specify the  Availability Zone. For more information about One Zone file systems, see EFS file system types in the Amazon EFS User Guide.  One Zone file systems are not available in all Availability Zones in Amazon Web Services Regions where Amazon EFS is available.
         public let availabilityZoneName: String?
         /// Specifies whether automatic backups are enabled on the file system that you are creating. Set the value to true to enable automatic backups. If you are creating a One Zone file system, automatic backups are enabled by default. For more information, see Automatic backups in the Amazon EFS User Guide. Default is false. However, if you specify an AvailabilityZoneName,  the default is true.  Backup is not available in all Amazon Web Services Regions where Amazon EFS is available.
         public let backup: Bool?
@@ -251,7 +257,7 @@ extension EFS {
         public let encrypted: Bool?
         /// The ID of the KMS key that you want to use to protect the encrypted file system. This parameter is required only if you want to use a non-default KMS key. If this parameter is not specified, the default KMS key for Amazon EFS is used. You can specify a KMS key ID using the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If you use KmsKeyId, you must set the CreateFileSystemRequest$Encrypted  parameter to true.  EFS accepts only symmetric KMS keys. You cannot use asymmetric  KMS keys with Amazon EFS file systems.
         public let kmsKeyId: String?
-        /// The Performance mode of the file system. We recommend generalPurpose performance mode for all file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. The maxIO mode is not supported on One Zone file systems.  Due to the higher per-operation latencies with Max I/O, we recommend using General Purpose performance mode for all file systems.  Default is generalPurpose.
+        /// The performance mode of the file system. We recommend generalPurpose performance mode for all file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. The maxIO mode is not supported on One Zone file systems.  Due to the higher per-operation latencies with Max I/O, we recommend using General Purpose performance mode for all file systems.  Default is generalPurpose.
         public let performanceMode: PerformanceMode?
         /// The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
         public let provisionedThroughputInMibps: Double?
@@ -534,17 +540,21 @@ extension EFS {
     }
 
     public struct DeleteReplicationConfigurationRequest: AWSEncodableShape {
+        /// When replicating across Amazon Web Services accounts or across Amazon Web Services Regions,  Amazon EFS deletes the replication configuration from both the source  and destination account or Region (ALL_CONFIGURATIONS) by default.  If there's a configuration or permissions issue that prevents Amazon EFS from deleting the  replication configuration from both sides, you can use the LOCAL_CONFIGURATION_ONLY mode to delete the replication configuration from only the local side (the account or Region from which the delete is performed).   Only use the LOCAL_CONFIGURATION_ONLY mode in the case that Amazon EFS is unable to delete the replication configuration in both the source and destination account or Region.  Deleting the local configuration  leaves the configuration in the other account or Region unrecoverable. Additionally, do not use this mode for same-account, same-region replication as doing so results in a  BadRequest exception error.
+        public let deletionMode: DeletionMode?
         /// The ID of the source file system in the replication configuration.
         public let sourceFileSystemId: String
 
         @inlinable
-        public init(sourceFileSystemId: String) {
+        public init(deletionMode: DeletionMode? = nil, sourceFileSystemId: String) {
+            self.deletionMode = deletionMode
             self.sourceFileSystemId = sourceFileSystemId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deletionMode, key: "deletionMode")
             request.encodePath(self.sourceFileSystemId, key: "SourceFileSystemId")
         }
 
@@ -936,7 +946,7 @@ extension EFS {
     }
 
     public struct DescribeReplicationConfigurationsRequest: AWSEncodableShape {
-        /// You can retrieve the replication configuration for a specific file system by providing its file system ID.
+        /// You can retrieve the replication configuration for a specific file system by providing its file system ID. For cross-account,cross-region replication, an account can only describe the replication configuration for a file system in its own Region.
         public let fileSystemId: String?
         /// (Optional) To limit the number of objects returned in a response, you can specify the MaxItems parameter. The default value is 100.
         public let maxResults: Int?
@@ -1050,43 +1060,58 @@ extension EFS {
         public let fileSystemId: String
         /// The time when the most recent sync was successfully completed on the destination file system. Any changes to data on the source file system that occurred before this time have been successfully replicated to the destination file system. Any changes that occurred after this time might not be fully replicated.
         public let lastReplicatedTimestamp: Date?
+        /// ID of the Amazon Web Services account in which the destination file system resides.
+        public let ownerId: String?
         /// The Amazon Web Services Region in which the destination file system is located.
         public let region: String
-        /// Describes the status of the destination EFS file system.   The Paused state occurs as a result of opting out of the source or destination Region after the replication configuration was created. To resume replication for the file system, you need to again opt in to the Amazon Web Services Region. For more information, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference Guide.   The Error state occurs when either the source or the destination file system (or both) is in a failed state and is unrecoverable. For more information, see Monitoring replication status in the Amazon EFS User Guide. You must delete the replication configuration, and then restore the most recent backup of the failed file system (either the source or the destination) to a new file system.
+        /// Amazon Resource Name (ARN) of the IAM role in the source account that allows Amazon EFS to perform replication on its behalf. This is optional for same-account  replication and required for cross-account replication.
+        public let roleArn: String?
+        /// Describes the status of the replication configuration. For more information  about replication status, see Viewing replication details in the Amazon EFS User Guide.
         public let status: ReplicationStatus
+        /// Message that provides details about the PAUSED or ERRROR state  of the replication destination configuration. For more information  about replication status messages, see Viewing replication details in the Amazon EFS User Guide.
+        public let statusMessage: String?
 
         @inlinable
-        public init(fileSystemId: String, lastReplicatedTimestamp: Date? = nil, region: String, status: ReplicationStatus) {
+        public init(fileSystemId: String, lastReplicatedTimestamp: Date? = nil, ownerId: String? = nil, region: String, roleArn: String? = nil, status: ReplicationStatus, statusMessage: String? = nil) {
             self.fileSystemId = fileSystemId
             self.lastReplicatedTimestamp = lastReplicatedTimestamp
+            self.ownerId = ownerId
             self.region = region
+            self.roleArn = roleArn
             self.status = status
+            self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
             case fileSystemId = "FileSystemId"
             case lastReplicatedTimestamp = "LastReplicatedTimestamp"
+            case ownerId = "OwnerId"
             case region = "Region"
+            case roleArn = "RoleArn"
             case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 
     public struct DestinationToCreate: AWSEncodableShape {
         /// To create a file system that uses One Zone storage, specify the name of the Availability Zone in which to create the destination file system.
         public let availabilityZoneName: String?
-        /// The ID of the file system to use for the destination. The file system's replication overwrite replication must be disabled. If you do not provide an ID, then EFS creates a new file system for the replication destination.
+        /// The ID or ARN of the file system to use for the destination.  For cross-account replication, this must be an  ARN. The file system's  replication overwrite replication must be disabled. If no ID or ARN is  specified, then a new file system is created.
         public let fileSystemId: String?
-        /// Specify the Key Management Service (KMS) key that you want to use to encrypt the destination file system. If you do not specify a KMS key, Amazon EFS uses your default KMS key for Amazon EFS, /aws/elasticfilesystem. This ID can be in one of the following formats:   Key ID - The unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - The Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - The ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.
+        /// Specify the Key Management Service (KMS) key that you want to use to encrypt the destination file system. If you do not specify a KMS key, Amazon EFS uses your default KMS key for Amazon EFS, /aws/elasticfilesystem. This ID can be in one of the following formats:   Key ID - The unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - The ARN for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - The ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.
         public let kmsKeyId: String?
-        /// To create a file system that uses Regional storage, specify the Amazon Web Services Region in which to create the destination file system.
+        /// To create a file system that uses Regional storage, specify the Amazon Web Services Region in which to create the destination file system. The Region must be enabled for the Amazon Web Services account that owns the source file system. For more information, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference Reference Guide.
         public let region: String?
+        /// Amazon Resource Name (ARN) of the IAM role in the source account that allows Amazon EFS to perform replication on its behalf. This is optional for same-account  replication and required for cross-account replication.
+        public let roleArn: String?
 
         @inlinable
-        public init(availabilityZoneName: String? = nil, fileSystemId: String? = nil, kmsKeyId: String? = nil, region: String? = nil) {
+        public init(availabilityZoneName: String? = nil, fileSystemId: String? = nil, kmsKeyId: String? = nil, region: String? = nil, roleArn: String? = nil) {
             self.availabilityZoneName = availabilityZoneName
             self.fileSystemId = fileSystemId
             self.kmsKeyId = kmsKeyId
             self.region = region
+            self.roleArn = roleArn
         }
 
         public func validate(name: String) throws {
@@ -1100,6 +1125,8 @@ extension EFS {
             try self.validate(self.region, name: "region", parent: name, max: 64)
             try self.validate(self.region, name: "region", parent: name, min: 1)
             try self.validate(self.region, name: "region", parent: name, pattern: "^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-{0,1}[0-9]{0,1}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1107,6 +1134,7 @@ extension EFS {
             case fileSystemId = "FileSystemId"
             case kmsKeyId = "KmsKeyId"
             case region = "Region"
+            case roleArn = "RoleArn"
         }
     }
 
@@ -1137,7 +1165,7 @@ extension EFS {
         public let numberOfMountTargets: Int
         /// The Amazon Web Services account that created the file system.
         public let ownerId: String
-        /// The Performance mode of the file system.
+        /// The performance mode of the file system.
         public let performanceMode: PerformanceMode
         /// The amount of provisioned throughput, measured in MiBps, for the file system. Valid for file systems using ThroughputMode set to provisioned.
         public let provisionedThroughputInMibps: Double?
@@ -1269,7 +1297,7 @@ extension EFS {
     }
 
     public struct LifecyclePolicy: AWSEncodableShape & AWSDecodableShape {
-        /// The number of days after files were last accessed in primary storage (the Standard storage class) files at which to move them to Archive storage. Metadata operations such as listing the contents of a directory don't count as file access events.
+        /// The number of days after files were last accessed in primary storage (the Standard storage class) at which to move them to Archive storage. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToArchive: TransitionToArchiveRules?
         /// The number of days after files were last accessed in primary storage (the Standard storage class) at which to move them to Infrequent Access (IA) storage. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToIA: TransitionToIARules?
@@ -1524,7 +1552,7 @@ extension EFS {
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// The ID of the EFS file system that you want to create or update the FileSystemPolicy for.
         public let fileSystemId: String
-        /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. EFS file system policies have a 20,000 character limit. To find out more about the elements that make up a file system policy, see EFS Resource-based Policies.
+        /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. EFS file system policies have a 20,000 character limit. To find out more about the elements that make up a file system policy, see Resource-based policies within Amazon EFS.
         public let policy: String
 
         @inlinable
@@ -1559,8 +1587,8 @@ extension EFS {
     public struct PutLifecycleConfigurationRequest: AWSEncodableShape {
         /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
         public let fileSystemId: String
-        /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object informs EFS Lifecycle management of the following:     TransitionToIA –  When to move files in the file system from primary storage (Standard storage class) into the Infrequent Access  (IA) storage.     TransitionToArchive – When to move files in the file system from their current storage class (either IA or Standard storage) into the  Archive storage. File systems cannot transition into Archive storage before transitioning into IA  storage. Therefore,   TransitionToArchive must either not be set or must be later than TransitionToIA.  The Archive storage class is available only for file systems that use the Elastic Throughput mode
-        /// and the General Purpose Performance mode.       TransitionToPrimaryStorageClass – Whether to move files in the file system back to primary storage (Standard storage class) after they are accessed in IA or Archive storage.    When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each storage transition. See the example requests in the following section for more information.
+        /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object informs lifecycle management of the following:     TransitionToIA –  When to move files in the file system from primary storage (Standard storage class) into the Infrequent Access  (IA) storage.     TransitionToArchive – When to move files in the file system from their current storage class (either IA or Standard storage) into the  Archive storage. File systems cannot transition into Archive storage before transitioning into IA  storage. Therefore,   TransitionToArchive must either not be set or must be later than TransitionToIA.  The Archive storage class is available only for file systems that use the Elastic throughput mode
+        /// and the General Purpose performance mode.       TransitionToPrimaryStorageClass – Whether to move files in the file system back to primary storage (Standard storage class) after they are accessed in IA or Archive storage.    When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each storage transition. See the example requests in the following section for more information.
         public let lifecyclePolicies: [LifecyclePolicy]
 
         @inlinable
@@ -1598,16 +1626,19 @@ extension EFS {
         public let sourceFileSystemArn: String
         /// The ID of the source Amazon EFS file system that is being replicated.
         public let sourceFileSystemId: String
+        /// ID of the Amazon Web Services account in which the source file system resides.
+        public let sourceFileSystemOwnerId: String?
         /// The Amazon Web Services Region in which the source EFS file system is located.
         public let sourceFileSystemRegion: String
 
         @inlinable
-        public init(creationTime: Date, destinations: [Destination], originalSourceFileSystemArn: String, sourceFileSystemArn: String, sourceFileSystemId: String, sourceFileSystemRegion: String) {
+        public init(creationTime: Date, destinations: [Destination], originalSourceFileSystemArn: String, sourceFileSystemArn: String, sourceFileSystemId: String, sourceFileSystemOwnerId: String? = nil, sourceFileSystemRegion: String) {
             self.creationTime = creationTime
             self.destinations = destinations
             self.originalSourceFileSystemArn = originalSourceFileSystemArn
             self.sourceFileSystemArn = sourceFileSystemArn
             self.sourceFileSystemId = sourceFileSystemId
+            self.sourceFileSystemOwnerId = sourceFileSystemOwnerId
             self.sourceFileSystemRegion = sourceFileSystemRegion
         }
 
@@ -1617,6 +1648,7 @@ extension EFS {
             case originalSourceFileSystemArn = "OriginalSourceFileSystemArn"
             case sourceFileSystemArn = "SourceFileSystemArn"
             case sourceFileSystemId = "SourceFileSystemId"
+            case sourceFileSystemOwnerId = "SourceFileSystemOwnerId"
             case sourceFileSystemRegion = "SourceFileSystemRegion"
         }
     }
@@ -1759,7 +1791,7 @@ extension EFS {
     public struct UpdateFileSystemProtectionRequest: AWSEncodableShape {
         /// The ID of the file system to update.
         public let fileSystemId: String
-        /// The status of the file system's replication overwrite protection.    ENABLED – The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default.     DISABLED – The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication.    REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication.   If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled, the file system becomes writeable.
+        /// The status of the file system's replication overwrite protection.    ENABLED – The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default.     DISABLED – The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication.    REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication.   If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled and the file system becomes writeable.
         public let replicationOverwriteProtection: ReplicationOverwriteProtection?
 
         @inlinable

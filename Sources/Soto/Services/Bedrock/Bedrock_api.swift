@@ -129,7 +129,7 @@ public struct Bedrock: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a batch deletion job. A model evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
+    /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has  following status FAILED, COMPLETED, and STOPPED.  You can request up to 25 model evaluation jobs be deleted in a single request.
     @Sendable
     @inlinable
     public func batchDeleteEvaluationJob(_ input: BatchDeleteEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteEvaluationJobResponse {
@@ -142,10 +142,10 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Creates a batch deletion job. A model evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
+    /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has  following status FAILED, COMPLETED, and STOPPED.  You can request up to 25 model evaluation jobs be deleted in a single request.
     ///
     /// Parameters:
-    ///   - jobIdentifiers: An array of model evaluation job ARNs to be deleted.
+    ///   - jobIdentifiers: A list of one or more evaluation job Amazon Resource Names (ARNs) you want to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchDeleteEvaluationJob(
@@ -158,7 +158,7 @@ public struct Bedrock: AWSService {
         return try await self.batchDeleteEvaluationJob(input, logger: logger)
     }
 
-    /// API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and model evaluation jobs that use human workers. To learn more about the requirements for creating a model evaluation job see, Model evaluation.
+    /// Creates an evaluation job.
     @Sendable
     @inlinable
     public func createEvaluationJob(_ input: CreateEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluationJobResponse {
@@ -171,21 +171,23 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and model evaluation jobs that use human workers. To learn more about the requirements for creating a model evaluation job see, Model evaluation.
+    /// Creates an evaluation job.
     ///
     /// Parameters:
+    ///   - applicationType: Specifies whether the evaluation job is for evaluating a model or evaluating a knowledge base (retrieval and response generation).
     ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
-    ///   - customerEncryptionKeyId: Specify your customer managed key ARN that will be used to encrypt your model evaluation job.
-    ///   - evaluationConfig: Specifies whether the model evaluation job is automatic or uses human worker.
-    ///   - inferenceConfig: Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model or inference profile, and model evaluation job that use human workers support two models or inference profiles.
-    ///   - jobDescription: A description of the model evaluation job.
-    ///   - jobName: The name of the model evaluation job. Model evaluation job names must unique with your AWS account, and your account's AWS region.
+    ///   - customerEncryptionKeyId: Specify your customer managed encryption key Amazon Resource Name (ARN) that will be used to encrypt your evaluation job.
+    ///   - evaluationConfig: Contains the configuration details of either an automated or human-based evaluation job.
+    ///   - inferenceConfig: Contains the configuration details of the inference model for the evaluation job. For model evaluation jobs, automated jobs support a single model or  inference profile, and jobs that use human workers support  two models or inference profiles.
+    ///   - jobDescription: A description of the evaluation job.
+    ///   - jobName: A name for the evaluation job. Names must unique with your Amazon Web Services account,  and your account's Amazon Web Services region.
     ///   - jobTags: Tags to attach to the model evaluation job.
-    ///   - outputDataConfig: An object that defines where the results of model evaluation job will be saved in Amazon S3.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can assume to perform tasks on your behalf. The service role must have Amazon Bedrock as the service principal, and provide access to any Amazon S3 buckets specified in the EvaluationConfig object. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission. To learn more about the required permissions, see Required permissions.
+    ///   - outputDataConfig: Contains the configuration details of the Amazon S3 bucket for storing the results  of the evaluation job.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can  assume to perform tasks on your behalf. To learn more about the required permissions,  see Required  permissions for model evaluations.
     ///   - logger: Logger use during operation
     @inlinable
     public func createEvaluationJob(
+        applicationType: ApplicationType? = nil,
         clientRequestToken: String? = CreateEvaluationJobRequest.idempotencyToken(),
         customerEncryptionKeyId: String? = nil,
         evaluationConfig: EvaluationConfig,
@@ -198,6 +200,7 @@ public struct Bedrock: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateEvaluationJobResponse {
         let input = CreateEvaluationJobRequest(
+            applicationType: applicationType, 
             clientRequestToken: clientRequestToken, 
             customerEncryptionKeyId: customerEncryptionKeyId, 
             evaluationConfig: evaluationConfig, 
@@ -211,7 +214,7 @@ public struct Bedrock: AWSService {
         return try await self.createEvaluationJob(input, logger: logger)
     }
 
-    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter  out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms,  competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom  regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to  the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Guardrails for Amazon Bedrock in the Amazon Bedrock User Guide.
+    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter  out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms,  competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom  regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to  the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Amazon Bedrock Guardrails in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func createGuardrail(_ input: CreateGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGuardrailResponse {
@@ -224,7 +227,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter  out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms,  competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom  regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to  the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Guardrails for Amazon Bedrock in the Amazon Bedrock User Guide.
+    /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter  out denied topics and words, and remove sensitive information for privacy protection.    Content filters - Adjust filter strengths to block input prompts or model responses containing harmful content.    Denied topics - Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.    Word filters - Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms,  competitor names etc.    Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom  regex in user inputs and model responses.   In addition to the above policies, you can also configure the messages to be returned to  the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see Amazon Bedrock Guardrails in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - blockedInputMessaging: The message to return when the guardrail blocks a prompt.
@@ -349,6 +352,50 @@ public struct Bedrock: AWSService {
         return try await self.createInferenceProfile(input, logger: logger)
     }
 
+    /// Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
+    @Sendable
+    @inlinable
+    public func createMarketplaceModelEndpoint(_ input: CreateMarketplaceModelEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMarketplaceModelEndpointResponse {
+        try await self.client.execute(
+            operation: "CreateMarketplaceModelEndpoint", 
+            path: "/marketplace-model/endpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
+    ///
+    /// Parameters:
+    ///   - acceptEula: Indicates whether you accept the end-user license agreement (EULA) for the model. Set to true to accept the EULA.
+    ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is listed as not required because Amazon Web Services SDKs automatically generate it for you and set this parameter. If you're not using the Amazon Web Services SDK or the CLI, you must provide this token or the action will fail.
+    ///   - endpointConfig: The configuration for the endpoint, including the number and type of instances to use.
+    ///   - endpointName: The name of the endpoint. This name must be unique within your Amazon Web Services account and region.
+    ///   - modelSourceIdentifier: The ARN of the model from Amazon Bedrock Marketplace that you want to deploy to the endpoint.
+    ///   - tags: An array of key-value pairs to apply to the underlying Amazon SageMaker endpoint. You can use these tags to organize and identify your Amazon Web Services resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createMarketplaceModelEndpoint(
+        acceptEula: Bool? = nil,
+        clientRequestToken: String? = CreateMarketplaceModelEndpointRequest.idempotencyToken(),
+        endpointConfig: EndpointConfig,
+        endpointName: String,
+        modelSourceIdentifier: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateMarketplaceModelEndpointResponse {
+        let input = CreateMarketplaceModelEndpointRequest(
+            acceptEula: acceptEula, 
+            clientRequestToken: clientRequestToken, 
+            endpointConfig: endpointConfig, 
+            endpointName: endpointName, 
+            modelSourceIdentifier: modelSourceIdentifier, 
+            tags: tags
+        )
+        return try await self.createMarketplaceModelEndpoint(input, logger: logger)
+    }
+
     /// Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
@@ -408,6 +455,7 @@ public struct Bedrock: AWSService {
     /// Parameters:
     ///   - baseModelIdentifier: Name of the base model.
     ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+    ///   - customizationConfig: The customization configuration for the model customization job.
     ///   - customizationType: The customization type.
     ///   - customModelKmsKeyId: The custom model is encrypted at rest using this key.
     ///   - customModelName: A name for the resulting custom model.
@@ -425,11 +473,12 @@ public struct Bedrock: AWSService {
     public func createModelCustomizationJob(
         baseModelIdentifier: String,
         clientRequestToken: String? = CreateModelCustomizationJobRequest.idempotencyToken(),
+        customizationConfig: CustomizationConfig? = nil,
         customizationType: CustomizationType? = nil,
         customModelKmsKeyId: String? = nil,
         customModelName: String,
         customModelTags: [Tag]? = nil,
-        hyperParameters: [String: String],
+        hyperParameters: [String: String]? = nil,
         jobName: String,
         jobTags: [Tag]? = nil,
         outputDataConfig: OutputDataConfig,
@@ -442,6 +491,7 @@ public struct Bedrock: AWSService {
         let input = CreateModelCustomizationJobRequest(
             baseModelIdentifier: baseModelIdentifier, 
             clientRequestToken: clientRequestToken, 
+            customizationConfig: customizationConfig, 
             customizationType: customizationType, 
             customModelKmsKeyId: customModelKmsKeyId, 
             customModelName: customModelName, 
@@ -727,6 +777,35 @@ public struct Bedrock: AWSService {
         return try await self.deleteInferenceProfile(input, logger: logger)
     }
 
+    /// Deletes an endpoint for a model from Amazon Bedrock Marketplace.
+    @Sendable
+    @inlinable
+    public func deleteMarketplaceModelEndpoint(_ input: DeleteMarketplaceModelEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMarketplaceModelEndpointResponse {
+        try await self.client.execute(
+            operation: "DeleteMarketplaceModelEndpoint", 
+            path: "/marketplace-model/endpoints/{endpointArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an endpoint for a model from Amazon Bedrock Marketplace.
+    ///
+    /// Parameters:
+    ///   - endpointArn: The Amazon Resource Name (ARN) of the endpoint you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteMarketplaceModelEndpoint(
+        endpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteMarketplaceModelEndpointResponse {
+        let input = DeleteMarketplaceModelEndpointRequest(
+            endpointArn: endpointArn
+        )
+        return try await self.deleteMarketplaceModelEndpoint(input, logger: logger)
+    }
+
     /// Delete the invocation logging.
     @Sendable
     @inlinable
@@ -782,6 +861,35 @@ public struct Bedrock: AWSService {
         return try await self.deleteProvisionedModelThroughput(input, logger: logger)
     }
 
+    /// Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
+    @Sendable
+    @inlinable
+    public func deregisterMarketplaceModelEndpoint(_ input: DeregisterMarketplaceModelEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterMarketplaceModelEndpointResponse {
+        try await self.client.execute(
+            operation: "DeregisterMarketplaceModelEndpoint", 
+            path: "/marketplace-model/endpoints/{endpointArn}/registration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
+    ///
+    /// Parameters:
+    ///   - endpointArn: The Amazon Resource Name (ARN) of the endpoint you want to deregister.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deregisterMarketplaceModelEndpoint(
+        endpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeregisterMarketplaceModelEndpointResponse {
+        let input = DeregisterMarketplaceModelEndpointRequest(
+            endpointArn: endpointArn
+        )
+        return try await self.deregisterMarketplaceModelEndpoint(input, logger: logger)
+    }
+
     /// Get the properties associated with a Amazon Bedrock custom model that you have created.For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
@@ -811,7 +919,7 @@ public struct Bedrock: AWSService {
         return try await self.getCustomModel(input, logger: logger)
     }
 
-    /// Retrieves the properties associated with a model evaluation job, including the status of the job. For more information, see Model evaluation.
+    /// Gets information about an evaluation job, such as the status of the job.
     @Sendable
     @inlinable
     public func getEvaluationJob(_ input: GetEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEvaluationJobResponse {
@@ -824,10 +932,10 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the properties associated with a model evaluation job, including the status of the job. For more information, see Model evaluation.
+    /// Gets information about an evaluation job, such as the status of the job.
     ///
     /// Parameters:
-    ///   - jobIdentifier: The Amazon Resource Name (ARN) of the model evaluation job.
+    ///   - jobIdentifier: The Amazon Resource Name (ARN) of the evaluation job you want get information on.
     ///   - logger: Logger use during operation
     @inlinable
     public func getEvaluationJob(
@@ -959,6 +1067,35 @@ public struct Bedrock: AWSService {
         return try await self.getInferenceProfile(input, logger: logger)
     }
 
+    /// Retrieves details about a specific endpoint for a model from Amazon Bedrock Marketplace.
+    @Sendable
+    @inlinable
+    public func getMarketplaceModelEndpoint(_ input: GetMarketplaceModelEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMarketplaceModelEndpointResponse {
+        try await self.client.execute(
+            operation: "GetMarketplaceModelEndpoint", 
+            path: "/marketplace-model/endpoints/{endpointArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about a specific endpoint for a model from Amazon Bedrock Marketplace.
+    ///
+    /// Parameters:
+    ///   - endpointArn: The Amazon Resource Name (ARN) of the endpoint you want to get information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMarketplaceModelEndpoint(
+        endpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMarketplaceModelEndpointResponse {
+        let input = GetMarketplaceModelEndpointRequest(
+            endpointArn: endpointArn
+        )
+        return try await self.getMarketplaceModelEndpoint(input, logger: logger)
+    }
+
     /// Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
@@ -1046,7 +1183,7 @@ public struct Bedrock: AWSService {
         return try await self.getModelImportJob(input, logger: logger)
     }
 
-    /// Gets details about a batch inference job. For more information, see View details about a batch inference job
+    /// Gets details about a batch inference job. For more information, see Monitor batch inference jobs
     @Sendable
     @inlinable
     public func getModelInvocationJob(_ input: GetModelInvocationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelInvocationJobResponse {
@@ -1059,7 +1196,7 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Gets details about a batch inference job. For more information, see View details about a batch inference job
+    /// Gets details about a batch inference job. For more information, see Monitor batch inference jobs
     ///
     /// Parameters:
     ///   - jobIdentifier: The Amazon Resource Name (ARN) of the batch inference job.
@@ -1099,6 +1236,35 @@ public struct Bedrock: AWSService {
         let input = GetModelInvocationLoggingConfigurationRequest(
         )
         return try await self.getModelInvocationLoggingConfiguration(input, logger: logger)
+    }
+
+    /// Retrieves details about a prompt router.
+    @Sendable
+    @inlinable
+    public func getPromptRouter(_ input: GetPromptRouterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPromptRouterResponse {
+        try await self.client.execute(
+            operation: "GetPromptRouter", 
+            path: "/prompt-routers/{promptRouterArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about a prompt router.
+    ///
+    /// Parameters:
+    ///   - promptRouterArn: The prompt router's ARN
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPromptRouter(
+        promptRouterArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPromptRouterResponse {
+        let input = GetPromptRouterRequest(
+            promptRouterArn: promptRouterArn
+        )
+        return try await self.getPromptRouter(input, logger: logger)
     }
 
     /// Returns details for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
@@ -1186,7 +1352,7 @@ public struct Bedrock: AWSService {
         return try await self.listCustomModels(input, logger: logger)
     }
 
-    /// Lists model evaluation jobs.
+    /// Lists all existing evaluation jobs.
     @Sendable
     @inlinable
     public func listEvaluationJobs(_ input: ListEvaluationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEvaluationJobsResponse {
@@ -1199,20 +1365,22 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Lists model evaluation jobs.
+    /// Lists all existing evaluation jobs.
     ///
     /// Parameters:
-    ///   - creationTimeAfter: A filter that includes model evaluation jobs created after the time specified.
-    ///   - creationTimeBefore: A filter that includes model evaluation jobs created prior to the time specified.
+    ///   - applicationTypeEquals: A filter to only list evaluation jobs that are either model evaluations or knowledge base evaluations.
+    ///   - creationTimeAfter: A filter to only list evaluation jobs created after a specified time.
+    ///   - creationTimeBefore: A filter to only list evaluation jobs created before a specified time.
     ///   - maxResults: The maximum number of results to return.
-    ///   - nameContains: Query parameter string for model evaluation job names.
+    ///   - nameContains: A filter to only list evaluation jobs that contain a specified string in the job name.
     ///   - nextToken: Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
-    ///   - sortBy: Allows you to sort model evaluation jobs by when they were created.
-    ///   - sortOrder: How you want the order of jobs sorted.
-    ///   - statusEquals: Only return jobs where the status condition is met.
+    ///   - sortBy: Specifies a creation time to sort the list of evaluation jobs by when they were created.
+    ///   - sortOrder: Specifies whether to sort the list of evaluation jobs by either ascending or descending order.
+    ///   - statusEquals: A filter to only list evaluation jobs that are of a certain status.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEvaluationJobs(
+        applicationTypeEquals: ApplicationType? = nil,
         creationTimeAfter: Date? = nil,
         creationTimeBefore: Date? = nil,
         maxResults: Int? = nil,
@@ -1224,6 +1392,7 @@ public struct Bedrock: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListEvaluationJobsResponse {
         let input = ListEvaluationJobsRequest(
+            applicationTypeEquals: applicationTypeEquals, 
             creationTimeAfter: creationTimeAfter, 
             creationTimeBefore: creationTimeBefore, 
             maxResults: maxResults, 
@@ -1389,6 +1558,41 @@ public struct Bedrock: AWSService {
             typeEquals: typeEquals
         )
         return try await self.listInferenceProfiles(input, logger: logger)
+    }
+
+    /// Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listMarketplaceModelEndpoints(_ input: ListMarketplaceModelEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMarketplaceModelEndpointsResponse {
+        try await self.client.execute(
+            operation: "ListMarketplaceModelEndpoints", 
+            path: "/marketplace-model/endpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. If more results are available, the operation returns a NextToken value.
+    ///   - modelSourceEquals: If specified, only endpoints for the given model source identifier are returned.
+    ///   - nextToken: The token for the next set of results. You receive this token from a previous ListMarketplaceModelEndpoints call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMarketplaceModelEndpoints(
+        maxResults: Int? = nil,
+        modelSourceEquals: String? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMarketplaceModelEndpointsResponse {
+        let input = ListMarketplaceModelEndpointsRequest(
+            maxResults: maxResults, 
+            modelSourceEquals: modelSourceEquals, 
+            nextToken: nextToken
+        )
+        return try await self.listMarketplaceModelEndpoints(input, logger: logger)
     }
 
     /// Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
@@ -1568,7 +1772,7 @@ public struct Bedrock: AWSService {
     ///   - nextToken: If there were more results than the value you specified in the maxResults field in a previous ListModelInvocationJobs request, the response would have returned a nextToken value. To see the next batch of results, send the nextToken value in another request.
     ///   - sortBy: An attribute by which to sort the results.
     ///   - sortOrder: Specifies whether to sort the results by ascending or descending order.
-    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify.
+    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
     ///   - submitTimeAfter: Specify a time to filter for batch inference jobs that were submitted after the time you specify.
     ///   - submitTimeBefore: Specify a time to filter for batch inference jobs that were submitted before the time you specify.
     ///   - logger: Logger use during operation
@@ -1595,6 +1799,38 @@ public struct Bedrock: AWSService {
             submitTimeBefore: submitTimeBefore
         )
         return try await self.listModelInvocationJobs(input, logger: logger)
+    }
+
+    /// Retrieves a list of prompt routers.
+    @Sendable
+    @inlinable
+    public func listPromptRouters(_ input: ListPromptRoutersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPromptRoutersResponse {
+        try await self.client.execute(
+            operation: "ListPromptRouters", 
+            path: "/prompt-routers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of prompt routers.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of prompt routers to return in one page of results.
+    ///   - nextToken: Specify the pagination token from a previous request to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPromptRouters(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPromptRoutersResponse {
+        let input = ListPromptRoutersRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPromptRouters(input, logger: logger)
     }
 
     /// Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
@@ -1708,7 +1944,39 @@ public struct Bedrock: AWSService {
         return try await self.putModelInvocationLoggingConfiguration(input, logger: logger)
     }
 
-    /// Stops an in progress model evaluation job.
+    /// Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
+    @Sendable
+    @inlinable
+    public func registerMarketplaceModelEndpoint(_ input: RegisterMarketplaceModelEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterMarketplaceModelEndpointResponse {
+        try await self.client.execute(
+            operation: "RegisterMarketplaceModelEndpoint", 
+            path: "/marketplace-model/endpoints/{endpointIdentifier}/registration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
+    ///
+    /// Parameters:
+    ///   - endpointIdentifier: The ARN of the Amazon SageMaker endpoint you want to register with Amazon Bedrock Marketplace.
+    ///   - modelSourceIdentifier: The ARN of the model from Amazon Bedrock Marketplace that is deployed on the endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerMarketplaceModelEndpoint(
+        endpointIdentifier: String,
+        modelSourceIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterMarketplaceModelEndpointResponse {
+        let input = RegisterMarketplaceModelEndpointRequest(
+            endpointIdentifier: endpointIdentifier, 
+            modelSourceIdentifier: modelSourceIdentifier
+        )
+        return try await self.registerMarketplaceModelEndpoint(input, logger: logger)
+    }
+
+    /// Stops an evaluation job that is current being created or running.
     @Sendable
     @inlinable
     public func stopEvaluationJob(_ input: StopEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopEvaluationJobResponse {
@@ -1721,10 +1989,10 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Stops an in progress model evaluation job.
+    /// Stops an evaluation job that is current being created or running.
     ///
     /// Parameters:
-    ///   - jobIdentifier: The ARN of the model evaluation job you want to stop.
+    ///   - jobIdentifier: The Amazon Resource Name (ARN) of the evaluation job you want to stop.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopEvaluationJob(
@@ -1918,6 +2186,41 @@ public struct Bedrock: AWSService {
         return try await self.updateGuardrail(input, logger: logger)
     }
 
+    /// Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
+    @Sendable
+    @inlinable
+    public func updateMarketplaceModelEndpoint(_ input: UpdateMarketplaceModelEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMarketplaceModelEndpointResponse {
+        try await self.client.execute(
+            operation: "UpdateMarketplaceModelEndpoint", 
+            path: "/marketplace-model/endpoints/{endpointArn}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is listed as not required because Amazon Web Services SDKs automatically generate it for you and set this parameter. If you're not using the Amazon Web Services SDK or the CLI, you must provide this token or the action will fail.
+    ///   - endpointArn: The Amazon Resource Name (ARN) of the endpoint you want to update.
+    ///   - endpointConfig: The new configuration for the endpoint, including the number and type of instances to use.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateMarketplaceModelEndpoint(
+        clientRequestToken: String? = UpdateMarketplaceModelEndpointRequest.idempotencyToken(),
+        endpointArn: String,
+        endpointConfig: EndpointConfig,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateMarketplaceModelEndpointResponse {
+        let input = UpdateMarketplaceModelEndpointRequest(
+            clientRequestToken: clientRequestToken, 
+            endpointArn: endpointArn, 
+            endpointConfig: endpointConfig
+        )
+        return try await self.updateMarketplaceModelEndpoint(input, logger: logger)
+    }
+
     /// Updates the name or associated model for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
@@ -2046,16 +2349,18 @@ extension Bedrock {
     /// Return PaginatorSequence for operation ``listEvaluationJobs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - creationTimeAfter: A filter that includes model evaluation jobs created after the time specified.
-    ///   - creationTimeBefore: A filter that includes model evaluation jobs created prior to the time specified.
+    ///   - applicationTypeEquals: A filter to only list evaluation jobs that are either model evaluations or knowledge base evaluations.
+    ///   - creationTimeAfter: A filter to only list evaluation jobs created after a specified time.
+    ///   - creationTimeBefore: A filter to only list evaluation jobs created before a specified time.
     ///   - maxResults: The maximum number of results to return.
-    ///   - nameContains: Query parameter string for model evaluation job names.
-    ///   - sortBy: Allows you to sort model evaluation jobs by when they were created.
-    ///   - sortOrder: How you want the order of jobs sorted.
-    ///   - statusEquals: Only return jobs where the status condition is met.
+    ///   - nameContains: A filter to only list evaluation jobs that contain a specified string in the job name.
+    ///   - sortBy: Specifies a creation time to sort the list of evaluation jobs by when they were created.
+    ///   - sortOrder: Specifies whether to sort the list of evaluation jobs by either ascending or descending order.
+    ///   - statusEquals: A filter to only list evaluation jobs that are of a certain status.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEvaluationJobsPaginator(
+        applicationTypeEquals: ApplicationType? = nil,
         creationTimeAfter: Date? = nil,
         creationTimeBefore: Date? = nil,
         maxResults: Int? = nil,
@@ -2066,6 +2371,7 @@ extension Bedrock {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListEvaluationJobsRequest, ListEvaluationJobsResponse> {
         let input = ListEvaluationJobsRequest(
+            applicationTypeEquals: applicationTypeEquals, 
             creationTimeAfter: creationTimeAfter, 
             creationTimeBefore: creationTimeBefore, 
             maxResults: maxResults, 
@@ -2198,6 +2504,43 @@ extension Bedrock {
             typeEquals: typeEquals
         )
         return self.listInferenceProfilesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listMarketplaceModelEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMarketplaceModelEndpointsPaginator(
+        _ input: ListMarketplaceModelEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMarketplaceModelEndpointsRequest, ListMarketplaceModelEndpointsResponse> {
+        return .init(
+            input: input,
+            command: self.listMarketplaceModelEndpoints,
+            inputKey: \ListMarketplaceModelEndpointsRequest.nextToken,
+            outputKey: \ListMarketplaceModelEndpointsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMarketplaceModelEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. If more results are available, the operation returns a NextToken value.
+    ///   - modelSourceEquals: If specified, only endpoints for the given model source identifier are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMarketplaceModelEndpointsPaginator(
+        maxResults: Int? = nil,
+        modelSourceEquals: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMarketplaceModelEndpointsRequest, ListMarketplaceModelEndpointsResponse> {
+        let input = ListMarketplaceModelEndpointsRequest(
+            maxResults: maxResults, 
+            modelSourceEquals: modelSourceEquals
+        )
+        return self.listMarketplaceModelEndpointsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listModelCopyJobs(_:logger:)``.
@@ -2387,7 +2730,7 @@ extension Bedrock {
     ///   - nameContains: Specify a string to filter for batch inference jobs whose names contain the string.
     ///   - sortBy: An attribute by which to sort the results.
     ///   - sortOrder: Specifies whether to sort the results by ascending or descending order.
-    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify.
+    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
     ///   - submitTimeAfter: Specify a time to filter for batch inference jobs that were submitted after the time you specify.
     ///   - submitTimeBefore: Specify a time to filter for batch inference jobs that were submitted before the time you specify.
     ///   - logger: Logger used for logging
@@ -2412,6 +2755,40 @@ extension Bedrock {
             submitTimeBefore: submitTimeBefore
         )
         return self.listModelInvocationJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPromptRouters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPromptRoutersPaginator(
+        _ input: ListPromptRoutersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPromptRoutersRequest, ListPromptRoutersResponse> {
+        return .init(
+            input: input,
+            command: self.listPromptRouters,
+            inputKey: \ListPromptRoutersRequest.nextToken,
+            outputKey: \ListPromptRoutersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPromptRouters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of prompt routers to return in one page of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPromptRoutersPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPromptRoutersRequest, ListPromptRoutersResponse> {
+        let input = ListPromptRoutersRequest(
+            maxResults: maxResults
+        )
+        return self.listPromptRoutersPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listProvisionedModelThroughputs(_:logger:)``.
@@ -2492,6 +2869,7 @@ extension Bedrock.ListEvaluationJobsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Bedrock.ListEvaluationJobsRequest {
         return .init(
+            applicationTypeEquals: self.applicationTypeEquals,
             creationTimeAfter: self.creationTimeAfter,
             creationTimeBefore: self.creationTimeBefore,
             maxResults: self.maxResults,
@@ -2537,6 +2915,17 @@ extension Bedrock.ListInferenceProfilesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             typeEquals: self.typeEquals
+        )
+    }
+}
+
+extension Bedrock.ListMarketplaceModelEndpointsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListMarketplaceModelEndpointsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            modelSourceEquals: self.modelSourceEquals,
+            nextToken: token
         )
     }
 }
@@ -2603,6 +2992,16 @@ extension Bedrock.ListModelInvocationJobsRequest: AWSPaginateToken {
             statusEquals: self.statusEquals,
             submitTimeAfter: self.submitTimeAfter,
             submitTimeBefore: self.submitTimeBefore
+        )
+    }
+}
+
+extension Bedrock.ListPromptRoutersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListPromptRoutersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

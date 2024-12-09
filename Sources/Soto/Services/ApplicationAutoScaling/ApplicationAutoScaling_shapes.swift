@@ -81,8 +81,21 @@ extension ApplicationAutoScaling {
     }
 
     public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case predictiveScaling = "PredictiveScaling"
         case stepScaling = "StepScaling"
         case targetTrackingScaling = "TargetTrackingScaling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PredictiveScalingMaxCapacityBreachBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case honorMaxCapacity = "HonorMaxCapacity"
+        case increaseMaxCapacity = "IncreaseMaxCapacity"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PredictiveScalingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case forecastAndScale = "ForecastAndScale"
+        case forecastOnly = "ForecastOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -159,6 +172,24 @@ extension ApplicationAutoScaling {
         private enum CodingKeys: String, CodingKey {
             case alarmARN = "AlarmARN"
             case alarmName = "AlarmName"
+        }
+    }
+
+    public struct CapacityForecast: AWSDecodableShape {
+        ///  The timestamps for the data points, in UTC format.
+        public let timestamps: [Date]
+        ///  The values of the data points.
+        public let values: [Double]
+
+        @inlinable
+        public init(timestamps: [Date], values: [Double]) {
+            self.timestamps = timestamps
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamps = "Timestamps"
+            case values = "Values"
         }
     }
 
@@ -559,6 +590,71 @@ extension ApplicationAutoScaling {
         }
     }
 
+    public struct GetPredictiveScalingForecastRequest: AWSEncodableShape {
+        ///  The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is 30 days.
+        public let endTime: Date
+        /// The name of the policy.
+        public let policyName: String
+        ///  The identifier of the resource.
+        public let resourceId: String
+        ///  The scalable dimension.
+        public let scalableDimension: ScalableDimension
+        ///  The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
+        public let serviceNamespace: ServiceNamespace
+        ///  The inclusive start time of the time range for the forecast data to get. At most, the date and time can be one year before the current date and time
+        public let startTime: Date
+
+        @inlinable
+        public init(endTime: Date, policyName: String, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, startTime: Date) {
+            self.endTime = endTime
+            self.policyName = policyName
+            self.resourceId = resourceId
+            self.scalableDimension = scalableDimension
+            self.serviceNamespace = serviceNamespace
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 256)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^\\p{Print}+$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case policyName = "PolicyName"
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case serviceNamespace = "ServiceNamespace"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct GetPredictiveScalingForecastResponse: AWSDecodableShape {
+        ///  The capacity forecast.
+        public let capacityForecast: CapacityForecast?
+        ///  The load forecast.
+        public let loadForecast: [LoadForecast]?
+        ///  The time the forecast was made.
+        public let updateTime: Date?
+
+        @inlinable
+        public init(capacityForecast: CapacityForecast? = nil, loadForecast: [LoadForecast]? = nil, updateTime: Date? = nil) {
+            self.capacityForecast = capacityForecast
+            self.loadForecast = loadForecast
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityForecast = "CapacityForecast"
+            case loadForecast = "LoadForecast"
+            case updateTime = "UpdateTime"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// Specify the ARN of the scalable target. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
         public let resourceARN: String
@@ -590,6 +686,28 @@ extension ApplicationAutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct LoadForecast: AWSDecodableShape {
+        ///  The metric specification for the load forecast.
+        public let metricSpecification: PredictiveScalingMetricSpecification
+        ///  The timestamps for the data points, in UTC format.
+        public let timestamps: [Date]
+        ///  The values of the data points.
+        public let values: [Double]
+
+        @inlinable
+        public init(metricSpecification: PredictiveScalingMetricSpecification, timestamps: [Date], values: [Double]) {
+            self.metricSpecification = metricSpecification
+            self.timestamps = timestamps
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricSpecification = "MetricSpecification"
+            case timestamps = "Timestamps"
+            case values = "Values"
         }
     }
 
@@ -660,11 +778,327 @@ extension ApplicationAutoScaling {
         }
     }
 
+    public struct PredictiveScalingCustomizedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
+        ///  One or more metric data queries to provide data points for a metric specification.
+        public let metricDataQueries: [PredictiveScalingMetricDataQuery]
+
+        @inlinable
+        public init(metricDataQueries: [PredictiveScalingMetricDataQuery]) {
+            self.metricDataQueries = metricDataQueries
+        }
+
+        public func validate(name: String) throws {
+            try self.metricDataQueries.forEach {
+                try $0.validate(name: "\(name).metricDataQueries[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDataQueries = "MetricDataQueries"
+        }
+    }
+
+    public struct PredictiveScalingMetric: AWSEncodableShape & AWSDecodableShape {
+        ///  Describes the dimensions of the metric.
+        public let dimensions: [PredictiveScalingMetricDimension]?
+        ///  The name of the metric.
+        public let metricName: String?
+        ///  The namespace of the metric.
+        public let namespace: String?
+
+        @inlinable
+        public init(dimensions: [PredictiveScalingMetricDimension]? = nil, metricName: String? = nil, namespace: String? = nil) {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions?.forEach {
+                try $0.validate(name: "\(name).dimensions[]")
+            }
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+        }
+    }
+
+    public struct PredictiveScalingMetricDataQuery: AWSEncodableShape & AWSDecodableShape {
+        ///  The math expression to perform on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions.  Conditional: Within each MetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public let expression: String?
+        ///  A short name that identifies the object's results in the response. This name must be unique among all MetricDataQuery objects specified for a single scaling policy. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscores. The first character must be a lowercase letter.
+        public let id: String
+        ///  A human-readable label for this metric or expression. This is especially useful if this is a math expression, so that you know what the value represents.
+        public let label: String?
+        ///  Information about the metric data to return.  Conditional: Within each MetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public let metricStat: PredictiveScalingMetricStat?
+        ///  Indicates whether to return the timestamps and raw data values of this metric.  If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
+        public let returnData: Bool?
+
+        @inlinable
+        public init(expression: String? = nil, id: String, label: String? = nil, metricStat: PredictiveScalingMetricStat? = nil, returnData: Bool? = nil) {
+            self.expression = expression
+            self.id = id
+            self.label = label
+            self.metricStat = metricStat
+            self.returnData = returnData
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 2048)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.label, name: "label", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.metricStat?.validate(name: "\(name).metricStat")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case id = "Id"
+            case label = "Label"
+            case metricStat = "MetricStat"
+            case returnData = "ReturnData"
+        }
+    }
+
+    public struct PredictiveScalingMetricDimension: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the dimension.
+        public let name: String
+        ///  The value of the dimension.
+        public let value: String
+
+        @inlinable
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct PredictiveScalingMetricSpecification: AWSEncodableShape & AWSDecodableShape {
+        ///  The customized capacity metric specification.
+        public let customizedCapacityMetricSpecification: PredictiveScalingCustomizedMetricSpecification?
+        ///  The customized load metric specification.
+        public let customizedLoadMetricSpecification: PredictiveScalingCustomizedMetricSpecification?
+        ///  The customized scaling metric specification.
+        public let customizedScalingMetricSpecification: PredictiveScalingCustomizedMetricSpecification?
+        ///  The predefined load metric specification.
+        public let predefinedLoadMetricSpecification: PredictiveScalingPredefinedLoadMetricSpecification?
+        ///  The predefined metric pair specification that determines the appropriate scaling metric and load metric to use.
+        public let predefinedMetricPairSpecification: PredictiveScalingPredefinedMetricPairSpecification?
+        ///  The predefined scaling metric specification.
+        public let predefinedScalingMetricSpecification: PredictiveScalingPredefinedScalingMetricSpecification?
+        ///  Specifies the target utilization.
+        public let targetValue: Double
+
+        @inlinable
+        public init(customizedCapacityMetricSpecification: PredictiveScalingCustomizedMetricSpecification? = nil, customizedLoadMetricSpecification: PredictiveScalingCustomizedMetricSpecification? = nil, customizedScalingMetricSpecification: PredictiveScalingCustomizedMetricSpecification? = nil, predefinedLoadMetricSpecification: PredictiveScalingPredefinedLoadMetricSpecification? = nil, predefinedMetricPairSpecification: PredictiveScalingPredefinedMetricPairSpecification? = nil, predefinedScalingMetricSpecification: PredictiveScalingPredefinedScalingMetricSpecification? = nil, targetValue: Double) {
+            self.customizedCapacityMetricSpecification = customizedCapacityMetricSpecification
+            self.customizedLoadMetricSpecification = customizedLoadMetricSpecification
+            self.customizedScalingMetricSpecification = customizedScalingMetricSpecification
+            self.predefinedLoadMetricSpecification = predefinedLoadMetricSpecification
+            self.predefinedMetricPairSpecification = predefinedMetricPairSpecification
+            self.predefinedScalingMetricSpecification = predefinedScalingMetricSpecification
+            self.targetValue = targetValue
+        }
+
+        public func validate(name: String) throws {
+            try self.customizedCapacityMetricSpecification?.validate(name: "\(name).customizedCapacityMetricSpecification")
+            try self.customizedLoadMetricSpecification?.validate(name: "\(name).customizedLoadMetricSpecification")
+            try self.customizedScalingMetricSpecification?.validate(name: "\(name).customizedScalingMetricSpecification")
+            try self.predefinedLoadMetricSpecification?.validate(name: "\(name).predefinedLoadMetricSpecification")
+            try self.predefinedMetricPairSpecification?.validate(name: "\(name).predefinedMetricPairSpecification")
+            try self.predefinedScalingMetricSpecification?.validate(name: "\(name).predefinedScalingMetricSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customizedCapacityMetricSpecification = "CustomizedCapacityMetricSpecification"
+            case customizedLoadMetricSpecification = "CustomizedLoadMetricSpecification"
+            case customizedScalingMetricSpecification = "CustomizedScalingMetricSpecification"
+            case predefinedLoadMetricSpecification = "PredefinedLoadMetricSpecification"
+            case predefinedMetricPairSpecification = "PredefinedMetricPairSpecification"
+            case predefinedScalingMetricSpecification = "PredefinedScalingMetricSpecification"
+            case targetValue = "TargetValue"
+        }
+    }
+
+    public struct PredictiveScalingMetricStat: AWSEncodableShape & AWSDecodableShape {
+        ///  The CloudWatch metric to return, including the metric name, namespace, and dimensions. To get the exact metric name, namespace, and dimensions, inspect the Metric object that is returned by a call to ListMetrics.
+        public let metric: PredictiveScalingMetric
+        ///  The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in Statistics in the Amazon CloudWatch User Guide.  The most commonly used metrics for predictive scaling are Average and Sum.
+        public let stat: String
+        ///  The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the MetricDatum  data type in the Amazon CloudWatch API Reference.
+        public let unit: String?
+
+        @inlinable
+        public init(metric: PredictiveScalingMetric, stat: String, unit: String? = nil) {
+            self.metric = metric
+            self.stat = stat
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.metric.validate(name: "\(name).metric")
+            try self.validate(self.stat, name: "stat", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.unit, name: "unit", parent: name, max: 1023)
+            try self.validate(self.unit, name: "unit", parent: name, min: 1)
+            try self.validate(self.unit, name: "unit", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metric = "Metric"
+            case stat = "Stat"
+            case unit = "Unit"
+        }
+    }
+
+    public struct PredictiveScalingPolicyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  Defines the behavior that should be applied if the forecast capacity approaches or exceeds the maximum capacity. Defaults to HonorMaxCapacity if not specified.
+        public let maxCapacityBreachBehavior: PredictiveScalingMaxCapacityBreachBehavior?
+        ///  The size of the capacity buffer to use when the forecast capacity is close to or exceeds the maximum capacity. The value is specified as a percentage relative to the forecast capacity. For example, if the buffer is 10, this means a 10 percent buffer, such that if the forecast capacity is 50, and the maximum capacity is 40, then the effective maximum capacity is 55.  Required if the MaxCapacityBreachBehavior property is set to IncreaseMaxCapacity, and cannot be used otherwise.
+        public let maxCapacityBuffer: Int?
+        ///  This structure includes the metrics and target utilization to use for predictive scaling.  This is an array, but we currently only support a single metric specification. That is, you can specify a target value and a single metric pair, or a target value and one scaling metric and one load metric.
+        public let metricSpecifications: [PredictiveScalingMetricSpecification]
+        ///  The predictive scaling mode. Defaults to ForecastOnly if not specified.
+        public let mode: PredictiveScalingMode?
+        ///  The amount of time, in seconds, that the start time can be advanced.  The value must be less than the forecast interval duration of 3600 seconds (60 minutes). Defaults to 300 seconds if not specified.
+        public let schedulingBufferTime: Int?
+
+        @inlinable
+        public init(maxCapacityBreachBehavior: PredictiveScalingMaxCapacityBreachBehavior? = nil, maxCapacityBuffer: Int? = nil, metricSpecifications: [PredictiveScalingMetricSpecification], mode: PredictiveScalingMode? = nil, schedulingBufferTime: Int? = nil) {
+            self.maxCapacityBreachBehavior = maxCapacityBreachBehavior
+            self.maxCapacityBuffer = maxCapacityBuffer
+            self.metricSpecifications = metricSpecifications
+            self.mode = mode
+            self.schedulingBufferTime = schedulingBufferTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxCapacityBuffer, name: "maxCapacityBuffer", parent: name, max: 100)
+            try self.validate(self.maxCapacityBuffer, name: "maxCapacityBuffer", parent: name, min: 0)
+            try self.metricSpecifications.forEach {
+                try $0.validate(name: "\(name).metricSpecifications[]")
+            }
+            try self.validate(self.schedulingBufferTime, name: "schedulingBufferTime", parent: name, max: 3600)
+            try self.validate(self.schedulingBufferTime, name: "schedulingBufferTime", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCapacityBreachBehavior = "MaxCapacityBreachBehavior"
+            case maxCapacityBuffer = "MaxCapacityBuffer"
+            case metricSpecifications = "MetricSpecifications"
+            case mode = "Mode"
+            case schedulingBufferTime = "SchedulingBufferTime"
+        }
+    }
+
+    public struct PredictiveScalingPredefinedLoadMetricSpecification: AWSEncodableShape & AWSDecodableShape {
+        ///  The metric type.
+        public let predefinedMetricType: String
+        ///  A label that uniquely identifies a target group.
+        public let resourceLabel: String?
+
+        @inlinable
+        public init(predefinedMetricType: String, resourceLabel: String? = nil) {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.predefinedMetricType, name: "predefinedMetricType", parent: name, max: 128)
+            try self.validate(self.predefinedMetricType, name: "predefinedMetricType", parent: name, min: 1)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, max: 1023)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predefinedMetricType = "PredefinedMetricType"
+            case resourceLabel = "ResourceLabel"
+        }
+    }
+
+    public struct PredictiveScalingPredefinedMetricPairSpecification: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates which metrics to use. There are two different types of metrics for each metric type: one is a load metric and one is a scaling metric.
+        public let predefinedMetricType: String
+        ///  A label that uniquely identifies a specific target group from which to determine the total and average request count.
+        public let resourceLabel: String?
+
+        @inlinable
+        public init(predefinedMetricType: String, resourceLabel: String? = nil) {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.predefinedMetricType, name: "predefinedMetricType", parent: name, max: 128)
+            try self.validate(self.predefinedMetricType, name: "predefinedMetricType", parent: name, min: 1)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, max: 1023)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predefinedMetricType = "PredefinedMetricType"
+            case resourceLabel = "ResourceLabel"
+        }
+    }
+
+    public struct PredictiveScalingPredefinedScalingMetricSpecification: AWSEncodableShape & AWSDecodableShape {
+        ///  The metric type.
+        public let predefinedMetricType: String
+        ///  A label that uniquely identifies a specific target group from which to determine the average request count.
+        public let resourceLabel: String?
+
+        @inlinable
+        public init(predefinedMetricType: String, resourceLabel: String? = nil) {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.predefinedMetricType, name: "predefinedMetricType", parent: name, max: 128)
+            try self.validate(self.predefinedMetricType, name: "predefinedMetricType", parent: name, min: 1)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, max: 1023)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predefinedMetricType = "PredefinedMetricType"
+            case resourceLabel = "ResourceLabel"
+        }
+    }
+
     public struct PutScalingPolicyRequest: AWSEncodableShape {
         /// The name of the scaling policy. You cannot change the name of a scaling policy, but you can delete the original scaling policy and create a new scaling policy with the same settings and a different name.
         public let policyName: String
         /// The scaling policy type. This parameter is required if you are creating a scaling policy. The following policy types are supported:   TargetTrackingScaling—Not supported for Amazon EMR.  StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see Target tracking scaling policies and Step scaling policies in the Application Auto Scaling User Guide.
         public let policyType: PolicyType?
+        ///  The configuration of the predictive scaling policy.
+        public let predictiveScalingPolicyConfiguration: PredictiveScalingPolicyConfiguration?
         /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name   and service name. Example: service/my-cluster/my-service.   Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the  Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the table name.  Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the index name.  Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker endpoint variant - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.   Amazon Comprehend document classification endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE.   Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE.   Lambda provisioned concurrency - The resource type is function and the unique identifier is the function name with a function version or alias name suffix that is not $LATEST.  Example: function:my-function:prod or function:my-function:1.   Amazon Keyspaces table - The resource type is table and the unique identifier is the table name.  Example: keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique identifier are specified using the cluster ARN.  Example: arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.   Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.   SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.   Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID.  Example: workspacespool/wspool-123456.
         public let resourceId: String
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.    appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.    comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference units for an Amazon Comprehend document classification endpoint.    comprehend:entity-recognizer-endpoint:DesiredInferenceUnits - The number of inference units for an Amazon Comprehend entity recognizer endpoint.    lambda:function:ProvisionedConcurrency - The provisioned concurrency for a Lambda function.    cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.    elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.    sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.    workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
@@ -677,9 +1111,10 @@ extension ApplicationAutoScaling {
         public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
 
         @inlinable
-        public init(policyName: String, policyType: PolicyType? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
+        public init(policyName: String, policyType: PolicyType? = nil, predictiveScalingPolicyConfiguration: PredictiveScalingPolicyConfiguration? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
             self.policyName = policyName
             self.policyType = policyType
+            self.predictiveScalingPolicyConfiguration = predictiveScalingPolicyConfiguration
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
@@ -691,6 +1126,7 @@ extension ApplicationAutoScaling {
             try self.validate(self.policyName, name: "policyName", parent: name, max: 256)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^\\p{Print}+$")
+            try self.predictiveScalingPolicyConfiguration?.validate(name: "\(name).predictiveScalingPolicyConfiguration")
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -700,6 +1136,7 @@ extension ApplicationAutoScaling {
         private enum CodingKeys: String, CodingKey {
             case policyName = "PolicyName"
             case policyType = "PolicyType"
+            case predictiveScalingPolicyConfiguration = "PredictiveScalingPolicyConfiguration"
             case resourceId = "ResourceId"
             case scalableDimension = "ScalableDimension"
             case serviceNamespace = "ServiceNamespace"
@@ -868,6 +1305,8 @@ extension ApplicationAutoScaling {
         public let maxCapacity: Int
         /// The minimum value to scale to in response to a scale-in activity.
         public let minCapacity: Int
+        ///  The predicted capacity of the scalable target.
+        public let predictedCapacity: Int?
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name   and service name. Example: service/my-cluster/my-service.   Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the  Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the table name.  Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the index name.  Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker endpoint variant - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.   Amazon Comprehend document classification endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE.   Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE.   Lambda provisioned concurrency - The resource type is function and the unique identifier is the function name with a function version or alias name suffix that is not $LATEST.  Example: function:my-function:prod or function:my-function:1.   Amazon Keyspaces table - The resource type is table and the unique identifier is the table name.  Example: keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique identifier are specified using the cluster ARN.  Example: arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.   Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.   SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.   Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID.  Example: workspacespool/wspool-123456.
         public let resourceId: String
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
@@ -882,10 +1321,11 @@ extension ApplicationAutoScaling {
         public let suspendedState: SuspendedState?
 
         @inlinable
-        public init(creationTime: Date, maxCapacity: Int, minCapacity: Int, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, scalableTargetARN: String? = nil, serviceNamespace: ServiceNamespace, suspendedState: SuspendedState? = nil) {
+        public init(creationTime: Date, maxCapacity: Int, minCapacity: Int, predictedCapacity: Int? = nil, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, scalableTargetARN: String? = nil, serviceNamespace: ServiceNamespace, suspendedState: SuspendedState? = nil) {
             self.creationTime = creationTime
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
+            self.predictedCapacity = predictedCapacity
             self.resourceId = resourceId
             self.roleARN = roleARN
             self.scalableDimension = scalableDimension
@@ -898,6 +1338,7 @@ extension ApplicationAutoScaling {
             case creationTime = "CreationTime"
             case maxCapacity = "MaxCapacity"
             case minCapacity = "MinCapacity"
+            case predictedCapacity = "PredictedCapacity"
             case resourceId = "ResourceId"
             case roleARN = "RoleARN"
             case scalableDimension = "ScalableDimension"
@@ -994,6 +1435,8 @@ extension ApplicationAutoScaling {
         public let policyName: String
         /// The scaling policy type. The following policy types are supported:   TargetTrackingScaling—Not supported for Amazon EMR  StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune.
         public let policyType: PolicyType
+        ///  The predictive scaling policy configuration.
+        public let predictiveScalingPolicyConfiguration: PredictiveScalingPolicyConfiguration?
         /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name   and service name. Example: service/my-cluster/my-service.   Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the  Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the table name.  Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the index name.  Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   SageMaker endpoint variant - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.   Amazon Comprehend document classification endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE.   Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier are specified using the endpoint ARN. Example: arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE.   Lambda provisioned concurrency - The resource type is function and the unique identifier is the function name with a function version or alias name suffix that is not $LATEST.  Example: function:my-function:prod or function:my-function:1.   Amazon Keyspaces table - The resource type is table and the unique identifier is the table name.  Example: keyspace/mykeyspace/table/mytable.   Amazon MSK cluster - The resource type and unique identifier are specified using the cluster ARN.  Example: arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.   Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.   SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.   Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID.  Example: workspacespool/wspool-123456.
         public let resourceId: String
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.    appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.    rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.    sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.    custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.    comprehend:document-classifier-endpoint:DesiredInferenceUnits - The number of inference units for an Amazon Comprehend document classification endpoint.    comprehend:entity-recognizer-endpoint:DesiredInferenceUnits - The number of inference units for an Amazon Comprehend entity recognizer endpoint.    lambda:function:ProvisionedConcurrency - The provisioned concurrency for a Lambda function.    cassandra:table:ReadCapacityUnits - The provisioned read capacity for an Amazon Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.    elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.    elasticache:replication-group:Replicas - The number of replicas per node group for an Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.    sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.    workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
@@ -1006,12 +1449,13 @@ extension ApplicationAutoScaling {
         public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
 
         @inlinable
-        public init(alarms: [Alarm]? = nil, creationTime: Date, policyARN: String, policyName: String, policyType: PolicyType, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
+        public init(alarms: [Alarm]? = nil, creationTime: Date, policyARN: String, policyName: String, policyType: PolicyType, predictiveScalingPolicyConfiguration: PredictiveScalingPolicyConfiguration? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
             self.alarms = alarms
             self.creationTime = creationTime
             self.policyARN = policyARN
             self.policyName = policyName
             self.policyType = policyType
+            self.predictiveScalingPolicyConfiguration = predictiveScalingPolicyConfiguration
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
@@ -1025,6 +1469,7 @@ extension ApplicationAutoScaling {
             case policyARN = "PolicyARN"
             case policyName = "PolicyName"
             case policyType = "PolicyType"
+            case predictiveScalingPolicyConfiguration = "PredictiveScalingPolicyConfiguration"
             case resourceId = "ResourceId"
             case scalableDimension = "ScalableDimension"
             case serviceNamespace = "ServiceNamespace"

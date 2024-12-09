@@ -536,7 +536,7 @@ public struct Redshift: AWSService {
     /// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster.
     /// For more information about managing clusters, go to
     /// Amazon Redshift Clusters
-    /// in the Amazon Redshift Cluster Management Guide.
+    /// in the Amazon Redshift Cluster Management Guide. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:   Creating a public cluster   Restoring a public cluster   Modifying a private cluster to be public   Adding a subnet with VPC BPA turned on to the subnet group when there's at least one public cluster within the group   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     @Sendable
     @inlinable
     public func createCluster(_ input: CreateClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResult {
@@ -552,7 +552,7 @@ public struct Redshift: AWSService {
     /// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster.
     /// For more information about managing clusters, go to
     /// Amazon Redshift Clusters
-    /// in the Amazon Redshift Cluster Management Guide.
+    /// in the Amazon Redshift Cluster Management Guide. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:   Creating a public cluster   Restoring a public cluster   Modifying a private cluster to be public   Adding a subnet with VPC BPA turned on to the subnet group when there's at least one public cluster within the group   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     ///
     /// Parameters:
     ///   - additionalInfo: Reserved.
@@ -2023,6 +2023,38 @@ public struct Redshift: AWSService {
             usageLimitId: usageLimitId
         )
         return try await self.deleteUsageLimit(input, logger: logger)
+    }
+
+    /// Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func deregisterNamespace(_ input: DeregisterNamespaceInputMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterNamespaceOutputMessage {
+        try await self.client.execute(
+            operation: "DeregisterNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - consumerIdentifiers: An array containing the ID of the consumer account  that you want to deregister the cluster or serverless namespace from.
+    ///   - namespaceIdentifier: The unique identifier of the cluster or  serverless namespace that you want to deregister.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deregisterNamespace(
+        consumerIdentifiers: [String]? = nil,
+        namespaceIdentifier: NamespaceIdentifierUnion? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeregisterNamespaceOutputMessage {
+        let input = DeregisterNamespaceInputMessage(
+            consumerIdentifiers: consumerIdentifiers, 
+            namespaceIdentifier: namespaceIdentifier
+        )
+        return try await self.deregisterNamespace(input, logger: logger)
     }
 
     /// Returns a list of attributes attached to an account
@@ -4162,7 +4194,7 @@ public struct Redshift: AWSService {
     /// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the admin user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a reboot for parameters to take effect.
     /// For more information about managing clusters, go to
     /// Amazon Redshift Clusters
-    /// in the Amazon Redshift Cluster Management Guide.
+    /// in the Amazon Redshift Cluster Management Guide. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:   Creating a public cluster   Restoring a public cluster   Modifying a private cluster to be public   Adding a subnet with VPC BPA turned on to the subnet group when there's at least one public cluster within the group   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     @Sendable
     @inlinable
     public func modifyCluster(_ input: ModifyClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyClusterResult {
@@ -4178,7 +4210,7 @@ public struct Redshift: AWSService {
     /// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the admin user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a reboot for parameters to take effect.
     /// For more information about managing clusters, go to
     /// Amazon Redshift Clusters
-    /// in the Amazon Redshift Cluster Management Guide.
+    /// in the Amazon Redshift Cluster Management Guide. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:   Creating a public cluster   Restoring a public cluster   Modifying a private cluster to be public   Adding a subnet with VPC BPA turned on to the subnet group when there's at least one public cluster within the group   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     ///
     /// Parameters:
     ///   - allowVersionUpgrade: If true, major version upgrades will be applied automatically to the cluster during the maintenance window.  Default: false
@@ -4500,7 +4532,7 @@ public struct Redshift: AWSService {
         return try await self.modifyClusterSnapshotSchedule(input, logger: logger)
     }
 
-    /// Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets.
+    /// Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:   Creating a public cluster   Restoring a public cluster   Modifying a private cluster to be public   Adding a subnet with VPC BPA turned on to the subnet group when there's at least one public cluster within the group   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     @Sendable
     @inlinable
     public func modifyClusterSubnetGroup(_ input: ModifyClusterSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyClusterSubnetGroupResult {
@@ -4513,7 +4545,7 @@ public struct Redshift: AWSService {
             logger: logger
         )
     }
-    /// Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets.
+    /// Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:   Creating a public cluster   Restoring a public cluster   Modifying a private cluster to be public   Adding a subnet with VPC BPA turned on to the subnet group when there's at least one public cluster within the group   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     ///
     /// Parameters:
     ///   - clusterSubnetGroupName: The name of the subnet group to be modified.
@@ -5014,6 +5046,38 @@ public struct Redshift: AWSService {
         return try await self.rebootCluster(input, logger: logger)
     }
 
+    /// Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func registerNamespace(_ input: RegisterNamespaceInputMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterNamespaceOutputMessage {
+        try await self.client.execute(
+            operation: "RegisterNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - consumerIdentifiers: An array containing the ID of the consumer account  that you want to register the namespace to.
+    ///   - namespaceIdentifier: The unique identifier of the cluster or  serverless namespace that you want to register.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerNamespace(
+        consumerIdentifiers: [String]? = nil,
+        namespaceIdentifier: NamespaceIdentifierUnion? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterNamespaceOutputMessage {
+        let input = RegisterNamespaceInputMessage(
+            consumerIdentifiers: consumerIdentifiers, 
+            namespaceIdentifier: namespaceIdentifier
+        )
+        return try await self.registerNamespace(input, logger: logger)
+    }
+
     /// From a datashare consumer account, rejects the specified datashare.
     @Sendable
     @inlinable
@@ -5125,7 +5189,7 @@ public struct Redshift: AWSService {
         return try await self.resizeCluster(input, logger: logger)
     }
 
-    /// Creates a new cluster from a snapshot. By default, Amazon Redshift creates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new cluster is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyCluster API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you can also choose to change to another DS node type of the same size during restore. If you restore a cluster into a VPC, you must provide a cluster subnet group where you want the cluster restored.
+    /// Creates a new cluster from a snapshot. By default, Amazon Redshift creates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new cluster is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyCluster API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you can also choose to change to another DS node type of the same size during restore. If you restore a cluster into a VPC, you must provide a cluster subnet group where you want the cluster restored. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:   Creating a public cluster   Restoring a public cluster   Modifying a private cluster to be public   Adding a subnet with VPC BPA turned on to the subnet group when there's at least one public cluster within the group   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     /// For more information about working with snapshots, go to
     /// Amazon Redshift Snapshots
     /// in the Amazon Redshift Cluster Management Guide.
@@ -5141,7 +5205,7 @@ public struct Redshift: AWSService {
             logger: logger
         )
     }
-    /// Creates a new cluster from a snapshot. By default, Amazon Redshift creates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new cluster is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyCluster API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you can also choose to change to another DS node type of the same size during restore. If you restore a cluster into a VPC, you must provide a cluster subnet group where you want the cluster restored.
+    /// Creates a new cluster from a snapshot. By default, Amazon Redshift creates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new cluster is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyCluster API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you can also choose to change to another DS node type of the same size during restore. If you restore a cluster into a VPC, you must provide a cluster subnet group where you want the cluster restored. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:   Creating a public cluster   Restoring a public cluster   Modifying a private cluster to be public   Adding a subnet with VPC BPA turned on to the subnet group when there's at least one public cluster within the group   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     /// For more information about working with snapshots, go to
     /// Amazon Redshift Snapshots
     /// in the Amazon Redshift Cluster Management Guide.

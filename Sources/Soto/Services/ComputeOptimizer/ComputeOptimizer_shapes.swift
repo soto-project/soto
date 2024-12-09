@@ -73,6 +73,12 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case savingsValue = "SavingsValue"
+        case savingsValueAfterDiscount = "SavingsValueAfterDiscount"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EBSFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case finding = "Finding"
         public var description: String { return self.rawValue }
@@ -258,6 +264,30 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportableIdleField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountId = "AccountId"
+        case finding = "Finding"
+        case findingDescription = "FindingDescription"
+        case lastRefreshTimestamp = "LastRefreshTimestamp"
+        case lookbackPeriodInDays = "LookbackPeriodInDays"
+        case resourceArn = "ResourceArn"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+        case savingsOpportunity = "SavingsOpportunity"
+        case savingsOpportunityAfterDiscount = "SavingsOpportunityAfterDiscount"
+        case tags = "Tags"
+        case utilizationMetricsCpuMaximum = "UtilizationMetricsCpuMaximum"
+        case utilizationMetricsDatabaseConnectionsMaximum = "UtilizationMetricsDatabaseConnectionsMaximum"
+        case utilizationMetricsEbsVolumeReadIopsMaximum = "UtilizationMetricsEBSVolumeReadIOPSMaximum"
+        case utilizationMetricsEbsVolumeWriteIopsMaximum = "UtilizationMetricsEBSVolumeWriteIOPSMaximum"
+        case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
+        case utilizationMetricsNetworkInBytesPerSecondMaximum = "UtilizationMetricsNetworkInBytesPerSecondMaximum"
+        case utilizationMetricsNetworkOutBytesPerSecondMaximum = "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
+        case utilizationMetricsVolumeReadOpsPerSecondMaximum = "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
+        case utilizationMetricsVolumeWriteOpsPerSecondMaximum = "UtilizationMetricsVolumeWriteOpsPerSecondMaximum"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExportableInstanceField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
         case currentInstanceGpuInfo = "CurrentInstanceGpuInfo"
@@ -397,12 +427,14 @@ extension ComputeOptimizer {
         case accountId = "AccountId"
         case currentDbInstanceClass = "CurrentDBInstanceClass"
         case currentInstanceOnDemandHourlyPrice = "CurrentInstanceOnDemandHourlyPrice"
+        case currentInstancePerformanceRisk = "CurrentInstancePerformanceRisk"
         case currentStorageConfigurationAllocatedStorage = "CurrentStorageConfigurationAllocatedStorage"
         case currentStorageConfigurationIops = "CurrentStorageConfigurationIOPS"
         case currentStorageConfigurationMaxAllocatedStorage = "CurrentStorageConfigurationMaxAllocatedStorage"
         case currentStorageConfigurationStorageThroughput = "CurrentStorageConfigurationStorageThroughput"
         case currentStorageConfigurationStorageType = "CurrentStorageConfigurationStorageType"
         case currentStorageOnDemandMonthlyPrice = "CurrentStorageOnDemandMonthlyPrice"
+        case dbClusterIdentifier = "DBClusterIdentifier"
         case effectiveRecommendationPreferencesCpuVendorArchitectures = "EffectiveRecommendationPreferencesCpuVendorArchitectures"
         case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
         case effectiveRecommendationPreferencesLookbackPeriod = "EffectiveRecommendationPreferencesLookBackPeriod"
@@ -426,6 +458,7 @@ extension ComputeOptimizer {
         case lastRefreshTimestamp = "LastRefreshTimestamp"
         case lookbackPeriodInDays = "LookbackPeriodInDays"
         case multiAzDbInstance = "MultiAZDBInstance"
+        case promotionTier = "PromotionTier"
         case resourceArn = "ResourceArn"
         case storageFinding = "StorageFinding"
         case storageFindingReasonCodes = "StorageFindingReasonCodes"
@@ -443,6 +476,10 @@ extension ComputeOptimizer {
         case storageRecommendationOptionsStorageThroughput = "StorageRecommendationOptionsStorageThroughput"
         case storageRecommendationOptionsStorageType = "StorageRecommendationOptionsStorageType"
         case tags = "Tags"
+        case utilizationMetricsAuroraMemoryHealthStateMaximum = "UtilizationMetricsAuroraMemoryHealthStateMaximum"
+        case utilizationMetricsAuroraMemoryNumDeclinedSqlTotalMaximum = "UtilizationMetricsAuroraMemoryNumDeclinedSqlTotalMaximum"
+        case utilizationMetricsAuroraMemoryNumKillConnTotalMaximum = "UtilizationMetricsAuroraMemoryNumKillConnTotalMaximum"
+        case utilizationMetricsAuroraMemoryNumKillQueryTotalMaximum = "UtilizationMetricsAuroraMemoryNumKillQueryTotalMaximum"
         case utilizationMetricsCpuMaximum = "UtilizationMetricsCpuMaximum"
         case utilizationMetricsDatabaseConnectionsMaximum = "UtilizationMetricsDatabaseConnectionsMaximum"
         case utilizationMetricsEbsVolumeReadIopsMaximum = "UtilizationMetricsEBSVolumeReadIOPSMaximum"
@@ -453,6 +490,10 @@ extension ComputeOptimizer {
         case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
         case utilizationMetricsNetworkReceiveThroughputMaximum = "UtilizationMetricsNetworkReceiveThroughputMaximum"
         case utilizationMetricsNetworkTransmitThroughputMaximum = "UtilizationMetricsNetworkTransmitThroughputMaximum"
+        case utilizationMetricsReadIopsEphemeralStorageMaximum = "UtilizationMetricsReadIOPSEphemeralStorageMaximum"
+        case utilizationMetricsStorageNetworkReceiveThroughputMaximum = "UtilizationMetricsStorageNetworkReceiveThroughputMaximum"
+        case utilizationMetricsStorageNetworkTransmitThroughputMaximum = "UtilizationMetricsStorageNetworkTransmitThroughputMaximum"
+        case utilizationMetricsWriteIopsEphemeralStorageMaximum = "UtilizationMetricsWriteIOPSEphemeralStorageMaximum"
         public var description: String { return self.rawValue }
     }
 
@@ -547,6 +588,40 @@ extension ComputeOptimizer {
     public enum Idle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `false` = "False"
         case `true` = "True"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdleFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case idle = "Idle"
+        case unattached = "Unattached"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdleMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cpu = "CPU"
+        case databaseConnections = "DatabaseConnections"
+        case ebsVolumeReadIops = "EBSVolumeReadIOPS"
+        case ebsVolumeWriteIops = "EBSVolumeWriteIOPS"
+        case memory = "Memory"
+        case networkInBytesPerSecond = "NetworkInBytesPerSecond"
+        case networkOutBytesPerSecond = "NetworkOutBytesPerSecond"
+        case volumeReadOpsPerSecond = "VolumeReadOpsPerSecond"
+        case volumeWriteOpsPerSecond = "VolumeWriteOpsPerSecond"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdleRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case finding = "Finding"
+        case resourceType = "ResourceType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdleRecommendationResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autoScalingGroup = "AutoScalingGroup"
+        case ebsVolume = "EBSVolume"
+        case ec2Instance = "EC2Instance"
+        case ecsService = "ECSService"
+        case rdsDbInstance = "RDSDBInstance"
         public var description: String { return self.rawValue }
     }
 
@@ -769,6 +844,12 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum Order: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "Asc"
+        case desc = "Desc"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PlatformDifference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case architecture = "Architecture"
         case hypervisor = "Hypervisor"
@@ -784,7 +865,19 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum RDSCurrentInstancePerformanceRisk: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "High"
+        case low = "Low"
+        case medium = "Medium"
+        case veryLow = "VeryLow"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RDSDBMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auroraMemoryHealthState = "AuroraMemoryHealthState"
+        case auroraMemoryNumDeclinedSql = "AuroraMemoryNumDeclinedSql"
+        case auroraMemoryNumKillConnTotal = "AuroraMemoryNumKillConnTotal"
+        case auroraMemoryNumKillQueryTotal = "AuroraMemoryNumKillQueryTotal"
         case cpu = "CPU"
         case databaseConnections = "DatabaseConnections"
         case ebsVolumeReadIops = "EBSVolumeReadIOPS"
@@ -795,6 +888,10 @@ extension ComputeOptimizer {
         case memory = "Memory"
         case networkReceiveThroughput = "NetworkReceiveThroughput"
         case networkTransmitThroughput = "NetworkTransmitThroughput"
+        case readIopsEphemeralStorage = "ReadIOPSEphemeralStorage"
+        case storageNetworkReceiveThroughput = "StorageNetworkReceiveThroughput"
+        case storageNetworkTransmitThroughput = "StorageNetworkTransmitThroughput"
+        case writeIopsEphemeralStorage = "WriteIOPSEphemeralStorage"
         public var description: String { return self.rawValue }
     }
 
@@ -824,9 +921,14 @@ extension ComputeOptimizer {
     public enum RDSInstanceFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cpuOverProvisioned = "CPUOverprovisioned"
         case cpuUnderProvisioned = "CPUUnderprovisioned"
+        case dbClusterWriterUnderProvisioned = "DBClusterWriterUnderprovisioned"
         case ebsIopsOverProvisioned = "EBSIOPSOverprovisioned"
+        case ebsIopsUnderProvisioned = "EBSIOPSUnderprovisioned"
         case ebsThroughputOverProvisioned = "EBSThroughputOverprovisioned"
         case ebsThroughputUnderProvisioned = "EBSThroughputUnderprovisioned"
+        case instanceStorageReadIopsUnderProvisioned = "InstanceStorageReadIOPSUnderprovisioned"
+        case instanceStorageWriteIopsUnderProvisioned = "InstanceStorageWriteIOPSUnderprovisioned"
+        case memoryUnderProvisioned = "MemoryUnderprovisioned"
         case networkBandwidthOverProvisioned = "NetworkBandwidthOverprovisioned"
         case networkBandwidthUnderProvisioned = "NetworkBandwidthUnderprovisioned"
         case newEngineVersionAvailable = "NewEngineVersionAvailable"
@@ -884,6 +986,7 @@ extension ComputeOptimizer {
         case ebsVolume = "EbsVolume"
         case ec2Instance = "Ec2Instance"
         case ecsService = "EcsService"
+        case idle = "Idle"
         case lambdaFunction = "LambdaFunction"
         case license = "License"
         case notApplicable = "NotApplicable"
@@ -2006,6 +2109,56 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct ExportIdleRecommendationsRequest: AWSEncodableShape {
+        ///  The Amazon Web Services account IDs for the export idle resource recommendations.  If your account is the management account or the delegated administrator  of an organization, use this parameter to specify the member account you want to  export recommendations to. This parameter can't be specified together with the include member accounts  parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+        public let accountIds: [String]?
+        /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
+        public let fieldsToExport: [ExportableIdleField]?
+        /// The format of the export file. The CSV file is the only export file format currently supported.
+        public let fileFormat: FileFormat?
+        /// An array of objects to specify a filter that exports a more specific set of idle resource recommendations.
+        public let filters: [IdleRecommendationFilter]?
+        /// If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the  organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for  member accounts aren't included in the export.
+        public let includeMemberAccounts: Bool?
+        public let s3DestinationConfig: S3DestinationConfig
+
+        @inlinable
+        public init(accountIds: [String]? = nil, fieldsToExport: [ExportableIdleField]? = nil, fileFormat: FileFormat? = nil, filters: [IdleRecommendationFilter]? = nil, includeMemberAccounts: Bool? = nil, s3DestinationConfig: S3DestinationConfig) {
+            self.accountIds = accountIds
+            self.fieldsToExport = fieldsToExport
+            self.fileFormat = fileFormat
+            self.filters = filters
+            self.includeMemberAccounts = includeMemberAccounts
+            self.s3DestinationConfig = s3DestinationConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case s3DestinationConfig = "s3DestinationConfig"
+        }
+    }
+
+    public struct ExportIdleRecommendationsResponse: AWSDecodableShape {
+        ///  The identification number of the export job.  To view the status of an export job, use the  DescribeRecommendationExportJobs action and specify the job ID.
+        public let jobId: String?
+        public let s3Destination: S3Destination?
+
+        @inlinable
+        public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
+            self.jobId = jobId
+            self.s3Destination = s3Destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
+        }
+    }
+
     public struct ExportLambdaFunctionRecommendationsRequest: AWSEncodableShape {
         /// The IDs of the Amazon Web Services accounts for which to export Lambda function recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
@@ -2660,6 +2813,67 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct GetIdleRecommendationsRequest: AWSEncodableShape {
+        /// Return the idle resource recommendations to the specified Amazon Web Services account IDs. If your account is the management account  or the delegated administrator of an organization, use this parameter to return the idle resource recommendations to  specific member accounts. You can only specify one account ID per request.
+        public let accountIds: [String]?
+        /// An array of objects to specify a filter that returns a more specific list of idle resource recommendations.
+        public let filters: [IdleRecommendationFilter]?
+        /// The maximum number of idle resource recommendations to return with a single request.  To retrieve the remaining results,  make another request with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token to advance to the next page of idle resource recommendations.
+        public let nextToken: String?
+        /// The order to sort the idle resource recommendations.
+        public let orderBy: OrderBy?
+        /// The ARN that identifies the idle resource.
+        public let resourceArns: [String]?
+
+        @inlinable
+        public init(accountIds: [String]? = nil, filters: [IdleRecommendationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil, resourceArns: [String]? = nil) {
+            self.accountIds = accountIds
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.orderBy = orderBy
+            self.resourceArns = resourceArns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case orderBy = "orderBy"
+            case resourceArns = "resourceArns"
+        }
+    }
+
+    public struct GetIdleRecommendationsResponse: AWSDecodableShape {
+        /// An array of objects that describe errors of the request.
+        public let errors: [IdleRecommendationError]?
+        /// An array of objects that describe the idle resource recommendations.
+        public let idleRecommendations: [IdleRecommendation]?
+        /// The token to advance to the next page of idle resource recommendations.
+        public let nextToken: String?
+
+        @inlinable
+        public init(errors: [IdleRecommendationError]? = nil, idleRecommendations: [IdleRecommendation]? = nil, nextToken: String? = nil) {
+            self.errors = errors
+            self.idleRecommendations = idleRecommendations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case idleRecommendations = "idleRecommendations"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct GetLambdaFunctionRecommendationsRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account for which to return function recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return function recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
@@ -3022,6 +3236,202 @@ extension ComputeOptimizer {
 
         private enum CodingKeys: String, CodingKey {
             case gpus = "gpus"
+        }
+    }
+
+    public struct IdleEstimatedMonthlySavings: AWSDecodableShape {
+        /// The currency of the estimated monthly savings.
+        public let currency: Currency?
+        /// The value of the estimated monthly savings for Idle resources.
+        public let value: Double?
+
+        @inlinable
+        public init(currency: Currency? = nil, value: Double? = nil) {
+            self.currency = currency
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "currency"
+            case value = "value"
+        }
+    }
+
+    public struct IdleRecommendation: AWSDecodableShape {
+        /// The Amazon Web Services account ID of the idle resource.
+        public let accountId: String?
+        /// The finding classification of an idle resource.
+        public let finding: IdleFinding?
+        /// A summary of the findings for the resource.
+        public let findingDescription: String?
+        /// The timestamp of when the idle resource recommendation was last generated.
+        public let lastRefreshTimestamp: Date?
+        /// The number of days the idle resource utilization metrics were analyzed.
+        public let lookBackPeriodInDays: Double?
+        /// The ARN of the current idle resource.
+        public let resourceArn: String?
+        /// The unique identifier for the resource.
+        public let resourceId: String?
+        /// The type of resource that is idle.
+        public let resourceType: IdleRecommendationResourceType?
+        /// The savings opportunity for the idle resource.
+        public let savingsOpportunity: IdleSavingsOpportunity?
+        /// The savings opportunity for the idle resource after any applying discounts.
+        public let savingsOpportunityAfterDiscounts: IdleSavingsOpportunityAfterDiscounts?
+        /// A list of tags assigned to your idle resource recommendations.
+        public let tags: [Tag]?
+        /// An array of objects that describe the utilization metrics of the idle resource.
+        public let utilizationMetrics: [IdleUtilizationMetric]?
+
+        @inlinable
+        public init(accountId: String? = nil, finding: IdleFinding? = nil, findingDescription: String? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: IdleRecommendationResourceType? = nil, savingsOpportunity: IdleSavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: IdleSavingsOpportunityAfterDiscounts? = nil, tags: [Tag]? = nil, utilizationMetrics: [IdleUtilizationMetric]? = nil) {
+            self.accountId = accountId
+            self.finding = finding
+            self.findingDescription = findingDescription
+            self.lastRefreshTimestamp = lastRefreshTimestamp
+            self.lookBackPeriodInDays = lookBackPeriodInDays
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
+            self.tags = tags
+            self.utilizationMetrics = utilizationMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case finding = "finding"
+            case findingDescription = "findingDescription"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case lookBackPeriodInDays = "lookBackPeriodInDays"
+            case resourceArn = "resourceArn"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case savingsOpportunity = "savingsOpportunity"
+            case savingsOpportunityAfterDiscounts = "savingsOpportunityAfterDiscounts"
+            case tags = "tags"
+            case utilizationMetrics = "utilizationMetrics"
+        }
+    }
+
+    public struct IdleRecommendationError: AWSDecodableShape {
+        /// The error code.
+        public let code: String?
+        /// The ID of the error.
+        public let identifier: String?
+        /// The error message.
+        public let message: String?
+        /// The type of resource associated with the error.
+        public let resourceType: IdleRecommendationResourceType?
+
+        @inlinable
+        public init(code: String? = nil, identifier: String? = nil, message: String? = nil, resourceType: IdleRecommendationResourceType? = nil) {
+            self.code = code
+            self.identifier = identifier
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case identifier = "identifier"
+            case message = "message"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct IdleRecommendationFilter: AWSEncodableShape {
+        ///  The name of the filter.   Specify Finding to return recommendations with a specific finding classification.  You can filter your idle resource recommendations by tag:key  and tag-key tags. A tag:key is a key and value combination of a tag assigned to your  idle resource recommendations. Use the tag key in the filter name and the tag value  as the filter value. For example, to find all idle resource service recommendations that have  a tag with the key of Owner and the value of TeamA,  specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your idle resource recommendations. Use  this filter to find all of your idle resource recommendations that have a tag with a  specific key. This doesn’t consider the tag value. For example, you can find  your idle resource service recommendations with a tag key value of Owner or without any tag  keys assigned.
+        public let name: IdleRecommendationFilterName?
+        /// The value of the filter.
+        public let values: [String]?
+
+        @inlinable
+        public init(name: IdleRecommendationFilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+        }
+    }
+
+    public struct IdleSavingsOpportunity: AWSDecodableShape {
+        /// The estimated monthly savings possible by adopting Compute Optimizer's idle resource recommendations.
+        public let estimatedMonthlySavings: IdleEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer's idle resource recommendations.
+        public let savingsOpportunityPercentage: Double?
+
+        @inlinable
+        public init(estimatedMonthlySavings: IdleEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case savingsOpportunityPercentage = "savingsOpportunityPercentage"
+        }
+    }
+
+    public struct IdleSavingsOpportunityAfterDiscounts: AWSDecodableShape {
+        /// The estimated monthly savings possible by adopting Compute Optimizer's idle resource recommendations. This includes any applicable discounts.
+        public let estimatedMonthlySavings: IdleEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer's idle resource recommendations. This includes any applicable discounts.
+        public let savingsOpportunityPercentage: Double?
+
+        @inlinable
+        public init(estimatedMonthlySavings: IdleEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case savingsOpportunityPercentage = "savingsOpportunityPercentage"
+        }
+    }
+
+    public struct IdleSummary: AWSDecodableShape {
+        /// The name of the finding group for the idle resources.
+        public let name: IdleFinding?
+        /// The count of idle resources in the finding group.
+        public let value: Double?
+
+        @inlinable
+        public init(name: IdleFinding? = nil, value: Double? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct IdleUtilizationMetric: AWSDecodableShape {
+        /// The name of the utilization metric.
+        public let name: IdleMetricName?
+        ///  The statistic of the utilization metric.  The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
+        public let statistic: MetricStatistic?
+        /// The value of the utilization metric.
+        public let value: Double?
+
+        @inlinable
+        public init(name: IdleMetricName? = nil, statistic: MetricStatistic? = nil, value: Double? = nil) {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
         }
     }
 
@@ -3636,6 +4046,24 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct OrderBy: AWSEncodableShape {
+        /// The dimension values to sort the recommendations.
+        public let dimension: Dimension?
+        /// The order to sort the recommendations.
+        public let order: Order?
+
+        @inlinable
+        public init(dimension: Dimension? = nil, order: Order? = nil) {
+            self.dimension = dimension
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimension = "dimension"
+            case order = "order"
+        }
+    }
+
     public struct PreferredResource: AWSEncodableShape {
         ///  The preferred resource type values to exclude from the recommendation candidates. If this isn’t specified, all supported  resources are included by default. You can specify up to 1000 values in this list.
         public let excludeList: [String]?
@@ -3768,8 +4196,12 @@ extension ComputeOptimizer {
         public let accountId: String?
         ///  The DB instance class of the current RDS instance.
         public let currentDBInstanceClass: String?
+        /// The performance risk for the current DB instance.
+        public let currentInstancePerformanceRisk: RDSCurrentInstancePerformanceRisk?
         ///  The configuration of the current RDS storage.
         public let currentStorageConfiguration: DBStorageConfiguration?
+        /// The identifier for DB cluster.
+        public let dbClusterIdentifier: String?
         ///  Describes the effective recommendation preferences for Amazon RDS.
         public let effectiveRecommendationPreferences: RDSEffectiveRecommendationPreferences?
         ///  The engine of the RDS instance.
@@ -3788,6 +4220,8 @@ extension ComputeOptimizer {
         public let lastRefreshTimestamp: Date?
         ///  The number of days the Amazon RDS utilization metrics were analyzed.
         public let lookbackPeriodInDays: Double?
+        /// The promotion tier for the Aurora instance.
+        public let promotionTier: Int?
         ///  The ARN of the current Amazon RDS.   The following is the format of the ARN:   arn:aws:rds:{region}:{accountId}:db:{resourceName}
         public let resourceArn: String?
         ///  The finding classification of Amazon RDS storage.  Findings for Amazon RDS instance include:     Underprovisioned —  When Compute Optimizer detects that there’s not enough storage, an Amazon RDS  is considered under-provisioned.     Overprovisioned —  When Compute Optimizer detects that there’s excessive storage, an Amazon RDS  is considered over-provisioned.     Optimized —  When the storage of your Amazon RDS meet the performance requirements  of your workload, the service is considered optimized.
@@ -3802,10 +4236,12 @@ extension ComputeOptimizer {
         public let utilizationMetrics: [RDSDBUtilizationMetric]?
 
         @inlinable
-        public init(accountId: String? = nil, currentDBInstanceClass: String? = nil, currentStorageConfiguration: DBStorageConfiguration? = nil, effectiveRecommendationPreferences: RDSEffectiveRecommendationPreferences? = nil, engine: String? = nil, engineVersion: String? = nil, idle: Idle? = nil, instanceFinding: RDSInstanceFinding? = nil, instanceFindingReasonCodes: [RDSInstanceFindingReasonCode]? = nil, instanceRecommendationOptions: [RDSDBInstanceRecommendationOption]? = nil, lastRefreshTimestamp: Date? = nil, lookbackPeriodInDays: Double? = nil, resourceArn: String? = nil, storageFinding: RDSStorageFinding? = nil, storageFindingReasonCodes: [RDSStorageFindingReasonCode]? = nil, storageRecommendationOptions: [RDSDBStorageRecommendationOption]? = nil, tags: [Tag]? = nil, utilizationMetrics: [RDSDBUtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, currentDBInstanceClass: String? = nil, currentInstancePerformanceRisk: RDSCurrentInstancePerformanceRisk? = nil, currentStorageConfiguration: DBStorageConfiguration? = nil, dbClusterIdentifier: String? = nil, effectiveRecommendationPreferences: RDSEffectiveRecommendationPreferences? = nil, engine: String? = nil, engineVersion: String? = nil, idle: Idle? = nil, instanceFinding: RDSInstanceFinding? = nil, instanceFindingReasonCodes: [RDSInstanceFindingReasonCode]? = nil, instanceRecommendationOptions: [RDSDBInstanceRecommendationOption]? = nil, lastRefreshTimestamp: Date? = nil, lookbackPeriodInDays: Double? = nil, promotionTier: Int? = nil, resourceArn: String? = nil, storageFinding: RDSStorageFinding? = nil, storageFindingReasonCodes: [RDSStorageFindingReasonCode]? = nil, storageRecommendationOptions: [RDSDBStorageRecommendationOption]? = nil, tags: [Tag]? = nil, utilizationMetrics: [RDSDBUtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentDBInstanceClass = currentDBInstanceClass
+            self.currentInstancePerformanceRisk = currentInstancePerformanceRisk
             self.currentStorageConfiguration = currentStorageConfiguration
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.engine = engine
             self.engineVersion = engineVersion
@@ -3815,6 +4251,7 @@ extension ComputeOptimizer {
             self.instanceRecommendationOptions = instanceRecommendationOptions
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.promotionTier = promotionTier
             self.resourceArn = resourceArn
             self.storageFinding = storageFinding
             self.storageFindingReasonCodes = storageFindingReasonCodes
@@ -3826,7 +4263,9 @@ extension ComputeOptimizer {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case currentDBInstanceClass = "currentDBInstanceClass"
+            case currentInstancePerformanceRisk = "currentInstancePerformanceRisk"
             case currentStorageConfiguration = "currentStorageConfiguration"
+            case dbClusterIdentifier = "dbClusterIdentifier"
             case effectiveRecommendationPreferences = "effectiveRecommendationPreferences"
             case engine = "engine"
             case engineVersion = "engineVersion"
@@ -3836,6 +4275,7 @@ extension ComputeOptimizer {
             case instanceRecommendationOptions = "instanceRecommendationOptions"
             case lastRefreshTimestamp = "lastRefreshTimestamp"
             case lookbackPeriodInDays = "lookbackPeriodInDays"
+            case promotionTier = "promotionTier"
             case resourceArn = "resourceArn"
             case storageFinding = "storageFinding"
             case storageFindingReasonCodes = "storageFindingReasonCodes"
@@ -4203,8 +4643,12 @@ extension ComputeOptimizer {
     public struct RecommendationSummary: AWSDecodableShape {
         /// The Amazon Web Services account ID of the recommendation summary.
         public let accountId: String?
+        public let aggregatedSavingsOpportunity: SavingsOpportunity?
         /// An object that describes the performance risk ratings for a given resource type.
         public let currentPerformanceRiskRatings: CurrentPerformanceRiskRatings?
+        public let idleSavingsOpportunity: SavingsOpportunity?
+        ///  Describes the findings summary of the idle resources.
+        public let idleSummaries: [IdleSummary]?
         ///  An array of objects that describes the estimated monthly saving amounts for the instances running on the specified  inferredWorkloadTypes. The array contains the top five savings opportunites for the instances that run  inferred workload types.
         public let inferredWorkloadSavings: [InferredWorkloadSaving]?
         /// The resource type that the recommendation summary applies to.
@@ -4215,9 +4659,12 @@ extension ComputeOptimizer {
         public let summaries: [Summary]?
 
         @inlinable
-        public init(accountId: String? = nil, currentPerformanceRiskRatings: CurrentPerformanceRiskRatings? = nil, inferredWorkloadSavings: [InferredWorkloadSaving]? = nil, recommendationResourceType: RecommendationSourceType? = nil, savingsOpportunity: SavingsOpportunity? = nil, summaries: [Summary]? = nil) {
+        public init(accountId: String? = nil, aggregatedSavingsOpportunity: SavingsOpportunity? = nil, currentPerformanceRiskRatings: CurrentPerformanceRiskRatings? = nil, idleSavingsOpportunity: SavingsOpportunity? = nil, idleSummaries: [IdleSummary]? = nil, inferredWorkloadSavings: [InferredWorkloadSaving]? = nil, recommendationResourceType: RecommendationSourceType? = nil, savingsOpportunity: SavingsOpportunity? = nil, summaries: [Summary]? = nil) {
             self.accountId = accountId
+            self.aggregatedSavingsOpportunity = aggregatedSavingsOpportunity
             self.currentPerformanceRiskRatings = currentPerformanceRiskRatings
+            self.idleSavingsOpportunity = idleSavingsOpportunity
+            self.idleSummaries = idleSummaries
             self.inferredWorkloadSavings = inferredWorkloadSavings
             self.recommendationResourceType = recommendationResourceType
             self.savingsOpportunity = savingsOpportunity
@@ -4226,7 +4673,10 @@ extension ComputeOptimizer {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case aggregatedSavingsOpportunity = "aggregatedSavingsOpportunity"
             case currentPerformanceRiskRatings = "currentPerformanceRiskRatings"
+            case idleSavingsOpportunity = "idleSavingsOpportunity"
+            case idleSummaries = "idleSummaries"
             case inferredWorkloadSavings = "inferredWorkloadSavings"
             case recommendationResourceType = "recommendationResourceType"
             case savingsOpportunity = "savingsOpportunity"
@@ -4491,7 +4941,7 @@ extension ComputeOptimizer {
         public let volumeBurstThroughput: Int?
         /// The size of the volume, in GiB.
         public let volumeSize: Int?
-        /// The volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
+        /// The volume type. The volume types can be the following:   General Purpose SSD gp2 and gp3    Provisioned IOPS SSD io1, io2, and io2 Block Express    Throughput Optimized HDD st1    Cold HDD sc1    Magnetic volumes standard
         public let volumeType: String?
 
         @inlinable

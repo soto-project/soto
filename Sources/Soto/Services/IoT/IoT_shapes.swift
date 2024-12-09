@@ -214,6 +214,22 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum CommandExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case created = "CREATED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case rejected = "REJECTED"
+        case succeeded = "SUCCEEDED"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommandNamespace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsIoT = "AWS-IoT"
+        case awsIoTFleetWise = "AWS-IoT-FleetWise"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case greaterThan = "greater-than"
         case greaterThanEquals = "greater-than-equals"
@@ -547,6 +563,12 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
@@ -724,7 +746,7 @@ extension IoT {
         public let action: AbortAction
         /// The type of job execution failures that can initiate a job abort.
         public let failureType: JobExecutionFailureType
-        /// The minimum number of things which must receive job execution notifications before the job  can be aborted.
+        /// The minimum number of things which must receive job execution notifications before the job can be aborted.
         public let minNumberOfExecutedThings: Int
         /// The minimum percentage of job execution failures that must occur to initiate the job abort. Amazon Web Services IoT Core supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
         public let thresholdPercentage: Double
@@ -1237,7 +1259,7 @@ extension IoT {
         public let comment: String?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
         public let namespaceId: String?
         /// A list of thing group ARNs that define the targets of the job.
         public let targets: [String]
@@ -2437,13 +2459,13 @@ extension IoT {
     }
 
     public struct CancelJobExecutionRequest: AWSEncodableShape {
-        /// (Optional) The expected current version of the job execution. Each time you update the job  execution, its version is incremented. If the version of the job execution stored in Jobs does  not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that  contains the current job execution status data is returned. (This makes it unnecessary to  perform a separate DescribeJobExecution request in order to obtain the job execution status  data.)
+        /// (Optional) The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
         public let expectedVersion: Int64?
-        /// (Optional) If true the job execution will be canceled if it has status  IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status  QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set  force to true, then an InvalidStateTransitionException  will be thrown. The default is false. Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable  to update the job execution status.  Use caution and ensure that the device is able to  recover to a valid state.
+        /// (Optional) If true the job execution will be canceled if it has status IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set force to true, then an InvalidStateTransitionException will be thrown. The default is false. Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable to update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
         public let force: Bool?
         /// The ID of the job to be canceled.
         public let jobId: String
-        /// A collection of name/value pairs that describe the status of the job execution. If not  specified, the statusDetails are unchanged. You can specify at most 10 name/value pairs.
+        /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. You can specify at most 10 name/value pairs.
         public let statusDetails: [String: String]?
         /// The name of the thing whose execution of the job will be canceled.
         public let thingName: String
@@ -2492,7 +2514,7 @@ extension IoT {
     public struct CancelJobRequest: AWSEncodableShape {
         /// An optional comment string describing why the job was canceled.
         public let comment: String?
-        /// (Optional) If true job executions with status "IN_PROGRESS" and "QUEUED"  are canceled, otherwise only job executions with status "QUEUED" are canceled. The default  is false. Canceling a job which is "IN_PROGRESS", will cause a device which is executing  the job to be unable to update the job execution status.  Use caution and ensure that each  device executing a job which is canceled is able to recover to a valid state.
+        /// (Optional) If true job executions with status "IN_PROGRESS" and "QUEUED" are canceled, otherwise only job executions with status "QUEUED" are canceled. The default is false. Canceling a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to update the job execution status. Use caution and ensure that each device executing a job which is canceled is able to recover to a valid state.
         public let force: Bool?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
@@ -2850,6 +2872,208 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case inlineDocument = "inlineDocument"
+        }
+    }
+
+    public struct CommandExecutionResult: AWSDecodableShape {
+        /// An attribute of type Boolean. For example:  "BOOL": true
+        public let b: Bool?
+        /// An attribute of type Binary.
+        public let bin: AWSBase64Data?
+        /// An attribute of type String. For example:  "S": "Hello"
+        public let s: String?
+
+        @inlinable
+        public init(b: Bool? = nil, bin: AWSBase64Data? = nil, s: String? = nil) {
+            self.b = b
+            self.bin = bin
+            self.s = s
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case b = "B"
+            case bin = "BIN"
+            case s = "S"
+        }
+    }
+
+    public struct CommandExecutionSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the command execution.
+        public let commandArn: String?
+        /// The date and time at which the command completed executing on the target device.
+        public let completedAt: Date?
+        /// The date and time at which the command execution was created for the target device.
+        public let createdAt: Date?
+        /// The unique identifier of the command execution.
+        public let executionId: String?
+        /// The date and time at which the command started executing on the target device.
+        public let startedAt: Date?
+        /// The status of the command executions.
+        public let status: CommandExecutionStatus?
+        /// The Amazon Resource Name (ARN) of the target device for which the command is being executed.
+        public let targetArn: String?
+
+        @inlinable
+        public init(commandArn: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, executionId: String? = nil, startedAt: Date? = nil, status: CommandExecutionStatus? = nil, targetArn: String? = nil) {
+            self.commandArn = commandArn
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.executionId = executionId
+            self.startedAt = startedAt
+            self.status = status
+            self.targetArn = targetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandArn = "commandArn"
+            case completedAt = "completedAt"
+            case createdAt = "createdAt"
+            case executionId = "executionId"
+            case startedAt = "startedAt"
+            case status = "status"
+            case targetArn = "targetArn"
+        }
+    }
+
+    public struct CommandParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The default value used to describe the command. This is the value assumed by the parameter if no other value is assigned to it.
+        public let defaultValue: CommandParameterValue?
+        /// The description of the command parameter.
+        public let description: String?
+        /// The name of a specific parameter used in a command and command execution.
+        public let name: String
+        /// The value used to describe the command. When you assign a value to a parameter, it will override any default value that you had already specified.
+        public let value: CommandParameterValue?
+
+        @inlinable
+        public init(defaultValue: CommandParameterValue? = nil, description: String? = nil, name: String, value: CommandParameterValue? = nil) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultValue?.validate(name: "\(name).defaultValue")
+            try self.validate(self.description, name: "description", parent: name, max: 2028)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 192)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[.$a-zA-Z0-9_-]+$")
+            try self.value?.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct CommandParameterValue: AWSEncodableShape & AWSDecodableShape {
+        /// An attribute of type Boolean. For example:  "BOOL": true
+        public let b: Bool?
+        /// An attribute of type Binary. For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
+        public let bin: AWSBase64Data?
+        /// An attribute of type Double (Sixty-Four Bits).
+        public let d: Double?
+        /// An attribute of type Integer (Thirty-Two Bits).
+        public let i: Int?
+        /// An attribute of type Long.
+        public let l: Int64?
+        /// An attribute of type String. For example:  "S": "Hello"
+        public let s: String?
+        /// An attribute of type unsigned long.
+        public let ul: String?
+
+        @inlinable
+        public init(b: Bool? = nil, bin: AWSBase64Data? = nil, d: Double? = nil, i: Int? = nil, l: Int64? = nil, s: String? = nil, ul: String? = nil) {
+            self.b = b
+            self.bin = bin
+            self.d = d
+            self.i = i
+            self.l = l
+            self.s = s
+            self.ul = ul
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bin, name: "bin", parent: name, min: 1)
+            try self.validate(self.s, name: "s", parent: name, min: 1)
+            try self.validate(self.ul, name: "ul", parent: name, max: 20)
+            try self.validate(self.ul, name: "ul", parent: name, min: 1)
+            try self.validate(self.ul, name: "ul", parent: name, pattern: "^[0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case b = "B"
+            case bin = "BIN"
+            case d = "D"
+            case i = "I"
+            case l = "L"
+            case s = "S"
+            case ul = "UL"
+        }
+    }
+
+    public struct CommandPayload: AWSEncodableShape & AWSDecodableShape {
+        /// The static payload file for the command.
+        public let content: AWSBase64Data?
+        /// The content type that specifies the format type of the payload file. This field must use a type/subtype format, such as application/json. For information about various content types, see Common MIME types.
+        public let contentType: String?
+
+        @inlinable
+        public init(content: AWSBase64Data? = nil, contentType: String? = nil) {
+            self.content = content
+            self.contentType = contentType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case contentType = "contentType"
+        }
+    }
+
+    public struct CommandSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the command.
+        public let commandArn: String?
+        /// The unique identifier of the command.
+        public let commandId: String?
+        /// The timestamp, when the command was created.
+        public let createdAt: Date?
+        /// Indicates whether the command has been deprecated.
+        public let deprecated: Bool?
+        /// The display name of the command.
+        public let displayName: String?
+        /// The timestamp, when the command was last updated.
+        public let lastUpdatedAt: Date?
+        /// Indicates whether the command is pending deletion.
+        public let pendingDeletion: Bool?
+
+        @inlinable
+        public init(commandArn: String? = nil, commandId: String? = nil, createdAt: Date? = nil, deprecated: Bool? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, pendingDeletion: Bool? = nil) {
+            self.commandArn = commandArn
+            self.commandId = commandId
+            self.createdAt = createdAt
+            self.deprecated = deprecated
+            self.displayName = displayName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.pendingDeletion = pendingDeletion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandArn = "commandArn"
+            case commandId = "commandId"
+            case createdAt = "createdAt"
+            case deprecated = "deprecated"
+            case displayName = "displayName"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case pendingDeletion = "pendingDeletion"
         }
     }
 
@@ -3217,6 +3441,98 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case certificateProviderArn = "certificateProviderArn"
             case certificateProviderName = "certificateProviderName"
+        }
+    }
+
+    public struct CreateCommandRequest: AWSEncodableShape {
+        /// A unique identifier for the command. We recommend using UUID. Alpha-numeric characters, hyphens, and underscores are valid for use here.
+        public let commandId: String
+        /// A short text decription of the command.
+        public let description: String?
+        /// The user-friendly name in the console for the command. This name doesn't have to be unique. You can update the user-friendly name after you define it.
+        public let displayName: String?
+        /// A list of parameters that are required by the StartCommandExecution API. These parameters need to be specified only when using the AWS-IoT-FleetWise namespace. You can either specify them here or when running the command using the StartCommandExecution API.
+        public let mandatoryParameters: [CommandParameter]?
+        /// The namespace of the command. The MQTT reserved topics and validations will be used for command executions according to the namespace setting.
+        public let namespace: CommandNamespace?
+        /// The payload object for the command. You must specify this information when using the AWS-IoT namespace. You can upload a static payload file from your local storage that contains the  instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
+        public let payload: CommandPayload?
+        /// The IAM role that allows access to create the command.
+        public let roleArn: String?
+        /// Name-value pairs that are used as metadata to manage a command.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(commandId: String, description: String? = nil, displayName: String? = nil, mandatoryParameters: [CommandParameter]? = nil, namespace: CommandNamespace? = nil, payload: CommandPayload? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
+            self.commandId = commandId
+            self.description = description
+            self.displayName = displayName
+            self.mandatoryParameters = mandatoryParameters
+            self.namespace = namespace
+            self.payload = payload
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.commandId, key: "commandId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            try container.encodeIfPresent(self.mandatoryParameters, forKey: .mandatoryParameters)
+            try container.encodeIfPresent(self.namespace, forKey: .namespace)
+            try container.encodeIfPresent(self.payload, forKey: .payload)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.commandId, name: "commandId", parent: name, max: 64)
+            try self.validate(self.commandId, name: "commandId", parent: name, min: 1)
+            try self.validate(self.commandId, name: "commandId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2028)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]*$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 64)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[^\\p{C}]*$")
+            try self.mandatoryParameters?.forEach {
+                try $0.validate(name: "\(name).mandatoryParameters[]")
+            }
+            try self.validate(self.mandatoryParameters, name: "mandatoryParameters", parent: name, min: 1)
+            try self.payload?.validate(name: "\(name).payload")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case mandatoryParameters = "mandatoryParameters"
+            case namespace = "namespace"
+            case payload = "payload"
+            case roleArn = "roleArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateCommandResponse: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+        public let commandArn: String?
+        /// The unique identifier for the command.
+        public let commandId: String?
+
+        @inlinable
+        public init(commandArn: String? = nil, commandId: String? = nil) {
+            self.commandArn = commandArn
+            self.commandId = commandId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandArn = "commandArn"
+            case commandId = "commandId"
         }
     }
 
@@ -3682,11 +3998,11 @@ extension IoT {
         public let abortConfig: AbortConfig?
         /// A short text description of the job.
         public let description: String?
-        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the  job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.   Note:The following Length Constraints relates to a single ARN.  Up to 25  package version ARNs are allowed.
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.   Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
         public let destinationPackageVersions: [String]?
         /// The job document. Required if you don't specify a value for documentSource.
         public let document: String?
-        /// Parameters of an Amazon Web Services managed template that you can specify to create the job document.   documentParameters can only be used when creating jobs from Amazon Web Services  managed templates. This parameter can't be used with custom job templates or to  create jobs from them.
+        /// Parameters of an Amazon Web Services managed template that you can specify to create the job document.   documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public let documentParameters: [String: String]?
         /// An S3 link, or S3 object URL, to the job document. The link is an Amazon S3 object URL and is required if you don't specify a value for document. For example, --document-source https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0  For more information, see Methods for accessing a bucket.
         public let documentSource: String?
@@ -3694,11 +4010,11 @@ extension IoT {
         public let jobExecutionsRetryConfig: JobExecutionsRetryConfig?
         /// Allows you to create a staged rollout of the job.
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
-        /// A job identifier which must be unique for your Amazon Web Services account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
+        /// A job identifier which must be unique for your account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
         public let jobId: String
         /// The ARN of the job template used to create the job.
         public let jobTemplateArn: String?
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
         public let namespaceId: String?
         /// Configuration information for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
@@ -3708,9 +4024,9 @@ extension IoT {
         public let tags: [Tag]?
         /// A list of things and thing groups to which the job should be sent.
         public let targets: [String]
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.  We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets.  By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.  We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
         public let targetSelection: TargetSelection?
-        /// Specifies the amount of time each device has to finish its execution of the job. The timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the time expires, it will be  automatically set to TIMED_OUT.
+        /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
         @inlinable
@@ -3842,7 +4158,7 @@ extension IoT {
         public let abortConfig: AbortConfig?
         /// A description of the job document.
         public let description: String
-        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the  job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.  Note:The following Length Constraints relates to a single ARN.  Up to 25  package version ARNs are allowed.
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.  Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
         public let destinationPackageVersions: [String]?
         /// The job document. Required if you don't specify a value for documentSource.
         public let document: String?
@@ -3853,7 +4169,7 @@ extension IoT {
         /// Allows you to create the criteria to retry a job.
         public let jobExecutionsRetryConfig: JobExecutionsRetryConfig?
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
-        /// A unique identifier for the job template. We recommend using a UUID. Alpha-numeric  characters, "-", and "_" are valid for use here.
+        /// A unique identifier for the job template. We recommend using a UUID. Alpha-numeric characters, "-", and "_" are valid for use here.
         public let jobTemplateId: String
         /// Allows you to configure an optional maintenance window for the rollout of a job document to all devices in the target group for a job.
         public let maintenanceWindows: [MaintenanceWindow]?
@@ -5523,6 +5839,80 @@ extension IoT {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteCommandExecutionRequest: AWSEncodableShape {
+        /// The unique identifier of the command execution that you want to delete from your account.
+        public let executionId: String
+        /// The Amazon Resource Number (ARN) of the target device for which you want to delete command executions.
+        public let targetArn: String
+
+        @inlinable
+        public init(executionId: String, targetArn: String) {
+            self.executionId = executionId
+            self.targetArn = targetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.executionId, key: "executionId")
+            request.encodeQuery(self.targetArn, key: "targetArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionId, name: "executionId", parent: name, max: 64)
+            try self.validate(self.executionId, name: "executionId", parent: name, min: 1)
+            try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCommandExecutionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteCommandRequest: AWSEncodableShape {
+        /// The unique identifier of the command to be deleted.
+        public let commandId: String
+
+        @inlinable
+        public init(commandId: String) {
+            self.commandId = commandId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.commandId, key: "commandId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.commandId, name: "commandId", parent: name, max: 64)
+            try self.validate(self.commandId, name: "commandId", parent: name, min: 1)
+            try self.validate(self.commandId, name: "commandId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCommandResponse: AWSDecodableShape {
+        /// The status code for the command deletion request. The status code is in the 200 range for a successful request.   If the command hasn't been deprecated, or has been deprecated for a duration that  is shorter than the maximum time out duration of 12 hours, when calling the DeleteCommand request, the deletion will be scheduled and a 202 status code will be returned. While the command is being deleted, it will be in a  pendingDeletion state. Once the time out duration has been reached, the command will be permanently removed from your account.   If the command has been deprecated for a duration that is longer than the  maximum time out duration of 12 hours, when calling the DeleteCommand request, the command will be deleted immediately and a 204 status code will be returned.
+        public let statusCode: Int?
+
+        @inlinable
+        public init(statusCode: Int? = nil) {
+            self.statusCode = statusCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.statusCode = response.decodeStatus()
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteCustomMetricRequest: AWSEncodableShape {
         ///  The name of the custom metric.
         public let metricName: String
@@ -5668,13 +6058,13 @@ extension IoT {
     }
 
     public struct DeleteJobExecutionRequest: AWSEncodableShape {
-        /// The ID of the job execution to be deleted. The executionNumber refers to the  execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused  by IoT, so be sure you get and use the correct value here.
+        /// The ID of the job execution to be deleted. The executionNumber refers to the execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused by IoT, so be sure you get and use the correct value here.
         public let executionNumber: Int64
-        /// (Optional) When true, you can delete a job execution which is "IN_PROGRESS". Otherwise,  you can only delete a job execution which is in a terminal state ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job execution which is "IN_PROGRESS", will cause the device  to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
+        /// (Optional) When true, you can delete a job execution which is "IN_PROGRESS". Otherwise, you can only delete a job execution which is in a terminal state ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job execution which is "IN_PROGRESS", will cause the device to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
         public let force: Bool?
         /// The ID of the job whose execution on a particular device will be deleted.
         public let jobId: String
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
         public let namespaceId: String?
         /// The name of the thing whose job execution will be deleted.
         public let thingName: String
@@ -5712,11 +6102,11 @@ extension IoT {
     }
 
     public struct DeleteJobRequest: AWSEncodableShape {
-        /// (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception  will occur. The default is false.  Deleting a job which is "IN_PROGRESS", will cause a device which is executing  the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to  a valid state.
+        /// (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to a valid state.
         public let force: Bool?
-        /// The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job.  However, this is not recommended, and you must ensure that your devices are not using the  jobId to refer to the deleted job.
+        /// The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job. However, this is not recommended, and you must ensure that your devices are not using the jobId to refer to the deleted job.
         public let jobId: String
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
         public let namespaceId: String?
 
         @inlinable
@@ -7333,7 +7723,7 @@ extension IoT {
     }
 
     public struct DescribeJobRequest: AWSEncodableShape {
-        /// A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+        /// Provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
         public let beforeSubstitution: Bool?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
@@ -7408,7 +7798,7 @@ extension IoT {
         public let createdAt: Date?
         /// A description of the job template.
         public let description: String?
-        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the  job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.  Note:The following Length Constraints relates to a single ARN.  Up to 25  package version ARNs are allowed.
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.  Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
         public let destinationPackageVersions: [String]?
         /// The job document.
         public let document: String?
@@ -7463,7 +7853,7 @@ extension IoT {
     public struct DescribeManagedJobTemplateRequest: AWSEncodableShape {
         /// The unique name of a managed job template, which is required.
         public let templateName: String
-        /// An optional parameter to specify version of a managed template. If not specified, the  pre-defined default version is returned.
+        /// An optional parameter to specify version of a managed template. If not specified, the pre-defined default version is returned.
         public let templateVersion: String?
 
         @inlinable
@@ -7493,7 +7883,7 @@ extension IoT {
         public let description: String?
         /// The document schema for a managed job template.
         public let document: String?
-        /// A map of key-value pairs that you can use as guidance to specify the inputs for creating  a job from a managed template.   documentParameters can only be used when creating jobs from Amazon Web Services  managed templates. This parameter can't be used with custom job templates or to  create jobs from them.
+        /// A map of key-value pairs that you can use as guidance to specify the inputs for creating a job from a managed template.   documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public let documentParameters: [DocumentParameter]?
         /// A list of environments that are supported with the managed job template.
         public let environments: [String]?
@@ -8597,15 +8987,15 @@ extension IoT {
     }
 
     public struct DocumentParameter: AWSDecodableShape {
-        /// Description of the map field containing the patterns that need to be replaced in a  managed template job document schema.
+        /// Description of the map field containing the patterns that need to be replaced in a managed template job document schema.
         public let description: String?
-        /// An example illustrating a pattern that need to be replaced in a managed template  job document schema.
+        /// An example illustrating a pattern that need to be replaced in a managed template job document schema.
         public let example: String?
         /// Key of the map field containing the patterns that need to be replaced in a managed template job document schema.
         public let key: String?
-        /// Specifies whether a pattern that needs to be replaced in a managed template job document  schema is optional or required.
+        /// Specifies whether a pattern that needs to be replaced in a managed template job document schema is optional or required.
         public let optional: Bool?
-        /// A regular expression of the patterns that need to be replaced in a managed template  job document schema.
+        /// A regular expression of the patterns that need to be replaced in a managed template job document schema.
         public let regex: String?
 
         @inlinable
@@ -9145,6 +9535,183 @@ extension IoT {
         }
     }
 
+    public struct GetCommandExecutionRequest: AWSEncodableShape {
+        /// The unique identifier for the command execution. This information is returned as a response of the StartCommandExecution API request.
+        public let executionId: String
+        /// Can be used to specify whether to include the result of the command execution in the GetCommandExecution API response. Your device can use this field to provide additional information about the command execution. You only need to specify this field when using the AWS-IoT namespace.
+        public let includeResult: Bool?
+        /// The Amazon Resource Number (ARN) of the device on which the command execution is being performed.
+        public let targetArn: String
+
+        @inlinable
+        public init(executionId: String, includeResult: Bool? = nil, targetArn: String) {
+            self.executionId = executionId
+            self.includeResult = includeResult
+            self.targetArn = targetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.executionId, key: "executionId")
+            request.encodeQuery(self.includeResult, key: "includeResult")
+            request.encodeQuery(self.targetArn, key: "targetArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionId, name: "executionId", parent: name, max: 64)
+            try self.validate(self.executionId, name: "executionId", parent: name, min: 1)
+            try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCommandExecutionResponse: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+        public let commandArn: String?
+        /// The timestamp, when the command execution was completed.
+        public let completedAt: Date?
+        /// The timestamp, when the command execution was created.
+        public let createdAt: Date?
+        /// The unique identifier of the command execution.
+        public let executionId: String?
+        /// Specifies the amount of time in seconds that the device can take to finish a command execution. A timer starts when the command execution is created. If the command execution status is not set to another terminal state before the timer expires, it will automatically update to TIMED_OUT.
+        public let executionTimeoutSeconds: Int64?
+        /// The timestamp, when the command execution was last updated.
+        public let lastUpdatedAt: Date?
+        /// The list of parameters that the StartCommandExecution API used when performing the command on the device.
+        public let parameters: [String: CommandParameterValue]?
+        /// The result value for the current state of the command execution. The status provides information about the progress of the command execution. The device can use the result field to share additional details about the execution such as a return value of a remote function call.  If you use the AWS-IoT-FleetWise namespace, then this field is not applicable in the API response.
+        public let result: [String: CommandExecutionResult]?
+        /// The timestamp, when the command execution was started.
+        public let startedAt: Date?
+        /// The status of the command execution. After your devices receive the command and start performing the operations specified in the command, it can use the UpdateCommandExecution MQTT API to update the status information.
+        public let status: CommandExecutionStatus?
+        /// Your devices can use this parameter to provide additional context about the status of a command execution using a reason code and description.
+        public let statusReason: StatusReason?
+        /// The Amazon Resource Number (ARN) of the device on which the command execution is being performed.
+        public let targetArn: String?
+        /// The time to live (TTL) parameter for the GetCommandExecution API.
+        public let timeToLive: Date?
+
+        @inlinable
+        public init(commandArn: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, executionId: String? = nil, executionTimeoutSeconds: Int64? = nil, lastUpdatedAt: Date? = nil, parameters: [String: CommandParameterValue]? = nil, result: [String: CommandExecutionResult]? = nil, startedAt: Date? = nil, status: CommandExecutionStatus? = nil, statusReason: StatusReason? = nil, targetArn: String? = nil, timeToLive: Date? = nil) {
+            self.commandArn = commandArn
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.executionId = executionId
+            self.executionTimeoutSeconds = executionTimeoutSeconds
+            self.lastUpdatedAt = lastUpdatedAt
+            self.parameters = parameters
+            self.result = result
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.targetArn = targetArn
+            self.timeToLive = timeToLive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandArn = "commandArn"
+            case completedAt = "completedAt"
+            case createdAt = "createdAt"
+            case executionId = "executionId"
+            case executionTimeoutSeconds = "executionTimeoutSeconds"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case parameters = "parameters"
+            case result = "result"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case targetArn = "targetArn"
+            case timeToLive = "timeToLive"
+        }
+    }
+
+    public struct GetCommandRequest: AWSEncodableShape {
+        /// The unique identifier of the command for which you want to retrieve information.
+        public let commandId: String
+
+        @inlinable
+        public init(commandId: String) {
+            self.commandId = commandId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.commandId, key: "commandId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.commandId, name: "commandId", parent: name, max: 64)
+            try self.validate(self.commandId, name: "commandId", parent: name, min: 1)
+            try self.validate(self.commandId, name: "commandId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCommandResponse: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+        public let commandArn: String?
+        /// The unique identifier of the command.
+        public let commandId: String?
+        /// The timestamp, when the command was created.
+        public let createdAt: Date?
+        /// Indicates whether the command has been deprecated.
+        public let deprecated: Bool?
+        /// A short text description of the command.
+        public let description: String?
+        /// The user-friendly name in the console for the command.
+        public let displayName: String?
+        /// The timestamp, when the command was last updated.
+        public let lastUpdatedAt: Date?
+        /// A list of parameters for the command created.
+        public let mandatoryParameters: [CommandParameter]?
+        /// The namespace of the command.
+        public let namespace: CommandNamespace?
+        /// The payload object that you provided for the command.
+        public let payload: CommandPayload?
+        /// Indicates whether the command is being deleted.
+        public let pendingDeletion: Bool?
+        /// The IAM role that allows access to retrieve information about the command.
+        public let roleArn: String?
+
+        @inlinable
+        public init(commandArn: String? = nil, commandId: String? = nil, createdAt: Date? = nil, deprecated: Bool? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, mandatoryParameters: [CommandParameter]? = nil, namespace: CommandNamespace? = nil, payload: CommandPayload? = nil, pendingDeletion: Bool? = nil, roleArn: String? = nil) {
+            self.commandArn = commandArn
+            self.commandId = commandId
+            self.createdAt = createdAt
+            self.deprecated = deprecated
+            self.description = description
+            self.displayName = displayName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.mandatoryParameters = mandatoryParameters
+            self.namespace = namespace
+            self.payload = payload
+            self.pendingDeletion = pendingDeletion
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandArn = "commandArn"
+            case commandId = "commandId"
+            case createdAt = "createdAt"
+            case deprecated = "deprecated"
+            case description = "description"
+            case displayName = "displayName"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case mandatoryParameters = "mandatoryParameters"
+            case namespace = "namespace"
+            case payload = "payload"
+            case pendingDeletion = "pendingDeletion"
+            case roleArn = "roleArn"
+        }
+    }
+
     public struct GetEffectivePoliciesRequest: AWSEncodableShape {
         /// The Cognito identity pool ID.
         public let cognitoIdentityPoolId: String?
@@ -9217,7 +9784,7 @@ extension IoT {
     }
 
     public struct GetJobDocumentRequest: AWSEncodableShape {
-        /// A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+        /// Provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
         public let beforeSubstitution: Bool?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
@@ -10175,13 +10742,13 @@ extension IoT {
         public let createdAt: Date?
         /// A short text description of the job.
         public let description: String?
-        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the  job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.  Note:The following Length Constraints relates to a single ARN.  Up to 25  package version ARNs are allowed.
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.The package version must be in either the Published or Deprecated state when the job deploys. For more information, see Package version lifecycle.  Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
         public let destinationPackageVersions: [String]?
-        /// A key-value map that pairs the patterns that need to be replaced in a managed  template job document schema. You can use the description of each key as a guidance  to specify the inputs during runtime when creating a job.   documentParameters can only be used when creating jobs from Amazon Web Services  managed templates. This parameter can't be used with custom job templates or to  create jobs from them.
+        /// A key-value map that pairs the patterns that need to be replaced in a managed template job document schema. You can use the description of each key as a guidance to specify the inputs during runtime when creating a job.   documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public let documentParameters: [String: String]?
-        /// Will be true if the job was canceled with the optional force parameter set to  true.
+        /// Will be true if the job was canceled with the optional force parameter set to true.
         public let forceCanceled: Bool?
-        /// Indicates whether a job is concurrent. Will be true when a job is  rolling out new job executions or canceling previously created executions, otherwise false.
+        /// Indicates whether a job is concurrent. Will be true when a job is rolling out new job executions or canceling previously created executions, otherwise false.
         public let isConcurrent: Bool?
         /// An ARN identifying the job with format "arn:aws:iot:region:account:job/jobId".
         public let jobArn: String?
@@ -10197,7 +10764,7 @@ extension IoT {
         public let jobTemplateArn: String?
         /// The time, in seconds since the epoch, when the job was last updated.
         public let lastUpdatedAt: Date?
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
         public let namespaceId: String?
         /// Configuration for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
@@ -10207,13 +10774,13 @@ extension IoT {
         public let scheduledJobRollouts: [ScheduledJobRollout]?
         /// The configuration that allows you to schedule a job for a future date and time in addition to specifying the end behavior for each job execution.
         public let schedulingConfig: SchedulingConfig?
-        /// The status of the job, one of IN_PROGRESS, CANCELED,  DELETION_IN_PROGRESS or COMPLETED.
+        /// The status of the job, one of IN_PROGRESS, CANCELED, DELETION_IN_PROGRESS or COMPLETED.
         public let status: JobStatus?
         /// A list of IoT things and thing groups to which the job should be sent.
         public let targets: [String]?
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a device when the thing representing the device is added to a target group, even after the job was completed by all things originally in the  group.   We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets.  By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a device when the thing representing the device is added to a target group, even after the job was completed by all things originally in the group.   We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
         public let targetSelection: TargetSelection?
-        /// Specifies the amount of time each device has to finish its execution of the job.  A timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
+        /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
         @inlinable
@@ -10275,11 +10842,11 @@ extension IoT {
     }
 
     public struct JobExecution: AWSDecodableShape {
-        /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes).  The actual job execution timeout can occur up to 60 seconds later than the estimated duration.  This value will not be included if the job execution has reached a terminal status.
+        /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The actual job execution timeout can occur up to 60 seconds later than the estimated duration. This value will not be included if the job execution has reached a terminal status.
         public let approximateSecondsBeforeTimedOut: Int64?
         /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used in commands which return or update job execution information.
         public let executionNumber: Int64?
-        /// Will be true if the job execution was canceled with the optional force  parameter set to true.
+        /// Will be true if the job execution was canceled with the optional force parameter set to true.
         public let forceCanceled: Bool?
         /// The unique identifier you assigned to the job when it was created.
         public let jobId: String?
@@ -10289,7 +10856,7 @@ extension IoT {
         public let queuedAt: Date?
         /// The time, in seconds since the epoch, when the job execution started.
         public let startedAt: Date?
-        /// The status of the job execution (IN_PROGRESS, QUEUED, FAILED, SUCCEEDED, TIMED_OUT,  CANCELED, or REJECTED).
+        /// The status of the job execution (IN_PROGRESS, QUEUED, FAILED, SUCCEEDED, TIMED_OUT, CANCELED, or REJECTED).
         public let status: JobExecutionStatus?
         /// A collection of name/value pairs that describe the status of the job execution.
         public let statusDetails: JobExecutionStatusDetails?
@@ -10349,7 +10916,7 @@ extension IoT {
         public let lastUpdatedAt: Date?
         /// The time, in seconds since the epoch, when the job execution was queued.
         public let queuedAt: Date?
-        /// The number that indicates how many retry attempts have been completed for this  job on this device.
+        /// The number that indicates how many retry attempts have been completed for this job on this device.
         public let retryAttempt: Int?
         /// The time, in seconds since the epoch, when the job execution started.
         public let startedAt: Date?
@@ -10508,7 +11075,7 @@ extension IoT {
         public let completedAt: Date?
         /// The time, in seconds since the epoch, when the job was created.
         public let createdAt: Date?
-        /// Indicates whether a job is concurrent. Will be true when a job is  rolling out new job executions or canceling previously created executions, otherwise false.
+        /// Indicates whether a job is concurrent. Will be true when a job is rolling out new job executions or canceling previously created executions, otherwise false.
         public let isConcurrent: Bool?
         /// The job ARN.
         public let jobArn: String?
@@ -10518,7 +11085,7 @@ extension IoT {
         public let lastUpdatedAt: Date?
         /// The job summary status.
         public let status: JobStatus?
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.  We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets.  By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.  We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
         public let targetSelection: TargetSelection?
         /// The ID of the thing group.
         public let thingGroupId: String?
@@ -11456,6 +12023,150 @@ extension IoT {
         }
     }
 
+    public struct ListCommandExecutionsRequest: AWSEncodableShape {
+        /// The Amazon Resource Number (ARN) of the command. You can use this information to list all command executions for a particular command.
+        public let commandArn: String?
+        /// List all command executions that completed any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm.
+        public let completedTimeFilter: TimeFilter?
+        /// The maximum number of results to return in this operation.
+        public let maxResults: Int?
+        /// The namespace of the command.
+        public let namespace: CommandNamespace?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+        /// Specify whether to list the command executions that were created in the ascending or descending order. By default, the API returns all commands in the descending order based on the start time or completion time of the executions, that are determined by the startTimeFilter and completeTimeFilter parameters.
+        public let sortOrder: SortOrder?
+        /// List all command executions that started any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm.
+        public let startedTimeFilter: TimeFilter?
+        /// List all command executions for the device that have a particular status. For example, you can filter the list to display only command executions that have failed or timed out.
+        public let status: CommandExecutionStatus?
+        /// The Amazon Resource Number (ARN) of the target device. You can use this information to list all command executions for a particular device.
+        public let targetArn: String?
+
+        @inlinable
+        public init(commandArn: String? = nil, completedTimeFilter: TimeFilter? = nil, maxResults: Int? = nil, namespace: CommandNamespace? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil, startedTimeFilter: TimeFilter? = nil, status: CommandExecutionStatus? = nil, targetArn: String? = nil) {
+            self.commandArn = commandArn
+            self.completedTimeFilter = completedTimeFilter
+            self.maxResults = maxResults
+            self.namespace = namespace
+            self.nextToken = nextToken
+            self.sortOrder = sortOrder
+            self.startedTimeFilter = startedTimeFilter
+            self.status = status
+            self.targetArn = targetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.commandArn, forKey: .commandArn)
+            try container.encodeIfPresent(self.completedTimeFilter, forKey: .completedTimeFilter)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            try container.encodeIfPresent(self.namespace, forKey: .namespace)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.sortOrder, forKey: .sortOrder)
+            try container.encodeIfPresent(self.startedTimeFilter, forKey: .startedTimeFilter)
+            try container.encodeIfPresent(self.status, forKey: .status)
+            try container.encodeIfPresent(self.targetArn, forKey: .targetArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.completedTimeFilter?.validate(name: "\(name).completedTimeFilter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.startedTimeFilter?.validate(name: "\(name).startedTimeFilter")
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandArn = "commandArn"
+            case completedTimeFilter = "completedTimeFilter"
+            case namespace = "namespace"
+            case sortOrder = "sortOrder"
+            case startedTimeFilter = "startedTimeFilter"
+            case status = "status"
+            case targetArn = "targetArn"
+        }
+    }
+
+    public struct ListCommandExecutionsResponse: AWSDecodableShape {
+        /// The list of command executions.
+        public let commandExecutions: [CommandExecutionSummary]?
+        /// The token to use to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(commandExecutions: [CommandExecutionSummary]? = nil, nextToken: String? = nil) {
+            self.commandExecutions = commandExecutions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandExecutions = "commandExecutions"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCommandsRequest: AWSEncodableShape {
+        /// A filter that can be used to display the list of commands that have a specific command parameter name.
+        public let commandParameterName: String?
+        /// The maximum number of results to return in this operation. By default, the API returns up to a maximum of 25 results. You can override this default value to return up to a maximum of 100 results for this operation.
+        public let maxResults: Int?
+        /// The namespace of the command. By default, the API returns all commands that have been created for both AWS-IoT and AWS-IoT-FleetWise namespaces. You can override this default value if you want to return all commands that have been created only for a specific namespace.
+        public let namespace: CommandNamespace?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+        /// Specify whether to list the commands that you have created in the ascending or descending order. By default, the API returns all commands in the descending order based on the time that they were created.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(commandParameterName: String? = nil, maxResults: Int? = nil, namespace: CommandNamespace? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
+            self.commandParameterName = commandParameterName
+            self.maxResults = maxResults
+            self.namespace = namespace
+            self.nextToken = nextToken
+            self.sortOrder = sortOrder
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.commandParameterName, key: "commandParameterName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.namespace, key: "namespace")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.commandParameterName, name: "commandParameterName", parent: name, max: 192)
+            try self.validate(self.commandParameterName, name: "commandParameterName", parent: name, min: 1)
+            try self.validate(self.commandParameterName, name: "commandParameterName", parent: name, pattern: "^[.$a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCommandsResponse: AWSDecodableShape {
+        /// The list of commands.
+        public let commands: [CommandSummary]?
+        /// The token to use to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(commands: [CommandSummary]? = nil, nextToken: String? = nil) {
+            self.commands = commands
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commands = "commands"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListCustomMetricsRequest: AWSEncodableShape {
         ///  The maximum number of results to return at one time. The default is 25.
         public let maxResults: Int?
@@ -11874,7 +12585,7 @@ extension IoT {
         public let jobId: String?
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
         public let namespaceId: String?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
@@ -11985,13 +12696,13 @@ extension IoT {
     public struct ListJobsRequest: AWSEncodableShape {
         /// The maximum number of results to return per request.
         public let maxResults: Int?
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
         public let namespaceId: String?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// An optional filter that lets you search for jobs that have the specified status.
         public let status: JobStatus?
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.   We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets.  By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.   We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
         public let targetSelection: TargetSelection?
         /// A filter that limits the returned jobs to those for the specified group.
         public let thingGroupId: String?
@@ -16298,9 +17009,9 @@ extension IoT {
     public struct ServerCertificateConfig: AWSEncodableShape & AWSDecodableShape {
         /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see  Server certificate configuration for OCSP stapling from Amazon Web Services IoT Core Developer Guide.
         public let enableOCSPCheck: Bool?
-        /// The Amazon Resource Name (ARN) for an X.509 certificate stored in Amazon Web Services Certificate Manager (ACM).  If provided, Amazon Web Services IoT Core will use this certificate to validate the signature of the received OCSP response.  The OCSP responder must sign responses using either this authorized responder certificate or the issuing certificate,  depending on whether the ARN is provided or not. The certificate must be in the same Amazon Web Services region and account as the domain configuration.
+        /// The Amazon Resource Name (ARN) for an X.509 certificate stored in Amazon Web Services Certificate Manager (ACM). If provided, Amazon Web Services IoT Core will use this certificate to validate the signature of the received OCSP response. The OCSP responder must sign responses using either this authorized responder certificate or the issuing certificate, depending on whether the ARN is provided or not. The certificate must be in the same Amazon Web Services account and region as the domain configuration.
         public let ocspAuthorizedResponderArn: String?
-        /// The Amazon Resource Name (ARN) for a Lambda function that acts as a Request for Comments (RFC) 6960-compliant Online Certificate Status Protocol (OCSP) responder, supporting basic OCSP responses.  The Lambda function accepts a JSON string that's Base64-encoded. Therefore, you must convert your OCSP response, which is typically in the Distinguished Encoding Rules (DER) format, into a JSON string that's Base64-encoded. The Lambda function's response is also a Base64-encoded JSON string and the response payload must not exceed 8 kilobytes (KiB) in size. The Lambda function must be in the same Amazon Web Services region and account as the domain configuration.
+        /// The Amazon Resource Name (ARN) for a Lambda function that acts as a Request for Comments (RFC) 6960-compliant Online Certificate Status Protocol (OCSP) responder, supporting basic OCSP responses. The Lambda function accepts a base64-encoding of the OCSP request in the Distinguished Encoding Rules (DER) format. The Lambda function's response is also a base64-encoded OCSP response in the DER format. The response size must not exceed 4 kilobytes (KiB). The Lambda function must be in the same Amazon Web Services account and region as the domain configuration. For more information, see Configuring server certificate OCSP for private endpoints in Amazon Web Services IoT Core from the Amazon Web Services IoT Core developer guide.
         public let ocspLambdaArn: String?
 
         @inlinable
@@ -16865,6 +17576,24 @@ extension IoT {
             case sum = "sum"
             case sumOfSquares = "sumOfSquares"
             case variance = "variance"
+        }
+    }
+
+    public struct StatusReason: AWSDecodableShape {
+        /// A code that provides additional context for the command execution status.
+        public let reasonCode: String
+        /// A literal string for devices to optionally provide additional information about the reason code for a command execution status.
+        public let reasonDescription: String?
+
+        @inlinable
+        public init(reasonCode: String, reasonDescription: String? = nil) {
+            self.reasonCode = reasonCode
+            self.reasonDescription = reasonDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reasonCode = "reasonCode"
+            case reasonDescription = "reasonDescription"
         }
     }
 
@@ -17677,8 +18406,33 @@ extension IoT {
         }
     }
 
+    public struct TimeFilter: AWSEncodableShape {
+        /// Filter to display command executions that started or completed only after a particular date and time.
+        public let after: String?
+        /// Filter to display command executions that started or completed only before a particular date and time.
+        public let before: String?
+
+        @inlinable
+        public init(after: String? = nil, before: String? = nil) {
+            self.after = after
+            self.before = before
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.after, name: "after", parent: name, max: 64)
+            try self.validate(self.after, name: "after", parent: name, min: 1)
+            try self.validate(self.before, name: "before", parent: name, max: 64)
+            try self.validate(self.before, name: "before", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case after = "after"
+            case before = "before"
+        }
+    }
+
     public struct TimeoutConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the amount of time, in minutes, this device has to finish execution of this job.   The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The  in progress timer can't be updated and will apply to all job executions for the job. Whenever a job  execution remains in the IN_PROGRESS status for longer than this interval, the job execution will fail  and switch to the terminal TIMED_OUT status.
+        /// Specifies the amount of time, in minutes, this device has to finish execution of this job. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The in progress timer can't be updated and will apply to all job executions for the job. Whenever a job execution remains in the IN_PROGRESS status for longer than this interval, the job execution will fail and switch to the terminal TIMED_OUT status.
         public let inProgressTimeoutInMinutes: Int64?
 
         @inlinable
@@ -18476,6 +19230,80 @@ extension IoT {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateCommandRequest: AWSEncodableShape {
+        /// The unique identifier of the command to be updated.
+        public let commandId: String
+        /// A boolean that you can use to specify whether to deprecate a command.
+        public let deprecated: Bool?
+        /// A short text description of the command.
+        public let description: String?
+        /// The new user-friendly name to use in the console for the command.
+        public let displayName: String?
+
+        @inlinable
+        public init(commandId: String, deprecated: Bool? = nil, description: String? = nil, displayName: String? = nil) {
+            self.commandId = commandId
+            self.deprecated = deprecated
+            self.description = description
+            self.displayName = displayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.commandId, key: "commandId")
+            try container.encodeIfPresent(self.deprecated, forKey: .deprecated)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.commandId, name: "commandId", parent: name, max: 64)
+            try self.validate(self.commandId, name: "commandId", parent: name, min: 1)
+            try self.validate(self.commandId, name: "commandId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2028)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]*$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 64)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[^\\p{C}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deprecated = "deprecated"
+            case description = "description"
+            case displayName = "displayName"
+        }
+    }
+
+    public struct UpdateCommandResponse: AWSDecodableShape {
+        /// The unique identifier of the command.
+        public let commandId: String?
+        /// The boolean that indicates whether the command was deprecated.
+        public let deprecated: Bool?
+        /// The updated text description of the command.
+        public let description: String?
+        /// The updated user-friendly display name in the console for the command.
+        public let displayName: String?
+        /// The date and time (epoch timestamp in seconds) when the command was last updated.
+        public let lastUpdatedAt: Date?
+
+        @inlinable
+        public init(commandId: String? = nil, deprecated: Bool? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil) {
+            self.commandId = commandId
+            self.deprecated = deprecated
+            self.description = description
+            self.displayName = displayName
+            self.lastUpdatedAt = lastUpdatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandId = "commandId"
+            case deprecated = "deprecated"
+            case description = "description"
+            case displayName = "displayName"
+            case lastUpdatedAt = "lastUpdatedAt"
+        }
+    }
+
     public struct UpdateCustomMetricRequest: AWSEncodableShape {
         ///  Field represents a friendly name in the console for the custom metric, it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated.
         public let displayName: String
@@ -18918,11 +19746,11 @@ extension IoT {
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// The ID of the job to be updated.
         public let jobId: String
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
         public let namespaceId: String?
         /// Configuration information for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
-        /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS.  If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
+        /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
         @inlinable
@@ -20171,7 +20999,7 @@ public struct IoTErrorType: AWSErrorType {
     public static var certificateStateException: Self { .init(.certificateStateException) }
     /// The certificate is invalid.
     public static var certificateValidationException: Self { .init(.certificateValidationException) }
-    /// A resource with the same name already exists.
+    /// The request conflicts with the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
     /// A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
     public static var conflictingResourceUpdateException: Self { .init(.conflictingResourceUpdateException) }
@@ -20209,7 +21037,7 @@ public struct IoTErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The resource registration failed.
     public static var resourceRegistrationFailureException: Self { .init(.resourceRegistrationFailureException) }
-    /// A limit has been exceeded.
+    /// Service quota has been exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The service is temporarily unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }

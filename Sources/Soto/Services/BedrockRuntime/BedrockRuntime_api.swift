@@ -80,7 +80,7 @@ public struct BedrockRuntime: AWSService {
 
     // MARK: API Calls
 
-    /// The action to apply a guardrail.
+    /// The action to apply a guardrail. For troubleshooting some of the common errors you might encounter when using the ApplyGuardrail API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     @Sendable
     @inlinable
     public func applyGuardrail(_ input: ApplyGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ApplyGuardrailResponse {
@@ -93,7 +93,7 @@ public struct BedrockRuntime: AWSService {
             logger: logger
         )
     }
-    /// The action to apply a guardrail.
+    /// The action to apply a guardrail. For troubleshooting some of the common errors you might encounter when using the ApplyGuardrail API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     ///
     /// Parameters:
     ///   - content: The content details used in the request to apply the guardrail.
@@ -118,7 +118,7 @@ public struct BedrockRuntime: AWSService {
         return try await self.applyGuardrail(input, logger: logger)
     }
 
-    /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the messages field, specifying the modelId of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case. You can also submit a prompt from Prompt management by specifying the ARN of the prompt version and including a map of variables to values in the promptVariables field. You can append more messages to the prompt by using the messages field. If you use a prompt from Prompt management, you can't include the following fields in the request: additionalModelRequestFields, inferenceConfig, system, or toolConfig. Instead, these fields must be defined through Prompt management. For more information, see Use a prompt from Prompt management. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide  For example code, see Converse API examples in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModel action.
+    /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the messages field, specifying the modelId of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case. You can also submit a prompt from Prompt management by specifying the ARN of the prompt version and including a map of variables to values in the promptVariables field. You can append more messages to the prompt by using the messages field. If you use a prompt from Prompt management, you can't include the following fields in the request: additionalModelRequestFields, inferenceConfig, system, or toolConfig. Instead, these fields must be defined through Prompt management. For more information, see Use a prompt from Prompt management. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide  For example code, see Converse API examples in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModel action.   To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the base inference actions (InvokeModel and InvokeModelWithResponseStream). For more information see Deny access for inference on specific models.   For troubleshooting some of the common errors you might encounter when using the Converse API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     @Sendable
     @inlinable
     public func converse(_ input: ConverseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConverseResponse {
@@ -131,7 +131,7 @@ public struct BedrockRuntime: AWSService {
             logger: logger
         )
     }
-    /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the messages field, specifying the modelId of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case. You can also submit a prompt from Prompt management by specifying the ARN of the prompt version and including a map of variables to values in the promptVariables field. You can append more messages to the prompt by using the messages field. If you use a prompt from Prompt management, you can't include the following fields in the request: additionalModelRequestFields, inferenceConfig, system, or toolConfig. Instead, these fields must be defined through Prompt management. For more information, see Use a prompt from Prompt management. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide  For example code, see Converse API examples in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModel action.
+    /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the messages field, specifying the modelId of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case. You can also submit a prompt from Prompt management by specifying the ARN of the prompt version and including a map of variables to values in the promptVariables field. You can append more messages to the prompt by using the messages field. If you use a prompt from Prompt management, you can't include the following fields in the request: additionalModelRequestFields, inferenceConfig, system, or toolConfig. Instead, these fields must be defined through Prompt management. For more information, see Use a prompt from Prompt management. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide  For example code, see Converse API examples in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModel action.   To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the base inference actions (InvokeModel and InvokeModelWithResponseStream). For more information see Deny access for inference on specific models.   For troubleshooting some of the common errors you might encounter when using the Converse API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     ///
     /// Parameters:
     ///   - additionalModelRequestFields: Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse and ConverseStream support in the inferenceConfig field. For more information, see Model parameters.
@@ -140,9 +140,11 @@ public struct BedrockRuntime: AWSService {
     ///   - inferenceConfig: Inference parameters to pass to the model. Converse and ConverseStream support a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
     ///   - messages: The messages that you want to send to the model.
     ///   - modelId: Specifies the model or throughput with which to run inference, or the prompt resource to use in inference. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.   The Converse API doesn't support imported models.
+    ///   - performanceConfig: Model performance settings for the request.
     ///   - promptVariables: Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
+    ///   - requestMetadata: Key-value pairs that you can use to filter invocation logs.
     ///   - system: A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
-    ///   - toolConfig: Configuration information for the tools that the model can use when generating a response.   This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command R+, and Mistral Large models.
+    ///   - toolConfig: Configuration information for the tools that the model can use when generating a response.  For information about models that support tool use, see  Supported models and model features.
     ///   - logger: Logger use during operation
     @inlinable
     public func converse(
@@ -152,7 +154,9 @@ public struct BedrockRuntime: AWSService {
         inferenceConfig: InferenceConfiguration? = nil,
         messages: [Message]? = nil,
         modelId: String,
+        performanceConfig: PerformanceConfiguration? = nil,
         promptVariables: [String: PromptVariableValues]? = nil,
+        requestMetadata: [String: String]? = nil,
         system: [SystemContentBlock]? = nil,
         toolConfig: ToolConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -164,14 +168,16 @@ public struct BedrockRuntime: AWSService {
             inferenceConfig: inferenceConfig, 
             messages: messages, 
             modelId: modelId, 
+            performanceConfig: performanceConfig, 
             promptVariables: promptVariables, 
+            requestMetadata: requestMetadata, 
             system: system, 
             toolConfig: toolConfig
         )
         return try await self.converse(input, logger: logger)
     }
 
-    /// Sends messages to the specified Amazon Bedrock model and returns the response in a stream. ConverseStream provides a consistent API that works with all Amazon Bedrock models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model.  To find out if a model supports streaming, call GetFoundationModel and check the responseStreamingSupported field in the response.  The CLI doesn't support streaming operations in Amazon Bedrock, including ConverseStream.  Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the messages field, specifying the modelId of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case. You can also submit a prompt from Prompt management by specifying the ARN of the prompt version and including a map of variables to values in the promptVariables field. You can append more messages to the prompt by using the messages field. If you use a prompt from Prompt management, you can't include the following fields in the request: additionalModelRequestFields, inferenceConfig, system, or toolConfig. Instead, these fields must be defined through Prompt management. For more information, see Use a prompt from Prompt management. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide  For example code, see Conversation streaming example in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModelWithResponseStream action.
+    /// Sends messages to the specified Amazon Bedrock model and returns the response in a stream. ConverseStream provides a consistent API that works with all Amazon Bedrock models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model.  To find out if a model supports streaming, call GetFoundationModel and check the responseStreamingSupported field in the response.  The CLI doesn't support streaming operations in Amazon Bedrock, including ConverseStream.  Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the messages field, specifying the modelId of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case. You can also submit a prompt from Prompt management by specifying the ARN of the prompt version and including a map of variables to values in the promptVariables field. You can append more messages to the prompt by using the messages field. If you use a prompt from Prompt management, you can't include the following fields in the request: additionalModelRequestFields, inferenceConfig, system, or toolConfig. Instead, these fields must be defined through Prompt management. For more information, see Use a prompt from Prompt management. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide  For example code, see Conversation streaming example in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModelWithResponseStream action.  To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the base inference actions (InvokeModel and InvokeModelWithResponseStream). For more information see Deny access for inference on specific models.   For troubleshooting some of the common errors you might encounter when using the ConverseStream API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     @Sendable
     @inlinable
     public func converseStream(_ input: ConverseStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConverseStreamResponse {
@@ -184,7 +190,7 @@ public struct BedrockRuntime: AWSService {
             logger: logger
         )
     }
-    /// Sends messages to the specified Amazon Bedrock model and returns the response in a stream. ConverseStream provides a consistent API that works with all Amazon Bedrock models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model.  To find out if a model supports streaming, call GetFoundationModel and check the responseStreamingSupported field in the response.  The CLI doesn't support streaming operations in Amazon Bedrock, including ConverseStream.  Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the messages field, specifying the modelId of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case. You can also submit a prompt from Prompt management by specifying the ARN of the prompt version and including a map of variables to values in the promptVariables field. You can append more messages to the prompt by using the messages field. If you use a prompt from Prompt management, you can't include the following fields in the request: additionalModelRequestFields, inferenceConfig, system, or toolConfig. Instead, these fields must be defined through Prompt management. For more information, see Use a prompt from Prompt management. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide  For example code, see Conversation streaming example in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModelWithResponseStream action.
+    /// Sends messages to the specified Amazon Bedrock model and returns the response in a stream. ConverseStream provides a consistent API that works with all Amazon Bedrock models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model.  To find out if a model supports streaming, call GetFoundationModel and check the responseStreamingSupported field in the response.  The CLI doesn't support streaming operations in Amazon Bedrock, including ConverseStream.  Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the messages field, specifying the modelId of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case. You can also submit a prompt from Prompt management by specifying the ARN of the prompt version and including a map of variables to values in the promptVariables field. You can append more messages to the prompt by using the messages field. If you use a prompt from Prompt management, you can't include the following fields in the request: additionalModelRequestFields, inferenceConfig, system, or toolConfig. Instead, these fields must be defined through Prompt management. For more information, see Use a prompt from Prompt management. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide  For example code, see Conversation streaming example in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModelWithResponseStream action.  To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the base inference actions (InvokeModel and InvokeModelWithResponseStream). For more information see Deny access for inference on specific models.   For troubleshooting some of the common errors you might encounter when using the ConverseStream API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     ///
     /// Parameters:
     ///   - additionalModelRequestFields: Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse and ConverseStream support in the inferenceConfig field. For more information, see Model parameters.
@@ -193,9 +199,11 @@ public struct BedrockRuntime: AWSService {
     ///   - inferenceConfig: Inference parameters to pass to the model. Converse and ConverseStream support a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
     ///   - messages: The messages that you want to send to the model.
     ///   - modelId: Specifies the model or throughput with which to run inference, or the prompt resource to use in inference. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.   The Converse API doesn't support imported models.
+    ///   - performanceConfig: Model performance settings for the request.
     ///   - promptVariables: Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
+    ///   - requestMetadata: Key-value pairs that you can use to filter invocation logs.
     ///   - system: A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
-    ///   - toolConfig: Configuration information for the tools that the model can use when generating a response.  This field is only supported by Anthropic Claude 3 models.
+    ///   - toolConfig: Configuration information for the tools that the model can use when generating a response. For information about models that support streaming tool use, see  Supported models and model features.
     ///   - logger: Logger use during operation
     @inlinable
     public func converseStream(
@@ -205,7 +213,9 @@ public struct BedrockRuntime: AWSService {
         inferenceConfig: InferenceConfiguration? = nil,
         messages: [Message]? = nil,
         modelId: String,
+        performanceConfig: PerformanceConfiguration? = nil,
         promptVariables: [String: PromptVariableValues]? = nil,
+        requestMetadata: [String: String]? = nil,
         system: [SystemContentBlock]? = nil,
         toolConfig: ToolConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -217,14 +227,45 @@ public struct BedrockRuntime: AWSService {
             inferenceConfig: inferenceConfig, 
             messages: messages, 
             modelId: modelId, 
+            performanceConfig: performanceConfig, 
             promptVariables: promptVariables, 
+            requestMetadata: requestMetadata, 
             system: system, 
             toolConfig: toolConfig
         )
         return try await self.converseStream(input, logger: logger)
     }
 
-    /// Invokes the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body.  You use model inference to generate text, images, and embeddings. For example code, see Invoke model code examples in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModel action.
+    /// Retrieve information about an asynchronous invocation.
+    @Sendable
+    @inlinable
+    public func getAsyncInvoke(_ input: GetAsyncInvokeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAsyncInvokeResponse {
+        try await self.client.execute(
+            operation: "GetAsyncInvoke", 
+            path: "/async-invoke/{invocationArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieve information about an asynchronous invocation.
+    ///
+    /// Parameters:
+    ///   - invocationArn: The invocation's ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAsyncInvoke(
+        invocationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAsyncInvokeResponse {
+        let input = GetAsyncInvokeRequest(
+            invocationArn: invocationArn
+        )
+        return try await self.getAsyncInvoke(input, logger: logger)
+    }
+
+    /// Invokes the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body.  You use model inference to generate text, images, and embeddings. For example code, see Invoke model code examples in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModel action.  To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.   For troubleshooting some of the common errors you might encounter when using the InvokeModel API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     @Sendable
     @inlinable
     public func invokeModel(_ input: InvokeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeModelResponse {
@@ -237,7 +278,7 @@ public struct BedrockRuntime: AWSService {
             logger: logger
         )
     }
-    /// Invokes the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body.  You use model inference to generate text, images, and embeddings. For example code, see Invoke model code examples in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModel action.
+    /// Invokes the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body.  You use model inference to generate text, images, and embeddings. For example code, see Invoke model code examples in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModel action.  To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.   For troubleshooting some of the common errors you might encounter when using the InvokeModel API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     ///
     /// Parameters:
     ///   - accept: The desired MIME type of the inference body in the response. The default value is application/json.
@@ -245,7 +286,8 @@ public struct BedrockRuntime: AWSService {
     ///   - contentType: The MIME type of the input data in the request. You must specify application/json.
     ///   - guardrailIdentifier: The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error will be thrown in the following situations.   You don't provide a guardrail identifier but you specify the amazon-bedrock-guardrailConfig field in the request body.   You enable the guardrail but the contentType isn't application/json.   You provide a guardrail identifier, but guardrailVersion isn't specified.
     ///   - guardrailVersion: The version number for the guardrail. The value can also be DRAFT.
-    ///   - modelId: The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
+    ///   - modelId: The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
+    ///   - performanceConfigLatency: Model performance settings for the request.
     ///   - trace: Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
     ///   - logger: Logger use during operation
     @inlinable
@@ -256,6 +298,7 @@ public struct BedrockRuntime: AWSService {
         guardrailIdentifier: String? = nil,
         guardrailVersion: String? = nil,
         modelId: String,
+        performanceConfigLatency: PerformanceConfigLatency? = nil,
         trace: Trace? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeModelResponse {
@@ -266,12 +309,13 @@ public struct BedrockRuntime: AWSService {
             guardrailIdentifier: guardrailIdentifier, 
             guardrailVersion: guardrailVersion, 
             modelId: modelId, 
+            performanceConfigLatency: performanceConfigLatency, 
             trace: trace
         )
         return try await self.invokeModel(input, logger: logger)
     }
 
-    /// Invoke the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. The response is returned in a stream. To see if a model supports streaming, call GetFoundationModel and check the responseStreamingSupported field in the response.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  For example code, see Invoke model with streaming code example in the Amazon Bedrock User Guide.  This operation requires permissions to perform the bedrock:InvokeModelWithResponseStream action.
+    /// Invoke the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. The response is returned in a stream. To see if a model supports streaming, call GetFoundationModel and check the responseStreamingSupported field in the response.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  For example code, see Invoke model with streaming code example in the Amazon Bedrock User Guide.  This operation requires permissions to perform the bedrock:InvokeModelWithResponseStream action.   To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.   For troubleshooting some of the common errors you might encounter when using the InvokeModelWithResponseStream API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     @Sendable
     @inlinable
     public func invokeModelWithResponseStream(_ input: InvokeModelWithResponseStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeModelWithResponseStreamResponse {
@@ -284,7 +328,7 @@ public struct BedrockRuntime: AWSService {
             logger: logger
         )
     }
-    /// Invoke the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. The response is returned in a stream. To see if a model supports streaming, call GetFoundationModel and check the responseStreamingSupported field in the response.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  For example code, see Invoke model with streaming code example in the Amazon Bedrock User Guide.  This operation requires permissions to perform the bedrock:InvokeModelWithResponseStream action.
+    /// Invoke the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. The response is returned in a stream. To see if a model supports streaming, call GetFoundationModel and check the responseStreamingSupported field in the response.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  For example code, see Invoke model with streaming code example in the Amazon Bedrock User Guide.  This operation requires permissions to perform the bedrock:InvokeModelWithResponseStream action.   To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.   For troubleshooting some of the common errors you might encounter when using the InvokeModelWithResponseStream API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     ///
     /// Parameters:
     ///   - accept: The desired MIME type of the inference body in the response. The default value is application/json.
@@ -292,7 +336,8 @@ public struct BedrockRuntime: AWSService {
     ///   - contentType: The MIME type of the input data in the request. You must specify application/json.
     ///   - guardrailIdentifier: The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error is thrown in the following situations.   You don't provide a guardrail identifier but you specify the amazon-bedrock-guardrailConfig field in the request body.   You enable the guardrail but the contentType isn't application/json.   You provide a guardrail identifier, but guardrailVersion isn't specified.
     ///   - guardrailVersion: The version number for the guardrail. The value can also be DRAFT.
-    ///   - modelId: The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
+    ///   - modelId: The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
+    ///   - performanceConfigLatency: Model performance settings for the request.
     ///   - trace: Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
     ///   - logger: Logger use during operation
     @inlinable
@@ -303,6 +348,7 @@ public struct BedrockRuntime: AWSService {
         guardrailIdentifier: String? = nil,
         guardrailVersion: String? = nil,
         modelId: String,
+        performanceConfigLatency: PerformanceConfigLatency? = nil,
         trace: Trace? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeModelWithResponseStreamResponse {
@@ -313,9 +359,98 @@ public struct BedrockRuntime: AWSService {
             guardrailIdentifier: guardrailIdentifier, 
             guardrailVersion: guardrailVersion, 
             modelId: modelId, 
+            performanceConfigLatency: performanceConfigLatency, 
             trace: trace
         )
         return try await self.invokeModelWithResponseStream(input, logger: logger)
+    }
+
+    /// Lists asynchronous invocations.
+    @Sendable
+    @inlinable
+    public func listAsyncInvokes(_ input: ListAsyncInvokesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAsyncInvokesResponse {
+        try await self.client.execute(
+            operation: "ListAsyncInvokes", 
+            path: "/async-invoke", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists asynchronous invocations.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of invocations to return in one page of results.
+    ///   - nextToken: Specify the pagination token from a previous request to retrieve the next page of results.
+    ///   - sortBy: How to sort the response.
+    ///   - sortOrder: The sorting order for the response.
+    ///   - statusEquals: Filter invocations by status.
+    ///   - submitTimeAfter: Include invocations submitted after this time.
+    ///   - submitTimeBefore: Include invocations submitted before this time.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAsyncInvokes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortBy: SortAsyncInvocationBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statusEquals: AsyncInvokeStatus? = nil,
+        submitTimeAfter: Date? = nil,
+        submitTimeBefore: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAsyncInvokesResponse {
+        let input = ListAsyncInvokesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statusEquals: statusEquals, 
+            submitTimeAfter: submitTimeAfter, 
+            submitTimeBefore: submitTimeBefore
+        )
+        return try await self.listAsyncInvokes(input, logger: logger)
+    }
+
+    /// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action.  To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.
+    @Sendable
+    @inlinable
+    public func startAsyncInvoke(_ input: StartAsyncInvokeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAsyncInvokeResponse {
+        try await self.client.execute(
+            operation: "StartAsyncInvoke", 
+            path: "/async-invoke", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action.  To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: Specify idempotency token to ensure that requests are not duplicated.
+    ///   - modelId: The model to invoke.
+    ///   - modelInput: Input to send to the model.
+    ///   - outputDataConfig: Where to store the output.
+    ///   - tags: Tags to apply to the invocation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAsyncInvoke(
+        clientRequestToken: String? = StartAsyncInvokeRequest.idempotencyToken(),
+        modelId: String,
+        modelInput: String,
+        outputDataConfig: AsyncInvokeOutputDataConfig,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAsyncInvokeResponse {
+        let input = StartAsyncInvokeRequest(
+            clientRequestToken: clientRequestToken, 
+            modelId: modelId, 
+            modelInput: modelInput, 
+            outputDataConfig: outputDataConfig, 
+            tags: tags
+        )
+        return try await self.startAsyncInvoke(input, logger: logger)
     }
 }
 
@@ -325,5 +460,74 @@ extension BedrockRuntime {
     public init(from: BedrockRuntime, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension BedrockRuntime {
+    /// Return PaginatorSequence for operation ``listAsyncInvokes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAsyncInvokesPaginator(
+        _ input: ListAsyncInvokesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAsyncInvokesRequest, ListAsyncInvokesResponse> {
+        return .init(
+            input: input,
+            command: self.listAsyncInvokes,
+            inputKey: \ListAsyncInvokesRequest.nextToken,
+            outputKey: \ListAsyncInvokesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAsyncInvokes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of invocations to return in one page of results.
+    ///   - sortBy: How to sort the response.
+    ///   - sortOrder: The sorting order for the response.
+    ///   - statusEquals: Filter invocations by status.
+    ///   - submitTimeAfter: Include invocations submitted after this time.
+    ///   - submitTimeBefore: Include invocations submitted before this time.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAsyncInvokesPaginator(
+        maxResults: Int? = nil,
+        sortBy: SortAsyncInvocationBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statusEquals: AsyncInvokeStatus? = nil,
+        submitTimeAfter: Date? = nil,
+        submitTimeBefore: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAsyncInvokesRequest, ListAsyncInvokesResponse> {
+        let input = ListAsyncInvokesRequest(
+            maxResults: maxResults, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statusEquals: statusEquals, 
+            submitTimeAfter: submitTimeAfter, 
+            submitTimeBefore: submitTimeBefore
+        )
+        return self.listAsyncInvokesPaginator(input, logger: logger)
+    }
+}
+
+extension BedrockRuntime.ListAsyncInvokesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockRuntime.ListAsyncInvokesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals,
+            submitTimeAfter: self.submitTimeAfter,
+            submitTimeBefore: self.submitTimeBefore
+        )
     }
 }

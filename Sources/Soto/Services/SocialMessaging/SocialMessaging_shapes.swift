@@ -332,18 +332,22 @@ extension SocialMessaging {
         public let registrationStatus: RegistrationStatus?
         /// The details for unregistered WhatsApp phone numbers.
         public let unregisteredWhatsAppPhoneNumbers: [WhatsAppPhoneNumberDetail]?
+        /// The Amazon Resource Name (ARN) of the WhatsApp Business Account ID.
+        public let wabaId: String?
 
         @inlinable
-        public init(accountName: String? = nil, registrationStatus: RegistrationStatus? = nil, unregisteredWhatsAppPhoneNumbers: [WhatsAppPhoneNumberDetail]? = nil) {
+        public init(accountName: String? = nil, registrationStatus: RegistrationStatus? = nil, unregisteredWhatsAppPhoneNumbers: [WhatsAppPhoneNumberDetail]? = nil, wabaId: String? = nil) {
             self.accountName = accountName
             self.registrationStatus = registrationStatus
             self.unregisteredWhatsAppPhoneNumbers = unregisteredWhatsAppPhoneNumbers
+            self.wabaId = wabaId
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountName = "accountName"
             case registrationStatus = "registrationStatus"
             case unregisteredWhatsAppPhoneNumbers = "unregisteredWhatsAppPhoneNumbers"
+            case wabaId = "wabaId"
         }
     }
 
@@ -787,19 +791,24 @@ extension SocialMessaging {
     public struct WhatsAppBusinessAccountEventDestination: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the event destination.
         public let eventDestinationArn: String
+        /// The Amazon Resource Name (ARN) of an Identity and Access Management role that is able to import phone numbers and write events.
+        public let roleArn: String?
 
         @inlinable
-        public init(eventDestinationArn: String) {
+        public init(eventDestinationArn: String, roleArn: String? = nil) {
             self.eventDestinationArn = eventDestinationArn
+            self.roleArn = roleArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.eventDestinationArn, name: "eventDestinationArn", parent: name, max: 2048)
             try self.validate(self.eventDestinationArn, name: "eventDestinationArn", parent: name, pattern: "^arn:.*:[a-z-]+([/:](.*))?$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role\\/[a-zA-Z0-9+=,.@\\-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case eventDestinationArn = "eventDestinationArn"
+            case roleArn = "roleArn"
         }
     }
 

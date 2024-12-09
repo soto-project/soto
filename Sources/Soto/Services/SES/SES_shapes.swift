@@ -370,6 +370,31 @@ extension SES {
         }
     }
 
+    public struct ConnectAction: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the IAM role to be used by Amazon Simple Email Service while starting email contacts to the Amazon Connect instance. This role should have permission to invoke connect:StartEmailContact for the given Amazon Connect instance.
+        public let iamRoleARN: String
+        /// The Amazon Resource Name (ARN) for the Amazon Connect instance that Amazon SES integrates with for starting email contacts. For more information about Amazon Connect instances, see the Amazon Connect Administrator Guide
+        public let instanceARN: String
+
+        @inlinable
+        public init(iamRoleARN: String, instanceARN: String) {
+            self.iamRoleARN = iamRoleARN
+            self.instanceARN = instanceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iamRoleARN, name: "iamRoleARN", parent: name, max: 2048)
+            try self.validate(self.iamRoleARN, name: "iamRoleARN", parent: name, min: 20)
+            try self.validate(self.iamRoleARN, name: "iamRoleARN", parent: name, pattern: "^arn:[\\w-]+:iam::[0-9]+:role(\\u002F)([\\u0021-\\u007E]+\\u002F)?([\\w+=,.@-]+)$")
+            try self.validate(self.instanceARN, name: "instanceARN", parent: name, pattern: "^arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9-]{1}:[0-9]{1,20}:instance/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamRoleARN = "IAMRoleARN"
+            case instanceARN = "InstanceARN"
+        }
+    }
+
     public struct Content: AWSEncodableShape {
         /// The character set of the content.
         public let charset: String?
@@ -1846,6 +1871,8 @@ extension SES {
         public let addHeaderAction: AddHeaderAction?
         /// Rejects the received email by returning a bounce response to the sender and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS).
         public let bounceAction: BounceAction?
+        /// Parses the received message and starts an email contact in Amazon Connect on your behalf.
+        public let connectAction: ConnectAction?
         /// Calls an Amazon Web Services Lambda function, and optionally, publishes a notification to Amazon SNS.
         public let lambdaAction: LambdaAction?
         /// Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
@@ -1858,9 +1885,10 @@ extension SES {
         public let workmailAction: WorkmailAction?
 
         @inlinable
-        public init(addHeaderAction: AddHeaderAction? = nil, bounceAction: BounceAction? = nil, lambdaAction: LambdaAction? = nil, s3Action: S3Action? = nil, snsAction: SNSAction? = nil, stopAction: StopAction? = nil, workmailAction: WorkmailAction? = nil) {
+        public init(addHeaderAction: AddHeaderAction? = nil, bounceAction: BounceAction? = nil, connectAction: ConnectAction? = nil, lambdaAction: LambdaAction? = nil, s3Action: S3Action? = nil, snsAction: SNSAction? = nil, stopAction: StopAction? = nil, workmailAction: WorkmailAction? = nil) {
             self.addHeaderAction = addHeaderAction
             self.bounceAction = bounceAction
+            self.connectAction = connectAction
             self.lambdaAction = lambdaAction
             self.s3Action = s3Action
             self.snsAction = snsAction
@@ -1869,12 +1897,14 @@ extension SES {
         }
 
         public func validate(name: String) throws {
+            try self.connectAction?.validate(name: "\(name).connectAction")
             try self.s3Action?.validate(name: "\(name).s3Action")
         }
 
         private enum CodingKeys: String, CodingKey {
             case addHeaderAction = "AddHeaderAction"
             case bounceAction = "BounceAction"
+            case connectAction = "ConnectAction"
             case lambdaAction = "LambdaAction"
             case s3Action = "S3Action"
             case snsAction = "SNSAction"
@@ -2068,7 +2098,7 @@ extension SES {
         public let bucketName: String
         ///  The ARN of the IAM role to be used by Amazon Simple Email Service while writing to the Amazon S3 bucket, optionally encrypting your mail via the provided customer managed key, and publishing to the Amazon SNS topic. This role should have access to the following APIs:     s3:PutObject, kms:Encrypt and kms:GenerateDataKey for the given Amazon S3 bucket.    kms:GenerateDataKey for the given Amazon Web Services KMS customer managed key.     sns:Publish for the given Amazon SNS topic.    If an IAM role ARN is provided, the role (and only the role) is used to access all the given resources (Amazon S3 bucket, Amazon Web Services KMS customer managed key and Amazon SNS topic). Therefore, setting up individual resource access permissions is not required.
         public let iamRoleArn: String?
-        /// The customer managed key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default managed key or a custom managed key that you created in Amazon Web Services KMS as follows:   To use the default managed key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your Amazon Web Services account ID is 123456789012 and you want to use the default managed key in the US West (Oregon) Region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default managed key, you don't need to perform any extra steps to give Amazon SES permission to use the key.   To use a custom managed key that you created in Amazon Web Services KMS, provide the ARN of the managed key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the Amazon SES Developer Guide.   For more information about key policies, see the Amazon Web Services KMS Developer Guide. If you do not specify a managed key, Amazon SES does not encrypt your emails.  Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your Amazon Web Services KMS keys for decryption. This encryption client is currently available with the Amazon Web Services SDK for Java and Amazon Web Services SDK for Ruby only. For more information about client-side encryption using Amazon Web Services KMS managed keys, see the Amazon S3 Developer Guide.
+        /// The customer managed key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the Amazon Web Services managed key or a customer managed key that you created in Amazon Web Services KMS as follows:   To use the Amazon Web Services managed key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your Amazon Web Services account ID is 123456789012 and you want to use the Amazon Web Services managed key in the US West (Oregon) Region, the ARN of the Amazon Web Services managed key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the Amazon Web Services managed key, you don't need to perform any extra steps to give Amazon SES permission to use the key.   To use a customer managed key that you created in Amazon Web Services KMS, provide the ARN of the customer managed key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the Amazon SES Developer Guide.   For more information about key policies, see the Amazon Web Services KMS Developer Guide. If you do not specify an Amazon Web Services KMS key, Amazon SES does not encrypt your emails.  Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your Amazon Web Services KMS keys for decryption. This encryption client is currently available with the Amazon Web Services SDK for Java and Amazon Web Services SDK for Ruby only. For more information about client-side encryption using Amazon Web Services KMS managed keys, see the Amazon S3 Developer Guide.
         public let kmsKeyArn: String?
         /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a directory name that enables you to store similar data under the same directory in a bucket.
         public let objectKeyPrefix: String?
@@ -2087,7 +2117,7 @@ extension SES {
         public func validate(name: String) throws {
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
-            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:[\\w-]+:iam::[0-9]+:role/[\\w-]+$")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:[\\w-]+:iam::[0-9]+:role(\\u002F)([\\u0021-\\u007E]+\\u002F)?([\\w+=,.@-]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {

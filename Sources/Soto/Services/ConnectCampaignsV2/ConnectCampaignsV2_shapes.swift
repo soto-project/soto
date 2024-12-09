@@ -145,6 +145,20 @@ extension ConnectCampaignsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProfileOutboundRequestFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The specified resource conflicts with another resource
+        case conflict = "Conflict"
+        /// The request failed to satisfy the constraints specified by the service
+        case invalidInput = "InvalidInput"
+        /// Request throttled due to large number of requests
+        case requestThrottled = "RequestThrottled"
+        /// The specified resource was not found
+        case resourceNotFound = "ResourceNotFound"
+        /// Unexpected error during processing of request
+        case unknownError = "UnknownError"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChannelSubtypeParameters: AWSEncodableShape, Sendable {
         case email(EmailChannelSubtypeParameters)
         case sms(SmsChannelSubtypeParameters)
@@ -264,6 +278,56 @@ extension ConnectCampaignsV2 {
         private enum CodingKeys: String, CodingKey {
             case customerProfiles = "customerProfiles"
             case qConnect = "qConnect"
+        }
+    }
+
+    public enum Source: AWSEncodableShape & AWSDecodableShape, Sendable {
+        case customerProfilesSegmentArn(String)
+        case eventTrigger(EventTrigger)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .customerProfilesSegmentArn:
+                let value = try container.decode(String.self, forKey: .customerProfilesSegmentArn)
+                self = .customerProfilesSegmentArn(value)
+            case .eventTrigger:
+                let value = try container.decode(EventTrigger.self, forKey: .eventTrigger)
+                self = .eventTrigger(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .customerProfilesSegmentArn(let value):
+                try container.encode(value, forKey: .customerProfilesSegmentArn)
+            case .eventTrigger(let value):
+                try container.encode(value, forKey: .eventTrigger)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .customerProfilesSegmentArn(let value):
+                try self.validate(value, name: "customerProfilesSegmentArn", parent: name, max: 500)
+                try self.validate(value, name: "customerProfilesSegmentArn", parent: name, min: 20)
+                try self.validate(value, name: "customerProfilesSegmentArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\\:[^:]+)?$")
+            case .eventTrigger(let value):
+                try value.validate(name: "\(name).eventTrigger")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerProfilesSegmentArn = "customerProfilesSegmentArn"
+            case eventTrigger = "eventTrigger"
         }
     }
 
@@ -993,6 +1057,25 @@ extension ConnectCampaignsV2 {
         }
     }
 
+    public struct EventTrigger: AWSEncodableShape & AWSDecodableShape {
+        public let customerProfilesDomainArn: String?
+
+        @inlinable
+        public init(customerProfilesDomainArn: String? = nil) {
+            self.customerProfilesDomainArn = customerProfilesDomainArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customerProfilesDomainArn, name: "customerProfilesDomainArn", parent: name, max: 500)
+            try self.validate(self.customerProfilesDomainArn, name: "customerProfilesDomainArn", parent: name, min: 20)
+            try self.validate(self.customerProfilesDomainArn, name: "customerProfilesDomainArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\\:[^:]+)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerProfilesDomainArn = "customerProfilesDomainArn"
+        }
+    }
+
     public struct FailedCampaignStateResponse: AWSDecodableShape {
         public let campaignId: String?
         public let failureCode: GetCampaignStateBatchFailureCode?
@@ -1006,6 +1089,25 @@ extension ConnectCampaignsV2 {
         private enum CodingKeys: String, CodingKey {
             case campaignId = "campaignId"
             case failureCode = "failureCode"
+        }
+    }
+
+    public struct FailedProfileOutboundRequest: AWSDecodableShape {
+        public let clientToken: String?
+        public let failureCode: ProfileOutboundRequestFailureCode?
+        public let id: String?
+
+        @inlinable
+        public init(clientToken: String? = nil, failureCode: ProfileOutboundRequestFailureCode? = nil, id: String? = nil) {
+            self.clientToken = clientToken
+            self.failureCode = failureCode
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case failureCode = "failureCode"
+            case id = "id"
         }
     }
 
@@ -1440,6 +1542,32 @@ extension ConnectCampaignsV2 {
         }
     }
 
+    public struct ProfileOutboundRequest: AWSEncodableShape {
+        public let clientToken: String
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expirationTime: Date?
+        public let profileId: String
+
+        @inlinable
+        public init(clientToken: String, expirationTime: Date? = nil, profileId: String) {
+            self.clientToken = clientToken
+            self.expirationTime = expirationTime
+            self.profileId = profileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 200)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case expirationTime = "expirationTime"
+            case profileId = "profileId"
+        }
+    }
+
     public struct ProgressiveConfig: AWSEncodableShape & AWSDecodableShape {
         public let bandwidthAllocation: Double
 
@@ -1524,6 +1652,54 @@ extension ConnectCampaignsV2 {
 
         @inlinable
         public init(failedRequests: [FailedRequest]? = nil, successfulRequests: [SuccessfulRequest]? = nil) {
+            self.failedRequests = failedRequests
+            self.successfulRequests = successfulRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedRequests = "failedRequests"
+            case successfulRequests = "successfulRequests"
+        }
+    }
+
+    public struct PutProfileOutboundRequestBatchRequest: AWSEncodableShape {
+        public let id: String
+        public let profileOutboundRequests: [ProfileOutboundRequest]
+
+        @inlinable
+        public init(id: String, profileOutboundRequests: [ProfileOutboundRequest]) {
+            self.id = id
+            self.profileOutboundRequests = profileOutboundRequests
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            try container.encode(self.profileOutboundRequests, forKey: .profileOutboundRequests)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.profileOutboundRequests.forEach {
+                try $0.validate(name: "\(name).profileOutboundRequests[]")
+            }
+            try self.validate(self.profileOutboundRequests, name: "profileOutboundRequests", parent: name, max: 20)
+            try self.validate(self.profileOutboundRequests, name: "profileOutboundRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileOutboundRequests = "profileOutboundRequests"
+        }
+    }
+
+    public struct PutProfileOutboundRequestBatchResponse: AWSDecodableShape {
+        public let failedRequests: [FailedProfileOutboundRequest]?
+        public let successfulRequests: [SuccessfulProfileOutboundRequest]?
+
+        @inlinable
+        public init(failedRequests: [FailedProfileOutboundRequest]? = nil, successfulRequests: [SuccessfulProfileOutboundRequest]? = nil) {
             self.failedRequests = failedRequests
             self.successfulRequests = successfulRequests
         }
@@ -1846,6 +2022,22 @@ extension ConnectCampaignsV2 {
         private enum CodingKeys: String, CodingKey {
             case campaignId = "campaignId"
             case state = "state"
+        }
+    }
+
+    public struct SuccessfulProfileOutboundRequest: AWSDecodableShape {
+        public let clientToken: String?
+        public let id: String?
+
+        @inlinable
+        public init(clientToken: String? = nil, id: String? = nil) {
+            self.clientToken = clientToken
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case id = "id"
         }
     }
 
@@ -2331,25 +2523,6 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case agentless = "agentless"
-        }
-    }
-
-    public struct Source: AWSEncodableShape & AWSDecodableShape {
-        public let customerProfilesSegmentArn: String?
-
-        @inlinable
-        public init(customerProfilesSegmentArn: String? = nil) {
-            self.customerProfilesSegmentArn = customerProfilesSegmentArn
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.customerProfilesSegmentArn, name: "customerProfilesSegmentArn", parent: name, max: 500)
-            try self.validate(self.customerProfilesSegmentArn, name: "customerProfilesSegmentArn", parent: name, min: 20)
-            try self.validate(self.customerProfilesSegmentArn, name: "customerProfilesSegmentArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\\:[^:]+)?$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customerProfilesSegmentArn = "customerProfilesSegmentArn"
         }
     }
 }

@@ -50,7 +50,7 @@ extension QBusiness {
 
     public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -76,6 +76,12 @@ extension QBusiness {
     public enum AutoSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BrowserExtension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case chrome = "CHROME"
+        case firefox = "FIREFOX"
         public var description: String { return self.rawValue }
     }
 
@@ -191,6 +197,13 @@ extension QBusiness {
         case awsIamIdc = "AWS_IAM_IDC"
         case awsIamIdpOidc = "AWS_IAM_IDP_OIDC"
         case awsIamIdpSaml = "AWS_IAM_IDP_SAML"
+        case awsQuicksightIdp = "AWS_QUICKSIGHT_IDP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageExtractionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -279,11 +292,32 @@ extension QBusiness {
     }
 
     public enum PluginType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asana = "ASANA"
+        case atlassianConfluence = "ATLASSIAN_CONFLUENCE"
         case custom = "CUSTOM"
+        case googleCalendar = "GOOGLE_CALENDAR"
         case jira = "JIRA"
+        case jiraCloud = "JIRA_CLOUD"
+        case microsoftExchange = "MICROSOFT_EXCHANGE"
+        case microsoftTeams = "MICROSOFT_TEAMS"
+        case pagerdutyAdvance = "PAGERDUTY_ADVANCE"
+        case quicksight = "QUICKSIGHT"
         case salesforce = "SALESFORCE"
+        case salesforceCrm = "SALESFORCE_CRM"
         case serviceNow = "SERVICE_NOW"
+        case servicenowNowPlatform = "SERVICENOW_NOW_PLATFORM"
+        case smartsheet = "SMARTSHEET"
         case zendesk = "ZENDESK"
+        case zendeskSuite = "ZENDESK_SUITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PluginTypeCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case communication = "Communication"
+        case crm = "Customer relationship management (CRM)"
+        case productivity = "Productivity"
+        case projectManagement = "Project management"
+        case ticketingManagement = "Ticketing and incident management"
         public var description: String { return self.rawValue }
     }
 
@@ -321,6 +355,15 @@ extension QBusiness {
     public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contentBlockerRule = "CONTENT_BLOCKER_RULE"
         case contentRetrievalRule = "CONTENT_RETRIEVAL_RULE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScoreConfidence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case notAvailable = "NOT_AVAILABLE"
+        case veryHigh = "VERY_HIGH"
         public var description: String { return self.rawValue }
     }
 
@@ -451,8 +494,6 @@ extension QBusiness {
                 try value.validate(name: "\(name).authChallengeResponseEvent")
             case .configurationEvent(let value):
                 try value.validate(name: "\(name).configurationEvent")
-            case .textEvent(let value):
-                try value.validate(name: "\(name).textEvent")
             default:
                 break
             }
@@ -738,6 +779,8 @@ extension QBusiness {
     public enum PluginAuthConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Information about the basic authentication credentials used to configure a plugin.
         case basicAuthConfiguration(BasicAuthConfiguration)
+        /// Information about the IAM Identity Center Application used to configure authentication for a plugin.
+        case idcAuthConfiguration(IdcAuthConfiguration)
         /// Information about invoking a custom plugin without any authentication.
         case noAuthConfiguration(NoAuthConfiguration)
         /// Information about the OAuth 2.0 authentication credential/token used to configure a plugin.
@@ -756,6 +799,9 @@ extension QBusiness {
             case .basicAuthConfiguration:
                 let value = try container.decode(BasicAuthConfiguration.self, forKey: .basicAuthConfiguration)
                 self = .basicAuthConfiguration(value)
+            case .idcAuthConfiguration:
+                let value = try container.decode(IdcAuthConfiguration.self, forKey: .idcAuthConfiguration)
+                self = .idcAuthConfiguration(value)
             case .noAuthConfiguration:
                 let value = try container.decode(NoAuthConfiguration.self, forKey: .noAuthConfiguration)
                 self = .noAuthConfiguration(value)
@@ -770,6 +816,8 @@ extension QBusiness {
             switch self {
             case .basicAuthConfiguration(let value):
                 try container.encode(value, forKey: .basicAuthConfiguration)
+            case .idcAuthConfiguration(let value):
+                try container.encode(value, forKey: .idcAuthConfiguration)
             case .noAuthConfiguration(let value):
                 try container.encode(value, forKey: .noAuthConfiguration)
             case .oAuth2ClientCredentialConfiguration(let value):
@@ -781,6 +829,8 @@ extension QBusiness {
             switch self {
             case .basicAuthConfiguration(let value):
                 try value.validate(name: "\(name).basicAuthConfiguration")
+            case .idcAuthConfiguration(let value):
+                try value.validate(name: "\(name).idcAuthConfiguration")
             case .oAuth2ClientCredentialConfiguration(let value):
                 try value.validate(name: "\(name).oAuth2ClientCredentialConfiguration")
             default:
@@ -790,6 +840,7 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case basicAuthConfiguration = "basicAuthConfiguration"
+            case idcAuthConfiguration = "idcAuthConfiguration"
             case noAuthConfiguration = "noAuthConfiguration"
             case oAuth2ClientCredentialConfiguration = "oAuth2ClientCredentialConfiguration"
         }
@@ -975,6 +1026,29 @@ extension QBusiness {
         }
     }
 
+    public struct ActionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Q Business action that is allowed.
+        public let action: String
+        /// The filter configuration for the action, if any.
+        public let filterConfiguration: ActionFilterConfiguration?
+
+        @inlinable
+        public init(action: String, filterConfiguration: ActionFilterConfiguration? = nil) {
+            self.action = action
+            self.filterConfiguration = filterConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.action, name: "action", parent: name, pattern: "^qbusiness:[a-zA-Z]+$")
+            try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case filterConfiguration = "filterConfiguration"
+        }
+    }
+
     public struct ActionExecution: AWSEncodableShape & AWSDecodableShape {
         /// A mapping of field names to the field values in input that an end user provides to Amazon Q Business requests to perform their plugin action.
         public let payload: [String: ActionExecutionPayloadField]
@@ -1052,6 +1126,23 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case value = "value"
+        }
+    }
+
+    public struct ActionFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let documentAttributeFilter: AttributeFilter
+
+        @inlinable
+        public init(documentAttributeFilter: AttributeFilter) {
+            self.documentAttributeFilter = documentAttributeFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.documentAttributeFilter.validate(name: "\(name).documentAttributeFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentAttributeFilter = "documentAttributeFilter"
         }
     }
 
@@ -1183,6 +1274,32 @@ extension QBusiness {
         }
     }
 
+    public struct ActionSummary: AWSDecodableShape {
+        /// The identifier of an Amazon Q Business plugin action.
+        public let actionIdentifier: String?
+        /// The description of an Amazon Q Business plugin action.
+        public let description: String?
+        /// The display name assigned by Amazon Q Business to a plugin action. You can't modify this value.
+        public let displayName: String?
+        /// An Amazon Q Business suggested prompt and end user can use to invoke a plugin action. This value can be modified and sent as input to initiate an action. For example:   Create a Jira task   Create a chat assistant task to find the root cause of a specific incident
+        public let instructionExample: String?
+
+        @inlinable
+        public init(actionIdentifier: String? = nil, description: String? = nil, displayName: String? = nil, instructionExample: String? = nil) {
+            self.actionIdentifier = actionIdentifier
+            self.description = description
+            self.displayName = displayName
+            self.instructionExample = instructionExample
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionIdentifier = "actionIdentifier"
+            case description = "description"
+            case displayName = "displayName"
+            case instructionExample = "instructionExample"
+        }
+    }
+
     public struct Application: AWSDecodableShape {
         /// The identifier for the Amazon Q Business application.
         public let applicationId: String?
@@ -1192,17 +1309,20 @@ extension QBusiness {
         public let displayName: String?
         /// The authentication type being used by a Amazon Q Business application.
         public let identityType: IdentityType?
+        /// The Amazon QuickSight configuration for an Amazon Q Business application that uses QuickSight as the identity provider.
+        public let quickSightConfiguration: QuickSightConfiguration?
         /// The status of the Amazon Q Business application. The application is ready to use when the status is ACTIVE.
         public let status: ApplicationStatus?
         /// The Unix timestamp when the Amazon Q Business application was last updated.
         public let updatedAt: Date?
 
         @inlinable
-        public init(applicationId: String? = nil, createdAt: Date? = nil, displayName: String? = nil, identityType: IdentityType? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
+        public init(applicationId: String? = nil, createdAt: Date? = nil, displayName: String? = nil, identityType: IdentityType? = nil, quickSightConfiguration: QuickSightConfiguration? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
             self.applicationId = applicationId
             self.createdAt = createdAt
             self.displayName = displayName
             self.identityType = identityType
+            self.quickSightConfiguration = quickSightConfiguration
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -1212,6 +1332,7 @@ extension QBusiness {
             case createdAt = "createdAt"
             case displayName = "displayName"
             case identityType = "identityType"
+            case quickSightConfiguration = "quickSightConfiguration"
             case status = "status"
             case updatedAt = "updatedAt"
         }
@@ -1245,25 +1366,145 @@ extension QBusiness {
         }
     }
 
-    public struct AttachmentInput: AWSEncodableShape {
-        /// The data contained within the uploaded file.
-        public let data: AWSBase64Data
-        /// The name of the file.
-        public let name: String
+    public struct AssociatePermissionRequest: AWSEncodableShape {
+        /// The list of Q Business actions that the ISV is allowed to perform.
+        public let actions: [String]
+        /// The unique identifier of the Q Business application.
+        public let applicationId: String
+        /// The Amazon Resource Name (ARN) of the IAM role for the ISV that is being granted permission.
+        public let principal: String
+        /// A unique identifier for the policy statement.
+        public let statementId: String
 
         @inlinable
-        public init(data: AWSBase64Data, name: String) {
+        public init(actions: [String], applicationId: String, principal: String, statementId: String) {
+            self.actions = actions
+            self.applicationId = applicationId
+            self.principal = principal
+            self.statementId = statementId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actions, forKey: .actions)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encode(self.principal, forKey: .principal)
+            try container.encode(self.statementId, forKey: .statementId)
+        }
+
+        public func validate(name: String) throws {
+            try self.actions.forEach {
+                try validate($0, name: "actions[]", parent: name, pattern: "^qbusiness:[a-zA-Z]+$")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.principal, name: "principal", parent: name, max: 1284)
+            try self.validate(self.principal, name: "principal", parent: name, min: 1)
+            try self.validate(self.principal, name: "principal", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+$")
+            try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
+            try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
+            try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case principal = "principal"
+            case statementId = "statementId"
+        }
+    }
+
+    public struct AssociatePermissionResponse: AWSDecodableShape {
+        /// The JSON representation of the added permission statement.
+        public let statement: String?
+
+        @inlinable
+        public init(statement: String? = nil) {
+            self.statement = statement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statement = "statement"
+        }
+    }
+
+    public struct Attachment: AWSDecodableShape {
+        /// The identifier of the Amazon Q Business attachment.
+        public let attachmentId: String?
+        /// The identifier of the Amazon Q Business conversation the attachment is associated with.
+        public let conversationId: String?
+        /// A CopyFromSource containing a reference to the original source of the Amazon Q Business attachment.
+        public let copyFrom: CopyFromSource?
+        /// The Unix timestamp when the Amazon Q Business attachment was created.
+        public let createdAt: Date?
+        /// ErrorDetail providing information about a Amazon Q Business attachment error.
+        public let error: ErrorDetail?
+        /// Size in bytes of the Amazon Q Business attachment.
+        public let fileSize: Int?
+        /// Filetype of the Amazon Q Business attachment.
+        public let fileType: String?
+        /// MD5 checksum of the Amazon Q Business attachment contents.
+        public let md5chksum: String?
+        /// Filename of the Amazon Q Business attachment.
+        public let name: String?
+        /// AttachmentStatus of the Amazon Q Business attachment.
+        public let status: AttachmentStatus?
+
+        @inlinable
+        public init(attachmentId: String? = nil, conversationId: String? = nil, copyFrom: CopyFromSource? = nil, createdAt: Date? = nil, error: ErrorDetail? = nil, fileSize: Int? = nil, fileType: String? = nil, md5chksum: String? = nil, name: String? = nil, status: AttachmentStatus? = nil) {
+            self.attachmentId = attachmentId
+            self.conversationId = conversationId
+            self.copyFrom = copyFrom
+            self.createdAt = createdAt
+            self.error = error
+            self.fileSize = fileSize
+            self.fileType = fileType
+            self.md5chksum = md5chksum
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "attachmentId"
+            case conversationId = "conversationId"
+            case copyFrom = "copyFrom"
+            case createdAt = "createdAt"
+            case error = "error"
+            case fileSize = "fileSize"
+            case fileType = "fileType"
+            case md5chksum = "md5chksum"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct AttachmentInput: AWSEncodableShape {
+        /// A reference to an existing attachment.
+        public let copyFrom: CopyFromSource?
+        /// The contents of the attachment.
+        public let data: AWSBase64Data?
+        /// The filename of the attachment.
+        public let name: String?
+
+        @inlinable
+        public init(copyFrom: CopyFromSource? = nil, data: AWSBase64Data? = nil, name: String? = nil) {
+            self.copyFrom = copyFrom
             self.data = data
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try self.copyFrom?.validate(name: "\(name).copyFrom")
             try self.validate(self.name, name: "name", parent: name, max: 1000)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\P{C}*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case copyFrom = "copyFrom"
             case data = "data"
             case name = "name"
         }
@@ -1287,6 +1528,10 @@ extension QBusiness {
     }
 
     public struct AttachmentOutput: AWSDecodableShape {
+        /// The unique identifier of the Amazon Q Business attachment.
+        public let attachmentId: String?
+        /// The unique identifier of the Amazon Q Business conversation.
+        public let conversationId: String?
         /// An error associated with a file uploaded during chat.
         public let error: ErrorDetail?
         /// The name of a file uploaded during chat.
@@ -1295,13 +1540,17 @@ extension QBusiness {
         public let status: AttachmentStatus?
 
         @inlinable
-        public init(error: ErrorDetail? = nil, name: String? = nil, status: AttachmentStatus? = nil) {
+        public init(attachmentId: String? = nil, conversationId: String? = nil, error: ErrorDetail? = nil, name: String? = nil, status: AttachmentStatus? = nil) {
+            self.attachmentId = attachmentId
+            self.conversationId = conversationId
             self.error = error
             self.name = name
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attachmentId = "attachmentId"
+            case conversationId = "conversationId"
             case error = "error"
             case name = "name"
             case status = "status"
@@ -1322,7 +1571,7 @@ extension QBusiness {
         }
     }
 
-    public final class AttributeFilter: AWSEncodableShape {
+    public final class AttributeFilter: AWSEncodableShape & AWSDecodableShape {
         /// Performs a logical AND operation on all supplied filters.
         public let andAllFilters: [AttributeFilter]?
         /// Returns true when a document contains all the specified document attributes or metadata fields. Supported for the following document attribute value types: stringListValue.
@@ -1677,12 +1926,10 @@ extension QBusiness {
                 try validate($0, name: "blockedPhrasesToCreateOrUpdate[]", parent: name, max: 36)
                 try validate($0, name: "blockedPhrasesToCreateOrUpdate[]", parent: name, pattern: "^\\P{C}*$")
             }
-            try self.validate(self.blockedPhrasesToCreateOrUpdate, name: "blockedPhrasesToCreateOrUpdate", parent: name, max: 5)
             try self.blockedPhrasesToDelete?.forEach {
                 try validate($0, name: "blockedPhrasesToDelete[]", parent: name, max: 36)
                 try validate($0, name: "blockedPhrasesToDelete[]", parent: name, pattern: "^\\P{C}*$")
             }
-            try self.validate(self.blockedPhrasesToDelete, name: "blockedPhrasesToDelete", parent: name, max: 5)
             try self.validate(self.systemMessageOverride, name: "systemMessageOverride", parent: name, max: 350)
             try self.validate(self.systemMessageOverride, name: "systemMessageOverride", parent: name, pattern: "^\\P{C}*$")
         }
@@ -1691,6 +1938,24 @@ extension QBusiness {
             case blockedPhrasesToCreateOrUpdate = "blockedPhrasesToCreateOrUpdate"
             case blockedPhrasesToDelete = "blockedPhrasesToDelete"
             case systemMessageOverride = "systemMessageOverride"
+        }
+    }
+
+    public struct BrowserExtensionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the browser extensions allowed for your Amazon Q web experience.    CHROME — Enables the extension for Chromium-based browsers (Google Chrome, Microsoft Edge, Opera, etc.).    FIREFOX — Enables the extension for Mozilla Firefox.    CHROME and FIREFOX — Enable the extension for Chromium-based browsers and Mozilla Firefox.
+        public let enabledBrowserExtensions: [BrowserExtension]
+
+        @inlinable
+        public init(enabledBrowserExtensions: [BrowserExtension]) {
+            self.enabledBrowserExtensions = enabledBrowserExtensions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.enabledBrowserExtensions, name: "enabledBrowserExtensions", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledBrowserExtensions = "enabledBrowserExtensions"
         }
     }
 
@@ -1786,7 +2051,7 @@ extension QBusiness {
         public let attributeFilter: AttributeFilter?
         /// An authentication verification event response by a third party authentication server to Amazon Q Business.
         public let authChallengeResponse: AuthChallengeResponse?
-        /// The chat modes available to an Amazon Q Business end user.    RETRIEVAL_MODE - The default chat mode for an Amazon Q Business application. When this mode is enabled, Amazon Q Business generates responses only from data sources connected to an Amazon Q Business application.    CREATOR_MODE - By selecting this mode, users can choose to generate responses only from the LLM knowledge, without consulting connected data sources, for a chat request.    PLUGIN_MODE - By selecting this mode, users can choose to use plugins in chat.   For more information, see Admin controls and guardrails, Plugins, and Conversation settings.
+        /// The chatMode parameter determines the chat modes available to  Amazon Q Business users:    RETRIEVAL_MODE - If you choose this mode, Amazon Q generates responses solely from the data sources connected and indexed by the application. If an answer is not found in the data sources or there are no data sources available, Amazon Q will respond with a "No Answer Found" message, unless LLM knowledge has been enabled. In that case, Amazon Q will generate a response from the LLM knowledge    CREATOR_MODE - By selecting this mode, you can choose to generate  responses only from the LLM knowledge. You can also attach files and have Amazon Q  generate a response based on the data in those files.  If the attached files do not contain an answer for the query, Amazon Q  will automatically fall back to generating a response from the LLM knowledge.    PLUGIN_MODE - By selecting this mode, users can choose to use plugins in chat to get their responses.    If none of the modes are selected, Amazon Q will only respond using the information from the attached files.  For more information, see Admin controls and guardrails, Plugins, and Response sources.
         public let chatMode: ChatMode?
         /// The chat mode configuration for an Amazon Q Business application.
         public let chatModeConfiguration: ChatModeConfiguration?
@@ -1865,8 +2130,6 @@ extension QBusiness {
             try self.validate(self.userId, name: "userId", parent: name, max: 1024)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "^\\P{C}*$")
-            try self.validate(self.userMessage, name: "userMessage", parent: name, max: 7000)
-            try self.validate(self.userMessage, name: "userMessage", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2012,6 +2275,31 @@ extension QBusiness {
         }
     }
 
+    public struct ConversationSource: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the Amazon Q Business attachment.
+        public let attachmentId: String
+        /// The unique identifier of the Amazon Q Business conversation.
+        public let conversationId: String
+
+        @inlinable
+        public init(attachmentId: String, conversationId: String) {
+            self.attachmentId = attachmentId
+            self.conversationId = conversationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try self.validate(self.conversationId, name: "conversationId", parent: name, max: 36)
+            try self.validate(self.conversationId, name: "conversationId", parent: name, min: 36)
+            try self.validate(self.conversationId, name: "conversationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "attachmentId"
+            case conversationId = "conversationId"
+        }
+    }
+
     public struct CreateApplicationRequest: AWSEncodableShape {
         /// An option to allow end users to upload files directly during chat.
         public let attachmentsConfiguration: AttachmentsConfiguration?
@@ -2035,13 +2323,15 @@ extension QBusiness {
         public let personalizationConfiguration: PersonalizationConfiguration?
         /// An option to allow end users to create and use Amazon Q Apps in the web experience.
         public let qAppsConfiguration: QAppsConfiguration?
+        /// The Amazon QuickSight configuration for an Amazon Q Business application that uses QuickSight for authentication. This configuration is required if your application uses QuickSight as the identity provider. For more information, see Creating an Amazon QuickSight integrated application.
+        public let quickSightConfiguration: QuickSightConfiguration?
         ///  The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics. If this property is not specified, Amazon Q Business will create a service linked role (SLR) and use it as the application's role.
         public let roleArn: String?
         /// A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
         @inlinable
-        public init(attachmentsConfiguration: AttachmentsConfiguration? = nil, clientIdsForOIDC: [String]? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, displayName: String, encryptionConfiguration: EncryptionConfiguration? = nil, iamIdentityProviderArn: String? = nil, identityCenterInstanceArn: String? = nil, identityType: IdentityType? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
+        public init(attachmentsConfiguration: AttachmentsConfiguration? = nil, clientIdsForOIDC: [String]? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, displayName: String, encryptionConfiguration: EncryptionConfiguration? = nil, iamIdentityProviderArn: String? = nil, identityCenterInstanceArn: String? = nil, identityType: IdentityType? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, quickSightConfiguration: QuickSightConfiguration? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.attachmentsConfiguration = attachmentsConfiguration
             self.clientIdsForOIDC = clientIdsForOIDC
             self.clientToken = clientToken
@@ -2053,6 +2343,7 @@ extension QBusiness {
             self.identityType = identityType
             self.personalizationConfiguration = personalizationConfiguration
             self.qAppsConfiguration = qAppsConfiguration
+            self.quickSightConfiguration = quickSightConfiguration
             self.roleArn = roleArn
             self.tags = tags
         }
@@ -2061,11 +2352,12 @@ extension QBusiness {
             try self.clientIdsForOIDC?.forEach {
                 try validate($0, name: "clientIdsForOIDC[]", parent: name, max: 255)
                 try validate($0, name: "clientIdsForOIDC[]", parent: name, min: 1)
+                try validate($0, name: "clientIdsForOIDC[]", parent: name, pattern: "^[a-zA-Z0-9_.:/()*?=-]*$")
             }
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 1000)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
@@ -2076,6 +2368,7 @@ extension QBusiness {
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, max: 1224)
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, min: 10)
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.quickSightConfiguration?.validate(name: "\(name).quickSightConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.tags?.forEach {
@@ -2096,6 +2389,7 @@ extension QBusiness {
             case identityType = "identityType"
             case personalizationConfiguration = "personalizationConfiguration"
             case qAppsConfiguration = "qAppsConfiguration"
+            case quickSightConfiguration = "quickSightConfiguration"
             case roleArn = "roleArn"
             case tags = "tags"
         }
@@ -2119,6 +2413,95 @@ extension QBusiness {
         }
     }
 
+    public struct CreateDataAccessorRequest: AWSEncodableShape {
+        /// A list of action configurations specifying the allowed actions and any associated filters.
+        public let actionConfigurations: [ActionConfiguration]
+        /// The unique identifier of the Q Business application.
+        public let applicationId: String
+        /// A unique, case-sensitive identifier you provide to ensure idempotency of the request.
+        public let clientToken: String?
+        /// A friendly name for the data accessor.
+        public let displayName: String
+        /// The Amazon Resource Name (ARN) of the IAM role for the ISV that will be accessing the data.
+        public let principal: String
+        /// The tags to associate with the data accessor.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(actionConfigurations: [ActionConfiguration], applicationId: String, clientToken: String? = CreateDataAccessorRequest.idempotencyToken(), displayName: String, principal: String, tags: [Tag]? = nil) {
+            self.actionConfigurations = actionConfigurations
+            self.applicationId = applicationId
+            self.clientToken = clientToken
+            self.displayName = displayName
+            self.principal = principal
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actionConfigurations, forKey: .actionConfigurations)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.displayName, forKey: .displayName)
+            try container.encode(self.principal, forKey: .principal)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.actionConfigurations.forEach {
+                try $0.validate(name: "\(name).actionConfigurations[]")
+            }
+            try self.validate(self.actionConfigurations, name: "actionConfigurations", parent: name, max: 10)
+            try self.validate(self.actionConfigurations, name: "actionConfigurations", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.principal, name: "principal", parent: name, max: 1284)
+            try self.validate(self.principal, name: "principal", parent: name, min: 1)
+            try self.validate(self.principal, name: "principal", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConfigurations = "actionConfigurations"
+            case clientToken = "clientToken"
+            case displayName = "displayName"
+            case principal = "principal"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDataAccessorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created data accessor.
+        public let dataAccessorArn: String
+        /// The unique identifier of the created data accessor.
+        public let dataAccessorId: String
+        /// The Amazon Resource Name (ARN) of the AWS IAM Identity Center application created for this data accessor.
+        public let idcApplicationArn: String
+
+        @inlinable
+        public init(dataAccessorArn: String, dataAccessorId: String, idcApplicationArn: String) {
+            self.dataAccessorArn = dataAccessorArn
+            self.dataAccessorId = dataAccessorId
+            self.idcApplicationArn = idcApplicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessorArn = "dataAccessorArn"
+            case dataAccessorId = "dataAccessorId"
+            case idcApplicationArn = "idcApplicationArn"
+        }
+    }
+
     public struct CreateDataSourceRequest: AWSEncodableShape {
         ///  The identifier of the Amazon Q Business application the data source will be attached to.
         public let applicationId: String
@@ -2133,6 +2516,8 @@ extension QBusiness {
         public let documentEnrichmentConfiguration: DocumentEnrichmentConfiguration?
         /// The identifier of the index that you want to use with the data source connector.
         public let indexId: String
+        /// The configuration for extracting information from media in documents during ingestion.
+        public let mediaExtractionConfiguration: MediaExtractionConfiguration?
         /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources.
         public let roleArn: String?
         /// Sets the frequency for Amazon Q Business to check the documents in your data source repository and update your index. If you don't set a schedule, Amazon Q Business won't periodically update the index. Specify a cron- format schedule string or an empty string to indicate that the index is updated on demand. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
@@ -2143,7 +2528,7 @@ extension QBusiness {
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
         @inlinable
-        public init(applicationId: String, clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: String, description: String? = nil, displayName: String, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, indexId: String, roleArn: String? = nil, syncSchedule: String? = nil, tags: [Tag]? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(applicationId: String, clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: String, description: String? = nil, displayName: String, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, indexId: String, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, roleArn: String? = nil, syncSchedule: String? = nil, tags: [Tag]? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.applicationId = applicationId
             self.clientToken = clientToken
             self.configuration = configuration
@@ -2151,6 +2536,7 @@ extension QBusiness {
             self.displayName = displayName
             self.documentEnrichmentConfiguration = documentEnrichmentConfiguration
             self.indexId = indexId
+            self.mediaExtractionConfiguration = mediaExtractionConfiguration
             self.roleArn = roleArn
             self.syncSchedule = syncSchedule
             self.tags = tags
@@ -2167,6 +2553,7 @@ extension QBusiness {
             try container.encode(self.displayName, forKey: .displayName)
             try container.encodeIfPresent(self.documentEnrichmentConfiguration, forKey: .documentEnrichmentConfiguration)
             request.encodePath(self.indexId, key: "indexId")
+            try container.encodeIfPresent(self.mediaExtractionConfiguration, forKey: .mediaExtractionConfiguration)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.syncSchedule, forKey: .syncSchedule)
             try container.encodeIfPresent(self.tags, forKey: .tags)
@@ -2180,7 +2567,7 @@ extension QBusiness {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 1000)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
@@ -2191,7 +2578,7 @@ extension QBusiness {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.syncSchedule, name: "syncSchedule", parent: name, max: 998)
-            try self.validate(self.syncSchedule, name: "syncSchedule", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.syncSchedule, name: "syncSchedule", parent: name, pattern: "^[\\s\\S]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2205,6 +2592,7 @@ extension QBusiness {
             case description = "description"
             case displayName = "displayName"
             case documentEnrichmentConfiguration = "documentEnrichmentConfiguration"
+            case mediaExtractionConfiguration = "mediaExtractionConfiguration"
             case roleArn = "roleArn"
             case syncSchedule = "syncSchedule"
             case tags = "tags"
@@ -2277,7 +2665,7 @@ extension QBusiness {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 1000)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
@@ -2548,8 +2936,12 @@ extension QBusiness {
     public struct CreateWebExperienceRequest: AWSEncodableShape {
         /// The identifier of the Amazon Q Business web experience.
         public let applicationId: String
+        /// The browser extension configuration for an Amazon Q Business web experience.   For Amazon Q Business application using external OIDC-compliant identity providers (IdPs). The IdP administrator must add the browser extension sign-in redirect URLs to the IdP application. For more information, see Configure external OIDC identity provider for your browser extensions..
+        public let browserExtensionConfiguration: BrowserExtensionConfiguration?
         /// A token you provide to identify a request to create an Amazon Q Business web experience.
         public let clientToken: String?
+        /// Sets the custom logo, favicon, font, and color used in the Amazon Q web experience.
+        public let customizationConfiguration: CustomizationConfiguration?
         /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
         /// Sets the website domain origins that  are allowed to embed the Amazon Q Business web experience.  The domain origin refers to the  base URL for accessing a website including the protocol  (http/https), the domain name, and the port number (if specified).   You must only submit a base URL and  not a full path. For example, https://docs.aws.amazon.com.
@@ -2568,9 +2960,11 @@ extension QBusiness {
         public let welcomeMessage: String?
 
         @inlinable
-        public init(applicationId: String, clientToken: String? = CreateWebExperienceRequest.idempotencyToken(), identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, tags: [Tag]? = nil, title: String? = nil, welcomeMessage: String? = nil) {
+        public init(applicationId: String, browserExtensionConfiguration: BrowserExtensionConfiguration? = nil, clientToken: String? = CreateWebExperienceRequest.idempotencyToken(), customizationConfiguration: CustomizationConfiguration? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, tags: [Tag]? = nil, title: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
+            self.browserExtensionConfiguration = browserExtensionConfiguration
             self.clientToken = clientToken
+            self.customizationConfiguration = customizationConfiguration
             self.identityProviderConfiguration = identityProviderConfiguration
             self.origins = origins
             self.roleArn = roleArn
@@ -2585,7 +2979,9 @@ extension QBusiness {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.browserExtensionConfiguration, forKey: .browserExtensionConfiguration)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.customizationConfiguration, forKey: .customizationConfiguration)
             try container.encodeIfPresent(self.identityProviderConfiguration, forKey: .identityProviderConfiguration)
             try container.encodeIfPresent(self.origins, forKey: .origins)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
@@ -2600,8 +2996,10 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.browserExtensionConfiguration?.validate(name: "\(name).browserExtensionConfiguration")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.customizationConfiguration?.validate(name: "\(name).customizationConfiguration")
             try self.identityProviderConfiguration?.validate(name: "\(name).identityProviderConfiguration")
             try self.origins?.forEach {
                 try validate($0, name: "origins[]", parent: name, max: 256)
@@ -2612,18 +3010,20 @@ extension QBusiness {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.subtitle, name: "subtitle", parent: name, max: 500)
-            try self.validate(self.subtitle, name: "subtitle", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.subtitle, name: "subtitle", parent: name, pattern: "^[\\s\\S]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.title, name: "title", parent: name, max: 500)
-            try self.validate(self.title, name: "title", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.welcomeMessage, name: "welcomeMessage", parent: name, max: 300)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case browserExtensionConfiguration = "browserExtensionConfiguration"
             case clientToken = "clientToken"
+            case customizationConfiguration = "customizationConfiguration"
             case identityProviderConfiguration = "identityProviderConfiguration"
             case origins = "origins"
             case roleArn = "roleArn"
@@ -2692,6 +3092,81 @@ extension QBusiness {
             case apiSchema = "apiSchema"
             case apiSchemaType = "apiSchemaType"
             case description = "description"
+        }
+    }
+
+    public struct CustomizationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Provides the URL where the custom CSS file is hosted for an Amazon Q web experience.
+        public let customCSSUrl: String?
+        /// Provides the URL where the custom favicon file is hosted for an Amazon Q web experience.
+        public let faviconUrl: String?
+        /// Provides the URL where the custom font file is hosted for an Amazon Q web experience.
+        public let fontUrl: String?
+        /// Provides the URL where the custom logo file is hosted for an Amazon Q web experience.
+        public let logoUrl: String?
+
+        @inlinable
+        public init(customCSSUrl: String? = nil, faviconUrl: String? = nil, fontUrl: String? = nil, logoUrl: String? = nil) {
+            self.customCSSUrl = customCSSUrl
+            self.faviconUrl = faviconUrl
+            self.fontUrl = fontUrl
+            self.logoUrl = logoUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customCSSUrl, name: "customCSSUrl", parent: name, max: 1284)
+            try self.validate(self.customCSSUrl, name: "customCSSUrl", parent: name, pattern: "^(https?://[a-zA-Z0-9-_.+%/]+\\.css)?$")
+            try self.validate(self.faviconUrl, name: "faviconUrl", parent: name, max: 1284)
+            try self.validate(self.faviconUrl, name: "faviconUrl", parent: name, pattern: "^(https?://[a-zA-Z0-9-_.+%/]+\\.(svg|ico))?$")
+            try self.validate(self.fontUrl, name: "fontUrl", parent: name, max: 1284)
+            try self.validate(self.fontUrl, name: "fontUrl", parent: name, pattern: "^(https?://[a-zA-Z0-9-_.+%/]+\\.(ttf|woff|woff2|otf))?$")
+            try self.validate(self.logoUrl, name: "logoUrl", parent: name, max: 1284)
+            try self.validate(self.logoUrl, name: "logoUrl", parent: name, pattern: "^(https?://[a-zA-Z0-9-_.+%/]+\\.(svg|png))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customCSSUrl = "customCSSUrl"
+            case faviconUrl = "faviconUrl"
+            case fontUrl = "fontUrl"
+            case logoUrl = "logoUrl"
+        }
+    }
+
+    public struct DataAccessor: AWSDecodableShape {
+        /// The timestamp when the data accessor was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the data accessor.
+        public let dataAccessorArn: String?
+        /// The unique identifier of the data accessor.
+        public let dataAccessorId: String?
+        /// The friendly name of the data accessor.
+        public let displayName: String?
+        /// The Amazon Resource Name (ARN) of the associated AWS IAM Identity Center application.
+        public let idcApplicationArn: String?
+        /// The Amazon Resource Name (ARN) of the IAM role for the ISV associated with this data accessor.
+        public let principal: String?
+        /// The timestamp when the data accessor was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, dataAccessorArn: String? = nil, dataAccessorId: String? = nil, displayName: String? = nil, idcApplicationArn: String? = nil, principal: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.dataAccessorArn = dataAccessorArn
+            self.dataAccessorId = dataAccessorId
+            self.displayName = displayName
+            self.idcApplicationArn = idcApplicationArn
+            self.principal = principal
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case dataAccessorArn = "dataAccessorArn"
+            case dataAccessorId = "dataAccessorId"
+            case displayName = "displayName"
+            case idcApplicationArn = "idcApplicationArn"
+            case principal = "principal"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2948,6 +3423,41 @@ extension QBusiness {
     }
 
     public struct DeleteConversationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteDataAccessorRequest: AWSEncodableShape {
+        /// The unique identifier of the Q Business application.
+        public let applicationId: String
+        /// The unique identifier of the data accessor to delete.
+        public let dataAccessorId: String
+
+        @inlinable
+        public init(applicationId: String, dataAccessorId: String) {
+            self.applicationId = applicationId
+            self.dataAccessorId = dataAccessorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.dataAccessorId, key: "dataAccessorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, max: 36)
+            try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, min: 36)
+            try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataAccessorResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -3236,6 +3746,40 @@ extension QBusiness {
         public init() {}
     }
 
+    public struct DisassociatePermissionRequest: AWSEncodableShape {
+        /// The unique identifier of the Q Business application.
+        public let applicationId: String
+        /// The statement ID of the permission to remove.
+        public let statementId: String
+
+        @inlinable
+        public init(applicationId: String, statementId: String) {
+            self.applicationId = applicationId
+            self.statementId = statementId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.statementId, key: "statementId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.statementId, name: "statementId", parent: name, max: 2048)
+            try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociatePermissionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Document: AWSEncodableShape {
         /// Configuration information for access permission to a document.
         public let accessConfiguration: AccessConfiguration?
@@ -3249,17 +3793,20 @@ extension QBusiness {
         public let documentEnrichmentConfiguration: DocumentEnrichmentConfiguration?
         /// The identifier of the document.
         public let id: String
+        /// The configuration for extracting information from media in the document.
+        public let mediaExtractionConfiguration: MediaExtractionConfiguration?
         /// The title of the document.
         public let title: String?
 
         @inlinable
-        public init(accessConfiguration: AccessConfiguration? = nil, attributes: [DocumentAttribute]? = nil, content: DocumentContent? = nil, contentType: ContentType? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, id: String, title: String? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, attributes: [DocumentAttribute]? = nil, content: DocumentContent? = nil, contentType: ContentType? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, id: String, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, title: String? = nil) {
             self.accessConfiguration = accessConfiguration
             self.attributes = attributes
             self.content = content
             self.contentType = contentType
             self.documentEnrichmentConfiguration = documentEnrichmentConfiguration
             self.id = id
+            self.mediaExtractionConfiguration = mediaExtractionConfiguration
             self.title = title
         }
 
@@ -3286,11 +3833,12 @@ extension QBusiness {
             case contentType = "contentType"
             case documentEnrichmentConfiguration = "documentEnrichmentConfiguration"
             case id = "id"
+            case mediaExtractionConfiguration = "mediaExtractionConfiguration"
             case title = "title"
         }
     }
 
-    public struct DocumentAttribute: AWSEncodableShape {
+    public struct DocumentAttribute: AWSEncodableShape & AWSDecodableShape {
         /// The identifier for the attribute.
         public let name: String
         /// The value of the attribute.
@@ -3510,9 +4058,9 @@ extension QBusiness {
     }
 
     public struct ErrorDetail: AWSDecodableShape {
-        /// The code associated with the data source sync error.
+        /// The code associated with the Amazon Q Business request error.
         public let errorCode: ErrorCode?
-        /// The message explaining the data source sync error.
+        /// The message explaining the Amazon Q Business request error.
         public let errorMessage: String?
 
         @inlinable
@@ -3629,6 +4177,8 @@ extension QBusiness {
         public let personalizationConfiguration: PersonalizationConfiguration?
         /// Settings for whether end users can create and use Amazon Q Apps in the web experience.
         public let qAppsConfiguration: QAppsConfiguration?
+        /// The Amazon QuickSight authentication configuration for the Amazon Q Business application.
+        public let quickSightConfiguration: QuickSightConfiguration?
         /// The Amazon Resource Name (ARN) of the IAM with permissions to access your CloudWatch logs and metrics.
         public let roleArn: String?
         /// The status of the Amazon Q Business application.
@@ -3637,7 +4187,7 @@ extension QBusiness {
         public let updatedAt: Date?
 
         @inlinable
-        public init(applicationArn: String? = nil, applicationId: String? = nil, attachmentsConfiguration: AppliedAttachmentsConfiguration? = nil, autoSubscriptionConfiguration: AutoSubscriptionConfiguration? = nil, clientIdsForOIDC: [String]? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, error: ErrorDetail? = nil, iamIdentityProviderArn: String? = nil, identityCenterApplicationArn: String? = nil, identityType: IdentityType? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
+        public init(applicationArn: String? = nil, applicationId: String? = nil, attachmentsConfiguration: AppliedAttachmentsConfiguration? = nil, autoSubscriptionConfiguration: AutoSubscriptionConfiguration? = nil, clientIdsForOIDC: [String]? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, error: ErrorDetail? = nil, iamIdentityProviderArn: String? = nil, identityCenterApplicationArn: String? = nil, identityType: IdentityType? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, quickSightConfiguration: QuickSightConfiguration? = nil, roleArn: String? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
             self.attachmentsConfiguration = attachmentsConfiguration
@@ -3653,6 +4203,7 @@ extension QBusiness {
             self.identityType = identityType
             self.personalizationConfiguration = personalizationConfiguration
             self.qAppsConfiguration = qAppsConfiguration
+            self.quickSightConfiguration = quickSightConfiguration
             self.roleArn = roleArn
             self.status = status
             self.updatedAt = updatedAt
@@ -3674,6 +4225,7 @@ extension QBusiness {
             case identityType = "identityType"
             case personalizationConfiguration = "personalizationConfiguration"
             case qAppsConfiguration = "qAppsConfiguration"
+            case quickSightConfiguration = "quickSightConfiguration"
             case roleArn = "roleArn"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -3746,6 +4298,83 @@ extension QBusiness {
         }
     }
 
+    public struct GetDataAccessorRequest: AWSEncodableShape {
+        /// The unique identifier of the Q Business application.
+        public let applicationId: String
+        /// The unique identifier of the data accessor to retrieve.
+        public let dataAccessorId: String
+
+        @inlinable
+        public init(applicationId: String, dataAccessorId: String) {
+            self.applicationId = applicationId
+            self.dataAccessorId = dataAccessorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.dataAccessorId, key: "dataAccessorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, max: 36)
+            try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, min: 36)
+            try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataAccessorResponse: AWSDecodableShape {
+        /// The list of action configurations specifying the allowed actions and any associated filters.
+        public let actionConfigurations: [ActionConfiguration]?
+        /// The unique identifier of the Q Business application associated with this data accessor.
+        public let applicationId: String?
+        /// The timestamp when the data accessor was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the data accessor.
+        public let dataAccessorArn: String?
+        /// The unique identifier of the data accessor.
+        public let dataAccessorId: String?
+        /// The friendly name of the data accessor.
+        public let displayName: String?
+        /// The Amazon Resource Name (ARN) of the AWS IAM Identity Center application associated with this data accessor.
+        public let idcApplicationArn: String?
+        /// The Amazon Resource Name (ARN) of the IAM role for the ISV associated with this data accessor.
+        public let principal: String?
+        /// The timestamp when the data accessor was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(actionConfigurations: [ActionConfiguration]? = nil, applicationId: String? = nil, createdAt: Date? = nil, dataAccessorArn: String? = nil, dataAccessorId: String? = nil, displayName: String? = nil, idcApplicationArn: String? = nil, principal: String? = nil, updatedAt: Date? = nil) {
+            self.actionConfigurations = actionConfigurations
+            self.applicationId = applicationId
+            self.createdAt = createdAt
+            self.dataAccessorArn = dataAccessorArn
+            self.dataAccessorId = dataAccessorId
+            self.displayName = displayName
+            self.idcApplicationArn = idcApplicationArn
+            self.principal = principal
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConfigurations = "actionConfigurations"
+            case applicationId = "applicationId"
+            case createdAt = "createdAt"
+            case dataAccessorArn = "dataAccessorArn"
+            case dataAccessorId = "dataAccessorId"
+            case displayName = "displayName"
+            case idcApplicationArn = "idcApplicationArn"
+            case principal = "principal"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct GetDataSourceRequest: AWSEncodableShape {
         /// The identifier of the Amazon Q Business application.
         public let applicationId: String
@@ -3804,6 +4433,8 @@ extension QBusiness {
         public let error: ErrorDetail?
         /// The identifier of the index linked to the data source connector.
         public let indexId: String?
+        /// The configuration for extracting information from media in documents for the data source.
+        public let mediaExtractionConfiguration: MediaExtractionConfiguration?
         /// The Amazon Resource Name (ARN) of the role with permission to access the data source and required resources.
         public let roleArn: String?
         /// The current status of the data source connector. When the Status field value is FAILED, the ErrorMessage field contains a description of the error that caused the data source connector to fail.
@@ -3818,7 +4449,7 @@ extension QBusiness {
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
         @inlinable
-        public init(applicationId: String? = nil, configuration: String? = nil, createdAt: Date? = nil, dataSourceArn: String? = nil, dataSourceId: String? = nil, description: String? = nil, displayName: String? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, error: ErrorDetail? = nil, indexId: String? = nil, roleArn: String? = nil, status: DataSourceStatus? = nil, syncSchedule: String? = nil, type: String? = nil, updatedAt: Date? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(applicationId: String? = nil, configuration: String? = nil, createdAt: Date? = nil, dataSourceArn: String? = nil, dataSourceId: String? = nil, description: String? = nil, displayName: String? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, error: ErrorDetail? = nil, indexId: String? = nil, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, roleArn: String? = nil, status: DataSourceStatus? = nil, syncSchedule: String? = nil, type: String? = nil, updatedAt: Date? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.applicationId = applicationId
             self.configuration = configuration
             self.createdAt = createdAt
@@ -3829,6 +4460,7 @@ extension QBusiness {
             self.documentEnrichmentConfiguration = documentEnrichmentConfiguration
             self.error = error
             self.indexId = indexId
+            self.mediaExtractionConfiguration = mediaExtractionConfiguration
             self.roleArn = roleArn
             self.status = status
             self.syncSchedule = syncSchedule
@@ -3848,6 +4480,7 @@ extension QBusiness {
             case documentEnrichmentConfiguration = "documentEnrichmentConfiguration"
             case error = "error"
             case indexId = "indexId"
+            case mediaExtractionConfiguration = "mediaExtractionConfiguration"
             case roleArn = "roleArn"
             case status = "status"
             case syncSchedule = "syncSchedule"
@@ -4013,6 +4646,69 @@ extension QBusiness {
         }
     }
 
+    public struct GetMediaRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q Business which contains the media object.
+        public let applicationId: String
+        /// The identifier of the Amazon Q Business conversation.
+        public let conversationId: String
+        /// The identifier of the media object. You can find this in the sourceAttributions returned by the Chat, ChatSync, and ListMessages API responses.
+        public let mediaId: String
+        /// The identifier of the Amazon Q Business message.
+        public let messageId: String
+
+        @inlinable
+        public init(applicationId: String, conversationId: String, mediaId: String, messageId: String) {
+            self.applicationId = applicationId
+            self.conversationId = conversationId
+            self.mediaId = mediaId
+            self.messageId = messageId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.conversationId, key: "conversationId")
+            request.encodePath(self.mediaId, key: "mediaId")
+            request.encodePath(self.messageId, key: "messageId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.conversationId, name: "conversationId", parent: name, max: 36)
+            try self.validate(self.conversationId, name: "conversationId", parent: name, min: 36)
+            try self.validate(self.conversationId, name: "conversationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.mediaId, name: "mediaId", parent: name, max: 36)
+            try self.validate(self.mediaId, name: "mediaId", parent: name, min: 36)
+            try self.validate(self.mediaId, name: "mediaId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.messageId, name: "messageId", parent: name, max: 36)
+            try self.validate(self.messageId, name: "messageId", parent: name, min: 36)
+            try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMediaResponse: AWSDecodableShape {
+        /// The base64-encoded bytes of the media object.
+        public let mediaBytes: AWSBase64Data?
+        /// The MIME type of the media object (image/png).
+        public let mediaMimeType: String?
+
+        @inlinable
+        public init(mediaBytes: AWSBase64Data? = nil, mediaMimeType: String? = nil) {
+            self.mediaBytes = mediaBytes
+            self.mediaMimeType = mediaMimeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaBytes = "mediaBytes"
+            case mediaMimeType = "mediaMimeType"
+        }
+    }
+
     public struct GetPluginRequest: AWSEncodableShape {
         /// The identifier of the application which contains the plugin.
         public let applicationId: String
@@ -4098,6 +4794,44 @@ extension QBusiness {
             case state = "state"
             case type = "type"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetPolicyRequest: AWSEncodableShape {
+        /// The unique identifier of the Q Business application.
+        public let applicationId: String
+
+        @inlinable
+        public init(applicationId: String) {
+            self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPolicyResponse: AWSDecodableShape {
+        /// The JSON representation of the permission policy.
+        public let policy: String?
+
+        @inlinable
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
         }
     }
 
@@ -4261,8 +4995,12 @@ extension QBusiness {
         public let applicationId: String?
         /// The authentication configuration information for your Amazon Q Business web experience.
         public let authenticationConfiguration: WebExperienceAuthConfiguration?
+        /// The browser extension configuration for an Amazon Q Business web experience.
+        public let browserExtensionConfiguration: BrowserExtensionConfiguration?
         /// The Unix timestamp when the Amazon Q Business web experience was last created.
         public let createdAt: Date?
+        /// Gets the custom logo, favicon, font, and color used in the Amazon Q web experience.
+        public let customizationConfiguration: CustomizationConfiguration?
         /// The endpoint of your Amazon Q Business web experience.
         public let defaultEndpoint: String?
         /// When the Status field value is FAILED, the ErrorMessage field contains a description of the error that caused the data source connector to fail.
@@ -4291,10 +5029,12 @@ extension QBusiness {
         public let welcomeMessage: String?
 
         @inlinable
-        public init(applicationId: String? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
+        public init(applicationId: String? = nil, browserExtensionConfiguration: BrowserExtensionConfiguration? = nil, createdAt: Date? = nil, customizationConfiguration: CustomizationConfiguration? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = nil
+            self.browserExtensionConfiguration = browserExtensionConfiguration
             self.createdAt = createdAt
+            self.customizationConfiguration = customizationConfiguration
             self.defaultEndpoint = defaultEndpoint
             self.error = error
             self.identityProviderConfiguration = identityProviderConfiguration
@@ -4312,10 +5052,12 @@ extension QBusiness {
 
         @available(*, deprecated, message: "Members authenticationConfiguration have been deprecated")
         @inlinable
-        public init(applicationId: String? = nil, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
+        public init(applicationId: String? = nil, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, browserExtensionConfiguration: BrowserExtensionConfiguration? = nil, createdAt: Date? = nil, customizationConfiguration: CustomizationConfiguration? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = authenticationConfiguration
+            self.browserExtensionConfiguration = browserExtensionConfiguration
             self.createdAt = createdAt
+            self.customizationConfiguration = customizationConfiguration
             self.defaultEndpoint = defaultEndpoint
             self.error = error
             self.identityProviderConfiguration = identityProviderConfiguration
@@ -4334,7 +5076,9 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
             case authenticationConfiguration = "authenticationConfiguration"
+            case browserExtensionConfiguration = "browserExtensionConfiguration"
             case createdAt = "createdAt"
+            case customizationConfiguration = "customizationConfiguration"
             case defaultEndpoint = "defaultEndpoint"
             case error = "error"
             case identityProviderConfiguration = "identityProviderConfiguration"
@@ -4369,13 +5113,9 @@ extension QBusiness {
             try self.memberGroups?.forEach {
                 try $0.validate(name: "\(name).memberGroups[]")
             }
-            try self.validate(self.memberGroups, name: "memberGroups", parent: name, max: 1000)
-            try self.validate(self.memberGroups, name: "memberGroups", parent: name, min: 1)
             try self.memberUsers?.forEach {
                 try $0.validate(name: "\(name).memberUsers[]")
             }
-            try self.validate(self.memberUsers, name: "memberUsers", parent: name, max: 1000)
-            try self.validate(self.memberUsers, name: "memberUsers", parent: name, min: 1)
             try self.s3PathForGroupMembers?.validate(name: "\(name).s3PathForGroupMembers")
         }
 
@@ -4457,6 +5197,46 @@ extension QBusiness {
             case lambdaArn = "lambdaArn"
             case roleArn = "roleArn"
             case s3BucketName = "s3BucketName"
+        }
+    }
+
+    public struct IdcAuthConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center Application used to configure authentication.
+        public let idcApplicationArn: String
+        /// The Amazon Resource Name (ARN) of the IAM role with permissions to perform actions on Amazon Web Services services on your behalf.
+        public let roleArn: String
+
+        @inlinable
+        public init(idcApplicationArn: String, roleArn: String) {
+            self.idcApplicationArn = idcApplicationArn
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idcApplicationArn, name: "idcApplicationArn", parent: name, max: 1224)
+            try self.validate(self.idcApplicationArn, name: "idcApplicationArn", parent: name, min: 10)
+            try self.validate(self.idcApplicationArn, name: "idcApplicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idcApplicationArn = "idcApplicationArn"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct ImageExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specify whether to extract semantic meaning from images and visuals from documents.
+        public let imageExtractionStatus: ImageExtractionStatus
+
+        @inlinable
+        public init(imageExtractionStatus: ImageExtractionStatus) {
+            self.imageExtractionStatus = imageExtractionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageExtractionStatus = "imageExtractionStatus"
         }
     }
 
@@ -4614,6 +5394,74 @@ extension QBusiness {
         }
     }
 
+    public struct ListAttachmentsRequest: AWSEncodableShape {
+        /// The unique identifier for the Amazon Q Business application.
+        public let applicationId: String
+        /// The unique identifier of the Amazon Q Business web experience conversation.
+        public let conversationId: String?
+        /// The maximum number of attachements to return.
+        public let maxResults: Int?
+        /// If the number of attachments returned exceeds maxResults, Amazon Q Business returns a next token as a pagination token to retrieve the next set of attachments.
+        public let nextToken: String?
+        /// The unique identifier of the user involved in the Amazon Q Business web experience conversation.
+        public let userId: String?
+
+        @inlinable
+        public init(applicationId: String, conversationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, userId: String? = nil) {
+            self.applicationId = applicationId
+            self.conversationId = conversationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.conversationId, key: "conversationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.userId, key: "userId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.conversationId, name: "conversationId", parent: name, max: 36)
+            try self.validate(self.conversationId, name: "conversationId", parent: name, min: 36)
+            try self.validate(self.conversationId, name: "conversationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, max: 1024)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAttachmentsResponse: AWSDecodableShape {
+        /// An array of information on one or more attachments.
+        public let attachments: [Attachment]?
+        /// If the response is truncated, Amazon Q Business returns this token, which you can use in a later request to list the next set of attachments.
+        public let nextToken: String?
+
+        @inlinable
+        public init(attachments: [Attachment]? = nil, nextToken: String? = nil) {
+            self.attachments = attachments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachments = "attachments"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListConversationsRequest: AWSEncodableShape {
         /// The identifier of the Amazon Q Business application.
         public let applicationId: String
@@ -4671,6 +5519,60 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case conversations = "conversations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataAccessorsRequest: AWSEncodableShape {
+        /// The unique identifier of the Q Business application.
+        public let applicationId: String
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token for the next set of results. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        @inlinable
+        public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationId = applicationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataAccessorsResponse: AWSDecodableShape {
+        /// The list of data accessors.
+        public let dataAccessors: [DataAccessor]?
+        /// The token to use to retrieve the next set of results, if there are any.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dataAccessors: [DataAccessor]? = nil, nextToken: String? = nil) {
+            self.dataAccessors = dataAccessors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessors = "dataAccessors"
             case nextToken = "nextToken"
         }
     }
@@ -5021,7 +5923,7 @@ extension QBusiness {
         public let conversationId: String
         /// The maximum number of messages to return.
         public let maxResults: Int?
-        /// If the number of retrievers returned exceeds maxResults, Amazon Q Business returns a next token as a pagination token to retrieve the next set of messages.
+        /// If the number of messages returned exceeds maxResults, Amazon Q Business returns a next token as a pagination token to retrieve the next set of messages.
         public let nextToken: String?
         /// The identifier of the user involved in the Amazon Q Business web experience conversation.
         public let userId: String?
@@ -5078,6 +5980,165 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case messages = "messages"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPluginActionsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q Business application the plugin is attached to.
+        public let applicationId: String
+        /// The maximum number of plugin actions to return.
+        public let maxResults: Int?
+        /// If the number of plugin actions returned exceeds maxResults, Amazon Q Business returns a next token as a pagination token to retrieve the next set of plugin actions.
+        public let nextToken: String?
+        /// The identifier of the Amazon Q Business plugin.
+        public let pluginId: String
+
+        @inlinable
+        public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil, pluginId: String) {
+            self.applicationId = applicationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pluginId = pluginId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.pluginId, key: "pluginId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.pluginId, name: "pluginId", parent: name, max: 36)
+            try self.validate(self.pluginId, name: "pluginId", parent: name, min: 36)
+            try self.validate(self.pluginId, name: "pluginId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPluginActionsResponse: AWSDecodableShape {
+        /// An array of information on one or more plugin actions.
+        public let items: [ActionSummary]?
+        /// If the response is truncated, Amazon Q Business returns this token, which you can use in a later request to list the next set of plugin actions.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ActionSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPluginTypeActionsRequest: AWSEncodableShape {
+        /// The maximum number of plugins to return.
+        public let maxResults: Int?
+        /// If the number of plugins returned exceeds maxResults, Amazon Q Business returns a next token as a pagination token to retrieve the next set of plugins.
+        public let nextToken: String?
+        /// The type of the plugin.
+        public let pluginType: PluginType
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, pluginType: PluginType) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pluginType = pluginType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.pluginType, key: "pluginType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPluginTypeActionsResponse: AWSDecodableShape {
+        /// An array of information on one or more plugins.
+        public let items: [ActionSummary]?
+        /// If the response is truncated, Amazon Q Business returns this token, which you can use in a later request to list the next set of plugins.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ActionSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPluginTypeMetadataRequest: AWSEncodableShape {
+        /// The maximum number of plugin metadata items to return.
+        public let maxResults: Int?
+        /// If the metadata returned exceeds maxResults, Amazon Q Business returns a next token as a pagination token to retrieve the next set of metadata.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPluginTypeMetadataResponse: AWSDecodableShape {
+        /// An array of information on plugin metadata.
+        public let items: [PluginTypeMetadataSummary]?
+        /// If the response is truncated, Amazon Q Business returns this token, which you can use in a later request to list the next set of plugin metadata.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [PluginTypeMetadataSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
             case nextToken = "nextToken"
         }
     }
@@ -5278,6 +6339,20 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case webExperiences = "webExperiences"
+        }
+    }
+
+    public struct MediaExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for extracting semantic meaning from images in documents.  For more information, see Extracting semantic meaning from images and visuals.
+        public let imageExtractionConfiguration: ImageExtractionConfiguration?
+
+        @inlinable
+        public init(imageExtractionConfiguration: ImageExtractionConfiguration? = nil) {
+            self.imageExtractionConfiguration = imageExtractionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageExtractionConfiguration = "imageExtractionConfiguration"
         }
     }
 
@@ -5484,27 +6559,41 @@ extension QBusiness {
     }
 
     public struct OAuth2ClientCredentialConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The redirect URL required by the OAuth 2.0 protocol for Amazon Q Business to authenticate a plugin user through a third party authentication server.
+        public let authorizationUrl: String?
         /// The ARN of an IAM role used by Amazon Q Business to access the OAuth 2.0 authentication credentials stored in a Secrets Manager secret.
         public let roleArn: String
         /// The ARN of the Secrets Manager secret that stores the OAuth 2.0 credentials/token used for plugin configuration.
         public let secretArn: String
+        /// The URL required by the OAuth 2.0 protocol to exchange an end user authorization code for an access token.
+        public let tokenUrl: String?
 
         @inlinable
-        public init(roleArn: String, secretArn: String) {
+        public init(authorizationUrl: String? = nil, roleArn: String, secretArn: String, tokenUrl: String? = nil) {
+            self.authorizationUrl = authorizationUrl
             self.roleArn = roleArn
             self.secretArn = secretArn
+            self.tokenUrl = tokenUrl
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.authorizationUrl, name: "authorizationUrl", parent: name, max: 2048)
+            try self.validate(self.authorizationUrl, name: "authorizationUrl", parent: name, min: 1)
+            try self.validate(self.authorizationUrl, name: "authorizationUrl", parent: name, pattern: "^(https?|ftp|file)://([^\\s]*)$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, max: 2048)
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, min: 1)
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, pattern: "^(https?|ftp|file)://([^\\s]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authorizationUrl = "authorizationUrl"
             case roleArn = "roleArn"
             case secretArn = "secretArn"
+            case tokenUrl = "tokenUrl"
         }
     }
 
@@ -5606,6 +6695,28 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case pluginId = "pluginId"
+        }
+    }
+
+    public struct PluginTypeMetadataSummary: AWSDecodableShape {
+        /// The category of the plugin type.
+        public let category: PluginTypeCategory?
+        /// The description assigned by Amazon Q Business to a plugin. You can't modify this value.
+        public let description: String?
+        /// The type of the plugin.
+        public let type: PluginType?
+
+        @inlinable
+        public init(category: PluginTypeCategory? = nil, description: String? = nil, type: PluginType? = nil) {
+            self.category = category
+            self.description = description
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+            case description = "description"
+            case type = "type"
         }
     }
 
@@ -5805,6 +6916,60 @@ extension QBusiness {
         }
     }
 
+    public struct QuickSightConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon QuickSight namespace that is used as the identity provider. For more information about QuickSight namespaces, see  Namespace operations.
+        public let clientNamespace: String
+
+        @inlinable
+        public init(clientNamespace: String) {
+            self.clientNamespace = clientNamespace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientNamespace, name: "clientNamespace", parent: name, max: 64)
+            try self.validate(self.clientNamespace, name: "clientNamespace", parent: name, min: 1)
+            try self.validate(self.clientNamespace, name: "clientNamespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientNamespace = "clientNamespace"
+        }
+    }
+
+    public struct RelevantContent: AWSDecodableShape {
+        /// The actual content of the relevant item.
+        public let content: String?
+        /// Additional attributes of the document containing the relevant content.
+        public let documentAttributes: [DocumentAttribute]?
+        /// The unique identifier of the document containing the relevant content.
+        public let documentId: String?
+        /// The title of the document containing the relevant content.
+        public let documentTitle: String?
+        /// The URI of the document containing the relevant content.
+        public let documentUri: String?
+        /// Attributes related to the relevance score of the content.
+        public let scoreAttributes: ScoreAttributes?
+
+        @inlinable
+        public init(content: String? = nil, documentAttributes: [DocumentAttribute]? = nil, documentId: String? = nil, documentTitle: String? = nil, documentUri: String? = nil, scoreAttributes: ScoreAttributes? = nil) {
+            self.content = content
+            self.documentAttributes = documentAttributes
+            self.documentId = documentId
+            self.documentTitle = documentTitle
+            self.documentUri = documentUri
+            self.scoreAttributes = scoreAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case documentAttributes = "documentAttributes"
+            case documentId = "documentId"
+            case documentTitle = "documentTitle"
+            case documentUri = "documentUri"
+            case scoreAttributes = "scoreAttributes"
+        }
+    }
+
     public struct Retriever: AWSDecodableShape {
         /// The identifier of the Amazon Q Business application using the retriever.
         public let applicationId: String?
@@ -5832,6 +6997,26 @@ extension QBusiness {
             case retrieverId = "retrieverId"
             case status = "status"
             case type = "type"
+        }
+    }
+
+    public struct RetrieverContentSource: AWSEncodableShape {
+        /// The unique identifier of the retriever to use as the content source.
+        public let retrieverId: String
+
+        @inlinable
+        public init(retrieverId: String) {
+            self.retrieverId = retrieverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retrieverId, name: "retrieverId", parent: name, max: 36)
+            try self.validate(self.retrieverId, name: "retrieverId", parent: name, min: 36)
+            try self.validate(self.retrieverId, name: "retrieverId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retrieverId = "retrieverId"
         }
     }
 
@@ -5948,6 +7133,91 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case authenticationUrl = "authenticationUrl"
+        }
+    }
+
+    public struct ScoreAttributes: AWSDecodableShape {
+        /// The confidence level of the relevance score.
+        public let scoreConfidence: ScoreConfidence?
+
+        @inlinable
+        public init(scoreConfidence: ScoreConfidence? = nil) {
+            self.scoreConfidence = scoreConfidence
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scoreConfidence = "scoreConfidence"
+        }
+    }
+
+    public struct SearchRelevantContentRequest: AWSEncodableShape {
+        /// The unique identifier of the Q Business application to search.
+        public let applicationId: String
+        public let attributeFilter: AttributeFilter?
+        /// The source of content to search in.
+        public let contentSource: ContentSource
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next set of results. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The text to search for.
+        public let queryText: String
+
+        @inlinable
+        public init(applicationId: String, attributeFilter: AttributeFilter? = nil, contentSource: ContentSource, maxResults: Int? = nil, nextToken: String? = nil, queryText: String) {
+            self.applicationId = applicationId
+            self.attributeFilter = attributeFilter
+            self.contentSource = contentSource
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queryText = queryText
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.attributeFilter, forKey: .attributeFilter)
+            try container.encode(self.contentSource, forKey: .contentSource)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.queryText, forKey: .queryText)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.attributeFilter?.validate(name: "\(name).attributeFilter")
+            try self.contentSource.validate(name: "\(name).contentSource")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "attributeFilter"
+            case contentSource = "contentSource"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case queryText = "queryText"
+        }
+    }
+
+    public struct SearchRelevantContentResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next set of results, if there are any.
+        public let nextToken: String?
+        /// The list of relevant content items found.
+        public let relevantContent: [RelevantContent]?
+
+        @inlinable
+        public init(nextToken: String? = nil, relevantContent: [RelevantContent]? = nil) {
+            self.nextToken = nextToken
+            self.relevantContent = relevantContent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case relevantContent = "relevantContent"
         }
     }
 
@@ -6222,11 +7492,6 @@ extension QBusiness {
             self.userMessage = userMessage
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.userMessage, name: "userMessage", parent: name, max: 7000)
-            try self.validate(self.userMessage, name: "userMessage", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case userMessage = "userMessage"
         }
@@ -6263,19 +7528,27 @@ extension QBusiness {
         public let beginOffset: Int?
         /// The zero-based location in the response string where the source attribution ends.
         public let endOffset: Int?
+        /// The identifier of the media object associated with the text segment in the source attribution.
+        public let mediaId: String?
+        /// The MIME type (image/png) of the media object associated with the text segment in the source attribution.
+        public let mediaMimeType: String?
         /// The relevant text excerpt from a source that was used to generate a citation text segment in an Amazon Q Business chat response.
         public let snippetExcerpt: SnippetExcerpt?
 
         @inlinable
-        public init(beginOffset: Int? = nil, endOffset: Int? = nil, snippetExcerpt: SnippetExcerpt? = nil) {
+        public init(beginOffset: Int? = nil, endOffset: Int? = nil, mediaId: String? = nil, mediaMimeType: String? = nil, snippetExcerpt: SnippetExcerpt? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
             self.snippetExcerpt = snippetExcerpt
         }
 
         private enum CodingKeys: String, CodingKey {
             case beginOffset = "beginOffset"
             case endOffset = "endOffset"
+            case mediaId = "mediaId"
+            case mediaMimeType = "mediaMimeType"
             case snippetExcerpt = "snippetExcerpt"
         }
     }
@@ -6411,7 +7684,7 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 1000)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
@@ -6508,6 +7781,60 @@ extension QBusiness {
         public init() {}
     }
 
+    public struct UpdateDataAccessorRequest: AWSEncodableShape {
+        /// The updated list of action configurations specifying the allowed actions and any associated filters.
+        public let actionConfigurations: [ActionConfiguration]
+        /// The unique identifier of the Q Business application.
+        public let applicationId: String
+        /// The unique identifier of the data accessor to update.
+        public let dataAccessorId: String
+        /// The updated friendly name for the data accessor.
+        public let displayName: String?
+
+        @inlinable
+        public init(actionConfigurations: [ActionConfiguration], applicationId: String, dataAccessorId: String, displayName: String? = nil) {
+            self.actionConfigurations = actionConfigurations
+            self.applicationId = applicationId
+            self.dataAccessorId = dataAccessorId
+            self.displayName = displayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actionConfigurations, forKey: .actionConfigurations)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.dataAccessorId, key: "dataAccessorId")
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+        }
+
+        public func validate(name: String) throws {
+            try self.actionConfigurations.forEach {
+                try $0.validate(name: "\(name).actionConfigurations[]")
+            }
+            try self.validate(self.actionConfigurations, name: "actionConfigurations", parent: name, max: 10)
+            try self.validate(self.actionConfigurations, name: "actionConfigurations", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, max: 36)
+            try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, min: 36)
+            try self.validate(self.dataAccessorId, name: "dataAccessorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConfigurations = "actionConfigurations"
+            case displayName = "displayName"
+        }
+    }
+
+    public struct UpdateDataAccessorResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateDataSourceRequest: AWSEncodableShape {
         ///  The identifier of the Amazon Q Business application the data source is attached to.
         public let applicationId: String
@@ -6521,6 +7848,8 @@ extension QBusiness {
         public let documentEnrichmentConfiguration: DocumentEnrichmentConfiguration?
         /// The identifier of the index attached to the data source connector.
         public let indexId: String
+        /// The configuration for extracting information from media in documents for your data source.
+        public let mediaExtractionConfiguration: MediaExtractionConfiguration?
         /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources.
         public let roleArn: String?
         /// The chosen update frequency for your data source.
@@ -6528,7 +7857,7 @@ extension QBusiness {
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
         @inlinable
-        public init(applicationId: String, configuration: String? = nil, dataSourceId: String, description: String? = nil, displayName: String? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, indexId: String, roleArn: String? = nil, syncSchedule: String? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(applicationId: String, configuration: String? = nil, dataSourceId: String, description: String? = nil, displayName: String? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, indexId: String, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, roleArn: String? = nil, syncSchedule: String? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.applicationId = applicationId
             self.configuration = configuration
             self.dataSourceId = dataSourceId
@@ -6536,6 +7865,7 @@ extension QBusiness {
             self.displayName = displayName
             self.documentEnrichmentConfiguration = documentEnrichmentConfiguration
             self.indexId = indexId
+            self.mediaExtractionConfiguration = mediaExtractionConfiguration
             self.roleArn = roleArn
             self.syncSchedule = syncSchedule
             self.vpcConfiguration = vpcConfiguration
@@ -6551,6 +7881,7 @@ extension QBusiness {
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
             try container.encodeIfPresent(self.documentEnrichmentConfiguration, forKey: .documentEnrichmentConfiguration)
             request.encodePath(self.indexId, key: "indexId")
+            try container.encodeIfPresent(self.mediaExtractionConfiguration, forKey: .mediaExtractionConfiguration)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.syncSchedule, forKey: .syncSchedule)
             try container.encodeIfPresent(self.vpcConfiguration, forKey: .vpcConfiguration)
@@ -6564,7 +7895,7 @@ extension QBusiness {
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 36)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 1000)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
@@ -6575,7 +7906,7 @@ extension QBusiness {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.syncSchedule, name: "syncSchedule", parent: name, max: 998)
-            try self.validate(self.syncSchedule, name: "syncSchedule", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.syncSchedule, name: "syncSchedule", parent: name, pattern: "^[\\s\\S]*$")
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
@@ -6584,6 +7915,7 @@ extension QBusiness {
             case description = "description"
             case displayName = "displayName"
             case documentEnrichmentConfiguration = "documentEnrichmentConfiguration"
+            case mediaExtractionConfiguration = "mediaExtractionConfiguration"
             case roleArn = "roleArn"
             case syncSchedule = "syncSchedule"
             case vpcConfiguration = "vpcConfiguration"
@@ -6635,7 +7967,7 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
             try self.capacityConfiguration?.validate(name: "\(name).capacityConfiguration")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 1000)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
@@ -6860,6 +8192,10 @@ extension QBusiness {
         public let applicationId: String
         /// The authentication configuration of the Amazon Q Business web experience.
         public let authenticationConfiguration: WebExperienceAuthConfiguration?
+        /// The browser extension configuration for an Amazon Q Business web experience.   For Amazon Q Business application using external OIDC-compliant identity providers (IdPs). The IdP administrator must add the browser extension sign-in redirect URLs to the IdP application. For more information, see Configure external OIDC identity provider for your browser extensions..
+        public let browserExtensionConfiguration: BrowserExtensionConfiguration?
+        /// Updates the custom logo, favicon, font, and color used in the Amazon Q web experience.
+        public let customizationConfiguration: CustomizationConfiguration?
         /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
         /// Updates the website domain origins that  are allowed to embed the Amazon Q Business web experience.  The domain origin refers to the  base URL for accessing a website including the protocol  (http/https), the domain name, and the port number (if specified).    Any values except null submitted as part of this  update will replace all previous values.   You must only submit a base URL and  not a full path. For example, https://docs.aws.amazon.com.
@@ -6878,9 +8214,11 @@ extension QBusiness {
         public let welcomeMessage: String?
 
         @inlinable
-        public init(applicationId: String, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
+        public init(applicationId: String, browserExtensionConfiguration: BrowserExtensionConfiguration? = nil, customizationConfiguration: CustomizationConfiguration? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = nil
+            self.browserExtensionConfiguration = browserExtensionConfiguration
+            self.customizationConfiguration = customizationConfiguration
             self.identityProviderConfiguration = identityProviderConfiguration
             self.origins = origins
             self.roleArn = roleArn
@@ -6893,9 +8231,11 @@ extension QBusiness {
 
         @available(*, deprecated, message: "Members authenticationConfiguration have been deprecated")
         @inlinable
-        public init(applicationId: String, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
+        public init(applicationId: String, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, browserExtensionConfiguration: BrowserExtensionConfiguration? = nil, customizationConfiguration: CustomizationConfiguration? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, origins: [String]? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = authenticationConfiguration
+            self.browserExtensionConfiguration = browserExtensionConfiguration
+            self.customizationConfiguration = customizationConfiguration
             self.identityProviderConfiguration = identityProviderConfiguration
             self.origins = origins
             self.roleArn = roleArn
@@ -6911,6 +8251,8 @@ extension QBusiness {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "applicationId")
             try container.encodeIfPresent(self.authenticationConfiguration, forKey: .authenticationConfiguration)
+            try container.encodeIfPresent(self.browserExtensionConfiguration, forKey: .browserExtensionConfiguration)
+            try container.encodeIfPresent(self.customizationConfiguration, forKey: .customizationConfiguration)
             try container.encodeIfPresent(self.identityProviderConfiguration, forKey: .identityProviderConfiguration)
             try container.encodeIfPresent(self.origins, forKey: .origins)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
@@ -6926,6 +8268,8 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
             try self.authenticationConfiguration?.validate(name: "\(name).authenticationConfiguration")
+            try self.browserExtensionConfiguration?.validate(name: "\(name).browserExtensionConfiguration")
+            try self.customizationConfiguration?.validate(name: "\(name).customizationConfiguration")
             try self.identityProviderConfiguration?.validate(name: "\(name).identityProviderConfiguration")
             try self.origins?.forEach {
                 try validate($0, name: "origins[]", parent: name, max: 256)
@@ -6936,9 +8280,9 @@ extension QBusiness {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.subtitle, name: "subtitle", parent: name, max: 500)
-            try self.validate(self.subtitle, name: "subtitle", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.subtitle, name: "subtitle", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.title, name: "title", parent: name, max: 500)
-            try self.validate(self.title, name: "title", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.webExperienceId, name: "webExperienceId", parent: name, max: 36)
             try self.validate(self.webExperienceId, name: "webExperienceId", parent: name, min: 36)
             try self.validate(self.webExperienceId, name: "webExperienceId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
@@ -6947,6 +8291,8 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case authenticationConfiguration = "authenticationConfiguration"
+            case browserExtensionConfiguration = "browserExtensionConfiguration"
+            case customizationConfiguration = "customizationConfiguration"
             case identityProviderConfiguration = "identityProviderConfiguration"
             case origins = "origins"
             case roleArn = "roleArn"
@@ -7071,6 +8417,42 @@ extension QBusiness {
         }
     }
 
+    public struct ContentSource: AWSEncodableShape {
+        /// The retriever to use as the content source.
+        public let retriever: RetrieverContentSource?
+
+        @inlinable
+        public init(retriever: RetrieverContentSource? = nil) {
+            self.retriever = retriever
+        }
+
+        public func validate(name: String) throws {
+            try self.retriever?.validate(name: "\(name).retriever")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retriever = "retriever"
+        }
+    }
+
+    public struct CopyFromSource: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to an attachment in an existing conversation.
+        public let conversation: ConversationSource?
+
+        @inlinable
+        public init(conversation: ConversationSource? = nil) {
+            self.conversation = conversation
+        }
+
+        public func validate(name: String) throws {
+            try self.conversation?.validate(name: "\(name).conversation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversation = "conversation"
+        }
+    }
+
     public struct WebExperienceAuthConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let samlConfiguration: SamlConfiguration?
 
@@ -7096,8 +8478,10 @@ public struct QBusinessErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case externalResourceException = "ExternalResourceException"
         case internalServerException = "InternalServerException"
         case licenseNotFoundException = "LicenseNotFoundException"
+        case mediaTooLargeException = "MediaTooLargeException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
@@ -7124,13 +8508,17 @@ public struct QBusinessErrorType: AWSErrorType {
 
     ///  You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An external resource that you configured with your application is returning errors and preventing this operation from succeeding. Fix those errors and try again.
+    public static var externalResourceException: Self { .init(.externalResourceException) }
     /// An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact Support for help.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// You don't have permissions to perform the action because your license is inactive. Ask your admin to activate your license and try again after your licence is active.
     public static var licenseNotFoundException: Self { .init(.licenseNotFoundException) }
-    /// The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
+    /// The requested media object is too large to be returned.
+    public static var mediaTooLargeException: Self { .init(.mediaTooLargeException) }
+    /// The application or plugin resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// You have exceeded the set limits for your Amazon Q Business service.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

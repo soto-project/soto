@@ -26,6 +26,12 @@ import Foundation
 extension SecurityHub {
     // MARK: Enums
 
+    public enum ActorSessionMfaStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AdminStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disableInProgress = "DISABLE_IN_PROGRESS"
         case enabled = "ENABLED"
@@ -79,6 +85,12 @@ extension SecurityHub {
         case failed = "FAILED"
         case pending = "PENDING"
         case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inbound = "INBOUND"
+        case outbound = "OUTBOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -802,6 +814,103 @@ extension SecurityHub {
             case actionTargetArn = "ActionTargetArn"
             case description = "Description"
             case name = "Name"
+        }
+    }
+
+    public struct Actor: AWSEncodableShape & AWSDecodableShape {
+        ///  The ID of the threat actor.
+        public let id: String?
+        ///  Contains information about the user session where the activity initiated.
+        public let session: ActorSession?
+        ///  Contains information about the user credentials used by the threat actor.
+        public let user: ActorUser?
+
+        @inlinable
+        public init(id: String? = nil, session: ActorSession? = nil, user: ActorUser? = nil) {
+            self.id = id
+            self.session = session
+            self.user = user
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
+            try self.session?.validate(name: "\(name).session")
+            try self.user?.validate(name: "\(name).user")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case session = "Session"
+            case user = "User"
+        }
+    }
+
+    public struct ActorSession: AWSEncodableShape & AWSDecodableShape {
+        /// The timestamp for when the session was created.   In CloudTrail, you can find this value as userIdentity.sessionContext.attributes.creationDate.
+        public let createdTime: Int64?
+        ///  The issuer of the session.   In CloudTrail, you can find this value as userIdentity.sessionContext.sessionIssuer.arn.
+        public let issuer: String?
+        ///  Indicates whether multi-factor authentication (MFA) was used for authentication during the session. In CloudTrail, you can find this value as userIdentity.sessionContext.attributes.mfaAuthenticated.
+        public let mfaStatus: ActorSessionMfaStatus?
+        ///  Unique identifier of the session.
+        public let uid: String?
+
+        @inlinable
+        public init(createdTime: Int64? = nil, issuer: String? = nil, mfaStatus: ActorSessionMfaStatus? = nil, uid: String? = nil) {
+            self.createdTime = createdTime
+            self.issuer = issuer
+            self.mfaStatus = mfaStatus
+            self.uid = uid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.issuer, name: "issuer", parent: name, pattern: "\\S")
+            try self.validate(self.uid, name: "uid", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case issuer = "Issuer"
+            case mfaStatus = "MfaStatus"
+            case uid = "Uid"
+        }
+    }
+
+    public struct ActorUser: AWSEncodableShape & AWSDecodableShape {
+        ///  The account of the threat actor.
+        public let account: UserAccount?
+        ///  Unique identifier of the threat actor’s user credentials.
+        public let credentialUid: String?
+        ///  The name of the threat actor.
+        public let name: String?
+        ///  The type of user.
+        public let type: String?
+        ///  The unique identifier of the threat actor.
+        public let uid: String?
+
+        @inlinable
+        public init(account: UserAccount? = nil, credentialUid: String? = nil, name: String? = nil, type: String? = nil, uid: String? = nil) {
+            self.account = account
+            self.credentialUid = credentialUid
+            self.name = name
+            self.type = type
+            self.uid = uid
+        }
+
+        public func validate(name: String) throws {
+            try self.account?.validate(name: "\(name).account")
+            try self.validate(self.credentialUid, name: "credentialUid", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+            try self.validate(self.uid, name: "uid", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case credentialUid = "CredentialUid"
+            case name = "Name"
+            case type = "Type"
+            case uid = "Uid"
         }
     }
 
@@ -17983,6 +18092,9 @@ extension SecurityHub {
         public let criticality: Int?
         /// A finding's description. Description is a required property. Length Constraints: Minimum length of 1. Maximum length of 1024.
         public let description: String?
+        ///  Provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack  sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you
+        /// 				must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see GuardDuty Extended Threat Detection  in the Amazon GuardDuty User Guide.
+        public let detection: Detection?
         /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update their own values for confidence, criticality, related findings, severity, and types.
         public let findingProviderFields: FindingProviderFields?
         /// Indicates when the security findings provider first observed the potential security issue that a finding captured. This field accepts only the specified formats. Timestamps
@@ -18066,7 +18178,7 @@ extension SecurityHub {
         public let workflowState: WorkflowState?
 
         @inlinable
-        public init(action: Action? = nil, awsAccountId: String? = nil, awsAccountName: String? = nil, companyName: String? = nil, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String? = nil, criticality: Int? = nil, description: String? = nil, findingProviderFields: FindingProviderFields? = nil, firstObservedAt: String? = nil, generatorDetails: GeneratorDetails? = nil, generatorId: String? = nil, id: String? = nil, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, networkPath: [NetworkPathComponent]? = nil, note: Note? = nil, patchSummary: PatchSummary? = nil, process: ProcessDetails? = nil, processedAt: String? = nil, productArn: String? = nil, productFields: [String: String]? = nil, productName: String? = nil, recordState: RecordState? = nil, region: String? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource]? = nil, sample: Bool? = nil, schemaVersion: String? = nil, severity: Severity? = nil, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, threats: [Threat]? = nil, title: String? = nil, types: [String]? = nil, updatedAt: String? = nil, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, vulnerabilities: [Vulnerability]? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
+        public init(action: Action? = nil, awsAccountId: String? = nil, awsAccountName: String? = nil, companyName: String? = nil, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String? = nil, criticality: Int? = nil, description: String? = nil, detection: Detection? = nil, findingProviderFields: FindingProviderFields? = nil, firstObservedAt: String? = nil, generatorDetails: GeneratorDetails? = nil, generatorId: String? = nil, id: String? = nil, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, networkPath: [NetworkPathComponent]? = nil, note: Note? = nil, patchSummary: PatchSummary? = nil, process: ProcessDetails? = nil, processedAt: String? = nil, productArn: String? = nil, productFields: [String: String]? = nil, productName: String? = nil, recordState: RecordState? = nil, region: String? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource]? = nil, sample: Bool? = nil, schemaVersion: String? = nil, severity: Severity? = nil, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, threats: [Threat]? = nil, title: String? = nil, types: [String]? = nil, updatedAt: String? = nil, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, vulnerabilities: [Vulnerability]? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
             self.action = action
             self.awsAccountId = awsAccountId
             self.awsAccountName = awsAccountName
@@ -18076,6 +18188,7 @@ extension SecurityHub {
             self.createdAt = createdAt
             self.criticality = criticality
             self.description = description
+            self.detection = detection
             self.findingProviderFields = findingProviderFields
             self.firstObservedAt = firstObservedAt
             self.generatorDetails = generatorDetails
@@ -18121,6 +18234,7 @@ extension SecurityHub {
             try self.compliance?.validate(name: "\(name).compliance")
             try self.validate(self.createdAt, name: "createdAt", parent: name, pattern: "\\S")
             try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.detection?.validate(name: "\(name).detection")
             try self.findingProviderFields?.validate(name: "\(name).findingProviderFields")
             try self.validate(self.firstObservedAt, name: "firstObservedAt", parent: name, pattern: "\\S")
             try self.generatorDetails?.validate(name: "\(name).generatorDetails")
@@ -18185,6 +18299,7 @@ extension SecurityHub {
             case createdAt = "CreatedAt"
             case criticality = "Criticality"
             case description = "Description"
+            case detection = "Detection"
             case findingProviderFields = "FindingProviderFields"
             case firstObservedAt = "FirstObservedAt"
             case generatorDetails = "GeneratorDetails"
@@ -22463,6 +22578,24 @@ extension SecurityHub {
         }
     }
 
+    public struct Detection: AWSEncodableShape & AWSDecodableShape {
+        ///  Provides details about an attack sequence.
+        public let sequence: Sequence?
+
+        @inlinable
+        public init(sequence: Sequence? = nil) {
+            self.sequence = sequence
+        }
+
+        public func validate(name: String) throws {
+            try self.sequence?.validate(name: "\(name).sequence")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sequence = "Sequence"
+        }
+    }
+
     public struct DisableImportFindingsForProductRequest: AWSEncodableShape {
         /// The ARN of the integrated product to disable the integration for.
         public let productSubscriptionArn: String
@@ -23670,6 +23803,41 @@ extension SecurityHub {
         }
     }
 
+    public struct Indicator: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the indicator that’s present in the attack sequence finding.
+        public let key: String?
+        ///  The title describing the indicator.
+        public let title: String?
+        ///  The type of indicator.
+        public let type: String?
+        /// Values associated with each indicator key. For example, if the indicator key is SUSPICIOUS_NETWORK, then the value will be the name of the network. If the indicator key is ATTACK_TACTIC, then the value will be one of the MITRE tactics.
+        public let values: [String]?
+
+        @inlinable
+        public init(key: String? = nil, title: String? = nil, type: String? = nil, values: [String]? = nil) {
+            self.key = key
+            self.title = title
+            self.type = type
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, pattern: "\\S")
+            try self.validate(self.title, name: "title", parent: name, pattern: "\\S")
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, pattern: "\\S")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case title = "Title"
+            case type = "Type"
+            case values = "Values"
+        }
+    }
+
     public struct Insight: AWSDecodableShape {
         /// One or more attributes used to filter the findings included in the insight. You can filter by up to ten finding attributes. For each attribute, you can provide up to 20 filter values.  The insight only includes findings that match the criteria defined in the filters.
         public let filters: AwsSecurityFindingFilters?
@@ -24644,6 +24812,42 @@ extension SecurityHub {
         }
     }
 
+    public struct NetworkAutonomousSystem: AWSEncodableShape & AWSDecodableShape {
+        ///  The name associated with the AS.
+        public let name: String?
+        ///  The unique number that identifies the AS.
+        public let number: Int?
+
+        @inlinable
+        public init(name: String? = nil, number: Int? = nil) {
+            self.name = name
+            self.number = number
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case number = "Number"
+        }
+    }
+
+    public struct NetworkConnection: AWSEncodableShape & AWSDecodableShape {
+        ///  The direction in which the network traffic is flowing.
+        public let direction: ConnectionDirection?
+
+        @inlinable
+        public init(direction: ConnectionDirection? = nil) {
+            self.direction = direction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case direction = "Direction"
+        }
+    }
+
     public struct NetworkConnectionAction: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether the network connection attempt was blocked.
         public let blocked: Bool?
@@ -24683,6 +24887,83 @@ extension SecurityHub {
             case `protocol` = "Protocol"
             case remoteIpDetails = "RemoteIpDetails"
             case remotePortDetails = "RemotePortDetails"
+        }
+    }
+
+    public struct NetworkEndpoint: AWSEncodableShape & AWSDecodableShape {
+        ///  The Autonomous System Number (ASN) of the network endpoint.
+        public let autonomousSystem: NetworkAutonomousSystem?
+        ///  Information about the network connection.
+        public let connection: NetworkConnection?
+        ///  The domain information for the network endpoint.
+        public let domain: String?
+        ///  The identifier of the network endpoint involved in the attack sequence.
+        public let id: String?
+        ///  The IP address used in the network endpoint.
+        public let ip: String?
+        ///  Information about the location of the network endpoint.
+        public let location: NetworkGeoLocation?
+        ///  The port number associated with the network endpoint.
+        public let port: Int?
+
+        @inlinable
+        public init(autonomousSystem: NetworkAutonomousSystem? = nil, connection: NetworkConnection? = nil, domain: String? = nil, id: String? = nil, ip: String? = nil, location: NetworkGeoLocation? = nil, port: Int? = nil) {
+            self.autonomousSystem = autonomousSystem
+            self.connection = connection
+            self.domain = domain
+            self.id = id
+            self.ip = ip
+            self.location = location
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try self.autonomousSystem?.validate(name: "\(name).autonomousSystem")
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "\\S")
+            try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
+            try self.validate(self.ip, name: "ip", parent: name, pattern: "\\S")
+            try self.location?.validate(name: "\(name).location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousSystem = "AutonomousSystem"
+            case connection = "Connection"
+            case domain = "Domain"
+            case id = "Id"
+            case ip = "Ip"
+            case location = "Location"
+            case port = "Port"
+        }
+    }
+
+    public struct NetworkGeoLocation: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the city.
+        public let city: String?
+        ///  The name of the country.
+        public let country: String?
+        ///  The latitude information of the endpoint location.
+        public let lat: Double?
+        ///  The longitude information of the endpoint location.
+        public let lon: Double?
+
+        @inlinable
+        public init(city: String? = nil, country: String? = nil, lat: Double? = nil, lon: Double? = nil) {
+            self.city = city
+            self.country = country
+            self.lat = lat
+            self.lon = lon
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.city, name: "city", parent: name, pattern: "\\S")
+            try self.validate(self.country, name: "country", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case city = "City"
+            case country = "Country"
+            case lat = "Lat"
+            case lon = "Lon"
         }
     }
 
@@ -26799,6 +27080,57 @@ extension SecurityHub {
         }
     }
 
+    public struct Sequence: AWSEncodableShape & AWSDecodableShape {
+        ///  Provides information about the actors involved in the attack sequence.
+        public let actors: [Actor]?
+        ///  Contains information about the network endpoints that were used in the attack sequence.
+        public let endpoints: [NetworkEndpoint]?
+        ///  Contains information about the indicators observed in the attack sequence. The values for   SignalIndicators are a subset of the values for SequenceIndicators, but the values for  these fields don't always match 1:1.
+        public let sequenceIndicators: [Indicator]?
+        ///  Contains information about the signals involved in the attack sequence.
+        public let signals: [Signal]?
+        ///  Unique identifier of the attack sequence.
+        public let uid: String?
+
+        @inlinable
+        public init(actors: [Actor]? = nil, endpoints: [NetworkEndpoint]? = nil, sequenceIndicators: [Indicator]? = nil, signals: [Signal]? = nil, uid: String? = nil) {
+            self.actors = actors
+            self.endpoints = endpoints
+            self.sequenceIndicators = sequenceIndicators
+            self.signals = signals
+            self.uid = uid
+        }
+
+        public func validate(name: String) throws {
+            try self.actors?.forEach {
+                try $0.validate(name: "\(name).actors[]")
+            }
+            try self.validate(self.actors, name: "actors", parent: name, max: 10)
+            try self.endpoints?.forEach {
+                try $0.validate(name: "\(name).endpoints[]")
+            }
+            try self.validate(self.endpoints, name: "endpoints", parent: name, max: 10)
+            try self.sequenceIndicators?.forEach {
+                try $0.validate(name: "\(name).sequenceIndicators[]")
+            }
+            try self.validate(self.sequenceIndicators, name: "sequenceIndicators", parent: name, max: 100)
+            try self.signals?.forEach {
+                try $0.validate(name: "\(name).signals[]")
+            }
+            try self.validate(self.signals, name: "signals", parent: name, max: 100)
+            try self.validate(self.signals, name: "signals", parent: name, min: 1)
+            try self.validate(self.uid, name: "uid", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actors = "Actors"
+            case endpoints = "Endpoints"
+            case sequenceIndicators = "SequenceIndicators"
+            case signals = "Signals"
+            case uid = "Uid"
+        }
+    }
+
     public struct Severity: AWSEncodableShape & AWSDecodableShape {
         /// The severity value of the finding. The allowed values are the following.    INFORMATIONAL - No issue was found.    LOW - The issue does not require action on its own.    MEDIUM - The issue must be addressed but not urgently.    HIGH - The issue must be addressed as a priority.    CRITICAL - The issue must be remediated immediately to avoid it escalating.   If you provide Normalized and don't provide Label, then Label is set automatically as follows.    0 - INFORMATIONAL    1–39 - LOW    40–69 - MEDIUM    70–89 - HIGH    90–100 - CRITICAL
         public let label: SeverityLabel?
@@ -26853,6 +27185,97 @@ extension SecurityHub {
             case label = "Label"
             case normalized = "Normalized"
             case product = "Product"
+        }
+    }
+
+    public struct Signal: AWSEncodableShape & AWSDecodableShape {
+        ///  The IDs of the threat actors involved in the signal.
+        public let actorIds: [String]?
+        ///  The number of times this signal was observed.
+        public let count: Int?
+        ///  The timestamp when the first finding or activity related to this signal was observed.
+        public let createdAt: Int64?
+        /// Information about the endpoint IDs associated with this signal.
+        public let endpointIds: [String]?
+        ///  The timestamp when the first finding or activity related to this signal was observed.
+        public let firstSeenAt: Int64?
+        ///  The identifier of the signal.
+        public let id: String?
+        ///  The timestamp when the last finding or activity related to this signal was observed.
+        public let lastSeenAt: Int64?
+        ///  The name of the GuardDuty signal. For example, when signal type is FINDING,  the signal name is the name of the finding.
+        public let name: String?
+        ///  The Amazon Resource Name (ARN) of the product that generated the signal.
+        public let productArn: String?
+        ///  The ARN or ID of the Amazon Web Services resource associated with the signal.
+        public let resourceIds: [String]?
+        /// The severity associated with the signal. For more information about severity, see  Findings severity levels in the Amazon GuardDuty User Guide.
+        public let severity: Double?
+        ///  Contains information about the indicators associated with the signals in this attack sequence finding. The values for  SignalIndicators are a subset of the values for SequenceIndicators, but the values for  these fields don't always match 1:1.
+        public let signalIndicators: [Indicator]?
+        ///  The description of the GuardDuty finding.
+        public let title: String?
+        ///  The type of the signal used to identify an attack sequence.  Signals can be GuardDuty findings or activities observed in data sources that GuardDuty monitors.  For more information, see  GuardDuty foundational data sources in the Amazon GuardDuty User Guide. A signal type can be one of the following values. Here are the related descriptions:    FINDING - Individually generated GuardDuty finding.    CLOUD_TRAIL - Activity observed from CloudTrail logs    S3_DATA_EVENTS - Activity observed from CloudTrail data events for Amazon Simple Storage Service (S3).  Activities associated with this type will show up only when you have enabled GuardDuty S3 Protection feature in your account. For more information about  S3 Protection and the steps to enable it, see S3 Protection in the Amazon GuardDuty User Guide.
+        public let type: String?
+        ///  The timestamp when this signal was last observed.
+        public let updatedAt: Int64?
+
+        @inlinable
+        public init(actorIds: [String]? = nil, count: Int? = nil, createdAt: Int64? = nil, endpointIds: [String]? = nil, firstSeenAt: Int64? = nil, id: String? = nil, lastSeenAt: Int64? = nil, name: String? = nil, productArn: String? = nil, resourceIds: [String]? = nil, severity: Double? = nil, signalIndicators: [Indicator]? = nil, title: String? = nil, type: String? = nil, updatedAt: Int64? = nil) {
+            self.actorIds = actorIds
+            self.count = count
+            self.createdAt = createdAt
+            self.endpointIds = endpointIds
+            self.firstSeenAt = firstSeenAt
+            self.id = id
+            self.lastSeenAt = lastSeenAt
+            self.name = name
+            self.productArn = productArn
+            self.resourceIds = resourceIds
+            self.severity = severity
+            self.signalIndicators = signalIndicators
+            self.title = title
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        public func validate(name: String) throws {
+            try self.actorIds?.forEach {
+                try validate($0, name: "actorIds[]", parent: name, pattern: "\\S")
+            }
+            try self.endpointIds?.forEach {
+                try validate($0, name: "endpointIds[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.productArn, name: "productArn", parent: name, pattern: "\\S")
+            try self.resourceIds?.forEach {
+                try validate($0, name: "resourceIds[]", parent: name, pattern: "\\S")
+            }
+            try self.signalIndicators?.forEach {
+                try $0.validate(name: "\(name).signalIndicators[]")
+            }
+            try self.validate(self.signalIndicators, name: "signalIndicators", parent: name, max: 100)
+            try self.validate(self.title, name: "title", parent: name, pattern: "\\S")
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actorIds = "ActorIds"
+            case count = "Count"
+            case createdAt = "CreatedAt"
+            case endpointIds = "EndpointIds"
+            case firstSeenAt = "FirstSeenAt"
+            case id = "Id"
+            case lastSeenAt = "LastSeenAt"
+            case name = "Name"
+            case productArn = "ProductArn"
+            case resourceIds = "ResourceIds"
+            case severity = "Severity"
+            case signalIndicators = "SignalIndicators"
+            case title = "Title"
+            case type = "Type"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -27416,7 +27839,7 @@ extension SecurityHub {
     public struct StatusReason: AWSEncodableShape & AWSDecodableShape {
         /// The corresponding description for the status reason code.
         public let description: String?
-        /// A code that represents a reason for the control status. For the list of status reason codes and their meanings, see Standards-related information in the ASFF in the Security Hub User Guide.
+        /// A code that represents a reason for the control status. For the list of status reason codes and their meanings, see Compliance details for control findings in the Security Hub User Guide.
         public let reasonCode: String?
 
         @inlinable
@@ -28211,6 +28634,29 @@ extension SecurityHub {
 
     public struct UpdateStandardsControlResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UserAccount: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the user account involved in the attack sequence.
+        public let name: String?
+        ///  The unique identifier of the user account involved in the attack sequence.
+        public let uid: String?
+
+        @inlinable
+        public init(name: String? = nil, uid: String? = nil) {
+            self.name = name
+            self.uid = uid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.uid, name: "uid", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case uid = "Uid"
+        }
     }
 
     public struct VolumeMount: AWSEncodableShape & AWSDecodableShape {

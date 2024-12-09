@@ -47,6 +47,13 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum AgentCollaboration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case supervisor = "SUPERVISOR"
+        case supervisorRouter = "SUPERVISOR_ROUTER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AgentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -78,6 +85,12 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContentDataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "CUSTOM"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConversationRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assistant = "assistant"
         case user = "user"
@@ -100,6 +113,12 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum CustomSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inLine = "IN_LINE"
+        case s3Location = "S3_LOCATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataDeletionPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case delete = "DELETE"
         case retain = "RETAIN"
@@ -115,10 +134,34 @@ extension BedrockAgent {
 
     public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case confluence = "CONFLUENCE"
+        case custom = "CUSTOM"
+        case redshiftMetadata = "REDSHIFT_METADATA"
         case s3 = "S3"
         case salesforce = "SALESFORCE"
         case sharepoint = "SHAREPOINT"
         case web = "WEB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case ignored = "IGNORED"
+        case inProgress = "IN_PROGRESS"
+        case indexed = "INDEXED"
+        case metadataPartiallyIndexed = "METADATA_PARTIALLY_INDEXED"
+        case metadataUpdateFailed = "METADATA_UPDATE_FAILED"
+        case notFound = "NOT_FOUND"
+        case partiallyIndexed = "PARTIALLY_INDEXED"
+        case pending = "PENDING"
+        case starting = "STARTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EmbeddingDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case binary = "BINARY"
+        case float32 = "FLOAT32"
         public var description: String { return self.rawValue }
     }
 
@@ -196,6 +239,12 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum IncludeExclude: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IngestionJobFilterAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case status = "STATUS"
         public var description: String { return self.rawValue }
@@ -219,6 +268,12 @@ extension BedrockAgent {
         case starting = "STARTING"
         case stopped = "STOPPED"
         case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InlineContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case byte = "BYTE"
+        case text = "TEXT"
         public var description: String { return self.rawValue }
     }
 
@@ -248,6 +303,8 @@ extension BedrockAgent {
     }
 
     public enum KnowledgeBaseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kendra = "KENDRA"
+        case sql = "SQL"
         case vector = "VECTOR"
         public var description: String { return self.rawValue }
     }
@@ -257,7 +314,33 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum MetadataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inLineAttribute = "IN_LINE_ATTRIBUTE"
+        case s3Location = "S3_LOCATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetadataValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case boolean = "BOOLEAN"
+        case number = "NUMBER"
+        case string = "STRING"
+        case stringList = "STRING_LIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrchestrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case customOrchestration = "CUSTOM_ORCHESTRATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParsingModality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case multimodal = "MULTIMODAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ParsingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockDataAutomation = "BEDROCK_DATA_AUTOMATION"
         case bedrockFoundationModel = "BEDROCK_FOUNDATION_MODEL"
         public var description: String { return self.rawValue }
     }
@@ -279,6 +362,42 @@ extension BedrockAgent {
         case orchestration = "ORCHESTRATION"
         case postProcessing = "POST_PROCESSING"
         case preProcessing = "PRE_PROCESSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryEngineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case redshift = "REDSHIFT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RedshiftProvisionedAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iam = "IAM"
+        case username = "USERNAME"
+        case usernamePassword = "USERNAME_PASSWORD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RedshiftQueryEngineStorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsDataCatalog = "AWS_DATA_CATALOG"
+        case redshift = "REDSHIFT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RedshiftQueryEngineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case provisioned = "PROVISIONED"
+        case serverless = "SERVERLESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RedshiftServerlessAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iam = "IAM"
+        case usernamePassword = "USERNAME_PASSWORD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelayConversationHistory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case toCollaborator = "TO_COLLABORATOR"
         public var description: String { return self.rawValue }
     }
 
@@ -311,6 +430,11 @@ extension BedrockAgent {
 
     public enum StepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case postChunking = "POST_CHUNKING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SupplementalDataStorageLocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
@@ -987,6 +1111,8 @@ extension BedrockAgent {
     public struct Agent: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the agent.
         public let agentArn: String
+        /// The agent's collaboration settings.
+        public let agentCollaboration: AgentCollaboration?
         /// The unique identifier of the agent.
         public let agentId: String
         /// The name of the agent.
@@ -1004,6 +1130,8 @@ extension BedrockAgent {
         public var createdAt: Date
         /// The Amazon Resource Name (ARN) of the KMS key that encrypts the agent.
         public let customerEncryptionKeyArn: String?
+        ///  Contains custom orchestration configurations for the agent.
+        public let customOrchestration: CustomOrchestration?
         /// The description of the agent.
         public let description: String?
         /// Contains reasons that the agent-related API that you invoked failed.
@@ -1018,6 +1146,8 @@ extension BedrockAgent {
         public let instruction: String?
         /// Contains memory configuration for the agent.
         public let memoryConfiguration: MemoryConfiguration?
+        ///  Specifies the orchestration strategy for the agent.
+        public let orchestrationType: OrchestrationType?
         /// The time at which the agent was last prepared.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var preparedAt: Date?
@@ -1030,8 +1160,9 @@ extension BedrockAgent {
         public var updatedAt: Date
 
         @inlinable
-        public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, agentVersion: String, clientToken: String? = nil, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, preparedAt: Date? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date) {
+        public init(agentArn: String, agentCollaboration: AgentCollaboration? = nil, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, agentVersion: String, clientToken: String? = nil, createdAt: Date, customerEncryptionKeyArn: String? = nil, customOrchestration: CustomOrchestration? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, orchestrationType: OrchestrationType? = nil, preparedAt: Date? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date) {
             self.agentArn = agentArn
+            self.agentCollaboration = agentCollaboration
             self.agentId = agentId
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
@@ -1040,6 +1171,7 @@ extension BedrockAgent {
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.customOrchestration = customOrchestration
             self.description = description
             self.failureReasons = failureReasons
             self.foundationModel = foundationModel
@@ -1047,6 +1179,7 @@ extension BedrockAgent {
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
             self.memoryConfiguration = memoryConfiguration
+            self.orchestrationType = orchestrationType
             self.preparedAt = preparedAt
             self.promptOverrideConfiguration = promptOverrideConfiguration
             self.recommendedActions = recommendedActions
@@ -1055,6 +1188,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case agentArn = "agentArn"
+            case agentCollaboration = "agentCollaboration"
             case agentId = "agentId"
             case agentName = "agentName"
             case agentResourceRoleArn = "agentResourceRoleArn"
@@ -1063,6 +1197,7 @@ extension BedrockAgent {
             case clientToken = "clientToken"
             case createdAt = "createdAt"
             case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case customOrchestration = "customOrchestration"
             case description = "description"
             case failureReasons = "failureReasons"
             case foundationModel = "foundationModel"
@@ -1070,6 +1205,7 @@ extension BedrockAgent {
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
             case memoryConfiguration = "memoryConfiguration"
+            case orchestrationType = "orchestrationType"
             case preparedAt = "preparedAt"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
             case recommendedActions = "recommendedActions"
@@ -1292,6 +1428,125 @@ extension BedrockAgent {
         }
     }
 
+    public struct AgentCollaborator: AWSDecodableShape {
+        /// The collaborator's agent descriptor.
+        public let agentDescriptor: AgentDescriptor
+        /// The collaborator's agent ID.
+        public let agentId: String
+        /// The collaborator's agent version.
+        public let agentVersion: String
+        /// The collaborator's client token.
+        public let clientToken: String?
+        /// The collaborator's instructions.
+        public let collaborationInstruction: String
+        /// The collaborator's collaborator ID.
+        public let collaboratorId: String
+        /// The collaborator's collaborator name.
+        public let collaboratorName: String
+        /// When the collaborator was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// When the collaborator was updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date
+        /// The collaborator's relay conversation history.
+        public let relayConversationHistory: RelayConversationHistory?
+
+        @inlinable
+        public init(agentDescriptor: AgentDescriptor, agentId: String, agentVersion: String, clientToken: String? = nil, collaborationInstruction: String, collaboratorId: String, collaboratorName: String, createdAt: Date, lastUpdatedAt: Date, relayConversationHistory: RelayConversationHistory? = nil) {
+            self.agentDescriptor = agentDescriptor
+            self.agentId = agentId
+            self.agentVersion = agentVersion
+            self.clientToken = clientToken
+            self.collaborationInstruction = collaborationInstruction
+            self.collaboratorId = collaboratorId
+            self.collaboratorName = collaboratorName
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.relayConversationHistory = relayConversationHistory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentDescriptor = "agentDescriptor"
+            case agentId = "agentId"
+            case agentVersion = "agentVersion"
+            case clientToken = "clientToken"
+            case collaborationInstruction = "collaborationInstruction"
+            case collaboratorId = "collaboratorId"
+            case collaboratorName = "collaboratorName"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case relayConversationHistory = "relayConversationHistory"
+        }
+    }
+
+    public struct AgentCollaboratorSummary: AWSDecodableShape {
+        /// The collaborator's agent descriptor.
+        public let agentDescriptor: AgentDescriptor
+        /// The collaborator's agent ID.
+        public let agentId: String
+        /// The collaborator's agent version.
+        public let agentVersion: String
+        /// The collaborator's collaboration instruction.
+        public let collaborationInstruction: String
+        /// The collaborator's ID.
+        public let collaboratorId: String
+        /// The collaborator's name.
+        public let collaboratorName: String
+        /// When the collaborator was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// When the collaborator was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date
+        /// The collaborator's relay conversation history.
+        public let relayConversationHistory: RelayConversationHistory
+
+        @inlinable
+        public init(agentDescriptor: AgentDescriptor, agentId: String, agentVersion: String, collaborationInstruction: String, collaboratorId: String, collaboratorName: String, createdAt: Date, lastUpdatedAt: Date, relayConversationHistory: RelayConversationHistory) {
+            self.agentDescriptor = agentDescriptor
+            self.agentId = agentId
+            self.agentVersion = agentVersion
+            self.collaborationInstruction = collaborationInstruction
+            self.collaboratorId = collaboratorId
+            self.collaboratorName = collaboratorName
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.relayConversationHistory = relayConversationHistory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentDescriptor = "agentDescriptor"
+            case agentId = "agentId"
+            case agentVersion = "agentVersion"
+            case collaborationInstruction = "collaborationInstruction"
+            case collaboratorId = "collaboratorId"
+            case collaboratorName = "collaboratorName"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case relayConversationHistory = "relayConversationHistory"
+        }
+    }
+
+    public struct AgentDescriptor: AWSEncodableShape & AWSDecodableShape {
+        /// The agent's alias ARN.
+        public let aliasArn: String?
+
+        @inlinable
+        public init(aliasArn: String? = nil) {
+            self.aliasArn = aliasArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasArn, name: "aliasArn", parent: name, max: 2048)
+            try self.validate(self.aliasArn, name: "aliasArn", parent: name, pattern: "^arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasArn = "aliasArn"
+        }
+    }
+
     public struct AgentFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the alias of the agent to invoke.
         public let agentAliasArn: String
@@ -1420,6 +1675,8 @@ extension BedrockAgent {
     public struct AgentVersion: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the agent that the version belongs to.
         public let agentArn: String
+        /// The agent's collaboration settings.
+        public let agentCollaboration: AgentCollaboration?
         /// The unique identifier of the agent that the version belongs to.
         public let agentId: String
         /// The name of the agent that the version belongs to.
@@ -1458,8 +1715,9 @@ extension BedrockAgent {
         public let version: String
 
         @inlinable
-        public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date, version: String) {
+        public init(agentArn: String, agentCollaboration: AgentCollaboration? = nil, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date, version: String) {
             self.agentArn = agentArn
+            self.agentCollaboration = agentCollaboration
             self.agentId = agentId
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
@@ -1481,6 +1739,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case agentArn = "agentArn"
+            case agentCollaboration = "agentCollaboration"
             case agentId = "agentId"
             case agentName = "agentName"
             case agentResourceRoleArn = "agentResourceRoleArn"
@@ -1543,6 +1802,82 @@ extension BedrockAgent {
 
     public struct AnyToolChoice: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct AssociateAgentCollaboratorRequest: AWSEncodableShape {
+        /// The alias of the collaborator agent.
+        public let agentDescriptor: AgentDescriptor
+        /// The agent's ID.
+        public let agentId: String
+        /// An agent version.
+        public let agentVersion: String
+        /// A client token.
+        public let clientToken: String?
+        /// Instruction for the collaborator.
+        public let collaborationInstruction: String
+        /// A name for the collaborator.
+        public let collaboratorName: String
+        /// A relay conversation history for the collaborator.
+        public let relayConversationHistory: RelayConversationHistory?
+
+        @inlinable
+        public init(agentDescriptor: AgentDescriptor, agentId: String, agentVersion: String, clientToken: String? = AssociateAgentCollaboratorRequest.idempotencyToken(), collaborationInstruction: String, collaboratorName: String, relayConversationHistory: RelayConversationHistory? = nil) {
+            self.agentDescriptor = agentDescriptor
+            self.agentId = agentId
+            self.agentVersion = agentVersion
+            self.clientToken = clientToken
+            self.collaborationInstruction = collaborationInstruction
+            self.collaboratorName = collaboratorName
+            self.relayConversationHistory = relayConversationHistory
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.agentDescriptor, forKey: .agentDescriptor)
+            request.encodePath(self.agentId, key: "agentId")
+            request.encodePath(self.agentVersion, key: "agentVersion")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.collaborationInstruction, forKey: .collaborationInstruction)
+            try container.encode(self.collaboratorName, forKey: .collaboratorName)
+            try container.encodeIfPresent(self.relayConversationHistory, forKey: .relayConversationHistory)
+        }
+
+        public func validate(name: String) throws {
+            try self.agentDescriptor.validate(name: "\(name).agentDescriptor")
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, max: 5)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, min: 5)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, pattern: "^DRAFT$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.collaborationInstruction, name: "collaborationInstruction", parent: name, max: 4000)
+            try self.validate(self.collaborationInstruction, name: "collaborationInstruction", parent: name, min: 1)
+            try self.validate(self.collaboratorName, name: "collaboratorName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentDescriptor = "agentDescriptor"
+            case clientToken = "clientToken"
+            case collaborationInstruction = "collaborationInstruction"
+            case collaboratorName = "collaboratorName"
+            case relayConversationHistory = "relayConversationHistory"
+        }
+    }
+
+    public struct AssociateAgentCollaboratorResponse: AWSDecodableShape {
+        /// Details about the collaborator.
+        public let agentCollaborator: AgentCollaborator
+
+        @inlinable
+        public init(agentCollaborator: AgentCollaborator) {
+            self.agentCollaborator = agentCollaborator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentCollaborator = "agentCollaborator"
+        }
     }
 
     public struct AssociateAgentKnowledgeBaseRequest: AWSEncodableShape {
@@ -1611,13 +1946,30 @@ extension BedrockAgent {
         public init() {}
     }
 
+    public struct BedrockDataAutomationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to enable parsing of multimodal data, including both text and/or images.
+        public let parsingModality: ParsingModality?
+
+        @inlinable
+        public init(parsingModality: ParsingModality? = nil) {
+            self.parsingModality = parsingModality
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parsingModality = "parsingModality"
+        }
+    }
+
     public struct BedrockEmbeddingModelConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
         public let dimensions: Int?
+        /// The data type for the vectors when using a model to convert text into vector  embeddings. The model must support the specified data type for vector embeddings.  Floating-point (float32) is the default data type, and is supported by most models  for vector embeddings. See Supported embeddings  models for information on the available models and their vector data types.
+        public let embeddingDataType: EmbeddingDataType?
 
         @inlinable
-        public init(dimensions: Int? = nil) {
+        public init(dimensions: Int? = nil, embeddingDataType: EmbeddingDataType? = nil) {
             self.dimensions = dimensions
+            self.embeddingDataType = embeddingDataType
         }
 
         public func validate(name: String) throws {
@@ -1627,18 +1979,22 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case dimensions = "dimensions"
+            case embeddingDataType = "embeddingDataType"
         }
     }
 
     public struct BedrockFoundationModelConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the foundation model or inference profile.
+        /// The ARN of the foundation model or inference profile to use for parsing.
         public let modelArn: String
+        /// Specifies whether to enable parsing of multimodal data, including both text and/or images.
+        public let parsingModality: ParsingModality?
         /// Instructions for interpreting the contents of a document.
         public let parsingPrompt: ParsingPrompt?
 
         @inlinable
-        public init(modelArn: String, parsingPrompt: ParsingPrompt? = nil) {
+        public init(modelArn: String, parsingModality: ParsingModality? = nil, parsingPrompt: ParsingPrompt? = nil) {
             self.modelArn = modelArn
+            self.parsingModality = parsingModality
             self.parsingPrompt = parsingPrompt
         }
 
@@ -1651,7 +2007,31 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case modelArn = "modelArn"
+            case parsingModality = "parsingModality"
             case parsingPrompt = "parsingPrompt"
+        }
+    }
+
+    public struct ByteContentDoc: AWSEncodableShape {
+        /// The base64-encoded string of the content.
+        public let data: AWSBase64Data
+        /// The MIME type of the content. For a list of MIME types, see Media Types. The following MIME types are supported:   text/plain   text/html   text/csv   text/vtt   message/rfc822   application/xhtml+xml   application/pdf   application/msword   application/vnd.ms-word.document.macroenabled.12   application/vnd.ms-word.template.macroenabled.12   application/vnd.ms-excel   application/vnd.ms-excel.addin.macroenabled.12   application/vnd.ms-excel.sheet.macroenabled.12   application/vnd.ms-excel.template.macroenabled.12   application/vnd.ms-excel.sheet.binary.macroenabled.12   application/vnd.ms-spreadsheetml   application/vnd.openxmlformats-officedocument.spreadsheetml.sheet   application/vnd.openxmlformats-officedocument.spreadsheetml.template   application/vnd.openxmlformats-officedocument.wordprocessingml.document   application/vnd.openxmlformats-officedocument.wordprocessingml.template
+        public let mimeType: String
+
+        @inlinable
+        public init(data: AWSBase64Data, mimeType: String) {
+            self.data = data
+            self.mimeType = mimeType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.data, name: "data", parent: name, max: 5242880)
+            try self.validate(self.data, name: "data", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "data"
+            case mimeType = "mimeType"
         }
     }
 
@@ -2015,6 +2395,8 @@ extension BedrockAgent {
     }
 
     public struct CreateAgentRequest: AWSEncodableShape {
+        /// The agent's collaboration role.
+        public let agentCollaboration: AgentCollaboration?
         /// A name for the agent that you create.
         public let agentName: String
         /// The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.
@@ -2023,6 +2405,8 @@ extension BedrockAgent {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
         public let customerEncryptionKeyArn: String?
+        ///  Contains details of the custom orchestration configured for the agent.
+        public let customOrchestration: CustomOrchestration?
         /// A description of the agent.
         public let description: String?
         /// The identifier for the model that you want to be used for orchestration by the agent you create. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
@@ -2035,23 +2419,28 @@ extension BedrockAgent {
         public let instruction: String?
         ///  Contains the details of the memory configured for the agent.
         public let memoryConfiguration: MemoryConfiguration?
+        ///  Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
+        public let orchestrationType: OrchestrationType?
         /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see Advanced prompts.
         public let promptOverrideConfiguration: PromptOverrideConfiguration?
         /// Any tags that you want to attach to the agent.
         public let tags: [String: String]?
 
         @inlinable
-        public init(agentName: String, agentResourceRoleArn: String? = nil, clientToken: String? = CreateAgentRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(agentCollaboration: AgentCollaboration? = nil, agentName: String, agentResourceRoleArn: String? = nil, clientToken: String? = CreateAgentRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, customOrchestration: CustomOrchestration? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, orchestrationType: OrchestrationType? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, tags: [String: String]? = nil) {
+            self.agentCollaboration = agentCollaboration
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
             self.clientToken = clientToken
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.customOrchestration = customOrchestration
             self.description = description
             self.foundationModel = foundationModel
             self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
             self.memoryConfiguration = memoryConfiguration
+            self.orchestrationType = orchestrationType
             self.promptOverrideConfiguration = promptOverrideConfiguration
             self.tags = tags
         }
@@ -2066,6 +2455,7 @@ extension BedrockAgent {
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.customOrchestration?.validate(name: "\(name).customOrchestration")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, max: 2048)
@@ -2088,16 +2478,19 @@ extension BedrockAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case agentCollaboration = "agentCollaboration"
             case agentName = "agentName"
             case agentResourceRoleArn = "agentResourceRoleArn"
             case clientToken = "clientToken"
             case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case customOrchestration = "customOrchestration"
             case description = "description"
             case foundationModel = "foundationModel"
             case guardrailConfiguration = "guardrailConfiguration"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
             case memoryConfiguration = "memoryConfiguration"
+            case orchestrationType = "orchestrationType"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
             case tags = "tags"
         }
@@ -2525,12 +2918,12 @@ extension BedrockAgent {
         /// The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the knowledge base.
         public let roleArn: String
         /// Contains details about the configuration of the vector database used for the knowledge base.
-        public let storageConfiguration: StorageConfiguration
+        public let storageConfiguration: StorageConfiguration?
         /// Specify the key-value pairs for the tags that you want to attach to your knowledge base in this object.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateKnowledgeBaseRequest.idempotencyToken(), description: String? = nil, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, name: String, roleArn: String, storageConfiguration: StorageConfiguration, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateKnowledgeBaseRequest.idempotencyToken(), description: String? = nil, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, name: String, roleArn: String, storageConfiguration: StorageConfiguration? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
@@ -2550,7 +2943,7 @@ extension BedrockAgent {
             try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$")
-            try self.storageConfiguration.validate(name: "\(name).storageConfiguration")
+            try self.storageConfiguration?.validate(name: "\(name).storageConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2798,6 +3191,121 @@ extension BedrockAgent {
             case updatedAt = "updatedAt"
             case variants = "variants"
             case version = "version"
+        }
+    }
+
+    public struct CuratedQuery: AWSEncodableShape & AWSDecodableShape {
+        /// An example natural language query.
+        public let naturalLanguage: String
+        /// The SQL equivalent of the natural language query.
+        public let sql: String
+
+        @inlinable
+        public init(naturalLanguage: String, sql: String) {
+            self.naturalLanguage = naturalLanguage
+            self.sql = sql
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.naturalLanguage, name: "naturalLanguage", parent: name, max: 1000)
+            try self.validate(self.naturalLanguage, name: "naturalLanguage", parent: name, min: 1)
+            try self.validate(self.sql, name: "sql", parent: name, max: 1000)
+            try self.validate(self.sql, name: "sql", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case naturalLanguage = "naturalLanguage"
+            case sql = "sql"
+        }
+    }
+
+    public struct CustomContent: AWSEncodableShape {
+        /// A unique identifier for the document.
+        public let customDocumentIdentifier: CustomDocumentIdentifier
+        /// Contains information about content defined inline to ingest into a knowledge base.
+        public let inlineContent: InlineContent?
+        /// Contains information about the Amazon S3 location of the file from which to ingest data.
+        public let s3Location: CustomS3Location?
+        /// The source of the data to ingest.
+        public let sourceType: CustomSourceType
+
+        @inlinable
+        public init(customDocumentIdentifier: CustomDocumentIdentifier, inlineContent: InlineContent? = nil, s3Location: CustomS3Location? = nil, sourceType: CustomSourceType) {
+            self.customDocumentIdentifier = customDocumentIdentifier
+            self.inlineContent = inlineContent
+            self.s3Location = s3Location
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.inlineContent?.validate(name: "\(name).inlineContent")
+            try self.s3Location?.validate(name: "\(name).s3Location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDocumentIdentifier = "customDocumentIdentifier"
+            case inlineContent = "inlineContent"
+            case s3Location = "s3Location"
+            case sourceType = "sourceType"
+        }
+    }
+
+    public struct CustomDocumentIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the document to ingest into a custom data source.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct CustomOrchestration: AWSEncodableShape & AWSDecodableShape {
+        ///  The structure of the executor invoking the actions in custom orchestration.
+        public let executor: OrchestrationExecutor?
+
+        @inlinable
+        public init(executor: OrchestrationExecutor? = nil) {
+            self.executor = executor
+        }
+
+        public func validate(name: String) throws {
+            try self.executor?.validate(name: "\(name).executor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executor = "executor"
+        }
+    }
+
+    public struct CustomS3Location: AWSEncodableShape {
+        /// The identifier of the Amazon Web Services account that owns the S3 bucket containing the content to ingest.
+        public let bucketOwnerAccountId: String?
+        /// The S3 URI of the file containing the content to ingest.
+        public let uri: String
+
+        @inlinable
+        public init(bucketOwnerAccountId: String? = nil, uri: String) {
+            self.bucketOwnerAccountId = bucketOwnerAccountId
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, max: 12)
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.uri, name: "uri", parent: name, max: 1024)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.{1,1024}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketOwnerAccountId = "bucketOwnerAccountId"
+            case uri = "uri"
         }
     }
 
@@ -3352,6 +3860,66 @@ extension BedrockAgent {
         }
     }
 
+    public struct DeleteKnowledgeBaseDocumentsRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// The unique identifier of the data source that contains the documents.
+        public let dataSourceId: String
+        /// A list of objects, each of which contains information to identify a document to delete.
+        public let documentIdentifiers: [DocumentIdentifier]
+        /// The unique identifier of the knowledge base that is connected to the data source.
+        public let knowledgeBaseId: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteKnowledgeBaseDocumentsRequest.idempotencyToken(), dataSourceId: String, documentIdentifiers: [DocumentIdentifier], knowledgeBaseId: String) {
+            self.clientToken = clientToken
+            self.dataSourceId = dataSourceId
+            self.documentIdentifiers = documentIdentifiers
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.dataSourceId, key: "dataSourceId")
+            try container.encode(self.documentIdentifiers, forKey: .documentIdentifiers)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.documentIdentifiers.forEach {
+                try $0.validate(name: "\(name).documentIdentifiers[]")
+            }
+            try self.validate(self.documentIdentifiers, name: "documentIdentifiers", parent: name, max: 10)
+            try self.validate(self.documentIdentifiers, name: "documentIdentifiers", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case documentIdentifiers = "documentIdentifiers"
+        }
+    }
+
+    public struct DeleteKnowledgeBaseDocumentsResponse: AWSDecodableShape {
+        /// A list of objects, each of which contains information about the documents that were deleted.
+        public let documentDetails: [KnowledgeBaseDocumentDetail]?
+
+        @inlinable
+        public init(documentDetails: [KnowledgeBaseDocumentDetail]? = nil) {
+            self.documentDetails = documentDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentDetails = "documentDetails"
+        }
+    }
+
     public struct DeleteKnowledgeBaseRequest: AWSEncodableShape {
         /// The unique identifier of the knowledge base to delete.
         public let knowledgeBaseId: String
@@ -3437,6 +4005,44 @@ extension BedrockAgent {
         }
     }
 
+    public struct DisassociateAgentCollaboratorRequest: AWSEncodableShape {
+        /// An agent ID.
+        public let agentId: String
+        /// The agent's version.
+        public let agentVersion: String
+        /// The collaborator's ID.
+        public let collaboratorId: String
+
+        @inlinable
+        public init(agentId: String, agentVersion: String, collaboratorId: String) {
+            self.agentId = agentId
+            self.agentVersion = agentVersion
+            self.collaboratorId = collaboratorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentId, key: "agentId")
+            request.encodePath(self.agentVersion, key: "agentVersion")
+            request.encodePath(self.collaboratorId, key: "collaboratorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, max: 5)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, min: 5)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, pattern: "^DRAFT$")
+            try self.validate(self.collaboratorId, name: "collaboratorId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateAgentCollaboratorResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisassociateAgentKnowledgeBaseRequest: AWSEncodableShape {
         /// The unique identifier of the agent from which to disassociate the knowledge base.
         public let agentId: String
@@ -3473,6 +4079,88 @@ extension BedrockAgent {
 
     public struct DisassociateAgentKnowledgeBaseResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DocumentContent: AWSEncodableShape {
+        /// Contains information about the content to ingest into a knowledge base connected to a custom data source.
+        public let custom: CustomContent?
+        /// The type of data source that is connected to the knowledge base to which to ingest this document.
+        public let dataSourceType: ContentDataSourceType
+        /// Contains information about the content to ingest into a knowledge base connected to an Amazon S3 data source
+        public let s3: S3Content?
+
+        @inlinable
+        public init(custom: CustomContent? = nil, dataSourceType: ContentDataSourceType, s3: S3Content? = nil) {
+            self.custom = custom
+            self.dataSourceType = dataSourceType
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.custom?.validate(name: "\(name).custom")
+            try self.s3?.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case custom = "custom"
+            case dataSourceType = "dataSourceType"
+            case s3 = "s3"
+        }
+    }
+
+    public struct DocumentIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// Contains information that identifies the document in a custom data source.
+        public let custom: CustomDocumentIdentifier?
+        /// The type of data source connected to the knowledge base that contains the document.
+        public let dataSourceType: ContentDataSourceType
+        /// Contains information that identifies the document in an S3 data source.
+        public let s3: S3Location?
+
+        @inlinable
+        public init(custom: CustomDocumentIdentifier? = nil, dataSourceType: ContentDataSourceType, s3: S3Location? = nil) {
+            self.custom = custom
+            self.dataSourceType = dataSourceType
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3?.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case custom = "custom"
+            case dataSourceType = "dataSourceType"
+            case s3 = "s3"
+        }
+    }
+
+    public struct DocumentMetadata: AWSEncodableShape {
+        /// An array of objects, each of which defines a metadata attribute to associate with the content to ingest. You define the attributes inline.
+        public let inlineAttributes: [MetadataAttribute]?
+        /// The Amazon S3 location of the file containing metadata to associate with the content to ingest.
+        public let s3Location: CustomS3Location?
+        /// The type of the source source from which to add metadata.
+        public let type: MetadataSourceType
+
+        @inlinable
+        public init(inlineAttributes: [MetadataAttribute]? = nil, s3Location: CustomS3Location? = nil, type: MetadataSourceType) {
+            self.inlineAttributes = inlineAttributes
+            self.s3Location = s3Location
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.inlineAttributes?.forEach {
+                try $0.validate(name: "\(name).inlineAttributes[]")
+            }
+            try self.s3Location?.validate(name: "\(name).s3Location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlineAttributes = "inlineAttributes"
+            case s3Location = "s3Location"
+            case type = "type"
+        }
     }
 
     public struct DuplicateConditionExpressionFlowValidationDetails: AWSDecodableShape {
@@ -4063,6 +4751,54 @@ extension BedrockAgent {
         }
     }
 
+    public struct GetAgentCollaboratorRequest: AWSEncodableShape {
+        /// The agent's ID.
+        public let agentId: String
+        /// The agent's version.
+        public let agentVersion: String
+        /// The collaborator's ID.
+        public let collaboratorId: String
+
+        @inlinable
+        public init(agentId: String, agentVersion: String, collaboratorId: String) {
+            self.agentId = agentId
+            self.agentVersion = agentVersion
+            self.collaboratorId = collaboratorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentId, key: "agentId")
+            request.encodePath(self.agentVersion, key: "agentVersion")
+            request.encodePath(self.collaboratorId, key: "collaboratorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, max: 5)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, min: 1)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, pattern: "^(DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})$")
+            try self.validate(self.collaboratorId, name: "collaboratorId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAgentCollaboratorResponse: AWSDecodableShape {
+        /// Details about the collaborator.
+        public let agentCollaborator: AgentCollaborator
+
+        @inlinable
+        public init(agentCollaborator: AgentCollaborator) {
+            self.agentCollaborator = agentCollaborator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentCollaborator = "agentCollaborator"
+        }
+    }
+
     public struct GetAgentKnowledgeBaseRequest: AWSEncodableShape {
         /// The unique identifier of the agent with which the knowledge base is associated.
         public let agentId: String
@@ -4506,6 +5242,58 @@ extension BedrockAgent {
         }
     }
 
+    public struct GetKnowledgeBaseDocumentsRequest: AWSEncodableShape {
+        /// The unique identifier of the data source that contains the documents.
+        public let dataSourceId: String
+        /// A list of objects, each of which contains information to identify a document for which to retrieve information.
+        public let documentIdentifiers: [DocumentIdentifier]
+        /// The unique identifier of the knowledge base that is connected to the data source.
+        public let knowledgeBaseId: String
+
+        @inlinable
+        public init(dataSourceId: String, documentIdentifiers: [DocumentIdentifier], knowledgeBaseId: String) {
+            self.dataSourceId = dataSourceId
+            self.documentIdentifiers = documentIdentifiers
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSourceId, key: "dataSourceId")
+            try container.encode(self.documentIdentifiers, forKey: .documentIdentifiers)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.documentIdentifiers.forEach {
+                try $0.validate(name: "\(name).documentIdentifiers[]")
+            }
+            try self.validate(self.documentIdentifiers, name: "documentIdentifiers", parent: name, max: 10)
+            try self.validate(self.documentIdentifiers, name: "documentIdentifiers", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentIdentifiers = "documentIdentifiers"
+        }
+    }
+
+    public struct GetKnowledgeBaseDocumentsResponse: AWSDecodableShape {
+        /// A list of objects, each of which contains information about the documents that were retrieved.
+        public let documentDetails: [KnowledgeBaseDocumentDetail]?
+
+        @inlinable
+        public init(documentDetails: [KnowledgeBaseDocumentDetail]? = nil) {
+            self.documentDetails = documentDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentDetails = "documentDetails"
+        }
+    }
+
     public struct GetKnowledgeBaseRequest: AWSEncodableShape {
         /// The unique identifier of the knowledge base you want to get information on.
         public let knowledgeBaseId: String
@@ -4740,6 +5528,66 @@ extension BedrockAgent {
         }
     }
 
+    public struct IngestKnowledgeBaseDocumentsRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// The unique identifier of the data source connected to the knowledge base that you're adding documents to.
+        public let dataSourceId: String
+        /// A list of objects, each of which contains information about the documents to add.
+        public let documents: [KnowledgeBaseDocument]
+        /// The unique identifier of the knowledge base to ingest the documents into.
+        public let knowledgeBaseId: String
+
+        @inlinable
+        public init(clientToken: String? = IngestKnowledgeBaseDocumentsRequest.idempotencyToken(), dataSourceId: String, documents: [KnowledgeBaseDocument], knowledgeBaseId: String) {
+            self.clientToken = clientToken
+            self.dataSourceId = dataSourceId
+            self.documents = documents
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.dataSourceId, key: "dataSourceId")
+            try container.encode(self.documents, forKey: .documents)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.documents.forEach {
+                try $0.validate(name: "\(name).documents[]")
+            }
+            try self.validate(self.documents, name: "documents", parent: name, max: 10)
+            try self.validate(self.documents, name: "documents", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case documents = "documents"
+        }
+    }
+
+    public struct IngestKnowledgeBaseDocumentsResponse: AWSDecodableShape {
+        /// A list of objects, each of which contains information about the documents that were ingested.
+        public let documentDetails: [KnowledgeBaseDocumentDetail]?
+
+        @inlinable
+        public init(documentDetails: [KnowledgeBaseDocumentDetail]? = nil) {
+            self.documentDetails = documentDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentDetails = "documentDetails"
+        }
+    }
+
     public struct IngestionJob: AWSDecodableShape {
         /// The unique identifier of the data source for the data ingestion job.
         public let dataSourceId: String
@@ -4918,6 +5766,33 @@ extension BedrockAgent {
         }
     }
 
+    public struct InlineContent: AWSEncodableShape {
+        /// Contains information about content defined inline in bytes.
+        public let byteContent: ByteContentDoc?
+        /// Contains information about content defined inline in text.
+        public let textContent: TextContentDoc?
+        /// The type of inline content to define.
+        public let type: InlineContentType
+
+        @inlinable
+        public init(byteContent: ByteContentDoc? = nil, textContent: TextContentDoc? = nil, type: InlineContentType) {
+            self.byteContent = byteContent
+            self.textContent = textContent
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.byteContent?.validate(name: "\(name).byteContent")
+            try self.textContent?.validate(name: "\(name).textContent")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case byteContent = "byteContent"
+            case textContent = "textContent"
+            case type = "type"
+        }
+    }
+
     public struct InputFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -4944,6 +5819,24 @@ extension BedrockAgent {
         public init() {}
     }
 
+    public struct KendraKnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the Amazon Kendra index.
+        public let kendraIndexArn: String
+
+        @inlinable
+        public init(kendraIndexArn: String) {
+            self.kendraIndexArn = kendraIndexArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kendraIndexArn, name: "kendraIndexArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kendra:[a-z0-9-]{1,20}:([0-9]{12}|):index/([a-zA-Z0-9][a-zA-Z0-9-]{35}|[a-zA-Z0-9][a-zA-Z0-9-]{35}-[a-zA-Z0-9][a-zA-Z0-9-]{35})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kendraIndexArn = "kendraIndexArn"
+        }
+    }
+
     public struct KnowledgeBase: AWSDecodableShape {
         /// The time the knowledge base was created.
         @CustomCoding<ISO8601DateCoder>
@@ -4965,13 +5858,13 @@ extension BedrockAgent {
         /// The status of the knowledge base. The following statuses are possible:   CREATING – The knowledge base is being created.   ACTIVE – The knowledge base is ready to be queried.   DELETING – The knowledge base is being deleted.   UPDATING – The knowledge base is being updated.   FAILED – The knowledge base API operation failed.
         public let status: KnowledgeBaseStatus
         /// Contains details about the storage configuration of the knowledge base.
-        public let storageConfiguration: StorageConfiguration
+        public let storageConfiguration: StorageConfiguration?
         /// The time the knowledge base was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, description: String? = nil, failureReasons: [String]? = nil, knowledgeBaseArn: String, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, knowledgeBaseId: String, name: String, roleArn: String, status: KnowledgeBaseStatus, storageConfiguration: StorageConfiguration, updatedAt: Date) {
+        public init(createdAt: Date, description: String? = nil, failureReasons: [String]? = nil, knowledgeBaseArn: String, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, knowledgeBaseId: String, name: String, roleArn: String, status: KnowledgeBaseStatus, storageConfiguration: StorageConfiguration? = nil, updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
             self.failureReasons = failureReasons
@@ -5001,24 +5894,92 @@ extension BedrockAgent {
     }
 
     public struct KnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Settings for an Amazon Kendra knowledge base.
+        public let kendraKnowledgeBaseConfiguration: KendraKnowledgeBaseConfiguration?
+        /// Specifies configurations for a knowledge base connected to an SQL database.
+        public let sqlKnowledgeBaseConfiguration: SqlKnowledgeBaseConfiguration?
         /// The type of data that the data source is converted into for the knowledge base.
         public let type: KnowledgeBaseType
         /// Contains details about the model that's used to convert the data source into vector embeddings.
         public let vectorKnowledgeBaseConfiguration: VectorKnowledgeBaseConfiguration?
 
         @inlinable
-        public init(type: KnowledgeBaseType, vectorKnowledgeBaseConfiguration: VectorKnowledgeBaseConfiguration? = nil) {
+        public init(kendraKnowledgeBaseConfiguration: KendraKnowledgeBaseConfiguration? = nil, sqlKnowledgeBaseConfiguration: SqlKnowledgeBaseConfiguration? = nil, type: KnowledgeBaseType, vectorKnowledgeBaseConfiguration: VectorKnowledgeBaseConfiguration? = nil) {
+            self.kendraKnowledgeBaseConfiguration = kendraKnowledgeBaseConfiguration
+            self.sqlKnowledgeBaseConfiguration = sqlKnowledgeBaseConfiguration
             self.type = type
             self.vectorKnowledgeBaseConfiguration = vectorKnowledgeBaseConfiguration
         }
 
         public func validate(name: String) throws {
+            try self.kendraKnowledgeBaseConfiguration?.validate(name: "\(name).kendraKnowledgeBaseConfiguration")
+            try self.sqlKnowledgeBaseConfiguration?.validate(name: "\(name).sqlKnowledgeBaseConfiguration")
             try self.vectorKnowledgeBaseConfiguration?.validate(name: "\(name).vectorKnowledgeBaseConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kendraKnowledgeBaseConfiguration = "kendraKnowledgeBaseConfiguration"
+            case sqlKnowledgeBaseConfiguration = "sqlKnowledgeBaseConfiguration"
             case type = "type"
             case vectorKnowledgeBaseConfiguration = "vectorKnowledgeBaseConfiguration"
+        }
+    }
+
+    public struct KnowledgeBaseDocument: AWSEncodableShape {
+        /// Contains the content of the document.
+        public let content: DocumentContent
+        /// Contains the metadata to associate with the document.
+        public let metadata: DocumentMetadata?
+
+        @inlinable
+        public init(content: DocumentContent, metadata: DocumentMetadata? = nil) {
+            self.content = content
+            self.metadata = metadata
+        }
+
+        public func validate(name: String) throws {
+            try self.content.validate(name: "\(name).content")
+            try self.metadata?.validate(name: "\(name).metadata")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case metadata = "metadata"
+        }
+    }
+
+    public struct KnowledgeBaseDocumentDetail: AWSDecodableShape {
+        /// The identifier of the data source connected to the knowledge base that the document was ingested into or deleted from.
+        public let dataSourceId: String
+        /// Contains information that identifies the document.
+        public let identifier: DocumentIdentifier
+        /// The identifier of the knowledge base that the document was ingested into or deleted from.
+        public let knowledgeBaseId: String
+        /// The ingestion status of the document. The following statuses are possible:   STARTED – You submitted the ingestion job containing the document.   PENDING – The document is waiting to be ingested.   IN_PROGRESS – The document is being ingested.   INDEXED – The document was successfully indexed.   PARTIALLY_INDEXED – The document was partially indexed.   METADATA_PARTIALLY_INDEXED – You submitted metadata for an existing document and it was partially indexed.   METADATA_UPDATE_FAILED – You submitted a metadata update for an existing document but it failed.   FAILED – The document failed to be ingested.   NOT_FOUND – The document wasn't found.   IGNORED – The document was ignored during ingestion.   DELETING – You submitted the delete job containing the document.   DELETE_IN_PROGRESS – The document is being deleted.
+        public let status: DocumentStatus
+        /// The reason for the status. Appears alongside the status IGNORED.
+        public let statusReason: String?
+        /// The date and time at which the document was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(dataSourceId: String, identifier: DocumentIdentifier, knowledgeBaseId: String, status: DocumentStatus, statusReason: String? = nil, updatedAt: Date? = nil) {
+            self.dataSourceId = dataSourceId
+            self.identifier = identifier
+            self.knowledgeBaseId = knowledgeBaseId
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "dataSourceId"
+            case identifier = "identifier"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case status = "status"
+            case statusReason = "statusReason"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -5243,6 +6204,69 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case agentAliasSummaries = "agentAliasSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgentCollaboratorsRequest: AWSEncodableShape {
+        /// The agent's ID.
+        public let agentId: String
+        /// The agent's version.
+        public let agentVersion: String
+        /// The maximum number of agent collaborators to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(agentId: String, agentVersion: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.agentId = agentId
+            self.agentVersion = agentVersion
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentId, key: "agentId")
+            request.encodePath(self.agentVersion, key: "agentVersion")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, max: 5)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, min: 1)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, pattern: "^(DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgentCollaboratorsResponse: AWSDecodableShape {
+        /// A list of collaborator summaries.
+        public let agentCollaboratorSummaries: [AgentCollaboratorSummary]
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(agentCollaboratorSummaries: [AgentCollaboratorSummary], nextToken: String? = nil) {
+            self.agentCollaboratorSummaries = agentCollaboratorSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentCollaboratorSummaries = "agentCollaboratorSummaries"
             case nextToken = "nextToken"
         }
     }
@@ -5696,6 +6720,67 @@ extension BedrockAgent {
         }
     }
 
+    public struct ListKnowledgeBaseDocumentsRequest: AWSEncodableShape {
+        /// The unique identifier of the data source that contains the documents.
+        public let dataSourceId: String
+        /// The unique identifier of the knowledge base that is connected to the data source.
+        public let knowledgeBaseId: String
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+        public let maxResults: Int?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dataSourceId: String, knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dataSourceId = dataSourceId
+            self.knowledgeBaseId = knowledgeBaseId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSourceId, key: "dataSourceId")
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListKnowledgeBaseDocumentsResponse: AWSDecodableShape {
+        /// A list of objects, each of which contains information about the documents that were retrieved.
+        public let documentDetails: [KnowledgeBaseDocumentDetail]
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(documentDetails: [KnowledgeBaseDocumentDetail], nextToken: String? = nil) {
+            self.documentDetails = documentDetails
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentDetails = "documentDetails"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListKnowledgeBasesRequest: AWSEncodableShape {
         /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
         public let maxResults: Int?
@@ -5915,6 +7000,69 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case content = "content"
             case role = "role"
+        }
+    }
+
+    public struct MetadataAttribute: AWSEncodableShape {
+        /// The key of the metadata attribute.
+        public let key: String
+        /// Contains the value of the metadata attribute.
+        public let value: MetadataAttributeValue
+
+        @inlinable
+        public init(key: String, value: MetadataAttributeValue) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 200)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct MetadataAttributeValue: AWSEncodableShape {
+        /// The value of the Boolean metadata attribute.
+        public let booleanValue: Bool?
+        /// The value of the numeric metadata attribute.
+        public let numberValue: Double?
+        /// An array of strings that define the value of the metadata attribute.
+        public let stringListValue: [String]?
+        /// The value of the string metadata attribute.
+        public let stringValue: String?
+        /// The type of the metadata attribute.
+        public let type: MetadataValueType
+
+        @inlinable
+        public init(booleanValue: Bool? = nil, numberValue: Double? = nil, stringListValue: [String]? = nil, stringValue: String? = nil, type: MetadataValueType) {
+            self.booleanValue = booleanValue
+            self.numberValue = numberValue
+            self.stringListValue = stringListValue
+            self.stringValue = stringValue
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.stringListValue?.forEach {
+                try validate($0, name: "stringListValue[]", parent: name, max: 2048)
+                try validate($0, name: "stringListValue[]", parent: name, min: 1)
+            }
+            try self.validate(self.stringValue, name: "stringValue", parent: name, max: 2048)
+            try self.validate(self.stringValue, name: "stringValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case booleanValue = "booleanValue"
+            case numberValue = "numberValue"
+            case stringListValue = "stringListValue"
+            case stringValue = "stringValue"
+            case type = "type"
         }
     }
 
@@ -6244,13 +7392,16 @@ extension BedrockAgent {
     }
 
     public struct ParsingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Settings for a foundation model used to parse documents for a data source.
+        /// If you specify BEDROCK_DATA_AUTOMATION as the parsing strategy for ingesting your data source, use this object to modify configurations for using the Amazon Bedrock Data Automation parser.
+        public let bedrockDataAutomationConfiguration: BedrockDataAutomationConfiguration?
+        /// If you specify BEDROCK_FOUNDATION_MODEL as the parsing strategy for ingesting your data source, use this object to modify configurations for using a foundation model to parse documents.
         public let bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration?
         /// The parsing strategy for the data source.
         public let parsingStrategy: ParsingStrategy
 
         @inlinable
-        public init(bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration? = nil, parsingStrategy: ParsingStrategy) {
+        public init(bedrockDataAutomationConfiguration: BedrockDataAutomationConfiguration? = nil, bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration? = nil, parsingStrategy: ParsingStrategy) {
+            self.bedrockDataAutomationConfiguration = bedrockDataAutomationConfiguration
             self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
             self.parsingStrategy = parsingStrategy
         }
@@ -6260,6 +7411,7 @@ extension BedrockAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bedrockDataAutomationConfiguration = "bedrockDataAutomationConfiguration"
             case bedrockFoundationModelConfiguration = "bedrockFoundationModelConfiguration"
             case parsingStrategy = "parsingStrategy"
         }
@@ -6516,6 +7668,8 @@ extension BedrockAgent {
     public struct PromptConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables. For more information, see Configure the prompt templates.
         public let basePromptTemplate: String?
+        /// The agent's foundation model.
+        public let foundationModel: String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see Inference parameters for foundation models.
         public let inferenceConfiguration: InferenceConfiguration?
         /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDEN, the overrideLambda field in the PromptOverrideConfiguration must be specified with the ARN of a Lambda function.
@@ -6528,8 +7682,9 @@ extension BedrockAgent {
         public let promptType: PromptType?
 
         @inlinable
-        public init(basePromptTemplate: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
+        public init(basePromptTemplate: String? = nil, foundationModel: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
             self.basePromptTemplate = basePromptTemplate
+            self.foundationModel = foundationModel
             self.inferenceConfiguration = inferenceConfiguration
             self.parserMode = parserMode
             self.promptCreationMode = promptCreationMode
@@ -6540,11 +7695,15 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.basePromptTemplate, name: "basePromptTemplate", parent: name, max: 100000)
             try self.validate(self.basePromptTemplate, name: "basePromptTemplate", parent: name, min: 1)
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, max: 2048)
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case basePromptTemplate = "basePromptTemplate"
+            case foundationModel = "foundationModel"
             case inferenceConfiguration = "inferenceConfiguration"
             case parserMode = "parserMode"
             case promptCreationMode = "promptCreationMode"
@@ -6835,6 +7994,123 @@ extension BedrockAgent {
         }
     }
 
+    public struct QueryGenerationColumn: AWSEncodableShape & AWSDecodableShape {
+        /// A description of the column that helps the query engine understand the contents of the column.
+        public let description: String?
+        /// Specifies whether to include or exclude the column during query generation. If you specify EXCLUDE, the column will be ignored. If you specify INCLUDE, all other columns in the table will be ignored.
+        public let inclusion: IncludeExclude?
+        /// The name of the column for which the other fields in this object apply.
+        public let name: String?
+
+        @inlinable
+        public init(description: String? = nil, inclusion: IncludeExclude? = nil, name: String? = nil) {
+            self.description = description
+            self.inclusion = inclusion
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case inclusion = "inclusion"
+            case name = "name"
+        }
+    }
+
+    public struct QueryGenerationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The time after which query generation will time out.
+        public let executionTimeoutSeconds: Int?
+        /// Specifies configurations for context to use during query generation.
+        public let generationContext: QueryGenerationContext?
+
+        @inlinable
+        public init(executionTimeoutSeconds: Int? = nil, generationContext: QueryGenerationContext? = nil) {
+            self.executionTimeoutSeconds = executionTimeoutSeconds
+            self.generationContext = generationContext
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionTimeoutSeconds, name: "executionTimeoutSeconds", parent: name, max: 200)
+            try self.validate(self.executionTimeoutSeconds, name: "executionTimeoutSeconds", parent: name, min: 1)
+            try self.generationContext?.validate(name: "\(name).generationContext")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionTimeoutSeconds = "executionTimeoutSeconds"
+            case generationContext = "generationContext"
+        }
+    }
+
+    public struct QueryGenerationContext: AWSEncodableShape & AWSDecodableShape {
+        /// An array of objects, each of which defines information about example queries to help the query engine generate appropriate SQL queries.
+        public let curatedQueries: [CuratedQuery]?
+        /// An array of objects, each of which defines information about a table in the database.
+        public let tables: [QueryGenerationTable]?
+
+        @inlinable
+        public init(curatedQueries: [CuratedQuery]? = nil, tables: [QueryGenerationTable]? = nil) {
+            self.curatedQueries = curatedQueries
+            self.tables = tables
+        }
+
+        public func validate(name: String) throws {
+            try self.curatedQueries?.forEach {
+                try $0.validate(name: "\(name).curatedQueries[]")
+            }
+            try self.validate(self.curatedQueries, name: "curatedQueries", parent: name, max: 10)
+            try self.tables?.forEach {
+                try $0.validate(name: "\(name).tables[]")
+            }
+            try self.validate(self.tables, name: "tables", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case curatedQueries = "curatedQueries"
+            case tables = "tables"
+        }
+    }
+
+    public struct QueryGenerationTable: AWSEncodableShape & AWSDecodableShape {
+        /// An array of objects, each of which defines information about a column in the table.
+        public let columns: [QueryGenerationColumn]?
+        /// A description of the table that helps the query engine understand the contents of the table.
+        public let description: String?
+        /// Specifies whether to include or exclude the table during query generation. If you specify EXCLUDE, the table will be ignored. If you specify INCLUDE, all other tables will be ignored.
+        public let inclusion: IncludeExclude?
+        /// The name of the table for which the other fields in this object apply.
+        public let name: String
+
+        @inlinable
+        public init(columns: [QueryGenerationColumn]? = nil, description: String? = nil, inclusion: IncludeExclude? = nil, name: String) {
+            self.columns = columns
+            self.description = description
+            self.inclusion = inclusion
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.columns?.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*\\..*\\..*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "columns"
+            case description = "description"
+            case inclusion = "inclusion"
+            case name = "name"
+        }
+    }
+
     public struct RdsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that is linked to your Amazon RDS database.
         public let credentialsSecretArn: String
@@ -6978,6 +8254,230 @@ extension BedrockAgent {
         }
     }
 
+    public struct RedshiftConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies configurations for an Amazon Redshift query engine.
+        public let queryEngineConfiguration: RedshiftQueryEngineConfiguration
+        /// Specifies configurations for generating queries.
+        public let queryGenerationConfiguration: QueryGenerationConfiguration?
+        /// Specifies configurations for Amazon Redshift database storage.
+        public let storageConfigurations: [RedshiftQueryEngineStorageConfiguration]
+
+        @inlinable
+        public init(queryEngineConfiguration: RedshiftQueryEngineConfiguration, queryGenerationConfiguration: QueryGenerationConfiguration? = nil, storageConfigurations: [RedshiftQueryEngineStorageConfiguration]) {
+            self.queryEngineConfiguration = queryEngineConfiguration
+            self.queryGenerationConfiguration = queryGenerationConfiguration
+            self.storageConfigurations = storageConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.queryEngineConfiguration.validate(name: "\(name).queryEngineConfiguration")
+            try self.queryGenerationConfiguration?.validate(name: "\(name).queryGenerationConfiguration")
+            try self.storageConfigurations.forEach {
+                try $0.validate(name: "\(name).storageConfigurations[]")
+            }
+            try self.validate(self.storageConfigurations, name: "storageConfigurations", parent: name, max: 1)
+            try self.validate(self.storageConfigurations, name: "storageConfigurations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryEngineConfiguration = "queryEngineConfiguration"
+            case queryGenerationConfiguration = "queryGenerationConfiguration"
+            case storageConfigurations = "storageConfigurations"
+        }
+    }
+
+    public struct RedshiftProvisionedAuthConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The database username for authentication to an Amazon Redshift provisioned data warehouse.
+        public let databaseUser: String?
+        /// The type of authentication to use.
+        public let type: RedshiftProvisionedAuthType
+        /// The ARN of an Secrets Manager secret for authentication.
+        public let usernamePasswordSecretArn: String?
+
+        @inlinable
+        public init(databaseUser: String? = nil, type: RedshiftProvisionedAuthType, usernamePasswordSecretArn: String? = nil) {
+            self.databaseUser = databaseUser
+            self.type = type
+            self.usernamePasswordSecretArn = usernamePasswordSecretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.usernamePasswordSecretArn, name: "usernamePasswordSecretArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):secretsmanager:[a-z0-9-]{1,20}:([0-9]{12}|):secret:[a-zA-Z0-9!/_+=.@-]{1,512}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseUser = "databaseUser"
+            case type = "type"
+            case usernamePasswordSecretArn = "usernamePasswordSecretArn"
+        }
+    }
+
+    public struct RedshiftProvisionedConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies configurations for authentication to Amazon Redshift.
+        public let authConfiguration: RedshiftProvisionedAuthConfiguration
+        /// The ID of the Amazon Redshift cluster.
+        public let clusterIdentifier: String
+
+        @inlinable
+        public init(authConfiguration: RedshiftProvisionedAuthConfiguration, clusterIdentifier: String) {
+            self.authConfiguration = authConfiguration
+            self.clusterIdentifier = clusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.authConfiguration.validate(name: "\(name).authConfiguration")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authConfiguration = "authConfiguration"
+            case clusterIdentifier = "clusterIdentifier"
+        }
+    }
+
+    public struct RedshiftQueryEngineAwsDataCatalogStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of names of the tables to use.
+        public let tableNames: [String]
+
+        @inlinable
+        public init(tableNames: [String]) {
+            self.tableNames = tableNames
+        }
+
+        public func validate(name: String) throws {
+            try self.tableNames.forEach {
+                try validate($0, name: "tableNames[]", parent: name, max: 200)
+                try validate($0, name: "tableNames[]", parent: name, min: 1)
+                try validate($0, name: "tableNames[]", parent: name, pattern: "^.*\\.*$")
+            }
+            try self.validate(self.tableNames, name: "tableNames", parent: name, max: 1000)
+            try self.validate(self.tableNames, name: "tableNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableNames = "tableNames"
+        }
+    }
+
+    public struct RedshiftQueryEngineConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies configurations for a provisioned Amazon Redshift query engine.
+        public let provisionedConfiguration: RedshiftProvisionedConfiguration?
+        /// Specifies configurations for a serverless Amazon Redshift query engine.
+        public let serverlessConfiguration: RedshiftServerlessConfiguration?
+        /// The type of query engine.
+        public let type: RedshiftQueryEngineType
+
+        @inlinable
+        public init(provisionedConfiguration: RedshiftProvisionedConfiguration? = nil, serverlessConfiguration: RedshiftServerlessConfiguration? = nil, type: RedshiftQueryEngineType) {
+            self.provisionedConfiguration = provisionedConfiguration
+            self.serverlessConfiguration = serverlessConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.provisionedConfiguration?.validate(name: "\(name).provisionedConfiguration")
+            try self.serverlessConfiguration?.validate(name: "\(name).serverlessConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case provisionedConfiguration = "provisionedConfiguration"
+            case serverlessConfiguration = "serverlessConfiguration"
+            case type = "type"
+        }
+    }
+
+    public struct RedshiftQueryEngineRedshiftStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon Redshift database.
+        public let databaseName: String
+
+        @inlinable
+        public init(databaseName: String) {
+            self.databaseName = databaseName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 200)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "databaseName"
+        }
+    }
+
+    public struct RedshiftQueryEngineStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies configurations for storage in Glue Data Catalog.
+        public let awsDataCatalogConfiguration: RedshiftQueryEngineAwsDataCatalogStorageConfiguration?
+        /// Specifies configurations for storage in Amazon Redshift.
+        public let redshiftConfiguration: RedshiftQueryEngineRedshiftStorageConfiguration?
+        /// The data storage service to use.
+        public let type: RedshiftQueryEngineStorageType
+
+        @inlinable
+        public init(awsDataCatalogConfiguration: RedshiftQueryEngineAwsDataCatalogStorageConfiguration? = nil, redshiftConfiguration: RedshiftQueryEngineRedshiftStorageConfiguration? = nil, type: RedshiftQueryEngineStorageType) {
+            self.awsDataCatalogConfiguration = awsDataCatalogConfiguration
+            self.redshiftConfiguration = redshiftConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.awsDataCatalogConfiguration?.validate(name: "\(name).awsDataCatalogConfiguration")
+            try self.redshiftConfiguration?.validate(name: "\(name).redshiftConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsDataCatalogConfiguration = "awsDataCatalogConfiguration"
+            case redshiftConfiguration = "redshiftConfiguration"
+            case type = "type"
+        }
+    }
+
+    public struct RedshiftServerlessAuthConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The type of authentication to use.
+        public let type: RedshiftServerlessAuthType
+        /// The ARN of an Secrets Manager secret for authentication.
+        public let usernamePasswordSecretArn: String?
+
+        @inlinable
+        public init(type: RedshiftServerlessAuthType, usernamePasswordSecretArn: String? = nil) {
+            self.type = type
+            self.usernamePasswordSecretArn = usernamePasswordSecretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.usernamePasswordSecretArn, name: "usernamePasswordSecretArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):secretsmanager:[a-z0-9-]{1,20}:([0-9]{12}|):secret:[a-zA-Z0-9!/_+=.@-]{1,512}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+            case usernamePasswordSecretArn = "usernamePasswordSecretArn"
+        }
+    }
+
+    public struct RedshiftServerlessConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies configurations for authentication to an Amazon Redshift provisioned data warehouse.
+        public let authConfiguration: RedshiftServerlessAuthConfiguration
+        /// The ARN of the Amazon Redshift workgroup.
+        public let workgroupArn: String
+
+        @inlinable
+        public init(authConfiguration: RedshiftServerlessAuthConfiguration, workgroupArn: String) {
+            self.authConfiguration = authConfiguration
+            self.workgroupArn = workgroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.authConfiguration.validate(name: "\(name).authConfiguration")
+            try self.validate(self.workgroupArn, name: "workgroupArn", parent: name, pattern: "^(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authConfiguration = "authConfiguration"
+            case workgroupArn = "workgroupArn"
+        }
+    }
+
     public struct RetrievalFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains configurations for the service to use for retrieving data to return as the output from the node.
         public let serviceConfiguration: RetrievalFlowNodeServiceConfiguration
@@ -7013,6 +8513,24 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case bucketName = "bucketName"
+        }
+    }
+
+    public struct S3Content: AWSEncodableShape {
+        /// The S3 location of the file containing the content to ingest.
+        public let s3Location: S3Location
+
+        @inlinable
+        public init(s3Location: S3Location) {
+            self.s3Location = s3Location
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Location.validate(name: "\(name).s3Location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
         }
     }
 
@@ -7337,6 +8855,28 @@ extension BedrockAgent {
         }
     }
 
+    public struct SqlKnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies configurations for a knowledge base connected to an Amazon Redshift database.
+        public let redshiftConfiguration: RedshiftConfiguration?
+        /// The type of SQL database to connect to the knowledge base.
+        public let type: QueryEngineType
+
+        @inlinable
+        public init(redshiftConfiguration: RedshiftConfiguration? = nil, type: QueryEngineType) {
+            self.redshiftConfiguration = redshiftConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.redshiftConfiguration?.validate(name: "\(name).redshiftConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case redshiftConfiguration = "redshiftConfiguration"
+            case type = "type"
+        }
+    }
+
     public struct StartIngestionJobRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
@@ -7520,6 +9060,50 @@ extension BedrockAgent {
         }
     }
 
+    public struct SupplementalDataStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of objects specifying storage locations for images extracted from multimodal documents in your data source.
+        public let storageLocations: [SupplementalDataStorageLocation]
+
+        @inlinable
+        public init(storageLocations: [SupplementalDataStorageLocation]) {
+            self.storageLocations = storageLocations
+        }
+
+        public func validate(name: String) throws {
+            try self.storageLocations.forEach {
+                try $0.validate(name: "\(name).storageLocations[]")
+            }
+            try self.validate(self.storageLocations, name: "storageLocations", parent: name, max: 1)
+            try self.validate(self.storageLocations, name: "storageLocations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageLocations = "storageLocations"
+        }
+    }
+
+    public struct SupplementalDataStorageLocation: AWSEncodableShape & AWSDecodableShape {
+        /// Contains information about the Amazon S3 location for the extracted images.
+        public let s3Location: S3Location?
+        /// Specifies the storage service used for this location.
+        public let type: SupplementalDataStorageLocationType
+
+        @inlinable
+        public init(s3Location: S3Location? = nil, type: SupplementalDataStorageLocationType) {
+            self.s3Location = s3Location
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Location?.validate(name: "\(name).s3Location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+            case type = "type"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to tag.
         public let resourceArn: String
@@ -7559,6 +9143,25 @@ extension BedrockAgent {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TextContentDoc: AWSEncodableShape {
+        /// The text of the content.
+        public let data: String
+
+        @inlinable
+        public init(data: String) {
+            self.data = data
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.data, name: "data", parent: name, max: 5242880)
+            try self.validate(self.data, name: "data", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "data"
+        }
     }
 
     public struct TextPromptTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -8015,6 +9618,79 @@ extension BedrockAgent {
         }
     }
 
+    public struct UpdateAgentCollaboratorRequest: AWSEncodableShape {
+        /// An agent descriptor for the agent collaborator.
+        public let agentDescriptor: AgentDescriptor
+        /// The agent's ID.
+        public let agentId: String
+        /// The agent's version.
+        public let agentVersion: String
+        /// Instruction for the collaborator.
+        public let collaborationInstruction: String
+        /// The collaborator's ID.
+        public let collaboratorId: String
+        /// The collaborator's name.
+        public let collaboratorName: String
+        /// A relay conversation history for the collaborator.
+        public let relayConversationHistory: RelayConversationHistory?
+
+        @inlinable
+        public init(agentDescriptor: AgentDescriptor, agentId: String, agentVersion: String, collaborationInstruction: String, collaboratorId: String, collaboratorName: String, relayConversationHistory: RelayConversationHistory? = nil) {
+            self.agentDescriptor = agentDescriptor
+            self.agentId = agentId
+            self.agentVersion = agentVersion
+            self.collaborationInstruction = collaborationInstruction
+            self.collaboratorId = collaboratorId
+            self.collaboratorName = collaboratorName
+            self.relayConversationHistory = relayConversationHistory
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.agentDescriptor, forKey: .agentDescriptor)
+            request.encodePath(self.agentId, key: "agentId")
+            request.encodePath(self.agentVersion, key: "agentVersion")
+            try container.encode(self.collaborationInstruction, forKey: .collaborationInstruction)
+            request.encodePath(self.collaboratorId, key: "collaboratorId")
+            try container.encode(self.collaboratorName, forKey: .collaboratorName)
+            try container.encodeIfPresent(self.relayConversationHistory, forKey: .relayConversationHistory)
+        }
+
+        public func validate(name: String) throws {
+            try self.agentDescriptor.validate(name: "\(name).agentDescriptor")
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, max: 5)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, min: 5)
+            try self.validate(self.agentVersion, name: "agentVersion", parent: name, pattern: "^DRAFT$")
+            try self.validate(self.collaborationInstruction, name: "collaborationInstruction", parent: name, max: 4000)
+            try self.validate(self.collaborationInstruction, name: "collaborationInstruction", parent: name, min: 1)
+            try self.validate(self.collaboratorId, name: "collaboratorId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
+            try self.validate(self.collaboratorName, name: "collaboratorName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentDescriptor = "agentDescriptor"
+            case collaborationInstruction = "collaborationInstruction"
+            case collaboratorName = "collaboratorName"
+            case relayConversationHistory = "relayConversationHistory"
+        }
+    }
+
+    public struct UpdateAgentCollaboratorResponse: AWSDecodableShape {
+        /// Details about the collaborator.
+        public let agentCollaborator: AgentCollaborator
+
+        @inlinable
+        public init(agentCollaborator: AgentCollaborator) {
+            self.agentCollaborator = agentCollaborator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentCollaborator = "agentCollaborator"
+        }
+    }
+
     public struct UpdateAgentKnowledgeBaseRequest: AWSEncodableShape {
         /// The unique identifier of the agent associated with the knowledge base that you want to update.
         public let agentId: String
@@ -8077,6 +9753,8 @@ extension BedrockAgent {
     }
 
     public struct UpdateAgentRequest: AWSEncodableShape {
+        /// The agent's collaboration role.
+        public let agentCollaboration: AgentCollaboration?
         /// The unique identifier of the agent.
         public let agentId: String
         /// Specifies a new name for the agent.
@@ -8085,6 +9763,8 @@ extension BedrockAgent {
         public let agentResourceRoleArn: String
         /// The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
         public let customerEncryptionKeyArn: String?
+        ///  Contains details of the custom orchestration configured for the agent.
+        public let customOrchestration: CustomOrchestration?
         /// Specifies a new description of the agent.
         public let description: String?
         /// The identifier for the model that you want to be used for orchestration by the agent you create. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
@@ -8097,37 +9777,45 @@ extension BedrockAgent {
         public let instruction: String?
         /// Specifies the new memory configuration for the agent.
         public let memoryConfiguration: MemoryConfiguration?
+        ///  Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
+        public let orchestrationType: OrchestrationType?
         /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see Advanced prompts.
         public let promptOverrideConfiguration: PromptOverrideConfiguration?
 
         @inlinable
-        public init(agentId: String, agentName: String, agentResourceRoleArn: String, customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil) {
+        public init(agentCollaboration: AgentCollaboration? = nil, agentId: String, agentName: String, agentResourceRoleArn: String, customerEncryptionKeyArn: String? = nil, customOrchestration: CustomOrchestration? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, orchestrationType: OrchestrationType? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil) {
+            self.agentCollaboration = agentCollaboration
             self.agentId = agentId
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.customOrchestration = customOrchestration
             self.description = description
             self.foundationModel = foundationModel
             self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
             self.memoryConfiguration = memoryConfiguration
+            self.orchestrationType = orchestrationType
             self.promptOverrideConfiguration = promptOverrideConfiguration
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.agentCollaboration, forKey: .agentCollaboration)
             request.encodePath(self.agentId, key: "agentId")
             try container.encode(self.agentName, forKey: .agentName)
             try container.encode(self.agentResourceRoleArn, forKey: .agentResourceRoleArn)
             try container.encodeIfPresent(self.customerEncryptionKeyArn, forKey: .customerEncryptionKeyArn)
+            try container.encodeIfPresent(self.customOrchestration, forKey: .customOrchestration)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.foundationModel, forKey: .foundationModel)
             try container.encodeIfPresent(self.guardrailConfiguration, forKey: .guardrailConfiguration)
             try container.encodeIfPresent(self.idleSessionTTLInSeconds, forKey: .idleSessionTTLInSeconds)
             try container.encodeIfPresent(self.instruction, forKey: .instruction)
             try container.encodeIfPresent(self.memoryConfiguration, forKey: .memoryConfiguration)
+            try container.encodeIfPresent(self.orchestrationType, forKey: .orchestrationType)
             try container.encodeIfPresent(self.promptOverrideConfiguration, forKey: .promptOverrideConfiguration)
         }
 
@@ -8139,6 +9827,7 @@ extension BedrockAgent {
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.customOrchestration?.validate(name: "\(name).customOrchestration")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, max: 2048)
@@ -8154,15 +9843,18 @@ extension BedrockAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case agentCollaboration = "agentCollaboration"
             case agentName = "agentName"
             case agentResourceRoleArn = "agentResourceRoleArn"
             case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case customOrchestration = "customOrchestration"
             case description = "description"
             case foundationModel = "foundationModel"
             case guardrailConfiguration = "guardrailConfiguration"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
             case memoryConfiguration = "memoryConfiguration"
+            case orchestrationType = "orchestrationType"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
         }
     }
@@ -8479,10 +10171,10 @@ extension BedrockAgent {
         /// Specifies a different Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the knowledge base.
         public let roleArn: String
         /// Specifies the configuration for the vector store used for the knowledge base. You must use the same configuration as when the knowledge base was created.
-        public let storageConfiguration: StorageConfiguration
+        public let storageConfiguration: StorageConfiguration?
 
         @inlinable
-        public init(description: String? = nil, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, knowledgeBaseId: String, name: String, roleArn: String, storageConfiguration: StorageConfiguration) {
+        public init(description: String? = nil, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, knowledgeBaseId: String, name: String, roleArn: String, storageConfiguration: StorageConfiguration? = nil) {
             self.description = description
             self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
             self.knowledgeBaseId = knowledgeBaseId
@@ -8499,7 +10191,7 @@ extension BedrockAgent {
             request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
             try container.encode(self.name, forKey: .name)
             try container.encode(self.roleArn, forKey: .roleArn)
-            try container.encode(self.storageConfiguration, forKey: .storageConfiguration)
+            try container.encodeIfPresent(self.storageConfiguration, forKey: .storageConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -8510,7 +10202,7 @@ extension BedrockAgent {
             try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$")
-            try self.storageConfiguration.validate(name: "\(name).storageConfiguration")
+            try self.storageConfiguration?.validate(name: "\(name).storageConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8706,7 +10398,7 @@ extension BedrockAgent {
         public let chunkingConfiguration: ChunkingConfiguration?
         /// A custom document transformer for parsed data source documents.
         public let customTransformationConfiguration: CustomTransformationConfiguration?
-        /// A custom parser for data source documents.
+        /// Configurations for a parser to use for parsing documents in your data source. If you exclude this field, the default parser will be used.
         public let parsingConfiguration: ParsingConfiguration?
 
         @inlinable
@@ -8734,11 +10426,14 @@ extension BedrockAgent {
         public let embeddingModelArn: String
         /// The embeddings model configuration details for the vector model used in Knowledge Base.
         public let embeddingModelConfiguration: EmbeddingModelConfiguration?
+        /// If you include multimodal data from your data source, use this object to specify configurations for the storage location of the images extracted from your documents. These images can be retrieved and returned to the end user. They can also be used in generation when using RetrieveAndGenerate.
+        public let supplementalDataStorageConfiguration: SupplementalDataStorageConfiguration?
 
         @inlinable
-        public init(embeddingModelArn: String, embeddingModelConfiguration: EmbeddingModelConfiguration? = nil) {
+        public init(embeddingModelArn: String, embeddingModelConfiguration: EmbeddingModelConfiguration? = nil, supplementalDataStorageConfiguration: SupplementalDataStorageConfiguration? = nil) {
             self.embeddingModelArn = embeddingModelArn
             self.embeddingModelConfiguration = embeddingModelConfiguration
+            self.supplementalDataStorageConfiguration = supplementalDataStorageConfiguration
         }
 
         public func validate(name: String) throws {
@@ -8746,11 +10441,13 @@ extension BedrockAgent {
             try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, min: 20)
             try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.embeddingModelConfiguration?.validate(name: "\(name).embeddingModelConfiguration")
+            try self.supplementalDataStorageConfiguration?.validate(name: "\(name).supplementalDataStorageConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case embeddingModelArn = "embeddingModelArn"
             case embeddingModelConfiguration = "embeddingModelConfiguration"
+            case supplementalDataStorageConfiguration = "supplementalDataStorageConfiguration"
         }
     }
 
@@ -8881,6 +10578,25 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case functions = "functions"
+        }
+    }
+
+    public struct OrchestrationExecutor: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
+        public let lambda: String?
+
+        @inlinable
+        public init(lambda: String? = nil) {
+            self.lambda = lambda
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lambda, name: "lambda", parent: name, max: 2048)
+            try self.validate(self.lambda, name: "lambda", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambda = "lambda"
         }
     }
 

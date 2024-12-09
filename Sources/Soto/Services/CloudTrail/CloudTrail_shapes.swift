@@ -32,6 +32,21 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
+    public enum DashboardStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case created = "CREATED"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case updated = "UPDATED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashboardType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "CUSTOM"
+        case managed = "MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case accessDeniedSigningFile = "ACCESS_DENIED_SIGNING_FILE"
@@ -131,10 +146,22 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
+    public enum RefreshScheduleFrequencyUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case days = "DAYS"
+        case hours = "HOURS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RefreshScheduleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AddTagsRequest: AWSEncodableShape {
-        /// Specifies the ARN of the trail, event data store, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+        /// Specifies the ARN of the trail, event data store, dashboard, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  The format of a dashboard ARN is: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
         public let resourceId: String
         /// Contains a list of tags, up to a limit of 50
         public let tagsList: [Tag]
@@ -272,19 +299,23 @@ extension CloudTrail {
     public struct CancelQueryRequest: AWSEncodableShape {
         /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query is running.
         public let eventDataStore: String?
+        /// The account ID of the event data store owner.
+        public let eventDataStoreOwnerAccountId: String?
         /// The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery operation.
         public let queryId: String
 
         @inlinable
-        public init(queryId: String) {
+        public init(eventDataStoreOwnerAccountId: String? = nil, queryId: String) {
             self.eventDataStore = nil
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.queryId = queryId
         }
 
         @available(*, deprecated, message: "Members eventDataStore have been deprecated")
         @inlinable
-        public init(eventDataStore: String? = nil, queryId: String) {
+        public init(eventDataStore: String? = nil, eventDataStoreOwnerAccountId: String? = nil, queryId: String) {
             self.eventDataStore = eventDataStore
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.queryId = queryId
         }
 
@@ -292,6 +323,9 @@ extension CloudTrail {
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, max: 16)
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, pattern: "^\\d+$")
             try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
             try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
             try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^[a-f0-9\\-]+$")
@@ -299,23 +333,28 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case eventDataStore = "EventDataStore"
+            case eventDataStoreOwnerAccountId = "EventDataStoreOwnerAccountId"
             case queryId = "QueryId"
         }
     }
 
     public struct CancelQueryResponse: AWSDecodableShape {
+        ///  The account ID of the event data store owner.
+        public let eventDataStoreOwnerAccountId: String?
         /// The ID of the canceled query.
         public let queryId: String
         /// Shows the status of a query after a CancelQuery request. Typically, the values shown are either RUNNING or CANCELLED.
         public let queryStatus: QueryStatus
 
         @inlinable
-        public init(queryId: String, queryStatus: QueryStatus) {
+        public init(eventDataStoreOwnerAccountId: String? = nil, queryId: String, queryStatus: QueryStatus) {
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.queryId = queryId
             self.queryStatus = queryStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventDataStoreOwnerAccountId = "EventDataStoreOwnerAccountId"
             case queryId = "QueryId"
             case queryStatus = "QueryStatus"
         }
@@ -408,6 +447,89 @@ extension CloudTrail {
             case name = "Name"
             case source = "Source"
             case tags = "Tags"
+        }
+    }
+
+    public struct CreateDashboardRequest: AWSEncodableShape {
+        ///  The name of the dashboard. The name must be unique to your account.
+        ///  To create the Highlights dashboard, the name must be AWSCloudTrail-Highlights.
+        public let name: String
+        ///  The refresh schedule configuration for the dashboard.
+        ///  To create the Highlights dashboard, you must set a refresh schedule and set the Status to ENABLED. The Unit for the refresh schedule must be HOURS  and the Value must be 6.
+        public let refreshSchedule: RefreshSchedule?
+        public let tagsList: [Tag]?
+        ///  Specifies whether termination protection is enabled for the dashboard. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+        public let terminationProtectionEnabled: Bool?
+        /// An array of widgets for a custom dashboard. A custom dashboard can have a maximum of ten widgets.
+        ///  You do not need to specify widgets for the Highlights dashboard.
+        public let widgets: [RequestWidget]?
+
+        @inlinable
+        public init(name: String, refreshSchedule: RefreshSchedule? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil, widgets: [RequestWidget]? = nil) {
+            self.name = name
+            self.refreshSchedule = refreshSchedule
+            self.tagsList = tagsList
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+            self.widgets = widgets
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
+            try self.refreshSchedule?.validate(name: "\(name).refreshSchedule")
+            try self.tagsList?.forEach {
+                try $0.validate(name: "\(name).tagsList[]")
+            }
+            try self.validate(self.tagsList, name: "tagsList", parent: name, max: 200)
+            try self.widgets?.forEach {
+                try $0.validate(name: "\(name).widgets[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case refreshSchedule = "RefreshSchedule"
+            case tagsList = "TagsList"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+            case widgets = "Widgets"
+        }
+    }
+
+    public struct CreateDashboardResponse: AWSDecodableShape {
+        /// The ARN for the dashboard.
+        public let dashboardArn: String?
+        /// The name of the dashboard.
+        public let name: String?
+        /// The refresh schedule for the dashboard, if configured.
+        public let refreshSchedule: RefreshSchedule?
+        public let tagsList: [Tag]?
+        ///  Indicates whether termination protection is enabled for the dashboard.
+        public let terminationProtectionEnabled: Bool?
+        /// The dashboard type.
+        public let type: DashboardType?
+        /// An array of widgets for the dashboard.
+        public let widgets: [Widget]?
+
+        @inlinable
+        public init(dashboardArn: String? = nil, name: String? = nil, refreshSchedule: RefreshSchedule? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil, type: DashboardType? = nil, widgets: [Widget]? = nil) {
+            self.dashboardArn = dashboardArn
+            self.name = name
+            self.refreshSchedule = refreshSchedule
+            self.tagsList = tagsList
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+            self.type = type
+            self.widgets = widgets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardArn = "DashboardArn"
+            case name = "Name"
+            case refreshSchedule = "RefreshSchedule"
+            case tagsList = "TagsList"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+            case type = "Type"
+            case widgets = "Widgets"
         }
     }
 
@@ -683,6 +805,24 @@ extension CloudTrail {
         }
     }
 
+    public struct DashboardDetail: AWSDecodableShape {
+        /// The ARN for the dashboard.
+        public let dashboardArn: String?
+        /// The type of dashboard.
+        public let type: DashboardType?
+
+        @inlinable
+        public init(dashboardArn: String? = nil, type: DashboardType? = nil) {
+            self.dashboardArn = dashboardArn
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardArn = "DashboardArn"
+            case type = "Type"
+        }
+    }
+
     public struct DataResource: AWSEncodableShape & AWSDecodableShape {
         /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:    AWS::DynamoDB::Table     AWS::Lambda::Function     AWS::S3::Object    Additional resource types are available through advanced event selectors. For more information, see AdvancedEventSelector.
         public let type: String?
@@ -725,6 +865,28 @@ extension CloudTrail {
         public init() {}
     }
 
+    public struct DeleteDashboardRequest: AWSEncodableShape {
+        /// The name or ARN for the dashboard.
+        public let dashboardId: String
+
+        @inlinable
+        public init(dashboardId: String) {
+            self.dashboardId = dashboardId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardId = "DashboardId"
+        }
+    }
+
+    public struct DeleteDashboardResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteEventDataStoreRequest: AWSEncodableShape {
         /// The ARN (or the ID suffix of the ARN) of the event data store to delete.
         public let eventDataStore: String
@@ -750,7 +912,7 @@ extension CloudTrail {
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) of the CloudTrail channel you're deleting the resource-based policy from.  The following is the format of a resource ARN:  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+        ///  The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel you're deleting the resource-based policy from. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
         public let resourceArn: String
 
         @inlinable
@@ -818,42 +980,58 @@ extension CloudTrail {
     public struct DescribeQueryRequest: AWSEncodableShape {
         /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run.
         public let eventDataStore: String?
+        /// The account ID of the event data store owner.
+        public let eventDataStoreOwnerAccountId: String?
         ///  The alias that identifies a query template.
         public let queryAlias: String?
         /// The query ID.
         public let queryId: String?
+        /// The ID of the dashboard refresh.
+        public let refreshId: String?
 
         @inlinable
-        public init(queryAlias: String? = nil, queryId: String? = nil) {
+        public init(eventDataStoreOwnerAccountId: String? = nil, queryAlias: String? = nil, queryId: String? = nil, refreshId: String? = nil) {
             self.eventDataStore = nil
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.queryAlias = queryAlias
             self.queryId = queryId
+            self.refreshId = refreshId
         }
 
         @available(*, deprecated, message: "Members eventDataStore have been deprecated")
         @inlinable
-        public init(eventDataStore: String? = nil, queryAlias: String? = nil, queryId: String? = nil) {
+        public init(eventDataStore: String? = nil, eventDataStoreOwnerAccountId: String? = nil, queryAlias: String? = nil, queryId: String? = nil, refreshId: String? = nil) {
             self.eventDataStore = eventDataStore
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.queryAlias = queryAlias
             self.queryId = queryId
+            self.refreshId = refreshId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, max: 16)
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, pattern: "^\\d+$")
             try self.validate(self.queryAlias, name: "queryAlias", parent: name, max: 256)
             try self.validate(self.queryAlias, name: "queryAlias", parent: name, min: 1)
             try self.validate(self.queryAlias, name: "queryAlias", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9._\\-]*$")
             try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
             try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
             try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^[a-f0-9\\-]+$")
+            try self.validate(self.refreshId, name: "refreshId", parent: name, max: 20)
+            try self.validate(self.refreshId, name: "refreshId", parent: name, min: 10)
+            try self.validate(self.refreshId, name: "refreshId", parent: name, pattern: "^\\d+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case eventDataStore = "EventDataStore"
+            case eventDataStoreOwnerAccountId = "EventDataStoreOwnerAccountId"
             case queryAlias = "QueryAlias"
             case queryId = "QueryId"
+            case refreshId = "RefreshId"
         }
     }
 
@@ -864,6 +1042,8 @@ extension CloudTrail {
         public let deliveryStatus: DeliveryStatus?
         /// The error message returned if a query failed.
         public let errorMessage: String?
+        ///  The account ID of the event data store owner.
+        public let eventDataStoreOwnerAccountId: String?
         ///  The prompt used for a generated query. For information about generated queries, see  Create CloudTrail Lake queries from natural language prompts  in the CloudTrail  user guide.
         public let prompt: String?
         /// The ID of the query.
@@ -876,10 +1056,11 @@ extension CloudTrail {
         public let queryString: String?
 
         @inlinable
-        public init(deliveryS3Uri: String? = nil, deliveryStatus: DeliveryStatus? = nil, errorMessage: String? = nil, prompt: String? = nil, queryId: String? = nil, queryStatistics: QueryStatisticsForDescribeQuery? = nil, queryStatus: QueryStatus? = nil, queryString: String? = nil) {
+        public init(deliveryS3Uri: String? = nil, deliveryStatus: DeliveryStatus? = nil, errorMessage: String? = nil, eventDataStoreOwnerAccountId: String? = nil, prompt: String? = nil, queryId: String? = nil, queryStatistics: QueryStatisticsForDescribeQuery? = nil, queryStatus: QueryStatus? = nil, queryString: String? = nil) {
             self.deliveryS3Uri = deliveryS3Uri
             self.deliveryStatus = deliveryStatus
             self.errorMessage = errorMessage
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.prompt = prompt
             self.queryId = queryId
             self.queryStatistics = queryStatistics
@@ -891,6 +1072,7 @@ extension CloudTrail {
             case deliveryS3Uri = "DeliveryS3Uri"
             case deliveryStatus = "DeliveryStatus"
             case errorMessage = "ErrorMessage"
+            case eventDataStoreOwnerAccountId = "EventDataStoreOwnerAccountId"
             case prompt = "Prompt"
             case queryId = "QueryId"
             case queryStatistics = "QueryStatistics"
@@ -1211,18 +1393,22 @@ extension CloudTrail {
     }
 
     public struct GenerateQueryResponse: AWSDecodableShape {
+        ///  The account ID of the event data store owner.
+        public let eventDataStoreOwnerAccountId: String?
         ///  An alias that identifies the prompt. When you run the StartQuery operation, you can pass in either the QueryAlias or  QueryStatement parameter.
         public let queryAlias: String?
         ///  The SQL query statement generated from the prompt.
         public let queryStatement: String?
 
         @inlinable
-        public init(queryAlias: String? = nil, queryStatement: String? = nil) {
+        public init(eventDataStoreOwnerAccountId: String? = nil, queryAlias: String? = nil, queryStatement: String? = nil) {
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.queryAlias = queryAlias
             self.queryStatement = queryStatement
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventDataStoreOwnerAccountId = "EventDataStoreOwnerAccountId"
             case queryAlias = "QueryAlias"
             case queryStatement = "QueryStatement"
         }
@@ -1279,6 +1465,74 @@ extension CloudTrail {
             case name = "Name"
             case source = "Source"
             case sourceConfig = "SourceConfig"
+        }
+    }
+
+    public struct GetDashboardRequest: AWSEncodableShape {
+        /// The name or ARN for the dashboard.
+        public let dashboardId: String
+
+        @inlinable
+        public init(dashboardId: String) {
+            self.dashboardId = dashboardId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardId = "DashboardId"
+        }
+    }
+
+    public struct GetDashboardResponse: AWSDecodableShape {
+        ///  The timestamp that shows when the dashboard was created.
+        public let createdTimestamp: Date?
+        ///  The ARN for the dashboard.
+        public let dashboardArn: String?
+        /// Provides information about failures for the last scheduled refresh.
+        public let lastRefreshFailureReason: String?
+        /// The ID of the last dashboard refresh.
+        public let lastRefreshId: String?
+        /// The refresh schedule for the dashboard, if configured.
+        public let refreshSchedule: RefreshSchedule?
+        /// The status of the dashboard.
+        public let status: DashboardStatus?
+        /// Indicates whether termination protection is enabled for the dashboard.
+        public let terminationProtectionEnabled: Bool?
+        /// The type of dashboard.
+        public let type: DashboardType?
+        ///  The timestamp that shows when the dashboard was last updated.
+        public let updatedTimestamp: Date?
+        /// An array of widgets for the dashboard.
+        public let widgets: [Widget]?
+
+        @inlinable
+        public init(createdTimestamp: Date? = nil, dashboardArn: String? = nil, lastRefreshFailureReason: String? = nil, lastRefreshId: String? = nil, refreshSchedule: RefreshSchedule? = nil, status: DashboardStatus? = nil, terminationProtectionEnabled: Bool? = nil, type: DashboardType? = nil, updatedTimestamp: Date? = nil, widgets: [Widget]? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.dashboardArn = dashboardArn
+            self.lastRefreshFailureReason = lastRefreshFailureReason
+            self.lastRefreshId = lastRefreshId
+            self.refreshSchedule = refreshSchedule
+            self.status = status
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+            self.type = type
+            self.updatedTimestamp = updatedTimestamp
+            self.widgets = widgets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case dashboardArn = "DashboardArn"
+            case lastRefreshFailureReason = "LastRefreshFailureReason"
+            case lastRefreshId = "LastRefreshId"
+            case refreshSchedule = "RefreshSchedule"
+            case status = "Status"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+            case type = "Type"
+            case updatedTimestamp = "UpdatedTimestamp"
+            case widgets = "Widgets"
         }
     }
 
@@ -1527,6 +1781,8 @@ extension CloudTrail {
     public struct GetQueryResultsRequest: AWSEncodableShape {
         /// The ARN (or ID suffix of the ARN) of the event data store against which the query was run.
         public let eventDataStore: String?
+        /// The account ID of the event data store owner.
+        public let eventDataStoreOwnerAccountId: String?
         /// The maximum number of query results to display on a single page.
         public let maxQueryResults: Int?
         /// A token you can use to get the next page of query results.
@@ -1535,8 +1791,9 @@ extension CloudTrail {
         public let queryId: String
 
         @inlinable
-        public init(maxQueryResults: Int? = nil, nextToken: String? = nil, queryId: String) {
+        public init(eventDataStoreOwnerAccountId: String? = nil, maxQueryResults: Int? = nil, nextToken: String? = nil, queryId: String) {
             self.eventDataStore = nil
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.maxQueryResults = maxQueryResults
             self.nextToken = nextToken
             self.queryId = queryId
@@ -1544,8 +1801,9 @@ extension CloudTrail {
 
         @available(*, deprecated, message: "Members eventDataStore have been deprecated")
         @inlinable
-        public init(eventDataStore: String? = nil, maxQueryResults: Int? = nil, nextToken: String? = nil, queryId: String) {
+        public init(eventDataStore: String? = nil, eventDataStoreOwnerAccountId: String? = nil, maxQueryResults: Int? = nil, nextToken: String? = nil, queryId: String) {
             self.eventDataStore = eventDataStore
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.maxQueryResults = maxQueryResults
             self.nextToken = nextToken
             self.queryId = queryId
@@ -1555,6 +1813,9 @@ extension CloudTrail {
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
             try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, max: 16)
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, pattern: "^\\d+$")
             try self.validate(self.maxQueryResults, name: "maxQueryResults", parent: name, max: 1000)
             try self.validate(self.maxQueryResults, name: "maxQueryResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
@@ -1567,6 +1828,7 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case eventDataStore = "EventDataStore"
+            case eventDataStoreOwnerAccountId = "EventDataStoreOwnerAccountId"
             case maxQueryResults = "MaxQueryResults"
             case nextToken = "NextToken"
             case queryId = "QueryId"
@@ -1604,7 +1866,7 @@ extension CloudTrail {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.  The following is the format of a resource ARN:  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+        ///  The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
         public let resourceArn: String
 
         @inlinable
@@ -1624,18 +1886,22 @@ extension CloudTrail {
     }
 
     public struct GetResourcePolicyResponse: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the CloudTrail channel attached to resource-based policy.
+        ///  The default resource-based policy that is automatically generated for the delegated administrator of an Organizations organization.  This policy will be evaluated in tandem with any policy you submit for the resource. For more information about this policy,  see Default resource policy for delegated administrators.
+        public let delegatedAdminResourcePolicy: String?
+        ///  The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to resource-based policy.   Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
         public let resourceArn: String?
-        ///  A JSON-formatted string that contains the resource-based policy attached to the CloudTrail channel.
+        ///  A JSON-formatted string that contains the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
         public let resourcePolicy: String?
 
         @inlinable
-        public init(resourceArn: String? = nil, resourcePolicy: String? = nil) {
+        public init(delegatedAdminResourcePolicy: String? = nil, resourceArn: String? = nil, resourcePolicy: String? = nil) {
+            self.delegatedAdminResourcePolicy = delegatedAdminResourcePolicy
             self.resourceArn = resourceArn
             self.resourcePolicy = resourcePolicy
         }
 
         private enum CodingKeys: String, CodingKey {
+            case delegatedAdminResourcePolicy = "DelegatedAdminResourcePolicy"
             case resourceArn = "ResourceArn"
             case resourcePolicy = "ResourcePolicy"
         }
@@ -1669,7 +1935,7 @@ extension CloudTrail {
     }
 
     public struct GetTrailStatusRequest: AWSEncodableShape {
-        /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+        /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN.  The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail   If the trail is an organization trail and you are a member account in the organization in Organizations, you must provide the full ARN of that trail, and not just the name.
         public let name: String
 
         @inlinable
@@ -1952,6 +2218,61 @@ extension CloudTrail {
         }
     }
 
+    public struct ListDashboardsRequest: AWSEncodableShape {
+        ///  The maximum number of dashboards to display on a single page.
+        public let maxResults: Int?
+        /// Specify a name prefix to filter on.
+        public let namePrefix: String?
+        ///  A token you can use to get the next page of dashboard results.
+        public let nextToken: String?
+        /// Specify a dashboard type to filter on: CUSTOM or MANAGED.
+        public let type: DashboardType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil, type: DashboardType? = nil) {
+            self.maxResults = maxResults
+            self.namePrefix = namePrefix
+            self.nextToken = nextToken
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 128)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 3)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+            case type = "Type"
+        }
+    }
+
+    public struct ListDashboardsResponse: AWSDecodableShape {
+        ///  Contains information about dashboards in the account, in the current Region that match the applied filters.
+        public let dashboards: [DashboardDetail]?
+        ///  A token you can use to get the next page of dashboard results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dashboards: [DashboardDetail]? = nil, nextToken: String? = nil) {
+            self.dashboards = dashboards
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboards = "Dashboards"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListEventDataStoresRequest: AWSEncodableShape {
         /// The maximum number of event data stores to display on a single page.
         public let maxResults: Int?
@@ -2103,7 +2424,7 @@ extension CloudTrail {
     }
 
     public struct ListInsightsMetricDataRequest: AWSEncodableShape {
-        /// Type of datapoints to return. Valid values are NonZeroData and  FillWithZeros. The default is NonZeroData.
+        /// Type of data points to return. Valid values are NonZeroData and  FillWithZeros. The default is NonZeroData.
         public let dataType: InsightsMetricDataType?
         /// Specifies, in UTC, the end time for time-series data. The value specified is exclusive;  results include data points up to the specified time stamp. The default is the time of request.
         public let endTime: Date?
@@ -2115,7 +2436,7 @@ extension CloudTrail {
         public let eventSource: String
         /// The type of CloudTrail Insights event, which is either ApiCallRateInsight or ApiErrorRateInsight.  The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume.  The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes.
         public let insightType: InsightType
-        /// The maximum number of datapoints to return. Valid values are integers from 1 to 21600.  The default value is 21600.
+        /// The maximum number of data points to return. Valid values are integers from 1 to 21600.  The default value is 21600.
         public let maxResults: Int?
         /// Returned if all datapoints can't be returned in a single call. For example, due to reaching MaxResults. Add this parameter to the request to continue retrieving results starting from the last evaluated point.
         public let nextToken: String?
@@ -2311,7 +2632,7 @@ extension CloudTrail {
     public struct ListTagsRequest: AWSEncodableShape {
         /// Reserved for future use.
         public let nextToken: String?
-        /// Specifies a list of trail, event data store, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+        /// Specifies a list of trail, event data store, dashboard, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
         public let resourceIdList: [String]
 
         @inlinable
@@ -2615,9 +2936,9 @@ extension CloudTrail {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.  The following is the format of a resource ARN:  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+        ///  The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
         public let resourceArn: String
-        ///  A JSON-formatted string for an Amazon Web Services resource-based policy.  The following are requirements for the resource policy:    Contains only one action: cloudtrail-data:PutAuditEvents     Contains at least one statement. The policy can have a maximum of 20 statements.     Each statement contains at least one principal. A statement can have a maximum of 50 principals.
+        ///  A JSON-formatted string for an Amazon Web Services resource-based policy.  For example resource-based policies, see  CloudTrail resource-based policy examples  in the CloudTrail User Guide.
         public let resourcePolicy: String
 
         @inlinable
@@ -2641,18 +2962,22 @@ extension CloudTrail {
     }
 
     public struct PutResourcePolicyResponse: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.
+        ///  The default resource-based policy that is automatically generated for the delegated administrator of an Organizations organization.  This policy will be evaluated in tandem with any policy you submit for the resource. For more information about this policy,  see Default resource policy for delegated administrators.
+        public let delegatedAdminResourcePolicy: String?
+        ///  The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy.  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
         public let resourceArn: String?
-        ///  The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail channel.
+        ///  The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
         public let resourcePolicy: String?
 
         @inlinable
-        public init(resourceArn: String? = nil, resourcePolicy: String? = nil) {
+        public init(delegatedAdminResourcePolicy: String? = nil, resourceArn: String? = nil, resourcePolicy: String? = nil) {
+            self.delegatedAdminResourcePolicy = delegatedAdminResourcePolicy
             self.resourceArn = resourceArn
             self.resourcePolicy = resourcePolicy
         }
 
         private enum CodingKeys: String, CodingKey {
+            case delegatedAdminResourcePolicy = "DelegatedAdminResourcePolicy"
             case resourceArn = "ResourceArn"
             case resourcePolicy = "ResourcePolicy"
         }
@@ -2732,6 +3057,52 @@ extension CloudTrail {
         }
     }
 
+    public struct RefreshSchedule: AWSEncodableShape & AWSDecodableShape {
+        /// The frequency at which you want the dashboard refreshed.
+        public let frequency: RefreshScheduleFrequency?
+        /// Specifies whether the refresh schedule is enabled. Set the value to ENABLED to enable the refresh schedule, or to DISABLED to turn off the refresh schedule.
+        public let status: RefreshScheduleStatus?
+        ///  The time of day in UTC to run the schedule; for hourly only refer to minutes; default is 00:00.
+        public let timeOfDay: String?
+
+        @inlinable
+        public init(frequency: RefreshScheduleFrequency? = nil, status: RefreshScheduleStatus? = nil, timeOfDay: String? = nil) {
+            self.frequency = frequency
+            self.status = status
+            self.timeOfDay = timeOfDay
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.timeOfDay, name: "timeOfDay", parent: name, pattern: "^[0-9]{2}:[0-9]{2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frequency = "Frequency"
+            case status = "Status"
+            case timeOfDay = "TimeOfDay"
+        }
+    }
+
+    public struct RefreshScheduleFrequency: AWSEncodableShape & AWSDecodableShape {
+        ///  The unit to use for the refresh.
+        ///  For custom dashboards, the unit can be HOURS or DAYS. For the Highlights dashboard, the Unit must be HOURS.
+        public let unit: RefreshScheduleFrequencyUnit?
+        /// The value for the refresh schedule.
+        ///   For custom dashboards, the following values are valid when the unit is HOURS: 1, 6, 12, 24  For custom dashboards, the only valid value when the unit is DAYS is 1. For the Highlights dashboard, the Value must be 6.
+        public let value: Int?
+
+        @inlinable
+        public init(unit: RefreshScheduleFrequencyUnit? = nil, value: Int? = nil) {
+            self.unit = unit
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "Unit"
+            case value = "Value"
+        }
+    }
+
     public struct RegisterOrganizationDelegatedAdminRequest: AWSEncodableShape {
         /// An organization member account ID that you want to designate as a delegated administrator.
         public let memberAccountId: String
@@ -2757,7 +3128,7 @@ extension CloudTrail {
     }
 
     public struct RemoveTagsRequest: AWSEncodableShape {
-        /// Specifies the ARN of the trail, event data store, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+        /// Specifies the ARN of the trail, event data store, dashboard, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
         public let resourceId: String
         /// Specifies a list of tags to be removed.
         public let tagsList: [Tag]
@@ -2783,6 +3154,50 @@ extension CloudTrail {
 
     public struct RemoveTagsResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct RequestWidget: AWSEncodableShape {
+        ///  The optional query parameters. The following query parameters are valid: $StartTime$, $EndTime$, and $Period$.
+        public let queryParameters: [String]?
+        /// The query statement for the widget. For custom dashboard widgets, you can query across multiple event data stores as long as all event data stores exist in your account.
+        ///   When a query uses ? with eventTime, ? must be surrounded by single quotes as follows: '?'.
+        public let queryStatement: String
+        ///  The view properties for the widget. For more information about view properties, see  View properties for widgets in the CloudTrail User Guide.
+        public let viewProperties: [String: String]
+
+        @inlinable
+        public init(queryParameters: [String]? = nil, queryStatement: String, viewProperties: [String: String]) {
+            self.queryParameters = queryParameters
+            self.queryStatement = queryStatement
+            self.viewProperties = viewProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.queryParameters?.forEach {
+                try validate($0, name: "queryParameters[]", parent: name, max: 1024)
+                try validate($0, name: "queryParameters[]", parent: name, min: 1)
+                try validate($0, name: "queryParameters[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.queryParameters, name: "queryParameters", parent: name, max: 10)
+            try self.validate(self.queryParameters, name: "queryParameters", parent: name, min: 1)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 10000)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, pattern: "^(?s)")
+            try self.viewProperties.forEach {
+                try validate($0.key, name: "viewProperties.key", parent: name, max: 128)
+                try validate($0.key, name: "viewProperties.key", parent: name, min: 3)
+                try validate($0.key, name: "viewProperties.key", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
+                try validate($0.value, name: "viewProperties[\"\($0.key)\"]", parent: name, max: 128)
+                try validate($0.value, name: "viewProperties[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "viewProperties[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9._\\- ]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryParameters = "QueryParameters"
+            case queryStatement = "QueryStatement"
+            case viewProperties = "ViewProperties"
+        }
     }
 
     public struct Resource: AWSDecodableShape {
@@ -2939,6 +3354,51 @@ extension CloudTrail {
         }
     }
 
+    public struct StartDashboardRefreshRequest: AWSEncodableShape {
+        /// The name or ARN of the dashboard.
+        public let dashboardId: String
+        ///  The query parameter values for the dashboard
+        ///  For custom dashboards, the following query parameters are valid: $StartTime$, $EndTime$, and $Period$. For managed dashboards, the following query parameters are valid: $StartTime$, $EndTime$, $Period$, and $EventDataStoreId$. The $EventDataStoreId$ query parameter is required.
+        public let queryParameterValues: [String: String]?
+
+        @inlinable
+        public init(dashboardId: String, queryParameterValues: [String: String]? = nil) {
+            self.dashboardId = dashboardId
+            self.queryParameterValues = queryParameterValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.queryParameterValues?.forEach {
+                try validate($0.key, name: "queryParameterValues.key", parent: name, max: 128)
+                try validate($0.key, name: "queryParameterValues.key", parent: name, min: 3)
+                try validate($0.key, name: "queryParameterValues.key", parent: name, pattern: "^[a-zA-Z0-9._/\\-:$]+$")
+                try validate($0.value, name: "queryParameterValues[\"\($0.key)\"]", parent: name, max: 128)
+                try validate($0.value, name: "queryParameterValues[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "queryParameterValues[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardId = "DashboardId"
+            case queryParameterValues = "QueryParameterValues"
+        }
+    }
+
+    public struct StartDashboardRefreshResponse: AWSDecodableShape {
+        /// The refresh ID for the dashboard.
+        public let refreshId: String?
+
+        @inlinable
+        public init(refreshId: String? = nil) {
+            self.refreshId = refreshId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case refreshId = "RefreshId"
+        }
+    }
+
     public struct StartEventDataStoreIngestionRequest: AWSEncodableShape {
         /// The ARN (or ID suffix of the ARN) of the event data store for which you want to start ingestion.
         public let eventDataStore: String
@@ -3069,6 +3529,8 @@ extension CloudTrail {
     public struct StartQueryRequest: AWSEncodableShape {
         ///  The URI for the S3 bucket where CloudTrail delivers the query results.
         public let deliveryS3Uri: String?
+        /// The account ID of the event data store owner.
+        public let eventDataStoreOwnerAccountId: String?
         ///  The alias that identifies a query template.
         public let queryAlias: String?
         ///  The query parameters for the specified QueryAlias.
@@ -3077,8 +3539,9 @@ extension CloudTrail {
         public let queryStatement: String?
 
         @inlinable
-        public init(deliveryS3Uri: String? = nil, queryAlias: String? = nil, queryParameters: [String]? = nil, queryStatement: String? = nil) {
+        public init(deliveryS3Uri: String? = nil, eventDataStoreOwnerAccountId: String? = nil, queryAlias: String? = nil, queryParameters: [String]? = nil, queryStatement: String? = nil) {
             self.deliveryS3Uri = deliveryS3Uri
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.queryAlias = queryAlias
             self.queryParameters = queryParameters
             self.queryStatement = queryStatement
@@ -3087,6 +3550,9 @@ extension CloudTrail {
         public func validate(name: String) throws {
             try self.validate(self.deliveryS3Uri, name: "deliveryS3Uri", parent: name, max: 1024)
             try self.validate(self.deliveryS3Uri, name: "deliveryS3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, max: 16)
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.eventDataStoreOwnerAccountId, name: "eventDataStoreOwnerAccountId", parent: name, pattern: "^\\d+$")
             try self.validate(self.queryAlias, name: "queryAlias", parent: name, max: 256)
             try self.validate(self.queryAlias, name: "queryAlias", parent: name, min: 1)
             try self.validate(self.queryAlias, name: "queryAlias", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9._\\-]*$")
@@ -3104,6 +3570,7 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case deliveryS3Uri = "DeliveryS3Uri"
+            case eventDataStoreOwnerAccountId = "EventDataStoreOwnerAccountId"
             case queryAlias = "QueryAlias"
             case queryParameters = "QueryParameters"
             case queryStatement = "QueryStatement"
@@ -3111,15 +3578,19 @@ extension CloudTrail {
     }
 
     public struct StartQueryResponse: AWSDecodableShape {
+        ///  The account ID of the event data store owner.
+        public let eventDataStoreOwnerAccountId: String?
         /// The ID of the started query.
         public let queryId: String?
 
         @inlinable
-        public init(queryId: String? = nil) {
+        public init(eventDataStoreOwnerAccountId: String? = nil, queryId: String? = nil) {
+            self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
             self.queryId = queryId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventDataStoreOwnerAccountId = "EventDataStoreOwnerAccountId"
             case queryId = "QueryId"
         }
     }
@@ -3436,6 +3907,83 @@ extension CloudTrail {
         }
     }
 
+    public struct UpdateDashboardRequest: AWSEncodableShape {
+        ///  The name or ARN of the dashboard.
+        public let dashboardId: String
+        /// The refresh schedule configuration for the dashboard.
+        public let refreshSchedule: RefreshSchedule?
+        ///  Specifies whether termination protection is enabled for the dashboard. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+        public let terminationProtectionEnabled: Bool?
+        /// An array of widgets for the dashboard. A custom dashboard can have a maximum of 10 widgets.
+        ///  To add new widgets, pass in an array that includes the existing widgets along with any new widgets. Run the GetDashboard operation to get the list of widgets for the dashboard. To remove widgets, pass in an array that includes the existing widgets minus the widgets you want removed.
+        public let widgets: [RequestWidget]?
+
+        @inlinable
+        public init(dashboardId: String, refreshSchedule: RefreshSchedule? = nil, terminationProtectionEnabled: Bool? = nil, widgets: [RequestWidget]? = nil) {
+            self.dashboardId = dashboardId
+            self.refreshSchedule = refreshSchedule
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+            self.widgets = widgets
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.refreshSchedule?.validate(name: "\(name).refreshSchedule")
+            try self.widgets?.forEach {
+                try $0.validate(name: "\(name).widgets[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardId = "DashboardId"
+            case refreshSchedule = "RefreshSchedule"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+            case widgets = "Widgets"
+        }
+    }
+
+    public struct UpdateDashboardResponse: AWSDecodableShape {
+        ///  The timestamp that shows when the dashboard was created.
+        public let createdTimestamp: Date?
+        /// The ARN for the dashboard.
+        public let dashboardArn: String?
+        /// The name for the dashboard.
+        public let name: String?
+        /// The refresh schedule for the dashboard, if configured.
+        public let refreshSchedule: RefreshSchedule?
+        ///  Indicates whether termination protection is enabled for the dashboard.
+        public let terminationProtectionEnabled: Bool?
+        /// The type of dashboard.
+        public let type: DashboardType?
+        ///  The timestamp that shows when the dashboard was updated.
+        public let updatedTimestamp: Date?
+        /// An array of widgets for the dashboard.
+        public let widgets: [Widget]?
+
+        @inlinable
+        public init(createdTimestamp: Date? = nil, dashboardArn: String? = nil, name: String? = nil, refreshSchedule: RefreshSchedule? = nil, terminationProtectionEnabled: Bool? = nil, type: DashboardType? = nil, updatedTimestamp: Date? = nil, widgets: [Widget]? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.dashboardArn = dashboardArn
+            self.name = name
+            self.refreshSchedule = refreshSchedule
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+            self.type = type
+            self.updatedTimestamp = updatedTimestamp
+            self.widgets = widgets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case dashboardArn = "DashboardArn"
+            case name = "Name"
+            case refreshSchedule = "RefreshSchedule"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+            case type = "Type"
+            case updatedTimestamp = "UpdatedTimestamp"
+            case widgets = "Widgets"
+        }
+    }
+
     public struct UpdateEventDataStoreRequest: AWSEncodableShape {
         /// The advanced event selectors used to select events for the event data store. You can configure up to five advanced event selectors for each event data store.
         public let advancedEventSelectors: [AdvancedEventSelector]?
@@ -3698,6 +4246,32 @@ extension CloudTrail {
             case trailARN = "TrailARN"
         }
     }
+
+    public struct Widget: AWSDecodableShape {
+        /// The query alias used to identify the query for the widget.
+        public let queryAlias: String?
+        ///  The query parameters for the widget.
+        public let queryParameters: [String]?
+        /// The SQL query statement for the widget.
+        public let queryStatement: String?
+        ///  The view properties for the widget. For more information about view properties, see  View properties for widgets in the CloudTrail User Guide..
+        public let viewProperties: [String: String]?
+
+        @inlinable
+        public init(queryAlias: String? = nil, queryParameters: [String]? = nil, queryStatement: String? = nil, viewProperties: [String: String]? = nil) {
+            self.queryAlias = queryAlias
+            self.queryParameters = queryParameters
+            self.queryStatement = queryStatement
+            self.viewProperties = viewProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryAlias = "QueryAlias"
+            case queryParameters = "QueryParameters"
+            case queryStatement = "QueryStatement"
+            case viewProperties = "ViewProperties"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -3783,6 +4357,7 @@ public struct CloudTrailErrorType: AWSErrorType {
         case resourcePolicyNotValidException = "ResourcePolicyNotValidException"
         case resourceTypeNotSupportedException = "ResourceTypeNotSupportedException"
         case s3BucketDoesNotExistException = "S3BucketDoesNotExistException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case tagsLimitExceededException = "TagsLimitExceededException"
         case throttlingException = "ThrottlingException"
         case trailAlreadyExistsException = "TrailAlreadyExistsException"
@@ -3831,7 +4406,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var channelMaxLimitExceededException: Self { .init(.channelMaxLimitExceededException) }
     /// This exception is thrown when CloudTrail cannot find the specified channel.
     public static var channelNotFoundException: Self { .init(.channelNotFoundException) }
-    /// This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     public static var cloudTrailARNInvalidException: Self { .init(.cloudTrailARNInvalidException) }
     /// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see How to enable or disable trusted access in the Organizations User Guide and Prepare For Creating a Trail For Your Organization in the CloudTrail User Guide.
     public static var cloudTrailAccessNotEnabledException: Self { .init(.cloudTrailAccessNotEnabledException) }
@@ -3871,7 +4446,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var insightNotEnabledException: Self { .init(.insightNotEnabledException) }
     /// This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
     public static var insufficientDependencyServiceAccessPermissionException: Self { .init(.insufficientDependencyServiceAccessPermissionException) }
-    /// This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
+    /// For the CreateTrail PutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown  when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     public static var insufficientEncryptionPolicyException: Self { .init(.insufficientEncryptionPolicyException) }
     /// This exception is thrown when the policy on the S3 bucket is not sufficient.
     public static var insufficientS3BucketPolicyException: Self { .init(.insufficientS3BucketPolicyException) }
@@ -3953,19 +4528,21 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var organizationsNotInUseException: Self { .init(.organizationsNotInUseException) }
     /// The query ID does not exist or does not map to a query.
     public static var queryIdNotFoundException: Self { .init(.queryIdNotFoundException) }
-    ///  This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the valid format for a resource ARN:  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    ///  This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid.  The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash  The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     public static var resourceARNNotValidException: Self { .init(.resourceARNNotValidException) }
     /// This exception is thrown when the specified resource is not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     ///  This exception is thrown when the specified resource policy is not found.
     public static var resourcePolicyNotFoundException: Self { .init(.resourcePolicyNotFoundException) }
-    ///  This exception is thrown when the resouce-based policy has syntax errors, or contains a principal that is not valid.  The following are requirements for the resource policy:    Contains only one action: cloudtrail-data:PutAuditEvents     Contains at least one statement. The policy can have a maximum of 20 statements.     Each statement contains at least one principal. A statement can have a maximum of 50 principals.
+    ///  This exception is thrown when the resouce-based policy has syntax errors, or contains a principal that is not valid.
     public static var resourcePolicyNotValidException: Self { .init(.resourcePolicyNotValidException) }
     /// This exception is thrown when the specified resource type is not supported by CloudTrail.
     public static var resourceTypeNotSupportedException: Self { .init(.resourceTypeNotSupportedException) }
     /// This exception is thrown when the specified S3 bucket does not exist.
     public static var s3BucketDoesNotExistException: Self { .init(.s3BucketDoesNotExistException) }
-    /// The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
+    ///  This exception is thrown when the quota is exceeded. For information about CloudTrail quotas, see Service quotas  in the Amazon Web Services General Reference.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The number of tags per trail, event data store, dashboard, or channel has exceeded the permitted amount. Currently, the limit is 50.
     public static var tagsLimitExceededException: Self { .init(.tagsLimitExceededException) }
     ///  This exception is thrown when the request rate exceeds the limit.
     public static var throttlingException: Self { .init(.throttlingException) }

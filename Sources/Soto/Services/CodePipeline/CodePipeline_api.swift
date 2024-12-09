@@ -1073,7 +1073,7 @@ public struct CodePipeline: AWSService {
     ///   - pipelineName: The name of the pipeline that contains the action.
     ///   - result: Represents information about the result of the approval request.
     ///   - stageName: The name of the stage that contains the action.
-    ///   - token: The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.
+    ///   - token: The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.  For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject approval request as detailed above is not available. Instead, use the externalExecutionId from the GetPipelineState action as the token in the approval request.
     ///   - logger: Logger use during operation
     @inlinable
     public func putApprovalResult(

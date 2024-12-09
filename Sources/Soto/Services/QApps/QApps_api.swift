@@ -278,6 +278,53 @@ public struct QApps: AWSService {
         return try await self.createLibraryItem(input, logger: logger)
     }
 
+    /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope parameter determines how the file will be used, either at the app definition level or the app session level.
+    @Sendable
+    @inlinable
+    public func createPresignedUrl(_ input: CreatePresignedUrlInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresignedUrlOutput {
+        try await self.client.execute(
+            operation: "CreatePresignedUrl", 
+            path: "/apps.createPresignedUrl", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope parameter determines how the file will be used, either at the app definition level or the app session level.
+    ///
+    /// Parameters:
+    ///   - appId: The unique identifier of the Q App the file is associated with.
+    ///   - cardId: The unique identifier of the card the file is associated with.
+    ///   - fileContentsSha256: The Base64-encoded SHA-256 digest of the contents of the file to be uploaded.
+    ///   - fileName: The name of the file to be uploaded.
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - scope: Whether the file is associated with a Q App definition or a specific Q App session.
+    ///   - sessionId: The unique identifier of the Q App session the file is associated with, if applicable.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPresignedUrl(
+        appId: String,
+        cardId: String,
+        fileContentsSha256: String,
+        fileName: String,
+        instanceId: String,
+        scope: DocumentScope,
+        sessionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePresignedUrlOutput {
+        let input = CreatePresignedUrlInput(
+            appId: appId, 
+            cardId: cardId, 
+            fileContentsSha256: fileContentsSha256, 
+            fileName: fileName, 
+            instanceId: instanceId, 
+            scope: scope, 
+            sessionId: sessionId
+        )
+        return try await self.createPresignedUrl(input, logger: logger)
+    }
+
     /// Creates a new Amazon Q App based on the provided definition. The Q App definition specifies the cards and flow of the Q App. This operation also calculates the dependencies between the cards by inspecting the references in the prompts.
     @Sendable
     @inlinable
@@ -383,6 +430,38 @@ public struct QApps: AWSService {
         return try await self.deleteQApp(input, logger: logger)
     }
 
+    ///  Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
+    @Sendable
+    @inlinable
+    public func describeQAppPermissions(_ input: DescribeQAppPermissionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQAppPermissionsOutput {
+        try await self.client.execute(
+            operation: "DescribeQAppPermissions", 
+            path: "/apps.describeQAppPermissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
+    ///
+    /// Parameters:
+    ///   - appId: The unique identifier of the Amazon Q App for which to retrieve permissions.
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeQAppPermissions(
+        appId: String,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeQAppPermissionsOutput {
+        let input = DescribeQAppPermissionsInput(
+            appId: appId, 
+            instanceId: instanceId
+        )
+        return try await self.describeQAppPermissions(input, logger: logger)
+    }
+
     /// Removes a rating or review previously submitted by the user for a library item.
     @Sendable
     @inlinable
@@ -447,6 +526,38 @@ public struct QApps: AWSService {
         return try await self.disassociateQAppFromUser(input, logger: logger)
     }
 
+    /// Exports the collected data of a Q App data collection session.
+    @Sendable
+    @inlinable
+    public func exportQAppSessionData(_ input: ExportQAppSessionDataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportQAppSessionDataOutput {
+        try await self.client.execute(
+            operation: "ExportQAppSessionData", 
+            path: "/runtime.exportQAppSessionData", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Exports the collected data of a Q App data collection session.
+    ///
+    /// Parameters:
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - sessionId: The unique identifier of the Q App data collection session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func exportQAppSessionData(
+        instanceId: String,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExportQAppSessionDataOutput {
+        let input = ExportQAppSessionDataInput(
+            instanceId: instanceId, 
+            sessionId: sessionId
+        )
+        return try await self.exportQAppSessionData(input, logger: logger)
+    }
+
     /// Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
     @Sendable
     @inlinable
@@ -499,16 +610,19 @@ public struct QApps: AWSService {
     ///
     /// Parameters:
     ///   - appId: The unique identifier of the Q App to retrieve.
+    ///   - appVersion: The version of the Q App.
     ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func getQApp(
         appId: String,
+        appVersion: Int? = nil,
         instanceId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetQAppOutput {
         let input = GetQAppInput(
             appId: appId, 
+            appVersion: appVersion, 
             instanceId: instanceId
         )
         return try await self.getQApp(input, logger: logger)
@@ -546,6 +660,38 @@ public struct QApps: AWSService {
         return try await self.getQAppSession(input, logger: logger)
     }
 
+    /// Retrieves the current configuration of a Q App session.
+    @Sendable
+    @inlinable
+    public func getQAppSessionMetadata(_ input: GetQAppSessionMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQAppSessionMetadataOutput {
+        try await self.client.execute(
+            operation: "GetQAppSessionMetadata", 
+            path: "/runtime.getQAppSessionMetadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current configuration of a Q App session.
+    ///
+    /// Parameters:
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - sessionId: The unique identifier of the Q App session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getQAppSessionMetadata(
+        instanceId: String,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetQAppSessionMetadataOutput {
+        let input = GetQAppSessionMetadataInput(
+            instanceId: instanceId, 
+            sessionId: sessionId
+        )
+        return try await self.getQAppSessionMetadata(input, logger: logger)
+    }
+
     /// Uploads a file that can then be used either as a default in a FileUploadCard from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
     @Sendable
     @inlinable
@@ -563,11 +709,11 @@ public struct QApps: AWSService {
     ///
     /// Parameters:
     ///   - appId: The unique identifier of the Q App the file is associated with.
-    ///   - cardId: The unique identifier of the card the file is associated with, if applicable.
+    ///   - cardId: The unique identifier of the card the file is associated with.
     ///   - fileContentsBase64: The base64-encoded contents of the file to upload.
     ///   - fileName: The name of the file being uploaded.
     ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
-    ///   - scope: Whether the file is associated with an Q App definition or a specific Q App session.
+    ///   - scope: Whether the file is associated with a Q App definition or a specific Q App session.
     ///   - sessionId: The unique identifier of the Q App session the file is associated with, if applicable.
     ///   - logger: Logger use during operation
     @inlinable
@@ -658,6 +804,38 @@ public struct QApps: AWSService {
             nextToken: nextToken
         )
         return try await self.listLibraryItems(input, logger: logger)
+    }
+
+    /// Lists the collected data of a Q App data collection session.
+    @Sendable
+    @inlinable
+    public func listQAppSessionData(_ input: ListQAppSessionDataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQAppSessionDataOutput {
+        try await self.client.execute(
+            operation: "ListQAppSessionData", 
+            path: "/runtime.listQAppSessionData", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the collected data of a Q App data collection session.
+    ///
+    /// Parameters:
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - sessionId: The unique identifier of the Q App data collection session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listQAppSessionData(
+        instanceId: String,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListQAppSessionDataOutput {
+        let input = ListQAppSessionDataInput(
+            instanceId: instanceId, 
+            sessionId: sessionId
+        )
+        return try await self.listQAppSessionData(input, logger: logger)
     }
 
     /// Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
@@ -776,6 +954,7 @@ public struct QApps: AWSService {
     ///   - appVersion: The version of the Q App to use for the session.
     ///   - initialValues: Optional initial input values to provide for the Q App session.
     ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - sessionId: The unique identifier of the a Q App session.
     ///   - tags: Optional tags to associate with the new Q App session.
     ///   - logger: Logger use during operation
     @inlinable
@@ -784,6 +963,7 @@ public struct QApps: AWSService {
         appVersion: Int,
         initialValues: [CardValue]? = nil,
         instanceId: String,
+        sessionId: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartQAppSessionOutput {
@@ -792,6 +972,7 @@ public struct QApps: AWSService {
             appVersion: appVersion, 
             initialValues: initialValues, 
             instanceId: instanceId, 
+            sessionId: sessionId, 
             tags: tags
         )
         return try await self.startQAppSession(input, logger: logger)
@@ -1007,6 +1188,44 @@ public struct QApps: AWSService {
         return try await self.updateQApp(input, logger: logger)
     }
 
+    /// Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
+    @Sendable
+    @inlinable
+    public func updateQAppPermissions(_ input: UpdateQAppPermissionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQAppPermissionsOutput {
+        try await self.client.execute(
+            operation: "UpdateQAppPermissions", 
+            path: "/apps.updateQAppPermissions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
+    ///
+    /// Parameters:
+    ///   - appId: The unique identifier of the Amazon Q App for which permissions are being updated.
+    ///   - grantPermissions: The list of permissions to grant for the Amazon Q App.
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - revokePermissions: The list of permissions to revoke for the Amazon Q App.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateQAppPermissions(
+        appId: String,
+        grantPermissions: [PermissionInput]? = nil,
+        instanceId: String,
+        revokePermissions: [PermissionInput]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateQAppPermissionsOutput {
+        let input = UpdateQAppPermissionsInput(
+            appId: appId, 
+            grantPermissions: grantPermissions, 
+            instanceId: instanceId, 
+            revokePermissions: revokePermissions
+        )
+        return try await self.updateQAppPermissions(input, logger: logger)
+    }
+
     /// Updates the session for a given Q App sessionId. This is only valid when at least one card of the session is in the WAITING state. Data for each WAITING card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the WAITING status will be ignored.
     @Sendable
     @inlinable
@@ -1040,6 +1259,44 @@ public struct QApps: AWSService {
             values: values
         )
         return try await self.updateQAppSession(input, logger: logger)
+    }
+
+    /// Updates the configuration metadata of a session for a given Q App sessionId.
+    @Sendable
+    @inlinable
+    public func updateQAppSessionMetadata(_ input: UpdateQAppSessionMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQAppSessionMetadataOutput {
+        try await self.client.execute(
+            operation: "UpdateQAppSessionMetadata", 
+            path: "/runtime.updateQAppSessionMetadata", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration metadata of a session for a given Q App sessionId.
+    ///
+    /// Parameters:
+    ///   - instanceId: The unique identifier of the Amazon Q Business application environment instance.
+    ///   - sessionId: The unique identifier of the Q App session to update configuration for.
+    ///   - sessionName: The new name for the Q App session.
+    ///   - sharingConfiguration: The new sharing configuration for the Q App data collection session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateQAppSessionMetadata(
+        instanceId: String,
+        sessionId: String,
+        sessionName: String? = nil,
+        sharingConfiguration: SessionSharingConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateQAppSessionMetadataOutput {
+        let input = UpdateQAppSessionMetadataInput(
+            instanceId: instanceId, 
+            sessionId: sessionId, 
+            sessionName: sessionName, 
+            sharingConfiguration: sharingConfiguration
+        )
+        return try await self.updateQAppSessionMetadata(input, logger: logger)
     }
 }
 

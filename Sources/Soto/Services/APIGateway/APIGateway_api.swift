@@ -253,6 +253,7 @@ public struct APIGateway: AWSService {
     /// Parameters:
     ///   - basePath: The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify a base path name after the domain name.
     ///   - domainName: The domain name of the BasePathMapping resource to create.
+    ///   - domainNameId: The identifier for the domain name resource. Supported only for private custom domain names.
     ///   - restApiId: The string identifier of the associated RestApi.
     ///   - stage: The name of the API's stage that you want to use for this mapping. Specify '(none)' if you want callers to explicitly specify the stage name after any base path name.
     ///   - logger: Logger use during operation
@@ -260,6 +261,7 @@ public struct APIGateway: AWSService {
     public func createBasePathMapping(
         basePath: String? = nil,
         domainName: String,
+        domainNameId: String? = nil,
         restApiId: String,
         stage: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -267,6 +269,7 @@ public struct APIGateway: AWSService {
         let input = CreateBasePathMappingRequest(
             basePath: basePath, 
             domainName: domainName, 
+            domainNameId: domainNameId, 
             restApiId: restApiId, 
             stage: stage
         )
@@ -415,15 +418,16 @@ public struct APIGateway: AWSService {
     /// Creates a new domain name.
     ///
     /// Parameters:
-    ///   - certificateArn: The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
-    ///   - certificateBody: [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
+    ///   - certificateArn: The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
+    ///   - certificateBody: [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint or private endpoint for this domain name provided by your certificate authority.
     ///   - certificateChain: [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
-    ///   - certificateName: The user-friendly name of the certificate that will be used by edge-optimized endpoint for this domain name.
+    ///   - certificateName: The user-friendly name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     ///   - certificatePrivateKey: [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
     ///   - domainName: The name of the DomainName resource.
     ///   - endpointConfiguration: The endpoint configuration of this DomainName showing the endpoint types of the domain name.
     ///   - mutualTlsAuthentication: 
     ///   - ownershipVerificationCertificateArn: The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
+    ///   - policy: A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
     ///   - regionalCertificateArn: The reference to an Amazon Web Services-managed certificate that will be used by regional endpoint for this domain name. Certificate Manager is the only supported source.
     ///   - regionalCertificateName: The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
     ///   - securityPolicy: The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
@@ -440,6 +444,7 @@ public struct APIGateway: AWSService {
         endpointConfiguration: EndpointConfiguration? = nil,
         mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil,
         ownershipVerificationCertificateArn: String? = nil,
+        policy: String? = nil,
         regionalCertificateArn: String? = nil,
         regionalCertificateName: String? = nil,
         securityPolicy: SecurityPolicy? = nil,
@@ -456,12 +461,51 @@ public struct APIGateway: AWSService {
             endpointConfiguration: endpointConfiguration, 
             mutualTlsAuthentication: mutualTlsAuthentication, 
             ownershipVerificationCertificateArn: ownershipVerificationCertificateArn, 
+            policy: policy, 
             regionalCertificateArn: regionalCertificateArn, 
             regionalCertificateName: regionalCertificateName, 
             securityPolicy: securityPolicy, 
             tags: tags
         )
         return try await self.createDomainName(input, logger: logger)
+    }
+
+    ///  Creates a domain name access association resource between an access association source and a private custom domain name.
+    @Sendable
+    @inlinable
+    public func createDomainNameAccessAssociation(_ input: CreateDomainNameAccessAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DomainNameAccessAssociation {
+        try await self.client.execute(
+            operation: "CreateDomainNameAccessAssociation", 
+            path: "/domainnameaccessassociations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Creates a domain name access association resource between an access association source and a private custom domain name.
+    ///
+    /// Parameters:
+    ///   - accessAssociationSource: The identifier of the domain name access association source. For a VPCE, the value is the VPC endpoint ID.
+    ///   - accessAssociationSourceType: The type of the domain name access association source.
+    ///   - domainNameArn:  The ARN of the domain name.
+    ///   - tags: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDomainNameAccessAssociation(
+        accessAssociationSource: String,
+        accessAssociationSourceType: AccessAssociationSourceType,
+        domainNameArn: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DomainNameAccessAssociation {
+        let input = CreateDomainNameAccessAssociationRequest(
+            accessAssociationSource: accessAssociationSource, 
+            accessAssociationSourceType: accessAssociationSourceType, 
+            domainNameArn: domainNameArn, 
+            tags: tags
+        )
+        return try await self.createDomainNameAccessAssociation(input, logger: logger)
     }
 
     /// Adds a new Model resource to an existing RestApi resource.
@@ -892,16 +936,19 @@ public struct APIGateway: AWSService {
     /// Parameters:
     ///   - basePath: The base path name of the BasePathMapping resource to delete. To specify an empty base path, set this parameter to '(none)'.
     ///   - domainName: The domain name of the BasePathMapping resource to delete.
+    ///   - domainNameId:  The identifier for the domain name resource. Supported only for private custom domain names.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteBasePathMapping(
         basePath: String,
         domainName: String,
+        domainNameId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = DeleteBasePathMappingRequest(
             basePath: basePath, 
-            domainName: domainName
+            domainName: domainName, 
+            domainNameId: domainNameId
         )
         return try await self.deleteBasePathMapping(input, logger: logger)
     }
@@ -1048,16 +1095,48 @@ public struct APIGateway: AWSService {
     ///
     /// Parameters:
     ///   - domainName: The name of the DomainName resource to be deleted.
+    ///   - domainNameId:  The identifier for the domain name resource. Supported only for private custom domain names.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDomainName(
         domainName: String,
+        domainNameId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = DeleteDomainNameRequest(
-            domainName: domainName
+            domainName: domainName, 
+            domainNameId: domainNameId
         )
         return try await self.deleteDomainName(input, logger: logger)
+    }
+
+    ///  Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
+    @Sendable
+    @inlinable
+    public func deleteDomainNameAccessAssociation(_ input: DeleteDomainNameAccessAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteDomainNameAccessAssociation", 
+            path: "/domainnameaccessassociations/{domainNameAccessAssociationArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
+    ///
+    /// Parameters:
+    ///   - domainNameAccessAssociationArn:  The ARN of the domain name access association resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDomainNameAccessAssociation(
+        domainNameAccessAssociationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteDomainNameAccessAssociationRequest(
+            domainNameAccessAssociationArn: domainNameAccessAssociationArn
+        )
+        return try await self.deleteDomainNameAccessAssociation(input, logger: logger)
     }
 
     /// Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
@@ -1765,16 +1844,19 @@ public struct APIGateway: AWSService {
     /// Parameters:
     ///   - basePath: The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify any base path name after the domain name.
     ///   - domainName: The domain name of the BasePathMapping resource to be described.
+    ///   - domainNameId: The identifier for the domain name resource. Supported only for private custom domain names.
     ///   - logger: Logger use during operation
     @inlinable
     public func getBasePathMapping(
         basePath: String,
         domainName: String,
+        domainNameId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> BasePathMapping {
         let input = GetBasePathMappingRequest(
             basePath: basePath, 
-            domainName: domainName
+            domainName: domainName, 
+            domainNameId: domainNameId
         )
         return try await self.getBasePathMapping(input, logger: logger)
     }
@@ -1796,18 +1878,21 @@ public struct APIGateway: AWSService {
     ///
     /// Parameters:
     ///   - domainName: The domain name of a BasePathMapping resource.
+    ///   - domainNameId:  The identifier for the domain name resource. Supported only for private custom domain names.
     ///   - limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     ///   - position: The current pagination position in the paged result set.
     ///   - logger: Logger use during operation
     @inlinable
     public func getBasePathMappings(
         domainName: String,
+        domainNameId: String? = nil,
         limit: Int? = nil,
         position: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> BasePathMappings {
         let input = GetBasePathMappingsRequest(
             domainName: domainName, 
+            domainNameId: domainNameId, 
             limit: limit, 
             position: position
         )
@@ -2108,16 +2193,54 @@ public struct APIGateway: AWSService {
     ///
     /// Parameters:
     ///   - domainName: The name of the DomainName resource.
+    ///   - domainNameId:  The identifier for the domain name resource. Supported only for private custom domain names.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDomainName(
         domainName: String,
+        domainNameId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DomainName {
         let input = GetDomainNameRequest(
-            domainName: domainName
+            domainName: domainName, 
+            domainNameId: domainNameId
         )
         return try await self.getDomainName(input, logger: logger)
+    }
+
+    /// Represents a collection on DomainNameAccessAssociations resources.
+    @Sendable
+    @inlinable
+    public func getDomainNameAccessAssociations(_ input: GetDomainNameAccessAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DomainNameAccessAssociations {
+        try await self.client.execute(
+            operation: "GetDomainNameAccessAssociations", 
+            path: "/domainnameaccessassociations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Represents a collection on DomainNameAccessAssociations resources.
+    ///
+    /// Parameters:
+    ///   - limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+    ///   - position: The current pagination position in the paged result set.
+    ///   - resourceOwner:  The owner of the domain name access association. Use SELF to only list the domain name access associations owned by your own account. Use OTHER_ACCOUNTS to list the domain name access associations with your private custom domain names that are owned by other AWS accounts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDomainNameAccessAssociations(
+        limit: Int? = nil,
+        position: String? = nil,
+        resourceOwner: ResourceOwner? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DomainNameAccessAssociations {
+        let input = GetDomainNameAccessAssociationsRequest(
+            limit: limit, 
+            position: position, 
+            resourceOwner: resourceOwner
+        )
+        return try await self.getDomainNameAccessAssociations(input, logger: logger)
     }
 
     /// Represents a collection of DomainName resources.
@@ -2138,16 +2261,19 @@ public struct APIGateway: AWSService {
     /// Parameters:
     ///   - limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     ///   - position: The current pagination position in the paged result set.
+    ///   - resourceOwner: The owner of the domain name access association.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDomainNames(
         limit: Int? = nil,
         position: String? = nil,
+        resourceOwner: ResourceOwner? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DomainNames {
         let input = GetDomainNamesRequest(
             limit: limit, 
-            position: position
+            position: position, 
+            resourceOwner: resourceOwner
         )
         return try await self.getDomainNames(input, logger: logger)
     }
@@ -3566,6 +3692,38 @@ public struct APIGateway: AWSService {
         return try await self.putRestApi(input, logger: logger)
     }
 
+    /// Rejects a domain name access association with a private custom domain name. To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
+    @Sendable
+    @inlinable
+    public func rejectDomainNameAccessAssociation(_ input: RejectDomainNameAccessAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "RejectDomainNameAccessAssociation", 
+            path: "/rejectdomainnameaccessassociations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Rejects a domain name access association with a private custom domain name. To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
+    ///
+    /// Parameters:
+    ///   - domainNameAccessAssociationArn: The ARN of the domain name access association resource.
+    ///   - domainNameArn: The ARN of the domain name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rejectDomainNameAccessAssociation(
+        domainNameAccessAssociationArn: String,
+        domainNameArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = RejectDomainNameAccessAssociationRequest(
+            domainNameAccessAssociationArn: domainNameAccessAssociationArn, 
+            domainNameArn: domainNameArn
+        )
+        return try await self.rejectDomainNameAccessAssociation(input, logger: logger)
+    }
+
     /// Adds or updates a tag on a given resource.
     @Sendable
     @inlinable
@@ -3847,18 +4005,21 @@ public struct APIGateway: AWSService {
     /// Parameters:
     ///   - basePath: The base path of the BasePathMapping resource to change. To specify an empty base path, set this parameter to '(none)'.
     ///   - domainName: The domain name of the BasePathMapping resource to change.
+    ///   - domainNameId:  The identifier for the domain name resource. Supported only for private custom domain names.
     ///   - patchOperations: For more information about supported patch operations, see Patch Operations.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBasePathMapping(
         basePath: String,
         domainName: String,
+        domainNameId: String? = nil,
         patchOperations: [PatchOperation]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> BasePathMapping {
         let input = UpdateBasePathMappingRequest(
             basePath: basePath, 
             domainName: domainName, 
+            domainNameId: domainNameId, 
             patchOperations: patchOperations
         )
         return try await self.updateBasePathMapping(input, logger: logger)
@@ -4018,16 +4179,19 @@ public struct APIGateway: AWSService {
     ///
     /// Parameters:
     ///   - domainName: The name of the DomainName resource to be changed.
+    ///   - domainNameId:  The identifier for the domain name resource. Supported only for private custom domain names.
     ///   - patchOperations: For more information about supported patch operations, see Patch Operations.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDomainName(
         domainName: String,
+        domainNameId: String? = nil,
         patchOperations: [PatchOperation]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DomainName {
         let input = UpdateDomainNameRequest(
             domainName: domainName, 
+            domainNameId: domainNameId, 
             patchOperations: patchOperations
         )
         return try await self.updateDomainName(input, logger: logger)
@@ -4576,16 +4740,19 @@ extension APIGateway {
     ///
     /// - Parameters:
     ///   - domainName: The domain name of a BasePathMapping resource.
+    ///   - domainNameId:  The identifier for the domain name resource. Supported only for private custom domain names.
     ///   - limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     ///   - logger: Logger used for logging
     @inlinable
     public func getBasePathMappingsPaginator(
         domainName: String,
+        domainNameId: String? = nil,
         limit: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetBasePathMappingsRequest, BasePathMappings> {
         let input = GetBasePathMappingsRequest(
             domainName: domainName, 
+            domainNameId: domainNameId, 
             limit: limit
         )
         return self.getBasePathMappingsPaginator(input, logger: logger)
@@ -4684,14 +4851,17 @@ extension APIGateway {
     ///
     /// - Parameters:
     ///   - limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+    ///   - resourceOwner: The owner of the domain name access association.
     ///   - logger: Logger used for logging
     @inlinable
     public func getDomainNamesPaginator(
         limit: Int? = nil,
+        resourceOwner: ResourceOwner? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetDomainNamesRequest, DomainNames> {
         let input = GetDomainNamesRequest(
-            limit: limit
+            limit: limit, 
+            resourceOwner: resourceOwner
         )
         return self.getDomainNamesPaginator(input, logger: logger)
     }
@@ -4983,6 +5153,7 @@ extension APIGateway.GetBasePathMappingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> APIGateway.GetBasePathMappingsRequest {
         return .init(
             domainName: self.domainName,
+            domainNameId: self.domainNameId,
             limit: self.limit,
             position: token
         )
@@ -5015,7 +5186,8 @@ extension APIGateway.GetDomainNamesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> APIGateway.GetDomainNamesRequest {
         return .init(
             limit: self.limit,
-            position: token
+            position: token,
+            resourceOwner: self.resourceOwner
         )
     }
 }

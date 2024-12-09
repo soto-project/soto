@@ -300,6 +300,13 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum OpenZFSReadCacheSizingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noCache = "NO_CACHE"
+        case proportionalToThroughputCapacity = "PROPORTIONAL_TO_THROUGHPUT_CAPACITY"
+        case userProvisioned = "USER_PROVISIONED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PrivilegedDelete: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -380,6 +387,7 @@ extension FSx {
 
     public enum StorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hdd = "HDD"
+        case intelligentTiering = "INTELLIGENT_TIERING"
         case ssd = "SSD"
         public var description: String { return self.rawValue }
     }
@@ -727,6 +735,8 @@ extension FSx {
         public let resourceARN: String?
         /// Specifies the resource type that's backed up.
         public let resourceType: ResourceType?
+        ///  The size of the backup in bytes. This represents the amount of data that the file system would contain if you restore this backup.
+        public let sizeInBytes: Int64?
         public let sourceBackupId: String?
         /// The source Region of the backup. Specifies the Region from where this backup is copied.
         public let sourceBackupRegion: String?
@@ -737,7 +747,7 @@ extension FSx {
         public let volume: Volume?
 
         @inlinable
-        public init(backupId: String? = nil, creationTime: Date? = nil, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem? = nil, kmsKeyId: String? = nil, lifecycle: BackupLifecycle? = nil, ownerId: String? = nil, progressPercent: Int? = nil, resourceARN: String? = nil, resourceType: ResourceType? = nil, sourceBackupId: String? = nil, sourceBackupRegion: String? = nil, tags: [Tag]? = nil, type: BackupType? = nil, volume: Volume? = nil) {
+        public init(backupId: String? = nil, creationTime: Date? = nil, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem? = nil, kmsKeyId: String? = nil, lifecycle: BackupLifecycle? = nil, ownerId: String? = nil, progressPercent: Int? = nil, resourceARN: String? = nil, resourceType: ResourceType? = nil, sizeInBytes: Int64? = nil, sourceBackupId: String? = nil, sourceBackupRegion: String? = nil, tags: [Tag]? = nil, type: BackupType? = nil, volume: Volume? = nil) {
             self.backupId = backupId
             self.creationTime = creationTime
             self.directoryInformation = directoryInformation
@@ -749,6 +759,7 @@ extension FSx {
             self.progressPercent = progressPercent
             self.resourceARN = resourceARN
             self.resourceType = resourceType
+            self.sizeInBytes = sizeInBytes
             self.sourceBackupId = sourceBackupId
             self.sourceBackupRegion = sourceBackupRegion
             self.tags = tags
@@ -768,6 +779,7 @@ extension FSx {
             case progressPercent = "ProgressPercent"
             case resourceARN = "ResourceARN"
             case resourceType = "ResourceType"
+            case sizeInBytes = "SizeInBytes"
             case sourceBackupId = "SourceBackupId"
             case sourceBackupRegion = "SourceBackupRegion"
             case tags = "Tags"
@@ -1480,6 +1492,8 @@ extension FSx {
         public let deploymentType: LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public let driveCacheType: DriveCacheType?
+        /// (Optional) Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage (GDS) support is enabled for the Amazon FSx for Lustre file system. (Default = false)
+        public let efaEnabled: Bool?
         /// (Optional) Specifies the path in the Amazon S3 bucket where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you specify only a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file  system to that export prefix in the Amazon S3 bucket.  This parameter is not supported for file systems with a data repository association.
         public let exportPath: String?
         /// (Optional) For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3  objects have a maximum size of 5 TB.  This parameter is not supported for file systems with a data repository association.
@@ -1498,7 +1512,7 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, metadataConfiguration: CreateFileSystemLustreMetadataConfiguration? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, efaEnabled: Bool? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, metadataConfiguration: CreateFileSystemLustreMetadataConfiguration? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
@@ -1506,6 +1520,7 @@ extension FSx {
             self.dataCompressionType = dataCompressionType
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
+            self.efaEnabled = efaEnabled
             self.exportPath = exportPath
             self.importedFileChunkSize = importedFileChunkSize
             self.importPath = importPath
@@ -1548,6 +1563,7 @@ extension FSx {
             case dataCompressionType = "DataCompressionType"
             case deploymentType = "DeploymentType"
             case driveCacheType = "DriveCacheType"
+            case efaEnabled = "EfaEnabled"
             case exportPath = "ExportPath"
             case importedFileChunkSize = "ImportedFileChunkSize"
             case importPath = "ImportPath"
@@ -1684,6 +1700,8 @@ extension FSx {
         public let endpointIpAddressRange: String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public let preferredSubnetId: String?
+        ///  Specifies the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
+        public let readCacheConfiguration: OpenZFSReadCacheConfiguration?
         /// The configuration Amazon FSx uses when creating the root value of the Amazon FSx for OpenZFS file system. All volumes are children of the root volume.
         public let rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration?
         /// (Multi-AZ only) Specifies the route tables in which Amazon FSx  creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx  selects your VPC's default route table.
@@ -1693,7 +1711,7 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, preferredSubnetId: String? = nil, rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddressRange: String? = nil, preferredSubnetId: String? = nil, readCacheConfiguration: OpenZFSReadCacheConfiguration? = nil, rootVolumeConfiguration: OpenZFSCreateRootVolumeConfiguration? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
@@ -1702,6 +1720,7 @@ extension FSx {
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
             self.preferredSubnetId = preferredSubnetId
+            self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeConfiguration = rootVolumeConfiguration
             self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
@@ -1721,6 +1740,7 @@ extension FSx {
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, max: 24)
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, min: 15)
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, pattern: "^(subnet-[0-9a-f]{8,})$")
+            try self.readCacheConfiguration?.validate(name: "\(name).readCacheConfiguration")
             try self.rootVolumeConfiguration?.validate(name: "\(name).rootVolumeConfiguration")
             try self.routeTableIds?.forEach {
                 try validate($0, name: "routeTableIds[]", parent: name, max: 21)
@@ -1744,6 +1764,7 @@ extension FSx {
             case diskIopsConfiguration = "DiskIopsConfiguration"
             case endpointIpAddressRange = "EndpointIpAddressRange"
             case preferredSubnetId = "PreferredSubnetId"
+            case readCacheConfiguration = "ReadCacheConfiguration"
             case rootVolumeConfiguration = "RootVolumeConfiguration"
             case routeTableIds = "RouteTableIds"
             case throughputCapacity = "ThroughputCapacity"
@@ -1767,7 +1788,7 @@ extension FSx {
         public let securityGroupIds: [String]?
         /// Sets the storage capacity of the file system that you're creating, in gibibytes (GiB).  FSx for Lustre file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType and the Lustre DeploymentType, as follows:   For SCRATCH_2, PERSISTENT_2, and PERSISTENT_1 deployment types  using SSD storage type, the valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.   For PERSISTENT_1 HDD file systems, valid values are increments of 6000 GiB for  12 MB/s/TiB file systems and increments of 1800 GiB for 40 MB/s/TiB file systems.   For SCRATCH_1 deployment type, valid values are  1200 GiB, 2400 GiB, and increments of 3600 GiB.    FSx for ONTAP file systems - The amount of storage capacity  that you can configure depends on the value of the HAPairs property. The minimum value is calculated as 1,024 * HAPairs and the maximum is calculated as 524,288 * HAPairs.   FSx for OpenZFS file systems - The amount of storage capacity that  you can configure is from 64 GiB up to 524,288 GiB (512 TiB).  FSx for Windows File Server file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType as follows:   For SSD storage, valid values are 32 GiB-65,536 GiB (64 TiB).   For HDD storage, valid values are 2000 GiB-65,536 GiB (64 TiB).
         public let storageCapacity: Int?
-        /// Sets the storage type for the file system that you're creating. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all Windows, Lustre, ONTAP, and OpenZFS deployment types.   Set to HDD to use hard disk drive storage.  HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.   Default value is SSD. For more information, see  Storage type options in the FSx for Windows File Server User Guide and Multiple storage options in the FSx for Lustre User Guide.
+        /// Sets the storage class for the file system that you're creating. Valid values are SSD, HDD, and INTELLIGENT_TIERING.   Set to SSD to use solid state drive storage. SSD is supported on all Windows, Lustre, ONTAP, and OpenZFS deployment types.   Set to HDD to use hard disk drive storage.  HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.   Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type.   Default value is SSD. For more information, see  Storage type options in the FSx for Windows File Server User Guide, Multiple storage options in the FSx for Lustre User Guide, and Working with Intelligent-Tiering in the Amazon FSx for OpenZFS User Guide.
         public let storageType: StorageType?
         /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows and ONTAP MULTI_AZ_1 deployment types,provide exactly two subnet IDs, one for the preferred file server and one for the standby file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration > PreferredSubnetID or OntapConfiguration > PreferredSubnetID properties. For more information about Multi-AZ file system configuration, see  Availability and durability: Single-AZ and Multi-AZ file systems in the Amazon FSx for Windows User Guide and  Availability and durability in the Amazon FSx for ONTAP User Guide. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 and all Lustre  deployment types, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
         public let subnetIds: [String]?
@@ -2077,7 +2098,7 @@ extension FSx {
         public let parentVolumeId: String?
         /// A Boolean value indicating whether the volume is read-only.
         public let readOnly: Bool?
-        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB). Valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB. The default is 128 KiB. We recommend using the default setting for the majority of use cases.  Generally, workloads that write in fixed small or large record sizes  may benefit from setting a custom record size, like database workloads  (small record size) or media streaming workloads (large record size).  For additional guidance on when to set a custom record size, see   ZFS Record size in the Amazon FSx for OpenZFS User Guide.
+        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB).  For file systems using the Intelligent-Tiering storage class, valid values are 128, 256, 512, 1024, 2048, or 4096 KiB, with a default of 2048 KiB.  For all other file systems, valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB, with a default of 128 KiB.  We recommend using the default setting for the majority of use cases. Generally, workloads that write in fixed small or large record sizes may benefit from setting a custom record size, like database workloads (small record size) or media streaming workloads (large record size). For additional guidance on when to set a custom record size, see   ZFS Record size in the Amazon FSx for OpenZFS User Guide.
         public let recordSizeKiB: Int?
         /// Sets the maximum storage size in gibibytes (GiB) for the volume. You can specify  a quota that is larger than the storage on the parent volume. A volume quota limits  the amount of storage that the volume can consume to the configured amount, but does not  guarantee the space will be available on the parent volume. To guarantee quota space, you must also set  StorageCapacityReservationGiB. To not specify a storage capacity quota, set this to -1.  For more information, see  Volume properties  in the Amazon FSx for OpenZFS User Guide.
         public let storageCapacityQuotaGiB: Int?
@@ -2109,7 +2130,7 @@ extension FSx {
             try self.validate(self.parentVolumeId, name: "parentVolumeId", parent: name, max: 23)
             try self.validate(self.parentVolumeId, name: "parentVolumeId", parent: name, min: 23)
             try self.validate(self.parentVolumeId, name: "parentVolumeId", parent: name, pattern: "^(fsvol-[0-9a-f]{17,})$")
-            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 1024)
+            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 4096)
             try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, min: 4)
             try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, max: 2147483647)
             try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, min: -1)
@@ -4428,6 +4449,8 @@ extension FSx {
         public let deploymentType: LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when StorageType is HDD. When set to READ the file system has an SSD storage cache that is sized to 20% of the file system's storage capacity. This improves the performance for frequently accessed files by caching up to 20% of the total storage capacity. This parameter is required when StorageType is set to HDD.
         public let driveCacheType: DriveCacheType?
+        /// Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage (GDS) support is enabled for the Amazon FSx for Lustre file system.
+        public let efaEnabled: Bool?
         /// The Lustre logging configuration. Lustre logging writes the enabled log events for your file system to Amazon CloudWatch Logs.
         public let logConfiguration: LustreLogConfiguration?
         /// The Lustre metadata performance configuration for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type.
@@ -4442,7 +4465,7 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, logConfiguration: LustreLogConfiguration? = nil, metadataConfiguration: FileSystemLustreMetadataConfiguration? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, efaEnabled: Bool? = nil, logConfiguration: LustreLogConfiguration? = nil, metadataConfiguration: FileSystemLustreMetadataConfiguration? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -4450,6 +4473,7 @@ extension FSx {
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
+            self.efaEnabled = efaEnabled
             self.logConfiguration = logConfiguration
             self.metadataConfiguration = metadataConfiguration
             self.mountName = mountName
@@ -4466,6 +4490,7 @@ extension FSx {
             case dataRepositoryConfiguration = "DataRepositoryConfiguration"
             case deploymentType = "DeploymentType"
             case driveCacheType = "DriveCacheType"
+            case efaEnabled = "EfaEnabled"
             case logConfiguration = "LogConfiguration"
             case metadataConfiguration = "MetadataConfiguration"
             case mountName = "MountName"
@@ -4760,7 +4785,7 @@ extension FSx {
                 try $0.validate(name: "\(name).nfsExports[]")
             }
             try self.validate(self.nfsExports, name: "nfsExports", parent: name, max: 1)
-            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 1024)
+            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 4096)
             try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, min: 4)
             try self.userAndGroupQuotas?.forEach {
                 try $0.validate(name: "\(name).userAndGroupQuotas[]")
@@ -4794,6 +4819,8 @@ extension FSx {
         public let endpointIpAddressRange: String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public let preferredSubnetId: String?
+        ///  Required when StorageType is set to INTELLIGENT_TIERING. Specifies the optional provisioned SSD read cache.
+        public let readCacheConfiguration: OpenZFSReadCacheConfiguration?
         /// The ID of the root volume of the OpenZFS file system.
         public let rootVolumeId: String?
         /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
@@ -4803,7 +4830,7 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddress: String? = nil, endpointIpAddressRange: String? = nil, preferredSubnetId: String? = nil, rootVolumeId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: OpenZFSDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, endpointIpAddress: String? = nil, endpointIpAddressRange: String? = nil, preferredSubnetId: String? = nil, readCacheConfiguration: OpenZFSReadCacheConfiguration? = nil, rootVolumeId: String? = nil, routeTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
@@ -4813,6 +4840,7 @@ extension FSx {
             self.endpointIpAddress = endpointIpAddress
             self.endpointIpAddressRange = endpointIpAddressRange
             self.preferredSubnetId = preferredSubnetId
+            self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeId = rootVolumeId
             self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
@@ -4829,6 +4857,7 @@ extension FSx {
             case endpointIpAddress = "EndpointIpAddress"
             case endpointIpAddressRange = "EndpointIpAddressRange"
             case preferredSubnetId = "PreferredSubnetId"
+            case readCacheConfiguration = "ReadCacheConfiguration"
             case rootVolumeId = "RootVolumeId"
             case routeTableIds = "RouteTableIds"
             case throughputCapacity = "ThroughputCapacity"
@@ -4871,6 +4900,29 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case copyStrategy = "CopyStrategy"
             case snapshotARN = "SnapshotARN"
+        }
+    }
+
+    public struct OpenZFSReadCacheConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  Required if SizingMode is set to USER_PROVISIONED. Specifies the size of the file system's SSD read cache, in gibibytes (GiB).
+        public let sizeGiB: Int?
+        ///  Specifies how the provisioned SSD read cache is sized, as follows:    Set to NO_CACHE if you do not want to use an SSD read cache with your Intelligent-Tiering file system.   Set to USER_PROVISIONED to specify the exact size of your SSD read cache.   Set to PROPORTIONAL_TO_THROUGHPUT_CAPACITY to have your SSD read cache automatically sized based on your throughput capacity.
+        public let sizingMode: OpenZFSReadCacheSizingMode?
+
+        @inlinable
+        public init(sizeGiB: Int? = nil, sizingMode: OpenZFSReadCacheSizingMode? = nil) {
+            self.sizeGiB = sizeGiB
+            self.sizingMode = sizingMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sizeGiB, name: "sizeGiB", parent: name, max: 2147483647)
+            try self.validate(self.sizeGiB, name: "sizeGiB", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sizeGiB = "SizeGiB"
+            case sizingMode = "SizingMode"
         }
     }
 
@@ -6014,6 +6066,8 @@ extension FSx {
         public let copyTagsToVolumes: Bool?
         public let dailyAutomaticBackupStartTime: String?
         public let diskIopsConfiguration: DiskIopsConfiguration?
+        ///  The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
+        public let readCacheConfiguration: OpenZFSReadCacheConfiguration?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for OpenZFS file system. You can use the  API operation to retrieve the list of VPC route table IDs for a file system.
         public let removeRouteTableIds: [String]?
         /// The throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second  (MB/s). Valid values depend on the DeploymentType you choose, as follows:   For MULTI_AZ_1 and SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MB/s.   For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.
@@ -6021,13 +6075,14 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, copyTagsToVolumes: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, readCacheConfiguration: OpenZFSReadCacheConfiguration? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.addRouteTableIds = addRouteTableIds
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.readCacheConfiguration = readCacheConfiguration
             self.removeRouteTableIds = removeRouteTableIds
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -6046,6 +6101,7 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
+            try self.readCacheConfiguration?.validate(name: "\(name).readCacheConfiguration")
             try self.removeRouteTableIds?.forEach {
                 try validate($0, name: "removeRouteTableIds[]", parent: name, max: 21)
                 try validate($0, name: "removeRouteTableIds[]", parent: name, min: 12)
@@ -6066,6 +6122,7 @@ extension FSx {
             case copyTagsToVolumes = "CopyTagsToVolumes"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case diskIopsConfiguration = "DiskIopsConfiguration"
+            case readCacheConfiguration = "ReadCacheConfiguration"
             case removeRouteTableIds = "RemoveRouteTableIds"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
@@ -6286,7 +6343,7 @@ extension FSx {
                 try $0.validate(name: "\(name).nfsExports[]")
             }
             try self.validate(self.nfsExports, name: "nfsExports", parent: name, max: 1)
-            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 1024)
+            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 4096)
             try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, min: 4)
             try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, max: 2147483647)
             try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, min: -1)

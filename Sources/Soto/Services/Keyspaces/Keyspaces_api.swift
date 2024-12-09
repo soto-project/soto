@@ -196,7 +196,7 @@ public struct Keyspaces: AWSService {
         return try await self.createTable(input, logger: logger)
     }
 
-    ///  The CreateType operation creates a new user-defined type in the specified keyspace.  For more information, see User-defined types (UDTs) in the Amazon Keyspaces Developer Guide.
+    ///  The CreateType operation creates a new user-defined type in the specified keyspace.  To configure the required permissions, see Permissions to create a UDT in the Amazon Keyspaces Developer Guide. For more information, see User-defined types (UDTs) in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func createType(_ input: CreateTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTypeResponse {
@@ -209,7 +209,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    ///  The CreateType operation creates a new user-defined type in the specified keyspace.  For more information, see User-defined types (UDTs) in the Amazon Keyspaces Developer Guide.
+    ///  The CreateType operation creates a new user-defined type in the specified keyspace.  To configure the required permissions, see Permissions to create a UDT in the Amazon Keyspaces Developer Guide. For more information, see User-defined types (UDTs) in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - fieldDefinitions:  The field definitions, consisting of names and types, that define this type.
@@ -292,7 +292,7 @@ public struct Keyspaces: AWSService {
         return try await self.deleteTable(input, logger: logger)
     }
 
-    ///  The DeleteType operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT.
+    ///  The DeleteType operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT.  To configure the required permissions, see Permissions to delete a UDT in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func deleteType(_ input: DeleteTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTypeResponse {
@@ -305,7 +305,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    ///  The DeleteType operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT.
+    ///  The DeleteType operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT.  To configure the required permissions, see Permissions to delete a UDT in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - keyspaceName:  The name of the keyspace of the to be deleted type.
@@ -324,7 +324,7 @@ public struct Keyspaces: AWSService {
         return try await self.deleteType(input, logger: logger)
     }
 
-    /// Returns the name and the Amazon Resource Name (ARN) of the specified table.
+    /// Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of  a multi-Region keyspace, and the status of newly added Regions after an UpdateKeyspace operation.
     @Sendable
     @inlinable
     public func getKeyspace(_ input: GetKeyspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKeyspaceResponse {
@@ -337,7 +337,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    /// Returns the name and the Amazon Resource Name (ARN) of the specified table.
+    /// Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of  a multi-Region keyspace, and the status of newly added Regions after an UpdateKeyspace operation.
     ///
     /// Parameters:
     ///   - keyspaceName: The name of the keyspace.
@@ -417,7 +417,7 @@ public struct Keyspaces: AWSService {
         return try await self.getTableAutoScalingSettings(input, logger: logger)
     }
 
-    ///  The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.  To read keyspace metadata using GetType, the  IAM principal needs Select action  permissions for the system keyspace.
+    ///  The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.  To read keyspace metadata using GetType, the  IAM principal needs Select action  permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func getType(_ input: GetTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTypeResponse {
@@ -430,7 +430,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    ///  The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.  To read keyspace metadata using GetType, the  IAM principal needs Select action  permissions for the system keyspace.
+    ///  The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables.  To read keyspace metadata using GetType, the  IAM principal needs Select action  permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - keyspaceName:  The name of the keyspace that contains this type.
@@ -551,7 +551,7 @@ public struct Keyspaces: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    ///  The ListTypes operation returns a list of types for a specified keyspace.  To read keyspace metadata using ListTypes, the  IAM principal needs Select action  permissions for the system keyspace.
+    ///  The ListTypes operation returns a list of types for a specified keyspace.  To read keyspace metadata using ListTypes, the  IAM principal needs Select action  permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
     @Sendable
     @inlinable
     public func listTypes(_ input: ListTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTypesResponse {
@@ -564,7 +564,7 @@ public struct Keyspaces: AWSService {
             logger: logger
         )
     }
-    ///  The ListTypes operation returns a list of types for a specified keyspace.  To read keyspace metadata using ListTypes, the  IAM principal needs Select action  permissions for the system keyspace.
+    ///  The ListTypes operation returns a list of types for a specified keyspace.  To read keyspace metadata using ListTypes, the  IAM principal needs Select action  permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the Amazon Keyspaces Developer Guide.
     ///
     /// Parameters:
     ///   - keyspaceName:  The name of the keyspace that contains the listed types.
@@ -707,6 +707,41 @@ public struct Keyspaces: AWSService {
             tags: tags
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    ///  Adds a new Amazon Web Services Region to the keyspace.  You can add a new Region to a keyspace that is either a single or a multi-Region keyspace. The new replica Region is applied to all tables in the keyspace. For more information, see Add an Amazon Web Services Region to a keyspace in Amazon Keyspaces in the Amazon Keyspaces Developer Guide.  To change a single-Region to a multi-Region keyspace, you have to enable client-side timestamps for all tables in the keyspace. For more information, see Client-side timestamps in Amazon Keyspaces in the Amazon Keyspaces Developer Guide.
+    @Sendable
+    @inlinable
+    public func updateKeyspace(_ input: UpdateKeyspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKeyspaceResponse {
+        try await self.client.execute(
+            operation: "UpdateKeyspace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Adds a new Amazon Web Services Region to the keyspace.  You can add a new Region to a keyspace that is either a single or a multi-Region keyspace. The new replica Region is applied to all tables in the keyspace. For more information, see Add an Amazon Web Services Region to a keyspace in Amazon Keyspaces in the Amazon Keyspaces Developer Guide.  To change a single-Region to a multi-Region keyspace, you have to enable client-side timestamps for all tables in the keyspace. For more information, see Client-side timestamps in Amazon Keyspaces in the Amazon Keyspaces Developer Guide.
+    ///
+    /// Parameters:
+    ///   - clientSideTimestamps: 
+    ///   - keyspaceName:  The name of the keyspace.
+    ///   - replicationSpecification: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateKeyspace(
+        clientSideTimestamps: ClientSideTimestamps? = nil,
+        keyspaceName: String,
+        replicationSpecification: ReplicationSpecification,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateKeyspaceResponse {
+        let input = UpdateKeyspaceRequest(
+            clientSideTimestamps: clientSideTimestamps, 
+            keyspaceName: keyspaceName, 
+            replicationSpecification: replicationSpecification
+        )
+        return try await self.updateKeyspace(input, logger: logger)
     }
 
     /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.

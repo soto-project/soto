@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS RedshiftServerless service.
 ///
-/// This is an interface reference for Amazon Redshift Serverless.  It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Redshift Serverless.  Amazon Redshift Serverless automatically provisions data warehouse capacity and intelligently scales the  underlying resources based on workload demands. Amazon Redshift Serverless adjusts capacity in seconds to deliver consistently high  performance and simplified operations for even the most demanding and volatile workloads. Amazon Redshift Serverless lets you focus on using your data to acquire new insights for your business and customers.   To learn more about Amazon Redshift Serverless,  see What is Amazon Redshift Serverless.
+/// This is an interface reference for Amazon Redshift Serverless.  It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Redshift Serverless.  Amazon Redshift Serverless automatically provisions data warehouse capacity and intelligently scales the  underlying resources based on workload demands. Amazon Redshift Serverless adjusts capacity in seconds to deliver consistently high  performance and simplified operations for even the most demanding and volatile workloads. Amazon Redshift Serverless lets you focus on using your data to acquire new insights for your business and customers.  To learn more about Amazon Redshift Serverless, see What is Amazon Redshift Serverless?.
 public struct RedshiftServerless: AWSService {
     // MARK: Member variables
 
@@ -439,7 +439,7 @@ public struct RedshiftServerless: AWSService {
         return try await self.createUsageLimit(input, logger: logger)
     }
 
-    /// Creates an workgroup in Amazon Redshift Serverless.
+    /// Creates an workgroup in Amazon Redshift Serverless. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked:    Creating a public access workgroup   Modifying a private workgroup to public   Adding a subnet with VPC BPA turned on to the workgroup when the workgroup is public   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     @Sendable
     @inlinable
     public func createWorkgroup(_ input: CreateWorkgroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkgroupResponse {
@@ -452,7 +452,7 @@ public struct RedshiftServerless: AWSService {
             logger: logger
         )
     }
-    /// Creates an workgroup in Amazon Redshift Serverless.
+    /// Creates an workgroup in Amazon Redshift Serverless. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked:    Creating a public access workgroup   Modifying a private workgroup to public   Adding a subnet with VPC BPA turned on to the workgroup when the workgroup is public   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     ///
     /// Parameters:
     ///   - baseCapacity: The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
@@ -774,7 +774,7 @@ public struct RedshiftServerless: AWSService {
         return try await self.deleteWorkgroup(input, logger: logger)
     }
 
-    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds.  You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes).  The Identity and Access Management (IAM) user or role that runs  GetCredentials must have an IAM policy attached that allows access to all  necessary actions and resources.  If the DbName parameter is specified, the IAM policy must  allow access to the resource dbname for the specified database name.
+    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds.  You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs  GetCredentials must have an IAM policy attached that allows access to all  necessary actions and resources. If the DbName parameter is specified, the IAM policy must  allow access to the resource dbname for the specified database name.
     @Sendable
     @inlinable
     public func getCredentials(_ input: GetCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCredentialsResponse {
@@ -787,7 +787,7 @@ public struct RedshiftServerless: AWSService {
             logger: logger
         )
     }
-    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds.  You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes).  The Identity and Access Management (IAM) user or role that runs  GetCredentials must have an IAM policy attached that allows access to all  necessary actions and resources.  If the DbName parameter is specified, the IAM policy must  allow access to the resource dbname for the specified database name.
+    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds.  You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs  GetCredentials must have an IAM policy attached that allows access to all  necessary actions and resources. If the DbName parameter is specified, the IAM policy must  allow access to the resource dbname for the specified database name.
     ///
     /// Parameters:
     ///   - customDomainName: The custom domain name associated with the workgroup. The custom domain name or the workgroup name must be included in the request.
@@ -1188,6 +1188,41 @@ public struct RedshiftServerless: AWSService {
             workgroupName: workgroupName
         )
         return try await self.listEndpointAccess(input, logger: logger)
+    }
+
+    /// Returns information about a list of specified managed workgroups in your account.
+    @Sendable
+    @inlinable
+    public func listManagedWorkgroups(_ input: ListManagedWorkgroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedWorkgroupsResponse {
+        try await self.client.execute(
+            operation: "ListManagedWorkgroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a list of specified managed workgroups in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: An optional parameter that specifies the maximum number  of results to return. You can use nextToken to display the next page of results.
+    ///   - nextToken: If your initial ListManagedWorkgroups operation returns a nextToken,  you can include the returned nextToken in following ListManagedWorkgroups  operations, which returns results in the next page.
+    ///   - sourceArn: The Amazon Resource Name (ARN) for the managed  workgroup in the AWS Glue Data Catalog.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listManagedWorkgroups(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sourceArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListManagedWorkgroupsResponse {
+        let input = ListManagedWorkgroupsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sourceArn: sourceArn
+        )
+        return try await self.listManagedWorkgroups(input, logger: logger)
     }
 
     /// Returns information about a list of specified namespaces.
@@ -2082,7 +2117,7 @@ public struct RedshiftServerless: AWSService {
         return try await self.updateUsageLimit(input, logger: logger)
     }
 
-    /// Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update baseCapacity or port in a single request, but you can't update both in the same request.
+    /// Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update baseCapacity or port in a single request, but you can't update both in the same request. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked:    Creating a public access workgroup   Modifying a private workgroup to public   Adding a subnet with VPC BPA turned on to the workgroup when the workgroup is public   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     @Sendable
     @inlinable
     public func updateWorkgroup(_ input: UpdateWorkgroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkgroupResponse {
@@ -2095,7 +2130,7 @@ public struct RedshiftServerless: AWSService {
             logger: logger
         )
     }
-    /// Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update baseCapacity or port in a single request, but you can't update both in the same request.
+    /// Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update baseCapacity or port in a single request, but you can't update both in the same request. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked:    Creating a public access workgroup   Modifying a private workgroup to public   Adding a subnet with VPC BPA turned on to the workgroup when the workgroup is public   For more information about VPC BPA, see Block public access to VPCs and subnets in the Amazon VPC User Guide.
     ///
     /// Parameters:
     ///   - baseCapacity: The new base data warehouse capacity in Redshift Processing Units (RPUs).
@@ -2236,6 +2271,43 @@ extension RedshiftServerless {
             workgroupName: workgroupName
         )
         return self.listEndpointAccessPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listManagedWorkgroups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listManagedWorkgroupsPaginator(
+        _ input: ListManagedWorkgroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListManagedWorkgroupsRequest, ListManagedWorkgroupsResponse> {
+        return .init(
+            input: input,
+            command: self.listManagedWorkgroups,
+            inputKey: \ListManagedWorkgroupsRequest.nextToken,
+            outputKey: \ListManagedWorkgroupsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listManagedWorkgroups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: An optional parameter that specifies the maximum number  of results to return. You can use nextToken to display the next page of results.
+    ///   - sourceArn: The Amazon Resource Name (ARN) for the managed  workgroup in the AWS Glue Data Catalog.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listManagedWorkgroupsPaginator(
+        maxResults: Int? = nil,
+        sourceArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListManagedWorkgroupsRequest, ListManagedWorkgroupsResponse> {
+        let input = ListManagedWorkgroupsRequest(
+            maxResults: maxResults, 
+            sourceArn: sourceArn
+        )
+        return self.listManagedWorkgroupsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listNamespaces(_:logger:)``.
@@ -2580,6 +2652,17 @@ extension RedshiftServerless.ListEndpointAccessRequest: AWSPaginateToken {
             ownerAccount: self.ownerAccount,
             vpcId: self.vpcId,
             workgroupName: self.workgroupName
+        )
+    }
+}
+
+extension RedshiftServerless.ListManagedWorkgroupsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> RedshiftServerless.ListManagedWorkgroupsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sourceArn: self.sourceArn
         )
     }
 }

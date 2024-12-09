@@ -116,6 +116,35 @@ public struct TaxSettings: AWSService {
         return try await self.batchDeleteTaxRegistration(input, logger: logger)
     }
 
+    /// Get the active tax exemptions for a given list of accounts.
+    @Sendable
+    @inlinable
+    public func batchGetTaxExemptions(_ input: BatchGetTaxExemptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetTaxExemptionsResponse {
+        try await self.client.execute(
+            operation: "BatchGetTaxExemptions", 
+            path: "/BatchGetTaxExemptions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the active tax exemptions for a given list of accounts.
+    ///
+    /// Parameters:
+    ///   - accountIds:  List of unique account identifiers.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetTaxExemptions(
+        accountIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetTaxExemptionsResponse {
+        let input = BatchGetTaxExemptionsRequest(
+            accountIds: accountIds
+        )
+        return try await self.batchGetTaxExemptions(input, logger: logger)
+    }
+
     /// Adds or updates tax registration for multiple accounts in batch. This can be used to add or update tax registrations for up to five accounts in one batch. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements.  Bangladesh    You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.    Brazil    You must complete the tax registration process in the Payment preferences page in the Billing and Cost Management console. After your TRN and billing address are verified, you can call this API operation.   For Amazon Web Services accounts created through Organizations, you can call this API operation when you don't have a billing address.    Georgia    The valid personType values are Physical Person and Business.    Kenya    You must specify the personType in the kenyaAdditionalInfo field of the additionalTaxInformation object.   If the personType is Physical Person, you must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.    Malaysia    The sector valid values are Business and Individual.    RegistrationType valid values are NRIC for individual, and TIN and sales and service tax (SST) for Business.   For individual, you can specify the taxInformationNumber in MalaysiaAdditionalInfo with NRIC type, and a valid MyKad or NRIC number.   For business, you must specify a businessRegistrationNumber in MalaysiaAdditionalInfo with a TIN type and tax identification number.   For business resellers, you must specify a businessRegistrationNumber and taxInformationNumber in MalaysiaAdditionalInfo with a sales and service tax (SST) type and a valid SST number.   For business resellers with service codes, you must specify businessRegistrationNumber, taxInformationNumber, and distinct serviceTaxCodes in MalaysiaAdditionalInfo with a SST type and valid sales and service tax (SST) number. By using this API operation, Amazon Web Services registers your self-declaration that you’re an authorized business reseller registered with the Royal Malaysia Customs Department (RMCD), and have a valid SST number.   Amazon Web Services reserves the right to seek additional information and/or take other actions to support your self-declaration as appropriate.   Amazon Web Services is currently registered under the following service tax codes. You must include at least one of the service tax codes in the service tax code strings to declare yourself as an authorized registered business reseller. Taxable service and service tax codes: Consultancy - 9907061674 Training or coaching service - 9907071685 IT service - 9907101676 Digital services and electronic medium - 9907121690    Nepal    The sector valid values are Business and Individual.    Saudi Arabia    For address, you must specify addressLine3.    South Korea    You must specify the certifiedEmailId and legalName in the TaxRegistrationEntry object. Use Korean characters for legalName.   You must specify the businessRepresentativeName, itemOfBusiness, and lineOfBusiness in the southKoreaAdditionalInfo field of the additionalTaxInformation object. Use Korean characters for these fields.   You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.   For the address object, use Korean characters for addressLine1, addressLine2 city, postalCode, and stateOrRegion.    Spain    You must specify the registrationType in the spainAdditionalInfo field of the additionalTaxInformation object.   If the registrationType is Local, you must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.    Turkey    You must specify the sector in the taxRegistrationEntry object.   If your sector is Business, Individual, or Government:   Specify the taxOffice. If your sector is Individual, don't enter this value.   (Optional) Specify the kepEmailId. If your sector is Individual, don't enter this value.    Note: In the  Tax Settings page of the Billing console, Government appears as Public institutions      If your sector is Business and you're subject to KDV tax, you must specify your industry in the industries field.   For address, you must specify districtOrCounty.    Ukraine    The sector valid values are Business and Individual.
     @Sendable
     @inlinable
@@ -206,6 +235,58 @@ public struct TaxSettings: AWSService {
         return try await self.deleteTaxRegistration(input, logger: logger)
     }
 
+    /// Get supported tax exemption types.
+    @Sendable
+    @inlinable
+    public func getTaxExemptionTypes(_ input: GetTaxExemptionTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaxExemptionTypesResponse {
+        try await self.client.execute(
+            operation: "GetTaxExemptionTypes", 
+            path: "/GetTaxExemptionTypes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get supported tax exemption types.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTaxExemptionTypes(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTaxExemptionTypesResponse {
+        let input = GetTaxExemptionTypesRequest(
+        )
+        return try await self.getTaxExemptionTypes(input, logger: logger)
+    }
+
+    /// The get account tax inheritance status.
+    @Sendable
+    @inlinable
+    public func getTaxInheritance(_ input: GetTaxInheritanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaxInheritanceResponse {
+        try await self.client.execute(
+            operation: "GetTaxInheritance", 
+            path: "/GetTaxInheritance", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The get account tax inheritance status.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTaxInheritance(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTaxInheritanceResponse {
+        let input = GetTaxInheritanceRequest(
+        )
+        return try await self.getTaxInheritance(input, logger: logger)
+    }
+
     /// Retrieves tax registration for a single account.
     @Sendable
     @inlinable
@@ -256,7 +337,7 @@ public struct TaxSettings: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getTaxRegistrationDocument(
-        destinationS3Location: DestinationS3Location,
+        destinationS3Location: DestinationS3Location? = nil,
         taxDocumentMetadata: TaxDocumentMetadata,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetTaxRegistrationDocumentResponse {
@@ -297,6 +378,38 @@ public struct TaxSettings: AWSService {
             nextToken: nextToken
         )
         return try await self.listSupplementalTaxRegistrations(input, logger: logger)
+    }
+
+    /// Retrieves the tax exemption of accounts listed in a consolidated billing family.
+    @Sendable
+    @inlinable
+    public func listTaxExemptions(_ input: ListTaxExemptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTaxExemptionsResponse {
+        try await self.client.execute(
+            operation: "ListTaxExemptions", 
+            path: "/ListTaxExemptions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the tax exemption of accounts listed in a consolidated billing family.
+    ///
+    /// Parameters:
+    ///   - maxResults: The number of results you want in one response.
+    ///   - nextToken: The token to retrieve the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTaxExemptions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTaxExemptionsResponse {
+        let input = ListTaxExemptionsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listTaxExemptions(input, logger: logger)
     }
 
     /// Retrieves the tax registration of accounts listed in a consolidated billing family. This can be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
@@ -358,6 +471,73 @@ public struct TaxSettings: AWSService {
             taxRegistrationEntry: taxRegistrationEntry
         )
         return try await self.putSupplementalTaxRegistration(input, logger: logger)
+    }
+
+    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family.
+    @Sendable
+    @inlinable
+    public func putTaxExemption(_ input: PutTaxExemptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutTaxExemptionResponse {
+        try await self.client.execute(
+            operation: "PutTaxExemption", 
+            path: "/PutTaxExemption", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family.
+    ///
+    /// Parameters:
+    ///   - accountIds:  The list of unique account identifiers.
+    ///   - authority: 
+    ///   - exemptionCertificate: 
+    ///   - exemptionType: The exemption type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putTaxExemption(
+        accountIds: [String],
+        authority: Authority,
+        exemptionCertificate: ExemptionCertificate,
+        exemptionType: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutTaxExemptionResponse {
+        let input = PutTaxExemptionRequest(
+            accountIds: accountIds, 
+            authority: authority, 
+            exemptionCertificate: exemptionCertificate, 
+            exemptionType: exemptionType
+        )
+        return try await self.putTaxExemption(input, logger: logger)
+    }
+
+    /// The updated tax inheritance status.
+    @Sendable
+    @inlinable
+    public func putTaxInheritance(_ input: PutTaxInheritanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutTaxInheritanceResponse {
+        try await self.client.execute(
+            operation: "PutTaxInheritance", 
+            path: "/PutTaxInheritance", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The updated tax inheritance status.
+    ///
+    /// Parameters:
+    ///   - heritageStatus: The tax inheritance status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putTaxInheritance(
+        heritageStatus: HeritageStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutTaxInheritanceResponse {
+        let input = PutTaxInheritanceRequest(
+            heritageStatus: heritageStatus
+        )
+        return try await self.putTaxInheritance(input, logger: logger)
     }
 
     /// Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements.  Bangladesh    You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.    Brazil    You must complete the tax registration process in the Payment preferences page in the Billing and Cost Management console. After your TRN and billing address are verified, you can call this API operation.   For Amazon Web Services accounts created through Organizations, you can call this API operation when you don't have a billing address.    Georgia    The valid personType values are Physical Person and Business.    Kenya    You must specify the personType in the kenyaAdditionalInfo field of the additionalTaxInformation object.   If the personType is Physical Person, you must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.    Malaysia    The sector valid values are Business and Individual.    RegistrationType valid values are NRIC for individual, and TIN and sales and service tax (SST) for Business.   For individual, you can specify the taxInformationNumber in MalaysiaAdditionalInfo with NRIC type, and a valid MyKad or NRIC number.   For business, you must specify a businessRegistrationNumber in MalaysiaAdditionalInfo with a TIN type and tax identification number.   For business resellers, you must specify a businessRegistrationNumber and taxInformationNumber in MalaysiaAdditionalInfo with a sales and service tax (SST) type and a valid SST number.   For business resellers with service codes, you must specify businessRegistrationNumber, taxInformationNumber, and distinct serviceTaxCodes in MalaysiaAdditionalInfo with a SST type and valid sales and service tax (SST) number. By using this API operation, Amazon Web Services registers your self-declaration that you’re an authorized business reseller registered with the Royal Malaysia Customs Department (RMCD), and have a valid SST number.   Amazon Web Services reserves the right to seek additional information and/or take other actions to support your self-declaration as appropriate.   Amazon Web Services is currently registered under the following service tax codes. You must include at least one of the service tax codes in the service tax code strings to declare yourself as an authorized registered business reseller. Taxable service and service tax codes: Consultancy - 9907061674 Training or coaching service - 9907071685 IT service - 9907101676 Digital services and electronic medium - 9907121690    Nepal    The sector valid values are Business and Individual.    Saudi Arabia    For address, you must specify addressLine3.    South Korea    You must specify the certifiedEmailId and legalName in the TaxRegistrationEntry object. Use Korean characters for legalName.   You must specify the businessRepresentativeName, itemOfBusiness, and lineOfBusiness in the southKoreaAdditionalInfo field of the additionalTaxInformation object. Use Korean characters for these fields.   You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.   For the address object, use Korean characters for addressLine1, addressLine2 city, postalCode, and stateOrRegion.    Spain    You must specify the registrationType in the spainAdditionalInfo field of the additionalTaxInformation object.   If the registrationType is Local, you must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.    Turkey    You must specify the sector in the taxRegistrationEntry object.   If your sector is Business, Individual, or Government:   Specify the taxOffice. If your sector is Individual, don't enter this value.   (Optional) Specify the kepEmailId. If your sector is Individual, don't enter this value.    Note: In the  Tax Settings page of the Billing console, Government appears as Public institutions      If your sector is Business and you're subject to KDV tax, you must specify your industry in the industries field.   For address, you must specify districtOrCounty.    Ukraine    The sector valid values are Business and Individual.
@@ -440,6 +620,40 @@ extension TaxSettings {
         return self.listSupplementalTaxRegistrationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listTaxExemptions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTaxExemptionsPaginator(
+        _ input: ListTaxExemptionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTaxExemptionsRequest, ListTaxExemptionsResponse> {
+        return .init(
+            input: input,
+            command: self.listTaxExemptions,
+            inputKey: \ListTaxExemptionsRequest.nextToken,
+            outputKey: \ListTaxExemptionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTaxExemptions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The number of results you want in one response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTaxExemptionsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTaxExemptionsRequest, ListTaxExemptionsResponse> {
+        let input = ListTaxExemptionsRequest(
+            maxResults: maxResults
+        )
+        return self.listTaxExemptionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listTaxRegistrations(_:logger:)``.
     ///
     /// - Parameters:
@@ -478,6 +692,16 @@ extension TaxSettings {
 extension TaxSettings.ListSupplementalTaxRegistrationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> TaxSettings.ListSupplementalTaxRegistrationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension TaxSettings.ListTaxExemptionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> TaxSettings.ListTaxExemptionsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

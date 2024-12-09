@@ -40,10 +40,56 @@ extension IoTJobsDataPlane {
 
     // MARK: Shapes
 
+    public struct CommandParameterValue: AWSEncodableShape {
+        /// An attribute of type Boolean. For example:  "BOOL": true
+        public let b: Bool?
+        /// An attribute of type Binary.
+        public let bin: AWSBase64Data?
+        /// An attribute of type Double (Sixty-Four Bits).
+        public let d: Double?
+        /// An attribute of type Integer (Thirty-Two Bits).
+        public let i: Int?
+        /// An attribute of type Long.
+        public let l: Int64?
+        /// An attribute of type String. For example:  "S": "Hello"
+        public let s: String?
+        /// An attribute of type Unsigned Long.
+        public let ul: String?
+
+        @inlinable
+        public init(b: Bool? = nil, bin: AWSBase64Data? = nil, d: Double? = nil, i: Int? = nil, l: Int64? = nil, s: String? = nil, ul: String? = nil) {
+            self.b = b
+            self.bin = bin
+            self.d = d
+            self.i = i
+            self.l = l
+            self.s = s
+            self.ul = ul
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bin, name: "bin", parent: name, min: 1)
+            try self.validate(self.s, name: "s", parent: name, min: 1)
+            try self.validate(self.ul, name: "ul", parent: name, max: 20)
+            try self.validate(self.ul, name: "ul", parent: name, min: 1)
+            try self.validate(self.ul, name: "ul", parent: name, pattern: "^[0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case b = "B"
+            case bin = "BIN"
+            case d = "D"
+            case i = "I"
+            case l = "L"
+            case s = "S"
+            case ul = "UL"
+        }
+    }
+
     public struct DescribeJobExecutionRequest: AWSEncodableShape {
         /// Optional. A number that identifies a particular job execution on a particular device. If not specified, the latest job execution is returned.
         public let executionNumber: Int64?
-        /// Optional. When set to true, the response contains the job document. The default is false.
+        /// Optional. Unless set to false, the response contains the job document. The default is true.
         public let includeJobDocument: Bool?
         /// The unique identifier assigned to this job when it was created.
         public let jobId: String
@@ -134,7 +180,7 @@ extension IoTJobsDataPlane {
     }
 
     public struct JobExecution: AWSDecodableShape {
-        /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT.
+        /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT. The actual job execution timeout can occur up to 60 seconds later than the estimated duration.
         public let approximateSecondsBeforeTimedOut: Int64?
         /// A number that identifies a particular job execution on a particular device. It can be used later in commands that return or update job execution information.
         public let executionNumber: Int64?
@@ -142,15 +188,15 @@ extension IoTJobsDataPlane {
         public let jobDocument: String?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String?
-        /// The time, in milliseconds since the epoch, when the job execution was last updated.
+        /// The time, in seconds since the epoch, when the job execution was last updated.
         public let lastUpdatedAt: Int64?
-        /// The time, in milliseconds since the epoch, when the job execution was enqueued.
+        /// The time, in seconds since the epoch, when the job execution was enqueued.
         public let queuedAt: Int64?
-        /// The time, in milliseconds since the epoch, when the job execution was started.
+        /// The time, in seconds since the epoch, when the job execution was started.
         public let startedAt: Int64?
-        /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "REJECTED", or "REMOVED".
+        /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "TIMED_OUT", "REJECTED", or "REMOVED".
         public let status: JobExecutionStatus?
-        /// A collection of name/value pairs that describe the status of the job execution.
+        /// A collection of name/value pairs that describe the status of the job execution. The maximum length of the value in the name/value pair is 1,024 characters.
         public let statusDetails: [String: String]?
         /// The name of the thing that is executing the job.
         public let thingName: String?
@@ -188,9 +234,9 @@ extension IoTJobsDataPlane {
     }
 
     public struct JobExecutionState: AWSDecodableShape {
-        /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "REJECTED", or "REMOVED".
+        /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "TIMED_OUT", "REJECTED", or "REMOVED".
         public let status: JobExecutionStatus?
-        /// A collection of name/value pairs that describe the status of the job execution.
+        /// A collection of name/value pairs that describe the status of the job execution. The maximum length of the value in the name/value pair is 1,024 characters.
         public let statusDetails: [String: String]?
         /// The version of the job execution. Job execution versions are incremented each time they are updated by a device.
         public let versionNumber: Int64?
@@ -214,13 +260,13 @@ extension IoTJobsDataPlane {
         public let executionNumber: Int64?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String?
-        /// The time, in milliseconds since the epoch, when the job execution was last updated.
+        /// The time, in seconds since the epoch, when the job execution was last updated.
         public let lastUpdatedAt: Int64?
-        /// The time, in milliseconds since the epoch, when the job execution was enqueued.
+        /// The time, in seconds since the epoch, when the job execution was enqueued.
         public let queuedAt: Int64?
-        /// The time, in milliseconds since the epoch, when the job execution started.
+        /// The time, in seconds since the epoch, when the job execution started.
         public let startedAt: Int64?
-        /// The version of the job execution. Job execution versions are incremented each time AWS IoT Jobs receives an update from a device.
+        /// The version of the job execution. Job execution versions are incremented each time IoT Jobs receives an update from a device.
         public let versionNumber: Int64?
 
         @inlinable
@@ -243,10 +289,69 @@ extension IoTJobsDataPlane {
         }
     }
 
+    public struct StartCommandExecutionRequest: AWSEncodableShape {
+        /// The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you retry the request using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
+        public let clientToken: String?
+        /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+        public let commandArn: String
+        /// Specifies the amount of time in second the device has to finish the command execution. A timer is started as soon as the command execution is created. If the command execution status is not set to another terminal state before the timer expires, it will automatically update to TIMED_OUT.
+        public let executionTimeoutSeconds: Int64?
+        /// A list of parameters that are required by the StartCommandExecution API when performing the command on a device.
+        public let parameters: [String: CommandParameterValue]?
+        /// The Amazon Resource Number (ARN) of the device where the command execution is occurring.
+        public let targetArn: String
+
+        @inlinable
+        public init(clientToken: String? = StartCommandExecutionRequest.idempotencyToken(), commandArn: String, executionTimeoutSeconds: Int64? = nil, parameters: [String: CommandParameterValue]? = nil, targetArn: String) {
+            self.clientToken = clientToken
+            self.commandArn = commandArn
+            self.executionTimeoutSeconds = executionTimeoutSeconds
+            self.parameters = parameters
+            self.targetArn = targetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.executionTimeoutSeconds, name: "executionTimeoutSeconds", parent: name, min: 1)
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 192)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[.$a-zA-Z0-9_-]+$")
+                try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case commandArn = "commandArn"
+            case executionTimeoutSeconds = "executionTimeoutSeconds"
+            case parameters = "parameters"
+            case targetArn = "targetArn"
+        }
+    }
+
+    public struct StartCommandExecutionResponse: AWSDecodableShape {
+        /// A unique identifier for the command execution.
+        public let executionId: String?
+
+        @inlinable
+        public init(executionId: String? = nil) {
+            self.executionId = executionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionId = "executionId"
+        }
+    }
+
     public struct StartNextPendingJobExecutionRequest: AWSEncodableShape {
-        /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
+        /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. The maximum length of the value in the name/value pair is 1,024 characters.
         public let statusDetails: [String: String]?
-        /// Specifies the amount of time this device has to finish execution of this job. If the job  execution status is not set to a terminal state before this timer expires, or before the  timer is reset (by calling UpdateJobExecution, setting the status to IN_PROGRESS and specifying a new timeout value in field stepTimeoutInMinutes)  the job execution status will be automatically set to TIMED_OUT.  Note that setting  this timeout has no effect on that job execution timeout which may have been specified when  the job was created (CreateJob using field timeoutConfig).
+        /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by calling UpdateJobExecution, setting the status to IN_PROGRESS, and specifying a new timeout value in field stepTimeoutInMinutes) the job execution status will be automatically set to TIMED_OUT. Note that setting the step timeout has no effect on the in progress timeout that may have been specified when the job was created (CreateJob using field timeoutConfig). Valid values for this parameter range from 1 to 10080 (1 minute to 7 days).
         public let stepTimeoutInMinutes: Int64?
         /// The name of the thing associated with the device.
         public let thingName: String
@@ -271,9 +376,8 @@ extension IoTJobsDataPlane {
                 try validate($0.key, name: "statusDetails.key", parent: name, max: 128)
                 try validate($0.key, name: "statusDetails.key", parent: name, min: 1)
                 try validate($0.key, name: "statusDetails.key", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
-                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "^[^\\p{C}]*+$")
+                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "^[^\\p{C}]+$")
             }
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
@@ -313,9 +417,9 @@ extension IoTJobsDataPlane {
         public let jobId: String
         /// The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or REJECTED). This must be specified on every update.
         public let status: JobExecutionStatus
-        ///  Optional. A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
+        ///  Optional. A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. The maximum length of the value in the name/value pair is 1,024 characters.
         public let statusDetails: [String: String]?
-        /// Specifies the amount of time this device has to finish execution of this job. If the job  execution status is not set to a terminal state before this timer expires, or before the  timer is reset (by again calling UpdateJobExecution, setting the status to IN_PROGRESS and specifying a new timeout value in this field) the job execution status will be automatically set to TIMED_OUT.  Note that setting or resetting  this timeout has no effect on that job execution timeout which may have been specified when  the job was created (CreateJob using field timeoutConfig).
+        /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by again calling UpdateJobExecution, setting the status to IN_PROGRESS, and specifying a new timeout value in this field) the job execution status will be automatically set to TIMED_OUT. Note that setting or resetting the step timeout has no effect on the in progress timeout that may have been specified when the job was created (CreateJob using field timeoutConfig). Valid values for this parameter range from 1 to 10080 (1 minute to 7 days). A value of -1 is also valid and will cancel the current step timer (created by an earlier use of UpdateJobExecutionRequest).
         public let stepTimeoutInMinutes: Int64?
         /// The name of the thing associated with the device.
         public let thingName: String
@@ -355,9 +459,8 @@ extension IoTJobsDataPlane {
                 try validate($0.key, name: "statusDetails.key", parent: name, max: 128)
                 try validate($0.key, name: "statusDetails.key", parent: name, min: 1)
                 try validate($0.key, name: "statusDetails.key", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
-                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "^[^\\p{C}]*+$")
+                try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "^[^\\p{C}]+$")
             }
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
@@ -400,12 +503,16 @@ extension IoTJobsDataPlane {
 public struct IoTJobsDataPlaneErrorType: AWSErrorType {
     enum Code: String {
         case certificateValidationException = "CertificateValidationException"
+        case conflictException = "ConflictException"
+        case internalServerException = "InternalServerException"
         case invalidRequestException = "InvalidRequestException"
         case invalidStateTransitionException = "InvalidStateTransitionException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case serviceUnavailableException = "ServiceUnavailableException"
         case terminalStateException = "TerminalStateException"
         case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -428,18 +535,26 @@ public struct IoTJobsDataPlaneErrorType: AWSErrorType {
 
     /// The certificate is invalid.
     public static var certificateValidationException: Self { .init(.certificateValidationException) }
-    /// The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
+    /// A conflict has occurred when performing the API request.
+    public static var conflictException: Self { .init(.conflictException) }
+    /// An internal server error occurred when performing the API request.
+    public static var internalServerException: Self { .init(.internalServerException) }
+    /// The contents of the request were invalid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// An update attempted to change the job execution to a state that is invalid because of the job execution's current state (for example, an attempt to change a request in state SUCCESS to state IN_PROGRESS). In this case, the body of the error message also contains the executionState field.
     public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
     /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service quota has been exceeded for this request.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The service is temporarily unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The job is in a terminal state.
     public static var terminalStateException: Self { .init(.terminalStateException) }
     /// The rate exceeds the limit.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// A validation error occurred when performing the API request.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension IoTJobsDataPlaneErrorType: Equatable {

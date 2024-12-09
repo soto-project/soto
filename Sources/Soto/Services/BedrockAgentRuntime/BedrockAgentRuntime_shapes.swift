@@ -26,10 +26,24 @@ import Foundation
 extension BedrockAgentRuntime {
     // MARK: Enums
 
+    public enum ActionGroupSignature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amazonCodeinterpreter = "AMAZON.CodeInterpreter"
+        case amazonUserinput = "AMAZON.UserInput"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ActionInvocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case result = "RESULT"
         case userConfirmation = "USER_CONFIRMATION"
         case userConfirmationAndResult = "USER_CONFIRMATION_AND_RESULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case boolean = "BOOLEAN"
+        case number = "NUMBER"
+        case string = "STRING"
+        case stringList = "STRING_LIST"
         public var description: String { return self.rawValue }
     }
 
@@ -39,9 +53,20 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConversationRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assistant = "assistant"
+        case user = "user"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CreationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case overridden = "OVERRIDDEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomControlMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case returnControl = "RETURN_CONTROL"
         public var description: String { return self.rawValue }
     }
 
@@ -71,6 +96,11 @@ extension BedrockAgentRuntime {
 
     public enum FlowCompletionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GeneratedQueryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case redshiftSql = "REDSHIFT_SQL"
         public var description: String { return self.rawValue }
     }
 
@@ -170,9 +200,15 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum InputQueryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InvocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case actionGroup = "ACTION_GROUP"
         case actionGroupCodeInterpreter = "ACTION_GROUP_CODE_INTERPRETER"
+        case agentCollaborator = "AGENT_COLLABORATOR"
         case finish = "FINISH"
         case knowledgeBase = "KNOWLEDGE_BASE"
         public var description: String { return self.rawValue }
@@ -194,16 +230,76 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum ParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case array = "array"
+        case boolean = "boolean"
+        case integer = "integer"
+        case number = "number"
+        case string = "string"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PayloadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case returnControl = "RETURN_CONTROL"
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PromptState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PromptType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case knowledgeBaseResponseGeneration = "KNOWLEDGE_BASE_RESPONSE_GENERATION"
         case orchestration = "ORCHESTRATION"
         case postProcessing = "POST_PROCESSING"
         case preProcessing = "PRE_PROCESSING"
+        case routingClassifier = "ROUTING_CLASSIFIER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryTransformationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case textToSql = "TEXT_TO_SQL"
         public var description: String { return self.rawValue }
     }
 
     public enum QueryTransformationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case queryDecomposition = "QUERY_DECOMPOSITION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequireConfirmation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RerankDocumentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case json = "JSON"
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RerankQueryContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RerankSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inline = "INLINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RerankingConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockRerankingModel = "BEDROCK_RERANKING_MODEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RerankingMetadataSelectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case selective = "SELECTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -213,11 +309,31 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum RetrievalResultContentColumnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blob = "BLOB"
+        case boolean = "BOOLEAN"
+        case double = "DOUBLE"
+        case long = "LONG"
+        case null = "NULL"
+        case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetrievalResultContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case image = "IMAGE"
+        case row = "ROW"
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RetrievalResultLocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case confluence = "CONFLUENCE"
+        case custom = "CUSTOM"
+        case kendra = "KENDRA"
         case s3 = "S3"
         case salesforce = "SALESFORCE"
         case sharepoint = "SHAREPOINT"
+        case sql = "SQL"
         case web = "WEB"
         public var description: String { return self.rawValue }
     }
@@ -241,13 +357,87 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum TextToSqlConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case knowledgeBase = "KNOWLEDGE_BASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VectorSearchRerankingConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockRerankingModel = "BEDROCK_RERANKING_MODEL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case actionGroup = "ACTION_GROUP"
+        case agentCollaborator = "AGENT_COLLABORATOR"
         case askUser = "ASK_USER"
         case finish = "FINISH"
         case knowledgeBase = "KNOWLEDGE_BASE"
         case reprompt = "REPROMPT"
         public var description: String { return self.rawValue }
+    }
+
+    public enum APISchema: AWSEncodableShape, Sendable {
+        ///  The JSON or YAML-formatted payload defining the OpenAPI schema for the action group.
+        case payload(String)
+        ///  Contains details about the S3 object containing the OpenAPI schema for the action group.
+        case s3(S3Identifier)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .payload(let value):
+                try container.encode(value, forKey: .payload)
+            case .s3(let value):
+                try container.encode(value, forKey: .s3)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .s3(let value):
+                try value.validate(name: "\(name).s3")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payload = "payload"
+            case s3 = "s3"
+        }
+    }
+
+    public enum ActionGroupExecutor: AWSEncodableShape, Sendable {
+        ///  To return the action group invocation results directly in the InvokeInlineAgent response, specify RETURN_CONTROL.
+        case customControl(CustomControlMethod)
+        ///  The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
+        case lambda(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .customControl(let value):
+                try container.encode(value, forKey: .customControl)
+            case .lambda(let value):
+                try container.encode(value, forKey: .lambda)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .lambda(let value):
+                try self.validate(value, name: "lambda", parent: name, max: 2048)
+                try self.validate(value, name: "lambda", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customControl = "customControl"
+            case lambda = "lambda"
+        }
     }
 
     public enum FlowResponseStream: AWSDecodableShape, Sendable {
@@ -378,6 +568,103 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public enum InlineAgentResponseStream: AWSDecodableShape, Sendable {
+        /// The request is denied because of missing access permissions. Check your permissions and retry your request.
+        case accessDeniedException(AccessDeniedException)
+        /// There was an issue with a dependency due to a server issue. Retry your request.
+        case badGatewayException(BadGatewayException)
+        /// Contains a part of an agent response and citations for it.
+        case chunk(InlineAgentPayloadPart)
+        /// There was a conflict performing an operation. Resolve the conflict and retry your request.
+        case conflictException(ConflictException)
+        /// There was an issue with a dependency. Check the resource configurations and retry the request.
+        case dependencyFailedException(DependencyFailedException)
+        /// Contains intermediate response for code interpreter if any files have been generated.
+        case files(InlineAgentFilePart)
+        /// An internal server error occurred. Retry your request.
+        case internalServerException(InternalServerException)
+        /// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+        case resourceNotFoundException(ResourceNotFoundException)
+        /// Contains the parameters and information that the agent elicited from the customer to carry out an action. This information is returned to the system  and can be used in your own setup for fulfilling the action.
+        case returnControl(InlineAgentReturnControlPayload)
+        /// The number of requests exceeds the service quota. Resubmit your request later.
+        case serviceQuotaExceededException(ServiceQuotaExceededException)
+        /// The number of requests exceeds the limit. Resubmit your request later.
+        case throttlingException(ThrottlingException)
+        /// Contains information about the agent and session, alongside the agent's reasoning process and results from calling actions and querying  knowledge bases and metadata about the trace. You can use the trace to understand how the agent arrived at the response it provided the customer.  For more information, see Trace events.
+        case trace(InlineAgentTracePart)
+        /// Input validation failed. Check your request parameters and retry the request.
+        case validationException(ValidationException)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .accessDeniedException:
+                let value = try container.decode(AccessDeniedException.self, forKey: .accessDeniedException)
+                self = .accessDeniedException(value)
+            case .badGatewayException:
+                let value = try container.decode(BadGatewayException.self, forKey: .badGatewayException)
+                self = .badGatewayException(value)
+            case .chunk:
+                let value = try container.decode(InlineAgentPayloadPart.self, forKey: .chunk)
+                self = .chunk(value)
+            case .conflictException:
+                let value = try container.decode(ConflictException.self, forKey: .conflictException)
+                self = .conflictException(value)
+            case .dependencyFailedException:
+                let value = try container.decode(DependencyFailedException.self, forKey: .dependencyFailedException)
+                self = .dependencyFailedException(value)
+            case .files:
+                let value = try container.decode(InlineAgentFilePart.self, forKey: .files)
+                self = .files(value)
+            case .internalServerException:
+                let value = try container.decode(InternalServerException.self, forKey: .internalServerException)
+                self = .internalServerException(value)
+            case .resourceNotFoundException:
+                let value = try container.decode(ResourceNotFoundException.self, forKey: .resourceNotFoundException)
+                self = .resourceNotFoundException(value)
+            case .returnControl:
+                let value = try container.decode(InlineAgentReturnControlPayload.self, forKey: .returnControl)
+                self = .returnControl(value)
+            case .serviceQuotaExceededException:
+                let value = try container.decode(ServiceQuotaExceededException.self, forKey: .serviceQuotaExceededException)
+                self = .serviceQuotaExceededException(value)
+            case .throttlingException:
+                let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
+                self = .throttlingException(value)
+            case .trace:
+                let value = try container.decode(InlineAgentTracePart.self, forKey: .trace)
+                self = .trace(value)
+            case .validationException:
+                let value = try container.decode(ValidationException.self, forKey: .validationException)
+                self = .validationException(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessDeniedException = "accessDeniedException"
+            case badGatewayException = "badGatewayException"
+            case chunk = "chunk"
+            case conflictException = "conflictException"
+            case dependencyFailedException = "dependencyFailedException"
+            case files = "files"
+            case internalServerException = "internalServerException"
+            case resourceNotFoundException = "resourceNotFoundException"
+            case returnControl = "returnControl"
+            case serviceQuotaExceededException = "serviceQuotaExceededException"
+            case throttlingException = "throttlingException"
+            case trace = "trace"
+            case validationException = "validationException"
+        }
+    }
+
     public enum InvocationInputMember: AWSDecodableShape, Sendable {
         /// Contains information about the API operation that the agent predicts should be called.
         case apiInvocationInput(ApiInvocationInput)
@@ -409,11 +696,30 @@ extension BedrockAgentRuntime {
         }
     }
 
-    public enum InvocationResultMember: AWSEncodableShape, Sendable {
+    public enum InvocationResultMember: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The result from the API response from the action group invocation.
         case apiResult(ApiResult)
         /// The result from the function from the action group invocation.
         case functionResult(FunctionResult)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .apiResult:
+                let value = try container.decode(ApiResult.self, forKey: .apiResult)
+                self = .apiResult(value)
+            case .functionResult:
+                let value = try container.decode(FunctionResult.self, forKey: .functionResult)
+                self = .functionResult(value)
+            }
+        }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -428,6 +734,73 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case apiResult = "apiResult"
             case functionResult = "functionResult"
+        }
+    }
+
+    public enum OptimizedPromptStream: AWSDecodableShape, Sendable {
+        /// The request is denied because of missing access permissions. Check your permissions and retry your request.
+        case accessDeniedException(AccessDeniedException)
+        /// An event in which the prompt was analyzed in preparation for optimization.
+        case analyzePromptEvent(AnalyzePromptEvent)
+        /// There was an issue with a dependency due to a server issue. Retry your request.
+        case badGatewayException(BadGatewayException)
+        /// There was an issue with a dependency. Check the resource configurations and retry the request.
+        case dependencyFailedException(DependencyFailedException)
+        /// An internal server error occurred. Retry your request.
+        case internalServerException(InternalServerException)
+        /// An event in which the prompt was optimized.
+        case optimizedPromptEvent(OptimizedPromptEvent)
+        /// Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase Provisioned Throughput to increase the rate or number of tokens you can process.
+        case throttlingException(ThrottlingException)
+        /// Input validation failed. Check your request parameters and retry the request.
+        case validationException(ValidationException)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .accessDeniedException:
+                let value = try container.decode(AccessDeniedException.self, forKey: .accessDeniedException)
+                self = .accessDeniedException(value)
+            case .analyzePromptEvent:
+                let value = try container.decode(AnalyzePromptEvent.self, forKey: .analyzePromptEvent)
+                self = .analyzePromptEvent(value)
+            case .badGatewayException:
+                let value = try container.decode(BadGatewayException.self, forKey: .badGatewayException)
+                self = .badGatewayException(value)
+            case .dependencyFailedException:
+                let value = try container.decode(DependencyFailedException.self, forKey: .dependencyFailedException)
+                self = .dependencyFailedException(value)
+            case .internalServerException:
+                let value = try container.decode(InternalServerException.self, forKey: .internalServerException)
+                self = .internalServerException(value)
+            case .optimizedPromptEvent:
+                let value = try container.decode(OptimizedPromptEvent.self, forKey: .optimizedPromptEvent)
+                self = .optimizedPromptEvent(value)
+            case .throttlingException:
+                let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
+                self = .throttlingException(value)
+            case .validationException:
+                let value = try container.decode(ValidationException.self, forKey: .validationException)
+                self = .validationException(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessDeniedException = "accessDeniedException"
+            case analyzePromptEvent = "analyzePromptEvent"
+            case badGatewayException = "badGatewayException"
+            case dependencyFailedException = "dependencyFailedException"
+            case internalServerException = "internalServerException"
+            case optimizedPromptEvent = "optimizedPromptEvent"
+            case throttlingException = "throttlingException"
+            case validationException = "validationException"
         }
     }
 
@@ -539,6 +912,39 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case modelInvocationInput = "modelInvocationInput"
             case modelInvocationOutput = "modelInvocationOutput"
+        }
+    }
+
+    public enum RerankingMetadataSelectiveModeConfiguration: AWSEncodableShape, Sendable {
+        /// An array of objects, each of which specifies a metadata field to exclude from consideration when reranking.
+        case fieldsToExclude([FieldForReranking])
+        /// An array of objects, each of which specifies a metadata field to include in consideration when reranking. The remaining metadata fields are ignored.
+        case fieldsToInclude([FieldForReranking])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .fieldsToExclude(let value):
+                try container.encode(value, forKey: .fieldsToExclude)
+            case .fieldsToInclude(let value):
+                try container.encode(value, forKey: .fieldsToInclude)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .fieldsToExclude(let value):
+                try self.validate(value, name: "fieldsToExclude", parent: name, max: 100)
+                try self.validate(value, name: "fieldsToExclude", parent: name, min: 1)
+            case .fieldsToInclude(let value):
+                try self.validate(value, name: "fieldsToInclude", parent: name, max: 100)
+                try self.validate(value, name: "fieldsToInclude", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldsToExclude = "fieldsToExclude"
+            case fieldsToInclude = "fieldsToInclude"
         }
     }
 
@@ -753,17 +1159,31 @@ extension BedrockAgentRuntime {
         }
     }
 
-    public enum Trace: AWSDecodableShape, Sendable {
-        /// Contains information about the failure of the interaction.
-        case failureTrace(FailureTrace)
-        /// The trace details for a trace defined in the Guardrail filter.
-        case guardrailTrace(GuardrailTrace)
-        /// Details about the orchestration step, in which the agent determines the order in which actions are executed and which knowledge bases are retrieved.
-        case orchestrationTrace(OrchestrationTrace)
-        /// Details about the post-processing step, in which the agent shapes the response..
-        case postProcessingTrace(PostProcessingTrace)
-        /// Details about the pre-processing step, in which the agent contextualizes and categorizes user inputs.
-        case preProcessingTrace(PreProcessingTrace)
+    public enum RetrieveAndGenerateStreamResponseOutput: AWSDecodableShape, Sendable {
+        /// The request is denied because you do not have sufficient permissions to perform the requested action. For troubleshooting this error,  see AccessDeniedException in the Amazon Bedrock User Guide.
+        case accessDeniedException(AccessDeniedException)
+        /// The request failed due to a bad gateway error.
+        case badGatewayException(BadGatewayException)
+        /// A citation event.
+        case citation(CitationEvent)
+        /// Error occurred because of a conflict while performing an operation.
+        case conflictException(ConflictException)
+        /// The request failed due to a dependency error.
+        case dependencyFailedException(DependencyFailedException)
+        /// A guardrail event.
+        case guardrail(GuardrailEvent)
+        /// An internal server error occurred. Retry your request.
+        case internalServerException(InternalServerException)
+        /// An output event.
+        case output(RetrieveAndGenerateOutputEvent)
+        /// The specified resource ARN was not found. For troubleshooting this error,  see ResourceNotFound in the Amazon Bedrock User Guide.
+        case resourceNotFoundException(ResourceNotFoundException)
+        /// Your request exceeds the service quota for your account. You can view your quotas at Viewing service quotas. You can resubmit your request later.
+        case serviceQuotaExceededException(ServiceQuotaExceededException)
+        /// Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see ThrottlingException in the Amazon Bedrock User Guide.
+        case throttlingException(ThrottlingException)
+        /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error,  see ValidationError in the Amazon Bedrock User Guide.
+        case validationException(ValidationException)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -775,6 +1195,133 @@ extension BedrockAgentRuntime {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .accessDeniedException:
+                let value = try container.decode(AccessDeniedException.self, forKey: .accessDeniedException)
+                self = .accessDeniedException(value)
+            case .badGatewayException:
+                let value = try container.decode(BadGatewayException.self, forKey: .badGatewayException)
+                self = .badGatewayException(value)
+            case .citation:
+                let value = try container.decode(CitationEvent.self, forKey: .citation)
+                self = .citation(value)
+            case .conflictException:
+                let value = try container.decode(ConflictException.self, forKey: .conflictException)
+                self = .conflictException(value)
+            case .dependencyFailedException:
+                let value = try container.decode(DependencyFailedException.self, forKey: .dependencyFailedException)
+                self = .dependencyFailedException(value)
+            case .guardrail:
+                let value = try container.decode(GuardrailEvent.self, forKey: .guardrail)
+                self = .guardrail(value)
+            case .internalServerException:
+                let value = try container.decode(InternalServerException.self, forKey: .internalServerException)
+                self = .internalServerException(value)
+            case .output:
+                let value = try container.decode(RetrieveAndGenerateOutputEvent.self, forKey: .output)
+                self = .output(value)
+            case .resourceNotFoundException:
+                let value = try container.decode(ResourceNotFoundException.self, forKey: .resourceNotFoundException)
+                self = .resourceNotFoundException(value)
+            case .serviceQuotaExceededException:
+                let value = try container.decode(ServiceQuotaExceededException.self, forKey: .serviceQuotaExceededException)
+                self = .serviceQuotaExceededException(value)
+            case .throttlingException:
+                let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
+                self = .throttlingException(value)
+            case .validationException:
+                let value = try container.decode(ValidationException.self, forKey: .validationException)
+                self = .validationException(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessDeniedException = "accessDeniedException"
+            case badGatewayException = "badGatewayException"
+            case citation = "citation"
+            case conflictException = "conflictException"
+            case dependencyFailedException = "dependencyFailedException"
+            case guardrail = "guardrail"
+            case internalServerException = "internalServerException"
+            case output = "output"
+            case resourceNotFoundException = "resourceNotFoundException"
+            case serviceQuotaExceededException = "serviceQuotaExceededException"
+            case throttlingException = "throttlingException"
+            case validationException = "validationException"
+        }
+    }
+
+    public enum RoutingClassifierTrace: AWSDecodableShape, Sendable {
+        /// The classifier's invocation input.
+        case invocationInput(InvocationInput)
+        /// The classifier's model invocation input.
+        case modelInvocationInput(ModelInvocationInput)
+        /// The classifier's model invocation output.
+        case modelInvocationOutput(RoutingClassifierModelInvocationOutput)
+        /// The classifier's observation.
+        case observation(Observation)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .invocationInput:
+                let value = try container.decode(InvocationInput.self, forKey: .invocationInput)
+                self = .invocationInput(value)
+            case .modelInvocationInput:
+                let value = try container.decode(ModelInvocationInput.self, forKey: .modelInvocationInput)
+                self = .modelInvocationInput(value)
+            case .modelInvocationOutput:
+                let value = try container.decode(RoutingClassifierModelInvocationOutput.self, forKey: .modelInvocationOutput)
+                self = .modelInvocationOutput(value)
+            case .observation:
+                let value = try container.decode(Observation.self, forKey: .observation)
+                self = .observation(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invocationInput = "invocationInput"
+            case modelInvocationInput = "modelInvocationInput"
+            case modelInvocationOutput = "modelInvocationOutput"
+            case observation = "observation"
+        }
+    }
+
+    public enum Trace: AWSDecodableShape, Sendable {
+        ///  Details about the custom orchestration step in which the agent determines the order in which actions are executed.
+        case customOrchestrationTrace(CustomOrchestrationTrace)
+        /// Contains information about the failure of the interaction.
+        case failureTrace(FailureTrace)
+        /// The trace details for a trace defined in the Guardrail filter.
+        case guardrailTrace(GuardrailTrace)
+        /// Details about the orchestration step, in which the agent determines the order in which actions are executed and which knowledge bases are retrieved.
+        case orchestrationTrace(OrchestrationTrace)
+        /// Details about the post-processing step, in which the agent shapes the response..
+        case postProcessingTrace(PostProcessingTrace)
+        /// Details about the pre-processing step, in which the agent contextualizes and categorizes user inputs.
+        case preProcessingTrace(PreProcessingTrace)
+        /// A routing classifier's trace.
+        case routingClassifierTrace(RoutingClassifierTrace)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .customOrchestrationTrace:
+                let value = try container.decode(CustomOrchestrationTrace.self, forKey: .customOrchestrationTrace)
+                self = .customOrchestrationTrace(value)
             case .failureTrace:
                 let value = try container.decode(FailureTrace.self, forKey: .failureTrace)
                 self = .failureTrace(value)
@@ -790,15 +1337,20 @@ extension BedrockAgentRuntime {
             case .preProcessingTrace:
                 let value = try container.decode(PreProcessingTrace.self, forKey: .preProcessingTrace)
                 self = .preProcessingTrace(value)
+            case .routingClassifierTrace:
+                let value = try container.decode(RoutingClassifierTrace.self, forKey: .routingClassifierTrace)
+                self = .routingClassifierTrace(value)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customOrchestrationTrace = "customOrchestrationTrace"
             case failureTrace = "failureTrace"
             case guardrailTrace = "guardrailTrace"
             case orchestrationTrace = "orchestrationTrace"
             case postProcessingTrace = "postProcessingTrace"
             case preProcessingTrace = "preProcessingTrace"
+            case routingClassifierTrace = "routingClassifierTrace"
         }
     }
 
@@ -873,13 +1425,162 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct AgentActionGroup: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking  the action or the custom control method for handling the information elicited from the user.
+        public let actionGroupExecutor: ActionGroupExecutor?
+        ///  The name of the action group.
+        public let actionGroupName: String
+        ///  Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted  payload defining the schema. For more information, see Action group OpenAPI schemas.
+        public let apiSchema: APISchema?
+        ///  A description of the action group.
+        public let description: String?
+        ///  Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
+        public let functionSchema: FunctionSchema?
+        ///  To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.  You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group.  To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter. You must  leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
+        public let parentActionGroupSignature: ActionGroupSignature?
+
+        @inlinable
+        public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupName: String, apiSchema: APISchema? = nil, description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignature: ActionGroupSignature? = nil) {
+            self.actionGroupExecutor = actionGroupExecutor
+            self.actionGroupName = actionGroupName
+            self.apiSchema = apiSchema
+            self.description = description
+            self.functionSchema = functionSchema
+            self.parentActionGroupSignature = parentActionGroupSignature
+        }
+
+        public func validate(name: String) throws {
+            try self.actionGroupExecutor?.validate(name: "\(name).actionGroupExecutor")
+            try self.validate(self.actionGroupName, name: "actionGroupName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.apiSchema?.validate(name: "\(name).apiSchema")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.functionSchema?.validate(name: "\(name).functionSchema")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionGroupExecutor = "actionGroupExecutor"
+            case actionGroupName = "actionGroupName"
+            case apiSchema = "apiSchema"
+            case description = "description"
+            case functionSchema = "functionSchema"
+            case parentActionGroupSignature = "parentActionGroupSignature"
+        }
+    }
+
+    public struct AgentCollaboratorInputPayload: AWSDecodableShape {
+        /// An action invocation result.
+        public let returnControlResults: ReturnControlResults?
+        /// Input text.
+        public let text: String?
+        /// The input type.
+        public let type: PayloadType?
+
+        @inlinable
+        public init(returnControlResults: ReturnControlResults? = nil, text: String? = nil, type: PayloadType? = nil) {
+            self.returnControlResults = returnControlResults
+            self.text = text
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnControlResults = "returnControlResults"
+            case text = "text"
+            case type = "type"
+        }
+    }
+
+    public struct AgentCollaboratorInvocationInput: AWSDecodableShape {
+        /// The collaborator's alias ARN.
+        public let agentCollaboratorAliasArn: String?
+        /// The collaborator's name.
+        public let agentCollaboratorName: String?
+        /// Text or action invocation result input for the collaborator.
+        public let input: AgentCollaboratorInputPayload?
+
+        @inlinable
+        public init(agentCollaboratorAliasArn: String? = nil, agentCollaboratorName: String? = nil, input: AgentCollaboratorInputPayload? = nil) {
+            self.agentCollaboratorAliasArn = agentCollaboratorAliasArn
+            self.agentCollaboratorName = agentCollaboratorName
+            self.input = input
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentCollaboratorAliasArn = "agentCollaboratorAliasArn"
+            case agentCollaboratorName = "agentCollaboratorName"
+            case input = "input"
+        }
+    }
+
+    public struct AgentCollaboratorInvocationOutput: AWSDecodableShape {
+        /// The output's agent collaborator alias ARN.
+        public let agentCollaboratorAliasArn: String?
+        /// The output's agent collaborator name.
+        public let agentCollaboratorName: String?
+        /// The output's output.
+        public let output: AgentCollaboratorOutputPayload?
+
+        @inlinable
+        public init(agentCollaboratorAliasArn: String? = nil, agentCollaboratorName: String? = nil, output: AgentCollaboratorOutputPayload? = nil) {
+            self.agentCollaboratorAliasArn = agentCollaboratorAliasArn
+            self.agentCollaboratorName = agentCollaboratorName
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentCollaboratorAliasArn = "agentCollaboratorAliasArn"
+            case agentCollaboratorName = "agentCollaboratorName"
+            case output = "output"
+        }
+    }
+
+    public struct AgentCollaboratorOutputPayload: AWSDecodableShape {
+        /// An action invocation result.
+        public let returnControlPayload: ReturnControlPayload?
+        /// Text output.
+        public let text: String?
+        /// The type of output.
+        public let type: PayloadType?
+
+        @inlinable
+        public init(returnControlPayload: ReturnControlPayload? = nil, text: String? = nil, type: PayloadType? = nil) {
+            self.returnControlPayload = returnControlPayload
+            self.text = text
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnControlPayload = "returnControlPayload"
+            case text = "text"
+            case type = "type"
+        }
+    }
+
+    public struct AnalyzePromptEvent: AWSDecodableShape {
+        /// A message describing the analysis of the prompt.
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct ApiInvocationInput: AWSDecodableShape {
         /// The action group that the API operation belongs to.
         public let actionGroup: String
         /// Contains information about the API operation to invoke.
         public let actionInvocationType: ActionInvocationType?
+        /// The agent's ID.
+        public let agentId: String?
         /// The path to the API operation.
         public let apiPath: String?
+        /// The agent collaborator's name.
+        public let collaboratorName: String?
         /// The HTTP method of the API operation.
         public let httpMethod: String?
         /// The parameters to provide for the API request, as the agent elicited from the user.
@@ -888,10 +1589,12 @@ extension BedrockAgentRuntime {
         public let requestBody: ApiRequestBody?
 
         @inlinable
-        public init(actionGroup: String, actionInvocationType: ActionInvocationType? = nil, apiPath: String? = nil, httpMethod: String? = nil, parameters: [ApiParameter]? = nil, requestBody: ApiRequestBody? = nil) {
+        public init(actionGroup: String, actionInvocationType: ActionInvocationType? = nil, agentId: String? = nil, apiPath: String? = nil, collaboratorName: String? = nil, httpMethod: String? = nil, parameters: [ApiParameter]? = nil, requestBody: ApiRequestBody? = nil) {
             self.actionGroup = actionGroup
             self.actionInvocationType = actionInvocationType
+            self.agentId = agentId
             self.apiPath = apiPath
+            self.collaboratorName = collaboratorName
             self.httpMethod = httpMethod
             self.parameters = parameters
             self.requestBody = requestBody
@@ -900,7 +1603,9 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case actionGroup = "actionGroup"
             case actionInvocationType = "actionInvocationType"
+            case agentId = "agentId"
             case apiPath = "apiPath"
+            case collaboratorName = "collaboratorName"
             case httpMethod = "httpMethod"
             case parameters = "parameters"
             case requestBody = "requestBody"
@@ -943,9 +1648,11 @@ extension BedrockAgentRuntime {
         }
     }
 
-    public struct ApiResult: AWSEncodableShape {
+    public struct ApiResult: AWSEncodableShape & AWSDecodableShape {
         /// The action group that the API operation belongs to.
         public let actionGroup: String
+        /// The agent's ID.
+        public let agentId: String?
         /// The path to the API operation.
         public let apiPath: String?
         /// Controls the API operations or functions to invoke based on the user confirmation.
@@ -960,8 +1667,9 @@ extension BedrockAgentRuntime {
         public let responseState: ResponseState?
 
         @inlinable
-        public init(actionGroup: String, apiPath: String? = nil, confirmationState: ConfirmationState? = nil, httpMethod: String? = nil, httpStatusCode: Int? = nil, responseBody: [String: ContentBody]? = nil, responseState: ResponseState? = nil) {
+        public init(actionGroup: String, agentId: String? = nil, apiPath: String? = nil, confirmationState: ConfirmationState? = nil, httpMethod: String? = nil, httpStatusCode: Int? = nil, responseBody: [String: ContentBody]? = nil, responseState: ResponseState? = nil) {
             self.actionGroup = actionGroup
+            self.agentId = agentId
             self.apiPath = apiPath
             self.confirmationState = confirmationState
             self.httpMethod = httpMethod
@@ -972,6 +1680,7 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case actionGroup = "actionGroup"
+            case agentId = "agentId"
             case apiPath = "apiPath"
             case confirmationState = "confirmationState"
             case httpMethod = "httpMethod"
@@ -1009,6 +1718,56 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case resourceName = "resourceName"
+        }
+    }
+
+    public struct BedrockRerankingConfiguration: AWSEncodableShape {
+        /// Contains configurations for a reranker model.
+        public let modelConfiguration: BedrockRerankingModelConfiguration
+        /// The number of results to return after reranking.
+        public let numberOfResults: Int?
+
+        @inlinable
+        public init(modelConfiguration: BedrockRerankingModelConfiguration, numberOfResults: Int? = nil) {
+            self.modelConfiguration = modelConfiguration
+            self.numberOfResults = numberOfResults
+        }
+
+        public func validate(name: String) throws {
+            try self.modelConfiguration.validate(name: "\(name).modelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelConfiguration = "modelConfiguration"
+            case numberOfResults = "numberOfResults"
+        }
+    }
+
+    public struct BedrockRerankingModelConfiguration: AWSEncodableShape {
+        /// A JSON object whose keys are request fields for the model and whose values are values for those fields.
+        public let additionalModelRequestFields: [String: String]?
+        /// The ARN of the reranker model.
+        public let modelArn: String
+
+        @inlinable
+        public init(additionalModelRequestFields: [String: String]? = nil, modelArn: String) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalModelRequestFields?.forEach {
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
+            }
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case modelArn = "modelArn"
         }
     }
 
@@ -1083,6 +1842,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct CitationEvent: AWSDecodableShape {
+        /// The citation.
+        public let citation: Citation?
+
+        @inlinable
+        public init(citation: Citation? = nil) {
+            self.citation = citation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case citation = "citation"
+        }
+    }
+
     public struct CodeInterpreterInvocationInput: AWSDecodableShape {
         /// The code for the code interpreter to use.
         public let code: String?
@@ -1140,7 +1913,7 @@ extension BedrockAgentRuntime {
         }
     }
 
-    public struct ContentBody: AWSEncodableShape {
+    public struct ContentBody: AWSEncodableShape & AWSDecodableShape {
         /// The body of the API response.
         public let body: String?
 
@@ -1151,6 +1924,52 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case body = "body"
+        }
+    }
+
+    public struct ConversationHistory: AWSEncodableShape {
+        /// The conversation's messages.
+        public let messages: [Message]?
+
+        @inlinable
+        public init(messages: [Message]? = nil) {
+            self.messages = messages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messages = "messages"
+        }
+    }
+
+    public struct CustomOrchestrationTrace: AWSDecodableShape {
+        ///  The event details used with the custom orchestration.
+        public let event: CustomOrchestrationTraceEvent?
+        ///  The unique identifier of the trace.
+        public let traceId: String?
+
+        @inlinable
+        public init(event: CustomOrchestrationTraceEvent? = nil, traceId: String? = nil) {
+            self.event = event
+            self.traceId = traceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "event"
+            case traceId = "traceId"
+        }
+    }
+
+    public struct CustomOrchestrationTraceEvent: AWSDecodableShape {
+        ///  The text that prompted the event at this step.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
         }
     }
 
@@ -1322,6 +2141,20 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case failureReason = "failureReason"
             case traceId = "traceId"
+        }
+    }
+
+    public struct FieldForReranking: AWSEncodableShape {
+        /// The name of a metadata field to include in or exclude from consideration when reranking.
+        public let fieldName: String
+
+        @inlinable
+        public init(fieldName: String) {
+            self.fieldName = fieldName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "fieldName"
         }
     }
 
@@ -1599,20 +2432,62 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct FunctionDefinition: AWSEncodableShape {
+        ///  A description of the function and its purpose.
+        public let description: String?
+        ///  A name for the function.
+        public let name: String
+        ///  The parameters that the agent elicits from the user to fulfill the function.
+        public let parameters: [String: ParameterDetail]?
+        ///  Contains information if user confirmation is required to invoke the function.
+        public let requireConfirmation: RequireConfirmation?
+
+        @inlinable
+        public init(description: String? = nil, name: String, parameters: [String: ParameterDetail]? = nil, requireConfirmation: RequireConfirmation? = nil) {
+            self.description = description
+            self.name = name
+            self.parameters = parameters
+            self.requireConfirmation = requireConfirmation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+                try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case parameters = "parameters"
+            case requireConfirmation = "requireConfirmation"
+        }
+    }
+
     public struct FunctionInvocationInput: AWSDecodableShape {
         /// The action group that the function belongs to.
         public let actionGroup: String
         /// Contains information about the function to invoke,
         public let actionInvocationType: ActionInvocationType?
+        /// The agent's ID.
+        public let agentId: String?
+        /// The collaborator's name.
+        public let collaboratorName: String?
         /// The name of the function.
         public let function: String?
         /// A list of parameters of the function.
         public let parameters: [FunctionParameter]?
 
         @inlinable
-        public init(actionGroup: String, actionInvocationType: ActionInvocationType? = nil, function: String? = nil, parameters: [FunctionParameter]? = nil) {
+        public init(actionGroup: String, actionInvocationType: ActionInvocationType? = nil, agentId: String? = nil, collaboratorName: String? = nil, function: String? = nil, parameters: [FunctionParameter]? = nil) {
             self.actionGroup = actionGroup
             self.actionInvocationType = actionInvocationType
+            self.agentId = agentId
+            self.collaboratorName = collaboratorName
             self.function = function
             self.parameters = parameters
         }
@@ -1620,6 +2495,8 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case actionGroup = "actionGroup"
             case actionInvocationType = "actionInvocationType"
+            case agentId = "agentId"
+            case collaboratorName = "collaboratorName"
             case function = "function"
             case parameters = "parameters"
         }
@@ -1647,9 +2524,11 @@ extension BedrockAgentRuntime {
         }
     }
 
-    public struct FunctionResult: AWSEncodableShape {
+    public struct FunctionResult: AWSEncodableShape & AWSDecodableShape {
         /// The action group that the function belongs to.
         public let actionGroup: String
+        /// The agent's ID.
+        public let agentId: String?
         /// Contains the user confirmation information about the function that was called.
         public let confirmationState: ConfirmationState?
         /// The name of the function that was called.
@@ -1660,8 +2539,9 @@ extension BedrockAgentRuntime {
         public let responseState: ResponseState?
 
         @inlinable
-        public init(actionGroup: String, confirmationState: ConfirmationState? = nil, function: String? = nil, responseBody: [String: ContentBody]? = nil, responseState: ResponseState? = nil) {
+        public init(actionGroup: String, agentId: String? = nil, confirmationState: ConfirmationState? = nil, function: String? = nil, responseBody: [String: ContentBody]? = nil, responseState: ResponseState? = nil) {
             self.actionGroup = actionGroup
+            self.agentId = agentId
             self.confirmationState = confirmationState
             self.function = function
             self.responseBody = responseBody
@@ -1670,10 +2550,65 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case actionGroup = "actionGroup"
+            case agentId = "agentId"
             case confirmationState = "confirmationState"
             case function = "function"
             case responseBody = "responseBody"
             case responseState = "responseState"
+        }
+    }
+
+    public struct GenerateQueryRequest: AWSEncodableShape {
+        /// Specifies information about a natural language query to transform into SQL.
+        public let queryGenerationInput: QueryGenerationInput
+        /// Specifies configurations for transforming the natural language query into SQL.
+        public let transformationConfiguration: TransformationConfiguration
+
+        @inlinable
+        public init(queryGenerationInput: QueryGenerationInput, transformationConfiguration: TransformationConfiguration) {
+            self.queryGenerationInput = queryGenerationInput
+            self.transformationConfiguration = transformationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.transformationConfiguration.validate(name: "\(name).transformationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryGenerationInput = "queryGenerationInput"
+            case transformationConfiguration = "transformationConfiguration"
+        }
+    }
+
+    public struct GenerateQueryResponse: AWSDecodableShape {
+        /// A list of objects, each of which defines a generated query that can correspond to the natural language queries.
+        public let queries: [GeneratedQuery]?
+
+        @inlinable
+        public init(queries: [GeneratedQuery]? = nil) {
+            self.queries = queries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queries = "queries"
+        }
+    }
+
+    public struct GeneratedQuery: AWSDecodableShape {
+        /// An SQL query that corresponds to the natural language query.
+        public let sql: String?
+        /// The type of transformed query.
+        public let type: GeneratedQueryType?
+
+        @inlinable
+        public init(sql: String? = nil, type: GeneratedQueryType? = nil) {
+            self.sql = sql
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sql = "sql"
+            case type = "type"
         }
     }
 
@@ -1841,6 +2776,32 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct GuardrailConfigurationWithArn: AWSEncodableShape {
+        ///  The unique identifier for the guardrail.
+        public let guardrailIdentifier: String
+        ///  The version of the guardrail.
+        public let guardrailVersion: String
+
+        @inlinable
+        public init(guardrailIdentifier: String, guardrailVersion: String) {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, max: 5)
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, min: 1)
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailIdentifier = "guardrailIdentifier"
+            case guardrailVersion = "guardrailVersion"
+        }
+    }
+
     public struct GuardrailContentFilter: AWSDecodableShape {
         /// The action placed on the content by the Guardrail filter.
         public let action: GuardrailContentPolicyAction?
@@ -1892,6 +2853,20 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case match = "match"
+        }
+    }
+
+    public struct GuardrailEvent: AWSDecodableShape {
+        /// The guardrail action.
+        public let action: GuadrailAction?
+
+        @inlinable
+        public init(action: GuadrailAction? = nil) {
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
         }
     }
 
@@ -2063,6 +3038,32 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct ImplicitFilterConfiguration: AWSEncodableShape {
+        /// Metadata that can be used in a filter.
+        public let metadataAttributes: [MetadataAttributeSchema]
+        /// The model that generates the filter.
+        public let modelArn: String
+
+        @inlinable
+        public init(metadataAttributes: [MetadataAttributeSchema], modelArn: String) {
+            self.metadataAttributes = metadataAttributes
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataAttributes, name: "metadataAttributes", parent: name, max: 25)
+            try self.validate(self.metadataAttributes, name: "metadataAttributes", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataAttributes = "metadataAttributes"
+            case modelArn = "modelArn"
+        }
+    }
+
     public struct InferenceConfig: AWSEncodableShape {
         ///  Configuration settings specific to text generation while generating responses using RetrieveAndGenerate.
         public let textInferenceConfig: TextInferenceConfig?
@@ -2081,7 +3082,7 @@ extension BedrockAgentRuntime {
         }
     }
 
-    public struct InferenceConfiguration: AWSDecodableShape {
+    public struct InferenceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The maximum number of tokens allowed in the generated response.
         public let maximumLength: Int?
         /// A list of stop sequences. A stop sequence is a sequence of characters that causes the model to stop generating the response.
@@ -2102,12 +3103,130 @@ extension BedrockAgentRuntime {
             self.topP = topP
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.maximumLength, name: "maximumLength", parent: name, max: 4096)
+            try self.validate(self.maximumLength, name: "maximumLength", parent: name, min: 0)
+            try self.validate(self.stopSequences, name: "stopSequences", parent: name, max: 4)
+            try self.validate(self.temperature, name: "temperature", parent: name, max: 1.0)
+            try self.validate(self.temperature, name: "temperature", parent: name, min: 0.0)
+            try self.validate(self.topK, name: "topK", parent: name, max: 500)
+            try self.validate(self.topK, name: "topK", parent: name, min: 0)
+            try self.validate(self.topP, name: "topP", parent: name, max: 1.0)
+            try self.validate(self.topP, name: "topP", parent: name, min: 0.0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case maximumLength = "maximumLength"
             case stopSequences = "stopSequences"
             case temperature = "temperature"
             case topK = "topK"
             case topP = "topP"
+        }
+    }
+
+    public struct InlineAgentFilePart: AWSDecodableShape {
+        /// Files containing intermediate response for the user.
+        public let files: [OutputFile]?
+
+        @inlinable
+        public init(files: [OutputFile]? = nil) {
+            self.files = files
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case files = "files"
+        }
+    }
+
+    public struct InlineAgentPayloadPart: AWSDecodableShape {
+        /// Contains citations for a part of an agent response.
+        public let attribution: Attribution?
+        /// A part of the agent response in bytes.
+        public let bytes: AWSBase64Data?
+
+        @inlinable
+        public init(attribution: Attribution? = nil, bytes: AWSBase64Data? = nil) {
+            self.attribution = attribution
+            self.bytes = bytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribution = "attribution"
+            case bytes = "bytes"
+        }
+    }
+
+    public struct InlineAgentReturnControlPayload: AWSDecodableShape {
+        /// The identifier of the action group invocation.
+        public let invocationId: String?
+        /// A list of objects that contain information about the parameters and inputs that need to be sent into the API operation or function, based on what the agent  determines from its session with the user.
+        public let invocationInputs: [InvocationInputMember]?
+
+        @inlinable
+        public init(invocationId: String? = nil, invocationInputs: [InvocationInputMember]? = nil) {
+            self.invocationId = invocationId
+            self.invocationInputs = invocationInputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invocationId = "invocationId"
+            case invocationInputs = "invocationInputs"
+        }
+    }
+
+    public struct InlineAgentTracePart: AWSDecodableShape {
+        /// The unique identifier of the session with the agent.
+        public let sessionId: String?
+        /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the  agent arrived at the response it provided the customer. For more information, see Trace enablement.
+        public let trace: Trace?
+
+        @inlinable
+        public init(sessionId: String? = nil, trace: Trace? = nil) {
+            self.sessionId = sessionId
+            self.trace = trace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "sessionId"
+            case trace = "trace"
+        }
+    }
+
+    public struct InlineSessionState: AWSEncodableShape {
+        ///  Contains information about the files used by code interpreter.
+        public let files: [InputFile]?
+        ///  The identifier of the invocation of an action. This value must match the invocationId returned in the InvokeInlineAgent response for the action  whose results are provided in the returnControlInvocationResults field. For more information, see Return control to the agent developer.
+        public let invocationId: String?
+        ///  Contains attributes that persist across a session and the values of those attributes.
+        public let promptSessionAttributes: [String: String]?
+        ///  Contains information about the results from the action group invocation. For more information, see Return control to the agent developer.   If you include this field in the sessionState field, the inputText field will be ignored.
+        public let returnControlInvocationResults: [InvocationResultMember]?
+        ///  Contains attributes that persist across a session and the values of those attributes.
+        public let sessionAttributes: [String: String]?
+
+        @inlinable
+        public init(files: [InputFile]? = nil, invocationId: String? = nil, promptSessionAttributes: [String: String]? = nil, returnControlInvocationResults: [InvocationResultMember]? = nil, sessionAttributes: [String: String]? = nil) {
+            self.files = files
+            self.invocationId = invocationId
+            self.promptSessionAttributes = promptSessionAttributes
+            self.returnControlInvocationResults = returnControlInvocationResults
+            self.sessionAttributes = sessionAttributes
+        }
+
+        public func validate(name: String) throws {
+            try self.files?.forEach {
+                try $0.validate(name: "\(name).files[]")
+            }
+            try self.validate(self.returnControlInvocationResults, name: "returnControlInvocationResults", parent: name, max: 5)
+            try self.validate(self.returnControlInvocationResults, name: "returnControlInvocationResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case files = "files"
+            case invocationId = "invocationId"
+            case promptSessionAttributes = "promptSessionAttributes"
+            case returnControlInvocationResults = "returnControlInvocationResults"
+            case sessionAttributes = "sessionAttributes"
         }
     }
 
@@ -2153,6 +3272,8 @@ extension BedrockAgentRuntime {
     public struct InvocationInput: AWSDecodableShape {
         /// Contains information about the action group to be invoked.
         public let actionGroupInvocationInput: ActionGroupInvocationInput?
+        /// The collaborator's invocation input.
+        public let agentCollaboratorInvocationInput: AgentCollaboratorInvocationInput?
         /// Contains information about the code interpreter to be invoked.
         public let codeInterpreterInvocationInput: CodeInterpreterInvocationInput?
         /// Specifies whether the agent is invoking an action group or a knowledge base.
@@ -2163,8 +3284,9 @@ extension BedrockAgentRuntime {
         public let traceId: String?
 
         @inlinable
-        public init(actionGroupInvocationInput: ActionGroupInvocationInput? = nil, codeInterpreterInvocationInput: CodeInterpreterInvocationInput? = nil, invocationType: InvocationType? = nil, knowledgeBaseLookupInput: KnowledgeBaseLookupInput? = nil, traceId: String? = nil) {
+        public init(actionGroupInvocationInput: ActionGroupInvocationInput? = nil, agentCollaboratorInvocationInput: AgentCollaboratorInvocationInput? = nil, codeInterpreterInvocationInput: CodeInterpreterInvocationInput? = nil, invocationType: InvocationType? = nil, knowledgeBaseLookupInput: KnowledgeBaseLookupInput? = nil, traceId: String? = nil) {
             self.actionGroupInvocationInput = actionGroupInvocationInput
+            self.agentCollaboratorInvocationInput = agentCollaboratorInvocationInput
             self.codeInterpreterInvocationInput = codeInterpreterInvocationInput
             self.invocationType = invocationType
             self.knowledgeBaseLookupInput = knowledgeBaseLookupInput
@@ -2173,6 +3295,7 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case actionGroupInvocationInput = "actionGroupInvocationInput"
+            case agentCollaboratorInvocationInput = "agentCollaboratorInvocationInput"
             case codeInterpreterInvocationInput = "codeInterpreterInvocationInput"
             case invocationType = "invocationType"
             case knowledgeBaseLookupInput = "knowledgeBaseLookupInput"
@@ -2197,9 +3320,13 @@ extension BedrockAgentRuntime {
         public let sessionId: String
         /// Contains parameters that specify various attributes of the session. For more information, see Control session context.  If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
         public let sessionState: SessionState?
+        /// The ARN of the resource making the request.
+        public let sourceArn: String?
+        ///  Specifies the configurations for streaming.
+        public let streamingConfigurations: StreamingConfigurations?
 
         @inlinable
-        public init(agentAliasId: String, agentId: String, enableTrace: Bool? = nil, endSession: Bool? = nil, inputText: String? = nil, memoryId: String? = nil, sessionId: String, sessionState: SessionState? = nil) {
+        public init(agentAliasId: String, agentId: String, enableTrace: Bool? = nil, endSession: Bool? = nil, inputText: String? = nil, memoryId: String? = nil, sessionId: String, sessionState: SessionState? = nil, sourceArn: String? = nil, streamingConfigurations: StreamingConfigurations? = nil) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
             self.enableTrace = enableTrace
@@ -2208,6 +3335,8 @@ extension BedrockAgentRuntime {
             self.memoryId = memoryId
             self.sessionId = sessionId
             self.sessionState = sessionState
+            self.sourceArn = sourceArn
+            self.streamingConfigurations = streamingConfigurations
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2221,6 +3350,8 @@ extension BedrockAgentRuntime {
             try container.encodeIfPresent(self.memoryId, forKey: .memoryId)
             request.encodePath(self.sessionId, key: "sessionId")
             try container.encodeIfPresent(self.sessionState, forKey: .sessionState)
+            request.encodeHeader(self.sourceArn, key: "x-amz-source-arn")
+            try container.encodeIfPresent(self.streamingConfigurations, forKey: .streamingConfigurations)
         }
 
         public func validate(name: String) throws {
@@ -2236,6 +3367,8 @@ extension BedrockAgentRuntime {
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
             try self.sessionState?.validate(name: "\(name).sessionState")
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 2048)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent/[0-9a-zA-Z]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2244,6 +3377,7 @@ extension BedrockAgentRuntime {
             case inputText = "inputText"
             case memoryId = "memoryId"
             case sessionState = "sessionState"
+            case streamingConfigurations = "streamingConfigurations"
         }
     }
 
@@ -2341,6 +3475,167 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct InvokeInlineAgentRequest: AWSEncodableShape {
+        ///  A list of action groups with each action group defining the action the inline agent needs to carry out.
+        public let actionGroups: [AgentActionGroup]?
+        ///  The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
+        public let customerEncryptionKeyArn: String?
+        ///  Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Using trace.
+        public let enableTrace: Bool?
+        ///  Specifies whether to end the session with the inline agent or not.
+        public let endSession: Bool?
+        ///  The model identifier (ID) of the model to use for orchestration by the inline agent. For example, meta.llama3-1-70b-instruct-v1:0.
+        public let foundationModel: String
+        ///  The guardrails to assign to the inline agent.
+        public let guardrailConfiguration: GuardrailConfigurationWithArn?
+        ///  The number of seconds for which the inline agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.  A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and the data provided before the timeout is deleted.
+        public let idleSessionTTLInSeconds: Int?
+        ///  Parameters that specify the various attributes of a sessions. You can include attributes for the session or prompt or, if you configured an  action group to return control, results from invocation of the action group. For more information, see Control session context.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
+        public let inlineSessionState: InlineSessionState?
+        ///  The prompt text to send to the agent.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
+        public let inputText: String?
+        ///  The instructions that tell the inline agent what it should do and how it should interact with users.
+        public let instruction: String
+        ///  Contains information of the knowledge bases to associate with.
+        public let knowledgeBases: [KnowledgeBase]?
+        ///  Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
+        public let promptOverrideConfiguration: PromptOverrideConfiguration?
+        ///  The unique identifier of the session. Use the same value across requests to continue the same conversation.
+        public let sessionId: String
+
+        @inlinable
+        public init(actionGroups: [AgentActionGroup]? = nil, customerEncryptionKeyArn: String? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, foundationModel: String, guardrailConfiguration: GuardrailConfigurationWithArn? = nil, idleSessionTTLInSeconds: Int? = nil, inlineSessionState: InlineSessionState? = nil, inputText: String? = nil, instruction: String, knowledgeBases: [KnowledgeBase]? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, sessionId: String) {
+            self.actionGroups = actionGroups
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.enableTrace = enableTrace
+            self.endSession = endSession
+            self.foundationModel = foundationModel
+            self.guardrailConfiguration = guardrailConfiguration
+            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.inlineSessionState = inlineSessionState
+            self.inputText = inputText
+            self.instruction = instruction
+            self.knowledgeBases = knowledgeBases
+            self.promptOverrideConfiguration = promptOverrideConfiguration
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actionGroups, forKey: .actionGroups)
+            try container.encodeIfPresent(self.customerEncryptionKeyArn, forKey: .customerEncryptionKeyArn)
+            try container.encodeIfPresent(self.enableTrace, forKey: .enableTrace)
+            try container.encodeIfPresent(self.endSession, forKey: .endSession)
+            try container.encode(self.foundationModel, forKey: .foundationModel)
+            try container.encodeIfPresent(self.guardrailConfiguration, forKey: .guardrailConfiguration)
+            try container.encodeIfPresent(self.idleSessionTTLInSeconds, forKey: .idleSessionTTLInSeconds)
+            try container.encodeIfPresent(self.inlineSessionState, forKey: .inlineSessionState)
+            try container.encodeIfPresent(self.inputText, forKey: .inputText)
+            try container.encode(self.instruction, forKey: .instruction)
+            try container.encodeIfPresent(self.knowledgeBases, forKey: .knowledgeBases)
+            try container.encodeIfPresent(self.promptOverrideConfiguration, forKey: .promptOverrideConfiguration)
+            request.encodePath(self.sessionId, key: "sessionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.actionGroups?.forEach {
+                try $0.validate(name: "\(name).actionGroups[]")
+            }
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, max: 2048)
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+))$|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)$")
+            try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
+            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 3600)
+            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
+            try self.inlineSessionState?.validate(name: "\(name).inlineSessionState")
+            try self.validate(self.inputText, name: "inputText", parent: name, max: 25000000)
+            try self.validate(self.instruction, name: "instruction", parent: name, min: 40)
+            try self.knowledgeBases?.forEach {
+                try $0.validate(name: "\(name).knowledgeBases[]")
+            }
+            try self.promptOverrideConfiguration?.validate(name: "\(name).promptOverrideConfiguration")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionGroups = "actionGroups"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case enableTrace = "enableTrace"
+            case endSession = "endSession"
+            case foundationModel = "foundationModel"
+            case guardrailConfiguration = "guardrailConfiguration"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case inlineSessionState = "inlineSessionState"
+            case inputText = "inputText"
+            case instruction = "instruction"
+            case knowledgeBases = "knowledgeBases"
+            case promptOverrideConfiguration = "promptOverrideConfiguration"
+        }
+    }
+
+    public struct InvokeInlineAgentResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        ///
+        public let completion: AWSEventStream<InlineAgentResponseStream>
+        ///  The MIME type of the input data in the request. The default value is application/json.
+        public let contentType: String
+        ///  The unique identifier of the session with the agent.
+        public let sessionId: String
+
+        @inlinable
+        public init(completion: AWSEventStream<InlineAgentResponseStream>, contentType: String, sessionId: String) {
+            self.completion = completion
+            self.contentType = contentType
+            self.sessionId = sessionId
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.completion = try container.decode(AWSEventStream<InlineAgentResponseStream>.self)
+            self.contentType = try response.decodeHeader(String.self, key: "x-amzn-bedrock-agent-content-type")
+            self.sessionId = try response.decodeHeader(String.self, key: "x-amz-bedrock-agent-session-id")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct KnowledgeBase: AWSEncodableShape {
+        ///  The description of the knowledge base associated with the inline agent.
+        public let description: String
+        ///  The unique identifier for a knowledge base associated with the inline agent.
+        public let knowledgeBaseId: String
+        ///  The configurations to apply to the knowledge base during query. For more information, see Query configurations.
+        public let retrievalConfiguration: KnowledgeBaseRetrievalConfiguration?
+
+        @inlinable
+        public init(description: String, knowledgeBaseId: String, retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil) {
+            self.description = description
+            self.knowledgeBaseId = knowledgeBaseId
+            self.retrievalConfiguration = retrievalConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 10)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.retrievalConfiguration?.validate(name: "\(name).retrievalConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case retrievalConfiguration = "retrievalConfiguration"
+        }
+    }
+
     public struct KnowledgeBaseConfiguration: AWSEncodableShape {
         /// The unique identifier for a knowledge base attached to the agent.
         public let knowledgeBaseId: String
@@ -2430,7 +3725,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct KnowledgeBaseRetrievalResult: AWSDecodableShape {
-        /// Contains a chunk of text from a data source in the knowledge base.
+        /// Contains information about the content of the chunk.
         public let content: RetrievalResultContent
         /// Contains information about the location of the data source.
         public let location: RetrievalResultLocation?
@@ -2499,26 +3794,36 @@ extension BedrockAgentRuntime {
     public struct KnowledgeBaseVectorSearchConfiguration: AWSEncodableShape {
         /// Specifies the filters to use on the metadata in the knowledge base data sources before returning results. For more information, see Query configurations.
         public let filter: RetrievalFilter?
+        /// Settings for implicit filtering.
+        public let implicitFilterConfiguration: ImplicitFilterConfiguration?
         /// The number of source chunks to retrieve.
         public let numberOfResults: Int?
         /// By default, Amazon Bedrock decides a search strategy for you. If you're using an Amazon OpenSearch Serverless vector store that contains a filterable text field, you can specify whether to query the knowledge base with a HYBRID search using both vector embeddings and raw text, or SEMANTIC search using only vector embeddings. For other vector store configurations, only SEMANTIC search is available. For more information, see Test a knowledge base.
         public let overrideSearchType: SearchType?
+        /// Contains configurations for reranking the retrieved results. For more information, see Improve the relevance of query responses with a reranker model.
+        public let rerankingConfiguration: VectorSearchRerankingConfiguration?
 
         @inlinable
-        public init(filter: RetrievalFilter? = nil, numberOfResults: Int? = nil, overrideSearchType: SearchType? = nil) {
+        public init(filter: RetrievalFilter? = nil, implicitFilterConfiguration: ImplicitFilterConfiguration? = nil, numberOfResults: Int? = nil, overrideSearchType: SearchType? = nil, rerankingConfiguration: VectorSearchRerankingConfiguration? = nil) {
             self.filter = filter
+            self.implicitFilterConfiguration = implicitFilterConfiguration
             self.numberOfResults = numberOfResults
             self.overrideSearchType = overrideSearchType
+            self.rerankingConfiguration = rerankingConfiguration
         }
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.implicitFilterConfiguration?.validate(name: "\(name).implicitFilterConfiguration")
+            try self.rerankingConfiguration?.validate(name: "\(name).rerankingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
+            case implicitFilterConfiguration = "implicitFilterConfiguration"
             case numberOfResults = "numberOfResults"
             case overrideSearchType = "overrideSearchType"
+            case rerankingConfiguration = "rerankingConfiguration"
         }
     }
 
@@ -2554,6 +3859,24 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct Message: AWSEncodableShape {
+        /// The message's content.
+        public let content: [ContentBlock]
+        /// The message's role.
+        public let role: ConversationRole
+
+        @inlinable
+        public init(content: [ContentBlock], role: ConversationRole) {
+            self.content = content
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case role = "role"
+        }
+    }
+
     public struct Metadata: AWSDecodableShape {
         /// Contains details of the foundation model usage.
         public let usage: Usage?
@@ -2568,7 +3891,53 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct MetadataAttributeSchema: AWSEncodableShape {
+        /// The attribute's description.
+        public let description: String
+        /// The attribute's key.
+        public let key: String
+        /// The attribute's type.
+        public let type: AttributeType
+
+        @inlinable
+        public init(description: String, key: String, type: AttributeType) {
+            self.description = description
+            self.key = key
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case key = "key"
+            case type = "type"
+        }
+    }
+
+    public struct MetadataConfigurationForReranking: AWSEncodableShape {
+        /// Specifies whether to consider all metadata when reranking, or only the metadata that you select. If you specify SELECTIVE, include the selectiveModeConfiguration field.
+        public let selectionMode: RerankingMetadataSelectionMode
+        /// Contains configurations for the metadata fields to include or exclude when considering reranking.
+        public let selectiveModeConfiguration: RerankingMetadataSelectiveModeConfiguration?
+
+        @inlinable
+        public init(selectionMode: RerankingMetadataSelectionMode, selectiveModeConfiguration: RerankingMetadataSelectiveModeConfiguration? = nil) {
+            self.selectionMode = selectionMode
+            self.selectiveModeConfiguration = selectiveModeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.selectiveModeConfiguration?.validate(name: "\(name).selectiveModeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectionMode = "selectionMode"
+            case selectiveModeConfiguration = "selectiveModeConfiguration"
+        }
+    }
+
     public struct ModelInvocationInput: AWSDecodableShape {
+        /// The identifier of a foundation model.
+        public let foundationModel: String?
         /// Specifications about the inference parameters that were provided alongside the prompt. These are specified in the PromptOverrideConfiguration object that was set when the agent was created or updated. For more information, see Inference parameters for foundation models.
         public let inferenceConfiguration: InferenceConfiguration?
         /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence.
@@ -2585,7 +3954,8 @@ extension BedrockAgentRuntime {
         public let type: PromptType?
 
         @inlinable
-        public init(inferenceConfiguration: InferenceConfiguration? = nil, overrideLambda: String? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, text: String? = nil, traceId: String? = nil, type: PromptType? = nil) {
+        public init(foundationModel: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, overrideLambda: String? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, text: String? = nil, traceId: String? = nil, type: PromptType? = nil) {
+            self.foundationModel = foundationModel
             self.inferenceConfiguration = inferenceConfiguration
             self.overrideLambda = overrideLambda
             self.parserMode = parserMode
@@ -2596,6 +3966,7 @@ extension BedrockAgentRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case foundationModel = "foundationModel"
             case inferenceConfiguration = "inferenceConfiguration"
             case overrideLambda = "overrideLambda"
             case parserMode = "parserMode"
@@ -2609,6 +3980,8 @@ extension BedrockAgentRuntime {
     public struct Observation: AWSDecodableShape {
         /// Contains the JSON-formatted string returned by the API invoked by the action group.
         public let actionGroupInvocationOutput: ActionGroupInvocationOutput?
+        /// A collaborator's invocation output.
+        public let agentCollaboratorInvocationOutput: AgentCollaboratorInvocationOutput?
         /// Contains the JSON-formatted string returned by the API invoked by the code interpreter.
         public let codeInterpreterInvocationOutput: CodeInterpreterInvocationOutput?
         /// Contains details about the response to the user.
@@ -2623,8 +3996,9 @@ extension BedrockAgentRuntime {
         public let type: `Type`?
 
         @inlinable
-        public init(actionGroupInvocationOutput: ActionGroupInvocationOutput? = nil, codeInterpreterInvocationOutput: CodeInterpreterInvocationOutput? = nil, finalResponse: FinalResponse? = nil, knowledgeBaseLookupOutput: KnowledgeBaseLookupOutput? = nil, repromptResponse: RepromptResponse? = nil, traceId: String? = nil, type: `Type`? = nil) {
+        public init(actionGroupInvocationOutput: ActionGroupInvocationOutput? = nil, agentCollaboratorInvocationOutput: AgentCollaboratorInvocationOutput? = nil, codeInterpreterInvocationOutput: CodeInterpreterInvocationOutput? = nil, finalResponse: FinalResponse? = nil, knowledgeBaseLookupOutput: KnowledgeBaseLookupOutput? = nil, repromptResponse: RepromptResponse? = nil, traceId: String? = nil, type: `Type`? = nil) {
             self.actionGroupInvocationOutput = actionGroupInvocationOutput
+            self.agentCollaboratorInvocationOutput = agentCollaboratorInvocationOutput
             self.codeInterpreterInvocationOutput = codeInterpreterInvocationOutput
             self.finalResponse = finalResponse
             self.knowledgeBaseLookupOutput = knowledgeBaseLookupOutput
@@ -2635,12 +4009,63 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case actionGroupInvocationOutput = "actionGroupInvocationOutput"
+            case agentCollaboratorInvocationOutput = "agentCollaboratorInvocationOutput"
             case codeInterpreterInvocationOutput = "codeInterpreterInvocationOutput"
             case finalResponse = "finalResponse"
             case knowledgeBaseLookupOutput = "knowledgeBaseLookupOutput"
             case repromptResponse = "repromptResponse"
             case traceId = "traceId"
             case type = "type"
+        }
+    }
+
+    public struct OptimizePromptRequest: AWSEncodableShape {
+        /// Contains the prompt to optimize.
+        public let input: InputPrompt
+        /// The unique identifier of the model that you want to optimize the prompt for.
+        public let targetModelId: String
+
+        @inlinable
+        public init(input: InputPrompt, targetModelId: String) {
+            self.input = input
+            self.targetModelId = targetModelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+            case targetModelId = "targetModelId"
+        }
+    }
+
+    public struct OptimizePromptResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        /// The prompt after being optimized for the task.
+        public let optimizedPrompt: AWSEventStream<OptimizedPromptStream>
+
+        @inlinable
+        public init(optimizedPrompt: AWSEventStream<OptimizedPromptStream>) {
+            self.optimizedPrompt = optimizedPrompt
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.optimizedPrompt = try container.decode(AWSEventStream<OptimizedPromptStream>.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct OptimizedPromptEvent: AWSDecodableShape {
+        /// Contains information about the optimized prompt.
+        public let optimizedPrompt: OptimizedPrompt?
+
+        @inlinable
+        public init(optimizedPrompt: OptimizedPrompt? = nil) {
+            self.optimizedPrompt = optimizedPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optimizedPrompt = "optimizedPrompt"
         }
     }
 
@@ -2742,6 +4167,33 @@ extension BedrockAgentRuntime {
             case name = "name"
             case type = "type"
             case value = "value"
+        }
+    }
+
+    public struct ParameterDetail: AWSEncodableShape {
+        ///  A description of the parameter. Helps the foundation model determine how to elicit the parameters from the user.
+        public let description: String?
+        ///  Whether the parameter is required for the agent to complete the function for action group invocation.
+        public let required: Bool?
+        ///  The data type of the parameter.
+        public let type: ParameterType
+
+        @inlinable
+        public init(description: String? = nil, required: Bool? = nil, type: ParameterType) {
+            self.description = description
+            self.required = required
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case required = "required"
+            case type = "type"
         }
     }
 
@@ -2847,6 +4299,73 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct PromptConfiguration: AWSEncodableShape {
+        /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables. For more information, see Configure the prompt templates.
+        public let basePromptTemplate: String?
+        /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see Inference parameters for foundation models.
+        public let inferenceConfiguration: InferenceConfiguration?
+        /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDEN, the overrideLambda field in the PromptOverrideConfiguration must be specified with the ARN of a Lambda function.
+        public let parserMode: CreationMode?
+        /// Specifies whether to override the default prompt template for this promptType. Set this value to OVERRIDDEN to use the prompt that you provide in the basePromptTemplate. If you leave it as DEFAULT, the agent uses a default prompt template.
+        public let promptCreationMode: CreationMode?
+        /// Specifies whether to allow the inline agent to carry out the step specified in the promptType. If you set this value to DISABLED, the agent skips that step. The default state for each promptType is as follows.    PRE_PROCESSING – ENABLED     ORCHESTRATION – ENABLED     KNOWLEDGE_BASE_RESPONSE_GENERATION – ENABLED     POST_PROCESSING – DISABLED
+        public let promptState: PromptState?
+        ///  The step in the agent sequence that this prompt configuration applies to.
+        public let promptType: PromptType?
+
+        @inlinable
+        public init(basePromptTemplate: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
+            self.basePromptTemplate = basePromptTemplate
+            self.inferenceConfiguration = inferenceConfiguration
+            self.parserMode = parserMode
+            self.promptCreationMode = promptCreationMode
+            self.promptState = promptState
+            self.promptType = promptType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.basePromptTemplate, name: "basePromptTemplate", parent: name, max: 100000)
+            try self.validate(self.basePromptTemplate, name: "basePromptTemplate", parent: name, min: 1)
+            try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basePromptTemplate = "basePromptTemplate"
+            case inferenceConfiguration = "inferenceConfiguration"
+            case parserMode = "parserMode"
+            case promptCreationMode = "promptCreationMode"
+            case promptState = "promptState"
+            case promptType = "promptType"
+        }
+    }
+
+    public struct PromptOverrideConfiguration: AWSEncodableShape {
+        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence.  If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is  set to OVERRIDDEN. For more information, see Parser Lambda function in Amazon Bedrock Agents.
+        public let overrideLambda: String?
+        /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see Advanced prompts.
+        public let promptConfigurations: [PromptConfiguration]
+
+        @inlinable
+        public init(overrideLambda: String? = nil, promptConfigurations: [PromptConfiguration]) {
+            self.overrideLambda = overrideLambda
+            self.promptConfigurations = promptConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.overrideLambda, name: "overrideLambda", parent: name, max: 2048)
+            try self.validate(self.overrideLambda, name: "overrideLambda", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.promptConfigurations.forEach {
+                try $0.validate(name: "\(name).promptConfigurations[]")
+            }
+            try self.validate(self.promptConfigurations, name: "promptConfigurations", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overrideLambda = "overrideLambda"
+            case promptConfigurations = "promptConfigurations"
+        }
+    }
+
     public struct PromptTemplate: AWSEncodableShape {
         /// The template for the prompt that's sent to the model for response generation. You can include prompt placeholders, which become replaced before the prompt is sent to the model to provide instructions and context to the model. In addition, you can include XML tags to delineate meaningful sections of the prompt template. For more information, see the following resources:    Knowledge base prompt templates     Use XML tags with Anthropic Claude models
         public let textPromptTemplate: String?
@@ -2877,6 +4396,24 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case properties = "properties"
+        }
+    }
+
+    public struct QueryGenerationInput: AWSEncodableShape {
+        /// The text of the query.
+        public let text: String
+        /// The type of the query.
+        public let type: InputQueryType
+
+        @inlinable
+        public init(text: String, type: InputQueryType) {
+            self.text = text
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+            case type = "type"
         }
     }
 
@@ -2958,6 +4495,177 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct RerankDocument: AWSEncodableShape & AWSDecodableShape {
+        /// Contains a JSON document to rerank.
+        public let jsonDocument: String?
+        /// Contains information about a text document to rerank.
+        public let textDocument: RerankTextDocument?
+        /// The type of document to rerank.
+        public let type: RerankDocumentType
+
+        @inlinable
+        public init(jsonDocument: String? = nil, textDocument: RerankTextDocument? = nil, type: RerankDocumentType) {
+            self.jsonDocument = jsonDocument
+            self.textDocument = textDocument
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jsonDocument = "jsonDocument"
+            case textDocument = "textDocument"
+            case type = "type"
+        }
+    }
+
+    public struct RerankQuery: AWSEncodableShape {
+        /// Contains information about a text query.
+        public let textQuery: RerankTextDocument
+        /// The type of the query.
+        public let type: RerankQueryContentType
+
+        @inlinable
+        public init(textQuery: RerankTextDocument, type: RerankQueryContentType) {
+            self.textQuery = textQuery
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textQuery = "textQuery"
+            case type = "type"
+        }
+    }
+
+    public struct RerankRequest: AWSEncodableShape {
+        /// If the total number of results was greater than could fit in a response, a token is returned in the nextToken field. You can enter that token in this field to return the next batch of results.
+        public let nextToken: String?
+        /// An array of objects, each of which contains information about a query to submit to the reranker model.
+        public let queries: [RerankQuery]
+        /// Contains configurations for reranking.
+        public let rerankingConfiguration: RerankingConfiguration
+        /// An array of objects, each of which contains information about the sources to rerank.
+        public let sources: [RerankSource]
+
+        @inlinable
+        public init(nextToken: String? = nil, queries: [RerankQuery], rerankingConfiguration: RerankingConfiguration, sources: [RerankSource]) {
+            self.nextToken = nextToken
+            self.queries = queries
+            self.rerankingConfiguration = rerankingConfiguration
+            self.sources = sources
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.validate(self.queries, name: "queries", parent: name, max: 1)
+            try self.validate(self.queries, name: "queries", parent: name, min: 1)
+            try self.rerankingConfiguration.validate(name: "\(name).rerankingConfiguration")
+            try self.validate(self.sources, name: "sources", parent: name, max: 1000)
+            try self.validate(self.sources, name: "sources", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case queries = "queries"
+            case rerankingConfiguration = "rerankingConfiguration"
+            case sources = "sources"
+        }
+    }
+
+    public struct RerankResponse: AWSDecodableShape {
+        /// If the total number of results is greater than can fit in the response, use this token in the nextToken field when making another request to return the next batch of results.
+        public let nextToken: String?
+        /// An array of objects, each of which contains information about the results of reranking.
+        public let results: [RerankResult]
+
+        @inlinable
+        public init(nextToken: String? = nil, results: [RerankResult]) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case results = "results"
+        }
+    }
+
+    public struct RerankResult: AWSDecodableShape {
+        /// Contains information about the document.
+        public let document: RerankDocument?
+        /// The ranking of the document. The lower a number, the higher the document is ranked.
+        public let index: Int
+        /// The relevance score of the document.
+        public let relevanceScore: Float
+
+        @inlinable
+        public init(document: RerankDocument? = nil, index: Int, relevanceScore: Float) {
+            self.document = document
+            self.index = index
+            self.relevanceScore = relevanceScore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+            case index = "index"
+            case relevanceScore = "relevanceScore"
+        }
+    }
+
+    public struct RerankSource: AWSEncodableShape {
+        /// Contains an inline definition of a source for reranking.
+        public let inlineDocumentSource: RerankDocument
+        /// The type of the source.
+        public let type: RerankSourceType
+
+        @inlinable
+        public init(inlineDocumentSource: RerankDocument, type: RerankSourceType) {
+            self.inlineDocumentSource = inlineDocumentSource
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlineDocumentSource = "inlineDocumentSource"
+            case type = "type"
+        }
+    }
+
+    public struct RerankTextDocument: AWSEncodableShape & AWSDecodableShape {
+        /// The text of the document.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct RerankingConfiguration: AWSEncodableShape {
+        /// Contains configurations for an Amazon Bedrock reranker.
+        public let bedrockRerankingConfiguration: BedrockRerankingConfiguration
+        /// The type of reranker that the configurations apply to.
+        public let type: RerankingConfigurationType
+
+        @inlinable
+        public init(bedrockRerankingConfiguration: BedrockRerankingConfiguration, type: RerankingConfigurationType) {
+            self.bedrockRerankingConfiguration = bedrockRerankingConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockRerankingConfiguration.validate(name: "\(name).bedrockRerankingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockRerankingConfiguration = "bedrockRerankingConfiguration"
+            case type = "type"
+        }
+    }
+
     public struct ResourceNotFoundException: AWSDecodableShape {
         public let message: String?
 
@@ -2986,48 +4694,122 @@ extension BedrockAgentRuntime {
     }
 
     public struct RetrievalResultContent: AWSDecodableShape {
+        /// A data URI with base64-encoded content from the data source. The URI is in the following format: returned in the following format: data:image/jpeg;base64,${base64-encoded string}.
+        public let byteContent: String?
+        /// Specifies information about the rows with the cells to return in retrieval.
+        public let row: [RetrievalResultContentColumn]?
         /// The cited text from the data source.
-        public let text: String
+        public let text: String?
+        /// The type of content in the retrieval result.
+        public let type: RetrievalResultContentType?
 
         @inlinable
-        public init(text: String) {
+        public init(byteContent: String? = nil, row: [RetrievalResultContentColumn]? = nil, text: String? = nil, type: RetrievalResultContentType? = nil) {
+            self.byteContent = byteContent
+            self.row = row
             self.text = text
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case byteContent = "byteContent"
+            case row = "row"
             case text = "text"
+            case type = "type"
+        }
+    }
+
+    public struct RetrievalResultContentColumn: AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String?
+        /// The value in the column.
+        public let columnValue: String?
+        /// The data type of the value.
+        public let type: RetrievalResultContentColumnType?
+
+        @inlinable
+        public init(columnName: String? = nil, columnValue: String? = nil, type: RetrievalResultContentColumnType? = nil) {
+            self.columnName = columnName
+            self.columnValue = columnValue
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case columnValue = "columnValue"
+            case type = "type"
+        }
+    }
+
+    public struct RetrievalResultCustomDocumentLocation: AWSDecodableShape {
+        /// The ID of the document.
+        public let id: String?
+
+        @inlinable
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct RetrievalResultKendraDocumentLocation: AWSDecodableShape {
+        /// The document's uri.
+        public let uri: String?
+
+        @inlinable
+        public init(uri: String? = nil) {
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uri = "uri"
         }
     }
 
     public struct RetrievalResultLocation: AWSDecodableShape {
         /// The Confluence data source location.
         public let confluenceLocation: RetrievalResultConfluenceLocation?
+        /// Specifies the location of a document in a custom data source.
+        public let customDocumentLocation: RetrievalResultCustomDocumentLocation?
+        /// The location of a document in Amazon Kendra.
+        public let kendraDocumentLocation: RetrievalResultKendraDocumentLocation?
         /// The S3 data source location.
         public let s3Location: RetrievalResultS3Location?
         /// The Salesforce data source location.
         public let salesforceLocation: RetrievalResultSalesforceLocation?
         /// The SharePoint data source location.
         public let sharePointLocation: RetrievalResultSharePointLocation?
+        /// Specifies information about the SQL query used to retrieve the result.
+        public let sqlLocation: RetrievalResultSqlLocation?
         /// The type of data source location.
         public let type: RetrievalResultLocationType
         /// The web URL/URLs data source location.
         public let webLocation: RetrievalResultWebLocation?
 
         @inlinable
-        public init(confluenceLocation: RetrievalResultConfluenceLocation? = nil, s3Location: RetrievalResultS3Location? = nil, salesforceLocation: RetrievalResultSalesforceLocation? = nil, sharePointLocation: RetrievalResultSharePointLocation? = nil, type: RetrievalResultLocationType, webLocation: RetrievalResultWebLocation? = nil) {
+        public init(confluenceLocation: RetrievalResultConfluenceLocation? = nil, customDocumentLocation: RetrievalResultCustomDocumentLocation? = nil, kendraDocumentLocation: RetrievalResultKendraDocumentLocation? = nil, s3Location: RetrievalResultS3Location? = nil, salesforceLocation: RetrievalResultSalesforceLocation? = nil, sharePointLocation: RetrievalResultSharePointLocation? = nil, sqlLocation: RetrievalResultSqlLocation? = nil, type: RetrievalResultLocationType, webLocation: RetrievalResultWebLocation? = nil) {
             self.confluenceLocation = confluenceLocation
+            self.customDocumentLocation = customDocumentLocation
+            self.kendraDocumentLocation = kendraDocumentLocation
             self.s3Location = s3Location
             self.salesforceLocation = salesforceLocation
             self.sharePointLocation = sharePointLocation
+            self.sqlLocation = sqlLocation
             self.type = type
             self.webLocation = webLocation
         }
 
         private enum CodingKeys: String, CodingKey {
             case confluenceLocation = "confluenceLocation"
+            case customDocumentLocation = "customDocumentLocation"
+            case kendraDocumentLocation = "kendraDocumentLocation"
             case s3Location = "s3Location"
             case salesforceLocation = "salesforceLocation"
             case sharePointLocation = "sharePointLocation"
+            case sqlLocation = "sqlLocation"
             case type = "type"
             case webLocation = "webLocation"
         }
@@ -3072,6 +4854,20 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case url = "url"
+        }
+    }
+
+    public struct RetrievalResultSqlLocation: AWSDecodableShape {
+        /// The SQL query used to retrieve the result.
+        public let query: String?
+
+        @inlinable
+        public init(query: String? = nil) {
+            self.query = query
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case query = "query"
         }
     }
 
@@ -3132,6 +4928,20 @@ extension BedrockAgentRuntime {
 
     public struct RetrieveAndGenerateOutput: AWSDecodableShape {
         /// The response generated from querying the knowledge base.
+        public let text: String
+
+        @inlinable
+        public init(text: String) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct RetrieveAndGenerateOutputEvent: AWSDecodableShape {
+        /// A text response.
         public let text: String
 
         @inlinable
@@ -3224,7 +5034,66 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct RetrieveAndGenerateStreamRequest: AWSEncodableShape {
+        /// Contains the query to be made to the knowledge base.
+        public let input: RetrieveAndGenerateInput
+        /// Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
+        public let retrieveAndGenerateConfiguration: RetrieveAndGenerateConfiguration?
+        /// Contains details about the session with the knowledge base.
+        public let sessionConfiguration: RetrieveAndGenerateSessionConfiguration?
+        /// The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
+        public let sessionId: String?
+
+        @inlinable
+        public init(input: RetrieveAndGenerateInput, retrieveAndGenerateConfiguration: RetrieveAndGenerateConfiguration? = nil, sessionConfiguration: RetrieveAndGenerateSessionConfiguration? = nil, sessionId: String? = nil) {
+            self.input = input
+            self.retrieveAndGenerateConfiguration = retrieveAndGenerateConfiguration
+            self.sessionConfiguration = sessionConfiguration
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.retrieveAndGenerateConfiguration?.validate(name: "\(name).retrieveAndGenerateConfiguration")
+            try self.sessionConfiguration?.validate(name: "\(name).sessionConfiguration")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+            case retrieveAndGenerateConfiguration = "retrieveAndGenerateConfiguration"
+            case sessionConfiguration = "sessionConfiguration"
+            case sessionId = "sessionId"
+        }
+    }
+
+    public struct RetrieveAndGenerateStreamResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        /// The session ID.
+        public let sessionId: String
+        /// A stream of events from the model.
+        public let stream: AWSEventStream<RetrieveAndGenerateStreamResponseOutput>
+
+        @inlinable
+        public init(sessionId: String, stream: AWSEventStream<RetrieveAndGenerateStreamResponseOutput>) {
+            self.sessionId = sessionId
+            self.stream = stream
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.sessionId = try response.decodeHeader(String.self, key: "x-amzn-bedrock-knowledge-base-session-id")
+            self.stream = try container.decode(AWSEventStream<RetrieveAndGenerateStreamResponseOutput>.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct RetrieveRequest: AWSEncodableShape {
+        /// Guardrail settings.
+        public let guardrailConfiguration: GuardrailConfiguration?
         /// The unique identifier of the knowledge base to query.
         public let knowledgeBaseId: String
         /// If there are more results than can fit in the response, the response returns a nextToken. Use this token in the nextToken field of another request to retrieve the next batch of results.
@@ -3235,7 +5104,8 @@ extension BedrockAgentRuntime {
         public let retrievalQuery: KnowledgeBaseQuery
 
         @inlinable
-        public init(knowledgeBaseId: String, nextToken: String? = nil, retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil, retrievalQuery: KnowledgeBaseQuery) {
+        public init(guardrailConfiguration: GuardrailConfiguration? = nil, knowledgeBaseId: String, nextToken: String? = nil, retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil, retrievalQuery: KnowledgeBaseQuery) {
+            self.guardrailConfiguration = guardrailConfiguration
             self.knowledgeBaseId = knowledgeBaseId
             self.nextToken = nextToken
             self.retrievalConfiguration = retrievalConfiguration
@@ -3245,6 +5115,7 @@ extension BedrockAgentRuntime {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.guardrailConfiguration, forKey: .guardrailConfiguration)
             request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
             try container.encodeIfPresent(self.retrievalConfiguration, forKey: .retrievalConfiguration)
@@ -3261,6 +5132,7 @@ extension BedrockAgentRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case guardrailConfiguration = "guardrailConfiguration"
             case nextToken = "nextToken"
             case retrievalConfiguration = "retrievalConfiguration"
             case retrievalQuery = "retrievalQuery"
@@ -3268,18 +5140,22 @@ extension BedrockAgentRuntime {
     }
 
     public struct RetrieveResponse: AWSDecodableShape {
+        /// Specifies if there is a guardrail intervention in the response.
+        public let guardrailAction: GuadrailAction?
         /// If there are more results than can fit in the response, the response returns a nextToken. Use this token in the nextToken field of another request to retrieve the next batch of results.
         public let nextToken: String?
         /// A list of results from querying the knowledge base.
         public let retrievalResults: [KnowledgeBaseRetrievalResult]
 
         @inlinable
-        public init(nextToken: String? = nil, retrievalResults: [KnowledgeBaseRetrievalResult]) {
+        public init(guardrailAction: GuadrailAction? = nil, nextToken: String? = nil, retrievalResults: [KnowledgeBaseRetrievalResult]) {
+            self.guardrailAction = guardrailAction
             self.nextToken = nextToken
             self.retrievalResults = retrievalResults
         }
 
         private enum CodingKeys: String, CodingKey {
+            case guardrailAction = "guardrailAction"
             case nextToken = "nextToken"
             case retrievalResults = "retrievalResults"
         }
@@ -3322,6 +5198,73 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case invocationId = "invocationId"
             case invocationInputs = "invocationInputs"
+        }
+    }
+
+    public struct ReturnControlResults: AWSDecodableShape {
+        /// The action's invocation ID.
+        public let invocationId: String?
+        /// The action invocation result.
+        public let returnControlInvocationResults: [InvocationResultMember]?
+
+        @inlinable
+        public init(invocationId: String? = nil, returnControlInvocationResults: [InvocationResultMember]? = nil) {
+            self.invocationId = invocationId
+            self.returnControlInvocationResults = returnControlInvocationResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invocationId = "invocationId"
+            case returnControlInvocationResults = "returnControlInvocationResults"
+        }
+    }
+
+    public struct RoutingClassifierModelInvocationOutput: AWSDecodableShape {
+        /// The invocation's metadata.
+        public let metadata: Metadata?
+        /// The invocation's raw response.
+        public let rawResponse: RawResponse?
+        /// The invocation's trace ID.
+        public let traceId: String?
+
+        @inlinable
+        public init(metadata: Metadata? = nil, rawResponse: RawResponse? = nil, traceId: String? = nil) {
+            self.metadata = metadata
+            self.rawResponse = rawResponse
+            self.traceId = traceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
+            case rawResponse = "rawResponse"
+            case traceId = "traceId"
+        }
+    }
+
+    public struct S3Identifier: AWSEncodableShape {
+        ///  The name of the S3 bucket.
+        public let s3BucketName: String?
+        ///  The S3 object key for the S3 resource.
+        public let s3ObjectKey: String?
+
+        @inlinable
+        public init(s3BucketName: String? = nil, s3ObjectKey: String? = nil) {
+            self.s3BucketName = s3BucketName
+            self.s3ObjectKey = s3ObjectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.s3ObjectKey, name: "s3ObjectKey", parent: name, max: 1024)
+            try self.validate(self.s3ObjectKey, name: "s3ObjectKey", parent: name, min: 1)
+            try self.validate(self.s3ObjectKey, name: "s3ObjectKey", parent: name, pattern: "^[\\.\\-\\!\\*\\_\\'\\(\\)a-zA-Z0-9][\\.\\-\\!\\*\\_\\'\\(\\)\\/a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketName = "s3BucketName"
+            case s3ObjectKey = "s3ObjectKey"
         }
     }
 
@@ -3379,6 +5322,8 @@ extension BedrockAgentRuntime {
     }
 
     public struct SessionState: AWSEncodableShape {
+        /// The state's conversation history.
+        public let conversationHistory: ConversationHistory?
         /// Contains information about the files used by code interpreter.
         public let files: [InputFile]?
         /// The identifier of the invocation of an action. This value must match the invocationId returned in the InvokeAgent response for the action whose results are provided in the returnControlInvocationResults field. For more information, see Return control to the agent developer and Control session context.
@@ -3393,7 +5338,8 @@ extension BedrockAgentRuntime {
         public let sessionAttributes: [String: String]?
 
         @inlinable
-        public init(files: [InputFile]? = nil, invocationId: String? = nil, knowledgeBaseConfigurations: [KnowledgeBaseConfiguration]? = nil, promptSessionAttributes: [String: String]? = nil, returnControlInvocationResults: [InvocationResultMember]? = nil, sessionAttributes: [String: String]? = nil) {
+        public init(conversationHistory: ConversationHistory? = nil, files: [InputFile]? = nil, invocationId: String? = nil, knowledgeBaseConfigurations: [KnowledgeBaseConfiguration]? = nil, promptSessionAttributes: [String: String]? = nil, returnControlInvocationResults: [InvocationResultMember]? = nil, sessionAttributes: [String: String]? = nil) {
+            self.conversationHistory = conversationHistory
             self.files = files
             self.invocationId = invocationId
             self.knowledgeBaseConfigurations = knowledgeBaseConfigurations
@@ -3415,6 +5361,7 @@ extension BedrockAgentRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case conversationHistory = "conversationHistory"
             case files = "files"
             case invocationId = "invocationId"
             case knowledgeBaseConfigurations = "knowledgeBaseConfigurations"
@@ -3439,6 +5386,24 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case end = "end"
             case start = "start"
+        }
+    }
+
+    public struct StreamingConfigurations: AWSEncodableShape {
+        ///  The guardrail interval to apply as response is generated.
+        public let applyGuardrailInterval: Int?
+        ///  Specifies whether to enable streaming for the final response. This is set to false by default.
+        public let streamFinalResponse: Bool?
+
+        @inlinable
+        public init(applyGuardrailInterval: Int? = nil, streamFinalResponse: Bool? = nil) {
+            self.applyGuardrailInterval = applyGuardrailInterval
+            self.streamFinalResponse = streamFinalResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyGuardrailInterval = "applyGuardrailInterval"
+            case streamFinalResponse = "streamFinalResponse"
         }
     }
 
@@ -3478,6 +5443,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct TextPrompt: AWSEncodableShape & AWSDecodableShape {
+        /// The text in the text prompt to optimize.
+        public let text: String
+
+        @inlinable
+        public init(text: String) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
     public struct TextResponsePart: AWSDecodableShape {
         /// Contains information about where the text with a citation begins and ends in the generated output.
         public let span: Span?
@@ -3493,6 +5472,47 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case span = "span"
             case text = "text"
+        }
+    }
+
+    public struct TextToSqlConfiguration: AWSEncodableShape {
+        /// Specifies configurations for a knowledge base to use in transformation.
+        public let knowledgeBaseConfiguration: TextToSqlKnowledgeBaseConfiguration?
+        /// The type of resource to use in transformation.
+        public let type: TextToSqlConfigurationType
+
+        @inlinable
+        public init(knowledgeBaseConfiguration: TextToSqlKnowledgeBaseConfiguration? = nil, type: TextToSqlConfigurationType) {
+            self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.knowledgeBaseConfiguration?.validate(name: "\(name).knowledgeBaseConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseConfiguration = "knowledgeBaseConfiguration"
+            case type = "type"
+        }
+    }
+
+    public struct TextToSqlKnowledgeBaseConfiguration: AWSEncodableShape {
+        /// The ARN of the knowledge base
+        public let knowledgeBaseArn: String
+
+        @inlinable
+        public init(knowledgeBaseArn: String) {
+            self.knowledgeBaseArn = knowledgeBaseArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.knowledgeBaseArn, name: "knowledgeBaseArn", parent: name, max: 128)
+            try self.validate(self.knowledgeBaseArn, name: "knowledgeBaseArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseArn = "knowledgeBaseArn"
         }
     }
 
@@ -3516,16 +5536,22 @@ extension BedrockAgentRuntime {
         public let agentId: String?
         /// The version of the agent.
         public let agentVersion: String?
+        /// The part's caller chain.
+        public let callerChain: [Caller]?
+        /// The part's collaborator name.
+        public let collaboratorName: String?
         /// The unique identifier of the session with the agent.
         public let sessionId: String?
         /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see Trace enablement.
         public let trace: Trace?
 
         @inlinable
-        public init(agentAliasId: String? = nil, agentId: String? = nil, agentVersion: String? = nil, sessionId: String? = nil, trace: Trace? = nil) {
+        public init(agentAliasId: String? = nil, agentId: String? = nil, agentVersion: String? = nil, callerChain: [Caller]? = nil, collaboratorName: String? = nil, sessionId: String? = nil, trace: Trace? = nil) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
             self.agentVersion = agentVersion
+            self.callerChain = callerChain
+            self.collaboratorName = collaboratorName
             self.sessionId = sessionId
             self.trace = trace
         }
@@ -3534,8 +5560,32 @@ extension BedrockAgentRuntime {
             case agentAliasId = "agentAliasId"
             case agentId = "agentId"
             case agentVersion = "agentVersion"
+            case callerChain = "callerChain"
+            case collaboratorName = "collaboratorName"
             case sessionId = "sessionId"
             case trace = "trace"
+        }
+    }
+
+    public struct TransformationConfiguration: AWSEncodableShape {
+        /// The mode of the transformation.
+        public let mode: QueryTransformationMode
+        /// Specifies configurations for transforming text to SQL.
+        public let textToSqlConfiguration: TextToSqlConfiguration?
+
+        @inlinable
+        public init(mode: QueryTransformationMode, textToSqlConfiguration: TextToSqlConfiguration? = nil) {
+            self.mode = mode
+            self.textToSqlConfiguration = textToSqlConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.textToSqlConfiguration?.validate(name: "\(name).textToSqlConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+            case textToSqlConfiguration = "textToSqlConfiguration"
         }
     }
 
@@ -3567,6 +5617,111 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct VectorSearchBedrockRerankingConfiguration: AWSEncodableShape {
+        /// Contains configurations for the metadata to use in reranking.
+        public let metadataConfiguration: MetadataConfigurationForReranking?
+        /// Contains configurations for the reranker model.
+        public let modelConfiguration: VectorSearchBedrockRerankingModelConfiguration
+        /// The number of results to return after reranking.
+        public let numberOfRerankedResults: Int?
+
+        @inlinable
+        public init(metadataConfiguration: MetadataConfigurationForReranking? = nil, modelConfiguration: VectorSearchBedrockRerankingModelConfiguration, numberOfRerankedResults: Int? = nil) {
+            self.metadataConfiguration = metadataConfiguration
+            self.modelConfiguration = modelConfiguration
+            self.numberOfRerankedResults = numberOfRerankedResults
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataConfiguration?.validate(name: "\(name).metadataConfiguration")
+            try self.modelConfiguration.validate(name: "\(name).modelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataConfiguration = "metadataConfiguration"
+            case modelConfiguration = "modelConfiguration"
+            case numberOfRerankedResults = "numberOfRerankedResults"
+        }
+    }
+
+    public struct VectorSearchBedrockRerankingModelConfiguration: AWSEncodableShape {
+        /// A JSON object whose keys are request fields for the model and whose values are values for those fields.
+        public let additionalModelRequestFields: [String: String]?
+        /// The ARN of the reranker model to use.
+        public let modelArn: String
+
+        @inlinable
+        public init(additionalModelRequestFields: [String: String]? = nil, modelArn: String) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalModelRequestFields?.forEach {
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
+            }
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/(.*))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case modelArn = "modelArn"
+        }
+    }
+
+    public struct VectorSearchRerankingConfiguration: AWSEncodableShape {
+        /// Contains configurations for an Amazon Bedrock reranker model.
+        public let bedrockRerankingConfiguration: VectorSearchBedrockRerankingConfiguration?
+        /// The type of reranker model.
+        public let type: VectorSearchRerankingConfigurationType
+
+        @inlinable
+        public init(bedrockRerankingConfiguration: VectorSearchBedrockRerankingConfiguration? = nil, type: VectorSearchRerankingConfigurationType) {
+            self.bedrockRerankingConfiguration = bedrockRerankingConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockRerankingConfiguration?.validate(name: "\(name).bedrockRerankingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockRerankingConfiguration = "bedrockRerankingConfiguration"
+            case type = "type"
+        }
+    }
+
+    public struct Caller: AWSDecodableShape {
+        /// The caller's agent alias ARN.
+        public let agentAliasArn: String?
+
+        @inlinable
+        public init(agentAliasArn: String? = nil) {
+            self.agentAliasArn = agentAliasArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentAliasArn = "agentAliasArn"
+        }
+    }
+
+    public struct ContentBlock: AWSEncodableShape {
+        /// The block's text.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
         }
     }
 
@@ -3626,6 +5781,40 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct FunctionSchema: AWSEncodableShape {
+        ///  A list of functions that each define an action in the action group.
+        public let functions: [FunctionDefinition]?
+
+        @inlinable
+        public init(functions: [FunctionDefinition]? = nil) {
+            self.functions = functions
+        }
+
+        public func validate(name: String) throws {
+            try self.functions?.forEach {
+                try $0.validate(name: "\(name).functions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functions = "functions"
+        }
+    }
+
+    public struct InputPrompt: AWSEncodableShape {
+        /// Contains information about the text prompt to optimize.
+        public let textPrompt: TextPrompt?
+
+        @inlinable
+        public init(textPrompt: TextPrompt? = nil) {
+            self.textPrompt = textPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textPrompt = "textPrompt"
+        }
+    }
+
     public struct Memory: AWSDecodableShape {
         /// Contains summary of a session.
         public let sessionSummary: MemorySessionSummary?
@@ -3637,6 +5826,20 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case sessionSummary = "sessionSummary"
+        }
+    }
+
+    public struct OptimizedPrompt: AWSDecodableShape {
+        /// Contains information about the text in the prompt that was optimized.
+        public let textPrompt: TextPrompt?
+
+        @inlinable
+        public init(textPrompt: TextPrompt? = nil) {
+            self.textPrompt = textPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textPrompt = "textPrompt"
         }
     }
 }

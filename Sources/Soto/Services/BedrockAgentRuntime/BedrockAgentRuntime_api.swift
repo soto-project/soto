@@ -115,6 +115,38 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.deleteAgentMemory(input, logger: logger)
     }
 
+    /// Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide.
+    @Sendable
+    @inlinable
+    public func generateQuery(_ input: GenerateQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateQueryResponse {
+        try await self.client.execute(
+            operation: "GenerateQuery", 
+            path: "/generateQuery", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide.
+    ///
+    /// Parameters:
+    ///   - queryGenerationInput: Specifies information about a natural language query to transform into SQL.
+    ///   - transformationConfiguration: Specifies configurations for transforming the natural language query into SQL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func generateQuery(
+        queryGenerationInput: QueryGenerationInput,
+        transformationConfiguration: TransformationConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GenerateQueryResponse {
+        let input = GenerateQueryRequest(
+            queryGenerationInput: queryGenerationInput, 
+            transformationConfiguration: transformationConfiguration
+        )
+        return try await self.generateQuery(input, logger: logger)
+    }
+
     /// Gets the sessions stored in the memory of the agent.
     @Sendable
     @inlinable
@@ -183,6 +215,8 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - memoryId: The unique identifier of the agent memory.
     ///   - sessionId: The unique identifier of the session. Use the same value across requests to continue the same conversation.
     ///   - sessionState: Contains parameters that specify various attributes of the session. For more information, see Control session context.  If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
+    ///   - sourceArn: The ARN of the resource making the request.
+    ///   - streamingConfigurations:  Specifies the configurations for streaming.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeAgent(
@@ -194,6 +228,8 @@ public struct BedrockAgentRuntime: AWSService {
         memoryId: String? = nil,
         sessionId: String,
         sessionState: SessionState? = nil,
+        sourceArn: String? = nil,
+        streamingConfigurations: StreamingConfigurations? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeAgentResponse {
         let input = InvokeAgentRequest(
@@ -204,7 +240,9 @@ public struct BedrockAgentRuntime: AWSService {
             inputText: inputText, 
             memoryId: memoryId, 
             sessionId: sessionId, 
-            sessionState: sessionState
+            sessionState: sessionState, 
+            sourceArn: sourceArn, 
+            streamingConfigurations: streamingConfigurations
         )
         return try await self.invokeAgent(input, logger: logger)
     }
@@ -247,6 +285,141 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.invokeFlow(input, logger: logger)
     }
 
+    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.    The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeInlineAgent.
+    @Sendable
+    @inlinable
+    public func invokeInlineAgent(_ input: InvokeInlineAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeInlineAgentResponse {
+        try await self.client.execute(
+            operation: "InvokeInlineAgent", 
+            path: "/agents/{sessionId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.    The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeInlineAgent.
+    ///
+    /// Parameters:
+    ///   - actionGroups:  A list of action groups with each action group defining the action the inline agent needs to carry out.
+    ///   - customerEncryptionKeyArn:  The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
+    ///   - enableTrace:  Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Using trace.
+    ///   - endSession:  Specifies whether to end the session with the inline agent or not.
+    ///   - foundationModel:  The model identifier (ID) of the model to use for orchestration by the inline agent. For example, meta.llama3-1-70b-instruct-v1:0.
+    ///   - guardrailConfiguration:  The guardrails to assign to the inline agent.
+    ///   - idleSessionTTLInSeconds:  The number of seconds for which the inline agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.  A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and the data provided before the timeout is deleted.
+    ///   - inlineSessionState:  Parameters that specify the various attributes of a sessions. You can include attributes for the session or prompt or, if you configured an  action group to return control, results from invocation of the action group. For more information, see Control session context.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
+    ///   - inputText:  The prompt text to send to the agent.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
+    ///   - instruction:  The instructions that tell the inline agent what it should do and how it should interact with users.
+    ///   - knowledgeBases:  Contains information of the knowledge bases to associate with.
+    ///   - promptOverrideConfiguration:  Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
+    ///   - sessionId:  The unique identifier of the session. Use the same value across requests to continue the same conversation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeInlineAgent(
+        actionGroups: [AgentActionGroup]? = nil,
+        customerEncryptionKeyArn: String? = nil,
+        enableTrace: Bool? = nil,
+        endSession: Bool? = nil,
+        foundationModel: String,
+        guardrailConfiguration: GuardrailConfigurationWithArn? = nil,
+        idleSessionTTLInSeconds: Int? = nil,
+        inlineSessionState: InlineSessionState? = nil,
+        inputText: String? = nil,
+        instruction: String,
+        knowledgeBases: [KnowledgeBase]? = nil,
+        promptOverrideConfiguration: PromptOverrideConfiguration? = nil,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeInlineAgentResponse {
+        let input = InvokeInlineAgentRequest(
+            actionGroups: actionGroups, 
+            customerEncryptionKeyArn: customerEncryptionKeyArn, 
+            enableTrace: enableTrace, 
+            endSession: endSession, 
+            foundationModel: foundationModel, 
+            guardrailConfiguration: guardrailConfiguration, 
+            idleSessionTTLInSeconds: idleSessionTTLInSeconds, 
+            inlineSessionState: inlineSessionState, 
+            inputText: inputText, 
+            instruction: instruction, 
+            knowledgeBases: knowledgeBases, 
+            promptOverrideConfiguration: promptOverrideConfiguration, 
+            sessionId: sessionId
+        )
+        return try await self.invokeInlineAgent(input, logger: logger)
+    }
+
+    /// Optimizes a prompt for the task that you specify. For more information, see Optimize a prompt in the Amazon Bedrock User Guide.
+    @Sendable
+    @inlinable
+    public func optimizePrompt(_ input: OptimizePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> OptimizePromptResponse {
+        try await self.client.execute(
+            operation: "OptimizePrompt", 
+            path: "/optimize-prompt", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Optimizes a prompt for the task that you specify. For more information, see Optimize a prompt in the Amazon Bedrock User Guide.
+    ///
+    /// Parameters:
+    ///   - input: Contains the prompt to optimize.
+    ///   - targetModelId: The unique identifier of the model that you want to optimize the prompt for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func optimizePrompt(
+        input: InputPrompt,
+        targetModelId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> OptimizePromptResponse {
+        let input = OptimizePromptRequest(
+            input: input, 
+            targetModelId: targetModelId
+        )
+        return try await self.optimizePrompt(input, logger: logger)
+    }
+
+    /// Reranks the relevance of sources based on queries. For more information, see Improve the relevance of query responses with a reranker model.
+    @Sendable
+    @inlinable
+    public func rerank(_ input: RerankRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RerankResponse {
+        try await self.client.execute(
+            operation: "Rerank", 
+            path: "/rerank", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Reranks the relevance of sources based on queries. For more information, see Improve the relevance of query responses with a reranker model.
+    ///
+    /// Parameters:
+    ///   - nextToken: If the total number of results was greater than could fit in a response, a token is returned in the nextToken field. You can enter that token in this field to return the next batch of results.
+    ///   - queries: An array of objects, each of which contains information about a query to submit to the reranker model.
+    ///   - rerankingConfiguration: Contains configurations for reranking.
+    ///   - sources: An array of objects, each of which contains information about the sources to rerank.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rerank(
+        nextToken: String? = nil,
+        queries: [RerankQuery],
+        rerankingConfiguration: RerankingConfiguration,
+        sources: [RerankSource],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RerankResponse {
+        let input = RerankRequest(
+            nextToken: nextToken, 
+            queries: queries, 
+            rerankingConfiguration: rerankingConfiguration, 
+            sources: sources
+        )
+        return try await self.rerank(input, logger: logger)
+    }
+
     /// Queries a knowledge base and retrieves information from it.
     @Sendable
     @inlinable
@@ -263,6 +436,7 @@ public struct BedrockAgentRuntime: AWSService {
     /// Queries a knowledge base and retrieves information from it.
     ///
     /// Parameters:
+    ///   - guardrailConfiguration: Guardrail settings.
     ///   - knowledgeBaseId: The unique identifier of the knowledge base to query.
     ///   - nextToken: If there are more results than can fit in the response, the response returns a nextToken. Use this token in the nextToken field of another request to retrieve the next batch of results.
     ///   - retrievalConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
@@ -270,6 +444,7 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func retrieve(
+        guardrailConfiguration: GuardrailConfiguration? = nil,
         knowledgeBaseId: String,
         nextToken: String? = nil,
         retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil,
@@ -277,6 +452,7 @@ public struct BedrockAgentRuntime: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RetrieveResponse {
         let input = RetrieveRequest(
+            guardrailConfiguration: guardrailConfiguration, 
             knowledgeBaseId: knowledgeBaseId, 
             nextToken: nextToken, 
             retrievalConfiguration: retrievalConfiguration, 
@@ -321,6 +497,44 @@ public struct BedrockAgentRuntime: AWSService {
             sessionId: sessionId
         )
         return try await self.retrieveAndGenerate(input, logger: logger)
+    }
+
+    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.
+    @Sendable
+    @inlinable
+    public func retrieveAndGenerateStream(_ input: RetrieveAndGenerateStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveAndGenerateStreamResponse {
+        try await self.client.execute(
+            operation: "RetrieveAndGenerateStream", 
+            path: "/retrieveAndGenerateStream", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.
+    ///
+    /// Parameters:
+    ///   - input: Contains the query to be made to the knowledge base.
+    ///   - retrieveAndGenerateConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
+    ///   - sessionConfiguration: Contains details about the session with the knowledge base.
+    ///   - sessionId: The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func retrieveAndGenerateStream(
+        input: RetrieveAndGenerateInput,
+        retrieveAndGenerateConfiguration: RetrieveAndGenerateConfiguration? = nil,
+        sessionConfiguration: RetrieveAndGenerateSessionConfiguration? = nil,
+        sessionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RetrieveAndGenerateStreamResponse {
+        let input = RetrieveAndGenerateStreamRequest(
+            input: input, 
+            retrieveAndGenerateConfiguration: retrieveAndGenerateConfiguration, 
+            sessionConfiguration: sessionConfiguration, 
+            sessionId: sessionId
+        )
+        return try await self.retrieveAndGenerateStream(input, logger: logger)
     }
 }
 
@@ -383,6 +597,46 @@ extension BedrockAgentRuntime {
         return self.getAgentMemoryPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``rerank(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func rerankPaginator(
+        _ input: RerankRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<RerankRequest, RerankResponse> {
+        return .init(
+            input: input,
+            command: self.rerank,
+            inputKey: \RerankRequest.nextToken,
+            outputKey: \RerankResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``rerank(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - queries: An array of objects, each of which contains information about a query to submit to the reranker model.
+    ///   - rerankingConfiguration: Contains configurations for reranking.
+    ///   - sources: An array of objects, each of which contains information about the sources to rerank.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func rerankPaginator(
+        queries: [RerankQuery],
+        rerankingConfiguration: RerankingConfiguration,
+        sources: [RerankSource],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<RerankRequest, RerankResponse> {
+        let input = RerankRequest(
+            queries: queries, 
+            rerankingConfiguration: rerankingConfiguration, 
+            sources: sources
+        )
+        return self.rerankPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``retrieve(_:logger:)``.
     ///
     /// - Parameters:
@@ -404,18 +658,21 @@ extension BedrockAgentRuntime {
     /// Return PaginatorSequence for operation ``retrieve(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - guardrailConfiguration: Guardrail settings.
     ///   - knowledgeBaseId: The unique identifier of the knowledge base to query.
     ///   - retrievalConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
     ///   - retrievalQuery: Contains the query to send the knowledge base.
     ///   - logger: Logger used for logging
     @inlinable
     public func retrievePaginator(
+        guardrailConfiguration: GuardrailConfiguration? = nil,
         knowledgeBaseId: String,
         retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil,
         retrievalQuery: KnowledgeBaseQuery,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<RetrieveRequest, RetrieveResponse> {
         let input = RetrieveRequest(
+            guardrailConfiguration: guardrailConfiguration, 
             knowledgeBaseId: knowledgeBaseId, 
             retrievalConfiguration: retrievalConfiguration, 
             retrievalQuery: retrievalQuery
@@ -438,10 +695,23 @@ extension BedrockAgentRuntime.GetAgentMemoryRequest: AWSPaginateToken {
     }
 }
 
+extension BedrockAgentRuntime.RerankRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentRuntime.RerankRequest {
+        return .init(
+            nextToken: token,
+            queries: self.queries,
+            rerankingConfiguration: self.rerankingConfiguration,
+            sources: self.sources
+        )
+    }
+}
+
 extension BedrockAgentRuntime.RetrieveRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentRuntime.RetrieveRequest {
         return .init(
+            guardrailConfiguration: self.guardrailConfiguration,
             knowledgeBaseId: self.knowledgeBaseId,
             nextToken: token,
             retrievalConfiguration: self.retrievalConfiguration,
