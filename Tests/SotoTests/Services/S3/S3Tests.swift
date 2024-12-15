@@ -583,4 +583,35 @@ class S3Tests: XCTestCase {
             _ = try await s3Control.listJobs(request)
         } catch is CancelError {}
     }
+
+    func testS3Express() async throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
+        let client = AWSClient(
+            credentialProvider: .s3Express(
+                bucket: "soto-test-directory-bucket--use1-az6--x-s3",
+                region: .useast1
+            ),
+            middleware: S3ExpressSigningFixupMiddleware()
+        )
+        let expressS3 = S3(client: client, region: .useast1)
+        try await withTeardown {
+            let putResponse = try await expressS3.putObject(
+                body: .init(buffer: ByteBuffer(string: "Uploaded")),
+                bucket: "soto-test-directory-bucket--use1-az6--x-s3",
+                key: "test-file"
+            )
+            print(putResponse)
+            let getResponse = try await expressS3.getObject(
+                bucket: "soto-test-directory-bucket--use1-az6--x-s3",
+                key: "test-file"
+            )
+            let body = try await getResponse.body.collect(upTo: .max)
+            XCTAssertEqual(body, ByteBuffer(string: "Uploaded"))
+
+        } teardown: {
+            try? await client.shutdown()
+        }
+    }
 }

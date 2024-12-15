@@ -347,7 +347,12 @@ extension S3Tests {
             headers: [:],
             body: .init()
         )
-        let context = AWSMiddlewareContext(operation: "TestOperation", serviceConfig: config, logger: TestEnvironment.logger)
+        let context = AWSMiddlewareContext(
+            operation: "TestOperation",
+            serviceConfig: config,
+            credential: EmptyCredential().getStaticCredential(),
+            logger: TestEnvironment.logger
+        )
         _ = try await config.middleware?.handle(request, context: context) { request, _ in
             XCTAssertEqual(request.url.absoluteString, s3URL)
             return AWSHTTPResponse(status: .ok, headers: ["RequestURL": request.url.absoluteString])
