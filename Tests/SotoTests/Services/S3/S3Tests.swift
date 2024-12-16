@@ -586,31 +586,51 @@ class S3Tests: XCTestCase {
 
     func testS3Express() async throws {
         // doesnt work with LocalStack
+        let bucket = "soto-test-directory-bucket--use1-az6--x-s3"
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-        let (client, expressS3) = Self.s3.createS3ExpressClientAndService(bucket: "soto-test-directory-bucket--use1-az6--x-s3")
-        try await withTeardown {
-            /*let reponse = try await expressS3.createBucket(
-                bucket: "soto-test-s3express--use1-az6--x-s3",
-                createBucketConfiguration: .init(
-                    bucket: .init(dataRedundancy: .none, type: .directory),
-                    location: .init(type: )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            do {
+                _ = try await Self.s3.createBucket(
+                    bucket: bucket,
+                    createBucketConfiguration: .init(
+                        bucket: .init(dataRedundancy: .singleAvailabilityZone, type: .directory),
+                        location: .init(name: "use1-az6", type: .availabilityZone)
+                    )
                 )
-            )*/
-            let putResponse = try await expressS3.putObject(
-                body: .init(buffer: ByteBuffer(string: "Uploaded")),
-                bucket: "soto-test-directory-bucket--use1-az6--x-s3",
-                key: "test-file"
-            )
-            print(putResponse)
-            let getResponse = try await expressS3.getObject(
-                bucket: "soto-test-directory-bucket--use1-az6--x-s3",
-                key: "test-file"
-            )
-            let body = try await getResponse.body.collect(upTo: .max)
-            XCTAssertEqual(body, ByteBuffer(string: "Uploaded"))
+                try await Self.s3.waitUntilBucketExists(.init(bucket: name), logger: TestEnvironment.logger)
+            } catch let error as S3ErrorType where error == .bucketAlreadyOwnedByYou {}
+        }
+        try await withTeardown {
+            let (client, expressS3) = Self.s3.createS3ExpressClientAndService(bucket: bucket)
+            try await withTeardown {
 
+                let putResponse = try await expressS3.putObject(
+                    body: .init(buffer: ByteBuffer(string: "Uploaded")),
+                    bucket: bucket,
+                    key: "test-file"
+                )
+                print(putResponse)
+                let getResponse = try await expressS3.getObject(
+                    bucket: bucket,
+                    key: "test-file"
+                )
+                let body = try await getResponse.body.collect(upTo: .max)
+                XCTAssertEqual(body, ByteBuffer(string: "Uploaded"))
+
+                _ = try await expressS3.deleteObject(bucket: bucket, key: "test-file")
+            } teardown: {
+                try? await client.shutdown()
+            }
         } teardown: {
-            try? await client.shutdown()
+            do {
+                try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+                    _ = try await Self.s3.deleteBucket(
+                        bucket: bucket
+                    )
+                }
+            } catch {
+                XCTFail("\(error)")
+            }
         }
     }
 }
