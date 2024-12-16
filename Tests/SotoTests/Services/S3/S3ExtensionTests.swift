@@ -363,7 +363,7 @@ extension S3Tests {
         try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/")
         try await self.testS3VirtualAddressing(
             "https://s3.us-east-1.amazonaws.com/bucket//filename",
-            s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename"
+            s3URL: "https://bucket.s3.us-east-1.amazonaws.com//filename"
         )
         try await self.testS3VirtualAddressing(
             "https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2",
