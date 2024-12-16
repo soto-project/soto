@@ -21,7 +21,7 @@ here="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 function check_all_services_in_package() {
     for folder in $here/../Sources/Soto/Services/*; do
         service=$(basename $folder)
-        if [ -z "$(grep ".target(name: \"Soto$service\"" $here/../Package.swift)" ]; then
+        if [ -z "$(grep "name: \"Soto$service\"" $here/../Package.swift)" ]; then
             printf "\033[0;31m$service is not in Package.swift\033[0m\n"
             exit -1
         fi
