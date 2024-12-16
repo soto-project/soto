@@ -17,9 +17,9 @@ import SotoCore
 
 /// S3 express credential provider
 struct S3ExpressCredentialProvider: CredentialProvider {
-    let client: AWSClient
     let s3: S3
     let bucket: String
+    let ownsClient: Bool
 
     init(
         bucket: String,
@@ -28,19 +28,19 @@ struct S3ExpressCredentialProvider: CredentialProvider {
         httpClient: any AWSHTTPClient,
         logger: Logger = AWSClient.loggingDisabled
     ) {
-        self.client = AWSClient(credentialProvider: credentialProvider, httpClient: httpClient, logger: logger)
-        self.s3 = S3(client: self.client, region: region)
+        let client = AWSClient(credentialProvider: credentialProvider, httpClient: httpClient, logger: logger)
+        self.s3 = S3(client: client, region: region)
         self.bucket = bucket
+        self.ownsClient = true
     }
 
     init(
         bucket: String,
-        region: Region,
-        client: AWSClient
+        s3: S3
     ) {
-        self.client = client
-        self.s3 = S3(client: self.client, region: region)
+        self.s3 = s3
         self.bucket = bucket
+        self.ownsClient = false
     }
 
     func getCredential(logger: Logger) async throws -> any Credential {
@@ -54,7 +54,9 @@ struct S3ExpressCredentialProvider: CredentialProvider {
     }
 
     func shutdown() async throws {
-        try await self.client.shutdown()
+        if self.ownsClient {
+            try await self.s3.client.shutdown()
+        }
     }
 }
 
@@ -105,5 +107,40 @@ extension CredentialProviderFactory {
             )
             return RotatingCredentialProvider(context: context, provider: provider, remainingTokenLifetimeForUse: 30)
         }
+    }
+
+    /// S3 express credential provider. Use this in conjunction with the S3ExpressSigningFixupMiddleware middleware
+    /// to setup S3 express access
+    ///
+    /// ```
+    /// let client = AWSClient(
+    ///     credentialProvider: .s3Express(bucket: "MyBucket", s3: s3)),
+    ///     middleware: S3ExpressSigningFixupMiddleware()
+    /// )
+    /// let s3 = S3(client: client, region: region)
+    /// ```
+    public static func s3Express(
+        bucket: String,
+        s3: S3
+    ) -> CredentialProviderFactory {
+        .custom { context in
+            let provider = S3ExpressCredentialProvider(
+                bucket: bucket,
+                s3: s3
+            )
+            return RotatingCredentialProvider(context: context, provider: provider, remainingTokenLifetimeForUse: 30)
+        }
+    }
+}
+
+extension S3 {
+    public func createS3ExpressClientAndService(bucket: String) -> (AWSClient, S3) {
+        let client = AWSClient(
+            credentialProvider: .s3Express(bucket: bucket, s3: self),
+            middleware: S3ExpressSigningFixupMiddleware(),
+            httpClient: self.client.httpClient
+        )
+        let s3 = S3(client: client, region: self.region, timeout: self.config.timeout, options: self.config.options)
+        return (client, s3)
     }
 }

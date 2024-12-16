@@ -587,16 +587,15 @@ class S3Tests: XCTestCase {
     func testS3Express() async throws {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-
-        let client = AWSClient(
-            credentialProvider: .s3Express(
-                bucket: "soto-test-directory-bucket--use1-az6--x-s3",
-                region: .useast1
-            ),
-            middleware: S3ExpressSigningFixupMiddleware()
-        )
-        let expressS3 = S3(client: client, region: .useast1)
+        let (client, expressS3) = Self.s3.createS3ExpressClientAndService(bucket: "soto-test-directory-bucket--use1-az6--x-s3")
         try await withTeardown {
+            /*let reponse = try await expressS3.createBucket(
+                bucket: "soto-test-s3express--use1-az6--x-s3",
+                createBucketConfiguration: .init(
+                    bucket: .init(dataRedundancy: .none, type: .directory),
+                    location: .init(type: )
+                )
+            )*/
             let putResponse = try await expressS3.putObject(
                 body: .init(buffer: ByteBuffer(string: "Uploaded")),
                 bucket: "soto-test-directory-bucket--use1-az6--x-s3",

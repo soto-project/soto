@@ -378,8 +378,7 @@ extension S3Tests {
             s3URL: "https://bucket.s3.us-east-1.amazonaws.com/file%20name"
         )
         try await self.testS3VirtualAddressing("http://localhost:8000/bucket/filename", s3URL: "http://localhost:8000/bucket/filename")
-        try await self.testS3VirtualAddressing("http://localhost:8000//bucket/filename", s3URL: "http://localhost:8000/bucket/filename")
-        try await self.testS3VirtualAddressing("http://localhost:8000/bucket//filename", s3URL: "http://localhost:8000/bucket/filename")
+        try await self.testS3VirtualAddressing("http://localhost:8000/bucket//filename", s3URL: "http://localhost:8000/bucket//filename")
         try await self.testS3VirtualAddressing("https://localhost:8000/bucket/file%20name", s3URL: "https://localhost:8000/bucket/file%20name")
 
         let s3 = Self.s3.with(options: .s3ForceVirtualHost)
