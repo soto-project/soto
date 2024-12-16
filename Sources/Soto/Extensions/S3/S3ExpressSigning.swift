@@ -134,6 +134,9 @@ extension CredentialProviderFactory {
 }
 
 extension S3 {
+    /// Create AWSClient and S3 service for accessing S3 express one directory bucket
+    /// - Parameter bucket: bucket name
+    /// - Returns: AWSClient and S3 service
     public func createS3ExpressClientAndService(bucket: String) -> (AWSClient, S3) {
         let client = AWSClient(
             credentialProvider: .s3Express(bucket: bucket, s3: self),
