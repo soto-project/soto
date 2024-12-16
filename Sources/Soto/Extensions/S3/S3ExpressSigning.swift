@@ -141,7 +141,8 @@ extension S3 {
         let client = AWSClient(
             credentialProvider: .s3Express(bucket: bucket, s3: self),
             middleware: S3ExpressSigningFixupMiddleware(),
-            httpClient: self.client.httpClient
+            httpClient: self.client.httpClient,
+            logger: self.client.logger
         )
         let s3 = S3(client: client, region: self.region, timeout: self.config.timeout, options: self.config.options)
         return (client, s3)

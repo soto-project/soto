@@ -594,28 +594,30 @@ class S3Tests: XCTestCase {
                 createBucketConfiguration: .init(
                     bucket: .init(dataRedundancy: .singleAvailabilityZone, type: .directory),
                     location: .init(name: "use1-az6", type: .availabilityZone)
-                )
+                ),
+                logger: TestEnvironment.logger
             )
             try await Self.s3.waitUntilBucketExists(.init(bucket: bucket), logger: TestEnvironment.logger)
         } catch let error as S3ErrorType where error == .bucketAlreadyOwnedByYou {}
         try await withTeardown {
             let (client, expressS3) = Self.s3.createS3ExpressClientAndService(bucket: bucket)
             try await withTeardown {
-
                 let putResponse = try await expressS3.putObject(
                     body: .init(buffer: ByteBuffer(string: "Uploaded")),
                     bucket: bucket,
-                    key: "test-file"
+                    key: "test-file",
+                    logger: TestEnvironment.logger
                 )
                 print(putResponse)
                 let getResponse = try await expressS3.getObject(
                     bucket: bucket,
-                    key: "test-file"
+                    key: "test-file",
+                    logger: TestEnvironment.logger
                 )
                 let body = try await getResponse.body.collect(upTo: .max)
                 XCTAssertEqual(body, ByteBuffer(string: "Uploaded"))
 
-                _ = try await expressS3.deleteObject(bucket: bucket, key: "test-file")
+                _ = try await expressS3.deleteObject(bucket: bucket, key: "test-file", logger: TestEnvironment.logger)
             } teardown: {
                 try? await client.shutdown()
             }
