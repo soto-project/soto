@@ -15,8 +15,9 @@
 import Dispatch
 import Foundation
 import NIOCore
-@testable import SotoCore
 import XCTest
+
+@testable import SotoCore
 
 /// Internal class used by syncAwait
 private class SendableBox<Value>: @unchecked Sendable {
@@ -74,15 +75,14 @@ extension Task where Failure == Never {
 enum TestEnvironment {
     /// are we using Localstack to test. Also return use localstack if we are running a github action and don't have an access key if
     static var isUsingLocalstack: Bool {
-        return Environment["AWS_DISABLE_LOCALSTACK"] != "true" ||
-            (Environment["GITHUB_ACTIONS"] == "true" && Environment["AWS_ACCESS_KEY_ID"] == "")
+        Environment["AWS_DISABLE_LOCALSTACK"] != "true" || (Environment["GITHUB_ACTIONS"] == "true" && Environment["AWS_ACCESS_KEY_ID"] == "")
     }
 
-    static var credentialProvider: CredentialProviderFactory { return isUsingLocalstack ? .static(accessKeyId: "foo", secretAccessKey: "bar") : .default }
+    static var credentialProvider: CredentialProviderFactory { isUsingLocalstack ? .static(accessKeyId: "foo", secretAccessKey: "bar") : .default }
 
     /// current list of middleware
     public static var middlewares: AWSMiddlewareProtocol {
-        return (Environment["AWS_ENABLE_LOGGING"] == "true")
+        (Environment["AWS_ENABLE_LOGGING"] == "true")
             ? AWSLoggingMiddleware(logger: TestEnvironment.logger, logLevel: .info)
             : AWSMiddleware { request, context, next in
                 try await next(request, context)
@@ -189,7 +189,7 @@ struct ReportAsyncSequence<Base: AsyncSequence>: AsyncSequence {
 
     /// Make async iterator
     __consuming func makeAsyncIterator() -> AsyncIterator {
-        return AsyncIterator(iterator: self.base.makeAsyncIterator(), process: self.process)
+        AsyncIterator(iterator: self.base.makeAsyncIterator(), process: self.process)
     }
 }
 
@@ -199,7 +199,7 @@ extension AsyncSequence where Element == ByteBuffer {
     /// Return an AsyncSequence that sends every element it process to a report function
     /// - Parameter chunkSize: Size of each chunk
     func report(_ process: @Sendable @escaping (Element) throws -> Void) -> ReportAsyncSequence<Self> {
-        return .init(base: self, process: process)
+        .init(base: self, process: process)
     }
 }
 

@@ -98,21 +98,21 @@ class IAMTests: XCTestCase {
     func testSetGetPolicy() async throws {
         // put a policy on the user
         let policyDocument = """
-        {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": [
-                        "sns:*",
-                        "s3:*",
-                        "sqs:*"
-                    ],
-                    "Resource": "*"
-                }
-            ]
-        }
-        """
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "sns:*",
+                            "s3:*",
+                            "sqs:*"
+                        ],
+                        "Resource": "*"
+                    }
+                ]
+            }
+            """
         let username = TestEnvironment.generateResourceName()
         try await self.testUser(userName: username) { _ in
             let user = try await Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
@@ -133,13 +133,17 @@ class IAMTests: XCTestCase {
         guard !TestEnvironment.isUsingLocalstack else { return }
         // put a policy on the user
         let policyDocument = """
-        {"Version": "2012-10-17","Statement": [{"Effect": "Allow","Action": ["sns:*","s3:*","sqs:*"],"Resource": "*"}]}
-        """
+            {"Version": "2012-10-17","Statement": [{"Effect": "Allow","Action": ["sns:*","s3:*","sqs:*"],"Resource": "*"}]}
+            """
         let username = TestEnvironment.generateResourceName()
         try await self.createUser(userName: username)
         do {
             let user = try await Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
-            let request = IAM.SimulateCustomPolicyRequest(actionNames: ["sns:*", "sqs:*", "dynamodb:*"], callerArn: user.user.arn, policyInputList: [policyDocument])
+            let request = IAM.SimulateCustomPolicyRequest(
+                actionNames: ["sns:*", "sqs:*", "dynamodb:*"],
+                callerArn: user.user.arn,
+                policyInputList: [policyDocument]
+            )
             let response = try await Self.iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
             XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
             XCTAssertEqual(response.evaluationResults?[1].evalDecision, .allowed)

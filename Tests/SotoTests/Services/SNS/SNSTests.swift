@@ -12,8 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-@testable import SotoSNS
 import XCTest
+
+@testable import SotoSNS
 
 // testing query service
 

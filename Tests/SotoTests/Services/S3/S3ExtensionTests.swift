@@ -15,9 +15,10 @@
 import AsyncHTTPClient
 import NIOFoundationCompat
 import NIOPosix
+import XCTest
+
 @testable import SotoCore
 @testable import SotoS3
-import XCTest
 
 extension S3Tests {
     /// test bucket location is correctly returned.
@@ -74,7 +75,9 @@ extension S3Tests {
         try await testBucket(name) { name in
             await XCTAsyncExpectError(S3ErrorType.notFound) {
                 let request = S3.GetObjectRequest(bucket: name, key: name)
-                _ = try await Self.s3.multipartDownload(request, partSize: 1024 * 1024, filename: name, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
+                _ = try await Self.s3.multipartDownload(request, partSize: 1024 * 1024, filename: name, logger: TestEnvironment.logger) {
+                    print("Progress \($0 * 100)%")
+                }
             }
         }
         try? await NonBlockingFileIO(threadPool: .singleton).remove(path: name)
@@ -213,7 +216,7 @@ extension S3Tests {
             let getRequest = S3.GetObjectRequest(bucket: name, key: name)
             let response = try await s3.getObject(getRequest, logger: TestEnvironment.logger)
             let responseBody = try await response.body.collect(upTo: .max)
-            XCTAssertEqual(responseBody.readableBytes, 0) // Empty
+            XCTAssertEqual(responseBody.readableBytes, 0)  // Empty
         }
     }
 
@@ -277,7 +280,9 @@ extension S3Tests {
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3 = Self.s3.with(timeout: .minutes(2))
-        let strings = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".split(separator: " ")
+        let strings =
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            .split(separator: " ")
         let file = strings.reduce("") { $0 + "\($1), \($1.count), \($0.count + $1.count)\n" }
         let file2 = file + file
         let file3 = file2 + file2
@@ -351,17 +356,33 @@ extension S3Tests {
 
     func testS3VirtualAddressing() async throws {
         try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/")
-        try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket//filename", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename")
-        try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename?test=test&test2=test2")
-        try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=%3D", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename?test=%3D")
-        try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/file%20name")
+        try await self.testS3VirtualAddressing(
+            "https://s3.us-east-1.amazonaws.com/bucket//filename",
+            s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename"
+        )
+        try await self.testS3VirtualAddressing(
+            "https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2",
+            s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename?test=test&test2=test2"
+        )
+        try await self.testS3VirtualAddressing(
+            "https://s3.us-east-1.amazonaws.com/bucket/filename?test=%3D",
+            s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename?test=%3D"
+        )
+        try await self.testS3VirtualAddressing(
+            "https://s3.us-east-1.amazonaws.com/bucket/file%20name",
+            s3URL: "https://bucket.s3.us-east-1.amazonaws.com/file%20name"
+        )
         try await self.testS3VirtualAddressing("http://localhost:8000/bucket/filename", s3URL: "http://localhost:8000/bucket/filename")
         try await self.testS3VirtualAddressing("http://localhost:8000//bucket/filename", s3URL: "http://localhost:8000/bucket/filename")
         try await self.testS3VirtualAddressing("http://localhost:8000/bucket//filename", s3URL: "http://localhost:8000/bucket/filename")
         try await self.testS3VirtualAddressing("https://localhost:8000/bucket/file%20name", s3URL: "https://localhost:8000/bucket/file%20name")
 
         let s3 = Self.s3.with(options: .s3ForceVirtualHost)
-        try await self.testS3VirtualAddressing("https://localhost:8000/bucket/filename", s3URL: "https://bucket.localhost:8000/filename", config: s3.config)
+        try await self.testS3VirtualAddressing(
+            "https://localhost:8000/bucket/filename",
+            s3URL: "https://bucket.localhost:8000/filename",
+            config: s3.config
+        )
     }
 
     func testMD5Calculation() throws {
@@ -372,7 +393,13 @@ extension S3Tests {
             contentMD5: "6728ab89sfsdff==",
             key: "testMD5Calculation"
         )
-        let request = try AWSHTTPRequest(operation: "PutObject", path: "/{Bucket}/{Key+}?x-id=PutObject", method: .PUT, input: input, configuration: s3.config)
+        let request = try AWSHTTPRequest(
+            operation: "PutObject",
+            path: "/{Bucket}/{Key+}?x-id=PutObject",
+            method: .PUT,
+            input: input,
+            configuration: s3.config
+        )
         XCTAssertEqual(request.headers["Content-MD5"].first, "6728ab89sfsdff==")
 
         let input2 = S3.PutObjectRequest(
@@ -380,7 +407,13 @@ extension S3Tests {
             bucket: "testMD5Calculation",
             key: "testMD5Calculation"
         )
-        let request2 = try AWSHTTPRequest(operation: "PutObject", path: "/{Bucket}/{Key+}?x-id=PutObject", method: .PUT, input: input2, configuration: s3.config)
+        let request2 = try AWSHTTPRequest(
+            operation: "PutObject",
+            path: "/{Bucket}/{Key+}?x-id=PutObject",
+            method: .PUT,
+            input: input2,
+            configuration: s3.config
+        )
         XCTAssertEqual(request2.headers["Content-MD5"].first, "JhF7IaLE189bvT4/iv/iqg==")
     }
 
@@ -410,7 +443,7 @@ extension S3Tests {
                 .match("x-amz-meta-uuid", "14365123651274"),
                 .match("x-amz-server-side-encryption", "AES256"),
                 .rule("starts-with", "$Content-Type", "image/"),
-                .rule("starts-with", "$x-amz-meta-tag", "")
+                .rule("starts-with", "$x-amz-meta-tag", ""),
             ]
 
             let expiresIn = 36.0 * 60.0 * 60.0
@@ -462,7 +495,8 @@ extension S3Tests {
 
         defer { try? client.syncShutdown() }
 
-        let policy = "eyAiZXhwaXJhdGlvbiI6ICIyMDE1LTEyLTMwVDEyOjAwOjAwLjAwMFoiLA0KICAiY29uZGl0aW9ucyI6IFsNCiAgICB7ImJ1Y2tldCI6ICJzaWd2NGV4YW1wbGVidWNrZXQifSwNCiAgICBbInN0YXJ0cy13aXRoIiwgIiRrZXkiLCAidXNlci91c2VyMS8iXSwNCiAgICB7ImFjbCI6ICJwdWJsaWMtcmVhZCJ9LA0KICAgIHsic3VjY2Vzc19hY3Rpb25fcmVkaXJlY3QiOiAiaHR0cDovL3NpZ3Y0ZXhhbXBsZWJ1Y2tldC5zMy5hbWF6b25hd3MuY29tL3N1Y2Nlc3NmdWxfdXBsb2FkLmh0bWwifSwNCiAgICBbInN0YXJ0cy13aXRoIiwgIiRDb250ZW50LVR5cGUiLCAiaW1hZ2UvIl0sDQogICAgeyJ4LWFtei1tZXRhLXV1aWQiOiAiMTQzNjUxMjM2NTEyNzQifSwNCiAgICB7IngtYW16LXNlcnZlci1zaWRlLWVuY3J5cHRpb24iOiAiQUVTMjU2In0sDQogICAgWyJzdGFydHMtd2l0aCIsICIkeC1hbXotbWV0YS10YWciLCAiIl0sDQoNCiAgICB7IngtYW16LWNyZWRlbnRpYWwiOiAiQUtJQUlPU0ZPRE5ON0VYQU1QTEUvMjAxNTEyMjkvdXMtZWFzdC0xL3MzL2F3czRfcmVxdWVzdCJ9LA0KICAgIHsieC1hbXotYWxnb3JpdGhtIjogIkFXUzQtSE1BQy1TSEEyNTYifSwNCiAgICB7IngtYW16LWRhdGUiOiAiMjAxNTEyMjlUMDAwMDAwWiIgfQ0KICBdDQp9"
+        let policy =
+            "eyAiZXhwaXJhdGlvbiI6ICIyMDE1LTEyLTMwVDEyOjAwOjAwLjAwMFoiLA0KICAiY29uZGl0aW9ucyI6IFsNCiAgICB7ImJ1Y2tldCI6ICJzaWd2NGV4YW1wbGVidWNrZXQifSwNCiAgICBbInN0YXJ0cy13aXRoIiwgIiRrZXkiLCAidXNlci91c2VyMS8iXSwNCiAgICB7ImFjbCI6ICJwdWJsaWMtcmVhZCJ9LA0KICAgIHsic3VjY2Vzc19hY3Rpb25fcmVkaXJlY3QiOiAiaHR0cDovL3NpZ3Y0ZXhhbXBsZWJ1Y2tldC5zMy5hbWF6b25hd3MuY29tL3N1Y2Nlc3NmdWxfdXBsb2FkLmh0bWwifSwNCiAgICBbInN0YXJ0cy13aXRoIiwgIiRDb250ZW50LVR5cGUiLCAiaW1hZ2UvIl0sDQogICAgeyJ4LWFtei1tZXRhLXV1aWQiOiAiMTQzNjUxMjM2NTEyNzQifSwNCiAgICB7IngtYW16LXNlcnZlci1zaWRlLWVuY3J5cHRpb24iOiAiQUVTMjU2In0sDQogICAgWyJzdGFydHMtd2l0aCIsICIkeC1hbXotbWV0YS10YWciLCAiIl0sDQoNCiAgICB7IngtYW16LWNyZWRlbnRpYWwiOiAiQUtJQUlPU0ZPRE5ON0VYQU1QTEUvMjAxNTEyMjkvdXMtZWFzdC0xL3MzL2F3czRfcmVxdWVzdCJ9LA0KICAgIHsieC1hbXotYWxnb3JpdGhtIjogIkFXUzQtSE1BQy1TSEEyNTYifSwNCiAgICB7IngtYW16LWRhdGUiOiAiMjAxNTEyMjlUMDAwMDAwWiIgfQ0KICBdDQp9"
         let signingKey = s3.signingKey(
             date: "20151229",
             secretAccessKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
@@ -526,7 +560,7 @@ extension S3Tests {
                 .match("x-amz-meta-uuid", "14365123651274"),
                 .match("x-amz-server-side-encryption", "AES256"),
                 .rule("starts-with", "$Content-Type", "image/"),
-                .rule("starts-with", "$x-amz-meta-tag", "")
+                .rule("starts-with", "$x-amz-meta-tag", ""),
             ]
 
             let expiresIn = 36.0 * 60.0 * 60.0

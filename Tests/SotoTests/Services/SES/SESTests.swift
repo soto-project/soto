@@ -60,7 +60,11 @@ class SESTests: XCTestCase {
         struct TestRequestMiddleware: AWSMiddlewareProtocol {
             let test: @Sendable (AWSHTTPRequest) -> Void
 
-            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
+            func handle(
+                _ request: AWSHTTPRequest,
+                context: AWSMiddlewareContext,
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+            ) async throws -> AWSHTTPResponse {
                 self.test(request)
                 throw TestError()
             }

@@ -111,7 +111,7 @@ private struct _EncoderStorage {
 
     /// pop a container from the storage
     @discardableResult mutating func popContainer() -> _EncoderContainer {
-        return self.containers.removeLast()
+        self.containers.removeLast()
     }
 
     func collapse() throws -> [String: DynamoDB.AttributeValue] {
@@ -143,7 +143,7 @@ class _DynamoDBEncoder: Encoder {
     }
 
     func singleValueContainer() -> SingleValueEncodingContainer {
-        return self
+        self
     }
 
     fileprivate struct KEC<Key: CodingKey>: KeyedEncodingContainerProtocol {
@@ -229,7 +229,8 @@ class _DynamoDBEncoder: Encoder {
             self.encode(attribute, forKey: key)
         }
 
-        mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> where NestedKey: CodingKey {
+        mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey>
+        where NestedKey: CodingKey {
             self.encoder.codingPath.append(key)
             defer { self.encoder.codingPath.removeLast() }
 
@@ -260,11 +261,11 @@ class _DynamoDBEncoder: Encoder {
         }
 
         mutating func superEncoder() -> Encoder {
-            return self._superEncoder(forKey: DynamoDBCodingKey.super)
+            self._superEncoder(forKey: DynamoDBCodingKey.super)
         }
 
         mutating func superEncoder(forKey key: Key) -> Encoder {
-            return self._superEncoder(forKey: key)
+            self._superEncoder(forKey: key)
         }
     }
 
@@ -454,7 +455,7 @@ extension _DynamoDBEncoder: SingleValueEncodingContainer {
 
 extension _DynamoDBEncoder {
     func box(_ data: AWSBase64Data) throws -> DynamoDB.AttributeValue {
-        return .b(data)
+        .b(data)
     }
 
     func box(_ value: Encodable) throws -> DynamoDB.AttributeValue {

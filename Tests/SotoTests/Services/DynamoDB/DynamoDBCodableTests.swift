@@ -89,7 +89,13 @@ extension DynamoDBTests {
             let additionalAttributes = AdditionalAttributes(oldAge: 34)
             let conditionExpression = "attribute_exists(#id) AND #age = :oldAge"
             let nameUpdateWithAge = NameUpdateWithAge(id: id, name: "David", surname: "Jones", age: 35)
-            let updateRequest = try DynamoDB.UpdateItemCodableInput(additionalAttributes: additionalAttributes, conditionExpression: conditionExpression, key: ["id"], tableName: Self.tableName, updateItem: nameUpdateWithAge)
+            let updateRequest = try DynamoDB.UpdateItemCodableInput(
+                additionalAttributes: additionalAttributes,
+                conditionExpression: conditionExpression,
+                key: ["id"],
+                tableName: Self.tableName,
+                updateItem: nameUpdateWithAge
+            )
             _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
             XCTFail("Should have thrown error because conditionExpression is not met")
         } catch {
@@ -182,7 +188,8 @@ extension DynamoDBTests {
         let request = DynamoDB.ScanInput(
             consistentRead: true,
             expressionAttributeValues: [":message": .s("Message 2")],
-            filterExpression: "message = :message", tableName: Self.tableWithValueName
+            filterExpression: "message = :message",
+            tableName: Self.tableWithValueName
         )
         let response = try await Self.dynamoDB.scan(request, type: TestObject.self, logger: TestEnvironment.logger)
 

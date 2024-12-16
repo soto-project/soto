@@ -46,7 +46,7 @@ class EC2Tests: XCTestCase {
         let imageRequest = EC2.DescribeImagesRequest(
             filters: .init([
                 EC2.Filter(name: "name", values: ["*ubuntu-18.04-v1.15*"]),
-                EC2.Filter(name: "state", values: ["available"])
+                EC2.Filter(name: "state", values: ["available"]),
             ])
         )
         _ = try await Self.ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
@@ -64,7 +64,7 @@ class EC2Tests: XCTestCase {
         let imageRequest = EC2.DescribeImagesRequest(
             filters: .init([
                 EC2.Filter(name: "name", values: ["*ubuntu-18.04-v1.15*"]),
-                EC2.Filter(name: "state", values: ["available"])
+                EC2.Filter(name: "state", values: ["available"]),
             ])
         )
         _ = try await ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
@@ -81,7 +81,7 @@ class EC2Tests: XCTestCase {
 
 extension AWSResponseError {
     public static func == (lhs: AWSResponseError, rhs: AWSResponseError) -> Bool {
-        return lhs.errorCode == rhs.errorCode
+        lhs.errorCode == rhs.errorCode
     }
 }
 

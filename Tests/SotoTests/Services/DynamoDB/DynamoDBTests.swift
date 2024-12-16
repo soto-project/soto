@@ -13,8 +13,9 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-@testable import SotoDynamoDB
 import XCTest
+
+@testable import SotoDynamoDB
 
 // testing json service
 
@@ -54,7 +55,9 @@ class DynamoDBTests: XCTestCase {
                         self.tableWithValueName = TestEnvironment.generateResourceName("soto-dynamodb-tests_value")
                         _ = try await Self.createTable(
                             name: self.tableWithValueName,
-                            attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
+                            attributeDefinitions: [
+                                .init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n),
+                            ],
                             keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
                         )
                     }
@@ -158,23 +161,23 @@ extension DynamoDB.AttributeValue {
     init(any: Any) {
         switch any {
         case let data as Data:
-            self = .b(.data(data)) // self.init(b: data)
+            self = .b(.data(data))  // self.init(b: data)
         case let bool as Bool:
-            self = .bool(bool) // self.init(bool: bool)
+            self = .bool(bool)  // self.init(bool: bool)
         case let int as Int:
-            self = .n(int.description) // self.init(n: int.description)
+            self = .n(int.description)  // self.init(n: int.description)
         case let ints as [Int]:
-            self = .ns(ints.map(\.description)) // self.init(ns: ints.map {$0.description})
+            self = .ns(ints.map(\.description))  // self.init(ns: ints.map {$0.description})
         case let float as Float:
-            self = .n(float.description) // self.init(n: float.description)
+            self = .n(float.description)  // self.init(n: float.description)
         case let double as Double:
-            self = .n(double.description) // self.init(n: double.description)
+            self = .n(double.description)  // self.init(n: double.description)
         case let doubles as [Double]:
-            self = .ns(doubles.map(\.description)) // self.init(ns: doubles.map {$0.description})
+            self = .ns(doubles.map(\.description))  // self.init(ns: doubles.map {$0.description})
         case let string as String:
-            self = .s(string) // self.init(s: string)
+            self = .s(string)  // self.init(s: string)
         default:
-            self = .s(String(reflecting: any)) // self.init(s: String(reflecting: any))
+            self = .s(String(reflecting: any))  // self.init(s: String(reflecting: any))
         }
     }
 }

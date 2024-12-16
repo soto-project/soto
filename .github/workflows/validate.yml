@@ -11,8 +11,5 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 1
-    - name: Install Dependencies
-      run: |
-        brew install mint
     - name: run script
       run: ./scripts/validate.sh

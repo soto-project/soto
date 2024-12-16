@@ -12,10 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Crypto
 import Foundation
 import Logging
-
-import Crypto
 @_spi(SotoInternal) import SotoSignerV4
 
 extension S3ErrorType {
@@ -160,7 +159,7 @@ extension S3 {
         }
 
         // Gather canonical values
-        let algorithm = "AWS4-HMAC-SHA256" // Get signature version from client?
+        let algorithm = "AWS4-HMAC-SHA256"  // Get signature version from client?
 
         let longDate = self.longDateFormat(date: date)
         let shortDate = self.shortDateFormat(date: date)

@@ -12,8 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-@testable import SotoSQS
 import XCTest
+
+@testable import SotoSQS
 
 // testing query service
 

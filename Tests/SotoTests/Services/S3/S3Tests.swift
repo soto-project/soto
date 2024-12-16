@@ -124,11 +124,12 @@ class S3Tests: XCTestCase {
 
     func testPutGetObjectWithSpecialName() async throws {
         let name = TestEnvironment.generateResourceName()
-        let filename = if TestEnvironment.isUsingLocalstack {
-            "test $filé+!@£$%^&*()_=-[]{}\\|';:\",./?><~`.txt"
-        } else {
-            "test $filé+!@£$%2F%^&*()_=-[]{}\\|';:\",./?><~`.txt"
-        }
+        let filename =
+            if TestEnvironment.isUsingLocalstack {
+                "test $filé+!@£$%^&*()_=-[]{}\\|';:\",./?><~`.txt"
+            } else {
+                "test $filé+!@£$%2F%^&*()_=-[]{}\\|';:\",./?><~`.txt"
+            }
         try await self.testPutGetObject(
             bucket: name,
             filename: filename,
@@ -163,33 +164,41 @@ class S3Tests: XCTestCase {
         try await self.testBucket(name) { name in
             let filename = "testfile.txt"
             let contents = "testing S3.PutObject and S3.GetObject"
-            var response = try await Self.s3.putObject(.init(
-                body: .init(string: contents),
-                bucket: name,
-                checksumAlgorithm: .crc32,
-                key: filename
-            ))
+            var response = try await Self.s3.putObject(
+                .init(
+                    body: .init(string: contents),
+                    bucket: name,
+                    checksumAlgorithm: .crc32,
+                    key: filename
+                )
+            )
             XCTAssertEqual(response.checksumCRC32, "Myi+ng==")
-            response = try await Self.s3.putObject(.init(
-                body: .init(string: contents),
-                bucket: name,
-                checksumAlgorithm: .crc32c,
-                key: filename
-            ))
+            response = try await Self.s3.putObject(
+                .init(
+                    body: .init(string: contents),
+                    bucket: name,
+                    checksumAlgorithm: .crc32c,
+                    key: filename
+                )
+            )
             XCTAssertEqual(response.checksumCRC32C, "iHPfLQ==")
-            response = try await Self.s3.putObject(.init(
-                body: .init(string: contents),
-                bucket: name,
-                checksumAlgorithm: .sha256,
-                key: filename
-            ))
+            response = try await Self.s3.putObject(
+                .init(
+                    body: .init(string: contents),
+                    bucket: name,
+                    checksumAlgorithm: .sha256,
+                    key: filename
+                )
+            )
             XCTAssertEqual(response.checksumSHA256, "KdsWZ5GWPwkbVNJptXFitMEbmWdL0ukIyJLCUo3lQ8w=")
-            response = try await Self.s3.putObject(.init(
-                body: .init(string: contents),
-                bucket: name,
-                checksumAlgorithm: .sha1,
-                key: filename
-            ))
+            response = try await Self.s3.putObject(
+                .init(
+                    body: .init(string: contents),
+                    bucket: name,
+                    checksumAlgorithm: .sha1,
+                    key: filename
+                )
+            )
             XCTAssertEqual(response.checksumSHA1, "Ai2xMkIfITUzJLRnKXnoHFPhcSo=")
         }
     }
@@ -216,7 +225,11 @@ class S3Tests: XCTestCase {
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         struct Verify100CompleteMiddleware: AWSMiddlewareProtocol {
-            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
+            func handle(
+                _ request: AWSHTTPRequest,
+                context: AWSMiddlewareContext,
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+            ) async throws -> AWSHTTPResponse {
                 // XCTAssertEqual(request.httpHeaders["Expect"].first, "100-continue")
                 try await next(request, context)
             }
@@ -228,7 +241,8 @@ class S3Tests: XCTestCase {
         let count = ManagedAtomic(byteBuffer.readableBytes)
         // try await self.testBucket(name, s3: s3) { name in
         let filename = "testfile.txt"
-        let bufferSequence = byteBuffer
+        let bufferSequence =
+            byteBuffer
             .asyncSequence(chunkSize: chunkSize)
             .report { count.wrappingDecrement(by: $0.readableBytes, ordering: .relaxed) }
 
@@ -247,7 +261,11 @@ class S3Tests: XCTestCase {
             let header: String?
         }
         struct Disable100CompleteMiddleware: AWSMiddlewareProtocol {
-            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
+            func handle(
+                _ request: AWSHTTPRequest,
+                context: AWSMiddlewareContext,
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+            ) async throws -> AWSHTTPResponse {
                 throw Disable100CompleteError(header: request.headers["Expect"].first)
             }
         }
@@ -273,9 +291,9 @@ class S3Tests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         try await self.testBucket(name) { name in
             // set lifecycle rules
-            let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7) // clear incomplete multipart uploads after 7 days
-            let filter = S3.LifecycleRuleFilter(prefix: "") // everything
-            let transitions = [S3.Transition(days: 14, storageClass: .glacier)] // transition objects to glacier after 14 days
+            let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7)  // clear incomplete multipart uploads after 7 days
+            let filter = S3.LifecycleRuleFilter(prefix: "")  // everything
+            let transitions = [S3.Transition(days: 14, storageClass: .glacier)]  // transition objects to glacier after 14 days
             let lifecycleRules = S3.LifecycleRule(
                 abortIncompleteMultipartUpload: incompleteMultipartUploads,
                 filter: filter,
@@ -340,7 +358,8 @@ class S3Tests: XCTestCase {
             }
 
             let paginator = Self.s3.listObjectsV2Paginator(.init(bucket: name, maxKeys: 5))
-            let contents = try await paginator
+            let contents =
+                try await paginator
                 .reduce([]) { ($1.contents ?? []) + $0 }
                 .compactMap { $0.key != nil ? $0 : nil }
                 .sorted { $0.key! < $1.key! }
@@ -427,7 +446,11 @@ class S3Tests: XCTestCase {
 
     func testDualStack() async throws {
         struct VerifyDualStackMiddleware: AWSMiddlewareProtocol {
-            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
+            func handle(
+                _ request: AWSHTTPRequest,
+                context: AWSMiddlewareContext,
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+            ) async throws -> AWSHTTPResponse {
                 XCTAssertEqual(request.url.absoluteString.split(separator: ".")[2], "dualstack")
                 return try await next(request, context)
             }
@@ -451,7 +474,11 @@ class S3Tests: XCTestCase {
 
     func testFIPSEndpoints() async throws {
         struct VerifyFipsEndpointMiddleware: AWSMiddlewareProtocol {
-            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
+            func handle(
+                _ request: AWSHTTPRequest,
+                context: AWSMiddlewareContext,
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+            ) async throws -> AWSHTTPResponse {
                 XCTAssertEqual(request.url.absoluteString.split(separator: ".")[1], "s3-fips")
                 return try await next(request, context)
             }
@@ -475,7 +502,11 @@ class S3Tests: XCTestCase {
 
     func testTransferAccelerated() async throws {
         struct VerifyTransferAccelerateMiddleware: AWSMiddlewareProtocol {
-            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
+            func handle(
+                _ request: AWSHTTPRequest,
+                context: AWSMiddlewareContext,
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+            ) async throws -> AWSHTTPResponse {
                 XCTAssertEqual(request.url.absoluteString.split(separator: ".")[1], "s3-accelerate")
                 return try await next(request, context)
             }
@@ -537,7 +568,11 @@ class S3Tests: XCTestCase {
         // I will throw an error in the request middleware
         struct CancelError: Error {}
         struct CheckHostMiddleware: AWSMiddlewareProtocol {
-            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
+            func handle(
+                _ request: AWSHTTPRequest,
+                context: AWSMiddlewareContext,
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+            ) async throws -> AWSHTTPResponse {
                 XCTAssertEqual(request.url.host, "123456780123.s3-control.eu-west-1.amazonaws.com")
                 throw CancelError()
             }

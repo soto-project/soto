@@ -12,8 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-@testable import SotoSSM
 import XCTest
+
+@testable import SotoSSM
 
 // testing json service
 

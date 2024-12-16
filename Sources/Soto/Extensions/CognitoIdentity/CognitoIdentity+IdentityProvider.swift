@@ -135,8 +135,8 @@ extension IdentityProviderFactory {
 
     /// Create `StaticIdentityProvider` which attempts to use the same `logins` map on each call to `getIdentity`.
     public static func `static`(logins: [String: String]?) -> Self {
-        return Self { context in
-            return CognitoIdentity.StaticIdentityProvider(logins: logins, context: context)
+        Self { context in
+            CognitoIdentity.StaticIdentityProvider(logins: logins, context: context)
         }
     }
 
@@ -171,9 +171,9 @@ extension IdentityProviderFactory {
     public static func externalIdentityProvider(
         tokenProvider: @escaping @Sendable (CognitoIdentity.ExternalIdentityProvider.Context) async throws -> [String: String]
     ) -> Self {
-        return Self { context in
-            return CognitoIdentity.ExternalIdentityProvider(context: context) { context in
-                return try await tokenProvider(context)
+        Self { context in
+            CognitoIdentity.ExternalIdentityProvider(context: context) { context in
+                try await tokenProvider(context)
             }
         }
     }

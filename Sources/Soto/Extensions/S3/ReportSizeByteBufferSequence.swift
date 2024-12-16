@@ -46,7 +46,7 @@ struct ReportProgressByteBufferAsyncSequence<Base: AsyncSequence>: AsyncSequence
 
     /// Make async iterator
     __consuming func makeAsyncIterator() -> AsyncIterator {
-        return AsyncIterator(iterator: self.base.makeAsyncIterator(), reportFn: self.reportFn)
+        AsyncIterator(iterator: self.base.makeAsyncIterator(), reportFn: self.reportFn)
     }
 }
 
@@ -58,6 +58,6 @@ extension AsyncSequence where Element == ByteBuffer {
     /// Return an AsyncSequence that returns ByteBuffers of a fixed size
     /// - Parameter chunkSize: Size of each chunk
     func reportProgress(reportFn: @Sendable @escaping (Int) async throws -> Void) -> ReportProgressByteBufferAsyncSequence<Self> {
-        return .init(base: self, reportFn: reportFn)
+        .init(base: self, reportFn: reportFn)
     }
 }

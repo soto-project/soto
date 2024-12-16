@@ -67,7 +67,7 @@ extension DynamoDB {
         _ input: UpdateItemCodableInput<some Encodable>,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws -> UpdateItemOutput {
-        return try await self.updateItem(input.createUpdateItemInput(), logger: logger)
+        try await self.updateItem(input.createUpdateItemInput(), logger: logger)
     }
 
     /// The `Query` operation finds items based on primary key values. You can query any table or secondary index that has a composite primary key (a partition key and a sort key).
@@ -136,7 +136,7 @@ extension DynamoDB {
         type: T.Type,
         logger: Logger = AWSClient.loggingDisabled
     ) -> AWSClient.PaginatorSequence<QueryInput, QueryCodableOutput<T>> {
-        return .init(
+        .init(
             input: input,
             command: { input, logger in try await self.query(input, type: T.self, logger: logger) },
             inputKey: \QueryInput.exclusiveStartKey,
@@ -159,7 +159,7 @@ extension DynamoDB {
         type: T.Type,
         logger: Logger = AWSClient.loggingDisabled
     ) -> AWSClient.PaginatorSequence<ScanInput, ScanCodableOutput<T>> {
-        return .init(
+        .init(
             input: input,
             command: { input, logger in try await self.scan(input, type: T.self, logger: logger) },
             inputKey: \ScanInput.exclusiveStartKey,
@@ -188,7 +188,16 @@ extension DynamoDB {
         /// The name of the table to contain the item.
         public let tableName: String
 
-        public init(conditionExpression: String? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, item: T, returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String) {
+        public init(
+            conditionExpression: String? = nil,
+            expressionAttributeNames: [String: String]? = nil,
+            expressionAttributeValues: [String: AttributeValue]? = nil,
+            item: T,
+            returnConsumedCapacity: ReturnConsumedCapacity? = nil,
+            returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil,
+            returnValues: ReturnValue? = nil,
+            tableName: String
+        ) {
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
             self.expressionAttributeValues = expressionAttributeValues
@@ -235,7 +244,17 @@ extension DynamoDB {
         /// Object containing item key and attributes to update
         public let updateItem: T
 
-        public init(conditionExpression: String? = nil, expressionAttributeNames: [String: String]? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateExpression: String? = nil, updateItem: T) {
+        public init(
+            conditionExpression: String? = nil,
+            expressionAttributeNames: [String: String]? = nil,
+            key: [String],
+            returnConsumedCapacity: ReturnConsumedCapacity? = nil,
+            returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil,
+            returnValues: ReturnValue? = nil,
+            tableName: String,
+            updateExpression: String? = nil,
+            updateItem: T
+        ) {
             self.additionalAttributeNames = nil
             self.additionalAttributeValues = nil
             self.conditionExpression = conditionExpression
@@ -249,10 +268,19 @@ extension DynamoDB {
             self.updateItem = updateItem
         }
 
-        public init(additionalAttributes: some Encodable, conditionExpression: String? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateItem: T) throws {
+        public init(
+            additionalAttributes: some Encodable,
+            conditionExpression: String? = nil,
+            key: [String],
+            returnConsumedCapacity: ReturnConsumedCapacity? = nil,
+            returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil,
+            returnValues: ReturnValue? = nil,
+            tableName: String,
+            updateItem: T
+        ) throws {
             let attributes = try DynamoDBEncoder().encode(additionalAttributes)
-            self.additionalAttributeNames = .init(key.map { ("#\($0)", $0) }) { first, _ in return first }
-            self.additionalAttributeValues = .init(attributes.map { (":\($0.key)", $0.value) }) { first, _ in return first }
+            self.additionalAttributeNames = .init(key.map { ("#\($0)", $0) }) { first, _ in first }
+            self.additionalAttributeValues = .init(attributes.map { (":\($0.key)", $0.value) }) { first, _ in first }
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = nil
             self.key = key
@@ -282,7 +310,7 @@ extension DynamoDB {
                 let tmpAttributeNames: [String: String] = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
                 expressionAttributeNames = tmpAttributeNames.merging(additionalAttributeNames, uniquingKeysWith: { _, new in new })
             } else {
-                expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
+                expressionAttributeNames = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in first }
             }
 
             let expressionAttributeValues: [String: AttributeValue]
@@ -290,7 +318,7 @@ extension DynamoDB {
                 let tmpExpressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
                 expressionAttributeValues = tmpExpressionAttributeValues.merging(additionalAttributeValues, uniquingKeysWith: { _, new in new })
             } else {
-                expressionAttributeValues = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
+                expressionAttributeValues = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in first }
             }
             // construct update expression, if one if not already supplied
             let updateExpression: String

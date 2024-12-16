@@ -389,7 +389,36 @@ extension S3 {
         let objectSize = head.contentLength ?? 0
 
         // initialize multipart upload
-        let request: CreateMultipartUploadRequest = .init(acl: input.acl, bucket: input.bucket, cacheControl: input.cacheControl, contentDisposition: input.contentDisposition, contentEncoding: input.contentEncoding, contentLanguage: input.contentLanguage, contentType: input.contentType, expectedBucketOwner: input.expectedBucketOwner, expires: input.expires, grantFullControl: input.grantFullControl, grantRead: input.grantRead, grantReadACP: input.grantReadACP, grantWriteACP: input.grantWriteACP, key: input.key, metadata: input.metadata, objectLockLegalHoldStatus: input.objectLockLegalHoldStatus, objectLockMode: input.objectLockMode, objectLockRetainUntilDate: input.objectLockRetainUntilDate, requestPayer: input.requestPayer, serverSideEncryption: input.serverSideEncryption, sseCustomerAlgorithm: input.sseCustomerAlgorithm, sseCustomerKey: input.sseCustomerKey, sseCustomerKeyMD5: input.sseCustomerKeyMD5, ssekmsEncryptionContext: input.ssekmsEncryptionContext, ssekmsKeyId: input.ssekmsKeyId, storageClass: input.storageClass, tagging: input.tagging, websiteRedirectLocation: input.websiteRedirectLocation)
+        let request: CreateMultipartUploadRequest = .init(
+            acl: input.acl,
+            bucket: input.bucket,
+            cacheControl: input.cacheControl,
+            contentDisposition: input.contentDisposition,
+            contentEncoding: input.contentEncoding,
+            contentLanguage: input.contentLanguage,
+            contentType: input.contentType,
+            expectedBucketOwner: input.expectedBucketOwner,
+            expires: input.expires,
+            grantFullControl: input.grantFullControl,
+            grantRead: input.grantRead,
+            grantReadACP: input.grantReadACP,
+            grantWriteACP: input.grantWriteACP,
+            key: input.key,
+            metadata: input.metadata,
+            objectLockLegalHoldStatus: input.objectLockLegalHoldStatus,
+            objectLockMode: input.objectLockMode,
+            objectLockRetainUntilDate: input.objectLockRetainUntilDate,
+            requestPayer: input.requestPayer,
+            serverSideEncryption: input.serverSideEncryption,
+            sseCustomerAlgorithm: input.sseCustomerAlgorithm,
+            sseCustomerKey: input.sseCustomerKey,
+            sseCustomerKeyMD5: input.sseCustomerKeyMD5,
+            ssekmsEncryptionContext: input.ssekmsEncryptionContext,
+            ssekmsKeyId: input.ssekmsKeyId,
+            storageClass: input.storageClass,
+            tagging: input.tagging,
+            websiteRedirectLocation: input.websiteRedirectLocation
+        )
         let uploadResponse = try await createMultipartUpload(request, logger: logger)
         guard let uploadId = uploadResponse.uploadId else {
             throw S3ErrorType.MultipartError.noUploadId
@@ -402,12 +431,29 @@ extension S3 {
 
             // create array of upload part requests.
             let uploadPartRequests: [UploadPartCopyRequest] = (1...numParts).map { part in
-                let copyRange = if part != numParts {
-                    "bytes=\((part - 1) * partSize)-\(part * partSize - 1)"
-                } else {
-                    "bytes=\((part - 1) * partSize)-\((part - 1) * partSize + finalPartSize - 1)"
-                }
-                return .init(bucket: input.bucket, copySource: input.copySource, copySourceRange: copyRange, copySourceSSECustomerAlgorithm: input.copySourceSSECustomerAlgorithm, copySourceSSECustomerKey: input.copySourceSSECustomerKey, copySourceSSECustomerKeyMD5: input.copySourceSSECustomerKeyMD5, expectedBucketOwner: input.expectedBucketOwner, expectedSourceBucketOwner: input.expectedSourceBucketOwner, key: input.key, partNumber: part, requestPayer: input.requestPayer, sseCustomerAlgorithm: input.sseCustomerAlgorithm, sseCustomerKey: input.sseCustomerKey, sseCustomerKeyMD5: input.sseCustomerKeyMD5, uploadId: uploadId)
+                let copyRange =
+                    if part != numParts {
+                        "bytes=\((part - 1) * partSize)-\(part * partSize - 1)"
+                    } else {
+                        "bytes=\((part - 1) * partSize)-\((part - 1) * partSize + finalPartSize - 1)"
+                    }
+                return .init(
+                    bucket: input.bucket,
+                    copySource: input.copySource,
+                    copySourceRange: copyRange,
+                    copySourceSSECustomerAlgorithm: input.copySourceSSECustomerAlgorithm,
+                    copySourceSSECustomerKey: input.copySourceSSECustomerKey,
+                    copySourceSSECustomerKeyMD5: input.copySourceSSECustomerKeyMD5,
+                    expectedBucketOwner: input.expectedBucketOwner,
+                    expectedSourceBucketOwner: input.expectedSourceBucketOwner,
+                    key: input.key,
+                    partNumber: part,
+                    requestPayer: input.requestPayer,
+                    sseCustomerAlgorithm: input.sseCustomerAlgorithm,
+                    sseCustomerKey: input.sseCustomerKey,
+                    sseCustomerKeyMD5: input.sseCustomerKeyMD5,
+                    uploadId: uploadId
+                )
             }
             // send upload part copy requests to AWS
             let parts: [S3.CompletedPart] = try await uploadPartRequests.concurrentMap(maxConcurrentTasks: 8) {
@@ -548,7 +594,8 @@ extension S3 {
     ) async throws -> CompleteMultipartUploadOutput where ByteBufferSequence.Element == ByteBuffer {
         // upload all the parts
         let partsSet = Set<Int>(input.completedParts.map { $0.partNumber! - 1 })
-        let partSequence = bufferSequence
+        let partSequence =
+            bufferSequence
             .fixedSizeSequence(chunkSize: partSize)
             .enumerated()
             .filter { !partsSet.contains($0.0) }
@@ -686,11 +733,15 @@ extension S3 {
                         results.append(element)
                     }
                 }
-                let body: AWSHTTPBody = if let progress = newProgress {
-                    .init(asyncSequence: buffer.asyncSequence(chunkSize: 64 * 1024).reportProgress(reportFn: progress), length: buffer.readableBytes)
-                } else {
-                    .init(asyncSequence: buffer.asyncSequence(chunkSize: 64 * 1024), length: buffer.readableBytes)
-                }
+                let body: AWSHTTPBody =
+                    if let progress = newProgress {
+                        .init(
+                            asyncSequence: buffer.asyncSequence(chunkSize: 64 * 1024).reportProgress(reportFn: progress),
+                            length: buffer.readableBytes
+                        )
+                    } else {
+                        .init(asyncSequence: buffer.asyncSequence(chunkSize: 64 * 1024), length: buffer.readableBytes)
+                    }
                 group.addTask {
                     // Multipart uploads part numbers start at 1 not 0
                     let request = S3.UploadPartRequest(
@@ -746,11 +797,12 @@ extension S3 {
     // from bucket, key and version id from a copySource string
     func getBucketKeyVersion(from copySource: String) -> (bucket: String, key: String, versionId: String?)? {
         // drop first slash if it exists
-        let path = if copySource.first == "/" {
-            copySource.dropFirst()
-        } else {
-            Substring(copySource)
-        }
+        let path =
+            if copySource.first == "/" {
+                copySource.dropFirst()
+            } else {
+                Substring(copySource)
+            }
         // find first slash
         guard let slashIndex = path.firstIndex(of: "/") else { return nil }
         // find first question mark
