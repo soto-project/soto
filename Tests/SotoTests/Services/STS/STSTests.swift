@@ -15,8 +15,9 @@
 import NIOConcurrencyHelpers
 import SotoS3
 import SotoSNS
-@testable import SotoSTS
 import XCTest
+
+@testable import SotoSTS
 
 // testing query service
 
@@ -81,20 +82,20 @@ class STSTests: XCTestCase {
         guard !TestEnvironment.isUsingLocalstack else { return }
         // create a role with this policy
         let policyDocument = """
-        {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": [
-                        "s3:*",
-                        "sqs:*"
-                    ],
-                    "Resource": "*"
-                }
-            ]
-        }
-        """
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "s3:*",
+                            "sqs:*"
+                        ],
+                        "Resource": "*"
+                    }
+                ]
+            }
+            """
         let name = TestEnvironment.generateResourceName("federationToken")
         let federationRequest = STS.GetFederationTokenRequest(name: name, policy: policyDocument)
         let client = AWSClient(
@@ -120,7 +121,8 @@ class STSTests: XCTestCase {
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
         await XCTAsyncExpectError(STSErrorType.invalidIdentityTokenException) {
             let request = STS.AssumeRoleWithWebIdentityRequest(
-                roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "now",
+                roleArn: "arn:aws:iam::000000000000:role/Admin",
+                roleSessionName: "now",
                 webIdentityToken: "webtoken"
             )
             _ = try await Self.sts.assumeRoleWithWebIdentity(request, logger: TestEnvironment.logger)

@@ -21,7 +21,7 @@ here="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 function check_all_services_in_package() {
     for folder in $here/../Sources/Soto/Services/*; do
         service=$(basename $folder)
-        if [ -z "$(grep ".target(name: \"Soto$service\"" $here/../Package.swift)" ]; then
+        if [ -z "$(grep "name: \"Soto$service\"" $here/../Package.swift)" ]; then
             printf "\033[0;31m$service is not in Package.swift\033[0m\n"
             exit -1
         fi
@@ -39,13 +39,9 @@ printf "\033[0;32mokay.\033[0m\n"
 
 printf "=> Checking format... "
 FIRST_OUT="$(git status --porcelain)"
-if [[ -n "${CI-""}" ]]; then
-  printf "(using v$(mint run NickLockwood/SwiftFormat@$SWIFT_FORMAT_VERSION --version)) "
-  mint run NickLockwood/SwiftFormat@$SWIFT_FORMAT_VERSION . > /dev/null 2>&1
-else
-  printf "(using v$(swiftformat --version)) "
-  swiftformat . > /dev/null 2>&1
-fi
+git ls-files '*.swift' | grep -v "Sources/Soto/Services" | xargs swift format format --parallel --in-place
+git diff --exit-code '*.swift'
+
 SECOND_OUT="$(git status --porcelain)"
 if [[ "$FIRST_OUT" != "$SECOND_OUT" ]]; then
   printf "\033[0;31mformatting issues!\033[0m\n"
@@ -54,7 +50,6 @@ if [[ "$FIRST_OUT" != "$SECOND_OUT" ]]; then
 else
   printf "\033[0;32mokay.\033[0m\n"
 fi
-
 
 printf "=> Checking license headers... "
 tmp=$(mktemp /tmp/.soto-core-sanity_XXXXXX)

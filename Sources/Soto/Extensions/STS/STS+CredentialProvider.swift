@@ -13,12 +13,13 @@
 //===----------------------------------------------------------------------===//
 
 import AsyncHTTPClient
-import struct Foundation.Date
-import typealias Foundation.TimeInterval
-import struct Foundation.UUID
 import NIOCore
 import NIOPosix
 import SotoCore
+
+import struct Foundation.Date
+import typealias Foundation.TimeInterval
+import struct Foundation.UUID
 
 /// Credential Provider that holds an AWSClient
 protocol CredentialProviderWithClient: CredentialProvider {
@@ -153,19 +154,19 @@ extension STS {
         }
 
         func shutdown() async throws {
-            return try await self.webIdentityProvider.shutdown()
+            try await self.webIdentityProvider.shutdown()
         }
 
         /// get credentials
         func getCredential(logger: Logger) async throws -> Credential {
-            return try await self.webIdentityProvider.getCredential(logger: logger)
+            try await self.webIdentityProvider.getCredential(logger: logger)
         }
 
         /// Load web identity token file
         static func loadTokenFile(_ tokenFile: String) async throws -> String {
             let threadPool = NIOThreadPool(numberOfThreads: 1)
             threadPool.start()
-            defer { threadPool.shutdownGracefully { _ in }}
+            defer { threadPool.shutdownGracefully { _ in } }
             let fileIO = NonBlockingFileIO(threadPool: threadPool)
 
             let fileBuffer = try await loadFile(path: tokenFile, using: fileIO)
@@ -176,8 +177,8 @@ extension STS {
         /// Load a file from disk without blocking the current thread
         /// - Returns: file contents in a byte-buffer
         static func loadFile(path: String, using fileIO: NonBlockingFileIO) async throws -> ByteBuffer {
-            return try await fileIO.withFileRegion(path: path) { region in
-                return try await fileIO.read(fileRegion: region, allocator: ByteBufferAllocator())
+            try await fileIO.withFileRegion(path: path) { region in
+                try await fileIO.read(fileRegion: region, allocator: ByteBufferAllocator())
             }
         }
     }
@@ -188,7 +189,12 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.GetFederationTokenRequest>, credentialProvider: CredentialProviderFactory, region: Region, httpClient: any AWSHTTPClient) {
+        init(
+            requestProvider: RequestProvider<STS.GetFederationTokenRequest>,
+            credentialProvider: CredentialProviderFactory,
+            region: Region,
+            httpClient: any AWSHTTPClient
+        ) {
             self.client = AWSClient(credentialProvider: credentialProvider, httpClient: httpClient)
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
@@ -213,7 +219,12 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.GetSessionTokenRequest>, credentialProvider: CredentialProviderFactory, region: Region, httpClient: any AWSHTTPClient) {
+        init(
+            requestProvider: RequestProvider<STS.GetSessionTokenRequest>,
+            credentialProvider: CredentialProviderFactory,
+            region: Region,
+            httpClient: any AWSHTTPClient
+        ) {
             self.client = AWSClient(credentialProvider: credentialProvider, httpClient: httpClient)
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
@@ -308,7 +319,11 @@ extension CredentialProviderFactory {
         requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleWithSAMLRequest
     ) -> CredentialProviderFactory {
         .custom { context in
-            let provider = STS.AssumeRoleWithSAMLCredentialProvider(requestProvider: .dynamic(requestProvider), region: region, httpClient: context.httpClient)
+            let provider = STS.AssumeRoleWithSAMLCredentialProvider(
+                requestProvider: .dynamic(requestProvider),
+                region: region,
+                httpClient: context.httpClient
+            )
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
@@ -322,7 +337,11 @@ extension CredentialProviderFactory {
     ///   - region: Region to run request in
     public static func stsWebIdentity(request: STS.AssumeRoleWithWebIdentityRequest, region: Region) -> CredentialProviderFactory {
         .custom { context in
-            let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(requestProvider: .static(request), region: region, httpClient: context.httpClient)
+            let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(
+                requestProvider: .static(request),
+                region: region,
+                httpClient: context.httpClient
+            )
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
@@ -339,7 +358,11 @@ extension CredentialProviderFactory {
         requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleWithWebIdentityRequest
     ) -> CredentialProviderFactory {
         .custom { context in
-            let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(requestProvider: .dynamic(requestProvider), region: region, httpClient: context.httpClient)
+            let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(
+                requestProvider: .dynamic(requestProvider),
+                region: region,
+                httpClient: context.httpClient
+            )
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }

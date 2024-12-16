@@ -13,9 +13,10 @@
 //===----------------------------------------------------------------------===//
 
 import AsyncHTTPClient
+import SotoCore
+
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
-import SotoCore
 
 extension CognitoIdentity {
     struct IdentityCredentialProvider: CredentialProvider {
@@ -43,10 +44,10 @@ extension CognitoIdentity {
             let credentialsRequest = CognitoIdentity.GetCredentialsForIdentityInput(identityId: identity.id, logins: identity.logins)
             let response = try await self.cognitoIdentity.getCredentialsForIdentity(credentialsRequest, logger: logger)
             guard let credentials = response.credentials,
-                  let accessKeyId = credentials.accessKeyId,
-                  let secretAccessKey = credentials.secretKey,
-                  let sessionToken = credentials.sessionToken,
-                  let expiration = credentials.expiration
+                let accessKeyId = credentials.accessKeyId,
+                let secretAccessKey = credentials.secretKey,
+                let sessionToken = credentials.sessionToken,
+                let expiration = credentials.expiration
             else {
                 throw CredentialProviderError.noProvider
             }

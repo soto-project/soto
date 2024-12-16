@@ -13,8 +13,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Files // JohnSundell/Files
-import Mustache // hummingbird-project/swift-mustache
+import Files  // JohnSundell/Files
+import Mustache  // hummingbird-project/swift-mustache
 
 struct GeneratePackage {
     struct Target {

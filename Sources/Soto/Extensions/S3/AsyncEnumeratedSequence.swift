@@ -57,7 +57,7 @@ extension AsyncEnumeratedSequence: AsyncSequence {
 
     @inlinable
     __consuming func makeAsyncIterator() -> AsyncIterator {
-        return .init(baseIterator: self.base.makeAsyncIterator())
+        .init(baseIterator: self.base.makeAsyncIterator())
     }
 }
 
@@ -67,5 +67,5 @@ extension AsyncEnumeratedSequence: Sendable where Base: Sendable {}
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AsyncSequence {
     /// Return an enumaterated AsyncSequence
-    func enumerated() -> AsyncEnumeratedSequence<Self> { return AsyncEnumeratedSequence(self) }
+    func enumerated() -> AsyncEnumeratedSequence<Self> { AsyncEnumeratedSequence(self) }
 }

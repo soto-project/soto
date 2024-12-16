@@ -37,7 +37,7 @@ Other environment variables that affect testing include
 
 ### Formatting
 
-We use Nick Lockwood's SwiftFormat for formatting code. PRs will not be accepted if they haven't be formatted. The current version of SwiftFormat we are using is v0.48.17.
+We use Apple's SwiftFormat for formatting code. PRs will not be accepted if they haven't be formatted.
 
 All new files need to include the following file header at the top
 ```swift

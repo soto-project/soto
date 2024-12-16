@@ -12,8 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-@testable import SotoApiGatewayV2
 import XCTest
+
+@testable import SotoApiGatewayV2
 
 enum APIGatewayV2TestsError: Error {
     case noApi

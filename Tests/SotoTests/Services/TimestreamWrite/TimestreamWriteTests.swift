@@ -12,8 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-@testable import SotoTimestreamWrite
 import XCTest
+
+@testable import SotoTimestreamWrite
 
 // testing query service
 

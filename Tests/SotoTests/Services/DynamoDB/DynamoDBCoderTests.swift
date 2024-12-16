@@ -61,10 +61,15 @@ final class DynamoDBCoderTests: XCTestCase {
             let set: Set<String>?
         }
         XCTAssertNoThrow(try self.testEncodeDecode(Arrays(i: [2, 8, 24], s: ["TestString", "TestString1"], set: .init(["hello", "goodbye"]))))
-        XCTAssertNoThrow(try self.testDecodeEncode([
-            "i": .l([.n("24"), .n("78"), .n("1")]),
-            "s": .l([.s("this"), .s("is"), .s("a"), .s("test")]),
-        ], type: Arrays.self))
+        XCTAssertNoThrow(
+            try self.testDecodeEncode(
+                [
+                    "i": .l([.n("24"), .n("78"), .n("1")]),
+                    "s": .l([.s("this"), .s("is"), .s("a"), .s("test")]),
+                ],
+                type: Arrays.self
+            )
+        )
     }
 
     func testArrayOfBool() {
@@ -72,10 +77,12 @@ final class DynamoDBCoderTests: XCTestCase {
             let b: [Bool]
         }
         XCTAssertNoThrow(try self.testEncodeDecode(ArrayOfBoolsTest(b: [true, false, true, true])))
-        XCTAssertNoThrow(try self.testDecodeEncode(
-            ["b": .l([.bool(true), .bool(false), .bool(true), .bool(true)])],
-            type: ArrayOfBoolsTest.self
-        ))
+        XCTAssertNoThrow(
+            try self.testDecodeEncode(
+                ["b": .l([.bool(true), .bool(false), .bool(true), .bool(true)])],
+                type: ArrayOfBoolsTest.self
+            )
+        )
     }
 
     func testArrayOfData() {
@@ -165,10 +172,15 @@ final class DynamoDBCoderTests: XCTestCase {
             }
         }
         XCTAssertNoThrow(try self.testEncodeDecode(NestedKDCTest(firstName: "John", surname: "Smith", age: 38)))
-        XCTAssertNoThrow(try self.testDecodeEncode([
-            "name": .m(["firstName": .s("John"), "surname": .s("Smith")]),
-            "age": .n("62"),
-        ], type: NestedKDCTest.self))
+        XCTAssertNoThrow(
+            try self.testDecodeEncode(
+                [
+                    "name": .m(["firstName": .s("John"), "surname": .s("Smith")]),
+                    "age": .n("62"),
+                ],
+                type: NestedKDCTest.self
+            )
+        )
     }
 
     func testNestedUKDC() {
@@ -207,10 +219,15 @@ final class DynamoDBCoderTests: XCTestCase {
             }
         }
         XCTAssertNoThrow(try self.testEncodeDecode(NestedUKDCTest(indices: [1, 4, 7, 8], selected: 3)))
-        XCTAssertNoThrow(try self.testDecodeEncode([
-            "test": .l([.n("1"), .n("4"), .n("7"), .n("8")]),
-            "selected": .n("3"),
-        ], type: NestedUKDCTest.self))
+        XCTAssertNoThrow(
+            try self.testDecodeEncode(
+                [
+                    "test": .l([.n("1"), .n("4"), .n("7"), .n("8")]),
+                    "selected": .n("3"),
+                ],
+                type: NestedUKDCTest.self
+            )
+        )
     }
 
     func testSuperEncoder() {
@@ -244,9 +261,14 @@ final class DynamoDBCoderTests: XCTestCase {
             }
         }
 
-        XCTAssertNoThrow(try self.testDecodeEncode([
-            "subtype": .s("test type"),
-            "super": .m(["type": .s("base")]),
-        ], type: SuperEncoderTest.self))
+        XCTAssertNoThrow(
+            try self.testDecodeEncode(
+                [
+                    "subtype": .s("test type"),
+                    "super": .m(["type": .s("base")]),
+                ],
+                type: SuperEncoderTest.self
+            )
+        )
     }
 }

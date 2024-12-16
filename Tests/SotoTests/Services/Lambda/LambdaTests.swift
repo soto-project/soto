@@ -12,10 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import XCTest
-
 import SotoIAM
 import SotoLambda
+import XCTest
 
 // testing query service
 
@@ -40,7 +39,8 @@ class LambdaTests: XCTestCase {
      */
     class func createLambdaFunction(roleArn: String) async throws {
         // Base64 and Zipped version of "exports.handler = async (event) => { return \"hello world\" };"
-        let code = "UEsDBAoAAAAAAPFWXFGfGXl5PQAAAD0AAAAJABwAbGFtYmRhLmpzVVQJAAMVQJlfuD+ZX3V4CwABBC8Om1YEzHsDcWV4cG9ydHMuaGFuZGxlciA9IGFzeW5jIChldmVudCkgPT4geyByZXR1cm4gImhlbGxvIHdvcmxkIiB9OwpQSwECHgMKAAAAAADxVlxRnxl5eT0AAAA9AAAACQAYAAAAAAABAAAApIEAAAAAbGFtYmRhLmpzVVQFAAMVQJlfdXgLAAEELw6bVgTMewNxUEsFBgAAAAABAAEATwAAAIAAAAAAAA=="
+        let code =
+            "UEsDBAoAAAAAAPFWXFGfGXl5PQAAAD0AAAAJABwAbGFtYmRhLmpzVVQJAAMVQJlfuD+ZX3V4CwABBC8Om1YEzHsDcWV4cG9ydHMuaGFuZGxlciA9IGFzeW5jIChldmVudCkgPT4geyByZXR1cm4gImhlbGxvIHdvcmxkIiB9OwpQSwECHgMKAAAAAADxVlxRnxl5eT0AAAA9AAAACQAYAAAAAAABAAAApIEAAAAAbGFtYmRhLmpzVVQFAAMVQJlfdXgLAAEELw6bVgTMewNxUEsFBgAAAAABAAEATwAAAIAAAAAAAA=="
         let functionCode = Lambda.FunctionCode(zipFile: .base64(code))
         let functionRuntime = Lambda.Runtime.nodejs18x
         let functionHandler = "lambda.handler"
@@ -65,19 +65,19 @@ class LambdaTests: XCTestCase {
     class func createIAMRole() async throws -> IAM.CreateRoleResponse {
         // as documented at https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html
         let assumeRolePolicyDocument = """
-        {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Action": "sts:AssumeRole",
-                    "Effect": "Allow",
-                    "Principal": {
-                        "Service": "lambda.amazonaws.com"
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Action": "sts:AssumeRole",
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                        }
                     }
-                }
-            ]
-        }
-        """
+                ]
+            }
+            """
         let crr = IAM.CreateRoleRequest(
             assumeRolePolicyDocument: assumeRolePolicyDocument,
             roleName: self.functionExecutionRoleName
