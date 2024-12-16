@@ -494,14 +494,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func createBucket(_ input: CreateBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBucketOutput {
-        try await self.client.execute(
-            operation: "CreateBucket", 
-            path: "/{Bucket}", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "CreateBucket", 
+                path: "/{Bucket}", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This action creates an Amazon S3 bucket. To create an Amazon S3 on Outposts bucket, see  CreateBucket .  Creates a new S3 bucket. To create a bucket, you must set up Amazon S3 and have a valid Amazon Web Services Access Key ID to authenticate requests. Anonymous requests are never allowed to create buckets. By creating the bucket, you become the bucket owner. There are two types of buckets: general purpose buckets and directory buckets. For more information about these bucket types, see Creating, configuring, and working with Amazon S3 buckets in the Amazon S3 User Guide.     General purpose buckets - If you send your CreateBucket request to the s3.amazonaws.com global endpoint, the request goes to the us-east-1 Region. So the signature calculations in Signature Version 4 must use us-east-1 as the Region, even if the location constraint in the request specifies another Region where the bucket is to be created. If you create a bucket in a Region other than US East (N. Virginia), your application must be able to handle 307 redirect. For more information, see Virtual hosting of buckets in the Amazon S3 User Guide.    Directory buckets  - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported.
     /// For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see Available Local Zone for directory buckets in the Amazon S3 User Guide.     Permissions     General purpose bucket permissions - In addition to the s3:CreateBucket permission, the following permissions are required in a policy when your CreateBucket request includes specific headers:     Access control lists (ACLs) - In your CreateBucket request, if you specify an access control list (ACL) and set it to public-read, public-read-write, authenticated-read, or if you explicitly specify any other custom ACLs, both s3:CreateBucket and s3:PutBucketAcl permissions are required. In your CreateBucket request, if you set the ACL to private, or if you don't specify any ACLs, only the s3:CreateBucket permission is required.     Object Lock - In your CreateBucket request, if you set x-amz-bucket-object-lock-enabled to true, the s3:PutBucketObjectLockConfiguration and s3:PutBucketVersioning permissions are required.    S3 Object Ownership - If your CreateBucket request includes the x-amz-object-ownership header, then the s3:PutBucketOwnershipControls permission is required.  To set an ACL on a bucket as part of a CreateBucket request, you must explicitly set S3 Object Ownership for the bucket to a different value than the default, BucketOwnerEnforced. Additionally, if your desired bucket ACL grants public access, you must first create the bucket (without the bucket ACL) and then explicitly disable Block Public Access on the bucket before using PutBucketAcl to set the ACL. If you try to create a bucket with a public ACL, the request will fail.  For the majority of modern use cases in S3, we recommend that you keep all Block Public Access settings enabled and keep ACLs disabled. If you would like to share data with users outside of your account, you can use bucket policies as needed. For more information, see Controlling ownership of objects and disabling ACLs for your bucket  and Blocking public access to your Amazon S3 storage  in the Amazon S3 User Guide.      S3 Block Public Access - If your specific use case requires granting public access to your S3 resources, you can disable Block Public Access. Specifically, you can create a new bucket with Block Public Access enabled, then separately call the  DeletePublicAccessBlock API. To use this operation, you must have the s3:PutBucketPublicAccessBlock permission. For more information about S3 Block Public Access, see Blocking public access to your Amazon S3 storage  in the Amazon S3 User Guide.       Directory bucket permissions - You must have the s3express:CreateBucket permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  The permissions for ACLs, Object Lock, S3 Object Ownership, and S3 Block Public Access are not supported for directory buckets. For directory buckets, all Block Public Access settings are enabled at the bucket level and S3 Object Ownership is set to Bucket owner enforced (ACLs disabled). These settings can't be modified.  For more information about permissions for creating and working with directory buckets, see Directory buckets in the Amazon S3 User Guide. For more information about supported S3 features for directory buckets, see Features of S3 Express One Zone in the Amazon S3 User Guide.     HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com.   The following operations are related to CreateBucket:    PutObject     DeleteBucket
@@ -551,14 +553,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func createBucketMetadataTableConfiguration(_ input: CreateBucketMetadataTableConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "CreateBucketMetadataTableConfiguration", 
-            path: "/{Bucket}?metadataTable", 
-            httpMethod: .POST, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "CreateBucketMetadataTableConfiguration", 
+                path: "/{Bucket}?metadataTable", 
+                httpMethod: .POST, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// Creates a metadata table configuration for a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide.   Permissions  To use this operation, you must have the following permissions. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide. If you also want to integrate your table bucket with Amazon Web Services analytics services so that you  can query your metadata table, you need additional permissions. For more information, see   Integrating Amazon S3 Tables with Amazon Web Services analytics services in the  Amazon S3 User Guide.    s3:CreateBucketMetadataTableConfiguration     s3tables:CreateNamespace     s3tables:GetTable     s3tables:CreateTable     s3tables:PutTablePolicy      The following operations are related to CreateBucketMetadataTableConfiguration:    DeleteBucketMetadataTableConfiguration     GetBucketMetadataTableConfiguration
     ///
@@ -761,14 +765,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucket(_ input: DeleteBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucket", 
-            path: "/{Bucket}", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucket", 
+                path: "/{Bucket}", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// Deletes the S3 bucket. All objects (including all object versions and delete markers) in the bucket must be deleted before the bucket itself can be deleted.     Directory buckets - If multipart uploads in a directory bucket are in progress, you can't delete the bucket until all the in-progress multipart uploads are aborted or completed.    Directory buckets  - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported.
     /// For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see Available Local Zone for directory buckets in the Amazon S3 User Guide.     Permissions     General purpose bucket permissions - You must have the s3:DeleteBucket permission on the specified bucket in a policy.    Directory bucket permissions - You must have the s3express:DeleteBucket permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.    HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com.   The following operations are related to DeleteBucket:    CreateBucket     DeleteObject
@@ -794,14 +800,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketAnalyticsConfiguration(_ input: DeleteBucketAnalyticsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketAnalyticsConfiguration", 
-            path: "/{Bucket}?analytics", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketAnalyticsConfiguration", 
+                path: "/{Bucket}?analytics", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Deletes an analytics configuration for the bucket (specified by the analytics configuration ID). To use this operation, you must have permissions to perform the s3:PutAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. For information about the Amazon S3 analytics feature, see Amazon S3 Analytics – Storage Class Analysis.  The following operations are related to DeleteBucketAnalyticsConfiguration:    GetBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
     ///
@@ -829,14 +837,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketCors(_ input: DeleteBucketCorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketCors", 
-            path: "/{Bucket}?cors", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketCors", 
+                path: "/{Bucket}?cors", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Deletes the cors configuration information set for the bucket. To use this operation, you must have permission to perform the s3:PutBucketCORS action. The bucket owner has this permission by default and can grant this permission to others.  For information about cors, see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide.  Related Resources     PutBucketCors     RESTOPTIONSobject
     ///
@@ -861,14 +871,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketEncryption(_ input: DeleteBucketEncryptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketEncryption", 
-            path: "/{Bucket}?encryption", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketEncryption", 
+                path: "/{Bucket}?encryption", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// This implementation of the DELETE action resets the default encryption for the bucket as server-side encryption with Amazon S3 managed keys (SSE-S3).     General purpose buckets - For information about the bucket default encryption feature, see Amazon S3 Bucket Default Encryption in the Amazon S3 User Guide.    Directory buckets - For directory buckets, there are only two supported options for server-side encryption: SSE-S3 and SSE-KMS. For information about the default encryption configuration in directory buckets, see Setting default server-side encryption behavior for directory buckets.     Permissions     General purpose bucket permissions - The s3:PutEncryptionConfiguration permission is required in a policy. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Operations and Managing Access Permissions to Your Amazon S3 Resources.    Directory bucket permissions - To grant access to this API operation, you must have the s3express:PutEncryptionConfiguration permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.    HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com.   The following operations are related to DeleteBucketEncryption:    PutBucketEncryption     GetBucketEncryption
     ///
@@ -893,14 +905,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketIntelligentTieringConfiguration(_ input: DeleteBucketIntelligentTieringConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketIntelligentTieringConfiguration", 
-            path: "/{Bucket}?intelligent-tiering", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketIntelligentTieringConfiguration", 
+                path: "/{Bucket}?intelligent-tiering", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize storage costs by automatically moving data to the most cost-effective storage access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low latency and high throughput access tiers. To get the lowest storage cost on data that can be accessed in minutes to hours, you can choose to activate additional archiving capabilities. The S3 Intelligent-Tiering storage class is  the ideal storage class for data with unknown, changing, or unpredictable access patterns, independent of object size or retention period. If the size of an object is less than 128 KB, it is not monitored and not eligible for auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see Storage class for automatically optimizing frequently and infrequently accessed objects. Operations related to DeleteBucketIntelligentTieringConfiguration include:     GetBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration     ListBucketIntelligentTieringConfigurations
     ///
@@ -925,14 +939,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketInventoryConfiguration(_ input: DeleteBucketInventoryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketInventoryConfiguration", 
-            path: "/{Bucket}?inventory", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketInventoryConfiguration", 
+                path: "/{Bucket}?inventory", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Deletes an inventory configuration (identified by the inventory ID) from the bucket. To use this operation, you must have permissions to perform the s3:PutInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. For information about the Amazon S3 inventory feature, see Amazon S3 Inventory. Operations related to DeleteBucketInventoryConfiguration include:     GetBucketInventoryConfiguration     PutBucketInventoryConfiguration     ListBucketInventoryConfigurations
     ///
@@ -961,14 +977,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketLifecycle(_ input: DeleteBucketLifecycleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketLifecycle", 
-            path: "/{Bucket}?lifecycle", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketLifecycle", 
+                path: "/{Bucket}?lifecycle", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration.  Permissions     General purpose bucket permissions - By default, all Amazon S3 resources are private, including buckets, objects, and related subresources (for example, lifecycle configuration and website configuration). Only the resource owner (that is, the Amazon Web Services account that created it) can access the resource. The resource owner can optionally grant access permissions to others by writing an access policy. For this operation, a user must have the s3:PutLifecycleConfiguration permission. For more information about permissions, see Managing Access Permissions to Your Amazon S3 Resources.      Directory bucket permissions - You must have the s3express:PutLifecycleConfiguration permission in an IAM identity-based policy to use this operation. Cross-account access to this API operation isn't supported. The resource owner can optionally grant access permissions to others by creating a role or user for them as long as they are within the same account as the owner and resource. For more information about directory bucket policies and permissions, see Authorizing Regional endpoint APIs with IAM in the Amazon S3 User Guide.   Directory buckets  - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported.
     /// For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see Available Local Zone for directory buckets in the Amazon S3 User Guide.       HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   For more information about the object expiration, see Elements to Describe Lifecycle Actions. Related actions include:    PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
@@ -994,14 +1012,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketMetadataTableConfiguration(_ input: DeleteBucketMetadataTableConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketMetadataTableConfiguration", 
-            path: "/{Bucket}?metadataTable", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketMetadataTableConfiguration", 
+                path: "/{Bucket}?metadataTable", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  Deletes a metadata table configuration from a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide.   Permissions  To use this operation, you must have the s3:DeleteBucketMetadataTableConfiguration permission. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide.    The following operations are related to DeleteBucketMetadataTableConfiguration:    CreateBucketMetadataTableConfiguration     GetBucketMetadataTableConfiguration
     ///
@@ -1026,14 +1046,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketMetricsConfiguration(_ input: DeleteBucketMetricsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketMetricsConfiguration", 
-            path: "/{Bucket}?metrics", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketMetricsConfiguration", 
+                path: "/{Bucket}?metrics", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Deletes a metrics configuration for the Amazon CloudWatch request metrics (specified by the metrics configuration ID) from the bucket. Note that this doesn't include the daily storage metrics. To use this operation, you must have permissions to perform the s3:PutMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. For information about CloudWatch request metrics for Amazon S3, see Monitoring Metrics with Amazon CloudWatch.  The following operations are related to DeleteBucketMetricsConfiguration:    GetBucketMetricsConfiguration     PutBucketMetricsConfiguration     ListBucketMetricsConfigurations     Monitoring Metrics with Amazon CloudWatch
     ///
@@ -1061,14 +1083,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketOwnershipControls(_ input: DeleteBucketOwnershipControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketOwnershipControls", 
-            path: "/{Bucket}?ownershipControls", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketOwnershipControls", 
+                path: "/{Bucket}?ownershipControls", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Removes OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy. For information about Amazon S3 Object Ownership, see Using Object Ownership.  The following operations are related to DeleteBucketOwnershipControls:    GetBucketOwnershipControls     PutBucketOwnershipControls
     ///
@@ -1094,14 +1118,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketPolicy(_ input: DeleteBucketPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketPolicy", 
-            path: "/{Bucket}?policy", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketPolicy", 
+                path: "/{Bucket}?policy", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// Deletes the policy of a specified bucket.   Directory buckets  - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported.
     /// For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see Available Local Zone for directory buckets in the Amazon S3 User Guide.   Permissions  If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must both have the DeleteBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this operation. If you don't have DeleteBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error.  To ensure that bucket owners don't inadvertently lock themselves out of their own buckets, the root principal in a bucket owner's Amazon Web Services account can perform the GetBucketPolicy, PutBucketPolicy, and DeleteBucketPolicy API actions, even if their bucket policy explicitly denies the root principal's access. Bucket owner root principals can only be blocked from performing these API actions by VPC endpoint policies and Amazon Web Services Organizations policies.     General purpose bucket permissions - The s3:DeleteBucketPolicy permission is required in a policy. For more information about general purpose buckets bucket policies, see Using Bucket Policies and User Policies in the Amazon S3 User Guide.    Directory bucket permissions - To grant access to this API operation, you must have the s3express:DeleteBucketPolicy permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.    HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com.   The following operations are related to DeleteBucketPolicy     CreateBucket     DeleteObject
@@ -1127,14 +1153,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketReplication(_ input: DeleteBucketReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketReplication", 
-            path: "/{Bucket}?replication", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketReplication", 
+                path: "/{Bucket}?replication", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Deletes the replication configuration from the bucket. To use this operation, you must have permissions to perform the s3:PutReplicationConfiguration action. The bucket owner has these permissions by default and can grant it to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.   It can take a while for the deletion of a replication configuration to fully propagate.  For information about replication configuration, see Replication in the Amazon S3 User Guide. The following operations are related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplication
     ///
@@ -1159,14 +1187,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketTagging(_ input: DeleteBucketTaggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketTagging", 
-            path: "/{Bucket}?tagging", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketTagging", 
+                path: "/{Bucket}?tagging", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Deletes the tags from the bucket. To use this operation, you must have permission to perform the s3:PutBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others.  The following operations are related to DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
     ///
@@ -1191,14 +1221,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deleteBucketWebsite(_ input: DeleteBucketWebsiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeleteBucketWebsite", 
-            path: "/{Bucket}?website", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeleteBucketWebsite", 
+                path: "/{Bucket}?website", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  This action removes the website configuration for a bucket. Amazon S3 returns a 200 OK response upon successfully deleting a website configuration on the specified bucket. You will get a 200 OK response if the website configuration you are trying to delete does not exist on the bucket. Amazon S3 returns a 404 response if the bucket specified in the request does not exist. This DELETE action requires the S3:DeleteBucketWebsite permission. By default, only the bucket owner can delete the website configuration attached to a bucket. However, bucket owners can grant other users permission to delete the website configuration by writing a bucket policy granting them the S3:DeleteBucketWebsite permission.  For more information about hosting websites, see Hosting Websites on Amazon S3.  The following operations are related to DeleteBucketWebsite:    GetBucketWebsite     PutBucketWebsite
     ///
@@ -1368,14 +1400,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "DeletePublicAccessBlock", 
-            path: "/{Bucket}?publicAccessBlock", 
-            httpMethod: .DELETE, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "DeletePublicAccessBlock", 
+                path: "/{Bucket}?publicAccessBlock", 
+                httpMethod: .DELETE, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Removes the PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketPublicAccessBlock permission. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. The following operations are related to DeletePublicAccessBlock:    Using Amazon S3 Block Public Access     GetPublicAccessBlock     PutPublicAccessBlock     GetBucketPolicyStatus
     ///
@@ -1400,14 +1434,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketAccelerateConfiguration(_ input: GetBucketAccelerateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketAccelerateConfigurationOutput {
-        try await self.client.execute(
-            operation: "GetBucketAccelerateConfiguration", 
-            path: "/{Bucket}?accelerate", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketAccelerateConfiguration", 
+                path: "/{Bucket}?accelerate", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  This implementation of the GET action uses the accelerate subresource to return the Transfer Acceleration state of a bucket, which is either Enabled or Suspended. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to and from Amazon S3. To use this operation, you must have permission to perform the s3:GetAccelerateConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to your Amazon S3 Resources in the Amazon S3 User Guide. You set the Transfer Acceleration state of an existing bucket to Enabled or Suspended by using the PutBucketAccelerateConfiguration operation.  A GET accelerate request does not return a state value for a bucket that has no transfer acceleration state. A bucket has no Transfer Acceleration state if a state has never been set on the bucket.  For more information about transfer acceleration, see Transfer Acceleration in the Amazon S3 User Guide. The following operations are related to GetBucketAccelerateConfiguration:    PutBucketAccelerateConfiguration
     ///
@@ -1437,14 +1473,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketAcl(_ input: GetBucketAclRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketAclOutput {
-        try await self.client.execute(
-            operation: "GetBucketAcl", 
-            path: "/{Bucket}?acl", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketAcl", 
+                path: "/{Bucket}?acl", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  This implementation of the GET action uses the acl subresource to return the access control list (ACL) of a bucket. To use GET to return the ACL of the bucket, you must have the READ_ACP access to the bucket. If READ_ACP permission is granted to the anonymous user, you can return the ACL of the bucket without using an authorization header. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
     /// If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
@@ -1471,14 +1509,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketAnalyticsConfiguration(_ input: GetBucketAnalyticsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketAnalyticsConfigurationOutput {
-        try await self.client.execute(
-            operation: "GetBucketAnalyticsConfiguration", 
-            path: "/{Bucket}?analytics&x-id=GetBucketAnalyticsConfiguration", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketAnalyticsConfiguration", 
+                path: "/{Bucket}?analytics&x-id=GetBucketAnalyticsConfiguration", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  This implementation of the GET action returns an analytics configuration (identified by the analytics configuration ID) from the bucket. To use this operation, you must have permissions to perform the s3:GetAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see  Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources in the Amazon S3 User Guide.  For information about Amazon S3 analytics feature, see Amazon S3 Analytics – Storage Class Analysis in the Amazon S3 User Guide. The following operations are related to GetBucketAnalyticsConfiguration:    DeleteBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
     ///
@@ -1508,14 +1548,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketCors(_ input: GetBucketCorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketCorsOutput {
-        try await self.client.execute(
-            operation: "GetBucketCors", 
-            path: "/{Bucket}?cors", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketCors", 
+                path: "/{Bucket}?cors", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns the Cross-Origin Resource Sharing (CORS) configuration information set for the bucket. To use this operation, you must have permission to perform the s3:GetBucketCORS action. By default, the bucket owner has this permission and can grant it to others. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
     /// If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
@@ -1542,14 +1584,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketEncryption(_ input: GetBucketEncryptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketEncryptionOutput {
-        try await self.client.execute(
-            operation: "GetBucketEncryption", 
-            path: "/{Bucket}?encryption", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketEncryption", 
+                path: "/{Bucket}?encryption", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// Returns the default encryption configuration for an Amazon S3 bucket. By default, all buckets have a default encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3).      General purpose buckets - For information about the bucket default encryption feature, see Amazon S3 Bucket Default Encryption in the Amazon S3 User Guide.    Directory buckets - For directory buckets, there are only two supported options for server-side encryption: SSE-S3 and SSE-KMS. For information about the default encryption configuration in directory buckets, see Setting default server-side encryption behavior for directory buckets.     Permissions     General purpose bucket permissions - The s3:GetEncryptionConfiguration permission is required in a policy. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Operations and Managing Access Permissions to Your Amazon S3 Resources.    Directory bucket permissions - To grant access to this API operation, you must have the s3express:GetEncryptionConfiguration permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.    HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com.   The following operations are related to GetBucketEncryption:    PutBucketEncryption     DeleteBucketEncryption
     ///
@@ -1574,14 +1618,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketIntelligentTieringConfiguration(_ input: GetBucketIntelligentTieringConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketIntelligentTieringConfigurationOutput {
-        try await self.client.execute(
-            operation: "GetBucketIntelligentTieringConfiguration", 
-            path: "/{Bucket}?intelligent-tiering&x-id=GetBucketIntelligentTieringConfiguration", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketIntelligentTieringConfiguration", 
+                path: "/{Bucket}?intelligent-tiering&x-id=GetBucketIntelligentTieringConfiguration", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Gets the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize storage costs by automatically moving data to the most cost-effective storage access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low latency and high throughput access tiers. To get the lowest storage cost on data that can be accessed in minutes to hours, you can choose to activate additional archiving capabilities. The S3 Intelligent-Tiering storage class is  the ideal storage class for data with unknown, changing, or unpredictable access patterns, independent of object size or retention period. If the size of an object is less than 128 KB, it is not monitored and not eligible for auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see Storage class for automatically optimizing frequently and infrequently accessed objects. Operations related to GetBucketIntelligentTieringConfiguration include:     DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration     ListBucketIntelligentTieringConfigurations
     ///
@@ -1606,14 +1652,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketInventoryConfiguration(_ input: GetBucketInventoryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketInventoryConfigurationOutput {
-        try await self.client.execute(
-            operation: "GetBucketInventoryConfiguration", 
-            path: "/{Bucket}?inventory&x-id=GetBucketInventoryConfiguration", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketInventoryConfiguration", 
+                path: "/{Bucket}?inventory&x-id=GetBucketInventoryConfiguration", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns an inventory configuration (identified by the inventory configuration ID) from the bucket. To use this operation, you must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. For information about the Amazon S3 inventory feature, see Amazon S3 Inventory. The following operations are related to GetBucketInventoryConfiguration:    DeleteBucketInventoryConfiguration     ListBucketInventoryConfigurations     PutBucketInventoryConfiguration
     ///
@@ -1642,14 +1690,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketLifecycleConfiguration(_ input: GetBucketLifecycleConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketLifecycleConfigurationOutput {
-        try await self.client.execute(
-            operation: "GetBucketLifecycleConfiguration", 
-            path: "/{Bucket}?lifecycle", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketLifecycleConfiguration", 
+                path: "/{Bucket}?lifecycle", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// Returns the lifecycle configuration information set on the bucket. For information about lifecycle configuration, see Object Lifecycle Management. Bucket lifecycle configuration now supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API, which is compatible with the new functionality. The previous version of the API supported filtering based only on an object key name prefix, which is supported for general purpose buckets for backward compatibility. For the related API description, see GetBucketLifecycle.  Lifecyle configurations for directory buckets only support expiring objects and cancelling multipart uploads. Expiring of versioned objects, transitions and tag filters are not supported.   Permissions     General purpose bucket permissions - By default, all Amazon S3 resources are private, including buckets, objects, and related subresources (for example, lifecycle configuration and website configuration). Only the resource owner (that is, the Amazon Web Services account that created it) can access the resource. The resource owner can optionally grant access permissions to others by writing an access policy. For this operation, a user must have the s3:GetLifecycleConfiguration permission. For more information about permissions, see Managing Access Permissions to Your Amazon S3 Resources.      Directory bucket permissions - You must have the s3express:GetLifecycleConfiguration permission in an IAM identity-based policy to use this operation. Cross-account access to this API operation isn't supported. The resource owner can optionally grant access permissions to others by creating a role or user for them as long as they are within the same account as the owner and resource. For more information about directory bucket policies and permissions, see Authorizing Regional endpoint APIs with IAM in the Amazon S3 User Guide.   Directory buckets  - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported.
     /// For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see Available Local Zone for directory buckets in the Amazon S3 User Guide.     HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.    GetBucketLifecycleConfiguration has the following special error:   Error code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The following operations are related to GetBucketLifecycleConfiguration:    GetBucketLifecycle     PutBucketLifecycle     DeleteBucketLifecycle
@@ -1677,14 +1727,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketLocation(_ input: GetBucketLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketLocationOutput {
-        try await self.client.execute(
-            operation: "GetBucketLocation", 
-            path: "/{Bucket}?location", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketLocation", 
+                path: "/{Bucket}?location", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns the Region the bucket resides in. You set the bucket's Region using the LocationConstraint request parameter in a CreateBucket request. For more information, see CreateBucket. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
     /// If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
@@ -1711,14 +1763,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketLogging(_ input: GetBucketLoggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketLoggingOutput {
-        try await self.client.execute(
-            operation: "GetBucketLogging", 
-            path: "/{Bucket}?logging", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketLogging", 
+                path: "/{Bucket}?logging", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns the logging status of a bucket and the permissions users have to view and modify that status. The following operations are related to GetBucketLogging:    CreateBucket     PutBucketLogging
     ///
@@ -1743,14 +1797,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketMetadataTableConfiguration(_ input: GetBucketMetadataTableConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketMetadataTableConfigurationOutput {
-        try await self.client.execute(
-            operation: "GetBucketMetadataTableConfiguration", 
-            path: "/{Bucket}?metadataTable", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketMetadataTableConfiguration", 
+                path: "/{Bucket}?metadataTable", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  Retrieves the metadata table configuration for a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide.   Permissions  To use this operation, you must have the s3:GetBucketMetadataTableConfiguration permission. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide.    The following operations are related to GetBucketMetadataTableConfiguration:    CreateBucketMetadataTableConfiguration     DeleteBucketMetadataTableConfiguration
     ///
@@ -1775,14 +1831,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketMetricsConfiguration(_ input: GetBucketMetricsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketMetricsConfigurationOutput {
-        try await self.client.execute(
-            operation: "GetBucketMetricsConfiguration", 
-            path: "/{Bucket}?metrics&x-id=GetBucketMetricsConfiguration", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketMetricsConfiguration", 
+                path: "/{Bucket}?metrics&x-id=GetBucketMetricsConfiguration", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Gets a metrics configuration (specified by the metrics configuration ID) from the bucket. Note that this doesn't include the daily storage metrics. To use this operation, you must have permissions to perform the s3:GetMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. For information about CloudWatch request metrics for Amazon S3, see Monitoring Metrics with Amazon CloudWatch. The following operations are related to GetBucketMetricsConfiguration:    PutBucketMetricsConfiguration     DeleteBucketMetricsConfiguration     ListBucketMetricsConfigurations     Monitoring Metrics with Amazon CloudWatch
     ///
@@ -1812,14 +1870,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketNotificationConfiguration(_ input: GetBucketNotificationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> NotificationConfiguration {
-        try await self.client.execute(
-            operation: "GetBucketNotificationConfiguration", 
-            path: "/{Bucket}?notification", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketNotificationConfiguration", 
+                path: "/{Bucket}?notification", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns the notification configuration of a bucket. If notifications are not enabled on the bucket, the action returns an empty NotificationConfiguration element. By default, you must be the bucket owner to read the notification configuration of a bucket. However, the bucket owner can use a bucket policy to grant permission to other users to read this configuration with the s3:GetBucketNotification permission. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
     /// If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
@@ -1846,14 +1906,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketOwnershipControls(_ input: GetBucketOwnershipControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketOwnershipControlsOutput {
-        try await self.client.execute(
-            operation: "GetBucketOwnershipControls", 
-            path: "/{Bucket}?ownershipControls", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketOwnershipControls", 
+                path: "/{Bucket}?ownershipControls", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Retrieves OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:GetBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying permissions in a policy.  For information about Amazon S3 Object Ownership, see Using Object Ownership.  The following operations are related to GetBucketOwnershipControls:    PutBucketOwnershipControls     DeleteBucketOwnershipControls
     ///
@@ -1879,14 +1941,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketPolicy(_ input: GetBucketPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketPolicyOutput {
-        try await self.client.execute(
-            operation: "GetBucketPolicy", 
-            path: "/{Bucket}?policy", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketPolicy", 
+                path: "/{Bucket}?policy", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// Returns the policy of a specified bucket.   Directory buckets  - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported.
     /// For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see Available Local Zone for directory buckets in the Amazon S3 User Guide.   Permissions  If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must both have the GetBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this operation. If you don't have GetBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error.  To ensure that bucket owners don't inadvertently lock themselves out of their own buckets, the root principal in a bucket owner's Amazon Web Services account can perform the GetBucketPolicy, PutBucketPolicy, and DeleteBucketPolicy API actions, even if their bucket policy explicitly denies the root principal's access. Bucket owner root principals can only be blocked from performing these API actions by VPC endpoint policies and Amazon Web Services Organizations policies.     General purpose bucket permissions - The s3:GetBucketPolicy permission is required in a policy. For more information about general purpose buckets bucket policies, see Using Bucket Policies and User Policies in the Amazon S3 User Guide.    Directory bucket permissions - To grant access to this API operation, you must have the s3express:GetBucketPolicy permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.    Example bucket policies   General purpose buckets example bucket policies - See Bucket policy examples in the Amazon S3 User Guide.  Directory bucket example bucket policies - See Example bucket policies for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com.   The following action is related to GetBucketPolicy:    GetObject
@@ -1912,14 +1976,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketPolicyStatus(_ input: GetBucketPolicyStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketPolicyStatusOutput {
-        try await self.client.execute(
-            operation: "GetBucketPolicyStatus", 
-            path: "/{Bucket}?policyStatus", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketPolicyStatus", 
+                path: "/{Bucket}?policyStatus", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket is public. In order to use this operation, you must have the s3:GetBucketPolicyStatus permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy. For more information about when Amazon S3 considers a bucket public, see The Meaning of "Public".  The following operations are related to GetBucketPolicyStatus:    Using Amazon S3 Block Public Access     GetPublicAccessBlock     PutPublicAccessBlock     DeletePublicAccessBlock
     ///
@@ -1944,14 +2010,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketReplication(_ input: GetBucketReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketReplicationOutput {
-        try await self.client.execute(
-            operation: "GetBucketReplication", 
-            path: "/{Bucket}?replication", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketReplication", 
+                path: "/{Bucket}?replication", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns the replication configuration of a bucket.  It can take a while to propagate the put or delete a replication configuration to all Amazon S3 systems. Therefore, a get request soon after put or delete can return a wrong result.   For information about replication configuration, see Replication in the Amazon S3 User Guide. This action requires permissions for the s3:GetReplicationConfiguration action. For more information about permissions, see Using Bucket Policies and User Policies. If you include the Filter element in a replication configuration, you must also include the DeleteMarkerReplication and Priority elements. The response also returns those elements. For information about GetBucketReplication errors, see List of replication-related error codes  The following operations are related to GetBucketReplication:    PutBucketReplication     DeleteBucketReplication
     ///
@@ -1976,14 +2044,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketRequestPayment(_ input: GetBucketRequestPaymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketRequestPaymentOutput {
-        try await self.client.execute(
-            operation: "GetBucketRequestPayment", 
-            path: "/{Bucket}?requestPayment", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketRequestPayment", 
+                path: "/{Bucket}?requestPayment", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns the request payment configuration of a bucket. To use this version of the operation, you must be the bucket owner. For more information, see Requester Pays Buckets. The following operations are related to GetBucketRequestPayment:    ListObjects
     ///
@@ -2008,14 +2078,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketTagging(_ input: GetBucketTaggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketTaggingOutput {
-        try await self.client.execute(
-            operation: "GetBucketTagging", 
-            path: "/{Bucket}?tagging", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketTagging", 
+                path: "/{Bucket}?tagging", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns the tag set associated with the bucket. To use this operation, you must have permission to perform the s3:GetBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others.  GetBucketTagging has the following special error:   Error code: NoSuchTagSet    Description: There is no tag set associated with the bucket.     The following operations are related to GetBucketTagging:    PutBucketTagging     DeleteBucketTagging
     ///
@@ -2040,14 +2112,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketVersioning(_ input: GetBucketVersioningRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketVersioningOutput {
-        try await self.client.execute(
-            operation: "GetBucketVersioning", 
-            path: "/{Bucket}?versioning", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketVersioning", 
+                path: "/{Bucket}?versioning", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns the versioning state of a bucket. To retrieve the versioning state of a bucket, you must be the bucket owner. This implementation also returns the MFA Delete status of the versioning state. If the MFA Delete status is enabled, the bucket owner must use an authentication device to change the versioning state of the bucket. The following operations are related to GetBucketVersioning:    GetObject     PutObject     DeleteObject
     ///
@@ -2072,14 +2146,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getBucketWebsite(_ input: GetBucketWebsiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketWebsiteOutput {
-        try await self.client.execute(
-            operation: "GetBucketWebsite", 
-            path: "/{Bucket}?website", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetBucketWebsite", 
+                path: "/{Bucket}?website", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns the website configuration for a bucket. To host website on Amazon S3, you can configure a bucket as website by adding a website configuration. For more information about hosting websites, see Hosting Websites on Amazon S3.  This GET action requires the S3:GetBucketWebsite permission. By default, only the bucket owner can read the bucket website configuration. However, bucket owners can allow other users to read the website configuration by writing a bucket policy granting them the S3:GetBucketWebsite permission. The following operations are related to GetBucketWebsite:    DeleteBucketWebsite     PutBucketWebsite
     ///
@@ -2492,14 +2568,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPublicAccessBlockOutput {
-        try await self.client.execute(
-            operation: "GetPublicAccessBlock", 
-            path: "/{Bucket}?publicAccessBlock", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "GetPublicAccessBlock", 
+                path: "/{Bucket}?publicAccessBlock", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation, you must have the s3:GetBucketPublicAccessBlock permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy.  When Amazon S3 evaluates the PublicAccessBlock configuration for a bucket or an object, it checks the PublicAccessBlock configuration for both the bucket (or the bucket that contains the object) and the bucket owner's account. If the PublicAccessBlock settings are different between the bucket and the account, Amazon S3 uses the most restrictive combination of the bucket-level and account-level settings.  For more information about when Amazon S3 considers a bucket or an object public, see The Meaning of "Public". The following operations are related to GetPublicAccessBlock:    Using Amazon S3 Block Public Access     PutPublicAccessBlock     GetPublicAccessBlock     DeletePublicAccessBlock
     ///
@@ -2647,14 +2725,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func listBucketAnalyticsConfigurations(_ input: ListBucketAnalyticsConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBucketAnalyticsConfigurationsOutput {
-        try await self.client.execute(
-            operation: "ListBucketAnalyticsConfigurations", 
-            path: "/{Bucket}?analytics&x-id=ListBucketAnalyticsConfigurations", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "ListBucketAnalyticsConfigurations", 
+                path: "/{Bucket}?analytics&x-id=ListBucketAnalyticsConfigurations", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Lists the analytics configurations for the bucket. You can have up to 1,000 analytics configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. You should always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there will be a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. To use this operation, you must have permissions to perform the s3:GetAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. For information about Amazon S3 analytics feature, see Amazon S3 Analytics – Storage Class Analysis.  The following operations are related to ListBucketAnalyticsConfigurations:    GetBucketAnalyticsConfiguration     DeleteBucketAnalyticsConfiguration     PutBucketAnalyticsConfiguration
     ///
@@ -2682,14 +2762,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func listBucketIntelligentTieringConfigurations(_ input: ListBucketIntelligentTieringConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
-        try await self.client.execute(
-            operation: "ListBucketIntelligentTieringConfigurations", 
-            path: "/{Bucket}?intelligent-tiering&x-id=ListBucketIntelligentTieringConfigurations", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "ListBucketIntelligentTieringConfigurations", 
+                path: "/{Bucket}?intelligent-tiering&x-id=ListBucketIntelligentTieringConfigurations", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Lists the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize storage costs by automatically moving data to the most cost-effective storage access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low latency and high throughput access tiers. To get the lowest storage cost on data that can be accessed in minutes to hours, you can choose to activate additional archiving capabilities. The S3 Intelligent-Tiering storage class is  the ideal storage class for data with unknown, changing, or unpredictable access patterns, independent of object size or retention period. If the size of an object is less than 128 KB, it is not monitored and not eligible for auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see Storage class for automatically optimizing frequently and infrequently accessed objects. Operations related to ListBucketIntelligentTieringConfigurations include:     DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration     GetBucketIntelligentTieringConfiguration
     ///
@@ -2714,14 +2796,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func listBucketInventoryConfigurations(_ input: ListBucketInventoryConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBucketInventoryConfigurationsOutput {
-        try await self.client.execute(
-            operation: "ListBucketInventoryConfigurations", 
-            path: "/{Bucket}?inventory&x-id=ListBucketInventoryConfigurations", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "ListBucketInventoryConfigurations", 
+                path: "/{Bucket}?inventory&x-id=ListBucketInventoryConfigurations", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Returns a list of inventory configurations for the bucket. You can have up to 1,000 analytics configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. To use this operation, you must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. For information about the Amazon S3 inventory feature, see Amazon S3 Inventory  The following operations are related to ListBucketInventoryConfigurations:    GetBucketInventoryConfiguration     DeleteBucketInventoryConfiguration     PutBucketInventoryConfiguration
     ///
@@ -2823,14 +2907,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func listDirectoryBuckets(_ input: ListDirectoryBucketsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDirectoryBucketsOutput {
-        try await self.client.execute(
-            operation: "ListDirectoryBuckets", 
-            path: "/?x-id=ListDirectoryBuckets", 
-            httpMethod: .GET, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "ListDirectoryBuckets", 
+                path: "/?x-id=ListDirectoryBuckets", 
+                httpMethod: .GET, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// Returns a list of all Amazon S3 directory buckets owned by the authenticated sender of the request. For more information about directory buckets, see Directory buckets in the Amazon S3 User Guide.   Directory buckets  - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported.
     /// For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see Available Local Zone for directory buckets in the Amazon S3 User Guide.   Permissions  You must have the s3express:ListAllMyDirectoryBuckets permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.    The BucketRegion response element is not part of the ListDirectoryBuckets Response Syntax.
@@ -3139,14 +3225,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketAccelerateConfiguration(_ input: PutBucketAccelerateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketAccelerateConfiguration", 
-            path: "/{Bucket}?accelerate", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketAccelerateConfiguration", 
+                path: "/{Bucket}?accelerate", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to Amazon S3. To use this operation, you must have permission to perform the s3:PutAccelerateConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. The Transfer Acceleration state of a bucket can be set to one of the following two values:   Enabled – Enables accelerated data transfers to the bucket.   Suspended – Disables accelerated data transfers to the bucket.   The GetBucketAccelerateConfiguration action returns the transfer acceleration state of a bucket. After setting the Transfer Acceleration state of a bucket to Enabled, it might take up to thirty minutes before the data transfer rates to the bucket increase. The name of the bucket used for Transfer Acceleration must be DNS-compliant and must not contain periods ("."). For more information about transfer acceleration, see Transfer Acceleration. The following operations are related to PutBucketAccelerateConfiguration:    GetBucketAccelerateConfiguration     CreateBucket
     ///
@@ -3177,14 +3265,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketAcl(_ input: PutBucketAclRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketAcl", 
-            path: "/{Bucket}?acl", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketAcl", 
+                path: "/{Bucket}?acl", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Sets the permissions on an existing bucket using access control lists (ACL). For more information, see Using ACLs. To set the ACL of a bucket, you must have the WRITE_ACP permission. You can use one of the following two ways to set a bucket's permissions:   Specify the ACL in the request body   Specify permissions using request headers    You cannot specify access permission using both the body and the request headers.  Depending on your application needs, you may choose to set the ACL on a bucket using either the request body or the headers. For example, if you have an existing application that updates a bucket ACL using the request body, then you can continue to use that approach.  If your bucket uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect permissions. You must use policies to grant access to your bucket and the objects in it. Requests to set ACLs or update ACLs fail and return the AccessControlListNotSupported error code. Requests to read ACLs are still supported. For more information, see Controlling object ownership in the Amazon S3 User Guide.   Permissions  You can set access permissions by using one of the following methods:   Specify a canned ACL with the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions. Specify the canned ACL name as the value of x-amz-acl. If you use this header, you cannot use other access control-specific headers in your request. For more information, see Canned ACL.   Specify access permissions explicitly with the x-amz-grant-read, x-amz-grant-read-acp, x-amz-grant-write-acp, and x-amz-grant-full-control headers. When using these headers, you specify explicit access permissions and grantees (Amazon Web Services accounts or Amazon S3 groups) who will receive the permission. If you use these ACL-specific headers, you cannot use the x-amz-acl header to set a canned ACL. These parameters map to the set of permissions that Amazon S3 supports in an ACL. For more information, see Access Control List (ACL) Overview. You specify each grantee as a type=value pair, where the type is one of the following:    id – if the value specified is the canonical user ID of an Amazon Web Services account    uri – if you are granting permissions to a predefined group    emailAddress – if the value specified is the email address of an Amazon Web Services account  Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US West (N. California)   US West (Oregon)   Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For example, the following x-amz-grant-write header grants create, overwrite, and delete objects permission to LogDelivery group predefined by Amazon S3 and two Amazon Web Services accounts identified by their email addresses.  x-amz-grant-write: uri="http://acs.amazonaws.com/groups/s3/LogDelivery", id="111122223333", id="555566667777"     You can use either a canned ACL or specify access permissions explicitly. You cannot do both.  Grantee Values  You can specify the person (grantee) to whom you're assigning access rights (using request elements) in the following ways:   By the person's ID:  <>ID<><>GranteesEmail<>   DisplayName is optional and ignored in the request   By URI:  <>http://acs.amazonaws.com/groups/global/AuthenticatedUsers<>    By Email address:  <>Grantees@email.com<>&  The grantee is resolved to the CanonicalUser and, in a response to a GET Object acl request, appears as the CanonicalUser.   Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US West (N. California)   US West (Oregon)   Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.      The following operations are related to PutBucketAcl:    CreateBucket     DeleteBucket     GetObjectAcl
     ///
@@ -3236,14 +3326,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketAnalyticsConfiguration(_ input: PutBucketAnalyticsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketAnalyticsConfiguration", 
-            path: "/{Bucket}?analytics", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketAnalyticsConfiguration", 
+                path: "/{Bucket}?analytics", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Sets an analytics configuration for the bucket (specified by the analytics configuration ID). You can have up to 1,000 analytics configurations per bucket. You can choose to have storage class analysis export analysis reports sent to a comma-separated values (CSV) flat file. See the DataExport request element. Reports are updated daily and are based on the object filters that you configure. When selecting data export, you specify a destination bucket and an optional destination prefix where the file is written. You can export the data to a destination bucket in a different account. However, the destination bucket must be in the same Region as the bucket that you are making the PUT analytics configuration to. For more information, see Amazon S3 Analytics – Storage Class Analysis.   You must create a bucket policy on the destination bucket where the exported file is written to grant permissions to Amazon S3 to write objects to the bucket. For an example policy, see Granting Permissions for Amazon S3 Inventory and Storage Class Analysis.  To use this operation, you must have permissions to perform the s3:PutAnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.  PutBucketAnalyticsConfiguration has the following special errors:      HTTP Error: HTTP 400 Bad Request     Code: InvalidArgument     Cause: Invalid argument.         HTTP Error: HTTP 400 Bad Request     Code: TooManyConfigurations     Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit.         HTTP Error: HTTP 403 Forbidden     Code: AccessDenied     Cause: You are not the owner of the specified bucket, or you do not have the s3:PutAnalyticsConfiguration bucket permission to set the configuration on the bucket.      The following operations are related to PutBucketAnalyticsConfiguration:    GetBucketAnalyticsConfiguration     DeleteBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations
     ///
@@ -3274,14 +3366,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketCors(_ input: PutBucketCorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketCors", 
-            path: "/{Bucket}?cors", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketCors", 
+                path: "/{Bucket}?cors", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Sets the cors configuration for your bucket. If the configuration exists, Amazon S3 replaces it. To use this operation, you must be allowed to perform the s3:PutBucketCORS action. By default, the bucket owner has this permission and can grant it to others. You set this configuration on a bucket so that the bucket can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.com to access your Amazon S3 bucket at my.example.bucket.com by using the browser's XMLHttpRequest capability. To enable cross-origin resource sharing (CORS) on a bucket, you add the cors subresource to the bucket. The cors subresource is an XML document in which you configure rules that identify origins and the HTTP methods that can be executed on your bucket. The document is limited to 64 KB in size.  When Amazon S3 receives a cross-origin request (or a pre-flight OPTIONS request) against a bucket, it evaluates the cors configuration on the bucket and uses the first CORSRule rule that matches the incoming browser request to enable a cross-origin request. For a rule to match, the following conditions must be met:   The request's Origin header must match AllowedOrigin elements.   The request method (for example, GET, PUT, HEAD, and so on) or the Access-Control-Request-Method header in case of a pre-flight OPTIONS request must be one of the AllowedMethod elements.    Every header specified in the Access-Control-Request-Headers request header of a pre-flight request must match an AllowedHeader element.    For more information about CORS, go to Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide. The following operations are related to PutBucketCors:    GetBucketCors     DeleteBucketCors     RESTOPTIONSobject
     ///
@@ -3319,14 +3413,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketEncryption(_ input: PutBucketEncryptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketEncryption", 
-            path: "/{Bucket}?encryption", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketEncryption", 
+                path: "/{Bucket}?encryption", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// This operation configures default encryption and Amazon S3 Bucket Keys for an existing bucket.   Directory buckets  - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported.
     /// For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see Available Local Zone for directory buckets in the Amazon S3 User Guide.  By default, all buckets have a default encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3).     General purpose buckets    You can optionally configure default encryption for a bucket by using server-side encryption with Key Management Service (KMS) keys (SSE-KMS) or dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS). If you specify default encryption by using SSE-KMS, you can also configure Amazon S3 Bucket Keys. For information about the bucket default encryption feature, see Amazon S3 Bucket Default Encryption in the Amazon S3 User Guide.    If you use PutBucketEncryption to set your default bucket encryption to SSE-KMS, you should verify that your KMS key ID is correct. Amazon S3 doesn't validate the KMS key ID provided in PutBucketEncryption requests.      Directory buckets  - You can optionally configure default encryption for a bucket by using server-side encryption with Key Management Service (KMS) keys (SSE-KMS).   We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information about the encryption overriding behaviors in directory buckets, see Specifying server-side encryption with KMS for new object uploads.   Your SSE-KMS configuration can only support 1 customer managed key per directory bucket for the lifetime of the bucket.
@@ -3364,14 +3460,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketIntelligentTieringConfiguration(_ input: PutBucketIntelligentTieringConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketIntelligentTieringConfiguration", 
-            path: "/{Bucket}?intelligent-tiering", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketIntelligentTieringConfiguration", 
+                path: "/{Bucket}?intelligent-tiering", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Puts a S3 Intelligent-Tiering configuration to the specified bucket. You can have up to 1,000 S3 Intelligent-Tiering configurations per bucket. The S3 Intelligent-Tiering storage class is designed to optimize storage costs by automatically moving data to the most cost-effective storage access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low latency and high throughput access tiers. To get the lowest storage cost on data that can be accessed in minutes to hours, you can choose to activate additional archiving capabilities. The S3 Intelligent-Tiering storage class is  the ideal storage class for data with unknown, changing, or unpredictable access patterns, independent of object size or retention period. If the size of an object is less than 128 KB, it is not monitored and not eligible for auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see Storage class for automatically optimizing frequently and infrequently accessed objects. Operations related to PutBucketIntelligentTieringConfiguration include:     DeleteBucketIntelligentTieringConfiguration     GetBucketIntelligentTieringConfiguration     ListBucketIntelligentTieringConfigurations     You only need S3 Intelligent-Tiering enabled on a bucket if you want to automatically move objects stored in the S3 Intelligent-Tiering storage class to the Archive Access or Deep Archive Access tier.   PutBucketIntelligentTieringConfiguration has the following special errors:  HTTP 400 Bad Request Error   Code: InvalidArgument  Cause: Invalid Argument  HTTP 400 Bad Request Error   Code: TooManyConfigurations  Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit.   HTTP 403 Forbidden Error   Cause: You are not the owner of the specified bucket, or you do not have the s3:PutIntelligentTieringConfiguration bucket permission to set the configuration on the bucket.
     ///
@@ -3399,14 +3497,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketInventoryConfiguration(_ input: PutBucketInventoryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketInventoryConfiguration", 
-            path: "/{Bucket}?inventory", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketInventoryConfiguration", 
+                path: "/{Bucket}?inventory", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  This implementation of the PUT action adds an inventory configuration (identified by the inventory ID) to the bucket. You can have up to 1,000 inventory configurations per bucket.  Amazon S3 inventory generates inventories of the objects in the bucket on a daily or weekly basis, and the results are published to a flat file. The bucket that is inventoried is called the source bucket, and the bucket where the inventory flat file is stored is called the destination bucket. The destination bucket must be in the same Amazon Web Services Region as the source bucket.  When you configure an inventory for a source bucket, you specify the destination bucket where you want the inventory to be stored, and whether to generate the inventory daily or weekly. You can also configure what object metadata to include and whether to inventory all object versions or only current versions. For more information, see Amazon S3 Inventory in the Amazon S3 User Guide.  You must create a bucket policy on the destination bucket to grant permissions to Amazon S3 to write objects to the bucket in the defined location. For an example policy, see  Granting Permissions for Amazon S3 Inventory and Storage Class Analysis.   Permissions  To use this operation, you must have permission to perform the s3:PutInventoryConfiguration action. The bucket owner has this permission by default and can grant this permission to others.  The s3:PutInventoryConfiguration permission allows a user to create an S3 Inventory report that includes all object metadata fields available and to specify the destination bucket to store the inventory. A user with read access to objects in the destination bucket can also access all object metadata fields that are available in the inventory report.  To restrict access to an inventory report, see Restricting access to an Amazon S3 Inventory report in the Amazon S3 User Guide. For more information about the metadata fields available in S3 Inventory, see Amazon S3 Inventory lists in the Amazon S3 User Guide. For more information about permissions, see Permissions related to bucket subresource operations and Identity and access management in Amazon S3 in the Amazon S3 User Guide.    PutBucketInventoryConfiguration has the following special errors:  HTTP 400 Bad Request Error   Code: InvalidArgument  Cause: Invalid Argument  HTTP 400 Bad Request Error   Code: TooManyConfigurations  Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit.   HTTP 403 Forbidden Error   Cause: You are not the owner of the specified bucket, or you do not have the s3:PutInventoryConfiguration bucket permission to set the configuration on the bucket.    The following operations are related to PutBucketInventoryConfiguration:    GetBucketInventoryConfiguration     DeleteBucketInventoryConfiguration     ListBucketInventoryConfigurations
     ///
@@ -3438,14 +3538,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketLifecycleConfiguration(_ input: PutBucketLifecycleConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutBucketLifecycleConfigurationOutput {
-        try await self.client.execute(
-            operation: "PutBucketLifecycleConfiguration", 
-            path: "/{Bucket}?lifecycle", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketLifecycleConfiguration", 
+                path: "/{Bucket}?lifecycle", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle configuration. Keep in mind that this will overwrite an existing lifecycle configuration, so if you want to retain any configuration details, they must be included in the new lifecycle configuration. For information about lifecycle configuration, see Managing your storage lifecycle.  Bucket lifecycle configuration now supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility. For the related API description, see PutBucketLifecycle.   Rules Permissions HTTP Host header syntax  You specify the lifecycle configuration in your request body. The lifecycle configuration is specified as XML consisting of one or more rules. An Amazon S3 Lifecycle configuration can have up to 1,000 rules. This limit is not adjustable. Bucket lifecycle configuration supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility for general purpose buckets. For the related API description, see PutBucketLifecycle.   Lifecyle configurations for directory buckets only support expiring objects and cancelling multipart uploads. Expiring of versioned objects,transitions and tag filters are not supported.  A lifecycle rule consists of the following:   A filter identifying a subset of objects to which the rule applies. The filter can be based on a key name prefix, object tags, object size, or any combination of these.   A status indicating whether the rule is in effect.   One or more lifecycle transition and expiration actions that you want Amazon S3 to perform on the objects identified by the filter. If the state of your bucket is versioning-enabled or versioning-suspended, you can have many versions of the same object (one current version and zero or more noncurrent versions). Amazon S3 provides predefined actions that you can specify for current and noncurrent object versions.   For more information, see Object Lifecycle Management and Lifecycle Configuration Elements.      General purpose bucket permissions - By default, all Amazon S3 resources are private, including buckets, objects, and related subresources (for example, lifecycle configuration and website configuration). Only the resource owner (that is, the Amazon Web Services account that created it) can access the resource. The resource owner can optionally grant access permissions to others by writing an access policy. For this operation, a user must have the s3:PutLifecycleConfiguration permission. You can also explicitly deny permissions. An explicit deny also supersedes any other permissions. If you want to block users or accounts from removing or deleting objects from your bucket, you must deny them permissions for the following actions:    s3:DeleteObject     s3:DeleteObjectVersion     s3:PutLifecycleConfiguration  For more information about permissions, see Managing Access Permissions to Your Amazon S3 Resources.        Directory bucket permissions - You must have the s3express:PutLifecycleConfiguration permission in an IAM identity-based policy to use this operation. Cross-account access to this API operation isn't supported. The resource owner can optionally grant access permissions to others by creating a role or user for them as long as they are within the same account as the owner and resource. For more information about directory bucket policies and permissions, see Authorizing Regional endpoint APIs with IAM in the Amazon S3 User Guide.   Directory buckets  - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported.
     /// For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see Available Local Zone for directory buckets in the Amazon S3 User Guide.       Directory buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com. The following operations are related to PutBucketLifecycleConfiguration:    GetBucketLifecycleConfiguration     DeleteBucketLifecycle
@@ -3480,14 +3582,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketLogging(_ input: PutBucketLoggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketLogging", 
-            path: "/{Bucket}?logging", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketLogging", 
+                path: "/{Bucket}?logging", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Set the logging parameters for a bucket and to specify permissions for who can view and modify the logging parameters. All logs are saved to buckets in the same Amazon Web Services Region as the source bucket. To set the logging status of a bucket, you must be the bucket owner. The bucket owner is automatically granted FULL_CONTROL to all logs. You use the Grantee request element to grant access to other people. The Permissions request element specifies the kind of access the grantee has to the logs.  If the target bucket for log delivery uses the bucket owner enforced setting for S3 Object Ownership, you can't use the Grantee request element to grant access to others. Permissions can only be granted using policies. For more information, see Permissions for server access log delivery in the Amazon S3 User Guide.   Grantee Values  You can specify the person (grantee) to whom you're assigning access rights (by using request elements) in the following ways:   By the person's ID:  <>ID<><>GranteesEmail<>    DisplayName is optional and ignored in the request.   By Email address:  <>Grantees@email.com<>  The grantee is resolved to the CanonicalUser and, in a response to a GETObjectAcl request, appears as the CanonicalUser.   By URI:  <>http://acs.amazonaws.com/groups/global/AuthenticatedUsers<>      To enable logging, you use LoggingEnabled and its children request elements. To disable logging, you use an empty BucketLoggingStatus request element:    For more information about server access logging, see Server Access Logging in the Amazon S3 User Guide.  For more information about creating a bucket, see CreateBucket. For more information about returning the logging status of a bucket, see GetBucketLogging. The following operations are related to PutBucketLogging:    PutObject     DeleteBucket     CreateBucket     GetBucketLogging
     ///
@@ -3521,14 +3625,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketMetricsConfiguration(_ input: PutBucketMetricsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketMetricsConfiguration", 
-            path: "/{Bucket}?metrics", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketMetricsConfiguration", 
+                path: "/{Bucket}?metrics", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Sets a metrics configuration (specified by the metrics configuration ID) for the bucket. You can have up to 1,000 metrics configurations per bucket. If you're updating an existing metrics configuration, note that this is a full replacement of the existing metrics configuration. If you don't include the elements you want to keep, they are erased. To use this operation, you must have permissions to perform the s3:PutMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. For information about CloudWatch request metrics for Amazon S3, see Monitoring Metrics with Amazon CloudWatch. The following operations are related to PutBucketMetricsConfiguration:    DeleteBucketMetricsConfiguration     GetBucketMetricsConfiguration     ListBucketMetricsConfigurations     PutBucketMetricsConfiguration has the following special error:   Error code: TooManyConfigurations    Description: You are attempting to create a new configuration but have already reached the 1,000-configuration limit.   HTTP Status Code: HTTP 400 Bad Request
     ///
@@ -3559,14 +3665,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketNotificationConfiguration(_ input: PutBucketNotificationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketNotificationConfiguration", 
-            path: "/{Bucket}?notification", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketNotificationConfiguration", 
+                path: "/{Bucket}?notification", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Enables notifications of specified events for a bucket. For more information about event notifications, see Configuring Event Notifications. Using this API, you can replace an existing notification configuration. The configuration is an XML file that defines the event types that you want Amazon S3 to publish and the destination where you want Amazon S3 to publish an event notification when it detects an event of the specified type. By default, your bucket has no event notifications configured. That is, the notification configuration will be an empty NotificationConfiguration.       This action replaces the existing notification configuration with the configuration you include in the request body. After Amazon S3 receives this request, it first verifies that any Amazon Simple Notification Service (Amazon SNS) or Amazon Simple Queue Service (Amazon SQS) destination exists, and that the bucket owner has permission to publish to it by sending a test notification. In the case of Lambda destinations, Amazon S3 verifies that the Lambda function permissions grant Amazon S3 permission to invoke the function from the Amazon S3 bucket. For more information, see Configuring Notifications for Amazon S3 Events. You can disable notifications by adding the empty NotificationConfiguration element. For more information about the number of event notification configurations that you can create per bucket, see Amazon S3 service quotas in Amazon Web Services General Reference. By default, only the bucket owner can configure notifications on a bucket. However, bucket owners can use a bucket policy to grant permission to other users to set this configuration with the required s3:PutBucketNotification permission.  The PUT notification is an atomic operation. For example, suppose your notification configuration includes SNS topic, SQS queue, and Lambda function configurations. When you send a PUT request with this configuration, Amazon S3 sends test messages to your SNS topic. If the message fails, the entire PUT action will fail, and Amazon S3 will not add the configuration to your bucket.  If the configuration in the request body includes only one TopicConfiguration specifying only the s3:ReducedRedundancyLostObject event type, the response will also include the x-amz-sns-test-message-id header containing the message ID of the test notification sent to the topic. The following action is related to PutBucketNotificationConfiguration:    GetBucketNotificationConfiguration
     ///
@@ -3597,14 +3705,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketOwnershipControls(_ input: PutBucketOwnershipControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketOwnershipControls", 
-            path: "/{Bucket}?ownershipControls", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketOwnershipControls", 
+                path: "/{Bucket}?ownershipControls", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying permissions in a policy.  For information about Amazon S3 Object Ownership, see Using object ownership.  The following operations are related to PutBucketOwnershipControls:    GetBucketOwnershipControls     DeleteBucketOwnershipControls
     ///
@@ -3636,14 +3746,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketPolicy(_ input: PutBucketPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketPolicy", 
-            path: "/{Bucket}?policy", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketPolicy", 
+                path: "/{Bucket}?policy", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     /// Applies an Amazon S3 bucket policy to an Amazon S3 bucket.   Directory buckets  - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported.
     /// For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see Available Local Zone for directory buckets in the Amazon S3 User Guide.   Permissions  If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must both have the PutBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this operation. If you don't have PutBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error.  To ensure that bucket owners don't inadvertently lock themselves out of their own buckets, the root principal in a bucket owner's Amazon Web Services account can perform the GetBucketPolicy, PutBucketPolicy, and DeleteBucketPolicy API actions, even if their bucket policy explicitly denies the root principal's access. Bucket owner root principals can only be blocked from performing these API actions by VPC endpoint policies and Amazon Web Services Organizations policies.     General purpose bucket permissions - The s3:PutBucketPolicy permission is required in a policy. For more information about general purpose buckets bucket policies, see Using Bucket Policies and User Policies in the Amazon S3 User Guide.    Directory bucket permissions - To grant access to this API operation, you must have the s3express:PutBucketPolicy permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.    Example bucket policies   General purpose buckets example bucket policies - See Bucket policy examples in the Amazon S3 User Guide.  Directory bucket example bucket policies - See Example bucket policies for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com.   The following operations are related to PutBucketPolicy:    CreateBucket     DeleteBucket
@@ -3681,14 +3793,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketReplication(_ input: PutBucketReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketReplication", 
-            path: "/{Bucket}?replication", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketReplication", 
+                path: "/{Bucket}?replication", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Creates a replication configuration or replaces an existing one. For more information, see Replication in the Amazon S3 User Guide.  Specify the replication configuration in the request body. In the replication configuration, you provide the name of the destination bucket or buckets where you want Amazon S3 to replicate objects, the IAM role that Amazon S3 can assume to replicate objects on your behalf, and other relevant information. You can invoke this request for a specific Amazon Web Services Region by using the  aws:RequestedRegion condition key. A replication configuration must include at least one rule, and can contain a maximum of 1,000. Each rule identifies a subset of objects to replicate by filtering the objects in the source bucket. To choose additional subsets of objects to replicate, add a rule for each subset. To specify a subset of the objects in the source bucket to apply a replication rule to, add the Filter element as a child of the Rule element. You can filter objects based on an object key prefix, one or more object tags, or both. When you add the Filter element in the configuration, you must also add the following elements: DeleteMarkerReplication, Status, and Priority.  If you are using an earlier version of the replication configuration, Amazon S3 handles replication of delete markers differently. For more information, see Backward Compatibility.  For information about enabling versioning on a bucket, see Using Versioning.  Handling Replication of Encrypted Objects  By default, Amazon S3 doesn't replicate objects that are stored at rest using server-side encryption with KMS keys. To replicate Amazon Web Services KMS-encrypted objects, add the following: SourceSelectionCriteria, SseKmsEncryptedObjects, Status, EncryptionConfiguration, and ReplicaKmsKeyID. For information about replication configuration, see Replicating Objects Created with SSE Using KMS keys. For information on PutBucketReplication errors, see List of replication-related error codes   Permissions  To create a PutBucketReplication request, you must have s3:PutReplicationConfiguration permissions for the bucket.   By default, a resource owner, in this case the Amazon Web Services account that created the bucket, can perform this operation. The resource owner can also grant others permissions to perform the operation. For more information about permissions, see Specifying Permissions in a Policy and Managing Access Permissions to Your Amazon S3 Resources.  To perform this operation, the user or role performing the action must have the iam:PassRole permission.    The following operations are related to PutBucketReplication:    GetBucketReplication     DeleteBucketReplication
     ///
@@ -3725,14 +3839,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketRequestPayment(_ input: PutBucketRequestPaymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketRequestPayment", 
-            path: "/{Bucket}?requestPayment", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketRequestPayment", 
+                path: "/{Bucket}?requestPayment", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Sets the request payment configuration for a bucket. By default, the bucket owner pays for downloads from the bucket. This configuration parameter enables the bucket owner (only) to specify that the person requesting the download will be charged for the download. For more information, see Requester Pays Buckets. The following operations are related to PutBucketRequestPayment:    CreateBucket     GetBucketRequestPayment
     ///
@@ -3766,14 +3882,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketTagging(_ input: PutBucketTaggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketTagging", 
-            path: "/{Bucket}?tagging", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketTagging", 
+                path: "/{Bucket}?tagging", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Sets the tags for a bucket. Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services account bill with tag key values included. Then, to see the cost of combined resources, organize your billing information according to resources with the same tag key values. For example, you can tag several resources with a specific application name, and then organize your billing information to see the total cost of that application across several services. For more information, see Cost Allocation and Tagging and Using Cost Allocation in Amazon S3 Bucket Tags.  When this operation sets the tags for a bucket, it will overwrite any current tags the bucket already has. You cannot use this operation to add tags to an existing list of tags.  To use this operation, you must have permissions to perform the s3:PutBucketTagging action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.  PutBucketTagging has the following special errors. For more Amazon S3 errors see, Error Responses.    InvalidTag - The tag provided was not a valid tag. This error can occur if the tag did not pass input validation. For more information, see Using Cost Allocation in Amazon S3 Bucket Tags.    MalformedXML - The XML provided does not match the schema.    OperationAborted - A conflicting conditional action is currently in progress against this resource. Please try again.    InternalError - The service was unable to apply the provided tag to the bucket.   The following operations are related to PutBucketTagging:    GetBucketTagging     DeleteBucketTagging
     ///
@@ -3807,14 +3925,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketVersioning(_ input: PutBucketVersioningRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketVersioning", 
-            path: "/{Bucket}?versioning", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketVersioning", 
+                path: "/{Bucket}?versioning", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.   When you enable versioning on a bucket for the first time, it might take a short amount of time for the change to be fully propagated. While this change is propagating, you may encounter intermittent HTTP 404 NoSuchKey errors for requests to objects created or updated after enabling versioning. We recommend that you wait for 15 minutes after enabling versioning before issuing write operations (PUT or DELETE) on objects in the bucket.   Sets the versioning state of an existing bucket. You can set the versioning state with one of the following values:  Enabled—Enables versioning for the objects in the bucket. All objects added to the bucket receive a unique version ID.  Suspended—Disables versioning for the objects in the bucket. All objects added to the bucket receive the version ID null. If the versioning state has never been set on a bucket, it has no versioning state; a GetBucketVersioning request does not return a versioning state value. In order to enable MFA Delete, you must be the bucket owner. If you are the bucket owner and want to enable MFA Delete in the bucket versioning configuration, you must include the x-amz-mfa request header and the Status and the MfaDelete request elements in a request to set the versioning state of the bucket.  If you have an object expiration lifecycle configuration in your non-versioned bucket and you want to maintain the same permanent delete behavior when you enable versioning, you must add a noncurrent expiration policy. The noncurrent expiration lifecycle configuration will manage the deletes of the noncurrent object versions in the version-enabled bucket. (A version-enabled bucket maintains one current and zero or more noncurrent object versions.) For more information, see Lifecycle and Versioning.  The following operations are related to PutBucketVersioning:    CreateBucket     DeleteBucket     GetBucketVersioning
     ///
@@ -3851,14 +3971,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putBucketWebsite(_ input: PutBucketWebsiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutBucketWebsite", 
-            path: "/{Bucket}?website", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutBucketWebsite", 
+                path: "/{Bucket}?website", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Sets the configuration of the website that is specified in the website subresource. To configure a bucket as a website, you can add this subresource on the bucket with website configuration information such as the file name of the index document and any redirect rules. For more information, see Hosting Websites on Amazon S3. This PUT action requires the S3:PutBucketWebsite permission. By default, only the bucket owner can configure the website attached to a bucket; however, bucket owners can allow other users to set the website configuration by writing a bucket policy that grants them the S3:PutBucketWebsite permission. To redirect all website requests sent to the bucket's website endpoint, you add a website configuration with the following elements. Because all requests are sent to another website, you don't need to provide index document name for the bucket.    WebsiteConfiguration     RedirectAllRequestsTo     HostName     Protocol    If you want granular control over redirects, you can use the following elements to add routing rules that describe conditions for redirecting requests and information about the redirect destination. In this case, the website configuration must provide an index document for the bucket, because some requests might not be redirected.     WebsiteConfiguration     IndexDocument     Suffix     ErrorDocument     Key     RoutingRules     RoutingRule     Condition     HttpErrorCodeReturnedEquals     KeyPrefixEquals     Redirect     Protocol     HostName     ReplaceKeyPrefixWith     ReplaceKeyWith     HttpRedirectCode    Amazon S3 has a limitation of 50 routing rules per website configuration. If you require more than 50 routing rules, you can use object redirect. For more information, see Configuring an Object Redirect in the Amazon S3 User Guide. The maximum request length is limited to 128 KB.
     ///
@@ -4308,14 +4430,16 @@ public struct S3: AWSService {
     @Sendable
     @inlinable
     public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        try await self.client.execute(
-            operation: "PutPublicAccessBlock", 
-            path: "/{Bucket}?publicAccessBlock", 
-            httpMethod: .PUT, 
-            serviceConfig: self.config, 
-            input: input, 
-            logger: logger
-        )
+        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
+            try await self.client.execute(
+                operation: "PutPublicAccessBlock", 
+                path: "/{Bucket}?publicAccessBlock", 
+                httpMethod: .PUT, 
+                serviceConfig: self.config, 
+                input: input, 
+                logger: logger
+            )
+        }
     }
     ///  This operation is not supported for directory buckets.  Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketPublicAccessBlock permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy.  When Amazon S3 evaluates the PublicAccessBlock configuration for a bucket or an object, it checks the PublicAccessBlock configuration for both the bucket (or the bucket that contains the object) and the bucket owner's account. If the PublicAccessBlock configurations are different between the bucket and the account, Amazon S3 uses the most restrictive combination of the bucket-level and account-level settings.  For more information about when Amazon S3 considers a bucket or an object public, see The Meaning of "Public". The following operations are related to PutPublicAccessBlock:    GetPublicAccessBlock     DeletePublicAccessBlock     GetBucketPolicyStatus     Using Amazon S3 Block Public Access
     ///

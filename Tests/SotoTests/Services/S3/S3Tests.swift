@@ -588,18 +588,16 @@ class S3Tests: XCTestCase {
         // doesnt work with LocalStack
         let bucket = "soto-test-directory-bucket--use1-az6--x-s3"
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-        try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
-            do {
-                _ = try await Self.s3.createBucket(
-                    bucket: bucket,
-                    createBucketConfiguration: .init(
-                        bucket: .init(dataRedundancy: .singleAvailabilityZone, type: .directory),
-                        location: .init(name: "use1-az6", type: .availabilityZone)
-                    )
+        do {
+            _ = try await Self.s3.createBucket(
+                bucket: bucket,
+                createBucketConfiguration: .init(
+                    bucket: .init(dataRedundancy: .singleAvailabilityZone, type: .directory),
+                    location: .init(name: "use1-az6", type: .availabilityZone)
                 )
-                try await Self.s3.waitUntilBucketExists(.init(bucket: name), logger: TestEnvironment.logger)
-            } catch let error as S3ErrorType where error == .bucketAlreadyOwnedByYou {}
-        }
+            )
+            try await Self.s3.waitUntilBucketExists(.init(bucket: bucket), logger: TestEnvironment.logger)
+        } catch let error as S3ErrorType where error == .bucketAlreadyOwnedByYou {}
         try await withTeardown {
             let (client, expressS3) = Self.s3.createS3ExpressClientAndService(bucket: bucket)
             try await withTeardown {
@@ -623,11 +621,9 @@ class S3Tests: XCTestCase {
             }
         } teardown: {
             do {
-                try await S3Middleware.$executionContext.withValue(.init(useS3ExpressControlEndpoint: true)) {
-                    _ = try await Self.s3.deleteBucket(
-                        bucket: bucket
-                    )
-                }
+                _ = try await Self.s3.deleteBucket(
+                    bucket: bucket
+                )
             } catch {
                 XCTFail("\(error)")
             }
