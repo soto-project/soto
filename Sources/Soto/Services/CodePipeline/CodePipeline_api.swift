@@ -454,7 +454,7 @@ public struct CodePipeline: AWSService {
     /// Returns information about an action type created for an external provider, where the action is to be used by customers of the external provider. The action can be created with any supported integration model.
     ///
     /// Parameters:
-    ///   - category: Defines what kind of action can be taken in the stage. The following are the valid values:    Source     Build     Test     Deploy     Approval     Invoke
+    ///   - category: Defines what kind of action can be taken in the stage. The following are the valid values:    Source     Build     Test     Deploy     Approval     Invoke     Compute
     ///   - owner: The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty.
     ///   - provider: The provider of the action type being called. The provider name is specified when the action type is created.
     ///   - version: A string that describes the action type version.
@@ -811,7 +811,7 @@ public struct CodePipeline: AWSService {
         return try await self.listRuleExecutions(input, logger: logger)
     }
 
-    /// Lists the rules for the condition.
+    /// Lists the rules for the condition. For more information about conditions, see Stage conditions. For more information about rules, see the CodePipeline rule reference.
     @Sendable
     @inlinable
     public func listRuleTypes(_ input: ListRuleTypesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuleTypesOutput {
@@ -824,7 +824,7 @@ public struct CodePipeline: AWSService {
             logger: logger
         )
     }
-    /// Lists the rules for the condition.
+    /// Lists the rules for the condition. For more information about conditions, see Stage conditions. For more information about rules, see the CodePipeline rule reference.
     ///
     /// Parameters:
     ///   - regionFilter: The rule Region to filter on.

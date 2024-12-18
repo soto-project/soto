@@ -417,6 +417,37 @@ extension ServiceDiscovery {
         }
     }
 
+    public struct DeleteServiceAttributesRequest: AWSEncodableShape {
+        /// A list of keys corresponding to each attribute that you want to delete.
+        public let attributes: [String]
+        /// The ID of the service from which the attributes will be deleted.
+        public let serviceId: String
+
+        @inlinable
+        public init(attributes: [String], serviceId: String) {
+            self.attributes = attributes
+            self.serviceId = serviceId
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes.forEach {
+                try validate($0, name: "attributes[]", parent: name, max: 255)
+            }
+            try self.validate(self.attributes, name: "attributes", parent: name, max: 30)
+            try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
+            try self.validate(self.serviceId, name: "serviceId", parent: name, max: 64)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case serviceId = "ServiceId"
+        }
+    }
+
+    public struct DeleteServiceAttributesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteServiceRequest: AWSEncodableShape {
         /// The ID of the service that you want to delete.
         public let id: String
@@ -504,6 +535,7 @@ extension ServiceDiscovery {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 1024)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[!-~]{1,1024}$")
             try self.optionalParameters?.forEach {
                 try validate($0.key, name: "optionalParameters.key", parent: name, max: 255)
                 try validate($0.key, name: "optionalParameters.key", parent: name, pattern: "^[a-zA-Z0-9!-~]+$")
@@ -561,6 +593,7 @@ extension ServiceDiscovery {
 
         public func validate(name: String) throws {
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 1024)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[!-~]{1,1024}$")
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)$")
         }
 
@@ -585,7 +618,7 @@ extension ServiceDiscovery {
     }
 
     public struct DnsConfig: AWSEncodableShape & AWSDecodableShape {
-        /// An array that contains one DnsRecord object for each Route 53 DNS record that you want Cloud Map to create when you register an instance.
+        /// An array that contains one DnsRecord object for each Route 53 DNS record that you want Cloud Map to create when you register an instance.  The record type of a service specified in a DnsRecord object can't be updated. To change a record type, you need to delete the service and recreate it with a new DnsConfig.
         public let dnsRecords: [DnsRecord]
         ///  Use NamespaceId in Service instead.  The ID of the namespace to use for DNS configuration.
         public let namespaceId: String?
@@ -835,6 +868,38 @@ extension ServiceDiscovery {
 
         private enum CodingKeys: String, CodingKey {
             case operation = "Operation"
+        }
+    }
+
+    public struct GetServiceAttributesRequest: AWSEncodableShape {
+        /// The ID of the service that you want to get attributes for.
+        public let serviceId: String
+
+        @inlinable
+        public init(serviceId: String) {
+            self.serviceId = serviceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceId, name: "serviceId", parent: name, max: 64)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceId = "ServiceId"
+        }
+    }
+
+    public struct GetServiceAttributesResponse: AWSDecodableShape {
+        /// A complex type that contains the service ARN and a list of attribute key-value pairs associated with the service.
+        public let serviceAttributes: ServiceAttributes?
+
+        @inlinable
+        public init(serviceAttributes: ServiceAttributes? = nil) {
+            self.serviceAttributes = serviceAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceAttributes = "ServiceAttributes"
         }
     }
 
@@ -1815,6 +1880,24 @@ extension ServiceDiscovery {
         }
     }
 
+    public struct ServiceAttributes: AWSDecodableShape {
+        /// A string map that contains the following information for the service that you specify in ServiceArn:   The attributes that apply to the service.    For each attribute, the applicable value.   You can specify a total of 30 attributes.
+        public let attributes: [String: String]?
+        /// The ARN of the service that the attributes are associated with.
+        public let serviceArn: String?
+
+        @inlinable
+        public init(attributes: [String: String]? = nil, serviceArn: String? = nil) {
+            self.attributes = attributes
+            self.serviceArn = serviceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case serviceArn = "ServiceArn"
+        }
+    }
+
     public struct ServiceChange: AWSEncodableShape {
         /// A description for the service.
         public let description: String?
@@ -2162,10 +2245,42 @@ extension ServiceDiscovery {
         }
     }
 
+    public struct UpdateServiceAttributesRequest: AWSEncodableShape {
+        /// A string map that contains attribute key-value pairs.
+        public let attributes: [String: String]
+        /// The ID of the service that you want to update.
+        public let serviceId: String
+
+        @inlinable
+        public init(attributes: [String: String], serviceId: String) {
+            self.attributes = attributes
+            self.serviceId = serviceId
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes.forEach {
+                try validate($0.key, name: "attributes.key", parent: name, max: 255)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+            try self.validate(self.attributes, name: "attributes", parent: name, max: 30)
+            try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
+            try self.validate(self.serviceId, name: "serviceId", parent: name, max: 64)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case serviceId = "ServiceId"
+        }
+    }
+
+    public struct UpdateServiceAttributesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateServiceRequest: AWSEncodableShape {
         /// The ID of the service that you want to update.
         public let id: String
-        /// A complex type that contains the new settings for the service.
+        /// A complex type that contains the new settings for the service. You can specify a maximum of 30 attributes (key-value pairs).
         public let service: ServiceChange
 
         @inlinable
@@ -2217,6 +2332,7 @@ public struct ServiceDiscoveryErrorType: AWSErrorType {
         case resourceLimitExceeded = "ResourceLimitExceeded"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceAlreadyExists = "ServiceAlreadyExists"
+        case serviceAttributesLimitExceededException = "ServiceAttributesLimitExceededException"
         case serviceNotFound = "ServiceNotFound"
         case tooManyTagsException = "TooManyTagsException"
     }
@@ -2263,6 +2379,8 @@ public struct ServiceDiscoveryErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service can't be created because a service with the same name already exists.
     public static var serviceAlreadyExists: Self { .init(.serviceAlreadyExists) }
+    /// The attribute can't be added to the service because you've exceeded the quota for the number of attributes you can add to a service.
+    public static var serviceAttributesLimitExceededException: Self { .init(.serviceAttributesLimitExceededException) }
     /// No service exists with the specified ID.
     public static var serviceNotFound: Self { .init(.serviceNotFound) }
     /// The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.

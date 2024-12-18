@@ -255,6 +255,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum BandwidthWeightingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
+        case ebs1 = "ebs-1"
+        case vpc1 = "vpc-1"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BareMetal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case excluded = "excluded"
         case included = "included"
@@ -1041,6 +1048,13 @@ extension EC2 {
     public enum InstanceAutoRecoveryState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "default"
         case disabled = "disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceBandwidthWeighting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
+        case ebs1 = "ebs-1"
+        case vpc1 = "vpc-1"
         public var description: String { return self.rawValue }
     }
 
@@ -3020,6 +3034,12 @@ extension EC2 {
         case blockAllSharing = "block-all-sharing"
         case blockNewSharing = "block-new-sharing"
         case unblocked = "unblocked"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapshotLocationEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case local = "local"
+        case regional = "regional"
         public var description: String { return self.rawValue }
     }
 
@@ -12712,7 +12732,9 @@ extension EC2 {
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The Amazon Resource Name (ARN) of the Outpost on which to create a local   	snapshot.   To create a snapshot of a volume in a Region, omit this parameter. The snapshot  				is created in the same Region as the volume.   To create a snapshot of a volume on an Outpost and store the snapshot in the  				Region, omit this parameter. The snapshot is created in the Region for the  				Outpost.   To create a snapshot of a volume on an Outpost and store the snapshot on an  			Outpost, specify the ARN of the destination Outpost. The snapshot must be created on  			the same Outpost as the volume.   For more information, see Create local snapshots from volumes on an Outpost in the Amazon EBS User Guide.
+        ///  Only supported for volumes in Local Zones. If the source volume is not in a Local Zone,  omit this parameter.    To create a local snapshot in the same Local Zone as the source volume, specify  local.   To create a regional snapshot in the parent Region of the Local Zone, specify  regional or omit this parameter.   Default value: regional
+        public let location: SnapshotLocationEnum?
+        ///  Only supported for volumes on Outposts. If the source volume is not on an Outpost,  omit this parameter.    To create the snapshot on the same Outpost as the source volume, specify the  ARN of that Outpost. The snapshot must be created on the same Outpost as the volume.   To create the snapshot in the parent Region of the Outpost, omit this parameter.   For more information, see Create local snapshots from volumes on an Outpost in the Amazon EBS User Guide.
         public let outpostArn: String?
         /// The tags to apply to the snapshot during creation.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -12721,9 +12743,10 @@ extension EC2 {
         public let volumeId: String?
 
         @inlinable
-        public init(description: String? = nil, dryRun: Bool? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, volumeId: String? = nil) {
+        public init(description: String? = nil, dryRun: Bool? = nil, location: SnapshotLocationEnum? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, volumeId: String? = nil) {
             self.description = description
             self.dryRun = dryRun
+            self.location = location
             self.outpostArn = outpostArn
             self.tagSpecifications = tagSpecifications
             self.volumeId = volumeId
@@ -12732,6 +12755,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case dryRun = "dryRun"
+            case location = "Location"
             case outpostArn = "OutpostArn"
             case tagSpecifications = "TagSpecification"
             case volumeId = "VolumeId"
@@ -12749,18 +12773,21 @@ extension EC2 {
         public let dryRun: Bool?
         /// The instance to specify which volumes should be included in the snapshots.
         public let instanceSpecification: InstanceSpecification?
-        /// The Amazon Resource Name (ARN) of the Outpost on which to create the local   		snapshots.   To create snapshots from an instance in a Region, omit this parameter. The  				snapshots are created in the same Region as the instance.   To create snapshots from an instance on an Outpost and store the snapshots  				in the Region, omit this parameter. The snapshots are created in the Region  				for the Outpost.   To create snapshots from an instance on an Outpost and store the snapshots  				on an Outpost, specify the ARN of the destination Outpost. The snapshots must  				be created on the same Outpost as the instance.   For more information, see  		Create multi-volume local snapshots from instances on an Outpost in the  		Amazon EBS User Guide.
+        ///  Only supported for instances in Local Zones. If the source instance is not in a Local Zone,  omit this parameter.    To create local snapshots in the same Local Zone as the source instance, specify  local.   To create a regional snapshots in the parent Region of the Local Zone, specify  regional or omit this parameter.   Default value: regional
+        public let location: SnapshotLocationEnum?
+        ///  Only supported for instances on Outposts. If the source instance is not on an Outpost,  omit this parameter.    To create the snapshots on the same Outpost as the source instance, specify the  ARN of that Outpost. The snapshots must be created on the same Outpost as the instance.   To create the snapshots in the parent Region of the Outpost, omit this parameter.   For more information, see  Create local snapshots from volumes on an Outpost in the Amazon EBS User Guide.
         public let outpostArn: String?
         /// Tags to apply to every snapshot specified by the instance.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
         @inlinable
-        public init(copyTagsFromSource: CopyTagsFromSource? = nil, description: String? = nil, dryRun: Bool? = nil, instanceSpecification: InstanceSpecification? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(copyTagsFromSource: CopyTagsFromSource? = nil, description: String? = nil, dryRun: Bool? = nil, instanceSpecification: InstanceSpecification? = nil, location: SnapshotLocationEnum? = nil, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.copyTagsFromSource = copyTagsFromSource
             self.description = description
             self.dryRun = dryRun
             self.instanceSpecification = instanceSpecification
+            self.location = location
             self.outpostArn = outpostArn
             self.tagSpecifications = tagSpecifications
         }
@@ -12770,6 +12797,7 @@ extension EC2 {
             case description = "Description"
             case dryRun = "DryRun"
             case instanceSpecification = "InstanceSpecification"
+            case location = "Location"
             case outpostArn = "OutpostArn"
             case tagSpecifications = "TagSpecification"
         }
@@ -16755,6 +16783,24 @@ extension EC2 {
             case dryRun = "dryRun"
             case groupId = "GroupId"
             case groupName = "GroupName"
+        }
+    }
+
+    public struct DeleteSecurityGroupResult: AWSDecodableShape {
+        /// The ID of the deleted security group.
+        public let groupId: String?
+        /// Returns true if the request succeeds; otherwise, returns an error.
+        public let `return`: Bool?
+
+        @inlinable
+        public init(groupId: String? = nil, return: Bool? = nil) {
+            self.groupId = groupId
+            self.`return` = `return`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "groupId"
+            case `return` = "return"
         }
     }
 
@@ -21487,7 +21533,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+        /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth  weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The instance types.
@@ -21550,7 +21596,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.operator.managed - A Boolean that indicates whether the instance has a managed network interface.    network-interface.operator.principal - The principal that manages the network interface. Only valid for instances with managed network interfaces, where managed is true.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
+        /// The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.operator.managed - A Boolean that indicates whether the instance has a managed network interface.    network-interface.operator.principal - The principal that manages the network interface. Only valid for instances with managed network interfaces, where managed is true.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    network-performance-options.bandwidth-weighting - Where the performance boost  			is applied, if applicable. Valid values: default, vpc-1,  			ebs-1.    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The instance IDs. Default: Describes all your instances.
@@ -23500,7 +23546,7 @@ extension EC2 {
         /// 		               gateway_load_balancer_endpoint | global_accelerator_managed |  interface |
         /// 		               iot_rules_managed | lambda | load_balancer | nat_gateway |
         /// 		               network_load_balancer | quicksight |  transit_gateway | trunk |
-        /// 		               vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services
+        /// 		               vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services
         /// 		               service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking.
         /// 		            A value of true means checking is enabled, and false means checking is disabled.
         /// 		            The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available;
@@ -37010,6 +37056,8 @@ extension EC2 {
         /// The network interfaces for the instance.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkInterfacesEncoding, InstanceNetworkInterface>>
         public var networkInterfaces: [InstanceNetworkInterface]?
+        /// Contains settings for the network performance options for your instance.
+        public let networkPerformanceOptions: InstanceNetworkPerformanceOptions?
         /// The service provider that manages the instance.
         public let `operator`: OperatorResponse?
         /// The Amazon Resource Name (ARN) of the Outpost.
@@ -37071,7 +37119,7 @@ extension EC2 {
         public let vpcId: String?
 
         @inlinable
-        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, currentInstanceBootMode: InstanceBootModeValues? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, ipv6Address: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, maintenanceOptions: InstanceMaintenanceOptions? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, privateDnsName: String? = nil, privateDnsNameOptions: PrivateDnsNameOptionsResponse? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, tpmSupport: String? = nil, usageOperation: String? = nil, usageOperationUpdateTime: Date? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
+        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, currentInstanceBootMode: InstanceBootModeValues? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, ipv6Address: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, maintenanceOptions: InstanceMaintenanceOptions? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, networkPerformanceOptions: InstanceNetworkPerformanceOptions? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, privateDnsName: String? = nil, privateDnsNameOptions: PrivateDnsNameOptionsResponse? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, tpmSupport: String? = nil, usageOperation: String? = nil, usageOperationUpdateTime: Date? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
             self.amiLaunchIndex = amiLaunchIndex
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
@@ -37102,6 +37150,7 @@ extension EC2 {
             self.metadataOptions = metadataOptions
             self.monitoring = monitoring
             self.networkInterfaces = networkInterfaces
+            self.networkPerformanceOptions = networkPerformanceOptions
             self.`operator` = `operator`
             self.outpostArn = outpostArn
             self.placement = placement
@@ -37163,6 +37212,7 @@ extension EC2 {
             case metadataOptions = "metadataOptions"
             case monitoring = "monitoring"
             case networkInterfaces = "networkInterfaceSet"
+            case networkPerformanceOptions = "networkPerformanceOptions"
             case `operator` = "operator"
             case outpostArn = "outpostArn"
             case placement = "placement"
@@ -38229,6 +38279,34 @@ extension EC2 {
             case privateIpAddresses = "privateIpAddressesSet"
             case secondaryPrivateIpAddressCount = "secondaryPrivateIpAddressCount"
             case subnetId = "subnetId"
+        }
+    }
+
+    public struct InstanceNetworkPerformanceOptions: AWSDecodableShape {
+        /// When you configure network bandwidth weighting, you can boost your baseline bandwidth for either  		networking or EBS by up to 25%. The total available baseline bandwidth for your instance remains  		the same. The default option uses the standard bandwidth configuration for your instance type.
+        public let bandwidthWeighting: InstanceBandwidthWeighting?
+
+        @inlinable
+        public init(bandwidthWeighting: InstanceBandwidthWeighting? = nil) {
+            self.bandwidthWeighting = bandwidthWeighting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthWeighting = "bandwidthWeighting"
+        }
+    }
+
+    public struct InstanceNetworkPerformanceOptionsRequest: AWSEncodableShape {
+        /// Specify the bandwidth weighting option to boost the associated type of baseline bandwidth,  		as follows:  default  This option uses the standard bandwidth configuration for your instance type.  vpc-1  This option boosts your networking baseline bandwidth and reduces your EBS baseline  					bandwidth.  ebs-1  This option boosts your EBS baseline bandwidth and reduces your networking baseline  					bandwidth.
+        public let bandwidthWeighting: InstanceBandwidthWeighting?
+
+        @inlinable
+        public init(bandwidthWeighting: InstanceBandwidthWeighting? = nil) {
+            self.bandwidthWeighting = bandwidthWeighting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthWeighting = "BandwidthWeighting"
         }
     }
 
@@ -41436,6 +41514,34 @@ extension EC2 {
         }
     }
 
+    public struct LaunchTemplateNetworkPerformanceOptions: AWSDecodableShape {
+        /// When you configure network bandwidth weighting, you can boost baseline bandwidth for either networking  		or EBS by up to 25%. The total available baseline bandwidth for your instance remains  the same. The default option uses the standard bandwidth configuration for your instance type.
+        public let bandwidthWeighting: InstanceBandwidthWeighting?
+
+        @inlinable
+        public init(bandwidthWeighting: InstanceBandwidthWeighting? = nil) {
+            self.bandwidthWeighting = bandwidthWeighting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthWeighting = "bandwidthWeighting"
+        }
+    }
+
+    public struct LaunchTemplateNetworkPerformanceOptionsRequest: AWSEncodableShape {
+        /// Specify the bandwidth weighting option to boost the associated type of baseline bandwidth, as follows:  default  This option uses the standard bandwidth configuration for your instance type.  vpc-1  This option boosts your networking baseline bandwidth and reduces your EBS  					baseline bandwidth.  ebs-1  This option boosts your EBS baseline bandwidth and reduces your networking  					baseline bandwidth.
+        public let bandwidthWeighting: InstanceBandwidthWeighting?
+
+        @inlinable
+        public init(bandwidthWeighting: InstanceBandwidthWeighting? = nil) {
+            self.bandwidthWeighting = bandwidthWeighting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthWeighting = "BandwidthWeighting"
+        }
+    }
+
     public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
@@ -43854,6 +43960,46 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case instanceId = "instanceId"
             case instanceMetadataOptions = "instanceMetadataOptions"
+        }
+    }
+
+    public struct ModifyInstanceNetworkPerformanceRequest: AWSEncodableShape {
+        /// Specify the bandwidth weighting option to boost the associated type of baseline bandwidth, as follows:  default  This option uses the standard bandwidth configuration for your instance type.  vpc-1  This option boosts your networking baseline bandwidth and reduces your EBS  					baseline bandwidth.  ebs-1  This option boosts your EBS baseline bandwidth and reduces your networking  					baseline bandwidth.
+        public let bandwidthWeighting: InstanceBandwidthWeighting?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the instance to update.
+        public let instanceId: String?
+
+        @inlinable
+        public init(bandwidthWeighting: InstanceBandwidthWeighting? = nil, dryRun: Bool? = nil, instanceId: String? = nil) {
+            self.bandwidthWeighting = bandwidthWeighting
+            self.dryRun = dryRun
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthWeighting = "BandwidthWeighting"
+            case dryRun = "DryRun"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct ModifyInstanceNetworkPerformanceResult: AWSDecodableShape {
+        /// Contains the updated configuration for bandwidth weighting on the specified instance.
+        public let bandwidthWeighting: InstanceBandwidthWeighting?
+        /// The instance ID that was updated.
+        public let instanceId: String?
+
+        @inlinable
+        public init(bandwidthWeighting: InstanceBandwidthWeighting? = nil, instanceId: String? = nil) {
+            self.bandwidthWeighting = bandwidthWeighting
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthWeighting = "bandwidthWeighting"
+            case instanceId = "instanceId"
         }
     }
 
@@ -47116,8 +47262,12 @@ extension EC2 {
     }
 
     public struct NetworkInfo: AWSDecodableShape {
+        public struct _BandwidthWeightingsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _NetworkCardsEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// A list of valid settings for configurable bandwidth weighting for the instance 	type, if supported.
+        @OptionalCustomCoding<EC2ArrayCoder<_BandwidthWeightingsEncoding, BandwidthWeightingType>>
+        public var bandwidthWeightings: [BandwidthWeightingType]?
         /// The index of the default network card, starting at 0.
         public let defaultNetworkCardIndex: Int?
         /// Describes the Elastic Fabric Adapters for the instance type.
@@ -47147,7 +47297,8 @@ extension EC2 {
         public let networkPerformance: String?
 
         @inlinable
-        public init(defaultNetworkCardIndex: Int? = nil, efaInfo: EfaInfo? = nil, efaSupported: Bool? = nil, enaSrdSupported: Bool? = nil, enaSupport: EnaSupport? = nil, encryptionInTransitSupported: Bool? = nil, ipv4AddressesPerInterface: Int? = nil, ipv6AddressesPerInterface: Int? = nil, ipv6Supported: Bool? = nil, maximumNetworkCards: Int? = nil, maximumNetworkInterfaces: Int? = nil, networkCards: [NetworkCardInfo]? = nil, networkPerformance: String? = nil) {
+        public init(bandwidthWeightings: [BandwidthWeightingType]? = nil, defaultNetworkCardIndex: Int? = nil, efaInfo: EfaInfo? = nil, efaSupported: Bool? = nil, enaSrdSupported: Bool? = nil, enaSupport: EnaSupport? = nil, encryptionInTransitSupported: Bool? = nil, ipv4AddressesPerInterface: Int? = nil, ipv6AddressesPerInterface: Int? = nil, ipv6Supported: Bool? = nil, maximumNetworkCards: Int? = nil, maximumNetworkInterfaces: Int? = nil, networkCards: [NetworkCardInfo]? = nil, networkPerformance: String? = nil) {
+            self.bandwidthWeightings = bandwidthWeightings
             self.defaultNetworkCardIndex = defaultNetworkCardIndex
             self.efaInfo = efaInfo
             self.efaSupported = efaSupported
@@ -47164,6 +47315,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bandwidthWeightings = "bandwidthWeightings"
             case defaultNetworkCardIndex = "defaultNetworkCardIndex"
             case efaInfo = "efaInfo"
             case efaSupported = "efaSupported"
@@ -51122,6 +51274,8 @@ extension EC2 {
         /// The network interfaces for the instance.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkInterfacesEncoding, LaunchTemplateInstanceNetworkInterfaceSpecificationRequest>>
         public var networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecificationRequest]?
+        /// Contains launch template settings to boost network performance for the type of  	workload that runs on your instance.
+        public let networkPerformanceOptions: LaunchTemplateNetworkPerformanceOptionsRequest?
         /// The entity that manages the launch template.
         public let `operator`: OperatorRequest?
         /// The placement for the instance.
@@ -51143,7 +51297,7 @@ extension EC2 {
         public let userData: String?
 
         @inlinable
-        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMappingRequest]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationRequest? = nil, cpuOptions: LaunchTemplateCpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAccelerator]? = nil, enclaveOptions: LaunchTemplateEnclaveOptionsRequest? = nil, hibernationOptions: LaunchTemplateHibernationOptionsRequest? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfigurationRequest]? = nil, maintenanceOptions: LaunchTemplateInstanceMaintenanceOptionsRequest? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptionsRequest? = nil, monitoring: LaunchTemplatesMonitoringRequest? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecificationRequest]? = nil, operator: OperatorRequest? = nil, placement: LaunchTemplatePlacementRequest? = nil, privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptionsRequest? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecificationRequest]? = nil, userData: String? = nil) {
+        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMappingRequest]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationRequest? = nil, cpuOptions: LaunchTemplateCpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAccelerator]? = nil, enclaveOptions: LaunchTemplateEnclaveOptionsRequest? = nil, hibernationOptions: LaunchTemplateHibernationOptionsRequest? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptionsRequest? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfigurationRequest]? = nil, maintenanceOptions: LaunchTemplateInstanceMaintenanceOptionsRequest? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptionsRequest? = nil, monitoring: LaunchTemplatesMonitoringRequest? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecificationRequest]? = nil, networkPerformanceOptions: LaunchTemplateNetworkPerformanceOptionsRequest? = nil, operator: OperatorRequest? = nil, placement: LaunchTemplatePlacementRequest? = nil, privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptionsRequest? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecificationRequest]? = nil, userData: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
             self.cpuOptions = cpuOptions
@@ -51168,6 +51322,7 @@ extension EC2 {
             self.metadataOptions = metadataOptions
             self.monitoring = monitoring
             self.networkInterfaces = networkInterfaces
+            self.networkPerformanceOptions = networkPerformanceOptions
             self.`operator` = `operator`
             self.placement = placement
             self.privateDnsNameOptions = privateDnsNameOptions
@@ -51210,6 +51365,7 @@ extension EC2 {
             case metadataOptions = "MetadataOptions"
             case monitoring = "Monitoring"
             case networkInterfaces = "NetworkInterface"
+            case networkPerformanceOptions = "NetworkPerformanceOptions"
             case `operator` = "Operator"
             case placement = "Placement"
             case privateDnsNameOptions = "PrivateDnsNameOptions"
@@ -52233,6 +52389,8 @@ extension EC2 {
         /// The network interfaces.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkInterfacesEncoding, LaunchTemplateInstanceNetworkInterfaceSpecification>>
         public var networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecification]?
+        /// Contains the launch template settings for network performance options for  	your instance.
+        public let networkPerformanceOptions: LaunchTemplateNetworkPerformanceOptions?
         /// The entity that manages the launch template.
         public let `operator`: OperatorResponse?
         /// The placement of the instance.
@@ -52254,7 +52412,7 @@ extension EC2 {
         public let userData: String?
 
         @inlinable
-        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMapping]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationResponse? = nil, cpuOptions: LaunchTemplateCpuOptions? = nil, creditSpecification: CreditSpecification? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecificationResponse]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAcceleratorResponse]? = nil, enclaveOptions: LaunchTemplateEnclaveOptions? = nil, hibernationOptions: LaunchTemplateHibernationOptions? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptions? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfiguration]? = nil, maintenanceOptions: LaunchTemplateInstanceMaintenanceOptions? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptions? = nil, monitoring: LaunchTemplatesMonitoring? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecification]? = nil, operator: OperatorResponse? = nil, placement: LaunchTemplatePlacement? = nil, privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptions? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecification]? = nil, userData: String? = nil) {
+        public init(blockDeviceMappings: [LaunchTemplateBlockDeviceMapping]? = nil, capacityReservationSpecification: LaunchTemplateCapacityReservationSpecificationResponse? = nil, cpuOptions: LaunchTemplateCpuOptions? = nil, creditSpecification: CreditSpecification? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecifications: [ElasticGpuSpecificationResponse]? = nil, elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAcceleratorResponse]? = nil, enclaveOptions: LaunchTemplateEnclaveOptions? = nil, hibernationOptions: LaunchTemplateHibernationOptions? = nil, iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: LaunchTemplateInstanceMarketOptions? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSpecifications: [LaunchTemplateLicenseConfiguration]? = nil, maintenanceOptions: LaunchTemplateInstanceMaintenanceOptions? = nil, metadataOptions: LaunchTemplateInstanceMetadataOptions? = nil, monitoring: LaunchTemplatesMonitoring? = nil, networkInterfaces: [LaunchTemplateInstanceNetworkInterfaceSpecification]? = nil, networkPerformanceOptions: LaunchTemplateNetworkPerformanceOptions? = nil, operator: OperatorResponse? = nil, placement: LaunchTemplatePlacement? = nil, privateDnsNameOptions: LaunchTemplatePrivateDnsNameOptions? = nil, ramDiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, tagSpecifications: [LaunchTemplateTagSpecification]? = nil, userData: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
             self.cpuOptions = cpuOptions
@@ -52279,6 +52437,7 @@ extension EC2 {
             self.metadataOptions = metadataOptions
             self.monitoring = monitoring
             self.networkInterfaces = networkInterfaces
+            self.networkPerformanceOptions = networkPerformanceOptions
             self.`operator` = `operator`
             self.placement = placement
             self.privateDnsNameOptions = privateDnsNameOptions
@@ -52314,6 +52473,7 @@ extension EC2 {
             case metadataOptions = "metadataOptions"
             case monitoring = "monitoring"
             case networkInterfaces = "networkInterfaceSet"
+            case networkPerformanceOptions = "networkPerformanceOptions"
             case `operator` = "operator"
             case placement = "placement"
             case privateDnsNameOptions = "privateDnsNameOptions"
@@ -53156,6 +53316,8 @@ extension EC2 {
         /// The network interfaces to associate with the instance.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkInterfacesEncoding, InstanceNetworkInterfaceSpecification>>
         public var networkInterfaces: [InstanceNetworkInterfaceSpecification]?
+        /// Contains settings for the network performance options for the instance.
+        public let networkPerformanceOptions: InstanceNetworkPerformanceOptionsRequest?
         /// Reserved for internal use.
         public let `operator`: OperatorRequest?
         /// The placement for the instance.
@@ -53181,7 +53343,7 @@ extension EC2 {
         public let userData: String?
 
         @inlinable
-        public init(additionalInfo: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, clientToken: String? = RunInstancesRequest.idempotencyToken(), cpuOptions: CpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecification: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [ElasticInferenceAccelerator]? = nil, enablePrimaryIpv6: Bool? = nil, enclaveOptions: EnclaveOptionsRequest? = nil, hibernationOptions: HibernationOptionsRequest? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: InstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, kernelId: String? = nil, keyName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, licenseSpecifications: [LicenseConfigurationRequest]? = nil, maintenanceOptions: InstanceMaintenanceOptionsRequest? = nil, maxCount: Int? = nil, metadataOptions: InstanceMetadataOptionsRequest? = nil, minCount: Int? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, operator: OperatorRequest? = nil, placement: Placement? = nil, privateDnsNameOptions: PrivateDnsNameOptionsRequest? = nil, privateIpAddress: String? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil, userData: String? = nil) {
+        public init(additionalInfo: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, clientToken: String? = RunInstancesRequest.idempotencyToken(), cpuOptions: CpuOptionsRequest? = nil, creditSpecification: CreditSpecificationRequest? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecification: [ElasticGpuSpecification]? = nil, elasticInferenceAccelerators: [ElasticInferenceAccelerator]? = nil, enablePrimaryIpv6: Bool? = nil, enclaveOptions: EnclaveOptionsRequest? = nil, hibernationOptions: HibernationOptionsRequest? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceMarketOptions: InstanceMarketOptionsRequest? = nil, instanceType: InstanceType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, kernelId: String? = nil, keyName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, licenseSpecifications: [LicenseConfigurationRequest]? = nil, maintenanceOptions: InstanceMaintenanceOptionsRequest? = nil, maxCount: Int? = nil, metadataOptions: InstanceMetadataOptionsRequest? = nil, minCount: Int? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, networkPerformanceOptions: InstanceNetworkPerformanceOptionsRequest? = nil, operator: OperatorRequest? = nil, placement: Placement? = nil, privateDnsNameOptions: PrivateDnsNameOptionsRequest? = nil, privateIpAddress: String? = nil, ramdiskId: String? = nil, securityGroupIds: [String]? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil, userData: String? = nil) {
             self.additionalInfo = additionalInfo
             self.blockDeviceMappings = blockDeviceMappings
             self.capacityReservationSpecification = capacityReservationSpecification
@@ -53214,6 +53376,7 @@ extension EC2 {
             self.minCount = minCount
             self.monitoring = monitoring
             self.networkInterfaces = networkInterfaces
+            self.networkPerformanceOptions = networkPerformanceOptions
             self.`operator` = `operator`
             self.placement = placement
             self.privateDnsNameOptions = privateDnsNameOptions
@@ -53265,6 +53428,7 @@ extension EC2 {
             case minCount = "MinCount"
             case monitoring = "Monitoring"
             case networkInterfaces = "networkInterface"
+            case networkPerformanceOptions = "NetworkPerformanceOptions"
             case `operator` = "Operator"
             case placement = "Placement"
             case privateDnsNameOptions = "PrivateDnsNameOptions"
@@ -54586,6 +54750,8 @@ extension EC2 {
     public struct Snapshot: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// The Availability Zone or Local Zone of the snapshot. For example, us-west-1a  (Availability Zone) or us-west-2-lax-1a (Local Zone).
+        public let availabilityZone: String?
         ///  Only for snapshot copies created with time-based snapshot copy operations.  The completion duration requested for the time-based snapshot copy operation.
         public let completionDurationMinutes: Int?
         /// The time stamp when the snapshot was completed.
@@ -54631,7 +54797,8 @@ extension EC2 {
         public let volumeSize: Int?
 
         @inlinable
-        public init(completionDurationMinutes: Int? = nil, completionTime: Date? = nil, dataEncryptionKeyId: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, outpostArn: String? = nil, ownerAlias: String? = nil, ownerId: String? = nil, progress: String? = nil, restoreExpiryTime: Date? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, state: SnapshotState? = nil, stateMessage: String? = nil, storageTier: StorageTier? = nil, tags: [Tag]? = nil, transferType: TransferType? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
+        public init(availabilityZone: String? = nil, completionDurationMinutes: Int? = nil, completionTime: Date? = nil, dataEncryptionKeyId: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, outpostArn: String? = nil, ownerAlias: String? = nil, ownerId: String? = nil, progress: String? = nil, restoreExpiryTime: Date? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, state: SnapshotState? = nil, stateMessage: String? = nil, storageTier: StorageTier? = nil, tags: [Tag]? = nil, transferType: TransferType? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
+            self.availabilityZone = availabilityZone
             self.completionDurationMinutes = completionDurationMinutes
             self.completionTime = completionTime
             self.dataEncryptionKeyId = dataEncryptionKeyId
@@ -54656,6 +54823,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
             case completionDurationMinutes = "completionDurationMinutes"
             case completionTime = "completionTime"
             case dataEncryptionKeyId = "dataEncryptionKeyId"
@@ -54759,6 +54927,8 @@ extension EC2 {
     public struct SnapshotInfo: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// The Availability Zone or Local Zone of the snapshots. For example, us-west-1a  (Availability Zone) or us-west-2-lax-1a (Local Zone).
+        public let availabilityZone: String?
         /// Description specified by the CreateSnapshotRequest that has been applied to all  snapshots.
         public let description: String?
         /// Indicates whether the snapshot is encrypted.
@@ -54786,7 +54956,8 @@ extension EC2 {
         public let volumeSize: Int?
 
         @inlinable
-        public init(description: String? = nil, encrypted: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, progress: String? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, state: SnapshotState? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
+        public init(availabilityZone: String? = nil, description: String? = nil, encrypted: Bool? = nil, outpostArn: String? = nil, ownerId: String? = nil, progress: String? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, state: SnapshotState? = nil, tags: [Tag]? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
+            self.availabilityZone = availabilityZone
             self.description = description
             self.encrypted = encrypted
             self.outpostArn = outpostArn
@@ -54802,6 +54973,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
             case description = "description"
             case encrypted = "encrypted"
             case outpostArn = "outpostArn"
@@ -55728,7 +55900,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The name of the S3 bucket where the report will be saved.
+        /// The name of the S3 bucket where the report will be saved. The bucket must be in the same Region where the report generation request is made.
         public let s3Bucket: String?
         /// The prefix for your S3 object.
         public let s3Prefix: String?

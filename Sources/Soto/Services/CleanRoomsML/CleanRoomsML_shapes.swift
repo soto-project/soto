@@ -453,13 +453,15 @@ extension CleanRoomsML {
         public let dataSource: S3ConfigMap?
         /// The ARN of the IAM role that can read the Amazon S3 bucket where the seed audience is stored.
         public let roleArn: String
+        public let sqlComputeConfiguration: ComputeConfiguration?
         /// The protected SQL query parameters.
         public let sqlParameters: ProtectedQuerySQLParameters?
 
         @inlinable
-        public init(dataSource: S3ConfigMap? = nil, roleArn: String, sqlParameters: ProtectedQuerySQLParameters? = nil) {
+        public init(dataSource: S3ConfigMap? = nil, roleArn: String, sqlComputeConfiguration: ComputeConfiguration? = nil, sqlParameters: ProtectedQuerySQLParameters? = nil) {
             self.dataSource = dataSource
             self.roleArn = roleArn
+            self.sqlComputeConfiguration = sqlComputeConfiguration
             self.sqlParameters = sqlParameters
         }
 
@@ -474,6 +476,7 @@ extension CleanRoomsML {
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
             case roleArn = "roleArn"
+            case sqlComputeConfiguration = "sqlComputeConfiguration"
             case sqlParameters = "sqlParameters"
         }
     }
@@ -4947,7 +4950,7 @@ extension CleanRoomsML {
         public let configuredModelAlgorithmAssociationArn: String?
         /// The execution parameters for the container.
         public let containerExecutionParameters: InferenceContainerExecutionParameters?
-        /// Defines he data source that is used for the trained model inference job.
+        /// Defines the data source that is used for the trained model inference job.
         public let dataSource: ModelInferenceDataSource
         /// The description of the trained model inference job.
         public let description: String?

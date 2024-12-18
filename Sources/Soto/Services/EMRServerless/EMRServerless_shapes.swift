@@ -669,6 +669,8 @@ extension EMRServerless {
     }
 
     public struct GetDashboardForJobRunRequest: AWSEncodableShape {
+        /// Allows access to system profile logs for Lake Formation-enabled jobs. Default is false.
+        public let accessSystemProfileLogs: Bool?
         /// The ID of the application.
         public let applicationId: String
         /// An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job.
@@ -677,7 +679,8 @@ extension EMRServerless {
         public let jobRunId: String
 
         @inlinable
-        public init(applicationId: String, attempt: Int? = nil, jobRunId: String) {
+        public init(accessSystemProfileLogs: Bool? = nil, applicationId: String, attempt: Int? = nil, jobRunId: String) {
+            self.accessSystemProfileLogs = accessSystemProfileLogs
             self.applicationId = applicationId
             self.attempt = attempt
             self.jobRunId = jobRunId
@@ -686,6 +689,7 @@ extension EMRServerless {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accessSystemProfileLogs, key: "accessSystemProfileLogs")
             request.encodePath(self.applicationId, key: "applicationId")
             request.encodeQuery(self.attempt, key: "attempt")
             request.encodePath(self.jobRunId, key: "jobRunId")
@@ -832,7 +836,7 @@ extension EMRServerless {
         public func validate(name: String) throws {
             try self.validate(self.imageUri, name: "imageUri", parent: name, max: 1024)
             try self.validate(self.imageUri, name: "imageUri", parent: name, min: 1)
-            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: "^([a-z0-9]+[a-z0-9-.]*)\\/((?:[a-z0-9]+(?:[._-][a-z0-9]+)*\\/)*[a-z0-9]+(?:[._-][a-z0-9]+)*)(?:\\:([a-zA-Z0-9_][a-zA-Z0-9-._]{0,299})|@(sha256:[0-9a-f]{64}))$")
+            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: "^([0-9]{12})\\.dkr\\.ecr\\.([a-z0-9-]+).([a-z0-9._-]+)\\/((?:[a-z0-9]+(?:[-._][a-z0-9]+)*/)*[a-z0-9]+(?:[-._][a-z0-9]+)*)(?::([a-zA-Z0-9_]+[a-zA-Z0-9-._]*)|@(sha256:[0-9a-f]{64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {

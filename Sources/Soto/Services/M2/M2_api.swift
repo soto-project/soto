@@ -274,6 +274,7 @@ public struct M2: AWSService {
     ///   - instanceType: The type of instance for the runtime environment.
     ///   - kmsKeyId: The identifier of a customer managed key.
     ///   - name: The name of the runtime environment. Must be unique within the account.
+    ///   - networkType: The network type required for the runtime environment.
     ///   - preferredMaintenanceWindow: Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00.  If you do not provide a value, a random system-generated value will be assigned.
     ///   - publiclyAccessible: Specifies whether the runtime environment is publicly accessible.
     ///   - securityGroupIds: The list of security groups for the VPC associated with this runtime environment.
@@ -291,6 +292,7 @@ public struct M2: AWSService {
         instanceType: String,
         kmsKeyId: String? = nil,
         name: String,
+        networkType: NetworkType? = nil,
         preferredMaintenanceWindow: String? = nil,
         publiclyAccessible: Bool? = nil,
         securityGroupIds: [String]? = nil,
@@ -308,6 +310,7 @@ public struct M2: AWSService {
             instanceType: instanceType, 
             kmsKeyId: kmsKeyId, 
             name: name, 
+            networkType: networkType, 
             preferredMaintenanceWindow: preferredMaintenanceWindow, 
             publiclyAccessible: publiclyAccessible, 
             securityGroupIds: securityGroupIds, 

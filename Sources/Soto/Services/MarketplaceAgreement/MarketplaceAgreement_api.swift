@@ -67,6 +67,7 @@ public struct MarketplaceAgreement: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2020-03-01",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: MarketplaceAgreementErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -78,6 +79,12 @@ public struct MarketplaceAgreement: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-iso-east-1": "agreement-marketplace-fips.us-iso-east-1.c2s.ic.gov"
+        ])
+    ]}
 
     // MARK: API Calls
 

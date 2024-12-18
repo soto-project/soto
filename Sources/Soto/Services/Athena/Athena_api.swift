@@ -92,6 +92,7 @@ public struct Athena: AWSService {
             "ap-southeast-2": "athena.ap-southeast-2.api.aws",
             "ap-southeast-3": "athena.ap-southeast-3.api.aws",
             "ap-southeast-4": "athena.ap-southeast-4.api.aws",
+            "ap-southeast-5": "athena.ap-southeast-5.api.aws",
             "ca-central-1": "athena.ca-central-1.api.aws",
             "ca-west-1": "athena.ca-west-1.api.aws",
             "cn-north-1": "athena.cn-north-1.api.amazonwebservices.com.cn",

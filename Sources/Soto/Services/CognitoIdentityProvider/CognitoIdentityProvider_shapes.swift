@@ -477,9 +477,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct AddCustomAttributesRequest: AWSEncodableShape {
-        /// An array of custom attributes, such as Mutable and Name.
+        /// An array of custom attribute names and other properties. Sets the following characteristics:  AttributeDataType  The expected data type. Can be a string, a number, a date and time, or a boolean.  Mutable  If true, you can grant app clients write access to the attribute value. If false, the attribute value can only be set up on sign-up or administrator creation of users.  Name  The attribute name. For an attribute like custom:myAttribute, enter myAttribute for this field.  Required  When true, users who sign up or are created must set a value for the attribute.  NumberAttributeConstraints  The minimum and maximum length of accepted values for a Number-type attribute.  StringAttributeConstraints  The minimum and maximum length of accepted values for a String-type attribute.  DeveloperOnlyAttribute  This legacy option creates an attribute with a dev: prefix. You can only set the value of a developer-only attribute with administrative IAM credentials.
         public let customAttributes: [SchemaAttributeType]
-        /// The user pool ID for the user pool where you want to add custom attributes.
+        /// The ID of the user pool where you want to add custom attributes.
         public let userPoolId: String
 
         @inlinable
@@ -514,7 +514,7 @@ extension CognitoIdentityProvider {
         public let groupName: String
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool that contains the group that you want to add the user to.
         public let userPoolId: String
 
         @inlinable
@@ -545,11 +545,11 @@ extension CognitoIdentityProvider {
 
     public struct AdminConfirmSignUpRequest: AWSEncodableShape {
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. If your user pool configuration includes triggers, the AdminConfirmSignUp API action invokes the Lambda function that is specified for the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. In this payload, the clientMetadata attribute provides the data that you assigned to the ClientMetadata parameter in your AdminConfirmSignUp request. In your function code in Lambda, you can process the ClientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for which you want to confirm user registration.
+        /// The ID of the user pool where you want to confirm a user's sign-up request.
         public let userPoolId: String
 
         @inlinable
@@ -612,14 +612,14 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminCreateUserRequest: AWSEncodableShape {
-        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminCreateUser request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a ClientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminCreateUser request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
-        /// Specify "EMAIL" if email will be used to send the welcome message. Specify "SMS" if the phone number will be used. The default value is "SMS". You can specify more than one value.
+        /// Specify EMAIL if email will be used to send the welcome message. Specify SMS if the phone number will be used. The default value is SMS. You can specify more than one value.
         public let desiredDeliveryMediums: [DeliveryMediumType]?
-        /// This parameter is used only if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
+        /// This parameter is used only if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, this request migrates the alias from the previous user to the newly-created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
         public let forceAliasCreation: Bool?
-        /// Set to RESEND to resend the invitation message to a user that already exists and reset the expiration limit on the user's account. Set to SUPPRESS to suppress sending the message. You can specify only one value.
+        /// Set to RESEND to resend the invitation message to a user that already exists, and to reset the temporary-password duration with a new temporary password. Set to SUPPRESS to suppress sending the message. You can specify only one value.
         public let messageAction: MessageActionType?
         /// The user's temporary password. This password must conform to the password policy that you specified when you created the user pool. The exception to the requirement for a password is when your user pool supports passwordless sign-in with email or SMS OTPs. To create a user with no password, omit this parameter or submit a blank value. You can only create a passwordless user when passwordless sign-in is available. See the SignInPolicyType property of CreateUserPool and UpdateUserPool. The temporary password is valid only once. To complete the Admin Create User flow, the user must enter the temporary password in the sign-in page, along with a new password to be used in all future sign-ins. If you don't specify a value, Amazon Cognito generates one for you unless you have passwordless options active for your user pool. The temporary password can only be used until the user account expiration limit that you set for your user pool. To reset the account after that time limit, you must call AdminCreateUser again and specify RESEND for the MessageAction parameter.
         public let temporaryPassword: String?
@@ -627,7 +627,7 @@ extension CognitoIdentityProvider {
         public let userAttributes: [AttributeType]?
         /// The value that you want to set as the username sign-in attribute. The following conditions apply to the username parameter.   The username can't be a duplicate of another username in the same user pool.   You can't change the value of a username after you create it.   You can only provide a value if usernames are a valid sign-in attribute for your user pool. If your user pool only supports phone numbers or email addresses as sign-in attributes, Amazon Cognito automatically generates a username value. For more information, see Customizing sign-in attributes.
         public let username: String
-        /// The user pool ID for the user pool where the user will be created.
+        /// The ID of the user pool where you want to create a user.
         public let userPoolId: String
         /// Temporary user attributes that contribute to the outcomes of your pre sign-up Lambda trigger. This set of key-value pairs are for custom validation of information that you  collect from your users but don't need to retain. Your Lambda function can analyze this additional data and act on it. Your function might perform external API operations like logging user attributes and validation data to Amazon CloudWatch Logs. Validation data might also affect the response that your function returns to Amazon Cognito, like automatically confirming the user if they sign up from within your network. For more information about the pre sign-up Lambda trigger, see Pre sign-up Lambda trigger.
         public let validationData: [AttributeType]?
@@ -680,7 +680,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminCreateUserResponse: AWSDecodableShape {
-        /// The newly created user.
+        /// The new user's profile details.
         public let user: UserType?
 
         @inlinable
@@ -698,7 +698,7 @@ extension CognitoIdentityProvider {
         public let userAttributeNames: [String]
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool where you want to delete user attributes.
+        /// The ID of the user pool where you want to delete user attributes.
         public let userPoolId: String
 
         @inlinable
@@ -736,7 +736,7 @@ extension CognitoIdentityProvider {
     public struct AdminDeleteUserRequest: AWSEncodableShape {
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool where you want to delete the user.
+        /// The ID of the user pool where you want to delete the user.
         public let userPoolId: String
 
         @inlinable
@@ -761,9 +761,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminDisableProviderForUserRequest: AWSEncodableShape {
-        /// The user to be disabled.
+        /// The user profile that you want to delete a linked identity from.
         public let user: ProviderUserIdentifierType
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool where you want to delete the user's linked identities.
         public let userPoolId: String
 
         @inlinable
@@ -790,7 +790,7 @@ extension CognitoIdentityProvider {
     public struct AdminDisableUserRequest: AWSEncodableShape {
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool where you want to disable the user.
+        /// The ID of the user pool where you want to disable the user.
         public let userPoolId: String
 
         @inlinable
@@ -821,7 +821,7 @@ extension CognitoIdentityProvider {
     public struct AdminEnableUserRequest: AWSEncodableShape {
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool where you want to enable the user.
+        /// The ID of the user pool where you want to activate sign-in for the user.
         public let userPoolId: String
 
         @inlinable
@@ -850,11 +850,11 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminForgetDeviceRequest: AWSEncodableShape {
-        /// The device key.
+        /// The key ID of the device that you want to delete. You can get device keys in the response to an AdminListDevices request.
         public let deviceKey: String
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID.
+        /// The ID of the user pool where the device owner is a user.
         public let userPoolId: String
 
         @inlinable
@@ -884,11 +884,11 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminGetDeviceRequest: AWSEncodableShape {
-        /// The device key.
+        /// The key of the device that you want to delete. You can get device IDs in the response to an AdminListDevices request.
         public let deviceKey: String
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID.
+        /// The ID of the user pool where the device owner is a user.
         public let userPoolId: String
 
         @inlinable
@@ -918,7 +918,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminGetDeviceResponse: AWSDecodableShape {
-        /// The device.
+        /// Details of the requested device. Includes device information, last-accessed and created dates, and the device key.
         public let device: DeviceType
 
         @inlinable
@@ -934,7 +934,7 @@ extension CognitoIdentityProvider {
     public struct AdminGetUserRequest: AWSEncodableShape {
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool where you want to get information about the user.
+        /// The ID of the user pool where you want to get information about the user.
         public let userPoolId: String
 
         @inlinable
@@ -959,24 +959,25 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminGetUserResponse: AWSDecodableShape {
-        /// Indicates that the status is enabled.
+        /// Indicates whether the user is activated for sign-in. The AdminDisableUser and AdminEnableUser API operations deactivate and activate user sign-in, respectively.
         public let enabled: Bool?
         ///  This response parameter is no longer supported. It provides information only about SMS MFA configurations. It doesn't provide information about time-based one-time password (TOTP) software token MFA configurations. To look up information about either type of MFA configuration, use UserMFASettingList instead.
         public let mfaOptions: [MFAOptionType]?
-        /// The user's preferred MFA setting.
+        /// The user's preferred MFA. Users can prefer SMS message, email message, or TOTP MFA.
         public let preferredMfaSetting: String?
-        /// An array of name-value pairs representing user attributes.
+        /// An array of name-value pairs of user attributes and their values, for example "email": "testuser@example.com".
         public let userAttributes: [AttributeType]?
-        /// The date the user was created.
+        /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+        /// human-readable format like ISO 8601 or a Java Date object.
         public let userCreateDate: Date?
         /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
         /// human-readable format like ISO 8601 or a Java Date object.
         public let userLastModifiedDate: Date?
-        /// The MFA options that are activated for the user. The possible values in this list are SMS_MFA, EMAIL_OTP, and SOFTWARE_TOKEN_MFA.
+        /// The MFA options that are activated for the user. The possible values in this list are SMS_MFA, EMAIL_OTP, and SOFTWARE_TOKEN_MFA. You can change the MFA preference for users who have more than one available MFA factor with AdminSetUserMFAPreference or SetUserMFAPreference.
         public let userMFASettingList: [String]?
         /// The username of the user that you requested.
         public let username: String
-        /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   UNKNOWN - User status isn't known.   RESET_REQUIRED - User is confirmed, but the user must request a code and reset their password before they can sign in.   FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change their password to a new value before doing anything else.
+        /// The user's status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   UNKNOWN - User status isn't known.   RESET_REQUIRED - User is confirmed, but the user must request a code and reset their password before they can sign in.   FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change their password to a new value before doing anything else.    EXTERNAL_PROVIDER - The user signed in with a third-party identity provider.
         public let userStatus: UserStatusType?
 
         @inlinable
@@ -1006,24 +1007,25 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminInitiateAuthRequest: AWSEncodableShape {
-        /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminInitiateAuth calls.
+        /// The analytics metadata for collecting Amazon Pinpoint metrics.
         public let analyticsMetadata: AnalyticsMetadataType?
-        /// The authentication flow that you want to initiate. The AuthParameters that you must submit are linked to the flow that you submit. For example:    USER_AUTH: Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response.    REFRESH_TOKEN_AUTH: Receive new ID and access tokens when you pass a REFRESH_TOKEN parameter with a valid refresh token as the value.    USER_SRP_AUTH: Receive secure remote password (SRP) variables for the next challenge, PASSWORD_VERIFIER, when you pass USERNAME and SRP_A parameters..    ADMIN_USER_PASSWORD_AUTH: Receive new tokens or the next challenge, for example SOFTWARE_TOKEN_MFA, when you pass USERNAME and PASSWORD parameters.   Valid values include the following:  USER_AUTH  The entry point for sign-in with passwords, one-time passwords, biometric devices, and security keys.  USER_SRP_AUTH  Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verification in custom authentication flow.  REFRESH_TOKEN_AUTH and REFRESH_TOKEN  Provide a valid refresh token and receive new ID and access tokens. For more information, see Using the refresh token.  CUSTOM_AUTH  Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers.  ADMIN_USER_PASSWORD_AUTH  Username-password authentication with the password sent directly in the request. For more information, see Admin authentication flow.    USER_PASSWORD_AUTH is a flow type of InitiateAuth and isn't valid for AdminInitiateAuth.
+        /// The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows and their parameters.    USER_AUTH: Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response.    REFRESH_TOKEN_AUTH: Receive new ID and access tokens when you pass a REFRESH_TOKEN parameter with a valid refresh token as the value.    USER_SRP_AUTH: Receive secure remote password (SRP) variables for the next challenge, PASSWORD_VERIFIER, when you pass USERNAME and SRP_A parameters..    ADMIN_USER_PASSWORD_AUTH: Receive new tokens or the next challenge, for example SOFTWARE_TOKEN_MFA, when you pass USERNAME and PASSWORD parameters.    All flows   USER_AUTH  The entry point for sign-in with passwords, one-time passwords, and WebAuthN authenticators.  USER_SRP_AUTH  Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verification in custom authentication flow.  REFRESH_TOKEN_AUTH and REFRESH_TOKEN  Provide a valid refresh token and receive new ID and access tokens. For more information, see Using the refresh token.  CUSTOM_AUTH  Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers.  ADMIN_USER_PASSWORD_AUTH  Username-password authentication with the password sent directly in the request. For more information, see Admin authentication flow.    USER_PASSWORD_AUTH is a flow type of InitiateAuth and isn't valid for AdminInitiateAuth.
         public let authFlow: AuthFlowType
         /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The required values depend on the value of AuthFlow:   For USER_AUTH: USERNAME (required), PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For ADMIN_USER_PASSWORD_AUTH: USERNAME (required), PASSWORD (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY. To start the authentication flow with password verification, include ChallengeName: SRP_A and SRP_A: (The SRP_A Value).   For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
         public let authParameters: [String: String]?
-        /// The app client ID.
+        /// The ID of the app client where the user wants to sign in.
         public let clientId: String
         /// A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminInitiateAuth API action, Amazon Cognito invokes the Lambda functions that are specified for various triggers. The ClientMetadata value is passed as input to the functions for only the following triggers:   Pre signup   Pre authentication   User migration   When Amazon Cognito invokes the functions for these triggers, it passes a JSON payload, which the function receives as input. This payload contains a validationData attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminInitiateAuth request. In your function code in Lambda, you can process the validationData value to enhance your workflow for your specific needs. When you use the AdminInitiateAuth API action, Amazon Cognito also invokes the functions for the following triggers, but it doesn't provide the ClientMetadata value as input:   Post authentication   Custom message   Pre token generation   Create auth challenge   Define auth challenge   Custom email sender   Custom SMS sender   For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
         /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced
         /// security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito
-        /// when it makes API requests.
+        /// when it makes API requests. For more information, see Collecting data for threat protection in
+        /// applications.
         public let contextData: ContextDataType?
-        /// The optional session ID from a ConfirmSignUp API request. You can sign in a user directly from the sign-up process with the USER_AUTH authentication flow.
+        /// The optional session ID from a ConfirmSignUp API request. You can sign in a user directly from the sign-up process with an AuthFlow of USER_AUTH and AuthParameters of EMAIL_OTP or SMS_OTP, depending on how your user pool sent the confirmation-code message.
         public let session: String?
-        /// The ID of the Amazon Cognito user pool.
+        /// The ID of the user pool where the user wants to sign in.
         public let userPoolId: String
 
         @inlinable
@@ -1072,7 +1074,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminInitiateAuthResponse: AWSDecodableShape {
-        /// The result of the authentication response. This is only returned if the caller doesn't need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
+        /// The outcome of successful authentication. This is only returned if the user pool has no additional challenges to return. If Amazon Cognito returns another challenge, the response includes ChallengeName, ChallengeParameters, and Session so that your user can answer the challenge.
         public let authenticationResult: AuthenticationResultType?
         /// The name of the challenge that you're responding to with this call. This is returned in the AdminInitiateAuth response if you must pass another challenge.    WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a passkey, or webauthN, factor. These are typically biometric devices or security keys.    PASSWORD: Respond with USER_PASSWORD_AUTH parameters: USERNAME (required), PASSWORD (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    PASSWORD_SRP: Respond with USER_SRP_AUTH parameters: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.    SELECT_CHALLENGE: Respond to the challenge with USERNAME and an ANSWER that matches one of the challenge types in the AvailableChallenges response parameter.    MFA_SETUP: If MFA is required, users who don't have at least one of the MFA methods set up are presented with an MFA_SETUP challenge. The user must set up at least one MFA type to continue to authenticate.    SELECT_MFA_TYPE: Selects the MFA type. Valid MFA options are SMS_MFA for SMS message MFA, EMAIL_OTP for email message MFA, and SOFTWARE_TOKEN_MFA for time-based one-time password (TOTP) software token MFA.    SMS_MFA: Next challenge is to supply an SMS_MFA_CODEthat your user pool delivered in an SMS message.    EMAIL_OTP: Next challenge is to supply an EMAIL_OTP_CODE that your user pool delivered in an email message.    PASSWORD_VERIFIER: Next challenge is to supply PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after the client-side SRP calculations.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued.    DEVICE_SRP_AUTH: If device tracking was activated in your user pool and the previous challenges were passed, this challenge is returned so that Amazon Cognito can start tracking this device.    DEVICE_PASSWORD_VERIFIER: Similar to PASSWORD_VERIFIER, but for devices only.    ADMIN_NO_SRP_AUTH: This is returned if you must authenticate with USERNAME and PASSWORD directly. An app client must be enabled to use this flow.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with NEW_PASSWORD and any required attributes that Amazon Cognito returned in the requiredAttributes parameter. You can also set values for attributes that aren't required by your user pool and that your app client can write. For more information, see AdminRespondToAuthChallenge. Amazon Cognito only returns this challenge for users who have temporary passwords. Because of this, and because in some cases you can create users who don't have values for required attributes, take care to collect and submit required-attribute values for all users who don't have passwords. You can create a user in the Amazon Cognito console without, for example, a required birthdate attribute. The API response from Amazon Cognito won't prompt you to submit a birthdate for the user if they don't have a password.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the requiredAttributes parameter,
@@ -1080,7 +1082,7 @@ extension CognitoIdentityProvider {
         public let challengeName: ChallengeNameType?
         /// The challenge parameters. These are returned to you in the AdminInitiateAuth response if you must pass another challenge. The responses in this parameter should be used to compute inputs to the next call (AdminRespondToAuthChallenge). All challenges require USERNAME and SECRET_HASH (if applicable). The value of the USER_ID_FOR_SRP attribute is the user's actual username, not an alias (such as email address or phone number), even if you specified an alias in your call to AdminInitiateAuth. This happens because, in the AdminRespondToAuthChallenge API ChallengeResponses, the USERNAME attribute can't be an alias.
         public let challengeParameters: [String: String]?
-        /// The session that should be passed both ways in challenge-response calls to the service. If AdminInitiateAuth or AdminRespondToAuthChallenge API call determines that the caller must pass another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next AdminRespondToAuthChallenge API call.
+        /// The session that must be passed to challenge-response requests. If an AdminInitiateAuth or AdminRespondToAuthChallenge API request determines that the caller must pass another challenge, Amazon Cognito returns a session ID and the parameters of the next challenge. Pass this session Id in the Session parameter of AdminRespondToAuthChallenge.
         public let session: String?
 
         @inlinable
@@ -1104,7 +1106,7 @@ extension CognitoIdentityProvider {
         public let destinationUser: ProviderUserIdentifierType
         /// An external IdP account for a user who doesn't exist yet in the user pool. This user must be a federated user (for example, a SAML or Facebook user), not another native user. If the SourceUser is using a federated social IdP, such as Facebook, Google, or Login with Amazon, you must set the ProviderAttributeName to Cognito_Subject. For social IdPs, the ProviderName will be Facebook, Google, or LoginWithAmazon, and Amazon Cognito will automatically parse the Facebook, Google, and Login with Amazon tokens for id, sub, and user_id, respectively. The ProviderAttributeValue for the user must be the same value as the id, sub, or user_id value found in the social IdP token. For OIDC, the ProviderAttributeName can be any mapped value from a claim in the ID token, or that your app retrieves from the userInfo endpoint. For SAML, the ProviderAttributeName can be any mapped value from a claim in the SAML assertion. The following additional considerations apply to SourceUser for OIDC and SAML providers.   You must map the claim to a user pool attribute in your IdP configuration, and set the user pool attribute name as the value of ProviderAttributeName in your AdminLinkProviderForUser request. For example, email.   When you set ProviderAttributeName to Cognito_Subject, Amazon Cognito will automatically parse the default unique identifier found in the subject from the IdP token.
         public let sourceUser: ProviderUserIdentifierType
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool where you want to link a federated identity.
         public let userPoolId: String
 
         @inlinable
@@ -1132,7 +1134,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListDevicesRequest: AWSEncodableShape {
-        /// The limit of the devices request.
+        /// The maximum number of devices that you want Amazon Cognito to return in the response.
         public let limit: Int?
         /// This API operation returns a limited number of results. The pagination token is
         /// an identifier that you can present in an additional API request with the same parameters. When
@@ -1142,7 +1144,7 @@ extension CognitoIdentityProvider {
         public let paginationToken: String?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID.
+        /// The ID of the user pool where the device owner is a user.
         public let userPoolId: String
 
         @inlinable
@@ -1175,7 +1177,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListDevicesResponse: AWSDecodableShape {
-        /// The devices in the list of devices response.
+        /// An array of devices and their information. Each entry that's returned includes device information, last-accessed and created dates, and the device key.
         public let devices: [DeviceType]?
         /// The identifier that Amazon Cognito returned with the previous request to this operation. When
         /// you include a pagination token in your request, Amazon Cognito returns the next set of items in
@@ -1195,13 +1197,17 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListGroupsForUserRequest: AWSEncodableShape {
-        /// The limit of the request to list groups.
+        /// The maximum number of groups that you want Amazon Cognito to return in the response.
         public let limit: Int?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        /// This API operation returns a limited number of results. The pagination token is
+        /// an identifier that you can present in an additional API request with the same parameters. When
+        /// you include the pagination token, Amazon Cognito returns the next set of items after the current list.
+        /// Subsequent requests return a new pagination token. By use of this token, you can paginate
+        /// through the full list of items.
         public let nextToken: String?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool where you want to view a user's groups.
         public let userPoolId: String
 
         @inlinable
@@ -1235,9 +1241,11 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminListGroupsForUserResponse: AWSDecodableShape {
-        /// The groups that the user belongs to.
+        /// An array of groups and information about them.
         public let groups: [GroupType]?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        /// The identifier that Amazon Cognito returned with the previous request to this operation. When
+        /// you include a pagination token in your request, Amazon Cognito returns the next set of items in
+        /// the list. By use of this token, you can paginate through the full list of items.
         public let nextToken: String?
 
         @inlinable
@@ -1255,11 +1263,15 @@ extension CognitoIdentityProvider {
     public struct AdminListUserAuthEventsRequest: AWSEncodableShape {
         /// The maximum number of authentication events to return. Returns 60 events if you set MaxResults to 0, or if you don't include a MaxResults parameter.
         public let maxResults: Int?
-        /// A pagination token.
+        /// This API operation returns a limited number of results. The pagination token is
+        /// an identifier that you can present in an additional API request with the same parameters. When
+        /// you include the pagination token, Amazon Cognito returns the next set of items after the current list.
+        /// Subsequent requests return a new pagination token. By use of this token, you can paginate
+        /// through the full list of items.
         public let nextToken: String?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID.
+        /// The Id of the user pool that contains the user profile with the logged events.
         public let userPoolId: String
 
         @inlinable
@@ -1295,7 +1307,9 @@ extension CognitoIdentityProvider {
     public struct AdminListUserAuthEventsResponse: AWSDecodableShape {
         /// The response object. It includes the EventID, EventType, CreationDate, EventRisk, and EventResponse.
         public let authEvents: [AuthEventType]?
-        /// A pagination token.
+        /// The identifier that Amazon Cognito returned with the previous request to this operation. When
+        /// you include a pagination token in your request, Amazon Cognito returns the next set of items in
+        /// the list. By use of this token, you can paginate through the full list of items.
         public let nextToken: String?
 
         @inlinable
@@ -1311,11 +1325,11 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminRemoveUserFromGroupRequest: AWSEncodableShape {
-        /// The group name.
+        /// The name of the group that you want to remove the user from, for example MyTestGroup.
         public let groupName: String
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool that contains the group and the user that you want to remove.
         public let userPoolId: String
 
         @inlinable
@@ -1345,12 +1359,12 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminResetUserPasswordRequest: AWSEncodableShape {
-        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminResetUserPassword API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminResetUserPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs.  For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. The AdminResetUserPassword API operation invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminResetUserPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs.  For more information, see
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool where you want to reset the user's password.
+        /// The ID of the user pool where you want to reset the user's password.
         public let userPoolId: String
 
         @inlinable
@@ -1387,24 +1401,25 @@ extension CognitoIdentityProvider {
     public struct AdminRespondToAuthChallengeRequest: AWSEncodableShape {
         /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminRespondToAuthChallenge calls.
         public let analyticsMetadata: AnalyticsMetadataType?
-        /// The challenge name. For more information, see AdminInitiateAuth.
+        /// The name of the challenge that you are responding to. You can find more information about values for ChallengeName in the response parameters of AdminInitiateAuth.
         public let challengeName: ChallengeNameType
         /// The responses to the challenge that you received in the previous request. Each challenge has its own required response parameters. The following examples are partial JSON request bodies that highlight challenge-response parameters.  You must provide a SECRET_HASH parameter in all challenge responses to an app client that has a client secret. Include a DEVICE_KEY for device authentication.   SELECT_CHALLENGE   "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "USERNAME": "[username]", "ANSWER": "[Challenge name]"}  Available challenges are PASSWORD, PASSWORD_SRP,  EMAIL_OTP, SMS_OTP, and WEB_AUTHN. Complete authentication in the SELECT_CHALLENGE response for PASSWORD, PASSWORD_SRP, and WEB_AUTHN:    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "WEB_AUTHN", "USERNAME": "[username]", "CREDENTIAL": "[AuthenticationResponseJSON]"}  See  AuthenticationResponseJSON.    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "PASSWORD", "USERNAME": "[username]", "PASSWORD": "[password]"}     "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "PASSWORD_SRP", "USERNAME": "[username]", "SRP_A": "[SRP_A]"}    For SMS_OTP and EMAIL_OTP, respond with the username and answer. Your user pool will send a code for the user to submit in the next challenge response.    "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "SMS_OTP", "USERNAME": "[username]"}     "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER": "EMAIL_OTP", "USERNAME": "[username]"}     SMS_OTP   "ChallengeName": "SMS_OTP", "ChallengeResponses":  {"SMS_OTP_CODE": "[code]", "USERNAME": "[username]"}   EMAIL_OTP   "ChallengeName": "EMAIL_OTP", "ChallengeResponses": {"EMAIL_OTP_CODE": "[code]", "USERNAME": "[username]"}   SMS_MFA   "ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE": "[code]", "USERNAME": "[username]"}   PASSWORD_VERIFIER  This challenge response is part of the SRP flow. Amazon Cognito requires  that your application respond to this challenge within a few seconds. When the response time exceeds this period, your user pool returns a NotAuthorizedException error.  "ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses": {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"}  Add "DEVICE_KEY" when you sign in with a remembered device.  CUSTOM_CHALLENGE   "ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"}  Add "DEVICE_KEY" when you sign in with a remembered device.  NEW_PASSWORD_REQUIRED   "ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses": {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"}  To set any required attributes that InitiateAuth returned in an requiredAttributes parameter, add "userAttributes.[attribute_name]": "[attribute_value]". This parameter can also set values for writable attributes that aren't required by your user pool.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the requiredAttributes parameter,
         /// then use the UpdateUserAttributes API operation to modify the value of any additional attributes.   SOFTWARE_TOKEN_MFA   "ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses": {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE": [authenticator_code]}   DEVICE_SRP_AUTH   "ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses": {"USERNAME": "[username]", "DEVICE_KEY": "[device_key]", "SRP_A": "[srp_a]"}   DEVICE_PASSWORD_VERIFIER   "ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses": {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"}   MFA_SETUP   "ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME": "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]"   SELECT_MFA_TYPE   "ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[SMS_MFA or SOFTWARE_TOKEN_MFA]"}    For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
         public let challengeResponses: [String: String]?
-        /// The app client ID.
+        /// The ID of the app client where you initiated sign-in.
         public let clientId: String
-        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminRespondToAuthChallenge API action, Amazon Cognito invokes any functions that you have assigned to the following triggers:    pre sign-up   custom message   post authentication   user migration   pre token generation   define auth challenge   create auth challenge   verify auth challenge response   When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your AdminRespondToAuthChallenge request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminRespondToAuthChallenge API action, Amazon Cognito invokes any functions that you have assigned to the following triggers:    Pre sign-up   custom message   Post authentication   User migration   Pre token generation   Define auth challenge   Create auth challenge   Verify auth challenge response   When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your AdminRespondToAuthChallenge request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
         /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced
         /// security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito
-        /// when it makes API requests.
+        /// when it makes API requests. For more information, see Collecting data for threat protection in
+        /// applications.
         public let contextData: ContextDataType?
-        /// The session that should be passed both ways in challenge-response calls to the service. If an InitiateAuth or RespondToAuthChallenge API call determines that the caller must pass another challenge, it returns a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
+        /// The session identifier that maintains the state of authentication requests and challenge responses. If an AdminInitiateAuth or AdminRespondToAuthChallenge API request results in a determination that your application must pass another challenge, Amazon Cognito returns a session with other challenge parameters. Send this session identifier, unmodified, to the next AdminRespondToAuthChallenge request.
         public let session: String?
-        /// The ID of the Amazon Cognito user pool.
+        /// The ID of the user pool where you want to respond to an authentication challenge.
         public let userPoolId: String
 
         @inlinable
@@ -1453,13 +1468,13 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminRespondToAuthChallengeResponse: AWSDecodableShape {
-        /// The result returned by the server in response to the authentication request.
+        /// The outcome of a successful authentication process. After your application has passed all challenges, Amazon Cognito returns an AuthenticationResult with the JSON web tokens (JWTs) that indicate successful sign-in.
         public let authenticationResult: AuthenticationResultType?
-        /// The name of the challenge. For more information, see AdminInitiateAuth.
+        /// The name of the challenge that you must next respond to. You can find more information about values for ChallengeName in the response parameters of AdminInitiateAuth.
         public let challengeName: ChallengeNameType?
-        /// The challenge parameters. For more information, see AdminInitiateAuth.
+        /// The parameters that define your response to the next challenge. Take the values in ChallengeParameters and provide values for them in the ChallengeResponses of the next AdminRespondToAuthChallenge request.
         public let challengeParameters: [String: String]?
-        /// The session that should be passed both ways in challenge-response calls to the service. If the caller must pass another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
+        /// The session identifier that maintains the state of authentication requests and challenge responses. If an AdminInitiateAuth or AdminRespondToAuthChallenge API request results in a determination that your application must pass another challenge, Amazon Cognito returns a session with other challenge parameters. Send this session identifier, unmodified, to the next AdminRespondToAuthChallenge request.
         public let session: String?
 
         @inlinable
@@ -1522,13 +1537,13 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminSetUserPasswordRequest: AWSEncodableShape {
-        /// The password for the user.
+        /// The new temporary or permanent password that you want to set for the user. You can't remove the password for a user who already has a password so that they can only sign in with passwordless methods. In this scenario, you must create a new user without a password.
         public let password: String
-        ///  True if the password is permanent, False if it is temporary.
+        /// Set to true to set a password that the user can immediately sign in with. Set to false to set a temporary password that the user must change on their next sign-in.
         public let permanent: Bool?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool where you want to set the user's password.
+        /// The ID of the user pool where you want to set the user's password.
         public let userPoolId: String
 
         @inlinable
@@ -1601,7 +1616,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminUpdateAuthEventFeedbackRequest: AWSEncodableShape {
-        /// The authentication event ID.
+        /// The authentication event ID. To query authentication events for a user, see AdminListUserAuthEvents.
         public let eventId: String
         /// The authentication event feedback value. When you provide a FeedbackValue
         /// value of valid, you tell Amazon Cognito that you trust a user session where Amazon Cognito
@@ -1611,7 +1626,7 @@ extension CognitoIdentityProvider {
         public let feedbackValue: FeedbackValueType
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID.
+        /// The ID of the user pool where you want to submit authentication-event feedback.
         public let userPoolId: String
 
         @inlinable
@@ -1647,13 +1662,13 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminUpdateDeviceStatusRequest: AWSEncodableShape {
-        /// The device key.
+        /// The unique identifier, or device key, of the device that you want to update the status for.
         public let deviceKey: String
-        /// The status indicating whether a device has been remembered or not.
+        /// To enable device authentication with the specified device, set to remembered.To disable, set to not_remembered.
         public let deviceRememberedStatus: DeviceRememberedStatusType?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID.
+        /// The ID of the user pool where you want to change a user's device status.
         public let userPoolId: String
 
         @inlinable
@@ -1690,13 +1705,13 @@ extension CognitoIdentityProvider {
 
     public struct AdminUpdateUserAttributesRequest: AWSEncodableShape {
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminUpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminUpdateUserAttributes request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
         /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name. If your user pool requires verification before Amazon Cognito updates an attribute value that you specify in this request, Amazon Cognito doesn’t immediately update the value of that attribute. After your user receives and responds to a verification message to verify the new value, Amazon Cognito updates the attribute value. Your user can sign in and receive messages with the original attribute value until they verify the new value. To skip the verification message and update the value of an attribute that requires verification in the same API request, include the email_verified or phone_number_verified attribute, with a value of true. If you set the email_verified or phone_number_verified value for an email or phone_number attribute that requires verification to true, Amazon Cognito doesn’t send a verification message to your user.
         public let userAttributes: [AttributeType]
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID for the user pool where you want to update user attributes.
+        /// The ID of the user pool where you want to update user attributes.
         public let userPoolId: String
 
         @inlinable
@@ -1738,7 +1753,7 @@ extension CognitoIdentityProvider {
     public struct AdminUserGlobalSignOutRequest: AWSEncodableShape {
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
-        /// The user pool ID.
+        /// The ID of the user pool where you want to sign out a user.
         public let userPoolId: String
 
         @inlinable
@@ -1877,9 +1892,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct AssociateSoftwareTokenRequest: AWSEncodableShape {
-        /// A valid access token that Amazon Cognito issued to the user whose software token you want to generate.
+        /// A valid access token that Amazon Cognito issued to the user whose software token you want to generate. You can provide either an access token or a session ID in the request.
         public let accessToken: String?
-        /// The session that should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
+        /// The session identifier that maintains the state of authentication requests and challenge responses. In AssociateSoftwareToken, this is the session ID from a successful sign-in. You can provide either an access token or a session ID in the request.
         public let session: String?
 
         @inlinable
@@ -1901,9 +1916,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct AssociateSoftwareTokenResponse: AWSDecodableShape {
-        /// A unique generated shared secret code that is used in the TOTP algorithm to generate a one-time code.
+        /// A unique generated shared secret code that is used by the TOTP algorithm to generate a one-time code.
         public let secretCode: String?
-        /// The session that should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
+        /// The session identifier that maintains the state of authentication requests and challenge responses. This session ID is valid for the next request in this flow, VerifySoftwareToken.
         public let session: String?
 
         @inlinable
@@ -2043,7 +2058,7 @@ extension CognitoIdentityProvider {
         public let accessToken: String
         /// The user's previous password. Required if the user has a password. If the user has no password and only signs in with passwordless authentication options, you can omit this parameter.
         public let previousPassword: String?
-        /// The new password.
+        /// A new password that you prompted the user to enter in your application.
         public let proposedPassword: String
 
         @inlinable
@@ -2115,7 +2130,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct CompleteWebAuthnRegistrationRequest: AWSEncodableShape {
-        /// A valid access token that Amazon Cognito issued to the user whose passkey registration you want to verify.
+        /// A valid access token that Amazon Cognito issued to the user whose passkey registration you want to complete.
         public let accessToken: String
         /// A RegistrationResponseJSON public-key credential response from the user's passkey provider.
         public let credential: String
@@ -2175,9 +2190,9 @@ extension CognitoIdentityProvider {
     public struct ConfirmDeviceRequest: AWSEncodableShape {
         /// A valid access token that Amazon Cognito issued to the user whose device you want to confirm.
         public let accessToken: String
-        /// The device key.
+        /// The unique identifier, or device key, of the device that you want to update the status for.
         public let deviceKey: String
-        /// The device name.
+        /// A friendly name for the device, for example MyMobilePhone.
         public let deviceName: String?
         /// The configuration of the device secret verifier.
         public let deviceSecretVerifierConfig: DeviceSecretVerifierConfigType?
@@ -2209,7 +2224,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct ConfirmDeviceResponse: AWSDecodableShape {
-        /// Indicates whether the user confirmation must confirm the device response.
+        /// When true, your user must confirm that they want to remember the device. Prompt the user for an answer. You must then make an UpdateUserDevice request that sets the device to remembered or not_remembered. When false, immediately sets the device as remembered and eligible for device authentication. You can configure your user pool to always remember devices, in which case this response is false, or to allow users to opt in, in which case this response is true. Configure this option under Device tracking in the Sign-in menu of your user pool. You can also configure this option with the DeviceConfiguration parameter of a CreateUserPool or UpdateUserPool request.
         public let userConfirmationNecessary: Bool?
 
         @inlinable
@@ -2225,12 +2240,12 @@ extension CognitoIdentityProvider {
     public struct ConfirmForgotPasswordRequest: AWSEncodableShape {
         /// The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmForgotPassword calls.
         public let analyticsMetadata: AnalyticsMetadataType?
-        /// The app client ID of the app associated with the user pool.
+        /// The ID of the app client where the user wants to reset their password. This parameter is an identifier of the client application that users are resetting their password from, but this operation resets users' passwords for all app clients in the user pool.
         public let clientId: String
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ConfirmForgotPassword API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmForgotPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
-        /// The confirmation code from your user's request to reset their password. For more information, see ForgotPassword.
+        /// The confirmation code that your user pool sent in response to an AdminResetUserPassword or a ForgotPassword request.
         public let confirmationCode: String
         /// The new password that your user wants to set.
         public let password: String
@@ -2238,7 +2253,8 @@ extension CognitoIdentityProvider {
         public let secretHash: String?
         /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced
         /// security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito
-        /// when it makes API requests.
+        /// when it makes API requests. For more information, see Collecting data for threat protection in
+        /// applications.
         public let userContextData: UserContextDataType?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
@@ -2300,19 +2316,20 @@ extension CognitoIdentityProvider {
         /// The ID of the app client associated with the user pool.
         public let clientId: String
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ConfirmSignUp API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmSignUp request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
-        /// The confirmation code sent by a user's request to confirm registration.
+        /// The confirmation code that your user pool sent in response to the SignUp request.
         public let confirmationCode: String
-        /// Boolean to be specified to force user confirmation irrespective of existing alias. By default set to False. If this parameter is set to True and the phone number/email used for sign up confirmation already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user being confirmed. If set to False, the API will throw an AliasExistsException error.
+        /// When true, forces user confirmation despite any existing aliases. Defaults to false. A value of true migrates the alias from an existing user to the new user if an existing user already has the phone number or email address as an alias. Say, for example, that an existing user has an email attribute of bob@example.com and email is an alias in your user pool. If the new user also has an email of bob@example.com and your ConfirmSignUp response sets ForceAliasCreation to true, the new user can sign in with a username of bob@example.com and the existing user can no longer do so. If false and an attribute belongs to an existing alias, this request returns an AliasExistsException error. For more information about sign-in aliases, see Customizing sign-in attributes.
         public let forceAliasCreation: Bool?
-        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash, see Computing secret hash values.
         public let secretHash: String?
         /// The optional session ID from a SignUp API request. You can sign in a user directly from the sign-up process with the USER_AUTH authentication flow.
         public let session: String?
         /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced
         /// security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito
-        /// when it makes API requests.
+        /// when it makes API requests. For more information, see Collecting data for threat protection in
+        /// applications.
         public let userContextData: UserContextDataType?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
@@ -2367,7 +2384,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct ConfirmSignUpResponse: AWSDecodableShape {
-        /// You can automatically sign users in with the one-time password that they provided in a successful ConfirmSignUp request. To do this, pass the Session parameter from the ConfirmSignUp response in the Session parameter of an InitiateAuth or AdminInitiateAuth request.
+        /// A session identifier that you can use to immediately sign in the confirmed user. You can automatically sign users in with the one-time password that they provided in a successful ConfirmSignUp request. To do this, pass the Session parameter from this response in the Session parameter of an InitiateAuth or AdminInitiateAuth request.
         public let session: String?
 
         @inlinable
@@ -2421,15 +2438,15 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateGroupRequest: AWSEncodableShape {
-        /// A string containing the description of the group.
+        /// A description of the group that you're creating.
         public let description: String?
-        /// The name of the group. Must be unique.
+        /// A name for the group. This name must be unique in your user pool.
         public let groupName: String
         /// A non-negative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. Zero is the highest precedence value. Groups with lower Precedence values take precedence over groups with higher or null Precedence values. If a user belongs to two or more groups, it is the group with the lowest precedence value whose role ARN is given in the user's tokens for the cognito:roles and cognito:preferred_role claims. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim isn't set in users' tokens. The default Precedence value is null. The maximum Precedence value is 2^31-1.
         public let precedence: Int?
-        /// The role Amazon Resource Name (ARN) for the group.
+        /// The Amazon Resource Name (ARN) for the IAM role that you want to associate with the group. A group role primarily declares a preferred role for the credentials that you get from an identity pool. Amazon Cognito ID tokens have a cognito:preferred_role claim that presents the highest-precedence group that a user belongs to. Both ID and access tokens also contain a cognito:groups claim that list all the groups that a user is a member of.
         public let roleArn: String?
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool where you want to create a user group.
         public let userPoolId: String
 
         @inlinable
@@ -2465,7 +2482,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateGroupResponse: AWSDecodableShape {
-        /// The group object for the group.
+        /// The response object for a created group.
         public let group: GroupType?
 
         @inlinable
@@ -2479,20 +2496,20 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateIdentityProviderRequest: AWSEncodableShape {
-        /// A mapping of IdP attributes to standard and custom user pool attributes.
+        /// A mapping of IdP attributes to standard and custom user pool attributes. Specify a user pool attribute as the key of the key-value pair, and the IdP attribute claim name as the value.
         public let attributeMapping: [String: String]?
-        /// A list of IdP identifiers.
+        /// An array of IdP identifiers, for example "IdPIdentifiers": [ "MyIdP", "MyIdP2" ]. Identifiers are friendly names that you can pass in the idp_identifier query parameter of requests to the Authorize endpoint to silently redirect to sign-in with the associated IdP. Identifiers in a domain format also enable the use of email-address matching with SAML providers.
         public let idpIdentifiers: [String]?
         /// The scopes, URLs, and identifiers for your external identity provider. The following
         /// examples describe the provider detail keys for each IdP type. These values and their
         /// schema are subject to change. Social IdP authorize_scopes values must match
         /// the values listed here.  OpenID Connect (OIDC)  Amazon Cognito accepts the following elements when it can't discover endpoint URLs from oidc_issuer: attributes_url, authorize_url, jwks_uri, token_url. Create or update request: "ProviderDetails": { "attributes_request_method": "GET", "attributes_url": "https://auth.example.com/userInfo", "authorize_scopes": "openid profile email", "authorize_url": "https://auth.example.com/authorize", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "jwks_uri": "https://auth.example.com/.well-known/jwks.json", "oidc_issuer": "https://auth.example.com", "token_url": "https://example.com/token" }  Describe response: "ProviderDetails": { "attributes_request_method": "GET", "attributes_url": "https://auth.example.com/userInfo", "attributes_url_add_attributes": "false", "authorize_scopes": "openid profile email", "authorize_url": "https://auth.example.com/authorize", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "jwks_uri": "https://auth.example.com/.well-known/jwks.json", "oidc_issuer": "https://auth.example.com", "token_url": "https://example.com/token" }   SAML  Create or update request with Metadata URL: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true", "MetadataURL": "https://auth.example.com/sso/saml/metadata", "RequestSigningAlgorithm": "rsa-sha256" }  Create or update request with Metadata file: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true",   "MetadataFile": "[metadata XML]", "RequestSigningAlgorithm": "rsa-sha256" }  The value of MetadataFile must be the plaintext metadata document with all  quote (") characters escaped by backslashes. Describe response: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true", "ActiveEncryptionCertificate": "[certificate]", "MetadataURL": "https://auth.example.com/sso/saml/metadata", "RequestSigningAlgorithm": "rsa-sha256", "SLORedirectBindingURI": "https://auth.example.com/slo/saml", "SSORedirectBindingURI": "https://auth.example.com/sso/saml" }   LoginWithAmazon  Create or update request: "ProviderDetails": { "authorize_scopes": "profile postal_code", "client_id": "amzn1.application-oa2-client.1example23456789", "client_secret": "provider-app-client-secret"  Describe response: "ProviderDetails": { "attributes_url": "https://api.amazon.com/user/profile", "attributes_url_add_attributes": "false", "authorize_scopes": "profile postal_code", "authorize_url": "https://www.amazon.com/ap/oa", "client_id": "amzn1.application-oa2-client.1example23456789", "client_secret": "provider-app-client-secret", "token_request_method": "POST", "token_url": "https://api.amazon.com/auth/o2/token" }   Google  Create or update request: "ProviderDetails": { "authorize_scopes": "email profile openid", "client_id": "1example23456789.apps.googleusercontent.com", "client_secret": "provider-app-client-secret" }  Describe response: "ProviderDetails": { "attributes_url": "https://people.googleapis.com/v1/people/me?personFields=", "attributes_url_add_attributes": "true", "authorize_scopes": "email profile openid", "authorize_url": "https://accounts.google.com/o/oauth2/v2/auth", "client_id": "1example23456789.apps.googleusercontent.com", "client_secret": "provider-app-client-secret", "oidc_issuer": "https://accounts.google.com", "token_request_method": "POST", "token_url": "https://www.googleapis.com/oauth2/v4/token" }   SignInWithApple  Create or update request: "ProviderDetails": { "authorize_scopes": "email name", "client_id": "com.example.cognito", "private_key": "1EXAMPLE",  "key_id": "2EXAMPLE", "team_id": "3EXAMPLE" }  Describe response: "ProviderDetails": { "attributes_url_add_attributes": "false", "authorize_scopes": "email name", "authorize_url": "https://appleid.apple.com/auth/authorize", "client_id": "com.example.cognito", "key_id": "1EXAMPLE", "oidc_issuer": "https://appleid.apple.com", "team_id": "2EXAMPLE", "token_request_method": "POST", "token_url": "https://appleid.apple.com/auth/token" }   Facebook  Create or update request: "ProviderDetails": { "api_version": "v17.0",  "authorize_scopes": "public_profile, email", "client_id": "1example23456789",  "client_secret": "provider-app-client-secret" }  Describe response: "ProviderDetails":  { "api_version": "v17.0", "attributes_url": "https://graph.facebook.com/v17.0/me?fields=",  "attributes_url_add_attributes": "true", "authorize_scopes": "public_profile, email",  "authorize_url": "https://www.facebook.com/v17.0/dialog/oauth", "client_id":  "1example23456789", "client_secret": "provider-app-client-secret", "token_request_method":  "GET", "token_url": "https://graph.facebook.com/v17.0/oauth/access_token" }
         public let providerDetails: [String: String]
-        /// The IdP name.
+        /// The name that you want to assign to the IdP. You can pass the identity provider name in the identity_provider query parameter of requests to the Authorize endpoint to silently redirect to sign-in with the associated IdP.
         public let providerName: String
-        /// The IdP type.
+        /// The type of IdP that you want to add. Amazon Cognito supports OIDC, SAML 2.0, Login With Amazon, Sign In With Apple, Google, and Facebook IdPs.
         public let providerType: IdentityProviderTypeType
-        /// The user pool ID.
+        /// The Id of the user pool where you want to create an IdP.
         public let userPoolId: String
 
         @inlinable
@@ -2540,7 +2557,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateIdentityProviderResponse: AWSDecodableShape {
-        /// The newly created IdP object.
+        /// The details of the new user pool IdP.
         public let identityProvider: IdentityProviderType
 
         @inlinable
@@ -2560,7 +2577,7 @@ extension CognitoIdentityProvider {
         public let clientId: String
         /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style.
         public let settings: String?
-        /// When true, applies the default branding style options. This option reverts to default style options that are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
+        /// When true, applies the default branding style options. These default options are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
         public let useCognitoProvidedValues: Bool?
         /// The ID of the user pool where you want to create a new branding style.
         public let userPoolId: String
@@ -2615,9 +2632,9 @@ extension CognitoIdentityProvider {
         public let identifier: String
         /// A friendly name for the resource server.
         public let name: String
-        /// A list of scopes. Each scope is a key-value map with the keys name and description.
+        /// A list of custom scopes. Each scope is a key-value map with the keys ScopeName and ScopeDescription. The name of a custom scope is a combination of ScopeName and the resource server Name in this request, for example MyResourceServerName/MyScopeName.
         public let scopes: [ResourceServerScopeType]?
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool where you want to create a resource server.
         public let userPoolId: String
 
         @inlinable
@@ -2653,7 +2670,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateResourceServerResponse: AWSDecodableShape {
-        /// The newly created resource server.
+        /// The details of the new resource server.
         public let resourceServer: ResourceServerType
 
         @inlinable
@@ -2667,11 +2684,11 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserImportJobRequest: AWSEncodableShape {
-        /// The role ARN for the Amazon CloudWatch Logs Logging role for the user import job.
+        /// You must specify an IAM role that has permission to log import-job results to Amazon CloudWatch Logs. This parameter is the ARN of that role.
         public let cloudWatchLogsRoleArn: String
-        /// The job name for the user import job.
+        /// A friendly name for the user import job.
         public let jobName: String
-        /// The user pool ID for the user pool that the users are being imported into.
+        /// The ID of the user pool that you want to import users into.
         public let userPoolId: String
 
         @inlinable
@@ -2701,7 +2718,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserImportJobResponse: AWSDecodableShape {
-        /// The job object that represents the user import job.
+        /// The details of the user import job.
         public let userImportJob: UserImportJobType?
 
         @inlinable
@@ -2733,18 +2750,18 @@ extension CognitoIdentityProvider {
         /// AllowedOAuthFlowsUserPoolClient in a request with the CLI or SDKs, it defaults
         /// to false.
         public let allowedOAuthFlowsUserPoolClient: Bool?
-        /// The allowed OAuth scopes. Possible values provided by OAuth are phone, email, openid, and profile. Possible values provided by Amazon Web Services are aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
+        /// The OAuth 2.0 scopes that you want to permit your app client to authorize. Scopes govern access control to user pool self-service API operations, user data from the userInfo endpoint, and third-party APIs. Possible values provided by OAuth are phone, email, openid, and profile. Possible values provided by Amazon Web Services are aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
         public let allowedOAuthScopes: [String]?
-        /// The user pool analytics configuration for collecting metrics and sending them to your Amazon Pinpoint campaign.  In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools only support sending events to Amazon Pinpoint projects in Amazon Web Services Region us-east-1. In Regions where Amazon Pinpoint is available, user pools support sending events to Amazon Pinpoint projects within that same Region.
+        /// The user pool analytics configuration for collecting metrics and sending them to your Amazon Pinpoint campaign. In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools might not have access to analytics or might be configurable with campaigns in the US East (N. Virginia) Region. For more information, see Using Amazon Pinpoint analytics.
         public let analyticsConfiguration: AnalyticsConfigurationType?
         /// Amazon Cognito creates a session token for each API request in an authentication flow. AuthSessionValidity is the duration,
         /// in minutes, of that session token. Your user pool native user must respond to each authentication challenge before the session expires.
         public let authSessionValidity: Int?
-        /// A list of allowed redirect (callback) URLs for the IdPs. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+        /// A list of allowed redirect (callback) URLs for the IdPs. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server. Amazon Cognito doesn't accept authorization requests with redirect_uri values that aren't in the list of CallbackURLs that you provide in this parameter.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let callbackURLs: [String]?
-        /// The client name for the user pool client you would like to create.
+        /// A friendly name for the app client that you want to create.
         public let clientName: String
-        /// The default redirect URI. In app clients with one assigned IdP, replaces redirect_uri in authentication requests. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   For more information, see Default redirect URI. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+        /// The default redirect URI. In app clients with one assigned IdP, replaces redirect_uri in authentication requests. Must be in the CallbackURLs list.
         public let defaultRedirectURI: String?
         /// Activates the propagation of additional user context data. For more information about propagation of user context data, see  Adding advanced security to a user pool. If you don’t include this parameter, you can't send device fingerprint information, including source IP address, to Amazon Cognito advanced security. You can only activate EnablePropagateAdditionalUserContextData in an app client that has a client secret.
         public let enablePropagateAdditionalUserContextData: Bool?
@@ -2756,7 +2773,7 @@ extension CognitoIdentityProvider {
         /// You can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as values that begin with ALLOW_,
         /// like ALLOW_USER_SRP_AUTH.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
-        /// Boolean to specify whether you want to generate a secret for the user pool client being created.
+        /// When true, generates a client secret for the app client. Client secrets are used with server-side and machine-to-machine applications. For more information, see App client types.
         public let generateSecret: Bool?
         /// The ID token time limit. After this limit expires, your user can't use
         /// their ID token. To specify the time unit for IdTokenValidity as
@@ -2767,7 +2784,7 @@ extension CognitoIdentityProvider {
         /// Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your ID
         /// tokens are valid for one hour.
         public let idTokenValidity: Int?
-        /// A list of allowed logout URLs for the IdPs.
+        /// A list of allowed logout URLs for managed login authentication. For more information, see Logout endpoint.
         public let logoutURLs: [String]?
         /// Errors and responses that you want Amazon Cognito APIs to return during authentication, account confirmation, and password recovery when the user doesn't exist in the user pool. When set to ENABLED and the user doesn't exist, authentication returns an error indicating either the username or password was incorrect. Account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs return a UserNotFoundException exception if the user doesn't exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the early behavior of Amazon Cognito where user existence related errors aren't prevented.   Defaults to LEGACY when you don't provide a value.
         public let preventUserExistenceErrors: PreventUserExistenceErrorTypes?
@@ -2784,11 +2801,11 @@ extension CognitoIdentityProvider {
         /// in seconds. If you don't specify otherwise in the configuration of your app client, your refresh
         /// tokens are valid for 30 days.
         public let refreshTokenValidity: Int?
-        /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with the hosted UI and OAuth 2.0 authorization server. The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a WAF rule.
+        /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with managed  login. The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a WAF rule.
         public let supportedIdentityProviders: [String]?
-        /// The units in which the validity times are represented. The default unit for RefreshToken is days, and default for ID and access tokens are hours.
+        /// The units that validity times are represented in. The default unit for refresh tokens is days, and the default for ID and access tokens are hours.
         public let tokenValidityUnits: TokenValidityUnitsType?
-        /// The user pool ID for the user pool where you want to create a user pool client.
+        /// The ID of the user pool where you want to create an app client.
         public let userPoolId: String
         /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. An example of this kind of activity is when you present your user with a form to update their profile information and they change their last name. Your app then makes an UpdateUserAttributes API request and sets family_name to the new value.  When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attributes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have specified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see Specifying IdP Attribute Mappings for Your user pool.
         public let writeAttributes: [String]?
@@ -2899,7 +2916,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserPoolClientResponse: AWSDecodableShape {
-        /// The user pool client that was just created.
+        /// The details of the new app client.
         public let userPoolClient: UserPoolClientType?
 
         @inlinable
@@ -2913,11 +2930,11 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserPoolDomainRequest: AWSEncodableShape {
-        /// The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application. Provide this parameter only if you want to use a custom domain for your user pool. Otherwise, you can exclude this parameter and use the Amazon Cognito hosted domain instead. For more information about the hosted domain and custom domains, see Configuring a User Pool Domain.
+        /// The configuration for a custom domain. Configures your domain with an Certificate Manager certificate in the us-east-1 Region. Provide this parameter only if you want to use a custom domain for your user pool. Otherwise, you can exclude this parameter and use a prefix domain instead. For more information about the hosted domain and custom domains, see Configuring a User Pool Domain.
         public let customDomainConfig: CustomDomainConfigType?
-        /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
+        /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For prefix domains, this is the prefix alone, such as myprefix. A prefix value of myprefix for a user pool in the us-east-1 Region results in a domain of myprefix.auth.us-east-1.amazoncognito.com.
         public let domain: String
-        /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) branding and a version of 2 indicates managed login branding. Managed login requires that your user pool be configured for any feature plan other than Lite.
+        /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any feature plan other than Lite.
         public let managedLoginVersion: Int?
         /// The ID of the user pool where you want to add a domain.
         public let userPoolId: String
@@ -2951,7 +2968,7 @@ extension CognitoIdentityProvider {
     public struct CreateUserPoolDomainResponse: AWSDecodableShape {
         /// The Amazon CloudFront endpoint that you use as the target of the alias that you set up with your Domain Name Service (DNS) provider. Amazon Cognito returns this value if you set a custom domain with CustomDomainConfig. If you set an Amazon Cognito prefix domain, this operation returns a blank response.
         public let cloudFrontDomain: String?
-        /// The version of managed login branding applied your domain. A value of 1 indicates hosted UI (classic) branding and a version of 2 indicates managed login branding.
+        /// The version of managed login branding applied your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login.
         public let managedLoginVersion: Int?
 
         @inlinable
@@ -2969,11 +2986,11 @@ extension CognitoIdentityProvider {
     public struct CreateUserPoolRequest: AWSEncodableShape {
         /// The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred through email.
         public let accountRecoverySetting: AccountRecoverySettingType?
-        /// The configuration for AdminCreateUser requests.
+        /// The configuration for AdminCreateUser requests. Includes the template for the invitation message for new users, the duration of temporary passwords, and permitting self-service sign-up.
         public let adminCreateUserConfig: AdminCreateUserConfigType?
-        /// Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username.
+        /// Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username. For more information about alias attributes, see Customizing sign-in attributes.
         public let aliasAttributes: [AliasAttributeType]?
-        /// The attributes to be auto-verified. Possible values: email, phone_number.
+        /// The attributes that you want your user pool to automatically verify. Possible values: email, phone_number. For more information see Verifying contact information at sign-up.
         public let autoVerifiedAttributes: [VerifiedAttributeType]?
         /// When active, DeletionProtection prevents accidental deletion of your user
         /// pool. Before you can delete a user pool that you have protected against deletion, you
@@ -2982,7 +2999,7 @@ extension CognitoIdentityProvider {
         /// send a new DeleteUserPool request after you deactivate deletion protection in an
         /// UpdateUserPool API request.
         public let deletionProtection: DeletionProtectionType?
-        /// The device-remembering configuration for a user pool. A null value indicates that you have deactivated device remembering in your user pool.  When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature.
+        /// The device-remembering configuration for a user pool. Device remembering or device tracking is a "Remember me on this device" option for user pools that perform authentication with the device key of a trusted device in the back end, instead of a user-provided MFA code. For more information about device authentication, see Working with user devices in your user pool. A null value indicates that you have deactivated device remembering in your user pool.  When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature. For more infor
         public let deviceConfiguration: DeviceConfigurationType?
         /// The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for messages from your user pool.
         public let emailConfiguration: EmailConfigurationType?
@@ -2992,17 +3009,17 @@ extension CognitoIdentityProvider {
         public let emailVerificationSubject: String?
         /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of authentication operations. Triggers can modify the outcome of the operations that invoked them.
         public let lambdaConfig: LambdaConfigType?
-        /// Specifies MFA configuration details.
+        /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL.
         public let mfaConfiguration: UserPoolMfaType?
-        /// The policies associated with the new user pool.
+        /// The password policy and sign-in policy in the user pool. The password policy sets options like password complexity requirements and password history. The sign-in policy sets the options available to applications in choice-based authentication.
         public let policies: UserPoolPolicyType?
-        /// A string used to name the user pool.
+        /// A friendlhy name for your user pool.
         public let poolName: String
-        /// An array of schema attributes for the new user pool. These attributes can be standard or custom attributes.
+        /// An array of attributes for the new user pool. You can add custom attributes and modify the properties of default attributes. The specifications in this parameter set the required attributes in your user pool. For more information, see Working with user attributes.
         public let schema: [SchemaAttributeType]?
         /// A string representing the SMS authentication message.
         public let smsAuthenticationMessage: String?
-        /// The SMS configuration with the settings that your Amazon Cognito user pool must use to send an SMS message from your Amazon Web Services account through Amazon Simple Notification Service. To send SMS messages with Amazon SNS in the Amazon Web Services Region that you want, the Amazon Cognito user pool uses an Identity and Access Management (IAM) role in your Amazon Web Services account.
+        /// The SMS configuration with the settings that your Amazon Cognito user pool must use to send an SMS message from your Amazon Web Services account through Amazon Simple Notification Service. To send SMS messages with Amazon SNS in the Amazon Web Services Region that you want, the Amazon Cognito user pool uses an Identity and Access Management (IAM) role in your Amazon Web Services account. For more information see SMS message settings.
         public let smsConfiguration: SmsConfigurationType?
         /// This parameter is no longer used. See VerificationMessageTemplateType.
         public let smsVerificationMessage: String?
@@ -3011,9 +3028,9 @@ extension CognitoIdentityProvider {
         /// more information, see
         /// Verifying updates to email addresses and phone numbers.
         public let userAttributeUpdateSettings: UserAttributeUpdateSettingsType?
-        /// Specifies whether a user can use an email address or phone number as a username when they sign up.
+        /// Specifies whether a user can use an email address or phone number as a username when they sign up. For more information, see Customizing sign-in attributes.
         public let usernameAttributes: [UsernameAttributeType]?
-        /// Case sensitivity on the username input for the selected sign-in option. When case sensitivity is set to False (case insensitive), users can sign in with any combination of capital and lowercase letters. For example, username, USERNAME, or UserName, or for email, email@example.com or EMaiL@eXamplE.Com. For most use cases, set case sensitivity to False (case insensitive) as a best practice. When usernames and email addresses are case insensitive, Amazon Cognito treats any variation in case as the same user, and prevents a case variation from being assigned to the same attribute for a different user. This configuration is immutable after you set it. For more information, see UsernameConfigurationType.
+        /// Sets the case sensitivity option for sign-in usernames. When CaseSensitive is false (case insensitive), users can sign in with any combination of capital and lowercase letters. For example, username, USERNAME, or UserName, or for email, email@example.com or EMaiL@eXamplE.Com. For most use cases, set case sensitivity to false as a best practice. When usernames and email addresses are case insensitive, Amazon Cognito treats any variation in case as the same user, and prevents a case variation from being assigned to the same attribute for a different user. When CaseSensitive is true (case sensitive), Amazon Cognito interprets USERNAME and UserName as distinct users. This configuration is immutable after you set it.
         public let usernameConfiguration: UsernameConfigurationType?
         /// User pool add-ons. Contains settings for activation of advanced security features. To log user security information but take no action, set to AUDIT. To configure automatic security responses to risky traffic to your user pool, set to ENFORCED. For more information, see Adding advanced security to a user pool.
         public let userPoolAddOns: UserPoolAddOnsType?
@@ -3116,7 +3133,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateUserPoolResponse: AWSDecodableShape {
-        /// A container for the user pool details.
+        /// The details of the created user pool.
         public let userPool: UserPoolType?
 
         @inlinable
@@ -3198,9 +3215,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteGroupRequest: AWSEncodableShape {
-        /// The name of the group.
+        /// The name of the group that you want to delete.
         public let groupName: String
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool where you want to delete the group.
         public let userPoolId: String
 
         @inlinable
@@ -3225,9 +3242,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteIdentityProviderRequest: AWSEncodableShape {
-        /// The IdP name.
+        /// The name of the IdP that you want to delete.
         public let providerName: String
-        /// The user pool ID.
+        /// The ID of the user pool where you want to delete the identity provider.
         public let userPoolId: String
 
         @inlinable
@@ -3277,9 +3294,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteResourceServerRequest: AWSEncodableShape {
-        /// The identifier for the resource server.
+        /// The identifier of the resource server that you want to delete.
         public let identifier: String
-        /// The user pool ID for the user pool that hosts the resource server.
+        /// The ID of the user pool where you want to delete the resource server.
         public let userPoolId: String
 
         @inlinable
@@ -3306,7 +3323,7 @@ extension CognitoIdentityProvider {
     public struct DeleteUserAttributesRequest: AWSEncodableShape {
         /// A valid access token that Amazon Cognito issued to the user whose attributes you want to delete.
         public let accessToken: String
-        /// An array of strings representing the user attribute names you want to delete. For custom attributes, you must prependattach the custom: prefix to the front of the attribute name.
+        /// An array of strings representing the user attribute names you want to delete. For custom attributes, you must prepend the custom: prefix to the attribute name, for example custom:department.
         public let userAttributeNames: [String]
 
         @inlinable
@@ -3335,9 +3352,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteUserPoolClientRequest: AWSEncodableShape {
-        /// The app client ID of the app associated with the user pool.
+        /// The ID of the user pool app client that you want to delete.
         public let clientId: String
-        /// The user pool ID for the user pool where you want to delete the client.
+        /// The ID of the user pool where you want to delete the client.
         public let userPoolId: String
 
         @inlinable
@@ -3362,9 +3379,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteUserPoolDomainRequest: AWSEncodableShape {
-        /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
+        /// The domain that you want to delete. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
         public let domain: String
-        /// The user pool ID.
+        /// The ID of the user pool where you want to delete the domain.
         public let userPoolId: String
 
         @inlinable
@@ -3393,7 +3410,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteUserPoolRequest: AWSEncodableShape {
-        /// The user pool ID for the user pool you want to delete.
+        /// The ID of the user pool that you want to delete.
         public let userPoolId: String
 
         @inlinable
@@ -3431,9 +3448,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DeleteWebAuthnCredentialRequest: AWSEncodableShape {
-        /// A valid access token that Amazon Cognito issued to the user whose passkey you want to delete.
+        /// A valid access token that Amazon Cognito issued to the user whose passkey credential you want to delete.
         public let accessToken: String
-        /// The unique identifier of the passkey that you want to delete. Look up registered devices with  ListWebAuthnCredentials.
+        /// The unique identifier of the passkey that you want to delete. Look up registered devices with ListWebAuthnCredentials.
         public let credentialId: String
 
         @inlinable
@@ -3458,9 +3475,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeIdentityProviderRequest: AWSEncodableShape {
-        /// The IdP name.
+        /// The name of the IdP that you want to describe.
         public let providerName: String
-        /// The user pool ID.
+        /// The ID of the user pool that has the IdP that you want to describe..
         public let userPoolId: String
 
         @inlinable
@@ -3485,7 +3502,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeIdentityProviderResponse: AWSDecodableShape {
-        /// The identity provider details.
+        /// The details of the requested IdP.
         public let identityProvider: IdentityProviderType
 
         @inlinable
@@ -3589,7 +3606,7 @@ extension CognitoIdentityProvider {
     public struct DescribeResourceServerRequest: AWSEncodableShape {
         /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data. You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope. Longer scope-identifier strings increase the size of your access tokens.
         public let identifier: String
-        /// The user pool ID for the user pool that hosts the resource server.
+        /// The ID of the user pool that hosts the resource server.
         public let userPoolId: String
 
         @inlinable
@@ -3614,7 +3631,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeResourceServerResponse: AWSDecodableShape {
-        /// The resource server.
+        /// The details of the requested resource server.
         public let resourceServer: ResourceServerType
 
         @inlinable
@@ -3628,9 +3645,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeRiskConfigurationRequest: AWSEncodableShape {
-        /// The app client ID.
+        /// The ID of the app client with the risk configuration that you want to inspect. You can apply default risk configuration at the user pool level and further customize it from user pool defaults at the app-client level. Specify ClientId to inspect client-level configuration, or UserPoolId to inspect pool-level configuration.
         public let clientId: String?
-        /// The user pool ID.
+        /// The ID of the user pool with the risk configuration that you want to inspect. You can apply default risk configuration at the user pool level and further customize it from user pool defaults at the app-client level. Specify ClientId to inspect client-level configuration, or UserPoolId to inspect pool-level configuration.
         public let userPoolId: String
 
         @inlinable
@@ -3655,7 +3672,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeRiskConfigurationResponse: AWSDecodableShape {
-        /// The risk configuration.
+        /// The details of the requested risk configuration.
         public let riskConfiguration: RiskConfigurationType
 
         @inlinable
@@ -3669,9 +3686,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserImportJobRequest: AWSEncodableShape {
-        /// The job ID for the user import job.
+        /// The Id of the user import job that you want to describe.
         public let jobId: String
-        /// The user pool ID for the user pool that the users are being imported into.
+        /// The ID of the user pool that's associated with the import job.
         public let userPoolId: String
 
         @inlinable
@@ -3696,7 +3713,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserImportJobResponse: AWSDecodableShape {
-        /// The job object that represents the user import job.
+        /// The details of the user import job.
         public let userImportJob: UserImportJobType?
 
         @inlinable
@@ -3710,9 +3727,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolClientRequest: AWSEncodableShape {
-        /// The app client ID of the app associated with the user pool.
+        /// The ID of the app client that you want to describe.
         public let clientId: String
-        /// The user pool ID for the user pool you want to describe.
+        /// The ID of the user pool that contains the app client you want to describe.
         public let userPoolId: String
 
         @inlinable
@@ -3737,7 +3754,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolClientResponse: AWSDecodableShape {
-        /// The user pool client from a server response to describe the user pool client.
+        /// The details of the request app client.
         public let userPoolClient: UserPoolClientType?
 
         @inlinable
@@ -3751,7 +3768,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolDomainRequest: AWSEncodableShape {
-        /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
+        /// The domain that you want to describe. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
         public let domain: String
 
         @inlinable
@@ -3771,7 +3788,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolDomainResponse: AWSDecodableShape {
-        /// A domain description object containing information about the domain.
+        /// The details of the requested user pool domain.
         public let domainDescription: DomainDescriptionType?
 
         @inlinable
@@ -3785,7 +3802,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolRequest: AWSEncodableShape {
-        /// The user pool ID for the user pool you want to describe.
+        /// The ID of the user pool you want to describe.
         public let userPoolId: String
 
         @inlinable
@@ -3805,7 +3822,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeUserPoolResponse: AWSDecodableShape {
-        /// The container of metadata returned by the server to describe the pool.
+        /// The details of the requested user pool.
         public let userPool: UserPoolType?
 
         @inlinable
@@ -3979,9 +3996,9 @@ extension CognitoIdentityProvider {
     }
 
     public struct EmailMfaConfigType: AWSEncodableShape & AWSDecodableShape {
-        /// The template for the email message that your user pool sends to users with an MFA code. The message must contain the {####} placeholder. In the message, Amazon Cognito replaces this placeholder with the code. If you don't provide this parameter, Amazon Cognito sends messages in the default format.
+        /// The template for the email message that your user pool sends to users with a code for MFA and sign-in with an email OTP. The message must contain the {####} placeholder. In the message, Amazon Cognito replaces this placeholder with the code. If you don't provide this parameter, Amazon Cognito sends messages in the default format.
         public let message: String?
-        /// The subject of the email message that your user pool sends to users with an MFA code.
+        /// The subject of the email message that your user pool sends to users with a code for MFA and email OTP sign-in.
         public let subject: String?
 
         @inlinable
@@ -4150,13 +4167,14 @@ extension CognitoIdentityProvider {
         /// The ID of the client associated with the user pool.
         public let clientId: String
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ForgotPassword API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, and user migration. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ForgotPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
-        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash, see Computing secret hash values.
         public let secretHash: String?
         /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced
         /// security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito
-        /// when it makes API requests.
+        /// when it makes API requests. For more information, see Collecting data for threat protection in
+        /// applications.
         public let userContextData: UserContextDataType?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
@@ -4214,7 +4232,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetCSVHeaderRequest: AWSEncodableShape {
-        /// The user pool ID for the user pool that the users are to be imported into.
+        /// The ID of the user pool that the users are to be imported into.
         public let userPoolId: String
 
         @inlinable
@@ -4236,7 +4254,7 @@ extension CognitoIdentityProvider {
     public struct GetCSVHeaderResponse: AWSDecodableShape {
         /// The header information of the CSV file for the user import job.
         public let csvHeader: [String]?
-        /// The user pool ID for the user pool that the users are to be imported into.
+        /// The ID of the user pool that the users are to be imported into.
         public let userPoolId: String?
 
         @inlinable
@@ -4293,7 +4311,7 @@ extension CognitoIdentityProvider {
     public struct GetGroupRequest: AWSEncodableShape {
         /// The name of the group.
         public let groupName: String
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool.
         public let userPoolId: String
 
         @inlinable
@@ -4443,7 +4461,7 @@ extension CognitoIdentityProvider {
     public struct GetUICustomizationRequest: AWSEncodableShape {
         /// The client ID for the client app.
         public let clientId: String?
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool.
         public let userPoolId: String
 
         @inlinable
@@ -4487,7 +4505,7 @@ extension CognitoIdentityProvider {
         /// The attribute name returned by the server response to get the user attribute verification code.
         public let attributeName: String
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the GetUserAttributeVerificationCode API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your GetUserAttributeVerificationCode request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
 
         @inlinable
@@ -4806,20 +4824,21 @@ extension CognitoIdentityProvider {
     public struct InitiateAuthRequest: AWSEncodableShape {
         /// The Amazon Pinpoint analytics metadata that contributes to your metrics for InitiateAuth calls.
         public let analyticsMetadata: AnalyticsMetadataType?
-        /// The authentication flow that you want to initiate. The AuthParameters that you must submit are linked to the flow that you submit. For example:    USER_AUTH: Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response.    REFRESH_TOKEN_AUTH: Receive new ID and access tokens when you pass a REFRESH_TOKEN parameter with a valid refresh token as the value.    USER_SRP_AUTH: Receive secure remote password (SRP) variables for the next challenge, PASSWORD_VERIFIER, when you pass USERNAME and SRP_A parameters.    USER_PASSWORD_AUTH: Receive new tokens or the next challenge, for example SOFTWARE_TOKEN_MFA, when you pass USERNAME and PASSWORD parameters.   Valid values include the following:  USER_AUTH  The entry point for sign-in with passwords, one-time passwords, biometric devices, and security keys.  USER_SRP_AUTH  Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verification in custom authentication flow.  REFRESH_TOKEN_AUTH and REFRESH_TOKEN  Provide a valid refresh token and receive new ID and access tokens. For more information, see Using the refresh token.  CUSTOM_AUTH  Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers.  USER_PASSWORD_AUTH  Username-password authentication with the password sent directly in the request. For more information, see Admin authentication flow.    ADMIN_USER_PASSWORD_AUTH is a flow type of AdminInitiateAuth and isn't valid for InitiateAuth. ADMIN_NO_SRP_AUTH is a legacy server-side username-password flow and isn't valid for InitiateAuth.
+        /// The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows and their parameters.    USER_AUTH: Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response.    REFRESH_TOKEN_AUTH: Receive new ID and access tokens when you pass a REFRESH_TOKEN parameter with a valid refresh token as the value.    USER_SRP_AUTH: Receive secure remote password (SRP) variables for the next challenge, PASSWORD_VERIFIER, when you pass USERNAME and SRP_A parameters.    USER_PASSWORD_AUTH: Receive new tokens or the next challenge, for example SOFTWARE_TOKEN_MFA, when you pass USERNAME and PASSWORD parameters.    All flows   USER_AUTH  The entry point for sign-in with passwords, one-time passwords, and WebAuthN authenticators.  USER_SRP_AUTH  Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verification in custom authentication flow.  REFRESH_TOKEN_AUTH and REFRESH_TOKEN  Provide a valid refresh token and receive new ID and access tokens. For more information, see Using the refresh token.  CUSTOM_AUTH  Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers.  USER_PASSWORD_AUTH  Username-password authentication with the password sent directly in the request. For more information, see Admin authentication flow.    ADMIN_USER_PASSWORD_AUTH is a flow type of AdminInitiateAuth and isn't valid for InitiateAuth. ADMIN_NO_SRP_AUTH is a legacy server-side username-password flow and isn't valid for InitiateAuth.
         public let authFlow: AuthFlowType
         /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The required values depend on the value of AuthFlow:   For USER_AUTH: USERNAME (required), PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For USER_PASSWORD_AUTH: USERNAME (required), PASSWORD (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY. To start the authentication flow with password verification, include ChallengeName: SRP_A and SRP_A: (The SRP_A Value).   For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
         public let authParameters: [String: String]?
         /// The app client ID.
         public let clientId: String
         /// A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the InitiateAuth API action, Amazon Cognito invokes the Lambda functions that are specified for various triggers. The ClientMetadata value is passed as input to the functions for only the following triggers:   Pre signup   Pre authentication   User migration   When Amazon Cognito invokes the functions for these triggers, it passes a JSON payload, which the function receives as input. This payload contains a validationData attribute, which provides the data that you assigned to the ClientMetadata parameter in your InitiateAuth request. In your function code in Lambda, you can process the validationData value to enhance your workflow for your specific needs. When you use the InitiateAuth API action, Amazon Cognito also invokes the functions for the following triggers, but it doesn't provide the ClientMetadata value as input:   Post authentication   Custom message   Pre token generation   Create auth challenge   Define auth challenge   Custom email sender   Custom SMS sender   For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
         /// The optional session ID from a ConfirmSignUp API request. You can sign in a user directly from the sign-up process with the USER_AUTH authentication flow.
         public let session: String?
         /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced
         /// security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito
-        /// when it makes API requests.
+        /// when it makes API requests. For more information, see Collecting data for threat protection in
+        /// applications.
         public let userContextData: UserContextDataType?
 
         @inlinable
@@ -5058,7 +5077,7 @@ extension CognitoIdentityProvider {
         public let limit: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool.
         public let userPoolId: String
 
         @inlinable
@@ -5159,7 +5178,7 @@ extension CognitoIdentityProvider {
         public let maxResults: Int?
         /// A pagination token.
         public let nextToken: String?
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool.
         public let userPoolId: String
 
         @inlinable
@@ -5247,7 +5266,7 @@ extension CognitoIdentityProvider {
         /// Subsequent requests return a new pagination token. By use of this token, you can paginate
         /// through the full list of items.
         public let paginationToken: String?
-        /// The user pool ID for the user pool that the users are being imported into.
+        /// The ID of the user pool that the users are being imported into.
         public let userPoolId: String
 
         @inlinable
@@ -5299,7 +5318,7 @@ extension CognitoIdentityProvider {
         public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        /// The user pool ID for the user pool where you want to list user pool clients.
+        /// The ID of the user pool where you want to list user pool clients.
         public let userPoolId: String
 
         @inlinable
@@ -5395,7 +5414,7 @@ extension CognitoIdentityProvider {
         public let limit: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool.
         public let userPoolId: String
 
         @inlinable
@@ -5459,7 +5478,7 @@ extension CognitoIdentityProvider {
         /// Subsequent requests return a new pagination token. By use of this token, you can paginate
         /// through the full list of items.
         public let paginationToken: String?
-        /// The user pool ID for the user pool on which the search should be performed.
+        /// The ID of the user pool on which the search should be performed.
         public let userPoolId: String
 
         @inlinable
@@ -5656,7 +5675,7 @@ extension CognitoIdentityProvider {
         public let managedLoginBrandingId: String?
         /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style.
         public let settings: String?
-        /// When true, applies the default branding style options. This option reverts to a "blank" style that you can modify later in the branding designer.
+        /// When true, applies the default branding style options. This option reverts to default style options that are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
         public let useCognitoProvidedValues: Bool?
         /// The user pool where the branding style is assigned.
         public let userPoolId: String?
@@ -5995,13 +6014,14 @@ extension CognitoIdentityProvider {
         /// The ID of the client associated with the user pool.
         public let clientId: String
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ResendConfirmationCode API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ResendConfirmationCode request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
-        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash, see Computing secret hash values.
         public let secretHash: String?
         /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced
         /// security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito
-        /// when it makes API requests.
+        /// when it makes API requests. For more information, see Collecting data for threat protection in
+        /// applications.
         public let userContextData: UserContextDataType?
         /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
@@ -6122,13 +6142,14 @@ extension CognitoIdentityProvider {
         /// The app client ID.
         public let clientId: String
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the RespondToAuthChallenge API action, Amazon Cognito invokes any functions that are assigned to the following triggers: post authentication, pre token generation, define auth challenge, create auth challenge, and verify auth challenge. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your RespondToAuthChallenge request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
         /// The session that should be passed both ways in challenge-response calls to the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller must pass another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
         public let session: String?
         /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced
         /// security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito
-        /// when it makes API requests.
+        /// when it makes API requests. For more information, see Collecting data for threat protection in
+        /// applications.
         public let userContextData: UserContextDataType?
 
         @inlinable
@@ -6485,7 +6506,7 @@ extension CognitoIdentityProvider {
         public let css: String?
         /// The uploaded logo image for the UI customization.
         public let imageFile: AWSBase64Data?
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool.
         public let userPoolId: String
 
         @inlinable
@@ -6690,17 +6711,18 @@ extension CognitoIdentityProvider {
         /// The ID of the client associated with the user pool.
         public let clientId: String
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the SignUp API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, and post confirmation. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your SignUp request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
         /// The password of the user you want to register. Users can sign up without a password when your user pool supports passwordless sign-in with email or SMS OTPs. To create a user with no password, omit this parameter or submit a blank value. You can only create a passwordless user when passwordless sign-in is available. See the SignInPolicyType property of CreateUserPool and UpdateUserPool.
         public let password: String?
-        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+        /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash, see Computing secret hash values.
         public let secretHash: String?
         /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
         public let userAttributes: [AttributeType]?
         /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced
         /// security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito
-        /// when it makes API requests.
+        /// when it makes API requests. For more information, see Collecting data for threat protection in
+        /// applications.
         public let userContextData: UserContextDataType?
         /// The username of the user that you want to sign up. The value of this parameter is typically a username, but can be any alias attribute in your user pool.
         public let username: String
@@ -6876,7 +6898,7 @@ extension CognitoIdentityProvider {
     public struct StartUserImportJobRequest: AWSEncodableShape {
         /// The job ID for the user import job.
         public let jobId: String
-        /// The user pool ID for the user pool that the users are being imported into.
+        /// The ID of the user pool that the users are being imported into.
         public let userPoolId: String
 
         @inlinable
@@ -6949,7 +6971,7 @@ extension CognitoIdentityProvider {
     public struct StopUserImportJobRequest: AWSEncodableShape {
         /// The job ID for the user import job.
         public let jobId: String
-        /// The user pool ID for the user pool that the users are being imported into.
+        /// The ID of the user pool that the users are being imported into.
         public let userPoolId: String
 
         @inlinable
@@ -7230,7 +7252,7 @@ extension CognitoIdentityProvider {
         public let precedence: Int?
         /// The new role Amazon Resource Name (ARN) for the group. This is used for setting the cognito:roles and cognito:preferred_role claims in the token.
         public let roleArn: String?
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool.
         public let userPoolId: String
 
         @inlinable
@@ -7412,7 +7434,7 @@ extension CognitoIdentityProvider {
         public let name: String
         /// The scope values to be set for the resource server.
         public let scopes: [ResourceServerScopeType]?
-        /// The user pool ID for the user pool.
+        /// The ID of the user pool.
         public let userPoolId: String
 
         @inlinable
@@ -7465,7 +7487,7 @@ extension CognitoIdentityProvider {
         /// A valid access token that Amazon Cognito issued to the user whose user attributes you want to update.
         public let accessToken: String
         /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action initiates.  You create custom workflows by assigning Lambda functions to user pool triggers. When you use the UpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your UpdateUserAttributes request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see
-        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+        /// Customizing user pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
         public let clientMetadata: [String: String]?
         /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name. If you have set an attribute to require verification before Amazon Cognito updates its value, this request doesn’t immediately update the value of that attribute. After your user receives and responds to a verification message to verify the new value, Amazon Cognito updates the attribute value. Your user can sign in and receive messages with the original attribute value until they verify the new value.
         public let userAttributes: [AttributeType]
@@ -7579,11 +7601,11 @@ extension CognitoIdentityProvider {
         /// in seconds. If you don't specify otherwise in the configuration of your app client, your refresh
         /// tokens are valid for 30 days.
         public let refreshTokenValidity: Int?
-        /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with the hosted UI and OAuth 2.0 authorization server. The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a WAF rule.
+        /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with managed  login. The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a WAF rule.
         public let supportedIdentityProviders: [String]?
         /// The time units you use when you set the duration of ID, access, and refresh tokens. The default unit for RefreshToken is days, and the default for ID and access tokens is hours.
         public let tokenValidityUnits: TokenValidityUnitsType?
-        /// The user pool ID for the user pool where you want to update the user pool client.
+        /// The ID of the user pool where you want to update the user pool client.
         public let userPoolId: String
         /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. An example of this kind of activity is when you present your user with a form to update their profile information and they change their last name. Your app then makes an UpdateUserAttributes API request and sets family_name to the new value.  When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attributes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have specified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see Specifying IdP Attribute Mappings for Your user pool.
         public let writeAttributes: [String]?
@@ -7712,7 +7734,7 @@ extension CognitoIdentityProvider {
 
     public struct UpdateUserPoolDomainRequest: AWSEncodableShape {
         /// The configuration for a custom domain that hosts the sign-up and sign-in pages for your application. Use this object to specify an SSL certificate that is managed by ACM. When you create a custom domain, the passkey RP ID defaults to the custom domain. If you had a prefix domain active, this will cause passkey integration for your prefix domain to stop working due to a mismatch in RP ID. To keep the prefix domain passkey integration working, you can explicitly set RP ID to the prefix domain. Update the RP ID in a SetUserPoolMfaConfig request.
-        public let customDomainConfig: CustomDomainConfigType
+        public let customDomainConfig: CustomDomainConfigType?
         /// The domain name for the custom domain that hosts the sign-up and sign-in pages for your application. One example might be auth.example.com.  This string can include only lowercase letters, numbers, and hyphens. Don't use a hyphen for the first or last character. Use periods to separate subdomain names.
         public let domain: String
         /// A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding designer. For more information, see Managed login.
@@ -7721,7 +7743,7 @@ extension CognitoIdentityProvider {
         public let userPoolId: String
 
         @inlinable
-        public init(customDomainConfig: CustomDomainConfigType, domain: String, managedLoginVersion: Int? = nil, userPoolId: String) {
+        public init(customDomainConfig: CustomDomainConfigType? = nil, domain: String, managedLoginVersion: Int? = nil, userPoolId: String) {
             self.customDomainConfig = customDomainConfig
             self.domain = domain
             self.managedLoginVersion = managedLoginVersion
@@ -7729,7 +7751,7 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.customDomainConfig.validate(name: "\(name).customDomainConfig")
+            try self.customDomainConfig?.validate(name: "\(name).customDomainConfig")
             try self.validate(self.domain, name: "domain", parent: name, max: 63)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z0-9](?:[a-z0-9\\-]{0,61}[a-z0-9])?$")
@@ -7807,7 +7829,7 @@ extension CognitoIdentityProvider {
         public let userAttributeUpdateSettings: UserAttributeUpdateSettingsType?
         /// User pool add-ons. Contains settings for activation of advanced security features. To log user security information but take no action, set to AUDIT. To configure automatic security responses to risky traffic to your user pool, set to ENFORCED. For more information, see Adding advanced security to a user pool.
         public let userPoolAddOns: UserPoolAddOnsType?
-        /// The user pool ID for the user pool you want to update.
+        /// The ID of the user pool you want to update.
         public let userPoolId: String
         /// The tag keys and values to assign to the user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria.
         public let userPoolTags: [String: String]?
@@ -8121,7 +8143,7 @@ extension CognitoIdentityProvider {
         /// in seconds. If you don't specify otherwise in the configuration of your app client, your refresh
         /// tokens are valid for 30 days.
         public let refreshTokenValidity: Int?
-        /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with the hosted UI and OAuth 2.0 authorization server. The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a WAF rule.
+        /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with managed  login. The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a WAF rule.
         public let supportedIdentityProviders: [String]?
         /// The time units that, with IdTokenValidity, AccessTokenValidity, and RefreshTokenValidity, set and display the duration of ID, access, and refresh tokens for an app client. You can assign a separate token validity unit to each type of token.
         public let tokenValidityUnits: TokenValidityUnitsType?
@@ -8652,7 +8674,7 @@ extension CognitoIdentityProvider {
     public struct WebAuthnConfigurationType: AWSEncodableShape & AWSDecodableShape {
         /// Sets or displays the authentication domain, typically your user pool domain, that passkey providers must use as a relying party (RP) in their configuration. Under the following conditions, the passkey relying party ID must be the fully-qualified domain name of your custom domain:   The user pool is configured for passkey authentication.   The user pool has a custom domain, whether or not it also has a prefix domain.   Your application performs authentication with managed login or the classic hosted UI.
         public let relyingPartyId: String?
-        /// Sets or displays your user-pool treatment for MFA with a passkey. You can override other MFA options and require passkey MFA, or you can set it as preferred. When passkey MFA is preferred, the hosted UI encourages users to register a passkey at sign-in.
+        /// When required, users can only register and sign in users with passkeys that are capable of user verification. When preferred, your user pool doesn't require the use of authenticators with user verification but encourages it.
         public let userVerification: UserVerificationType?
 
         @inlinable

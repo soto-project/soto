@@ -1234,6 +1234,53 @@ public struct Connect: AWSService {
         return try await self.createHoursOfOperation(input, logger: logger)
     }
 
+    /// Creates an hours of operation override in an Amazon Connect hours of operation resource
+    @Sendable
+    @inlinable
+    public func createHoursOfOperationOverride(_ input: CreateHoursOfOperationOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHoursOfOperationOverrideResponse {
+        try await self.client.execute(
+            operation: "CreateHoursOfOperationOverride", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an hours of operation override in an Amazon Connect hours of operation resource
+    ///
+    /// Parameters:
+    ///   - config: Configuration information for the hours of operation override: day, start time, and end time.
+    ///   - description: The description of the hours of operation override.
+    ///   - effectiveFrom: The date from when the hours of operation override would be effective.
+    ///   - effectiveTill: The date until when the hours of operation override would be effective.
+    ///   - hoursOfOperationId: The identifier for the hours of operation
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - name: The name of the hours of operation override.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createHoursOfOperationOverride(
+        config: [HoursOfOperationOverrideConfig],
+        description: String? = nil,
+        effectiveFrom: String,
+        effectiveTill: String,
+        hoursOfOperationId: String,
+        instanceId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateHoursOfOperationOverrideResponse {
+        let input = CreateHoursOfOperationOverrideRequest(
+            config: config, 
+            description: description, 
+            effectiveFrom: effectiveFrom, 
+            effectiveTill: effectiveTill, 
+            hoursOfOperationId: hoursOfOperationId, 
+            instanceId: instanceId, 
+            name: name
+        )
+        return try await self.createHoursOfOperationOverride(input, logger: logger)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect.  For more information, see Create an Amazon Connect instance in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
     /// If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
     /// You must wait 30 days before you can restart creating and deleting instances in your account.
@@ -1487,7 +1534,51 @@ public struct Connect: AWSService {
         return try await self.createPrompt(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
+    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see Set up push notifications in Amazon Connect for mobile chat in the Amazon Connect Administrator Guide.
+    @Sendable
+    @inlinable
+    public func createPushNotificationRegistration(_ input: CreatePushNotificationRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePushNotificationRegistrationResponse {
+        try await self.client.execute(
+            operation: "CreatePushNotificationRegistration", 
+            path: "/push-notification/{InstanceId}/registrations", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see Set up push notifications in Amazon Connect for mobile chat in the Amazon Connect Administrator Guide.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - contactConfiguration: The contact configuration for push notification registration.
+    ///   - deviceToken: The push notification token issued by the Apple or Google gateways.
+    ///   - deviceType: The device type to use when sending the message.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - pinpointAppArn: The Amazon Resource Name (ARN) of the Pinpoint application.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPushNotificationRegistration(
+        clientToken: String? = CreatePushNotificationRegistrationRequest.idempotencyToken(),
+        contactConfiguration: ContactConfiguration,
+        deviceToken: String,
+        deviceType: DeviceType,
+        instanceId: String,
+        pinpointAppArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePushNotificationRegistrationResponse {
+        let input = CreatePushNotificationRegistrationRequest(
+            clientToken: clientToken, 
+            contactConfiguration: contactConfiguration, 
+            deviceToken: deviceToken, 
+            deviceType: deviceType, 
+            instanceId: instanceId, 
+            pinpointAppArn: pinpointAppArn
+        )
+        return try await self.createPushNotificationRegistration(input, logger: logger)
+    }
+
+    /// Creates a new queue for the specified Amazon Connect instance.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
     @Sendable
     @inlinable
     public func createQueue(_ input: CreateQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQueueResponse {
@@ -1500,7 +1591,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
+    /// Creates a new queue for the specified Amazon Connect instance.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
     ///
     /// Parameters:
     ///   - description: The description of the queue.
@@ -2361,6 +2452,41 @@ public struct Connect: AWSService {
         return try await self.deleteHoursOfOperation(input, logger: logger)
     }
 
+    /// Deletes an hours of operation override in an Amazon Connect hours of operation resource
+    @Sendable
+    @inlinable
+    public func deleteHoursOfOperationOverride(_ input: DeleteHoursOfOperationOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteHoursOfOperationOverride", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides/{HoursOfOperationOverrideId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an hours of operation override in an Amazon Connect hours of operation resource
+    ///
+    /// Parameters:
+    ///   - hoursOfOperationId: The identifier for the hours of operation.
+    ///   - hoursOfOperationOverrideId: The identifier for the hours of operation override.
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteHoursOfOperationOverride(
+        hoursOfOperationId: String,
+        hoursOfOperationOverrideId: String,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteHoursOfOperationOverrideRequest(
+            hoursOfOperationId: hoursOfOperationId, 
+            hoursOfOperationOverrideId: hoursOfOperationOverrideId, 
+            instanceId: instanceId
+        )
+        return try await self.deleteHoursOfOperationOverride(input, logger: logger)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. For more information, see Delete your Amazon Connect instance in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
     /// If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
     /// You must wait 30 days before you can restart creating and deleting instances in your account.
@@ -2488,6 +2614,41 @@ public struct Connect: AWSService {
             promptId: promptId
         )
         return try await self.deletePrompt(input, logger: logger)
+    }
+
+    /// Deletes registration for a device token and a chat contact.
+    @Sendable
+    @inlinable
+    public func deletePushNotificationRegistration(_ input: DeletePushNotificationRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePushNotificationRegistrationResponse {
+        try await self.client.execute(
+            operation: "DeletePushNotificationRegistration", 
+            path: "/push-notification/{InstanceId}/registrations/{RegistrationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes registration for a device token and a chat contact.
+    ///
+    /// Parameters:
+    ///   - contactId: The identifier of the contact within the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - registrationId: The identifier for the registration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePushNotificationRegistration(
+        contactId: String,
+        instanceId: String,
+        registrationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePushNotificationRegistrationResponse {
+        let input = DeletePushNotificationRegistrationRequest(
+            contactId: contactId, 
+            instanceId: instanceId, 
+            registrationId: registrationId
+        )
+        return try await self.deletePushNotificationRegistration(input, logger: logger)
     }
 
     /// Deletes a queue. It isn't possible to delete a queue by using the Amazon Connect admin website.
@@ -3200,6 +3361,41 @@ public struct Connect: AWSService {
             instanceId: instanceId
         )
         return try await self.describeHoursOfOperation(input, logger: logger)
+    }
+
+    /// Describes the hours of operation override.
+    @Sendable
+    @inlinable
+    public func describeHoursOfOperationOverride(_ input: DescribeHoursOfOperationOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeHoursOfOperationOverrideResponse {
+        try await self.client.execute(
+            operation: "DescribeHoursOfOperationOverride", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides/{HoursOfOperationOverrideId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the hours of operation override.
+    ///
+    /// Parameters:
+    ///   - hoursOfOperationId: The identifier for the hours of operation.
+    ///   - hoursOfOperationOverrideId: The identifier for the hours of operation override.
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeHoursOfOperationOverride(
+        hoursOfOperationId: String,
+        hoursOfOperationOverrideId: String,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeHoursOfOperationOverrideResponse {
+        let input = DescribeHoursOfOperationOverrideRequest(
+            hoursOfOperationId: hoursOfOperationId, 
+            hoursOfOperationOverrideId: hoursOfOperationOverrideId, 
+            instanceId: instanceId
+        )
+        return try await self.describeHoursOfOperationOverride(input, logger: logger)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable.  If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
@@ -4370,6 +4566,44 @@ public struct Connect: AWSService {
         return try await self.getCurrentUserData(input, logger: logger)
     }
 
+    /// Get the hours of operations with the effective override applied.
+    @Sendable
+    @inlinable
+    public func getEffectiveHoursOfOperations(_ input: GetEffectiveHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEffectiveHoursOfOperationsResponse {
+        try await self.client.execute(
+            operation: "GetEffectiveHoursOfOperations", 
+            path: "/effective-hours-of-operations/{InstanceId}/{HoursOfOperationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the hours of operations with the effective override applied.
+    ///
+    /// Parameters:
+    ///   - fromDate: The Date from when the hours of operation are listed.
+    ///   - hoursOfOperationId: The identifier for the hours of operation.
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - toDate: The Date until when the hours of operation are listed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getEffectiveHoursOfOperations(
+        fromDate: String,
+        hoursOfOperationId: String,
+        instanceId: String,
+        toDate: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetEffectiveHoursOfOperationsResponse {
+        let input = GetEffectiveHoursOfOperationsRequest(
+            fromDate: fromDate, 
+            hoursOfOperationId: hoursOfOperationId, 
+            instanceId: instanceId, 
+            toDate: toDate
+        )
+        return try await self.getEffectiveHoursOfOperations(input, logger: logger)
+    }
+
     /// Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for the Amazon Connect user which corresponds to the IAM credentials that were used to invoke this action.  For more information about how SAML sign-in works in Amazon Connect, see Configure SAML with IAM for Amazon Connect in the Amazon Connect Administrator Guide.   This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears:   Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
     @Sendable
     @inlinable
@@ -5232,6 +5466,44 @@ public struct Connect: AWSService {
             resourceType: resourceType
         )
         return try await self.listFlowAssociations(input, logger: logger)
+    }
+
+    /// List the hours of operation overrides.
+    @Sendable
+    @inlinable
+    public func listHoursOfOperationOverrides(_ input: ListHoursOfOperationOverridesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHoursOfOperationOverridesResponse {
+        try await self.client.execute(
+            operation: "ListHoursOfOperationOverrides", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the hours of operation overrides.
+    ///
+    /// Parameters:
+    ///   - hoursOfOperationId: The identifier for the hours of operation
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100. Valid Range: Minimum value of 1. Maximum value of 1000.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listHoursOfOperationOverrides(
+        hoursOfOperationId: String,
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListHoursOfOperationOverridesResponse {
+        let input = ListHoursOfOperationOverridesRequest(
+            hoursOfOperationId: hoursOfOperationId, 
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listHoursOfOperationOverrides(input, logger: logger)
     }
 
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
@@ -6930,6 +7202,47 @@ public struct Connect: AWSService {
             searchFilter: searchFilter
         )
         return try await self.searchEmailAddresses(input, logger: logger)
+    }
+
+    /// Searches the hours of operation overrides.
+    @Sendable
+    @inlinable
+    public func searchHoursOfOperationOverrides(_ input: SearchHoursOfOperationOverridesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchHoursOfOperationOverridesResponse {
+        try await self.client.execute(
+            operation: "SearchHoursOfOperationOverrides", 
+            path: "/search-hours-of-operation-overrides", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches the hours of operation overrides.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - maxResults: The maximum number of results to return per page. Valid Range: Minimum value of 1. Maximum value of 100.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Length Constraints: Minimum length of 1. Maximum length of 2500.
+    ///   - searchCriteria: The search criteria to be used to return hours of operations overrides.
+    ///   - searchFilter: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchHoursOfOperationOverrides(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        searchCriteria: HoursOfOperationOverrideSearchCriteria? = nil,
+        searchFilter: HoursOfOperationSearchFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchHoursOfOperationOverridesResponse {
+        let input = SearchHoursOfOperationOverridesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            searchCriteria: searchCriteria, 
+            searchFilter: searchFilter
+        )
+        return try await self.searchHoursOfOperationOverrides(input, logger: logger)
     }
 
     /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
@@ -9089,6 +9402,56 @@ public struct Connect: AWSService {
         return try await self.updateHoursOfOperation(input, logger: logger)
     }
 
+    /// Update the hours of operation override.
+    @Sendable
+    @inlinable
+    public func updateHoursOfOperationOverride(_ input: UpdateHoursOfOperationOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateHoursOfOperationOverride", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/overrides/{HoursOfOperationOverrideId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update the hours of operation override.
+    ///
+    /// Parameters:
+    ///   - config: Configuration information for the hours of operation override: day, start time, and end time.
+    ///   - description: The description of the hours of operation override.
+    ///   - effectiveFrom: The date from when the hours of operation override would be effective.
+    ///   - effectiveTill: The date till when the hours of operation override would be effective.
+    ///   - hoursOfOperationId: The identifier for the hours of operation.
+    ///   - hoursOfOperationOverrideId: The identifier for the hours of operation override.
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - name: The name of the hours of operation override.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateHoursOfOperationOverride(
+        config: [HoursOfOperationOverrideConfig]? = nil,
+        description: String? = nil,
+        effectiveFrom: String? = nil,
+        effectiveTill: String? = nil,
+        hoursOfOperationId: String,
+        hoursOfOperationOverrideId: String,
+        instanceId: String,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateHoursOfOperationOverrideRequest(
+            config: config, 
+            description: description, 
+            effectiveFrom: effectiveFrom, 
+            effectiveTill: effectiveTill, 
+            hoursOfOperationId: hoursOfOperationId, 
+            hoursOfOperationOverrideId: hoursOfOperationOverrideId, 
+            instanceId: instanceId, 
+            name: name
+        )
+        return try await self.updateHoursOfOperationOverride(input, logger: logger)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the value for the specified attribute type.
     @Sendable
     @inlinable
@@ -11076,6 +11439,46 @@ extension Connect {
         return self.listFlowAssociationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listHoursOfOperationOverrides(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listHoursOfOperationOverridesPaginator(
+        _ input: ListHoursOfOperationOverridesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListHoursOfOperationOverridesRequest, ListHoursOfOperationOverridesResponse> {
+        return .init(
+            input: input,
+            command: self.listHoursOfOperationOverrides,
+            inputKey: \ListHoursOfOperationOverridesRequest.nextToken,
+            outputKey: \ListHoursOfOperationOverridesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listHoursOfOperationOverrides(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - hoursOfOperationId: The identifier for the hours of operation
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100. Valid Range: Minimum value of 1. Maximum value of 1000.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listHoursOfOperationOverridesPaginator(
+        hoursOfOperationId: String,
+        instanceId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListHoursOfOperationOverridesRequest, ListHoursOfOperationOverridesResponse> {
+        let input = ListHoursOfOperationOverridesRequest(
+            hoursOfOperationId: hoursOfOperationId, 
+            instanceId: instanceId, 
+            maxResults: maxResults
+        )
+        return self.listHoursOfOperationOverridesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listHoursOfOperations(_:logger:)``.
     ///
     /// - Parameters:
@@ -12522,6 +12925,49 @@ extension Connect {
         return self.searchContactsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``searchHoursOfOperationOverrides(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchHoursOfOperationOverridesPaginator(
+        _ input: SearchHoursOfOperationOverridesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchHoursOfOperationOverridesRequest, SearchHoursOfOperationOverridesResponse> {
+        return .init(
+            input: input,
+            command: self.searchHoursOfOperationOverrides,
+            inputKey: \SearchHoursOfOperationOverridesRequest.nextToken,
+            outputKey: \SearchHoursOfOperationOverridesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchHoursOfOperationOverrides(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - maxResults: The maximum number of results to return per page. Valid Range: Minimum value of 1. Maximum value of 100.
+    ///   - searchCriteria: The search criteria to be used to return hours of operations overrides.
+    ///   - searchFilter: 
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchHoursOfOperationOverridesPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        searchCriteria: HoursOfOperationOverrideSearchCriteria? = nil,
+        searchFilter: HoursOfOperationSearchFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchHoursOfOperationOverridesRequest, SearchHoursOfOperationOverridesResponse> {
+        let input = SearchHoursOfOperationOverridesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            searchCriteria: searchCriteria, 
+            searchFilter: searchFilter
+        )
+        return self.searchHoursOfOperationOverridesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``searchHoursOfOperations(_:logger:)``.
     ///
     /// - Parameters:
@@ -13208,6 +13654,18 @@ extension Connect.ListFlowAssociationsRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListHoursOfOperationOverridesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.ListHoursOfOperationOverridesRequest {
+        return .init(
+            hoursOfOperationId: self.hoursOfOperationId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Connect.ListHoursOfOperationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Connect.ListHoursOfOperationsRequest {
@@ -13638,6 +14096,19 @@ extension Connect.SearchContactsRequest: AWSPaginateToken {
             searchCriteria: self.searchCriteria,
             sort: self.sort,
             timeRange: self.timeRange
+        )
+    }
+}
+
+extension Connect.SearchHoursOfOperationOverridesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.SearchHoursOfOperationOverridesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
         )
     }
 }

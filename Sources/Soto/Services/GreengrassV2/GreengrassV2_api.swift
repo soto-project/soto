@@ -737,7 +737,7 @@ public struct GreengrassV2: AWSService {
         return try await self.listComponents(input, logger: logger)
     }
 
-    /// Retrieves a paginated list of Greengrass core devices.  IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that device might not reflect its current status. The status timestamp indicates when the device status was last updated. Core devices send status updates at the following times:   When the IoT Greengrass Core software starts   When the core device receives a deployment from the Amazon Web Services Cloud   When the status of any component on the core device becomes BROKEN    At a regular interval that you can configure, which defaults to 24 hours   For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and cloud deployment
+    /// Retrieves a paginated list of Greengrass core devices.  IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that device might not reflect its current status. The status timestamp indicates when the device status was last updated. Core devices send status updates at the following times:   When the IoT Greengrass Core software starts   When the core device receives a deployment from the Amazon Web Services Cloud   For Greengrass nucleus 2.12.2 and earlier, the core device sends status updates when the status of any component on the core device becomes ERRORED or BROKEN.   For Greengrass nucleus 2.12.3 and later, the core device sends status updates when the status of any component on the core device becomes ERRORED, BROKEN, RUNNING, or FINISHED.   At a regular interval that you can configure, which defaults to 24 hours   For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and cloud deployment
     @Sendable
     @inlinable
     public func listCoreDevices(_ input: ListCoreDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCoreDevicesResponse {
@@ -750,11 +750,12 @@ public struct GreengrassV2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a paginated list of Greengrass core devices.  IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that device might not reflect its current status. The status timestamp indicates when the device status was last updated. Core devices send status updates at the following times:   When the IoT Greengrass Core software starts   When the core device receives a deployment from the Amazon Web Services Cloud   When the status of any component on the core device becomes BROKEN    At a regular interval that you can configure, which defaults to 24 hours   For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and cloud deployment
+    /// Retrieves a paginated list of Greengrass core devices.  IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that device might not reflect its current status. The status timestamp indicates when the device status was last updated. Core devices send status updates at the following times:   When the IoT Greengrass Core software starts   When the core device receives a deployment from the Amazon Web Services Cloud   For Greengrass nucleus 2.12.2 and earlier, the core device sends status updates when the status of any component on the core device becomes ERRORED or BROKEN.   For Greengrass nucleus 2.12.3 and later, the core device sends status updates when the status of any component on the core device becomes ERRORED, BROKEN, RUNNING, or FINISHED.   At a regular interval that you can configure, which defaults to 24 hours   For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and cloud deployment
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to be returned per paginated request.
     ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - runtime: The runtime to be used by the core device. The runtime can be:    aws_nucleus_classic     aws_nucleus_lite
     ///   - status: The core device status by which to filter. If you specify this parameter, the list includes only core devices that have this status. Choose one of the following options:    HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a failed state on the core device.
     ///   - thingGroupArn: The ARN of the IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that have successfully deployed a deployment that targets the thing group. When you remove a core device from a thing group, the list continues to include that core device.
     ///   - logger: Logger use during operation
@@ -762,6 +763,7 @@ public struct GreengrassV2: AWSService {
     public func listCoreDevices(
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        runtime: String? = nil,
         status: CoreDeviceStatus? = nil,
         thingGroupArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -769,6 +771,7 @@ public struct GreengrassV2: AWSService {
         let input = ListCoreDevicesRequest(
             maxResults: maxResults, 
             nextToken: nextToken, 
+            runtime: runtime, 
             status: status, 
             thingGroupArn: thingGroupArn
         )
@@ -1193,18 +1196,21 @@ extension GreengrassV2 {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to be returned per paginated request.
+    ///   - runtime: The runtime to be used by the core device. The runtime can be:    aws_nucleus_classic     aws_nucleus_lite
     ///   - status: The core device status by which to filter. If you specify this parameter, the list includes only core devices that have this status. Choose one of the following options:    HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a failed state on the core device.
     ///   - thingGroupArn: The ARN of the IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that have successfully deployed a deployment that targets the thing group. When you remove a core device from a thing group, the list continues to include that core device.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCoreDevicesPaginator(
         maxResults: Int? = nil,
+        runtime: String? = nil,
         status: CoreDeviceStatus? = nil,
         thingGroupArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListCoreDevicesRequest, ListCoreDevicesResponse> {
         let input = ListCoreDevicesRequest(
             maxResults: maxResults, 
+            runtime: runtime, 
             status: status, 
             thingGroupArn: thingGroupArn
         )
@@ -1371,6 +1377,7 @@ extension GreengrassV2.ListCoreDevicesRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
+            runtime: self.runtime,
             status: self.status,
             thingGroupArn: self.thingGroupArn
         )

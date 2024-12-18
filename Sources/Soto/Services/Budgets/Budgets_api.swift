@@ -79,13 +79,15 @@ public struct Budgets: AWSService {
     static var serviceEndpoints: [String: String] {[
         "aws-cn-global": "budgets.amazonaws.com.cn",
         "aws-global": "budgets.amazonaws.com",
-        "us-isob-east-1": "budgets.us-isob-east-1.sc2s.sgov.gov"
+        "aws-iso-b-global": "budgets.global.sc2s.sgov.gov",
+        "us-isob-east-1": "budgets.global.sc2s.sgov.gov"
     ]}
 
     /// Default endpoint and region to use for each partition
     static var partitionEndpoints: [AWSPartition: (endpoint: String, region: SotoCore.Region)] {[
         .aws: (endpoint: "aws-global", region: .useast1),
-        .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)
+        .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
+        .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1)
     ]}
 
 

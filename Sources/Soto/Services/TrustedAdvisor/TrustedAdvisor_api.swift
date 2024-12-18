@@ -65,6 +65,7 @@ public struct TrustedAdvisor: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2022-09-15",
             endpoint: endpoint,
+            serviceEndpoints: Self.serviceEndpoints,
             errorType: TrustedAdvisorErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -74,6 +75,12 @@ public struct TrustedAdvisor: AWSService {
     }
 
 
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "fips-us-east-1": "trustedadvisor-fips.us-east-1.api.aws",
+        "fips-us-east-2": "trustedadvisor-fips.us-east-2.api.aws",
+        "fips-us-west-2": "trustedadvisor-fips.us-west-2.api.aws"
+    ]}
 
 
 

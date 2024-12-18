@@ -143,7 +143,7 @@ extension Synthetics {
             try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,255}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,255}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -952,7 +952,7 @@ extension Synthetics {
             try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,255}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,255}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1183,7 +1183,7 @@ extension Synthetics {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,255}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,255}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1329,7 +1329,7 @@ extension Synthetics {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:(canary|group):[0-9a-z_\\-]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\\d{1}:\\d{12}:(canary|group):[0-9a-z_\\-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1390,7 +1390,7 @@ extension Synthetics {
         public func validate(name: String) throws {
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:kms:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:key/[\\w\\-\\/]+$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:kms:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\\d{1}:\\d{12}:key/[\\w\\-\\/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1478,7 +1478,7 @@ extension Synthetics {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:(canary|group):[0-9a-z_\\-]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\\d{1}:\\d{12}:(canary|group):[0-9a-z_\\-]+$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1520,7 +1520,7 @@ extension Synthetics {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:(canary|group):[0-9a-z_\\-]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\\d{1}:\\d{12}:(canary|group):[0-9a-z_\\-]+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1644,7 +1644,7 @@ extension Synthetics {
     }
 
     public struct VisualReferenceInput: AWSEncodableShape {
-        /// Specifies which canary run to use the screenshots from as the baseline for future visual monitoring with this canary. Valid values are  nextrun to use the screenshots from the next run after this update is made, lastrun to use the screenshots from the most recent run  before this update was made, or the value of Id in the  CanaryRun from any past run of this canary.
+        /// Specifies which canary run to use the screenshots from as the baseline for future visual monitoring with this canary. Valid values are  nextrun to use the screenshots from the next run after this update is made, lastrun to use the screenshots from the most recent run  before this update was made, or the value of Id in the  CanaryRun from a run of this a canary in the past 31 days. If you specify the Id of a canary run older than 31 days,  the operation returns a 400 validation exception error..
         public let baseCanaryRunId: String
         /// An array of screenshots that will be used as the baseline for visual monitoring in future runs of this canary. If there is a screenshot that you don't want to be used for visual monitoring, remove it from this array.
         public let baseScreenshots: [BaseScreenshot]?
@@ -1688,13 +1688,16 @@ extension Synthetics {
     }
 
     public struct VpcConfigInput: AWSEncodableShape {
+        /// Set this to true to allow outbound IPv6 traffic on VPC canaries that are connected to dual-stack subnets. The default is false
+        public let ipv6AllowedForDualStack: Bool?
         /// The IDs of the security groups for this canary.
         public let securityGroupIds: [String]?
         /// The IDs of the subnets where this canary is to run.
         public let subnetIds: [String]?
 
         @inlinable
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+        public init(ipv6AllowedForDualStack: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1705,12 +1708,15 @@ extension Synthetics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipv6AllowedForDualStack = "Ipv6AllowedForDualStack"
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
         }
     }
 
     public struct VpcConfigOutput: AWSDecodableShape {
+        /// Indicates whether this canary allows outbound IPv6 traffic if it is connected to dual-stack subnets.
+        public let ipv6AllowedForDualStack: Bool?
         /// The IDs of the security groups for this canary.
         public let securityGroupIds: [String]?
         /// The IDs of the subnets where this canary is to run.
@@ -1719,13 +1725,15 @@ extension Synthetics {
         public let vpcId: String?
 
         @inlinable
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(ipv6AllowedForDualStack: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipv6AllowedForDualStack = "Ipv6AllowedForDualStack"
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
             case vpcId = "VpcId"

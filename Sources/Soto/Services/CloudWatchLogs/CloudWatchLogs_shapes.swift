@@ -1234,7 +1234,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 256)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 50)
             try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
             try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
         }
@@ -3000,7 +3000,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 256)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 50)
             try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
             try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
         }
@@ -3523,7 +3523,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.integrationNamePrefix, name: "integrationNamePrefix", parent: name, max: 256)
+            try self.validate(self.integrationNamePrefix, name: "integrationNamePrefix", parent: name, max: 50)
             try self.validate(self.integrationNamePrefix, name: "integrationNamePrefix", parent: name, min: 1)
             try self.validate(self.integrationNamePrefix, name: "integrationNamePrefix", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
         }
@@ -5166,7 +5166,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 256)
+            try self.validate(self.integrationName, name: "integrationName", parent: name, max: 50)
             try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
             try self.validate(self.integrationName, name: "integrationName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
             try self.resourceConfig.validate(name: "\(name).resourceConfig")

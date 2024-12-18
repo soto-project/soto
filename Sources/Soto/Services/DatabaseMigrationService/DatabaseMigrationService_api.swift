@@ -711,6 +711,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - availabilityZone: The Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region, for example: us-east-1d.
     ///   - dnsNameServers: A list of custom DNS name servers supported for the replication instance to access your on-premise source or target database. This list overrides the default name servers supported by the replication instance. You can specify a comma-separated list of internet addresses for up to four on-premise DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"
     ///   - engineVersion: The engine version number of the replication instance. If an engine version number is not specified when a replication  instance is created, the default is the latest engine version available.
+    ///   - kerberosAuthenticationSettings: Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when creating a replication instance.
     ///   - kmsKeyId: An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
     ///   - multiAZ:  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
     ///   - networkType: The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
@@ -730,6 +731,7 @@ public struct DatabaseMigrationService: AWSService {
         availabilityZone: String? = nil,
         dnsNameServers: String? = nil,
         engineVersion: String? = nil,
+        kerberosAuthenticationSettings: KerberosAuthenticationSettings? = nil,
         kmsKeyId: String? = nil,
         multiAZ: Bool? = nil,
         networkType: String? = nil,
@@ -749,6 +751,7 @@ public struct DatabaseMigrationService: AWSService {
             availabilityZone: availabilityZone, 
             dnsNameServers: dnsNameServers, 
             engineVersion: engineVersion, 
+            kerberosAuthenticationSettings: kerberosAuthenticationSettings, 
             kmsKeyId: kmsKeyId, 
             multiAZ: multiAZ, 
             networkType: networkType, 
@@ -1534,7 +1537,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Returns a paginated list of data providers for your account in the current region.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the data providers described in the form of key-value pairs. Valid filter names: data-provider-identifier
+    ///   - filters: Filters applied to the data providers described in the form of key-value pairs. Valid filter names and values: data-provider-identifier, data provider arn or name
     ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger use during operation
@@ -2039,7 +2042,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Returns a paginated list of instance profiles for your account in the current region.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the instance profiles described in the form of key-value pairs.
+    ///   - filters: Filters applied to the instance profiles described in the form of key-value pairs. Valid filter names and values: instance-profile-identifier, instance profile arn or name
     ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger use during operation
@@ -2264,7 +2267,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Returns a paginated list of migration projects for your account in the current region.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the migration projects described in the form of key-value pairs.
+    ///   - filters: Filters applied to the migration projects described in the form of key-value pairs. Valid filter names and values:   instance-profile-identifier, instance profile arn or name   data-provider-identifier, data provider arn or name   migration-project-identifier, migration project arn or name
     ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger use during operation
@@ -3461,6 +3464,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - applyImmediately: Indicates whether the changes should be applied immediately or during the next maintenance window.
     ///   - autoMinorVersionUpgrade: A value that indicates that minor version upgrades are applied automatically to the replication instance during the maintenance window. Changing this parameter doesn't result in an outage, except in the case described following. The change is asynchronously applied as soon as possible.  An outage does result if these factors apply:    This parameter is set to true during the maintenance window.   A newer minor version is available.    DMS has enabled automatic patching for the given engine version.
     ///   - engineVersion: The engine version number of the replication instance. When modifying a major engine version of an instance, also set  AllowMajorVersionUpgrade to true.
+    ///   - kerberosAuthenticationSettings: Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when modifying a replication instance.
     ///   - multiAZ:  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
     ///   - networkType: The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
     ///   - preferredMaintenanceWindow: The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
@@ -3476,6 +3480,7 @@ public struct DatabaseMigrationService: AWSService {
         applyImmediately: Bool? = nil,
         autoMinorVersionUpgrade: Bool? = nil,
         engineVersion: String? = nil,
+        kerberosAuthenticationSettings: KerberosAuthenticationSettings? = nil,
         multiAZ: Bool? = nil,
         networkType: String? = nil,
         preferredMaintenanceWindow: String? = nil,
@@ -3491,6 +3496,7 @@ public struct DatabaseMigrationService: AWSService {
             applyImmediately: applyImmediately, 
             autoMinorVersionUpgrade: autoMinorVersionUpgrade, 
             engineVersion: engineVersion, 
+            kerberosAuthenticationSettings: kerberosAuthenticationSettings, 
             multiAZ: multiAZ, 
             networkType: networkType, 
             preferredMaintenanceWindow: preferredMaintenanceWindow, 
@@ -4092,7 +4098,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - cdcStartTime: Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
     ///   - cdcStopPosition: Indicates when you want a change data capture (CDC) operation to stop. The value can be  either server time or commit time.
     ///   - replicationConfigArn: The Amazon Resource Name of the replication for which to start replication.
-    ///   - startReplicationType: The replication type.
+    ///   - startReplicationType: The replication type. When the replication type is full-load or full-load-and-cdc, the only valid value  for the first run of the replication is start-replication. This option will start the replication. You can also use ReloadTables to reload specific tables that failed during replication instead  of restarting the replication. The resume-processing option isn't applicable for a full-load replication, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes  that occur on the source. To load all the tables again, and start capturing source changes,  use reload-target. Otherwise use resume-processing, to replicate the  changes from the last stop position.
     ///   - logger: Logger use during operation
     @inlinable
     public func startReplication(
@@ -4588,7 +4594,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeDataProviders(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the data providers described in the form of key-value pairs. Valid filter names: data-provider-identifier
+    ///   - filters: Filters applied to the data providers described in the form of key-value pairs. Valid filter names and values: data-provider-identifier, data provider arn or name
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger used for logging
     @inlinable
@@ -5087,7 +5093,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeInstanceProfiles(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the instance profiles described in the form of key-value pairs.
+    ///   - filters: Filters applied to the instance profiles described in the form of key-value pairs. Valid filter names and values: instance-profile-identifier, instance profile arn or name
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger used for logging
     @inlinable
@@ -5324,7 +5330,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeMigrationProjects(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the migration projects described in the form of key-value pairs.
+    ///   - filters: Filters applied to the migration projects described in the form of key-value pairs. Valid filter names and values:   instance-profile-identifier, instance profile arn or name   data-provider-identifier, data provider arn or name   migration-project-identifier, migration project arn or name
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger used for logging
     @inlinable

@@ -81,6 +81,7 @@ public struct Organizations: AWSService {
     static var serviceEndpoints: [String: String] {[
         "aws-cn-global": "organizations.cn-northwest-1.amazonaws.com.cn",
         "aws-global": "organizations.us-east-1.amazonaws.com",
+        "aws-iso-b-global": "organizations.us-isob-east-1.sc2s.sgov.gov",
         "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"
     ]}
 
@@ -88,6 +89,7 @@ public struct Organizations: AWSService {
     static var partitionEndpoints: [AWSPartition: (endpoint: String, region: SotoCore.Region)] {[
         .aws: (endpoint: "aws-global", region: .useast1),
         .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
+        .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
         .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
     ]}
 

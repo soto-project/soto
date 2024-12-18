@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS TimestreamInfluxDB service.
 ///
-/// Amazon Timestream for InfluxDB is a managed time-series database engine that makes it easy for application developers and DevOps teams to run InfluxDB databases on AWS for near real-time time-series applications using open-source APIs. With Amazon Timestream for InfluxDB, it is easy to set up, operate, and scale time-series workloads that can answer queries with single-digit millisecond query response time.
+/// Amazon Timestream for InfluxDB is a managed time-series database engine that makes it easy for application developers and DevOps teams to run InfluxDB databases on Amazon Web Services for near real-time time-series applications using open-source APIs. With Amazon Timestream for InfluxDB, it is easy to set up, operate, and scale time-series workloads that can answer queries with single-digit millisecond query response time.
 public struct TimestreamInfluxDB: AWSService {
     // MARK: Member variables
 
@@ -104,8 +104,9 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - deploymentType: Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
     ///   - logDeliveryConfiguration: Configuration for sending InfluxDB engine logs to a specified S3 bucket.
     ///   - name: The name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB instance names must be unique per customer and per region.
+    ///   - networkType: Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
     ///   - organization: The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
-    ///   - password: The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in AWS SecretManager in your account.
+    ///   - password: The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Amazon Web Services SecretManager in your account.
     ///   - port: The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
     ///   - publiclyAccessible: Configures the DB instance with a public IP to facilitate access.
     ///   - tags: A list of key-value pairs to associate with the DB instance.
@@ -123,6 +124,7 @@ public struct TimestreamInfluxDB: AWSService {
         deploymentType: DeploymentType? = nil,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
         name: String,
+        networkType: NetworkType? = nil,
         organization: String? = nil,
         password: String,
         port: Int? = nil,
@@ -142,6 +144,7 @@ public struct TimestreamInfluxDB: AWSService {
             deploymentType: deploymentType, 
             logDeliveryConfiguration: logDeliveryConfiguration, 
             name: name, 
+            networkType: networkType, 
             organization: organization, 
             password: password, 
             port: port, 

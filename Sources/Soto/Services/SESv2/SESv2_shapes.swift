@@ -107,6 +107,28 @@ extension SESv2 {
 
     public enum DkimSigningAttributesOrigin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsSes = "AWS_SES"
+        case awsSesAfSouth1 = "AWS_SES_AF_SOUTH_1"
+        case awsSesApNortheast1 = "AWS_SES_AP_NORTHEAST_1"
+        case awsSesApNortheast2 = "AWS_SES_AP_NORTHEAST_2"
+        case awsSesApNortheast3 = "AWS_SES_AP_NORTHEAST_3"
+        case awsSesApSouth1 = "AWS_SES_AP_SOUTH_1"
+        case awsSesApSoutheast1 = "AWS_SES_AP_SOUTHEAST_1"
+        case awsSesApSoutheast2 = "AWS_SES_AP_SOUTHEAST_2"
+        case awsSesApSoutheast3 = "AWS_SES_AP_SOUTHEAST_3"
+        case awsSesCaCentral1 = "AWS_SES_CA_CENTRAL_1"
+        case awsSesEuCentral1 = "AWS_SES_EU_CENTRAL_1"
+        case awsSesEuNorth1 = "AWS_SES_EU_NORTH_1"
+        case awsSesEuSouth1 = "AWS_SES_EU_SOUTH_1"
+        case awsSesEuWest1 = "AWS_SES_EU_WEST_1"
+        case awsSesEuWest2 = "AWS_SES_EU_WEST_2"
+        case awsSesEuWest3 = "AWS_SES_EU_WEST_3"
+        case awsSesIlCentral1 = "AWS_SES_IL_CENTRAL_1"
+        case awsSesMeSouth1 = "AWS_SES_ME_SOUTH_1"
+        case awsSesSaEast1 = "AWS_SES_SA_EAST_1"
+        case awsSesUsEast1 = "AWS_SES_US_EAST_1"
+        case awsSesUsEast2 = "AWS_SES_US_EAST_2"
+        case awsSesUsWest1 = "AWS_SES_US_WEST_1"
+        case awsSesUsWest2 = "AWS_SES_US_WEST_2"
         case external = "EXTERNAL"
         public var description: String { return self.rawValue }
     }
@@ -281,6 +303,14 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case ready = "READY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optIn = "OPT_IN"
         case optOut = "OPT_OUT"
@@ -309,6 +339,11 @@ extension SESv2 {
         case dnsServerError = "DNS_SERVER_ERROR"
         case hostNotFound = "HOST_NOT_FOUND"
         case invalidValue = "INVALID_VALUE"
+        case replicationAccessDenied = "REPLICATION_ACCESS_DENIED"
+        case replicationPrimaryByoDkimNotSupported = "REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED"
+        case replicationPrimaryInvalidRegion = "REPLICATION_PRIMARY_INVALID_REGION"
+        case replicationPrimaryNotFound = "REPLICATION_PRIMARY_NOT_FOUND"
+        case replicationReplicaAsPrimaryNotSupported = "REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED"
         case serviceError = "SERVICE_ERROR"
         case typeNotFound = "TYPE_NOT_FOUND"
         public var description: String { return self.rawValue }
@@ -1208,6 +1243,52 @@ extension SESv2 {
         }
     }
 
+    public struct CreateMultiRegionEndpointRequest: AWSEncodableShape {
+        /// Contains details of a multi-region endpoint (global-endpoint) being created.
+        public let details: Details
+        /// The name of the multi-region endpoint (global-endpoint).
+        public let endpointName: String
+        /// An array of objects that define the tags (keys and values) to associate with the multi-region endpoint (global-endpoint).
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(details: Details, endpointName: String, tags: [Tag]? = nil) {
+            self.details = details
+            self.endpointName = endpointName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 64)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, min: 1)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[\\w\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+            case endpointName = "EndpointName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateMultiRegionEndpointResponse: AWSDecodableShape {
+        /// The ID of the multi-region endpoint (global-endpoint).
+        public let endpointId: String?
+        /// A status of the multi-region endpoint (global-endpoint) right after the create request.    CREATING – The resource is being provisioned.    READY – The resource is ready to use.    FAILED – The resource failed to be provisioned.    DELETING – The resource is being deleted as requested.
+        public let status: Status?
+
+        @inlinable
+        public init(endpointId: String? = nil, status: Status? = nil) {
+            self.endpointId = endpointId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointId = "EndpointId"
+            case status = "Status"
+        }
+    }
+
     public struct CustomVerificationEmailTemplateMetadata: AWSDecodableShape {
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String?
@@ -1560,6 +1641,44 @@ extension SESv2 {
         public init() {}
     }
 
+    public struct DeleteMultiRegionEndpointRequest: AWSEncodableShape {
+        /// The name of the multi-region endpoint (global-endpoint) to be deleted.
+        public let endpointName: String
+
+        @inlinable
+        public init(endpointName: String) {
+            self.endpointName = endpointName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.endpointName, key: "EndpointName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 64)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, min: 1)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[\\w\\-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteMultiRegionEndpointResponse: AWSDecodableShape {
+        /// A status of the multi-region endpoint (global-endpoint) right after the delete request.    CREATING – The resource is being provisioned.    READY – The resource is ready to use.    FAILED – The resource failed to be provisioned.    DELETING – The resource is being deleted as requested.
+        public let status: Status?
+
+        @inlinable
+        public init(status: Status? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct DeleteSuppressedDestinationRequest: AWSEncodableShape {
         /// The suppressed email destination to remove from the account suppression list.
         public let emailAddress: String
@@ -1665,6 +1784,20 @@ extension SESv2 {
         }
     }
 
+    public struct Details: AWSEncodableShape {
+        /// A list of route configuration details. Must contain exactly one route configuration.
+        public let routesDetails: [RouteDetails]
+
+        @inlinable
+        public init(routesDetails: [RouteDetails]) {
+            self.routesDetails = routesDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routesDetails = "RoutesDetails"
+        }
+    }
+
     public struct DkimAttributes: AWSDecodableShape {
         /// [Easy DKIM] The key length of the DKIM key pair in use.
         public let currentSigningKeyLength: DkimSigningKeyLength?
@@ -1672,7 +1805,7 @@ extension SESv2 {
         public let lastKeyGenerationTimestamp: Date?
         /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This can be changed at most once per day.
         public let nextSigningKeyLength: DkimSigningKeyLength?
-        /// A string that indicates how DKIM was configured for the identity. These are the possible values:    AWS_SES – Indicates that DKIM was configured for the identity by using Easy DKIM.    EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).
+        /// A string that indicates how DKIM was configured for the identity. These are the possible values:    AWS_SES – Indicates that DKIM was configured for the identity by using Easy DKIM.    EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).    AWS_SES_AF_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_NORTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_IL_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).     AWS_SES_SA_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
         public let signingAttributesOrigin: DkimSigningAttributesOrigin?
         /// If the value is true, then the messages that you send from the identity are signed using DKIM. If the value is false, then the messages that you send from the identity aren't DKIM-signed.
         public let signingEnabled: Bool?
@@ -1704,6 +1837,8 @@ extension SESv2 {
     }
 
     public struct DkimSigningAttributes: AWSEncodableShape {
+        /// The attribute to use for configuring DKIM for the identity depends on the operation:    For PutEmailIdentityDkimSigningAttributes:    None of the values are allowed - use the  SigningAttributesOrigin  parameter instead      For CreateEmailIdentity when replicating a parent identity's DKIM configuration:    Allowed values: All values except AWS_SES and EXTERNAL         AWS_SES – Configure DKIM for the identity by using Easy DKIM.     EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).     AWS_SES_AF_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_NORTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_3 – Configure DKIM for the identity by replicating from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_IL_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).     AWS_SES_SA_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_2 – Configure DKIM for the identity by replicating from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
+        public let domainSigningAttributesOrigin: DkimSigningAttributesOrigin?
         /// [Bring Your Own DKIM] A private key that's used to generate a DKIM signature. The private key must use 1024 or 2048-bit RSA encryption, and must be encoded using base64 encoding.
         public let domainSigningPrivateKey: String?
         /// [Bring Your Own DKIM] A string that's used to identify a public key in the DNS configuration for a domain.
@@ -1712,7 +1847,8 @@ extension SESv2 {
         public let nextSigningKeyLength: DkimSigningKeyLength?
 
         @inlinable
-        public init(domainSigningPrivateKey: String? = nil, domainSigningSelector: String? = nil, nextSigningKeyLength: DkimSigningKeyLength? = nil) {
+        public init(domainSigningAttributesOrigin: DkimSigningAttributesOrigin? = nil, domainSigningPrivateKey: String? = nil, domainSigningSelector: String? = nil, nextSigningKeyLength: DkimSigningKeyLength? = nil) {
+            self.domainSigningAttributesOrigin = domainSigningAttributesOrigin
             self.domainSigningPrivateKey = domainSigningPrivateKey
             self.domainSigningSelector = domainSigningSelector
             self.nextSigningKeyLength = nextSigningKeyLength
@@ -1728,6 +1864,7 @@ extension SESv2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case domainSigningAttributesOrigin = "DomainSigningAttributesOrigin"
             case domainSigningPrivateKey = "DomainSigningPrivateKey"
             case domainSigningSelector = "DomainSigningSelector"
             case nextSigningKeyLength = "NextSigningKeyLength"
@@ -3122,6 +3259,64 @@ extension SESv2 {
         }
     }
 
+    public struct GetMultiRegionEndpointRequest: AWSEncodableShape {
+        /// The name of the multi-region endpoint (global-endpoint).
+        public let endpointName: String
+
+        @inlinable
+        public init(endpointName: String) {
+            self.endpointName = endpointName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.endpointName, key: "EndpointName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 64)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, min: 1)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[\\w\\-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMultiRegionEndpointResponse: AWSDecodableShape {
+        /// The time stamp of when the multi-region endpoint (global-endpoint) was created.
+        public let createdTimestamp: Date?
+        /// The ID of the multi-region endpoint (global-endpoint).
+        public let endpointId: String?
+        /// The name of the multi-region endpoint (global-endpoint).
+        public let endpointName: String?
+        /// The time stamp of when the multi-region endpoint (global-endpoint) was last updated.
+        public let lastUpdatedTimestamp: Date?
+        /// Contains routes information for the multi-region endpoint (global-endpoint).
+        public let routes: [Route]?
+        /// The status of the multi-region endpoint (global-endpoint).    CREATING – The resource is being provisioned.    READY – The resource is ready to use.    FAILED – The resource failed to be provisioned.    DELETING – The resource is being deleted as requested.
+        public let status: Status?
+
+        @inlinable
+        public init(createdTimestamp: Date? = nil, endpointId: String? = nil, endpointName: String? = nil, lastUpdatedTimestamp: Date? = nil, routes: [Route]? = nil, status: Status? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.endpointId = endpointId
+            self.endpointName = endpointName
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.routes = routes
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case endpointId = "EndpointId"
+            case endpointName = "EndpointName"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case routes = "Routes"
+            case status = "Status"
+        }
+    }
+
     public struct GetSuppressedDestinationRequest: AWSEncodableShape {
         /// The email address that's on the account suppression list.
         public let emailAddress: String
@@ -3859,6 +4054,54 @@ extension SESv2 {
         }
     }
 
+    public struct ListMultiRegionEndpointsRequest: AWSEncodableShape {
+        /// A token returned from a previous call to ListMultiRegionEndpoints to indicate the position in the list of multi-region endpoints (global-endpoints).
+        public let nextToken: String?
+        /// The number of results to show in a single call to ListMultiRegionEndpoints. If the number of results is larger than the number you specified in this parameter, the response includes a NextToken element that you can use to retrieve the next page of results.
+        public let pageSize: Int?
+
+        @inlinable
+        public init(nextToken: String? = nil, pageSize: Int? = nil) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 5000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 1000)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMultiRegionEndpointsResponse: AWSDecodableShape {
+        /// An array that contains key multi-region endpoint (global-endpoint) properties.
+        public let multiRegionEndpoints: [MultiRegionEndpoint]?
+        /// A token indicating that there are additional multi-region endpoints (global-endpoints) available to be listed. Pass this token to a subsequent ListMultiRegionEndpoints call to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(multiRegionEndpoints: [MultiRegionEndpoint]? = nil, nextToken: String? = nil) {
+            self.multiRegionEndpoints = multiRegionEndpoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiRegionEndpoints = "MultiRegionEndpoints"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListRecommendationsRequest: AWSEncodableShape {
         /// Filters applied when retrieving recommendations. Can eiter be an individual filter, or combinations of STATUS and IMPACT or STATUS and TYPE
         public let filter: [ListRecommendationsFilterKey: String]?
@@ -4262,6 +4505,40 @@ extension SESv2 {
             case metrics = "Metrics"
             case namespace = "Namespace"
             case startDate = "StartDate"
+        }
+    }
+
+    public struct MultiRegionEndpoint: AWSDecodableShape {
+        /// The time stamp of when the multi-region endpoint (global-endpoint) was created.
+        public let createdTimestamp: Date?
+        /// The ID of the multi-region endpoint (global-endpoint).
+        public let endpointId: String?
+        /// The name of the multi-region endpoint (global-endpoint).
+        public let endpointName: String?
+        /// The time stamp of when the multi-region endpoint (global-endpoint) was last updated.
+        public let lastUpdatedTimestamp: Date?
+        /// Primary and secondary regions between which multi-region endpoint splits sending traffic.
+        public let regions: [String]?
+        /// The status of the multi-region endpoint (global-endpoint).    CREATING – The resource is being provisioned.    READY – The resource is ready to use.    FAILED – The resource failed to be provisioned.    DELETING – The resource is being deleted as requested.
+        public let status: Status?
+
+        @inlinable
+        public init(createdTimestamp: Date? = nil, endpointId: String? = nil, endpointName: String? = nil, lastUpdatedTimestamp: Date? = nil, regions: [String]? = nil, status: Status? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.endpointId = endpointId
+            self.endpointName = endpointName
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.regions = regions
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case endpointId = "EndpointId"
+            case endpointName = "EndpointName"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case regions = "Regions"
+            case status = "Status"
         }
     }
 
@@ -5079,6 +5356,34 @@ extension SESv2 {
         }
     }
 
+    public struct Route: AWSDecodableShape {
+        /// The name of an AWS-Region.
+        public let region: String
+
+        @inlinable
+        public init(region: String) {
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case region = "Region"
+        }
+    }
+
+    public struct RouteDetails: AWSEncodableShape {
+        /// The name of an AWS-Region to be a secondary region for the multi-region endpoint (global-endpoint).
+        public let region: String
+
+        @inlinable
+        public init(region: String) {
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case region = "Region"
+        }
+    }
+
     public struct SOARecord: AWSDecodableShape {
         /// Administrative contact email from the SOA record.
         public let adminEmail: String?
@@ -5110,6 +5415,8 @@ extension SESv2 {
         public let defaultContent: BulkEmailContent
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
         public let defaultEmailTags: [MessageTag]?
+        /// The ID of the multi-region endpoint (global-endpoint).
+        public let endpointId: String?
         /// The address that you want bounce and complaint notifications to be sent to.
         public let feedbackForwardingEmailAddress: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
@@ -5122,11 +5429,12 @@ extension SESv2 {
         public let replyToAddresses: [String]?
 
         @inlinable
-        public init(bulkEmailEntries: [BulkEmailEntry], configurationSetName: String? = nil, defaultContent: BulkEmailContent, defaultEmailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, replyToAddresses: [String]? = nil) {
+        public init(bulkEmailEntries: [BulkEmailEntry], configurationSetName: String? = nil, defaultContent: BulkEmailContent, defaultEmailTags: [MessageTag]? = nil, endpointId: String? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, replyToAddresses: [String]? = nil) {
             self.bulkEmailEntries = bulkEmailEntries
             self.configurationSetName = configurationSetName
             self.defaultContent = defaultContent
             self.defaultEmailTags = defaultEmailTags
+            self.endpointId = endpointId
             self.feedbackForwardingEmailAddress = feedbackForwardingEmailAddress
             self.feedbackForwardingEmailAddressIdentityArn = feedbackForwardingEmailAddressIdentityArn
             self.fromEmailAddress = fromEmailAddress
@@ -5146,6 +5454,7 @@ extension SESv2 {
             case configurationSetName = "ConfigurationSetName"
             case defaultContent = "DefaultContent"
             case defaultEmailTags = "DefaultEmailTags"
+            case endpointId = "EndpointId"
             case feedbackForwardingEmailAddress = "FeedbackForwardingEmailAddress"
             case feedbackForwardingEmailAddressIdentityArn = "FeedbackForwardingEmailAddressIdentityArn"
             case fromEmailAddress = "FromEmailAddress"
@@ -5217,6 +5526,8 @@ extension SESv2 {
         public let destination: Destination?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
         public let emailTags: [MessageTag]?
+        /// The ID of the multi-region endpoint (global-endpoint).
+        public let endpointId: String?
         /// The address that you want bounce and complaint notifications to be sent to.
         public let feedbackForwardingEmailAddress: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
@@ -5231,11 +5542,12 @@ extension SESv2 {
         public let replyToAddresses: [String]?
 
         @inlinable
-        public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination? = nil, emailTags: [MessageTag]? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, listManagementOptions: ListManagementOptions? = nil, replyToAddresses: [String]? = nil) {
+        public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination? = nil, emailTags: [MessageTag]? = nil, endpointId: String? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, listManagementOptions: ListManagementOptions? = nil, replyToAddresses: [String]? = nil) {
             self.configurationSetName = configurationSetName
             self.content = content
             self.destination = destination
             self.emailTags = emailTags
+            self.endpointId = endpointId
             self.feedbackForwardingEmailAddress = feedbackForwardingEmailAddress
             self.feedbackForwardingEmailAddressIdentityArn = feedbackForwardingEmailAddressIdentityArn
             self.fromEmailAddress = fromEmailAddress
@@ -5253,6 +5565,7 @@ extension SESv2 {
             case content = "Content"
             case destination = "Destination"
             case emailTags = "EmailTags"
+            case endpointId = "EndpointId"
             case feedbackForwardingEmailAddress = "FeedbackForwardingEmailAddress"
             case feedbackForwardingEmailAddressIdentityArn = "FeedbackForwardingEmailAddressIdentityArn"
             case fromEmailAddress = "FromEmailAddress"
@@ -5933,7 +6246,7 @@ extension SESv2 {
     }
 
     public struct VerificationInfo: AWSDecodableShape {
-        /// Provides the reason for the failure describing why Amazon SES was not able to successfully verify the identity. Below are the possible values:     INVALID_VALUE – Amazon SES was able to find the record, but the value contained within the record was invalid. Ensure you have published the correct values for the record.    TYPE_NOT_FOUND – The queried hostname exists but does not have the requested type of DNS record. Ensure that you have published the correct type of DNS record.    HOST_NOT_FOUND – The queried hostname does not exist or was not reachable at the time of the request. Ensure that you have published the required DNS record(s).     SERVICE_ERROR – A temporary issue is preventing Amazon SES from determining the verification status of the domain.    DNS_SERVER_ERROR – The DNS server encountered an issue and was unable to complete the request.
+        /// Provides the reason for the failure describing why Amazon SES was not able to successfully verify the identity. Below are the possible values:     INVALID_VALUE – Amazon SES was able to find the record, but the value contained within the record was invalid. Ensure you have published the correct values for the record.    TYPE_NOT_FOUND – The queried hostname exists but does not have the requested type of DNS record. Ensure that you have published the correct type of DNS record.    HOST_NOT_FOUND – The queried hostname does not exist or was not reachable at the time of the request. Ensure that you have published the required DNS record(s).     SERVICE_ERROR – A temporary issue is preventing Amazon SES from determining the verification status of the domain.    DNS_SERVER_ERROR – The DNS server encountered an issue and was unable to complete the request.    REPLICATION_ACCESS_DENIED – The verification failed because the user does not have the required permissions to replicate the DKIM key from the primary region. Ensure you have the necessary permissions in both primary and replica regions.     REPLICATION_PRIMARY_NOT_FOUND – The verification failed because no corresponding identity was found in the specified primary region. Ensure the identity exists in the primary region before attempting replication.     REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED – The verification failed because the identity in the primary region is configured with Bring Your Own DKIM (BYODKIM). DKIM key replication is only supported for identities using Easy DKIM.     REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED – The verification failed because the specified primary identity is a replica of another identity, and multi-level replication is not supported; the primary identity must be a non-replica identity.     REPLICATION_PRIMARY_INVALID_REGION – The verification failed due to an invalid primary region specified. Ensure you provide a valid AWS region where Amazon SES is available and different from the replica region.
         public let errorType: VerificationError?
         /// The last time a verification attempt was made for this identity.
         public let lastCheckedTimestamp: Date?

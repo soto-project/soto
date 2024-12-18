@@ -80,12 +80,48 @@ public struct LakeFormation: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.dualstack]: .init(endpoints: [
+            "af-south-1": "lakeformation.af-south-1.api.aws",
+            "ap-east-1": "lakeformation.ap-east-1.api.aws",
+            "ap-northeast-1": "lakeformation.ap-northeast-1.api.aws",
+            "ap-northeast-2": "lakeformation.ap-northeast-2.api.aws",
+            "ap-northeast-3": "lakeformation.ap-northeast-3.api.aws",
+            "ap-south-1": "lakeformation.ap-south-1.api.aws",
+            "ap-south-2": "lakeformation.ap-south-2.api.aws",
+            "ap-southeast-1": "lakeformation.ap-southeast-1.api.aws",
+            "ap-southeast-2": "lakeformation.ap-southeast-2.api.aws",
+            "ap-southeast-3": "lakeformation.ap-southeast-3.api.aws",
+            "ap-southeast-4": "lakeformation.ap-southeast-4.api.aws",
+            "ap-southeast-5": "lakeformation.ap-southeast-5.api.aws",
+            "ca-central-1": "lakeformation.ca-central-1.api.aws",
+            "ca-west-1": "lakeformation.ca-west-1.api.aws",
+            "cn-north-1": "lakeformation.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "lakeformation.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "lakeformation.eu-central-1.api.aws",
+            "eu-central-2": "lakeformation.eu-central-2.api.aws",
+            "eu-north-1": "lakeformation.eu-north-1.api.aws",
+            "eu-south-1": "lakeformation.eu-south-1.api.aws",
+            "eu-south-2": "lakeformation.eu-south-2.api.aws",
+            "eu-west-1": "lakeformation.eu-west-1.api.aws",
+            "eu-west-2": "lakeformation.eu-west-2.api.aws",
+            "eu-west-3": "lakeformation.eu-west-3.api.aws",
+            "il-central-1": "lakeformation.il-central-1.api.aws",
+            "me-central-1": "lakeformation.me-central-1.api.aws",
+            "me-south-1": "lakeformation.me-south-1.api.aws",
+            "sa-east-1": "lakeformation.sa-east-1.api.aws",
+            "us-east-1": "lakeformation.us-east-1.api.aws",
+            "us-east-2": "lakeformation.us-east-2.api.aws",
             "us-gov-east-1": "lakeformation.us-gov-east-1.api.aws",
-            "us-gov-west-1": "lakeformation.us-gov-west-1.api.aws"
+            "us-gov-west-1": "lakeformation.us-gov-west-1.api.aws",
+            "us-west-1": "lakeformation.us-west-1.api.aws",
+            "us-west-2": "lakeformation.us-west-2.api.aws"
         ]),
         [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "lakeformation-fips.us-east-1.api.aws",
+            "us-east-2": "lakeformation-fips.us-east-2.api.aws",
             "us-gov-east-1": "lakeformation-fips.us-gov-east-1.api.aws",
-            "us-gov-west-1": "lakeformation-fips.us-gov-west-1.api.aws"
+            "us-gov-west-1": "lakeformation-fips.us-gov-west-1.api.aws",
+            "us-west-1": "lakeformation-fips.us-west-1.api.aws",
+            "us-west-2": "lakeformation-fips.us-west-2.api.aws"
         ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "lakeformation-fips.us-east-1.amazonaws.com",

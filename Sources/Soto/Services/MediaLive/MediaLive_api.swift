@@ -3868,19 +3868,16 @@ public struct MediaLive: AWSService {
     ///
     /// Parameters:
     ///   - inputSecurityGroupId: The id of the Input Security Group to update.
-    ///   - tags: A collection of key-value pairs.
     ///   - whitelistRules: List of IPv4 CIDR addresses to whitelist
     ///   - logger: Logger use during operation
     @inlinable
     public func updateInputSecurityGroup(
         inputSecurityGroupId: String,
-        tags: [String: String]? = nil,
         whitelistRules: [InputWhitelistRuleCidr]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateInputSecurityGroupResponse {
         let input = UpdateInputSecurityGroupRequest(
             inputSecurityGroupId: inputSecurityGroupId, 
-            tags: tags, 
             whitelistRules: whitelistRules
         )
         return try await self.updateInputSecurityGroup(input, logger: logger)

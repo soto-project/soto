@@ -107,6 +107,12 @@ extension M2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dual = "dual"
+        case ipv4 = "ipv4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BatchJobDefinition: AWSDecodableShape, Sendable {
         /// Specifies a file containing a batch job definition.
         case fileBatchJobDefinition(FileBatchJobDefinition)
@@ -854,6 +860,8 @@ extension M2 {
         public let kmsKeyId: String?
         /// The name of the runtime environment. Must be unique within the account.
         public let name: String
+        /// The network type required for the runtime environment.
+        public let networkType: NetworkType?
         /// Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00.  If you do not provide a value, a random system-generated value will be assigned.
         public let preferredMaintenanceWindow: String?
         /// Specifies whether the runtime environment is publicly accessible.
@@ -868,7 +876,7 @@ extension M2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), description: String? = nil, engineType: EngineType, engineVersion: String? = nil, highAvailabilityConfig: HighAvailabilityConfig? = nil, instanceType: String, kmsKeyId: String? = nil, name: String, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, storageConfigurations: [StorageConfiguration]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), description: String? = nil, engineType: EngineType, engineVersion: String? = nil, highAvailabilityConfig: HighAvailabilityConfig? = nil, instanceType: String, kmsKeyId: String? = nil, name: String, networkType: NetworkType? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, storageConfigurations: [StorageConfiguration]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.engineType = engineType
@@ -877,6 +885,7 @@ extension M2 {
             self.instanceType = instanceType
             self.kmsKeyId = kmsKeyId
             self.name = name
+            self.networkType = networkType
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
@@ -920,6 +929,7 @@ extension M2 {
             case instanceType = "instanceType"
             case kmsKeyId = "kmsKeyId"
             case name = "name"
+            case networkType = "networkType"
             case preferredMaintenanceWindow = "preferredMaintenanceWindow"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroupIds = "securityGroupIds"
@@ -1289,11 +1299,13 @@ extension M2 {
         public let instanceType: String
         /// The name of the runtime environment.
         public let name: String
+        /// The network type supported by the runtime environment.
+        public let networkType: NetworkType?
         /// The status of the runtime environment
         public let status: EnvironmentLifecycle
 
         @inlinable
-        public init(creationTime: Date, engineType: EngineType, engineVersion: String, environmentArn: String, environmentId: String, instanceType: String, name: String, status: EnvironmentLifecycle) {
+        public init(creationTime: Date, engineType: EngineType, engineVersion: String, environmentArn: String, environmentId: String, instanceType: String, name: String, networkType: NetworkType? = nil, status: EnvironmentLifecycle) {
             self.creationTime = creationTime
             self.engineType = engineType
             self.engineVersion = engineVersion
@@ -1301,6 +1313,7 @@ extension M2 {
             self.environmentId = environmentId
             self.instanceType = instanceType
             self.name = name
+            self.networkType = networkType
             self.status = status
         }
 
@@ -1312,6 +1325,7 @@ extension M2 {
             case environmentId = "environmentId"
             case instanceType = "instanceType"
             case name = "name"
+            case networkType = "networkType"
             case status = "status"
         }
     }
@@ -1911,6 +1925,8 @@ extension M2 {
         public let loadBalancerArn: String?
         /// The name of the runtime environment. Must be unique within the account.
         public let name: String
+        /// The network type supported by the runtime environment.
+        public let networkType: NetworkType?
         /// Indicates the pending maintenance scheduled on this environment.
         public let pendingMaintenance: PendingMaintenance?
         /// The maintenance window for the runtime environment. If you don't provide a value for the maintenance window, the service assigns a random value.
@@ -1933,7 +1949,7 @@ extension M2 {
         public let vpcId: String
 
         @inlinable
-        public init(actualCapacity: Int? = nil, creationTime: Date, description: String? = nil, engineType: EngineType, engineVersion: String, environmentArn: String, environmentId: String, highAvailabilityConfig: HighAvailabilityConfig? = nil, instanceType: String, kmsKeyId: String? = nil, loadBalancerArn: String? = nil, name: String, pendingMaintenance: PendingMaintenance? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String], status: EnvironmentLifecycle, statusReason: String? = nil, storageConfigurations: [StorageConfiguration]? = nil, subnetIds: [String], tags: [String: String]? = nil, vpcId: String) {
+        public init(actualCapacity: Int? = nil, creationTime: Date, description: String? = nil, engineType: EngineType, engineVersion: String, environmentArn: String, environmentId: String, highAvailabilityConfig: HighAvailabilityConfig? = nil, instanceType: String, kmsKeyId: String? = nil, loadBalancerArn: String? = nil, name: String, networkType: NetworkType? = nil, pendingMaintenance: PendingMaintenance? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String], status: EnvironmentLifecycle, statusReason: String? = nil, storageConfigurations: [StorageConfiguration]? = nil, subnetIds: [String], tags: [String: String]? = nil, vpcId: String) {
             self.actualCapacity = actualCapacity
             self.creationTime = creationTime
             self.description = description
@@ -1946,6 +1962,7 @@ extension M2 {
             self.kmsKeyId = kmsKeyId
             self.loadBalancerArn = loadBalancerArn
             self.name = name
+            self.networkType = networkType
             self.pendingMaintenance = pendingMaintenance
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
@@ -1971,6 +1988,7 @@ extension M2 {
             case kmsKeyId = "kmsKeyId"
             case loadBalancerArn = "loadBalancerArn"
             case name = "name"
+            case networkType = "networkType"
             case pendingMaintenance = "pendingMaintenance"
             case preferredMaintenanceWindow = "preferredMaintenanceWindow"
             case publiclyAccessible = "publiclyAccessible"

@@ -1411,6 +1411,38 @@ public struct Backup: AWSService {
         return try await self.getLegalHold(input, logger: logger)
     }
 
+    /// This operation returns the metadata and details specific to  the backup index associated with the specified recovery point.
+    @Sendable
+    @inlinable
+    public func getRecoveryPointIndexDetails(_ input: GetRecoveryPointIndexDetailsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecoveryPointIndexDetailsOutput {
+        try await self.client.execute(
+            operation: "GetRecoveryPointIndexDetails", 
+            path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/index", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation returns the metadata and details specific to  the backup index associated with the specified recovery point.
+    ///
+    /// Parameters:
+    ///   - backupVaultName: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens.
+    ///   - recoveryPointArn: An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRecoveryPointIndexDetails(
+        backupVaultName: String,
+        recoveryPointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRecoveryPointIndexDetailsOutput {
+        let input = GetRecoveryPointIndexDetailsInput(
+            backupVaultName: backupVaultName, 
+            recoveryPointArn: recoveryPointArn
+        )
+        return try await self.getRecoveryPointIndexDetails(input, logger: logger)
+    }
+
     /// Returns a set of metadata key-value pairs that were used to create the backup.
     @Sendable
     @inlinable
@@ -2013,6 +2045,53 @@ public struct Backup: AWSService {
             nextToken: nextToken
         )
         return try await self.listFrameworks(input, logger: logger)
+    }
+
+    /// This operation returns a list of recovery points that have an  associated index, belonging to the specified account. Optional parameters you can include are: MaxResults;  NextToken; SourceResourceArns; CreatedBefore; CreatedAfter;  and ResourceType.
+    @Sendable
+    @inlinable
+    public func listIndexedRecoveryPoints(_ input: ListIndexedRecoveryPointsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIndexedRecoveryPointsOutput {
+        try await self.client.execute(
+            operation: "ListIndexedRecoveryPoints", 
+            path: "/indexes/recovery-point", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation returns a list of recovery points that have an  associated index, belonging to the specified account. Optional parameters you can include are: MaxResults;  NextToken; SourceResourceArns; CreatedBefore; CreatedAfter;  and ResourceType.
+    ///
+    /// Parameters:
+    ///   - createdAfter: Returns only indexed recovery points that were created after the  specified date.
+    ///   - createdBefore: Returns only indexed recovery points that were created before the  specified date.
+    ///   - indexStatus: Include this parameter to filter the returned list by  the indicated statuses. Accepted values: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE  can be included in a search.
+    ///   - maxResults: The maximum number of resource list items to be returned.
+    ///   - nextToken: The next item following a partial list of returned recovery points. For example, if a request is made to return MaxResults number of indexed recovery points, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - resourceType: Returns a list of indexed recovery points for the specified  resource type(s). Accepted values include:    EBS for Amazon Elastic Block Store    S3 for Amazon Simple Storage Service (Amazon S3)
+    ///   - sourceResourceArn: A string of the  Amazon Resource Name (ARN) that uniquely identifies  the source resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listIndexedRecoveryPoints(
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        indexStatus: IndexStatus? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceType: String? = nil,
+        sourceResourceArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListIndexedRecoveryPointsOutput {
+        let input = ListIndexedRecoveryPointsInput(
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            indexStatus: indexStatus, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceType: resourceType, 
+            sourceResourceArn: sourceResourceArn
+        )
+        return try await self.listIndexedRecoveryPoints(input, logger: logger)
     }
 
     /// This action returns metadata about active and previous legal holds.
@@ -2729,6 +2808,7 @@ public struct Backup: AWSService {
     ///   - completeWindowMinutes: A value in minutes during which a successfully started backup must complete, or else Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes, or if the backup started later than scheduled. Like StartWindowMinutes, this parameter has a maximum value of  100 years (52,560,000 minutes).
     ///   - iamRoleArn: Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     ///   - idempotencyToken: A customer-chosen string that you can use to distinguish between otherwise identical calls to StartBackupJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+    ///   - index: Include this parameter to enable index creation if your backup  job has a resource type that supports backup indexes. Resource types that support backup indexes include:    EBS for Amazon Elastic Block Store    S3 for Amazon Simple Storage Service (Amazon S3)   Index can have 1 of 2 possible values, either ENABLED or  DISABLED. To create a backup index for an eligible ACTIVE recovery point  that does not yet have a backup index, set value to ENABLED. To delete a backup index, set value to DISABLED.
     ///   - lifecycle: The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Resource types that can transition to cold storage are listed in the Feature  availability by resource table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
     ///   - recoveryPointTags: The tags to assign to the resources.
     ///   - resourceArn: An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -2741,6 +2821,7 @@ public struct Backup: AWSService {
         completeWindowMinutes: Int64? = nil,
         iamRoleArn: String,
         idempotencyToken: String? = nil,
+        index: Index? = nil,
         lifecycle: Lifecycle? = nil,
         recoveryPointTags: [String: String]? = nil,
         resourceArn: String,
@@ -2753,6 +2834,7 @@ public struct Backup: AWSService {
             completeWindowMinutes: completeWindowMinutes, 
             iamRoleArn: iamRoleArn, 
             idempotencyToken: idempotencyToken, 
+            index: index, 
             lifecycle: lifecycle, 
             recoveryPointTags: recoveryPointTags, 
             resourceArn: resourceArn, 
@@ -3071,6 +3153,44 @@ public struct Backup: AWSService {
             globalSettings: globalSettings
         )
         return try await self.updateGlobalSettings(input, logger: logger)
+    }
+
+    /// This operation updates the settings of a recovery point index. Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn
+    @Sendable
+    @inlinable
+    public func updateRecoveryPointIndexSettings(_ input: UpdateRecoveryPointIndexSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecoveryPointIndexSettingsOutput {
+        try await self.client.execute(
+            operation: "UpdateRecoveryPointIndexSettings", 
+            path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/index", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This operation updates the settings of a recovery point index. Required: BackupVaultName, RecoveryPointArn, and IAMRoleArn
+    ///
+    /// Parameters:
+    ///   - backupVaultName: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens.
+    ///   - iamRoleArn: This specifies the IAM role ARN used for this operation. For example, arn:aws:iam::123456789012:role/S3Access
+    ///   - index: Index can have 1 of 2 possible values, either ENABLED or  DISABLED. To create a backup index for an eligible ACTIVE recovery point  that does not yet have a backup index, set value to ENABLED. To delete a backup index, set value to DISABLED.
+    ///   - recoveryPointArn: An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRecoveryPointIndexSettings(
+        backupVaultName: String,
+        iamRoleArn: String? = nil,
+        index: Index,
+        recoveryPointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRecoveryPointIndexSettingsOutput {
+        let input = UpdateRecoveryPointIndexSettingsInput(
+            backupVaultName: backupVaultName, 
+            iamRoleArn: iamRoleArn, 
+            index: index, 
+            recoveryPointArn: recoveryPointArn
+        )
+        return try await self.updateRecoveryPointIndexSettings(input, logger: logger)
     }
 
     /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expression for other resource types. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  If your lifecycle currently uses the parameters DeleteAfterDays and  MoveToColdStorageAfterDays, include these parameters and their values when you call  this operation. Not including them may result in your plan updating with null values.  This operation does not support continuous backups.
@@ -3711,6 +3831,55 @@ extension Backup {
             maxResults: maxResults
         )
         return self.listFrameworksPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listIndexedRecoveryPoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIndexedRecoveryPointsPaginator(
+        _ input: ListIndexedRecoveryPointsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIndexedRecoveryPointsInput, ListIndexedRecoveryPointsOutput> {
+        return .init(
+            input: input,
+            command: self.listIndexedRecoveryPoints,
+            inputKey: \ListIndexedRecoveryPointsInput.nextToken,
+            outputKey: \ListIndexedRecoveryPointsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listIndexedRecoveryPoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - createdAfter: Returns only indexed recovery points that were created after the  specified date.
+    ///   - createdBefore: Returns only indexed recovery points that were created before the  specified date.
+    ///   - indexStatus: Include this parameter to filter the returned list by  the indicated statuses. Accepted values: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE  can be included in a search.
+    ///   - maxResults: The maximum number of resource list items to be returned.
+    ///   - resourceType: Returns a list of indexed recovery points for the specified  resource type(s). Accepted values include:    EBS for Amazon Elastic Block Store    S3 for Amazon Simple Storage Service (Amazon S3)
+    ///   - sourceResourceArn: A string of the  Amazon Resource Name (ARN) that uniquely identifies  the source resource.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIndexedRecoveryPointsPaginator(
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        indexStatus: IndexStatus? = nil,
+        maxResults: Int? = nil,
+        resourceType: String? = nil,
+        sourceResourceArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListIndexedRecoveryPointsInput, ListIndexedRecoveryPointsOutput> {
+        let input = ListIndexedRecoveryPointsInput(
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            indexStatus: indexStatus, 
+            maxResults: maxResults, 
+            resourceType: resourceType, 
+            sourceResourceArn: sourceResourceArn
+        )
+        return self.listIndexedRecoveryPointsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listLegalHolds(_:logger:)``.
@@ -4428,6 +4597,21 @@ extension Backup.ListFrameworksInput: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Backup.ListIndexedRecoveryPointsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Backup.ListIndexedRecoveryPointsInput {
+        return .init(
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            indexStatus: self.indexStatus,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType,
+            sourceResourceArn: self.sourceResourceArn
         )
     }
 }

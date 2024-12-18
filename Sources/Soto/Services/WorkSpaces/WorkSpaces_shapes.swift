@@ -6108,7 +6108,7 @@ extension WorkSpaces {
         public let rootVolumeEncryptionEnabled: Bool?
         /// The tags for the WorkSpace.
         public let tags: [Tag]?
-        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace. The reserved keyword, [UNDEFINED], is used when creating user-decoupled WorkSpaces.
+        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace. The username is not case-sensitive, but we recommend matching the case in the Directory Service directory to avoid potential incompatibilities. The reserved keyword, [UNDEFINED], is used when creating user-decoupled WorkSpaces.
         public let userName: String
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?

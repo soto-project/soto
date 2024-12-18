@@ -58,6 +58,8 @@ extension CloudHSMV2 {
         case deleted = "DELETED"
         case initializeInProgress = "INITIALIZE_IN_PROGRESS"
         case initialized = "INITIALIZED"
+        case modifyInProgress = "MODIFY_IN_PROGRESS"
+        case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
         case uninitialized = "UNINITIALIZED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
         public var description: String { return self.rawValue }
@@ -69,6 +71,12 @@ extension CloudHSMV2 {
         case degraded = "DEGRADED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
         case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "DUALSTACK"
+        case ipv4 = "IPV4"
         public var description: String { return self.rawValue }
     }
 
@@ -211,6 +219,8 @@ extension CloudHSMV2 {
         public let hsmType: String?
         /// The mode of the cluster.
         public let mode: ClusterMode?
+        /// The cluster's NetworkType can be set to either IPV4 (which is the default) or DUALSTACK. When set to IPV4, communication between your application and the Hardware Security Modules (HSMs) is restricted to the IPv4 protocol only. In contrast, the DUALSTACK network type enables communication over both the IPv4 and IPv6 protocols. To use the DUALSTACK option, you'll need to configure your Virtual Private Cloud (VPC) and subnets to support both IPv4 and IPv6. This involves adding IPv6 Classless Inter-Domain Routing (CIDR) blocks to the existing IPv4 CIDR blocks in your subnets. The choice between IPV4 and DUALSTACK network types determines the flexibility of the network addressing setup for your cluster. The DUALSTACK option provides more flexibility by allowing both IPv4 and IPv6 communication.
+        public let networkType: NetworkType?
         /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
         public let preCoPassword: String?
         /// The identifier (ID) of the cluster's security group.
@@ -229,7 +239,7 @@ extension CloudHSMV2 {
         public let vpcId: String?
 
         @inlinable
-        public init(backupPolicy: BackupPolicy? = nil, backupRetentionPolicy: BackupRetentionPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: Date? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, mode: ClusterMode? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
+        public init(backupPolicy: BackupPolicy? = nil, backupRetentionPolicy: BackupRetentionPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: Date? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, mode: ClusterMode? = nil, networkType: NetworkType? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
             self.backupPolicy = backupPolicy
             self.backupRetentionPolicy = backupRetentionPolicy
             self.certificates = certificates
@@ -238,6 +248,7 @@ extension CloudHSMV2 {
             self.hsms = hsms
             self.hsmType = hsmType
             self.mode = mode
+            self.networkType = networkType
             self.preCoPassword = preCoPassword
             self.securityGroup = securityGroup
             self.sourceBackupId = sourceBackupId
@@ -257,6 +268,7 @@ extension CloudHSMV2 {
             case hsms = "Hsms"
             case hsmType = "HsmType"
             case mode = "Mode"
+            case networkType = "NetworkType"
             case preCoPassword = "PreCoPassword"
             case securityGroup = "SecurityGroup"
             case sourceBackupId = "SourceBackupId"
@@ -321,6 +333,8 @@ extension CloudHSMV2 {
         public let hsmType: String
         /// The mode to use in the cluster. The allowed values are FIPS and NON_FIPS.
         public let mode: ClusterMode?
+        /// The NetworkType to create a cluster with. The allowed values are IPV4 and DUALSTACK.
+        public let networkType: NetworkType?
         /// The identifier (ID) or the Amazon Resource Name (ARN) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID or ARN, use DescribeBackups. If using a backup in another account, the full ARN must be supplied.
         public let sourceBackupId: String?
         /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria:   All subnets must be in the same virtual private cloud (VPC).   You can specify only one subnet per Availability Zone.
@@ -329,10 +343,11 @@ extension CloudHSMV2 {
         public let tagList: [Tag]?
 
         @inlinable
-        public init(backupRetentionPolicy: BackupRetentionPolicy? = nil, hsmType: String, mode: ClusterMode? = nil, sourceBackupId: String? = nil, subnetIds: [String], tagList: [Tag]? = nil) {
+        public init(backupRetentionPolicy: BackupRetentionPolicy? = nil, hsmType: String, mode: ClusterMode? = nil, networkType: NetworkType? = nil, sourceBackupId: String? = nil, subnetIds: [String], tagList: [Tag]? = nil) {
             self.backupRetentionPolicy = backupRetentionPolicy
             self.hsmType = hsmType
             self.mode = mode
+            self.networkType = networkType
             self.sourceBackupId = sourceBackupId
             self.subnetIds = subnetIds
             self.tagList = tagList
@@ -359,6 +374,7 @@ extension CloudHSMV2 {
             case backupRetentionPolicy = "BackupRetentionPolicy"
             case hsmType = "HsmType"
             case mode = "Mode"
+            case networkType = "NetworkType"
             case sourceBackupId = "SourceBackupId"
             case subnetIds = "SubnetIds"
             case tagList = "TagList"
@@ -746,6 +762,8 @@ extension CloudHSMV2 {
         public let eniId: String?
         /// The IP address of the HSM's elastic network interface (ENI).
         public let eniIp: String?
+        /// The IPv6 address (if any) of the HSM's elastic network interface (ENI).
+        public let eniIpV6: String?
         /// The HSM's identifier (ID).
         public let hsmId: String
         /// The HSM's state.
@@ -756,11 +774,12 @@ extension CloudHSMV2 {
         public let subnetId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, clusterId: String? = nil, eniId: String? = nil, eniIp: String? = nil, hsmId: String, state: HsmState? = nil, stateMessage: String? = nil, subnetId: String? = nil) {
+        public init(availabilityZone: String? = nil, clusterId: String? = nil, eniId: String? = nil, eniIp: String? = nil, eniIpV6: String? = nil, hsmId: String, state: HsmState? = nil, stateMessage: String? = nil, subnetId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.clusterId = clusterId
             self.eniId = eniId
             self.eniIp = eniIp
+            self.eniIpV6 = eniIpV6
             self.hsmId = hsmId
             self.state = state
             self.stateMessage = stateMessage
@@ -772,6 +791,7 @@ extension CloudHSMV2 {
             case clusterId = "ClusterId"
             case eniId = "EniId"
             case eniIp = "EniIp"
+            case eniIpV6 = "EniIpV6"
             case hsmId = "HsmId"
             case state = "State"
             case stateMessage = "StateMessage"
@@ -1119,6 +1139,7 @@ public struct CloudHSMV2ErrorType: AWSErrorType {
         case cloudHsmAccessDeniedException = "CloudHsmAccessDeniedException"
         case cloudHsmInternalFailureException = "CloudHsmInternalFailureException"
         case cloudHsmInvalidRequestException = "CloudHsmInvalidRequestException"
+        case cloudHsmResourceLimitExceededException = "CloudHsmResourceLimitExceededException"
         case cloudHsmResourceNotFoundException = "CloudHsmResourceNotFoundException"
         case cloudHsmServiceException = "CloudHsmServiceException"
         case cloudHsmTagException = "CloudHsmTagException"
@@ -1148,6 +1169,8 @@ public struct CloudHSMV2ErrorType: AWSErrorType {
     public static var cloudHsmInternalFailureException: Self { .init(.cloudHsmInternalFailureException) }
     /// The request was rejected because it is not a valid request.
     public static var cloudHsmInvalidRequestException: Self { .init(.cloudHsmInvalidRequestException) }
+    /// The request was rejected because it exceeds an CloudHSM limit.
+    public static var cloudHsmResourceLimitExceededException: Self { .init(.cloudHsmResourceLimitExceededException) }
     /// The request was rejected because it refers to a resource that cannot be found.
     public static var cloudHsmResourceNotFoundException: Self { .init(.cloudHsmResourceNotFoundException) }
     /// The request was rejected because an error occurred.

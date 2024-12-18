@@ -2634,7 +2634,7 @@ extension CloudFront {
         public let httpsPort: Int
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The
         /// 			minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't
-        /// 			specify otherwise) is 5 seconds. For more information, see Origin Keep-alive Timeout in the
+        /// 			specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the
         /// 				Amazon CloudFront Developer Guide.
         public let originKeepaliveTimeout: Int?
         /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid
@@ -2646,7 +2646,7 @@ extension CloudFront {
         /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is
         /// 			also known as the origin response timeout. The minimum timeout is 1
         /// 			second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is
-        /// 			30 seconds. For more information, see Origin Response Timeout in the
+        /// 			30 seconds. For more information, see Response timeout (custom origins only) in the
         /// 				Amazon CloudFront Developer Guide.
         public let originReadTimeout: Int?
         /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin
@@ -3495,17 +3495,21 @@ extension CloudFront {
         /// 				PathPattern in CacheBehavior elements. You must create
         /// 			exactly one default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
-        /// The object that you want CloudFront to request from your origin (for example,
-        /// 				index.html) when a viewer requests the root URL for your distribution
-        /// 				(https://www.example.com) instead of an object in your distribution
-        /// 				(https://www.example.com/product-description.html). Specifying a
-        /// 			default root object avoids exposing the contents of your distribution. Specify only the object name, for example, index.html. Don't add a
-        /// 				/ before the object name. If you don't want to specify a default root object when you create a distribution,
+        /// When a viewer requests the root URL for your distribution, the default root object is the
+        /// 			object that you want CloudFront to request from your origin. For example, if your root URL is
+        /// 				https://www.example.com, you can specify CloudFront to return the
+        /// 				index.html file as the default root object. You can specify a default
+        /// 			root object so that viewers see a specific file or object, instead of  another object in
+        /// 			your distribution (for example,
+        /// 				https://www.example.com/product-description.html). A default root
+        /// 			object avoids exposing the contents of your distribution. You can specify the object name or a path to the object name (for example,
+        /// 				index.html or exampleFolderName/index.html). Your string
+        /// 			can't begin with a forward slash (/). Only specify the object name or the
+        /// 			path to the object. If you don't want to specify a default root object when you create a distribution,
         /// 			include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the
         /// 			distribution configuration and include an empty DefaultRootObject
         /// 			element. To replace the default root object, update the distribution configuration and specify
-        /// 			the new object. For more information about the default root object, see Creating a
-        /// 				Default Root Object in the Amazon CloudFront Developer Guide.
+        /// 			the new object. For more information about the default root object, see Specify a default root object in the Amazon CloudFront Developer Guide.
         public let defaultRootObject: String?
         /// From this field, you can enable or disable the selected distribution.
         public let enabled: Bool
@@ -10882,15 +10886,30 @@ extension CloudFront {
     }
 
     public struct VpcOriginConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The
+        /// 			minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't
+        /// 			specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the
+        /// 			Amazon CloudFront Developer Guide.
+        public let originKeepaliveTimeout: Int?
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is
+        /// 			also known as the origin response timeout. The minimum timeout is 1
+        /// 			second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is
+        /// 			30 seconds. For more information, see Response timeout (custom origins only) in the
+        /// 			Amazon CloudFront Developer Guide.
+        public let originReadTimeout: Int?
         /// The VPC origin ID.
         public let vpcOriginId: String
 
         @inlinable
-        public init(vpcOriginId: String) {
+        public init(originKeepaliveTimeout: Int? = nil, originReadTimeout: Int? = nil, vpcOriginId: String) {
+            self.originKeepaliveTimeout = originKeepaliveTimeout
+            self.originReadTimeout = originReadTimeout
             self.vpcOriginId = vpcOriginId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case originKeepaliveTimeout = "OriginKeepaliveTimeout"
+            case originReadTimeout = "OriginReadTimeout"
             case vpcOriginId = "VpcOriginId"
         }
     }

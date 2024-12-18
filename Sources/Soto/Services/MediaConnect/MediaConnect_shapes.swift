@@ -317,6 +317,7 @@ extension MediaConnect {
     public struct AddBridgeNetworkSourceRequest: AWSEncodableShape {
         /// The network source multicast IP.
         public let multicastIp: String?
+        public let multicastSourceSettings: MulticastSourceSettings?
         /// The name of the network source. This name is used to reference the source and must be unique among sources in this bridge.
         public let name: String?
         /// The network source's gateway network name.
@@ -327,8 +328,9 @@ extension MediaConnect {
         public let `protocol`: `Protocol`?
 
         @inlinable
-        public init(multicastIp: String? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
+        public init(multicastIp: String? = nil, multicastSourceSettings: MulticastSourceSettings? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.name = name
             self.networkName = networkName
             self.port = port
@@ -337,6 +339,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case multicastIp = "multicastIp"
+            case multicastSourceSettings = "multicastSourceSettings"
             case name = "name"
             case networkName = "networkName"
             case port = "port"
@@ -917,6 +920,7 @@ extension MediaConnect {
     public struct BridgeNetworkSource: AWSDecodableShape {
         /// The network source multicast IP.
         public let multicastIp: String?
+        public let multicastSourceSettings: MulticastSourceSettings?
         /// The name of the network source.
         public let name: String?
         /// The network source's gateway network name.
@@ -927,8 +931,9 @@ extension MediaConnect {
         public let `protocol`: `Protocol`?
 
         @inlinable
-        public init(multicastIp: String? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
+        public init(multicastIp: String? = nil, multicastSourceSettings: MulticastSourceSettings? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.name = name
             self.networkName = networkName
             self.port = port
@@ -937,6 +942,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case multicastIp = "multicastIp"
+            case multicastSourceSettings = "multicastSourceSettings"
             case name = "name"
             case networkName = "networkName"
             case port = "port"
@@ -2914,6 +2920,20 @@ extension MediaConnect {
         }
     }
 
+    public struct MulticastSourceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The IP address of the source for source-specific multicast (SSM).
+        public let multicastSourceIp: String?
+
+        @inlinable
+        public init(multicastSourceIp: String? = nil) {
+            self.multicastSourceIp = multicastSourceIp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multicastSourceIp = "multicastSourceIp"
+        }
+    }
+
     public struct Offering: AWSDecodableShape {
         /// The type of currency that is used for billing. The currencyCode used for all reservations is US dollars.
         public let currencyCode: String?
@@ -3967,6 +3987,7 @@ extension MediaConnect {
     public struct UpdateBridgeNetworkSourceRequest: AWSEncodableShape {
         /// The network source multicast IP.
         public let multicastIp: String?
+        public let multicastSourceSettings: MulticastSourceSettings?
         /// The network source's gateway network name.
         public let networkName: String?
         /// The network source port.
@@ -3975,8 +3996,9 @@ extension MediaConnect {
         public let `protocol`: `Protocol`?
 
         @inlinable
-        public init(multicastIp: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
+        public init(multicastIp: String? = nil, multicastSourceSettings: MulticastSourceSettings? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.networkName = networkName
             self.port = port
             self.`protocol` = `protocol`
@@ -3984,6 +4006,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case multicastIp = "multicastIp"
+            case multicastSourceSettings = "multicastSourceSettings"
             case networkName = "networkName"
             case port = "port"
             case `protocol` = "protocol"

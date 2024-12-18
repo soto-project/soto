@@ -6792,7 +6792,7 @@ extension NetworkManager {
     public struct UpdateDirectConnectGatewayAttachmentRequest: AWSEncodableShape {
         /// The ID of the Direct Connect gateway attachment for the updated edge locations.
         public let attachmentId: String
-        /// One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the previous array of locations. EdgeLocations is only used for Direct Connect gateway attachments. Do
+        /// One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the previous array of locations. EdgeLocations is only used for Direct Connect gateway attachments.
         public let edgeLocations: [String]?
 
         @inlinable

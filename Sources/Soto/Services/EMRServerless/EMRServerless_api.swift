@@ -275,18 +275,21 @@ public struct EMRServerless: AWSService {
     /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user interface such as the Spark or Tez web UI. For completed jobs, the application UI is a persistent application user interface such as the Spark History Server or persistent Tez UI.  The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
     ///
     /// Parameters:
+    ///   - accessSystemProfileLogs: Allows access to system profile logs for Lake Formation-enabled jobs. Default is false.
     ///   - applicationId: The ID of the application.
     ///   - attempt: An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job.
     ///   - jobRunId: The ID of the job run.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDashboardForJobRun(
+        accessSystemProfileLogs: Bool? = nil,
         applicationId: String,
         attempt: Int? = nil,
         jobRunId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetDashboardForJobRunResponse {
         let input = GetDashboardForJobRunRequest(
+            accessSystemProfileLogs: accessSystemProfileLogs, 
             applicationId: applicationId, 
             attempt: attempt, 
             jobRunId: jobRunId
