@@ -68,6 +68,7 @@ extension DLM {
 
     public enum LocationValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloud = "CLOUD"
+        case localZone = "LOCAL_ZONE"
         case outpostLocal = "OUTPOST_LOCAL"
         public var description: String { return self.rawValue }
     }
@@ -87,6 +88,7 @@ extension DLM {
 
     public enum ResourceLocationValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloud = "CLOUD"
+        case localZone = "LOCAL_ZONE"
         case outpost = "OUTPOST"
         public var description: String { return self.rawValue }
     }
@@ -307,20 +309,21 @@ extension DLM {
 
     public struct CreateRule: AWSEncodableShape & AWSDecodableShape {
         /// The schedule, as a Cron expression. The schedule interval must be between 1 hour and 1
-        /// 			year. For more information, see Cron
-        /// 				expressions in the Amazon CloudWatch User Guide.
+        /// 			year. For more information, see the Cron expressions reference in
+        /// 			the Amazon EventBridge User Guide.
         public let cronExpression: String?
         /// The interval between snapshots. The supported values are 1, 2, 3, 4, 6, 8, 12, and 24.
         public let interval: Int?
         /// The interval unit.
         public let intervalUnit: IntervalUnitValues?
-        ///  [Custom snapshot policies only] Specifies the destination for snapshots created by the policy. To create
-        /// 			snapshots in the same Region as the source resource, specify CLOUD. To create
-        /// 			snapshots on the same Outpost as the source resource, specify OUTPOST_LOCAL.
-        /// 			If you omit this parameter, CLOUD is used by default. If the policy targets resources in an Amazon Web Services Region, then you must create
-        /// 			snapshots in the same Region as the source resource. If the policy targets resources on an
-        /// 			Outpost, then you can create snapshots on the same Outpost as the source resource, or in
-        /// 			the Region of that Outpost.
+        ///  [Custom snapshot policies only] Specifies the destination for snapshots created by the policy. The
+        /// 			allowed destinations depend on the location of the targeted resources.   If the policy targets resources in a Region, then you must create snapshots
+        /// 					in the same Region as the source resource.   If the policy targets resources in a Local Zone, you can create snapshots in
+        /// 					the same Local Zone or in its parent Region.   If the policy targets resources on an Outpost, then you can create snapshots
+        /// 					on the same Outpost or in its parent Region.   Specify one of the following values:   To create snapshots in the same Region as the source resource, specify
+        /// 					CLOUD.   To create snapshots in the same Local Zone as the source resource, specify
+        /// 					LOCAL_ZONE.   To create snapshots on the same Outpost as the source resource, specify
+        /// 					OUTPOST_LOCAL.   Default: CLOUD
         public let location: LocationValues?
         ///  [Custom snapshot policies that target instances only] Specifies pre and/or post scripts for a snapshot lifecycle policy
         /// 			that targets instances. This is useful for creating application-consistent snapshots, or for
@@ -861,7 +864,8 @@ extension DLM {
         /// The local date and time when the lifecycle policy was last modified.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var dateModified: Date?
-        ///  [Default policies only] The type of default policy. Values include:    VOLUME - Default policy for EBS snapshots    INSTANCE - Default policy for EBS-backed AMIs
+        /// Indicates whether the policy is a default lifecycle policy or a custom
+        /// 			lifecycle policy.    true - the policy is a default policy.    false - the policy is a custom policy.
         public let defaultPolicy: Bool?
         /// The description of the lifecycle policy.
         public let description: String?
@@ -1063,15 +1067,18 @@ extension DLM {
         public let parameters: Parameters?
         /// The type of policy to create. Specify one of the following:    SIMPLIFIED To create a default policy.    STANDARD To create a custom policy.
         public let policyLanguage: PolicyLanguageValues?
-        ///  [Custom policies only] The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT
+        /// The type of policy. Specify EBS_SNAPSHOT_MANAGEMENT
         /// 			to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT
         /// 			to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. Specify EVENT_BASED_POLICY
         /// 			to create an event-based policy that performs specific actions when a defined event occurs in your Amazon Web Services account. The default is EBS_SNAPSHOT_MANAGEMENT.
         public let policyType: PolicyTypeValues?
-        ///  [Custom snapshot and AMI policies only] The location of the resources to backup. If the source resources are located in an
-        /// 			Amazon Web Services Region, specify CLOUD. If the source resources are located on an Outpost
-        /// 			in your account, specify OUTPOST. If you specify OUTPOST, Amazon Data Lifecycle Manager backs up all resources
-        /// 				of the specified type with matching target tags across all of the Outposts in your account.
+        ///  [Custom snapshot and AMI policies only] The location of the resources to backup.   If the source resources are located in a Region, specify CLOUD. In this case,
+        /// 					the policy targets all resources of the specified type with matching target tags across all
+        /// 					Availability Zones in the Region.    [Custom snapshot policies only] If the source resources are located in a Local Zone, specify LOCAL_ZONE.
+        /// 					In this case, the policy targets all resources of the specified type with matching target
+        /// 					tags across all Local Zones in the Region.   If the source resources are located on an Outpost in your account, specify OUTPOST.
+        /// 					In this case, the policy targets all resources of the specified type with matching target
+        /// 					tags across all of the Outposts in your account.
         public let resourceLocations: [ResourceLocationValues]?
         ///  [Default policies only] Specify the type of default policy to create.   To create a default policy for EBS snapshots, that creates snapshots of all volumes in the
         /// 					Region that do not have recent backups, specify VOLUME.   To create a default policy for EBS-backed AMIs, that creates EBS-backed
@@ -1245,9 +1252,9 @@ extension DLM {
         public let copyTags: Bool?
         /// The creation rule.
         public let createRule: CreateRule?
-        /// Specifies a rule for copying snapshots or AMIs across regions.  You can't specify cross-Region copy rules for policies that create snapshots on an Outpost.
-        /// 			If the policy creates snapshots in a Region, then snapshots can be copied to up to three
-        /// 			Regions or Outposts.
+        /// Specifies a rule for copying snapshots or AMIs across Regions.  You can't specify cross-Region copy rules for policies that create snapshots on an
+        /// 				Outpost or in a Local Zone. If the policy creates snapshots in a Region, then snapshots
+        /// 				can be copied to up to three Regions or Outposts.
         public let crossRegionCopyRules: [CrossRegionCopyRule]?
         ///  [Custom AMI policies only] The AMI deprecation rule for the schedule.
         public let deprecateRule: DeprecateRule?

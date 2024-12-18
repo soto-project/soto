@@ -697,23 +697,35 @@ extension GreengrassV2 {
     }
 
     public struct CoreDevice: AWSDecodableShape {
+        /// The computer architecture of the core device.
+        public let architecture: String?
         /// The name of the core device. This is also the name of the IoT thing.
         public let coreDeviceThingName: String?
         /// The time at which the core device's status last updated, expressed in ISO 8601 format.
         public let lastStatusUpdateTimestamp: Date?
+        /// The operating system platform that the core device runs.
+        public let platform: String?
+        /// The runtime for the core device. The runtime can be:    aws_nucleus_classic     aws_nucleus_lite
+        public let runtime: String?
         /// The status of the core device. Core devices can have the following statuses:    HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a failed state on the core device.
         public let status: CoreDeviceStatus?
 
         @inlinable
-        public init(coreDeviceThingName: String? = nil, lastStatusUpdateTimestamp: Date? = nil, status: CoreDeviceStatus? = nil) {
+        public init(architecture: String? = nil, coreDeviceThingName: String? = nil, lastStatusUpdateTimestamp: Date? = nil, platform: String? = nil, runtime: String? = nil, status: CoreDeviceStatus? = nil) {
+            self.architecture = architecture
             self.coreDeviceThingName = coreDeviceThingName
             self.lastStatusUpdateTimestamp = lastStatusUpdateTimestamp
+            self.platform = platform
+            self.runtime = runtime
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case architecture = "architecture"
             case coreDeviceThingName = "coreDeviceThingName"
             case lastStatusUpdateTimestamp = "lastStatusUpdateTimestamp"
+            case platform = "platform"
+            case runtime = "runtime"
             case status = "status"
         }
     }
@@ -1435,18 +1447,21 @@ extension GreengrassV2 {
         public let lastStatusUpdateTimestamp: Date?
         /// The operating system platform that the core device runs.
         public let platform: String?
+        /// The runtime for the core device. The runtime can be:    aws_nucleus_classic     aws_nucleus_lite
+        public let runtime: String?
         /// The status of the core device. The core device status can be:    HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a failed state on the core device.
         public let status: CoreDeviceStatus?
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the IoT Greengrass V2 Developer Guide.
         public let tags: [String: String]?
 
         @inlinable
-        public init(architecture: String? = nil, coreDeviceThingName: String? = nil, coreVersion: String? = nil, lastStatusUpdateTimestamp: Date? = nil, platform: String? = nil, status: CoreDeviceStatus? = nil, tags: [String: String]? = nil) {
+        public init(architecture: String? = nil, coreDeviceThingName: String? = nil, coreVersion: String? = nil, lastStatusUpdateTimestamp: Date? = nil, platform: String? = nil, runtime: String? = nil, status: CoreDeviceStatus? = nil, tags: [String: String]? = nil) {
             self.architecture = architecture
             self.coreDeviceThingName = coreDeviceThingName
             self.coreVersion = coreVersion
             self.lastStatusUpdateTimestamp = lastStatusUpdateTimestamp
             self.platform = platform
+            self.runtime = runtime
             self.status = status
             self.tags = tags
         }
@@ -1457,6 +1472,7 @@ extension GreengrassV2 {
             case coreVersion = "coreVersion"
             case lastStatusUpdateTimestamp = "lastStatusUpdateTimestamp"
             case platform = "platform"
+            case runtime = "runtime"
             case status = "status"
             case tags = "tags"
         }
@@ -2136,15 +2152,18 @@ extension GreengrassV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
+        /// The runtime to be used by the core device. The runtime can be:    aws_nucleus_classic     aws_nucleus_lite
+        public let runtime: String?
         /// The core device status by which to filter. If you specify this parameter, the list includes only core devices that have this status. Choose one of the following options:    HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a failed state on the core device.
         public let status: CoreDeviceStatus?
         /// The ARN of the IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that have successfully deployed a deployment that targets the thing group. When you remove a core device from a thing group, the list continues to include that core device.
         public let thingGroupArn: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, status: CoreDeviceStatus? = nil, thingGroupArn: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, runtime: String? = nil, status: CoreDeviceStatus? = nil, thingGroupArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.runtime = runtime
             self.status = status
             self.thingGroupArn = thingGroupArn
         }
@@ -2154,6 +2173,7 @@ extension GreengrassV2 {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.runtime, key: "runtime")
             request.encodeQuery(self.status, key: "status")
             request.encodeQuery(self.thingGroupArn, key: "thingGroupArn")
         }
@@ -2161,6 +2181,8 @@ extension GreengrassV2 {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.runtime, name: "runtime", parent: name, max: 255)
+            try self.validate(self.runtime, name: "runtime", parent: name, min: 1)
             try self.validate(self.thingGroupArn, name: "thingGroupArn", parent: name, pattern: "^arn:[^:]*:iot:[^:]*:[0-9]+:thinggroup/.+$")
         }
 

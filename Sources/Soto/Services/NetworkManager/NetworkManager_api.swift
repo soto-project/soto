@@ -3110,7 +3110,7 @@ public struct NetworkManager: AWSService {
     ///
     /// Parameters:
     ///   - attachmentId: The ID of the Direct Connect gateway attachment for the updated edge locations.
-    ///   - edgeLocations: One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the previous array of locations. EdgeLocations is only used for Direct Connect gateway attachments. Do
+    ///   - edgeLocations: One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the previous array of locations. EdgeLocations is only used for Direct Connect gateway attachments.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDirectConnectGatewayAttachment(

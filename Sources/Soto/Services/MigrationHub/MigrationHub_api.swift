@@ -156,6 +156,44 @@ public struct MigrationHub: AWSService {
         return try await self.associateDiscoveredResource(input, logger: logger)
     }
 
+    /// Associates a source resource with a migration task. For example, the source resource can be a source server, an application, or a migration wave.
+    @Sendable
+    @inlinable
+    public func associateSourceResource(_ input: AssociateSourceResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSourceResourceResult {
+        try await self.client.execute(
+            operation: "AssociateSourceResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a source resource with a migration task. For example, the source resource can be a source server, an application, or a migration wave.
+    ///
+    /// Parameters:
+    ///   - dryRun: This is an optional parameter that you can use to test whether the call will succeed. Set this parameter to true to verify that you have the permissions that are required to make the call, and that you have specified the other parameters in the call correctly.
+    ///   - migrationTaskName: A unique identifier that references the migration task. Do not include sensitive data in this field.
+    ///   - progressUpdateStream: The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+    ///   - sourceResource: The source resource that you want to associate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateSourceResource(
+        dryRun: Bool? = nil,
+        migrationTaskName: String,
+        progressUpdateStream: String,
+        sourceResource: SourceResource,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateSourceResourceResult {
+        let input = AssociateSourceResourceRequest(
+            dryRun: dryRun, 
+            migrationTaskName: migrationTaskName, 
+            progressUpdateStream: progressUpdateStream, 
+            sourceResource: sourceResource
+        )
+        return try await self.associateSourceResource(input, logger: logger)
+    }
+
     /// Creates a progress update stream which is an AWS resource used for access control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
     @Sendable
     @inlinable
@@ -357,6 +395,44 @@ public struct MigrationHub: AWSService {
         return try await self.disassociateDiscoveredResource(input, logger: logger)
     }
 
+    /// Removes the association between a source resource and a migration task.
+    @Sendable
+    @inlinable
+    public func disassociateSourceResource(_ input: DisassociateSourceResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateSourceResourceResult {
+        try await self.client.execute(
+            operation: "DisassociateSourceResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the association between a source resource and a migration task.
+    ///
+    /// Parameters:
+    ///   - dryRun: This is an optional parameter that you can use to test whether the call will succeed. Set this parameter to true to verify that you have the permissions that are required to make the call, and that you have specified the other parameters in the call correctly.
+    ///   - migrationTaskName: A unique identifier that references the migration task. Do not include sensitive data in this field.
+    ///   - progressUpdateStream: The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+    ///   - sourceResourceName: The name that was specified for the source resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateSourceResource(
+        dryRun: Bool? = nil,
+        migrationTaskName: String,
+        progressUpdateStream: String,
+        sourceResourceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateSourceResourceResult {
+        let input = DisassociateSourceResourceRequest(
+            dryRun: dryRun, 
+            migrationTaskName: migrationTaskName, 
+            progressUpdateStream: progressUpdateStream, 
+            sourceResourceName: sourceResourceName
+        )
+        return try await self.disassociateSourceResource(input, logger: logger)
+    }
+
     /// Registers a new migration task which represents a server, database, etc., being migrated to AWS by a migration tool. This API is a prerequisite to calling the NotifyMigrationTaskState API as the migration tool must first register the migration task with Migration Hub.
     @Sendable
     @inlinable
@@ -503,6 +579,44 @@ public struct MigrationHub: AWSService {
         return try await self.listDiscoveredResources(input, logger: logger)
     }
 
+    /// This is a paginated API that returns all the migration-task states for the specified MigrationTaskName and ProgressUpdateStream.
+    @Sendable
+    @inlinable
+    public func listMigrationTaskUpdates(_ input: ListMigrationTaskUpdatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMigrationTaskUpdatesResult {
+        try await self.client.execute(
+            operation: "ListMigrationTaskUpdates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This is a paginated API that returns all the migration-task states for the specified MigrationTaskName and ProgressUpdateStream.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to include in the response. If more results exist than the value that you specify here for MaxResults, the response will include a token that you can use to retrieve the next set of results.
+    ///   - migrationTaskName: A unique identifier that references the migration task. Do not include sensitive data in this field.
+    ///   - nextToken: If NextToken was returned by a previous call, there are more results available. The value of NextToken is a unique pagination token for each page. To retrieve the next page of results, specify the NextToken value that the previous call returned. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    ///   - progressUpdateStream: The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMigrationTaskUpdates(
+        maxResults: Int? = nil,
+        migrationTaskName: String,
+        nextToken: String? = nil,
+        progressUpdateStream: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMigrationTaskUpdatesResult {
+        let input = ListMigrationTaskUpdatesRequest(
+            maxResults: maxResults, 
+            migrationTaskName: migrationTaskName, 
+            nextToken: nextToken, 
+            progressUpdateStream: progressUpdateStream
+        )
+        return try await self.listMigrationTaskUpdates(input, logger: logger)
+    }
+
     /// Lists all, or filtered by resource name, migration tasks associated with the user account making this call. This API has the following traits:   Can show a summary list of the most recent migration tasks.   Can show a summary list of migration tasks associated with a given discovered resource.   Lists migration tasks in a paginated interface.
     @Sendable
     @inlinable
@@ -568,6 +682,44 @@ public struct MigrationHub: AWSService {
             nextToken: nextToken
         )
         return try await self.listProgressUpdateStreams(input, logger: logger)
+    }
+
+    /// Lists all the source resource that are associated with the specified MigrationTaskName and ProgressUpdateStream.
+    @Sendable
+    @inlinable
+    public func listSourceResources(_ input: ListSourceResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSourceResourcesResult {
+        try await self.client.execute(
+            operation: "ListSourceResources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all the source resource that are associated with the specified MigrationTaskName and ProgressUpdateStream.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to include in the response. If more results exist than the value that you specify here for MaxResults, the response will include a token that you can use to retrieve the next set of results.
+    ///   - migrationTaskName: A unique identifier that references the migration task. Do not store confidential data in this field.
+    ///   - nextToken: If NextToken was returned by a previous call, there are more results available. The value of NextToken is a unique pagination token for each page. To retrieve the next page of results, specify the NextToken value that the previous call returned. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    ///   - progressUpdateStream: The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSourceResources(
+        maxResults: Int? = nil,
+        migrationTaskName: String,
+        nextToken: String? = nil,
+        progressUpdateStream: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSourceResourcesResult {
+        let input = ListSourceResourcesRequest(
+            maxResults: maxResults, 
+            migrationTaskName: migrationTaskName, 
+            nextToken: nextToken, 
+            progressUpdateStream: progressUpdateStream
+        )
+        return try await self.listSourceResources(input, logger: logger)
     }
 
     /// Sets the migration state of an application. For a given application identified by the value passed to ApplicationId, its status is set or updated by passing one of three values to Status: NOT_STARTED | IN_PROGRESS | COMPLETED.
@@ -652,8 +804,7 @@ public struct MigrationHub: AWSService {
         return try await self.notifyMigrationTaskState(input, logger: logger)
     }
 
-    /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns.    Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresses to prevent overriding the MAC address.   Note the instructions regarding the special use case of the  ResourceAttributeList parameter when specifying any "VM" related value.
-    ///   Because this is an asynchronous call, it will always return 200, whether an association occurs or not. To confirm if an association was found based on the provided details, call ListDiscoveredResources.
+    /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns.    Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresses to prevent overriding the MAC address.   Note the instructions regarding the special use case of the  ResourceAttributeList parameter when specifying any "VM" related value.     Because this is an asynchronous call, it will always return 200, whether an association occurs or not. To confirm if an association was found based on the provided details, call ListDiscoveredResources.
     @Sendable
     @inlinable
     public func putResourceAttributes(_ input: PutResourceAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourceAttributesResult {
@@ -666,14 +817,13 @@ public struct MigrationHub: AWSService {
             logger: logger
         )
     }
-    /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns.    Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresses to prevent overriding the MAC address.   Note the instructions regarding the special use case of the  ResourceAttributeList parameter when specifying any "VM" related value.
-    ///   Because this is an asynchronous call, it will always return 200, whether an association occurs or not. To confirm if an association was found based on the provided details, call ListDiscoveredResources.
+    /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns.    Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresses to prevent overriding the MAC address.   Note the instructions regarding the special use case of the  ResourceAttributeList parameter when specifying any "VM" related value.     Because this is an asynchronous call, it will always return 200, whether an association occurs or not. To confirm if an association was found based on the provided details, call ListDiscoveredResources.
     ///
     /// Parameters:
     ///   - dryRun: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
     ///   - migrationTaskName: Unique identifier that references the migration task. Do not store personal data in this field.
     ///   - progressUpdateStream: The name of the ProgressUpdateStream.
-    ///   - resourceAttributeList: Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Discovery Service repository.  Takes the object array of ResourceAttribute where the Type field is reserved for the following values: IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER where the identifying value can be a string up to 256 characters.
+    ///   - resourceAttributeList: Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Discovery Service repository.  Takes the object array of ResourceAttribute where the Type field is reserved for the following values: IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER where the identifying value can be a string up to 256 characters.     If any "VM" related value is set for a ResourceAttribute object, it is required that VM_MANAGER_ID, as a minimum, is always set. If VM_MANAGER_ID is not set, then all "VM" fields will be discarded and "VM" fields will not be used for matching the migration task to a server in Application Discovery Service repository. See the Example section below for a use case of specifying "VM" related values.   If a server you are trying to match has multiple IP or MAC addresses, you should provide as many as you know in separate type/value pairs passed to the ResourceAttributeList parameter to maximize the chances of matching.
     ///   - logger: Logger use during operation
     @inlinable
     public func putResourceAttributes(
@@ -823,6 +973,46 @@ extension MigrationHub {
         return self.listDiscoveredResourcesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listMigrationTaskUpdates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMigrationTaskUpdatesPaginator(
+        _ input: ListMigrationTaskUpdatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMigrationTaskUpdatesRequest, ListMigrationTaskUpdatesResult> {
+        return .init(
+            input: input,
+            command: self.listMigrationTaskUpdates,
+            inputKey: \ListMigrationTaskUpdatesRequest.nextToken,
+            outputKey: \ListMigrationTaskUpdatesResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMigrationTaskUpdates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to include in the response. If more results exist than the value that you specify here for MaxResults, the response will include a token that you can use to retrieve the next set of results.
+    ///   - migrationTaskName: A unique identifier that references the migration task. Do not include sensitive data in this field.
+    ///   - progressUpdateStream: The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMigrationTaskUpdatesPaginator(
+        maxResults: Int? = nil,
+        migrationTaskName: String,
+        progressUpdateStream: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMigrationTaskUpdatesRequest, ListMigrationTaskUpdatesResult> {
+        let input = ListMigrationTaskUpdatesRequest(
+            maxResults: maxResults, 
+            migrationTaskName: migrationTaskName, 
+            progressUpdateStream: progressUpdateStream
+        )
+        return self.listMigrationTaskUpdatesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listMigrationTasks(_:logger:)``.
     ///
     /// - Parameters:
@@ -893,6 +1083,46 @@ extension MigrationHub {
         )
         return self.listProgressUpdateStreamsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listSourceResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSourceResourcesPaginator(
+        _ input: ListSourceResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSourceResourcesRequest, ListSourceResourcesResult> {
+        return .init(
+            input: input,
+            command: self.listSourceResources,
+            inputKey: \ListSourceResourcesRequest.nextToken,
+            outputKey: \ListSourceResourcesResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSourceResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to include in the response. If more results exist than the value that you specify here for MaxResults, the response will include a token that you can use to retrieve the next set of results.
+    ///   - migrationTaskName: A unique identifier that references the migration task. Do not store confidential data in this field.
+    ///   - progressUpdateStream: The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSourceResourcesPaginator(
+        maxResults: Int? = nil,
+        migrationTaskName: String,
+        progressUpdateStream: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSourceResourcesRequest, ListSourceResourcesResult> {
+        let input = ListSourceResourcesRequest(
+            maxResults: maxResults, 
+            migrationTaskName: migrationTaskName, 
+            progressUpdateStream: progressUpdateStream
+        )
+        return self.listSourceResourcesPaginator(input, logger: logger)
+    }
 }
 
 extension MigrationHub.ListApplicationStatesRequest: AWSPaginateToken {
@@ -930,6 +1160,18 @@ extension MigrationHub.ListDiscoveredResourcesRequest: AWSPaginateToken {
     }
 }
 
+extension MigrationHub.ListMigrationTaskUpdatesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MigrationHub.ListMigrationTaskUpdatesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            migrationTaskName: self.migrationTaskName,
+            nextToken: token,
+            progressUpdateStream: self.progressUpdateStream
+        )
+    }
+}
+
 extension MigrationHub.ListMigrationTasksRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> MigrationHub.ListMigrationTasksRequest {
@@ -947,6 +1189,18 @@ extension MigrationHub.ListProgressUpdateStreamsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension MigrationHub.ListSourceResourcesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MigrationHub.ListSourceResourcesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            migrationTaskName: self.migrationTaskName,
+            nextToken: token,
+            progressUpdateStream: self.progressUpdateStream
         )
     }
 }

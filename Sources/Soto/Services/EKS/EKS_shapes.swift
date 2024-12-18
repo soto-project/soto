@@ -322,6 +322,7 @@ extension EKS {
         case maxUnavailable = "MaxUnavailable"
         case maxUnavailablePercentage = "MaxUnavailablePercentage"
         case minSize = "MinSize"
+        case nodeRepairEnabled = "NodeRepairEnabled"
         case platformVersion = "PlatformVersion"
         case podIdentityAssociations = "PodIdentityAssociations"
         case publicAccessCidrs = "PublicAccessCidrs"
@@ -1674,6 +1675,8 @@ extension EKS {
         public let launchTemplate: LaunchTemplateSpecification?
         /// The unique name to give your node group.
         public let nodegroupName: String
+        /// The node auto repair configuration for the node group.
+        public let nodeRepairConfig: NodeRepairConfig?
         /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see Amazon EKS node IAM role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify   IamInstanceProfile in your launch template, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let nodeRole: String
         /// The AMI version of the Amazon EKS optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  releaseVersion, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
@@ -1694,7 +1697,7 @@ extension EKS {
         public let version: String?
 
         @inlinable
-        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRepairConfig: NodeRepairConfig? = nil, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clientRequestToken = clientRequestToken
@@ -1704,6 +1707,7 @@ extension EKS {
             self.labels = labels
             self.launchTemplate = launchTemplate
             self.nodegroupName = nodegroupName
+            self.nodeRepairConfig = nodeRepairConfig
             self.nodeRole = nodeRole
             self.releaseVersion = releaseVersion
             self.remoteAccess = remoteAccess
@@ -1727,6 +1731,7 @@ extension EKS {
             try container.encodeIfPresent(self.labels, forKey: .labels)
             try container.encodeIfPresent(self.launchTemplate, forKey: .launchTemplate)
             try container.encode(self.nodegroupName, forKey: .nodegroupName)
+            try container.encodeIfPresent(self.nodeRepairConfig, forKey: .nodeRepairConfig)
             try container.encode(self.nodeRole, forKey: .nodeRole)
             try container.encodeIfPresent(self.releaseVersion, forKey: .releaseVersion)
             try container.encodeIfPresent(self.remoteAccess, forKey: .remoteAccess)
@@ -1768,6 +1773,7 @@ extension EKS {
             case labels = "labels"
             case launchTemplate = "launchTemplate"
             case nodegroupName = "nodegroupName"
+            case nodeRepairConfig = "nodeRepairConfig"
             case nodeRole = "nodeRole"
             case releaseVersion = "releaseVersion"
             case remoteAccess = "remoteAccess"
@@ -3977,6 +3983,20 @@ extension EKS {
         }
     }
 
+    public struct NodeRepairConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to enable node auto repair for the node group. Node auto repair is  disabled by default.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+        }
+    }
+
     public struct Nodegroup: AWSDecodableShape {
         /// If the node group was deployed using a launch template with a custom AMI, then this is CUSTOM. For node groups that weren't deployed using a launch template, this is the AMI type that was specified in the node group configuration.
         public let amiType: AMITypes?
@@ -4002,6 +4022,8 @@ extension EKS {
         public let nodegroupArn: String?
         /// The name associated with an Amazon EKS managed node group.
         public let nodegroupName: String?
+        /// The node auto repair configuration for the node group.
+        public let nodeRepairConfig: NodeRepairConfig?
         /// The IAM role associated with your node group. The Amazon EKS node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies.
         public let nodeRole: String?
         /// If the node group was deployed using a launch template with a custom AMI, then this is the AMI ID that was specified in the launch template. For node groups that weren't deployed using a launch template, this is the version of the Amazon EKS optimized AMI that the node group was deployed with.
@@ -4026,7 +4048,7 @@ extension EKS {
         public let version: String?
 
         @inlinable
-        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRepairConfig: NodeRepairConfig? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clusterName = clusterName
@@ -4039,6 +4061,7 @@ extension EKS {
             self.modifiedAt = modifiedAt
             self.nodegroupArn = nodegroupArn
             self.nodegroupName = nodegroupName
+            self.nodeRepairConfig = nodeRepairConfig
             self.nodeRole = nodeRole
             self.releaseVersion = releaseVersion
             self.remoteAccess = remoteAccess
@@ -4065,6 +4088,7 @@ extension EKS {
             case modifiedAt = "modifiedAt"
             case nodegroupArn = "nodegroupArn"
             case nodegroupName = "nodegroupName"
+            case nodeRepairConfig = "nodeRepairConfig"
             case nodeRole = "nodeRole"
             case releaseVersion = "releaseVersion"
             case remoteAccess = "remoteAccess"
@@ -4500,9 +4524,9 @@ extension EKS {
     }
 
     public struct RemoteNetworkConfigRequest: AWSEncodableShape {
-        /// The list of network CIDRs that can contain hybrid nodes.
+        /// The list of network CIDRs that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator.  Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.   Each block must have a route to the VPC that uses the VPC CIDR blocks, not public IPs or Elastic IPs. There are many options including Transit Gateway, Site-to-Site VPN, or Direct Connect.   Each host must allow outbound connection to the EKS cluster control plane on TCP ports 443 and 10250.   Each host must allow inbound connection from the EKS cluster control plane on TCP port 10250 for logs, exec and port-forward operations.   Each host must allow TCP and UDP network connectivity to and from other hosts that are running CoreDNS on UDP port 53 for service and pod DNS names.
         public let remoteNodeNetworks: [RemoteNodeNetwork]?
-        /// The list of network CIDRs that can contain pods that run Kubernetes webhooks on hybrid nodes.
+        /// The list of network CIDRs that can contain pods that run Kubernetes webhooks on hybrid nodes. These CIDR blocks are determined by configuring your Container Network Interface (CNI) plugin. We recommend the Calico CNI or Cilium CNI. Note that the Amazon VPC CNI plugin for Kubernetes isn't available for on-premises and edge locations. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
         public let remotePodNetworks: [RemotePodNetwork]?
 
         @inlinable
@@ -4541,7 +4565,7 @@ extension EKS {
     }
 
     public struct RemoteNodeNetwork: AWSEncodableShape & AWSDecodableShape {
-        /// A network CIDR that can contain hybrid nodes.
+        /// A network CIDR that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator.  Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.   Each block must have a route to the VPC that uses the VPC CIDR blocks, not public IPs or Elastic IPs. There are many options including Transit Gateway, Site-to-Site VPN, or Direct Connect.   Each host must allow outbound connection to the EKS cluster control plane on TCP ports 443 and 10250.   Each host must allow inbound connection from the EKS cluster control plane on TCP port 10250 for logs, exec and port-forward operations.   Each host must allow TCP and UDP network connectivity to and from other hosts that are running CoreDNS on UDP port 53 for service and pod DNS names.
         public let cidrs: [String]?
 
         @inlinable
@@ -4555,7 +4579,7 @@ extension EKS {
     }
 
     public struct RemotePodNetwork: AWSEncodableShape & AWSDecodableShape {
-        /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes.
+        /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes. These CIDR blocks are determined by configuring your Container Network Interface (CNI) plugin. We recommend the Calico CNI or Cilium CNI. Note that the Amazon VPC CNI plugin for Kubernetes isn't available for on-premises and edge locations. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:   Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.   Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
         public let cidrs: [String]?
 
         @inlinable
@@ -5073,6 +5097,8 @@ extension EKS {
         public let labels: UpdateLabelsPayload?
         /// The name of the managed node group to update.
         public let nodegroupName: String
+        /// The node auto repair configuration for the node group.
+        public let nodeRepairConfig: NodeRepairConfig?
         /// The scaling configuration details for the Auto Scaling group after the update.
         public let scalingConfig: NodegroupScalingConfig?
         /// The Kubernetes taints to be applied to the nodes in the node group after the update. For more information, see Node taints on managed node groups.
@@ -5081,11 +5107,12 @@ extension EKS {
         public let updateConfig: NodegroupUpdateConfig?
 
         @inlinable
-        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, scalingConfig: NodegroupScalingConfig? = nil, taints: UpdateTaintsPayload? = nil, updateConfig: NodegroupUpdateConfig? = nil) {
+        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, nodeRepairConfig: NodeRepairConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, taints: UpdateTaintsPayload? = nil, updateConfig: NodegroupUpdateConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.labels = labels
             self.nodegroupName = nodegroupName
+            self.nodeRepairConfig = nodeRepairConfig
             self.scalingConfig = scalingConfig
             self.taints = taints
             self.updateConfig = updateConfig
@@ -5098,6 +5125,7 @@ extension EKS {
             request.encodePath(self.clusterName, key: "clusterName")
             try container.encodeIfPresent(self.labels, forKey: .labels)
             request.encodePath(self.nodegroupName, key: "nodegroupName")
+            try container.encodeIfPresent(self.nodeRepairConfig, forKey: .nodeRepairConfig)
             try container.encodeIfPresent(self.scalingConfig, forKey: .scalingConfig)
             try container.encodeIfPresent(self.taints, forKey: .taints)
             try container.encodeIfPresent(self.updateConfig, forKey: .updateConfig)
@@ -5113,6 +5141,7 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
             case labels = "labels"
+            case nodeRepairConfig = "nodeRepairConfig"
             case scalingConfig = "scalingConfig"
             case taints = "taints"
             case updateConfig = "updateConfig"

@@ -976,7 +976,7 @@ extension CodePipeline {
     }
 
     public struct ActionTypeId: AWSEncodableShape & AWSDecodableShape {
-        /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values.    Source   Build   Test   Deploy   Invoke   Approval
+        /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values.    Source   Build   Test   Deploy   Invoke   Approval   Compute
         public let category: ActionCategory
         /// The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS, ThirdParty, and Custom. For more information, see Valid Action Types and Providers in CodePipeline.
         public let owner: ActionOwner
@@ -1960,7 +1960,7 @@ extension CodePipeline {
     }
 
     public struct GetActionTypeInput: AWSEncodableShape {
-        /// Defines what kind of action can be taken in the stage. The following are the valid values:    Source     Build     Test     Deploy     Approval     Invoke
+        /// Defines what kind of action can be taken in the stage. The following are the valid values:    Source     Build     Test     Deploy     Approval     Invoke     Compute
         public let category: ActionCategory
         /// The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty.
         public let owner: String
@@ -4056,11 +4056,13 @@ extension CodePipeline {
     }
 
     public struct RuleDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// The shell commands to run with your commands rule in CodePipeline. All commands are supported except multi-line formats. While CodeBuild logs and permissions are used, you do not need to create any resources in CodeBuild.  Using compute time for this action will incur separate charges in CodeBuild.
+        public let commands: [String]?
         /// The action configuration fields for the rule.
         public let configuration: [String: String]?
         /// The input artifacts fields for the rule, such as specifying an input file for the rule.
         public let inputArtifacts: [InputArtifact]?
-        /// The name of the rule that is created for the condition, such as CheckAllResults.
+        /// The name of the rule that is created for the condition, such as VariableCheck.
         public let name: String
         /// The Region for the condition associated with the rule.
         public let region: String?
@@ -4072,7 +4074,8 @@ extension CodePipeline {
         public let timeoutInMinutes: Int?
 
         @inlinable
-        public init(configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, region: String? = nil, roleArn: String? = nil, ruleTypeId: RuleTypeId, timeoutInMinutes: Int? = nil) {
+        public init(commands: [String]? = nil, configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, region: String? = nil, roleArn: String? = nil, ruleTypeId: RuleTypeId, timeoutInMinutes: Int? = nil) {
+            self.commands = commands
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
             self.name = name
@@ -4083,6 +4086,12 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.commands?.forEach {
+                try validate($0, name: "commands[]", parent: name, max: 1000)
+                try validate($0, name: "commands[]", parent: name, min: 1)
+            }
+            try self.validate(self.commands, name: "commands", parent: name, max: 50)
+            try self.validate(self.commands, name: "commands", parent: name, min: 1)
             try self.configuration?.forEach {
                 try validate($0.key, name: "configuration.key", parent: name, max: 50)
                 try validate($0.key, name: "configuration.key", parent: name, min: 1)
@@ -4106,6 +4115,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case commands = "commands"
             case configuration = "configuration"
             case inputArtifacts = "inputArtifacts"
             case name = "name"

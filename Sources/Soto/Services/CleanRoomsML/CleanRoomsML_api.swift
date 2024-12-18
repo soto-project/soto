@@ -1978,7 +1978,7 @@ public struct CleanRoomsML: AWSService {
     /// Parameters:
     ///   - configuredModelAlgorithmAssociationArn: The Amazon Resource Name (ARN) of the configured model algorithm association that is used for this trained model inference job.
     ///   - containerExecutionParameters: The execution parameters for the container.
-    ///   - dataSource: Defines he data source that is used for the trained model inference job.
+    ///   - dataSource: Defines the data source that is used for the trained model inference job.
     ///   - description: The description of the trained model inference job.
     ///   - environment: The environment variables to set in the Docker container.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the ML inference job and associated data.

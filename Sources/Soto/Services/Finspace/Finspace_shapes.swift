@@ -3049,7 +3049,7 @@ extension Finspace {
             try self.validate(self.key, name: "key", parent: name, pattern: "^(?![Aa][Ww][Ss])(s|([a-zA-Z][a-zA-Z0-9_]+))|(AWS_ZIP_DEFAULT)$")
             try self.validate(self.value, name: "value", parent: name, max: 1024)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9_:./,]+$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9_:./,; ]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

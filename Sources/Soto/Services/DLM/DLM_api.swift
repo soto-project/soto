@@ -115,6 +115,14 @@ public struct DLM: AWSService {
             "us-west-1": "dlm.us-west-1.api.aws",
             "us-west-2": "dlm.us-west-2.api.aws"
         ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "dlm-fips.ca-central-1.api.aws",
+            "ca-west-1": "dlm-fips.ca-west-1.api.aws",
+            "us-east-1": "dlm-fips.us-east-1.api.aws",
+            "us-east-2": "dlm-fips.us-east-2.api.aws",
+            "us-west-1": "dlm-fips.us-west-1.api.aws",
+            "us-west-2": "dlm-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-gov-east-1": "dlm.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "dlm.us-gov-west-1.amazonaws.com"

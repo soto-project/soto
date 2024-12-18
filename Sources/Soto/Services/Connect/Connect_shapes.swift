@@ -198,6 +198,22 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum DateComparisonType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equalTo = "EQUAL_TO"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apns = "APNS"
+        case apnsSandbox = "APNS_SANDBOX"
+        case gcm = "GCM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DirectoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connectManaged = "CONNECT_MANAGED"
         case existingDirectory = "EXISTING_DIRECTORY"
@@ -525,6 +541,17 @@ extension Connect {
     public enum OutboundMessageSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case raw = "RAW"
         case template = "TEMPLATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OverrideDays: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case friday = "FRIDAY"
+        case monday = "MONDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        case thursday = "THURSDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
         public var description: String { return self.rawValue }
     }
 
@@ -3687,6 +3714,33 @@ extension Connect {
         }
     }
 
+    public struct ContactConfiguration: AWSEncodableShape {
+        /// The identifier of the contact within the Amazon Connect instance.
+        public let contactId: String
+        /// Whether to include raw connect message in the push notification payload. Default is False.
+        public let includeRawMessage: Bool?
+        /// The role of the participant in the chat conversation.  Only CUSTOMER is currently supported. Any other values other than CUSTOMER will result in an exception (4xx error).
+        public let participantRole: ParticipantRole?
+
+        @inlinable
+        public init(contactId: String, includeRawMessage: Bool? = nil, participantRole: ParticipantRole? = nil) {
+            self.contactId = contactId
+            self.includeRawMessage = includeRawMessage
+            self.participantRole = participantRole
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case includeRawMessage = "IncludeRawMessage"
+            case participantRole = "ParticipantRole"
+        }
+    }
+
     public struct ContactDataRequest: AWSEncodableShape {
         /// List of attributes to be stored in a contact.
         public let attributes: [String: String]?
@@ -3864,18 +3918,26 @@ extension Connect {
         public let andConditions: [ContactFlowModuleSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public let orConditions: [ContactFlowModuleSearchCriteria]?
+        /// The state of the flow.
+        public let stateCondition: ContactFlowModuleState?
+        /// The status of the flow.
+        public let statusCondition: ContactFlowModuleStatus?
         public let stringCondition: StringCondition?
 
         @inlinable
-        public init(andConditions: [ContactFlowModuleSearchCriteria]? = nil, orConditions: [ContactFlowModuleSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+        public init(andConditions: [ContactFlowModuleSearchCriteria]? = nil, orConditions: [ContactFlowModuleSearchCriteria]? = nil, stateCondition: ContactFlowModuleState? = nil, statusCondition: ContactFlowModuleStatus? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
+            self.stateCondition = stateCondition
+            self.statusCondition = statusCondition
             self.stringCondition = stringCondition
         }
 
         private enum CodingKeys: String, CodingKey {
             case andConditions = "AndConditions"
             case orConditions = "OrConditions"
+            case stateCondition = "StateCondition"
+            case statusCondition = "StatusCondition"
             case stringCondition = "StringCondition"
         }
     }
@@ -4804,6 +4866,81 @@ extension Connect {
         }
     }
 
+    public struct CreateHoursOfOperationOverrideRequest: AWSEncodableShape {
+        /// Configuration information for the hours of operation override: day, start time, and end time.
+        public let config: [HoursOfOperationOverrideConfig]
+        /// The description of the hours of operation override.
+        public let description: String?
+        /// The date from when the hours of operation override would be effective.
+        public let effectiveFrom: String
+        /// The date until when the hours of operation override would be effective.
+        public let effectiveTill: String
+        /// The identifier for the hours of operation
+        public let hoursOfOperationId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of the hours of operation override.
+        public let name: String
+
+        @inlinable
+        public init(config: [HoursOfOperationOverrideConfig], description: String? = nil, effectiveFrom: String, effectiveTill: String, hoursOfOperationId: String, instanceId: String, name: String) {
+            self.config = config
+            self.description = description
+            self.effectiveFrom = effectiveFrom
+            self.effectiveTill = effectiveTill
+            self.hoursOfOperationId = hoursOfOperationId
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.config, forKey: .config)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.effectiveFrom, forKey: .effectiveFrom)
+            try container.encode(self.effectiveTill, forKey: .effectiveTill)
+            request.encodePath(self.hoursOfOperationId, key: "HoursOfOperationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.config.forEach {
+                try $0.validate(name: "\(name).config[]")
+            }
+            try self.validate(self.config, name: "config", parent: name, max: 100)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\P{C}\\r\\n\\t]{1,250}$")
+            try self.validate(self.effectiveFrom, name: "effectiveFrom", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+            try self.validate(self.effectiveTill, name: "effectiveTill", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\P{C}\\r\\n\\t]{1,127}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case config = "Config"
+            case description = "Description"
+            case effectiveFrom = "EffectiveFrom"
+            case effectiveTill = "EffectiveTill"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateHoursOfOperationOverrideResponse: AWSDecodableShape {
+        /// The identifier for the hours of operation override.
+        public let hoursOfOperationOverrideId: String?
+
+        @inlinable
+        public init(hoursOfOperationOverrideId: String? = nil) {
+            self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hoursOfOperationOverrideId = "HoursOfOperationOverrideId"
+        }
+    }
+
     public struct CreateHoursOfOperationRequest: AWSEncodableShape {
         /// Configuration information for the hours of operation: day, start time, and end time.
         public let config: [HoursOfOperationConfig]
@@ -5273,6 +5410,73 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case promptARN = "PromptARN"
             case promptId = "PromptId"
+        }
+    }
+
+    public struct CreatePushNotificationRegistrationRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The contact configuration for push notification registration.
+        public let contactConfiguration: ContactConfiguration
+        /// The push notification token issued by the Apple or Google gateways.
+        public let deviceToken: String
+        /// The device type to use when sending the message.
+        public let deviceType: DeviceType
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The Amazon Resource Name (ARN) of the Pinpoint application.
+        public let pinpointAppArn: String
+
+        @inlinable
+        public init(clientToken: String? = CreatePushNotificationRegistrationRequest.idempotencyToken(), contactConfiguration: ContactConfiguration, deviceToken: String, deviceType: DeviceType, instanceId: String, pinpointAppArn: String) {
+            self.clientToken = clientToken
+            self.contactConfiguration = contactConfiguration
+            self.deviceToken = deviceToken
+            self.deviceType = deviceType
+            self.instanceId = instanceId
+            self.pinpointAppArn = pinpointAppArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.contactConfiguration, forKey: .contactConfiguration)
+            try container.encode(self.deviceToken, forKey: .deviceToken)
+            try container.encode(self.deviceType, forKey: .deviceType)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.pinpointAppArn, forKey: .pinpointAppArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.contactConfiguration.validate(name: "\(name).contactConfiguration")
+            try self.validate(self.deviceToken, name: "deviceToken", parent: name, max: 500)
+            try self.validate(self.deviceToken, name: "deviceToken", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case contactConfiguration = "ContactConfiguration"
+            case deviceToken = "DeviceToken"
+            case deviceType = "DeviceType"
+            case pinpointAppArn = "PinpointAppArn"
+        }
+    }
+
+    public struct CreatePushNotificationRegistrationResponse: AWSDecodableShape {
+        /// The identifier for the registration.
+        public let registrationId: String
+
+        @inlinable
+        public init(registrationId: String) {
+            self.registrationId = registrationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationId = "RegistrationId"
         }
     }
 
@@ -6548,6 +6752,32 @@ extension Connect {
         }
     }
 
+    public struct DateCondition: AWSEncodableShape {
+        /// An object to specify the hours of operation override date condition comparisonType.
+        public let comparisonType: DateComparisonType?
+        /// An object to specify the hours of operation override date field.
+        public let fieldName: String?
+        /// An object to specify the hours of operation override date value.
+        public let value: String?
+
+        @inlinable
+        public init(comparisonType: DateComparisonType? = nil, fieldName: String? = nil, value: String? = nil) {
+            self.comparisonType = comparisonType
+            self.fieldName = fieldName
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonType = "ComparisonType"
+            case fieldName = "FieldName"
+            case value = "Value"
+        }
+    }
+
     public struct DateReference: AWSDecodableShape {
         /// Identifier of the date reference.
         public let name: String?
@@ -6849,6 +7079,39 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteHoursOfOperationOverrideRequest: AWSEncodableShape {
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String
+        /// The identifier for the hours of operation override.
+        public let hoursOfOperationOverrideId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(hoursOfOperationId: String, hoursOfOperationOverrideId: String, instanceId: String) {
+            self.hoursOfOperationId = hoursOfOperationId
+            self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hoursOfOperationId, key: "HoursOfOperationId")
+            request.encodePath(self.hoursOfOperationOverrideId, key: "HoursOfOperationOverrideId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hoursOfOperationOverrideId, name: "hoursOfOperationOverrideId", parent: name, max: 36)
+            try self.validate(self.hoursOfOperationOverrideId, name: "hoursOfOperationOverrideId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteHoursOfOperationRequest: AWSEncodableShape {
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
@@ -6984,6 +7247,45 @@ extension Connect {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePushNotificationRegistrationRequest: AWSEncodableShape {
+        /// The identifier of the contact within the Amazon Connect instance.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The identifier for the registration.
+        public let registrationId: String
+
+        @inlinable
+        public init(contactId: String, instanceId: String, registrationId: String) {
+            self.contactId = contactId
+            self.instanceId = instanceId
+            self.registrationId = registrationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.contactId, key: "contactId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.registrationId, key: "RegistrationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePushNotificationRegistrationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteQueueRequest: AWSEncodableShape {
@@ -7772,6 +8074,53 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case evaluationForm = "EvaluationForm"
+        }
+    }
+
+    public struct DescribeHoursOfOperationOverrideRequest: AWSEncodableShape {
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String
+        /// The identifier for the hours of operation override.
+        public let hoursOfOperationOverrideId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(hoursOfOperationId: String, hoursOfOperationOverrideId: String, instanceId: String) {
+            self.hoursOfOperationId = hoursOfOperationId
+            self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hoursOfOperationId, key: "HoursOfOperationId")
+            request.encodePath(self.hoursOfOperationOverrideId, key: "HoursOfOperationOverrideId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hoursOfOperationOverrideId, name: "hoursOfOperationOverrideId", parent: name, max: 36)
+            try self.validate(self.hoursOfOperationOverrideId, name: "hoursOfOperationOverrideId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeHoursOfOperationOverrideResponse: AWSDecodableShape {
+        /// Information about the hours of operations override.
+        public let hoursOfOperationOverride: HoursOfOperationOverride?
+
+        @inlinable
+        public init(hoursOfOperationOverride: HoursOfOperationOverride? = nil) {
+            self.hoursOfOperationOverride = hoursOfOperationOverride
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hoursOfOperationOverride = "HoursOfOperationOverride"
         }
     }
 
@@ -9096,6 +9445,24 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case url = "Url"
             case urlExpiry = "UrlExpiry"
+        }
+    }
+
+    public struct EffectiveHoursOfOperations: AWSDecodableShape {
+        /// The date that the hours of operation or overrides applies to.
+        public let date: String?
+        /// Information about the hours of operations with the effective override applied.
+        public let operationalHours: [OperationalHour]?
+
+        @inlinable
+        public init(date: String? = nil, operationalHours: [OperationalHour]? = nil) {
+            self.date = date
+            self.operationalHours = operationalHours
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "Date"
+            case operationalHours = "OperationalHours"
         }
     }
 
@@ -10553,6 +10920,61 @@ extension Connect {
         }
     }
 
+    public struct GetEffectiveHoursOfOperationsRequest: AWSEncodableShape {
+        /// The Date from when the hours of operation are listed.
+        public let fromDate: String
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The Date until when the hours of operation are listed.
+        public let toDate: String
+
+        @inlinable
+        public init(fromDate: String, hoursOfOperationId: String, instanceId: String, toDate: String) {
+            self.fromDate = fromDate
+            self.hoursOfOperationId = hoursOfOperationId
+            self.instanceId = instanceId
+            self.toDate = toDate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.fromDate, key: "fromDate")
+            request.encodePath(self.hoursOfOperationId, key: "HoursOfOperationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.toDate, key: "toDate")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fromDate, name: "fromDate", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.toDate, name: "toDate", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEffectiveHoursOfOperationsResponse: AWSDecodableShape {
+        /// Information about the effective hours of operations
+        public let effectiveHoursOfOperationList: [EffectiveHoursOfOperations]?
+        /// The time zone for the hours of operation.
+        public let timeZone: String?
+
+        @inlinable
+        public init(effectiveHoursOfOperationList: [EffectiveHoursOfOperations]? = nil, timeZone: String? = nil) {
+            self.effectiveHoursOfOperationList = effectiveHoursOfOperationList
+            self.timeZone = timeZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effectiveHoursOfOperationList = "EffectiveHoursOfOperationList"
+            case timeZone = "TimeZone"
+        }
+    }
+
     public struct GetFederationTokenRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -11460,6 +11882,110 @@ extension Connect {
             case day = "Day"
             case endTime = "EndTime"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct HoursOfOperationOverride: AWSDecodableShape {
+        /// Configuration information for the hours of operation override: day, start time, and end time.
+        public let config: [HoursOfOperationOverrideConfig]?
+        /// The description of the hours of operation override.
+        public let description: String?
+        /// The date from which the hours of operation override would be effective.
+        public let effectiveFrom: String?
+        /// The date till which the hours of operation override would be effective.
+        public let effectiveTill: String?
+        /// The Amazon Resource Name (ARN) for the hours of operation.
+        public let hoursOfOperationArn: String?
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String?
+        /// The identifier for the hours of operation override.
+        public let hoursOfOperationOverrideId: String?
+        /// The name of the hours of operation override.
+        public let name: String?
+
+        @inlinable
+        public init(config: [HoursOfOperationOverrideConfig]? = nil, description: String? = nil, effectiveFrom: String? = nil, effectiveTill: String? = nil, hoursOfOperationArn: String? = nil, hoursOfOperationId: String? = nil, hoursOfOperationOverrideId: String? = nil, name: String? = nil) {
+            self.config = config
+            self.description = description
+            self.effectiveFrom = effectiveFrom
+            self.effectiveTill = effectiveTill
+            self.hoursOfOperationArn = hoursOfOperationArn
+            self.hoursOfOperationId = hoursOfOperationId
+            self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case config = "Config"
+            case description = "Description"
+            case effectiveFrom = "EffectiveFrom"
+            case effectiveTill = "EffectiveTill"
+            case hoursOfOperationArn = "HoursOfOperationArn"
+            case hoursOfOperationId = "HoursOfOperationId"
+            case hoursOfOperationOverrideId = "HoursOfOperationOverrideId"
+            case name = "Name"
+        }
+    }
+
+    public struct HoursOfOperationOverrideConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The day that the hours of operation override applies to.
+        public let day: OverrideDays?
+        /// The end time that your contact center closes if overrides are applied.
+        public let endTime: OverrideTimeSlice?
+        /// The start time when your contact center opens if overrides are applied.
+        public let startTime: OverrideTimeSlice?
+
+        @inlinable
+        public init(day: OverrideDays? = nil, endTime: OverrideTimeSlice? = nil, startTime: OverrideTimeSlice? = nil) {
+            self.day = day
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.endTime?.validate(name: "\(name).endTime")
+            try self.startTime?.validate(name: "\(name).startTime")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case day = "Day"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct HoursOfOperationOverrideSearchCriteria: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andConditions: [HoursOfOperationOverrideSearchCriteria]?
+        /// A leaf node condition which can be used to specify a date condition.
+        public let dateCondition: DateCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [HoursOfOperationOverrideSearchCriteria]?
+        public let stringCondition: StringCondition?
+
+        @inlinable
+        public init(andConditions: [HoursOfOperationOverrideSearchCriteria]? = nil, dateCondition: DateCondition? = nil, orConditions: [HoursOfOperationOverrideSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.dateCondition = dateCondition
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        public func validate(name: String) throws {
+            try self.andConditions?.forEach {
+                try $0.validate(name: "\(name).andConditions[]")
+            }
+            try self.dateCondition?.validate(name: "\(name).dateCondition")
+            try self.orConditions?.forEach {
+                try $0.validate(name: "\(name).orConditions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case dateCondition = "DateCondition"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
         }
     }
 
@@ -12921,6 +13447,69 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case flowAssociationSummaryList = "FlowAssociationSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListHoursOfOperationOverridesRequest: AWSEncodableShape {
+        /// The identifier for the hours of operation
+        public let hoursOfOperationId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page. The default MaxResult size is 100. Valid Range: Minimum value of 1. Maximum value of 1000.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(hoursOfOperationId: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.hoursOfOperationId = hoursOfOperationId
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.hoursOfOperationId, key: "HoursOfOperationId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListHoursOfOperationOverridesResponse: AWSDecodableShape {
+        /// Information about the hours of operation override.
+        public let hoursOfOperationOverrideList: [HoursOfOperationOverride]?
+        /// The AWS Region where this resource was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when this resource was last modified.
+        public let lastModifiedTime: Date?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(hoursOfOperationOverrideList: [HoursOfOperationOverride]? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, nextToken: String? = nil) {
+            self.hoursOfOperationOverrideList = hoursOfOperationOverrideList
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hoursOfOperationOverrideList = "HoursOfOperationOverrideList"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
             case nextToken = "NextToken"
         }
     }
@@ -14926,7 +15515,7 @@ extension Connect {
     public struct MetricFilterV2: AWSEncodableShape & AWSDecodableShape {
         /// The key to use for filtering data.  Valid metric filter keys:    ANSWERING_MACHINE_DETECTION_STATUS   CASE_STATUS   DISCONNECT_REASON   FLOWS_ACTION_IDENTIFIER   FLOWS_NEXT_ACTION_IDENTIFIER   FLOWS_OUTCOME_TYPE   FLOWS_RESOURCE_TYPE   INITIATION_METHOD
         public let metricFilterKey: String?
-        /// The values to use for filtering data. Values for metric-level filters can be either a fixed set of values or a customized list, depending on the use case. For valid values of metric-level filters INITIATION_METHOD, DISCONNECT_REASON, and ANSWERING_MACHINE_DETECTION_STATUS, see ContactTraceRecord in the Amazon Connect Administrator Guide.  For valid values of the metric-level filter FLOWS_OUTCOME_TYPE, see the description for the Flow outcome metric in the Amazon Connect Administrator Guide. For valid values of the metric-level filter BOT_CONVERSATION_OUTCOME_TYPE, see the description for the  Bot conversations completed  in the Amazon Connect Administrator Guide. For valid values of the metric-level filter BOT_INTENT_OUTCOME_TYPE, see the description for the  Bot intents completed  metric in the Amazon Connect Administrator Guide.
+        /// The values to use for filtering data. Values for metric-level filters can be either a fixed set of values or a customized list, depending on the use case. For valid values of metric-level filters INITIATION_METHOD, DISCONNECT_REASON, and ANSWERING_MACHINE_DETECTION_STATUS, see ContactTraceRecord in the Amazon Connect Administrator Guide.  For valid values of the metric-level filter FLOWS_OUTCOME_TYPE, see the description for the Flow outcome metric in the Amazon Connect Administrator Guide. For valid values of the metric-level filter BOT_CONVERSATION_OUTCOME_TYPE, see the description for the Bot conversations completed in the Amazon Connect Administrator Guide. For valid values of the metric-level filter BOT_INTENT_OUTCOME_TYPE, see the description for the Bot intents completed metric in the Amazon Connect Administrator Guide.
         public let metricFilterValues: [String]?
         /// If set to true, the API response contains results that filter out the results matched by the metric-level filters condition. By default, Negate is set to false.
         public let negate: Bool?
@@ -15200,6 +15789,24 @@ extension Connect {
         }
     }
 
+    public struct OperationalHour: AWSDecodableShape {
+        /// The end time that your contact center closes.
+        public let end: OverrideTimeSlice?
+        /// The start time that your contact center opens.
+        public let start: OverrideTimeSlice?
+
+        @inlinable
+        public init(end: OverrideTimeSlice? = nil, start: OverrideTimeSlice? = nil) {
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case start = "Start"
+        }
+    }
+
     public struct OutboundAdditionalRecipients: AWSEncodableShape {
         /// The additional CC email address recipients information.
         public let ccEmailAddresses: [EmailAddressInfo]?
@@ -15324,6 +15931,31 @@ extension Connect {
             case body = "Body"
             case contentType = "ContentType"
             case subject = "Subject"
+        }
+    }
+
+    public struct OverrideTimeSlice: AWSEncodableShape & AWSDecodableShape {
+        /// The hours.
+        public let hours: Int
+        /// The minutes.
+        public let minutes: Int
+
+        @inlinable
+        public init(hours: Int, minutes: Int) {
+            self.hours = hours
+            self.minutes = minutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hours, name: "hours", parent: name, max: 23)
+            try self.validate(self.hours, name: "hours", parent: name, min: 0)
+            try self.validate(self.minutes, name: "minutes", parent: name, max: 59)
+            try self.validate(self.minutes, name: "minutes", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hours = "Hours"
+            case minutes = "Minutes"
         }
     }
 
@@ -17697,6 +18329,67 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case approximateTotalCount = "ApproximateTotalCount"
             case emailAddresses = "EmailAddresses"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchHoursOfOperationOverridesRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page. Valid Range: Minimum value of 1. Maximum value of 100.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Length Constraints: Minimum length of 1. Maximum length of 2500.
+        public let nextToken: String?
+        /// The search criteria to be used to return hours of operations overrides.
+        public let searchCriteria: HoursOfOperationOverrideSearchCriteria?
+        public let searchFilter: HoursOfOperationSearchFilter?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: HoursOfOperationOverrideSearchCriteria? = nil, searchFilter: HoursOfOperationSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.searchCriteria?.validate(name: "\(name).searchCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchHoursOfOperationOverridesResponse: AWSDecodableShape {
+        /// The total number of hours of operations which matched your search query.
+        public let approximateTotalCount: Int64?
+        /// Information about the hours of operations overrides.
+        public let hoursOfOperationOverrides: [HoursOfOperationOverride]?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Length Constraints: Minimum length of 1. Maximum length of 2500.
+        public let nextToken: String?
+
+        @inlinable
+        public init(approximateTotalCount: Int64? = nil, hoursOfOperationOverrides: [HoursOfOperationOverride]? = nil, nextToken: String? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.hoursOfOperationOverrides = hoursOfOperationOverrides
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case hoursOfOperationOverrides = "HoursOfOperationOverrides"
             case nextToken = "NextToken"
         }
     }
@@ -21871,6 +22564,73 @@ extension Connect {
         }
     }
 
+    public struct UpdateHoursOfOperationOverrideRequest: AWSEncodableShape {
+        /// Configuration information for the hours of operation override: day, start time, and end time.
+        public let config: [HoursOfOperationOverrideConfig]?
+        /// The description of the hours of operation override.
+        public let description: String?
+        /// The date from when the hours of operation override would be effective.
+        public let effectiveFrom: String?
+        /// The date till when the hours of operation override would be effective.
+        public let effectiveTill: String?
+        /// The identifier for the hours of operation.
+        public let hoursOfOperationId: String
+        /// The identifier for the hours of operation override.
+        public let hoursOfOperationOverrideId: String
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The name of the hours of operation override.
+        public let name: String?
+
+        @inlinable
+        public init(config: [HoursOfOperationOverrideConfig]? = nil, description: String? = nil, effectiveFrom: String? = nil, effectiveTill: String? = nil, hoursOfOperationId: String, hoursOfOperationOverrideId: String, instanceId: String, name: String? = nil) {
+            self.config = config
+            self.description = description
+            self.effectiveFrom = effectiveFrom
+            self.effectiveTill = effectiveTill
+            self.hoursOfOperationId = hoursOfOperationId
+            self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.config, forKey: .config)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.effectiveFrom, forKey: .effectiveFrom)
+            try container.encodeIfPresent(self.effectiveTill, forKey: .effectiveTill)
+            request.encodePath(self.hoursOfOperationId, key: "HoursOfOperationId")
+            request.encodePath(self.hoursOfOperationOverrideId, key: "HoursOfOperationOverrideId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.config?.forEach {
+                try $0.validate(name: "\(name).config[]")
+            }
+            try self.validate(self.config, name: "config", parent: name, max: 100)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\P{C}\\r\\n\\t]{1,250}$")
+            try self.validate(self.effectiveFrom, name: "effectiveFrom", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+            try self.validate(self.effectiveTill, name: "effectiveTill", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+            try self.validate(self.hoursOfOperationOverrideId, name: "hoursOfOperationOverrideId", parent: name, max: 36)
+            try self.validate(self.hoursOfOperationOverrideId, name: "hoursOfOperationOverrideId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\P{C}\\r\\n\\t]{1,127}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case config = "Config"
+            case description = "Description"
+            case effectiveFrom = "EffectiveFrom"
+            case effectiveTill = "EffectiveTill"
+            case name = "Name"
+        }
+    }
+
     public struct UpdateHoursOfOperationRequest: AWSEncodableShape {
         /// Configuration information of the hours of operation.
         public let config: [HoursOfOperationConfig]?
@@ -23668,9 +24428,9 @@ extension Connect {
     public struct UserIdentityInfo: AWSEncodableShape & AWSDecodableShape {
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public let email: String?
-        /// The first name. This is required if you are using Amazon Connect or SAML for identity management.
+        /// The first name. This is required if you are using Amazon Connect or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
         public let firstName: String?
-        /// The last name. This is required if you are using Amazon Connect or SAML for identity management.
+        /// The last name. This is required if you are using Amazon Connect or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
         public let lastName: String?
         /// The user's mobile number.
         public let mobile: String?
@@ -24433,7 +25193,7 @@ public struct ConnectErrorType: AWSErrorType {
 
     /// You do not have sufficient permissions to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// A conditional check failed.
+    /// Request processing failed because dependent condition failed.
     public static var conditionalOperationFailedException: Self { .init(.conditionalOperationFailedException) }
     /// Operation cannot be performed at this time as there is a conflict with another operation or contact state.
     public static var conflictException: Self { .init(.conflictException) }

@@ -72,6 +72,7 @@ extension RDS {
     }
 
     public enum ClientPasswordAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mysqlCachingSha2Password = "MYSQL_CACHING_SHA2_PASSWORD"
         case mysqlNativePassword = "MYSQL_NATIVE_PASSWORD"
         case postgresMd5 = "POSTGRES_MD5"
         case postgresScramSha256 = "POSTGRES_SCRAM_SHA_256"

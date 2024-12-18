@@ -108,6 +108,7 @@ extension IVSRealTime {
     public enum ParticipantRecordingMediaType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audioOnly = "AUDIO_ONLY"
         case audioVideo = "AUDIO_VIDEO"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -152,6 +153,18 @@ extension IVSRealTime {
         public var description: String { return self.rawValue }
     }
 
+    public enum ThumbnailRecordingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case interval = "INTERVAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThumbnailStorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case latest = "LATEST"
+        case sequential = "SEQUENTIAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VideoAspectRatio: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case portrait = "PORTRAIT"
@@ -174,22 +187,27 @@ extension IVSRealTime {
         public let mediaTypes: [ParticipantRecordingMediaType]?
         /// ARN of the StorageConfiguration resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a  Stage is created or updated.
         public let storageConfigurationArn: String
+        /// A complex type that allows you to enable/disable the recording of thumbnails for individual participant recording and modify the interval at which thumbnails are generated for the live session.
+        public let thumbnailConfiguration: ParticipantThumbnailConfiguration?
 
         @inlinable
-        public init(mediaTypes: [ParticipantRecordingMediaType]? = nil, storageConfigurationArn: String) {
+        public init(mediaTypes: [ParticipantRecordingMediaType]? = nil, storageConfigurationArn: String, thumbnailConfiguration: ParticipantThumbnailConfiguration? = nil) {
             self.mediaTypes = mediaTypes
             self.storageConfigurationArn = storageConfigurationArn
+            self.thumbnailConfiguration = thumbnailConfiguration
         }
 
         public func validate(name: String) throws {
             try self.validate(self.mediaTypes, name: "mediaTypes", parent: name, max: 1)
             try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, max: 128)
             try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:storage-configuration/[a-zA-Z0-9-]+$$")
+            try self.thumbnailConfiguration?.validate(name: "\(name).thumbnailConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case mediaTypes = "mediaTypes"
             case storageConfigurationArn = "storageConfigurationArn"
+            case thumbnailConfiguration = "thumbnailConfiguration"
         }
     }
 
@@ -302,6 +320,34 @@ extension IVSRealTime {
             case startTime = "startTime"
             case state = "state"
             case tags = "tags"
+        }
+    }
+
+    public struct CompositionThumbnailConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails/(width)x(height) directory, where (width) and (height) are the width
+        /// 	    and height of the thumbnail. LATEST saves the latest thumbnail in
+        /// 	    media/latest_thumbnail/(width)x(height)/thumb.jpg and overwrites it at the interval specified by
+        /// 	    targetIntervalSeconds.  You can enable both SEQUENTIAL and LATEST.
+        /// 	    Default: SEQUENTIAL.
+        public let storage: [ThumbnailStorageType]?
+        /// The targeted thumbnail-generation interval in seconds. Default: 60.
+        public let targetIntervalSeconds: Int?
+
+        @inlinable
+        public init(storage: [ThumbnailStorageType]? = nil, targetIntervalSeconds: Int? = nil) {
+            self.storage = storage
+            self.targetIntervalSeconds = targetIntervalSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.storage, name: "storage", parent: name, max: 2)
+            try self.validate(self.targetIntervalSeconds, name: "targetIntervalSeconds", parent: name, max: 86400)
+            try self.validate(self.targetIntervalSeconds, name: "targetIntervalSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storage = "storage"
+            case targetIntervalSeconds = "targetIntervalSeconds"
         }
     }
 
@@ -2071,6 +2117,37 @@ extension IVSRealTime {
         }
     }
 
+    public struct ParticipantThumbnailConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Thumbnail recording mode. Default: DISABLED.
+        public let recordingMode: ThumbnailRecordingMode?
+        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails/high directory. LATEST saves the latest thumbnail
+        /// 	    in media/latest_thumbnail/high/thumb.jpg and overwrites it at the interval specified by
+        /// 	    targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST.
+        /// 	    Default: SEQUENTIAL.
+        public let storage: [ThumbnailStorageType]?
+        /// The targeted thumbnail-generation interval in seconds. This is configurable only if recordingMode is INTERVAL. Default: 60.
+        public let targetIntervalSeconds: Int?
+
+        @inlinable
+        public init(recordingMode: ThumbnailRecordingMode? = nil, storage: [ThumbnailStorageType]? = nil, targetIntervalSeconds: Int? = nil) {
+            self.recordingMode = recordingMode
+            self.storage = storage
+            self.targetIntervalSeconds = targetIntervalSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.storage, name: "storage", parent: name, max: 2)
+            try self.validate(self.targetIntervalSeconds, name: "targetIntervalSeconds", parent: name, max: 86400)
+            try self.validate(self.targetIntervalSeconds, name: "targetIntervalSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordingMode = "recordingMode"
+            case storage = "storage"
+            case targetIntervalSeconds = "targetIntervalSeconds"
+        }
+    }
+
     public struct ParticipantToken: AWSDecodableShape {
         /// Application-provided attributes to encode into the token and attach to a stage. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let attributes: [String: String]?
@@ -2287,12 +2364,15 @@ extension IVSRealTime {
         public let recordingConfiguration: RecordingConfiguration?
         /// ARN of the StorageConfiguration where recorded videos will be stored.
         public let storageConfigurationArn: String
+        /// A complex type that allows you to enable/disable the recording of thumbnails for a Composition and modify the interval at which thumbnails are generated for the live session.
+        public let thumbnailConfigurations: [CompositionThumbnailConfiguration]?
 
         @inlinable
-        public init(encoderConfigurationArns: [String], recordingConfiguration: RecordingConfiguration? = nil, storageConfigurationArn: String) {
+        public init(encoderConfigurationArns: [String], recordingConfiguration: RecordingConfiguration? = nil, storageConfigurationArn: String, thumbnailConfigurations: [CompositionThumbnailConfiguration]? = nil) {
             self.encoderConfigurationArns = encoderConfigurationArns
             self.recordingConfiguration = recordingConfiguration
             self.storageConfigurationArn = storageConfigurationArn
+            self.thumbnailConfigurations = thumbnailConfigurations
         }
 
         public func validate(name: String) throws {
@@ -2306,12 +2386,17 @@ extension IVSRealTime {
             try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, max: 128)
             try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, min: 1)
             try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:storage-configuration/[a-zA-Z0-9-]+$")
+            try self.thumbnailConfigurations?.forEach {
+                try $0.validate(name: "\(name).thumbnailConfigurations[]")
+            }
+            try self.validate(self.thumbnailConfigurations, name: "thumbnailConfigurations", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case encoderConfigurationArns = "encoderConfigurationArns"
             case recordingConfiguration = "recordingConfiguration"
             case storageConfigurationArn = "storageConfigurationArn"
+            case thumbnailConfigurations = "thumbnailConfigurations"
         }
     }
 

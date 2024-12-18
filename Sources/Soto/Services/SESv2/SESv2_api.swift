@@ -601,6 +601,41 @@ public struct SESv2: AWSService {
         return try await self.createImportJob(input, logger: logger)
     }
 
+    /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic will be split equally between the two. The primary region is the region where the resource has been created and where it can be managed.
+    @Sendable
+    @inlinable
+    public func createMultiRegionEndpoint(_ input: CreateMultiRegionEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultiRegionEndpointResponse {
+        try await self.client.execute(
+            operation: "CreateMultiRegionEndpoint", 
+            path: "/v2/email/multi-region-endpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic will be split equally between the two. The primary region is the region where the resource has been created and where it can be managed.
+    ///
+    /// Parameters:
+    ///   - details: Contains details of a multi-region endpoint (global-endpoint) being created.
+    ///   - endpointName: The name of the multi-region endpoint (global-endpoint).
+    ///   - tags: An array of objects that define the tags (keys and values) to associate with the multi-region endpoint (global-endpoint).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createMultiRegionEndpoint(
+        details: Details,
+        endpointName: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateMultiRegionEndpointResponse {
+        let input = CreateMultiRegionEndpointRequest(
+            details: details, 
+            endpointName: endpointName, 
+            tags: tags
+        )
+        return try await self.createMultiRegionEndpoint(input, logger: logger)
+    }
+
     /// Delete an existing configuration set.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     @Sendable
     @inlinable
@@ -869,6 +904,35 @@ public struct SESv2: AWSService {
             templateName: templateName
         )
         return try await self.deleteEmailTemplate(input, logger: logger)
+    }
+
+    /// Deletes a multi-region endpoint (global-endpoint). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be deleted.
+    @Sendable
+    @inlinable
+    public func deleteMultiRegionEndpoint(_ input: DeleteMultiRegionEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMultiRegionEndpointResponse {
+        try await self.client.execute(
+            operation: "DeleteMultiRegionEndpoint", 
+            path: "/v2/email/multi-region-endpoints/{EndpointName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a multi-region endpoint (global-endpoint). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be deleted.
+    ///
+    /// Parameters:
+    ///   - endpointName: The name of the multi-region endpoint (global-endpoint) to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteMultiRegionEndpoint(
+        endpointName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteMultiRegionEndpointResponse {
+        let input = DeleteMultiRegionEndpointRequest(
+            endpointName: endpointName
+        )
+        return try await self.deleteMultiRegionEndpoint(input, logger: logger)
     }
 
     /// Removes an email address from the suppression list for your account.
@@ -1489,6 +1553,35 @@ public struct SESv2: AWSService {
         return try await self.getMessageInsights(input, logger: logger)
     }
 
+    /// Displays the multi-region endpoint (global-endpoint) configuration. Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be displayed.
+    @Sendable
+    @inlinable
+    public func getMultiRegionEndpoint(_ input: GetMultiRegionEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMultiRegionEndpointResponse {
+        try await self.client.execute(
+            operation: "GetMultiRegionEndpoint", 
+            path: "/v2/email/multi-region-endpoints/{EndpointName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Displays the multi-region endpoint (global-endpoint) configuration. Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be displayed.
+    ///
+    /// Parameters:
+    ///   - endpointName: The name of the multi-region endpoint (global-endpoint).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMultiRegionEndpoint(
+        endpointName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMultiRegionEndpointResponse {
+        let input = GetMultiRegionEndpointRequest(
+            endpointName: endpointName
+        )
+        return try await self.getMultiRegionEndpoint(input, logger: logger)
+    }
+
     /// Retrieves information about a specific email address that's on the suppression list for your account.
     @Sendable
     @inlinable
@@ -1892,6 +1985,38 @@ public struct SESv2: AWSService {
             pageSize: pageSize
         )
         return try await self.listImportJobs(input, logger: logger)
+    }
+
+    /// List the multi-region endpoints (global-endpoints). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed will be listed.
+    @Sendable
+    @inlinable
+    public func listMultiRegionEndpoints(_ input: ListMultiRegionEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultiRegionEndpointsResponse {
+        try await self.client.execute(
+            operation: "ListMultiRegionEndpoints", 
+            path: "/v2/email/multi-region-endpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the multi-region endpoints (global-endpoints). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed will be listed.
+    ///
+    /// Parameters:
+    ///   - nextToken: A token returned from a previous call to ListMultiRegionEndpoints to indicate the position in the list of multi-region endpoints (global-endpoints).
+    ///   - pageSize: The number of results to show in a single call to ListMultiRegionEndpoints. If the number of results is larger than the number you specified in this parameter, the response includes a NextToken element that you can use to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMultiRegionEndpoints(
+        nextToken: String? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMultiRegionEndpointsResponse {
+        let input = ListMultiRegionEndpointsRequest(
+            nextToken: nextToken, 
+            pageSize: pageSize
+        )
+        return try await self.listMultiRegionEndpoints(input, logger: logger)
     }
 
     /// Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
@@ -2704,6 +2829,7 @@ public struct SESv2: AWSService {
     ///   - configurationSetName: The name of the configuration set to use when sending the email.
     ///   - defaultContent: An object that contains the body of the message. You can specify a template message.
     ///   - defaultEmailTags: A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
+    ///   - endpointId: The ID of the multi-region endpoint (global-endpoint).
     ///   - feedbackForwardingEmailAddress: The address that you want bounce and complaint notifications to be sent to.
     ///   - feedbackForwardingEmailAddressIdentityArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
     ///   - fromEmailAddress: The email address to use as the "From" address for the email. The address that you specify has to be verified.
@@ -2716,6 +2842,7 @@ public struct SESv2: AWSService {
         configurationSetName: String? = nil,
         defaultContent: BulkEmailContent,
         defaultEmailTags: [MessageTag]? = nil,
+        endpointId: String? = nil,
         feedbackForwardingEmailAddress: String? = nil,
         feedbackForwardingEmailAddressIdentityArn: String? = nil,
         fromEmailAddress: String? = nil,
@@ -2728,6 +2855,7 @@ public struct SESv2: AWSService {
             configurationSetName: configurationSetName, 
             defaultContent: defaultContent, 
             defaultEmailTags: defaultEmailTags, 
+            endpointId: endpointId, 
             feedbackForwardingEmailAddress: feedbackForwardingEmailAddress, 
             feedbackForwardingEmailAddressIdentityArn: feedbackForwardingEmailAddressIdentityArn, 
             fromEmailAddress: fromEmailAddress, 
@@ -2792,6 +2920,7 @@ public struct SESv2: AWSService {
     ///   - content: An object that contains the body of the message. You can send either a Simple message, Raw message, or a Templated message.
     ///   - destination: An object that contains the recipients of the email message.
     ///   - emailTags: A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
+    ///   - endpointId: The ID of the multi-region endpoint (global-endpoint).
     ///   - feedbackForwardingEmailAddress: The address that you want bounce and complaint notifications to be sent to.
     ///   - feedbackForwardingEmailAddressIdentityArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
     ///   - fromEmailAddress: The email address to use as the "From" address for the email. The address that you specify has to be verified.
@@ -2805,6 +2934,7 @@ public struct SESv2: AWSService {
         content: EmailContent,
         destination: Destination? = nil,
         emailTags: [MessageTag]? = nil,
+        endpointId: String? = nil,
         feedbackForwardingEmailAddress: String? = nil,
         feedbackForwardingEmailAddressIdentityArn: String? = nil,
         fromEmailAddress: String? = nil,
@@ -2818,6 +2948,7 @@ public struct SESv2: AWSService {
             content: content, 
             destination: destination, 
             emailTags: emailTags, 
+            endpointId: endpointId, 
             feedbackForwardingEmailAddress: feedbackForwardingEmailAddress, 
             feedbackForwardingEmailAddressIdentityArn: feedbackForwardingEmailAddressIdentityArn, 
             fromEmailAddress: fromEmailAddress, 
@@ -3595,6 +3726,40 @@ extension SESv2 {
         return self.listImportJobsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listMultiRegionEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMultiRegionEndpointsPaginator(
+        _ input: ListMultiRegionEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMultiRegionEndpointsRequest, ListMultiRegionEndpointsResponse> {
+        return .init(
+            input: input,
+            command: self.listMultiRegionEndpoints,
+            inputKey: \ListMultiRegionEndpointsRequest.nextToken,
+            outputKey: \ListMultiRegionEndpointsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMultiRegionEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - pageSize: The number of results to show in a single call to ListMultiRegionEndpoints. If the number of results is larger than the number you specified in this parameter, the response includes a NextToken element that you can use to retrieve the next page of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMultiRegionEndpointsPaginator(
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMultiRegionEndpointsRequest, ListMultiRegionEndpointsResponse> {
+        let input = ListMultiRegionEndpointsRequest(
+            pageSize: pageSize
+        )
+        return self.listMultiRegionEndpointsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listRecommendations(_:logger:)``.
     ///
     /// - Parameters:
@@ -3799,6 +3964,16 @@ extension SESv2.ListImportJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SESv2.ListImportJobsRequest {
         return .init(
             importDestinationType: self.importDestinationType,
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+    }
+}
+
+extension SESv2.ListMultiRegionEndpointsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SESv2.ListMultiRegionEndpointsRequest {
+        return .init(
             nextToken: token,
             pageSize: self.pageSize
         )

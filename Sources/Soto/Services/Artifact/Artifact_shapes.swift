@@ -27,28 +27,37 @@ extension Artifact {
     // MARK: Enums
 
     public enum AcceptanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        /// Require explicit click-through acceptance of
-        /// the Term associated with this Report.
+        /// Require explicit click-through acceptance of the
+        /// Term associated with this Report.
         case explicit = "EXPLICIT"
-        /// Do not require explicit click-through
-        /// acceptance of the Term associated with
-        /// this Report.
+        /// Do not require explicit click-through acceptance
+        /// of the Term associated with this Report
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
+    public enum AgreementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case custom = "CUSTOM"
+        case modified = "MODIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomerAgreementState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case awsTerminated = "AWS_TERMINATED"
+        case customerTerminated = "CUSTOMER_TERMINATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NotificationSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        /// The account is not subscribed for notification.
         case notSubscribed = "NOT_SUBSCRIBED"
-        /// The account is subscribed for notification.
         case subscribed = "SUBSCRIBED"
         public var description: String { return self.rawValue }
     }
 
     public enum PublishedState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        /// The resource is published for consumption.
         case published = "PUBLISHED"
-        /// The resource is not published for consumption.
         case unpublished = "UNPUBLISHED"
         public var description: String { return self.rawValue }
     }
@@ -74,6 +83,70 @@ extension Artifact {
 
         private enum CodingKeys: String, CodingKey {
             case notificationSubscriptionStatus = "notificationSubscriptionStatus"
+        }
+    }
+
+    public struct CustomerAgreementSummary: AWSDecodableShape {
+        /// Terms required to accept the agreement resource.
+        public let acceptanceTerms: [String]?
+        /// ARN of the agreement resource the customer-agreement resource represents.
+        public let agreementArn: String?
+        /// ARN of the customer-agreement resource.
+        public let arn: String?
+        /// AWS account Id that owns the resource.
+        public let awsAccountId: String?
+        /// Description of the resource.
+        public let description: String?
+        /// Timestamp indicating when the agreement was terminated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var effectiveEnd: Date?
+        /// Timestamp indicating when the agreement became effective.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var effectiveStart: Date?
+        /// Identifier of the customer-agreement resource.
+        public let id: String?
+        /// Name of the customer-agreement resource.
+        public let name: String?
+        /// ARN of the organization that owns the resource.
+        public let organizationArn: String?
+        /// State of the resource.
+        public let state: CustomerAgreementState?
+        /// Terms required to terminate the customer-agreement resource.
+        public let terminateTerms: [String]?
+        /// Type of the customer-agreement resource.
+        public let type: AgreementType?
+
+        @inlinable
+        public init(acceptanceTerms: [String]? = nil, agreementArn: String? = nil, arn: String? = nil, awsAccountId: String? = nil, description: String? = nil, effectiveEnd: Date? = nil, effectiveStart: Date? = nil, id: String? = nil, name: String? = nil, organizationArn: String? = nil, state: CustomerAgreementState? = nil, terminateTerms: [String]? = nil, type: AgreementType? = nil) {
+            self.acceptanceTerms = acceptanceTerms
+            self.agreementArn = agreementArn
+            self.arn = arn
+            self.awsAccountId = awsAccountId
+            self.description = description
+            self.effectiveEnd = effectiveEnd
+            self.effectiveStart = effectiveStart
+            self.id = id
+            self.name = name
+            self.organizationArn = organizationArn
+            self.state = state
+            self.terminateTerms = terminateTerms
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptanceTerms = "acceptanceTerms"
+            case agreementArn = "agreementArn"
+            case arn = "arn"
+            case awsAccountId = "awsAccountId"
+            case description = "description"
+            case effectiveEnd = "effectiveEnd"
+            case effectiveStart = "effectiveStart"
+            case id = "id"
+            case name = "name"
+            case organizationArn = "organizationArn"
+            case state = "state"
+            case terminateTerms = "terminateTerms"
+            case type = "type"
         }
     }
 
@@ -225,6 +298,53 @@ extension Artifact {
         private enum CodingKeys: String, CodingKey {
             case documentPresignedUrl = "documentPresignedUrl"
             case termToken = "termToken"
+        }
+    }
+
+    public struct ListCustomerAgreementsRequest: AWSEncodableShape {
+        /// Maximum number of resources to return in the paginated response.
+        public let maxResults: Int?
+        /// Pagination token to request the next page of resources.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCustomerAgreementsResponse: AWSDecodableShape {
+        /// List of customer-agreement resources.
+        public let customerAgreements: [CustomerAgreementSummary]
+        /// Pagination token to request the next page of resources.
+        public let nextToken: String?
+
+        @inlinable
+        public init(customerAgreements: [CustomerAgreementSummary], nextToken: String? = nil) {
+            self.customerAgreements = customerAgreements
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerAgreements = "customerAgreements"
+            case nextToken = "nextToken"
         }
     }
 

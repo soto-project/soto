@@ -204,6 +204,38 @@ public struct Artifact: AWSService {
         return try await self.getTermForReport(input, logger: logger)
     }
 
+    /// List active customer-agreements applicable to calling identity.
+    @Sendable
+    @inlinable
+    public func listCustomerAgreements(_ input: ListCustomerAgreementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomerAgreementsResponse {
+        try await self.client.execute(
+            operation: "ListCustomerAgreements", 
+            path: "/v1/customer-agreement/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List active customer-agreements applicable to calling identity.
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of resources to return in the paginated response.
+    ///   - nextToken: Pagination token to request the next page of resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCustomerAgreements(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCustomerAgreementsResponse {
+        let input = ListCustomerAgreementsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCustomerAgreements(input, logger: logger)
+    }
+
     /// List available reports.
     @Sendable
     @inlinable
@@ -279,6 +311,40 @@ extension Artifact {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Artifact {
+    /// Return PaginatorSequence for operation ``listCustomerAgreements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomerAgreementsPaginator(
+        _ input: ListCustomerAgreementsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCustomerAgreementsRequest, ListCustomerAgreementsResponse> {
+        return .init(
+            input: input,
+            command: self.listCustomerAgreements,
+            inputKey: \ListCustomerAgreementsRequest.nextToken,
+            outputKey: \ListCustomerAgreementsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCustomerAgreements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of resources to return in the paginated response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomerAgreementsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCustomerAgreementsRequest, ListCustomerAgreementsResponse> {
+        let input = ListCustomerAgreementsRequest(
+            maxResults: maxResults
+        )
+        return self.listCustomerAgreementsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listReports(_:logger:)``.
     ///
     /// - Parameters:
@@ -311,6 +377,16 @@ extension Artifact {
             maxResults: maxResults
         )
         return self.listReportsPaginator(input, logger: logger)
+    }
+}
+
+extension Artifact.ListCustomerAgreementsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Artifact.ListCustomerAgreementsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

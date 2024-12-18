@@ -169,6 +169,7 @@ public struct CloudHSMV2: AWSService {
     ///   - backupRetentionPolicy: A policy that defines how the service retains backups.
     ///   - hsmType: The type of HSM to use in the cluster. The allowed values are hsm1.medium and hsm2m.medium.
     ///   - mode: The mode to use in the cluster. The allowed values are FIPS and NON_FIPS.
+    ///   - networkType: The NetworkType to create a cluster with. The allowed values are IPV4 and DUALSTACK.
     ///   - sourceBackupId: The identifier (ID) or the Amazon Resource Name (ARN) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID or ARN, use DescribeBackups. If using a backup in another account, the full ARN must be supplied.
     ///   - subnetIds: The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria:   All subnets must be in the same virtual private cloud (VPC).   You can specify only one subnet per Availability Zone.
     ///   - tagList: Tags to apply to the CloudHSM cluster during creation.
@@ -178,6 +179,7 @@ public struct CloudHSMV2: AWSService {
         backupRetentionPolicy: BackupRetentionPolicy? = nil,
         hsmType: String,
         mode: ClusterMode? = nil,
+        networkType: NetworkType? = nil,
         sourceBackupId: String? = nil,
         subnetIds: [String],
         tagList: [Tag]? = nil,
@@ -187,6 +189,7 @@ public struct CloudHSMV2: AWSService {
             backupRetentionPolicy: backupRetentionPolicy, 
             hsmType: hsmType, 
             mode: mode, 
+            networkType: networkType, 
             sourceBackupId: sourceBackupId, 
             subnetIds: subnetIds, 
             tagList: tagList

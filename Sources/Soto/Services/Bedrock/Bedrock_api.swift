@@ -116,12 +116,14 @@ public struct Bedrock: AWSService {
         "bedrock-runtime-us-east-2": "bedrock-runtime.us-east-2.amazonaws.com",
         "bedrock-runtime-us-gov-east-1": "bedrock-runtime.us-gov-east-1.amazonaws.com",
         "bedrock-runtime-us-gov-west-1": "bedrock-runtime.us-gov-west-1.amazonaws.com",
+        "bedrock-runtime-us-iso-east-1": "bedrock-runtime.us-iso-east-1.c2s.ic.gov",
         "bedrock-runtime-us-west-2": "bedrock-runtime.us-west-2.amazonaws.com",
         "bedrock-sa-east-1": "bedrock.sa-east-1.amazonaws.com",
         "bedrock-us-east-1": "bedrock.us-east-1.amazonaws.com",
         "bedrock-us-east-2": "bedrock.us-east-2.amazonaws.com",
         "bedrock-us-gov-east-1": "bedrock.us-gov-east-1.amazonaws.com",
         "bedrock-us-gov-west-1": "bedrock.us-gov-west-1.amazonaws.com",
+        "bedrock-us-iso-east-1": "bedrock.us-iso-east-1.c2s.ic.gov",
         "bedrock-us-west-2": "bedrock.us-west-2.amazonaws.com"
     ]}
 

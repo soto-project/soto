@@ -375,6 +375,7 @@ extension Route53Domains {
         case releaseToGandi = "RELEASE_TO_GANDI"
         case removeDnssec = "REMOVE_DNSSEC"
         case renewDomain = "RENEW_DOMAIN"
+        case restoreDomain = "RESTORE_DOMAIN"
         case transferInDomain = "TRANSFER_IN_DOMAIN"
         case transferOnRenew = "TRANSFER_ON_RENEW"
         case transferOutDomain = "TRANSFER_OUT_DOMAIN"
@@ -593,7 +594,7 @@ extension Route53Domains {
 
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
-            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, max: 3)
+            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, pattern: "^|[A-Za-z]{2,3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -687,6 +688,7 @@ extension Route53Domains {
         public func validate(name: String) throws {
             try self.validate(self.currency, name: "currency", parent: name, max: 3)
             try self.validate(self.currency, name: "currency", parent: name, min: 3)
+            try self.validate(self.maxPrice, name: "maxPrice", parent: name, min: 0.0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1682,7 +1684,7 @@ extension Route53Domains {
             try self.validate(self.marker, name: "marker", parent: name, max: 4096)
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
             try self.validate(self.status, name: "status", parent: name, max: 5)
-            try self.validate(self.type, name: "type", parent: name, max: 20)
+            try self.validate(self.type, name: "type", parent: name, max: 21)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2013,7 +2015,7 @@ extension Route53Domains {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, max: 10)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, min: 1)
-            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, max: 3)
+            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, pattern: "^|[A-Za-z]{2,3}$")
             try self.registrantContact.validate(name: "\(name).registrantContact")
             try self.techContact.validate(name: "\(name).techContact")
         }
@@ -2358,7 +2360,7 @@ extension Route53Domains {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, max: 10)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, min: 1)
-            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, max: 3)
+            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, pattern: "^|[A-Za-z]{2,3}$")
             try self.nameservers?.forEach {
                 try $0.validate(name: "\(name).nameservers[]")
             }

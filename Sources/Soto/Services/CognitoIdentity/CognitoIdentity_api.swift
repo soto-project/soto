@@ -81,6 +81,46 @@ public struct CognitoIdentity: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "cognito-identity.af-south-1.amazonaws.com",
+            "ap-east-1": "cognito-identity.ap-east-1.amazonaws.com",
+            "ap-northeast-1": "cognito-identity.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "cognito-identity.ap-northeast-2.amazonaws.com",
+            "ap-northeast-3": "cognito-identity.ap-northeast-3.amazonaws.com",
+            "ap-south-1": "cognito-identity.ap-south-1.amazonaws.com",
+            "ap-south-2": "cognito-identity.ap-south-2.amazonaws.com",
+            "ap-southeast-1": "cognito-identity.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "cognito-identity.ap-southeast-2.amazonaws.com",
+            "ap-southeast-3": "cognito-identity.ap-southeast-3.amazonaws.com",
+            "ap-southeast-4": "cognito-identity.ap-southeast-4.amazonaws.com",
+            "ca-central-1": "cognito-identity.ca-central-1.amazonaws.com",
+            "ca-west-1": "cognito-identity.ca-west-1.amazonaws.com",
+            "cn-north-1": "cognito-identity.cn-north-1.amazonaws.com.cn",
+            "eu-central-1": "cognito-identity.eu-central-1.amazonaws.com",
+            "eu-central-2": "cognito-identity.eu-central-2.amazonaws.com",
+            "eu-north-1": "cognito-identity.eu-north-1.amazonaws.com",
+            "eu-south-1": "cognito-identity.eu-south-1.amazonaws.com",
+            "eu-south-2": "cognito-identity.eu-south-2.amazonaws.com",
+            "eu-west-1": "cognito-identity.eu-west-1.amazonaws.com",
+            "eu-west-2": "cognito-identity.eu-west-2.amazonaws.com",
+            "eu-west-3": "cognito-identity.eu-west-3.amazonaws.com",
+            "il-central-1": "cognito-identity.il-central-1.amazonaws.com",
+            "me-central-1": "cognito-identity.me-central-1.amazonaws.com",
+            "me-south-1": "cognito-identity.me-south-1.amazonaws.com",
+            "sa-east-1": "cognito-identity.sa-east-1.amazonaws.com",
+            "us-east-1": "cognito-identity.us-east-1.amazonaws.com",
+            "us-east-2": "cognito-identity.us-east-2.amazonaws.com",
+            "us-gov-west-1": "cognito-identity.us-gov-west-1.amazonaws.com",
+            "us-west-1": "cognito-identity.us-west-1.amazonaws.com",
+            "us-west-2": "cognito-identity.us-west-2.amazonaws.com"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "cognito-identity-fips.us-east-1.amazonaws.com",
+            "us-east-2": "cognito-identity-fips.us-east-2.amazonaws.com",
+            "us-gov-west-1": "cognito-identity-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "cognito-identity-fips.us-west-1.amazonaws.com",
+            "us-west-2": "cognito-identity-fips.us-west-2.amazonaws.com"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "cognito-identity-fips.us-east-1.amazonaws.com",
             "us-east-2": "cognito-identity-fips.us-east-2.amazonaws.com",

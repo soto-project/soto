@@ -55,6 +55,11 @@ extension MigrationHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case migrationTaskStateUpdated = "MIGRATION_TASK_STATE_UPDATED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ApplicationState: AWSDecodableShape {
@@ -156,6 +161,46 @@ extension MigrationHub {
     }
 
     public struct AssociateDiscoveredResourceResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssociateSourceResourceRequest: AWSEncodableShape {
+        /// This is an optional parameter that you can use to test whether the call will succeed. Set this parameter to true to verify that you have the permissions that are required to make the call, and that you have specified the other parameters in the call correctly.
+        public let dryRun: Bool?
+        /// A unique identifier that references the migration task. Do not include sensitive data in this field.
+        public let migrationTaskName: String
+        /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+        public let progressUpdateStream: String
+        /// The source resource that you want to associate.
+        public let sourceResource: SourceResource
+
+        @inlinable
+        public init(dryRun: Bool? = nil, migrationTaskName: String, progressUpdateStream: String, sourceResource: SourceResource) {
+            self.dryRun = dryRun
+            self.migrationTaskName = migrationTaskName
+            self.progressUpdateStream = progressUpdateStream
+            self.sourceResource = sourceResource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
+            try self.sourceResource.validate(name: "\(name).sourceResource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case migrationTaskName = "MigrationTaskName"
+            case progressUpdateStream = "ProgressUpdateStream"
+            case sourceResource = "SourceResource"
+        }
+    }
+
+    public struct AssociateSourceResourceResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -404,6 +449,47 @@ extension MigrationHub {
         public init() {}
     }
 
+    public struct DisassociateSourceResourceRequest: AWSEncodableShape {
+        /// This is an optional parameter that you can use to test whether the call will succeed. Set this parameter to true to verify that you have the permissions that are required to make the call, and that you have specified the other parameters in the call correctly.
+        public let dryRun: Bool?
+        /// A unique identifier that references the migration task. Do not include sensitive data in this field.
+        public let migrationTaskName: String
+        /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+        public let progressUpdateStream: String
+        /// The name that was specified for the source resource.
+        public let sourceResourceName: String
+
+        @inlinable
+        public init(dryRun: Bool? = nil, migrationTaskName: String, progressUpdateStream: String, sourceResourceName: String) {
+            self.dryRun = dryRun
+            self.migrationTaskName = migrationTaskName
+            self.progressUpdateStream = progressUpdateStream
+            self.sourceResourceName = sourceResourceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
+            try self.validate(self.sourceResourceName, name: "sourceResourceName", parent: name, max: 1600)
+            try self.validate(self.sourceResourceName, name: "sourceResourceName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case migrationTaskName = "MigrationTaskName"
+            case progressUpdateStream = "ProgressUpdateStream"
+            case sourceResourceName = "SourceResourceName"
+        }
+    }
+
+    public struct DisassociateSourceResourceResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DiscoveredResource: AWSEncodableShape & AWSDecodableShape {
         /// The configurationId in Application Discovery Service that uniquely identifies the on-premise resource.
         public let configurationId: String
@@ -633,6 +719,63 @@ extension MigrationHub {
         }
     }
 
+    public struct ListMigrationTaskUpdatesRequest: AWSEncodableShape {
+        /// The maximum number of results to include in the response. If more results exist than the value that you specify here for MaxResults, the response will include a token that you can use to retrieve the next set of results.
+        public let maxResults: Int?
+        /// A unique identifier that references the migration task. Do not include sensitive data in this field.
+        public let migrationTaskName: String
+        /// If NextToken was returned by a previous call, there are more results available. The value of NextToken is a unique pagination token for each page. To retrieve the next page of results, specify the NextToken value that the previous call returned. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+        /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+        public let progressUpdateStream: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, migrationTaskName: String, nextToken: String? = nil, progressUpdateStream: String) {
+            self.maxResults = maxResults
+            self.migrationTaskName = migrationTaskName
+            self.nextToken = nextToken
+            self.progressUpdateStream = progressUpdateStream
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case migrationTaskName = "MigrationTaskName"
+            case nextToken = "NextToken"
+            case progressUpdateStream = "ProgressUpdateStream"
+        }
+    }
+
+    public struct ListMigrationTaskUpdatesResult: AWSDecodableShape {
+        /// The list of migration-task updates.
+        public let migrationTaskUpdateList: [MigrationTaskUpdate]?
+        /// If the response includes a NextToken value, that means that there are more results available. The value of NextToken is a unique pagination token for each page. To retrieve the next page of results, call this API again and specify this NextToken value in the request. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        @inlinable
+        public init(migrationTaskUpdateList: [MigrationTaskUpdate]? = nil, nextToken: String? = nil) {
+            self.migrationTaskUpdateList = migrationTaskUpdateList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationTaskUpdateList = "MigrationTaskUpdateList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListMigrationTasksRequest: AWSEncodableShape {
         /// Value to specify how many results are returned per page.
         public let maxResults: Int?
@@ -726,6 +869,63 @@ extension MigrationHub {
         }
     }
 
+    public struct ListSourceResourcesRequest: AWSEncodableShape {
+        /// The maximum number of results to include in the response. If more results exist than the value that you specify here for MaxResults, the response will include a token that you can use to retrieve the next set of results.
+        public let maxResults: Int?
+        /// A unique identifier that references the migration task. Do not store confidential data in this field.
+        public let migrationTaskName: String
+        /// If NextToken was returned by a previous call, there are more results available. The value of NextToken is a unique pagination token for each page. To retrieve the next page of results, specify the NextToken value that the previous call returned. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+        /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+        public let progressUpdateStream: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, migrationTaskName: String, nextToken: String? = nil, progressUpdateStream: String) {
+            self.maxResults = maxResults
+            self.migrationTaskName = migrationTaskName
+            self.nextToken = nextToken
+            self.progressUpdateStream = progressUpdateStream
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
+            try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "^[^:|]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
+            try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "^[^/:|\\000-\\037]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case migrationTaskName = "MigrationTaskName"
+            case nextToken = "NextToken"
+            case progressUpdateStream = "ProgressUpdateStream"
+        }
+    }
+
+    public struct ListSourceResourcesResult: AWSDecodableShape {
+        /// If the response includes a NextToken value, that means that there are more results available. The value of NextToken is a unique pagination token for each page. To retrieve the next page of results, call this API again and specify this NextToken value in the request. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+        /// The list of source resources.
+        public let sourceResourceList: [SourceResource]?
+
+        @inlinable
+        public init(nextToken: String? = nil, sourceResourceList: [SourceResource]? = nil) {
+            self.nextToken = nextToken
+            self.sourceResourceList = sourceResourceList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case sourceResourceList = "SourceResourceList"
+        }
+    }
+
     public struct MigrationTask: AWSDecodableShape {
         /// Unique identifier that references the migration task. Do not store personal data in this field.
         public let migrationTaskName: String?
@@ -787,6 +987,27 @@ extension MigrationHub {
             case status = "Status"
             case statusDetail = "StatusDetail"
             case updateDateTime = "UpdateDateTime"
+        }
+    }
+
+    public struct MigrationTaskUpdate: AWSDecodableShape {
+        public let migrationTaskState: Task?
+        /// The timestamp for the update.
+        public let updateDateTime: Date?
+        /// The type of the update.
+        public let updateType: UpdateType?
+
+        @inlinable
+        public init(migrationTaskState: Task? = nil, updateDateTime: Date? = nil, updateType: UpdateType? = nil) {
+            self.migrationTaskState = migrationTaskState
+            self.updateDateTime = updateDateTime
+            self.updateType = updateType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationTaskState = "MigrationTaskState"
+            case updateDateTime = "UpdateDateTime"
+            case updateType = "UpdateType"
         }
     }
 
@@ -896,8 +1117,7 @@ extension MigrationHub {
         public let migrationTaskName: String
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
-        /// Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Discovery Service repository.  Takes the object array of ResourceAttribute where the Type field is reserved for the following values: IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER where the identifying value can be a string up to 256 characters.
-        ///  If any "VM" related value is set for a ResourceAttribute object, it is required that VM_MANAGER_ID, as a minimum, is always set. If VM_MANAGER_ID is not set, then all "VM" fields will be discarded and "VM" fields will not be used for matching the migration task to a server in Application Discovery Service repository. See the Example section below for a use case of specifying "VM" related values.   If a server you are trying to match has multiple IP or MAC addresses, you should provide as many as you know in separate type/value pairs passed to the ResourceAttributeList parameter to maximize the chances of matching.
+        /// Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Discovery Service repository.  Takes the object array of ResourceAttribute where the Type field is reserved for the following values: IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER where the identifying value can be a string up to 256 characters.     If any "VM" related value is set for a ResourceAttribute object, it is required that VM_MANAGER_ID, as a minimum, is always set. If VM_MANAGER_ID is not set, then all "VM" fields will be discarded and "VM" fields will not be used for matching the migration task to a server in Application Discovery Service repository. See the Example section below for a use case of specifying "VM" related values.   If a server you are trying to match has multiple IP or MAC addresses, you should provide as many as you know in separate type/value pairs passed to the ResourceAttributeList parameter to maximize the chances of matching.
         public let resourceAttributeList: [ResourceAttribute]
 
         @inlinable
@@ -958,6 +1178,37 @@ extension MigrationHub {
         }
     }
 
+    public struct SourceResource: AWSEncodableShape & AWSDecodableShape {
+        /// A description that can be free-form text to record additional detail about the resource for clarity or later reference.
+        public let description: String?
+        /// This is the name that you want to use to identify the resource. If the resource is an AWS resource, we recommend that you set this parameter to the ARN of the resource.
+        public let name: String
+        /// A free-form description of the status of the resource.
+        public let statusDetail: String?
+
+        @inlinable
+        public init(description: String? = nil, name: String, statusDetail: String? = nil) {
+            self.description = description
+            self.name = name
+            self.statusDetail = statusDetail
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.{0,500}$")
+            try self.validate(self.name, name: "name", parent: name, max: 1600)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.statusDetail, name: "statusDetail", parent: name, max: 2500)
+            try self.validate(self.statusDetail, name: "statusDetail", parent: name, pattern: "^.{0,2500}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case statusDetail = "StatusDetail"
+        }
+    }
+
     public struct Task: AWSEncodableShape & AWSDecodableShape {
         /// Indication of the percentage completion of the task.
         public let progressPercent: Int?
@@ -976,8 +1227,8 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try self.validate(self.progressPercent, name: "progressPercent", parent: name, max: 100)
             try self.validate(self.progressPercent, name: "progressPercent", parent: name, min: 0)
-            try self.validate(self.statusDetail, name: "statusDetail", parent: name, max: 500)
-            try self.validate(self.statusDetail, name: "statusDetail", parent: name, pattern: "^.{0,500}$")
+            try self.validate(self.statusDetail, name: "statusDetail", parent: name, max: 2500)
+            try self.validate(self.statusDetail, name: "statusDetail", parent: name, pattern: "^.{0,2500}$")
         }
 
         private enum CodingKeys: String, CodingKey {

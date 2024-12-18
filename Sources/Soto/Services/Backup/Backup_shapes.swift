@@ -111,6 +111,20 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
+    public enum Index: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IndexStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LegalHoldStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case canceled = "CANCELED"
@@ -499,6 +513,8 @@ extension Backup {
         public let copyActions: [CopyAction]?
         /// Specifies whether Backup creates continuous backups. True causes Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes Backup to create snapshot backups.
         public let enableContinuousBackup: Bool?
+        /// IndexActions is an array you use to specify how backup data should  be indexed. eEach BackupRule can have 0 or 1 IndexAction, as each backup can have up  to one index associated with it. Within the array is ResourceType. Only one will be accepted for each BackupRule.
+        public let indexActions: [IndexAction]?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Resource types that can transition to cold storage are listed in the Feature availability  by resource table. Backup ignores this expression for other resource types.
         public let lifecycle: Lifecycle?
         /// The tags that are assigned to resources that are associated with this rule when restored from backup.
@@ -517,10 +533,11 @@ extension Backup {
         public let targetBackupVaultName: String
 
         @inlinable
-        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, indexActions: [IndexAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
+            self.indexActions = indexActions
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleId = ruleId
@@ -535,6 +552,7 @@ extension Backup {
             case completionWindowMinutes = "CompletionWindowMinutes"
             case copyActions = "CopyActions"
             case enableContinuousBackup = "EnableContinuousBackup"
+            case indexActions = "IndexActions"
             case lifecycle = "Lifecycle"
             case recoveryPointTags = "RecoveryPointTags"
             case ruleId = "RuleId"
@@ -553,6 +571,8 @@ extension Backup {
         public let copyActions: [CopyAction]?
         /// Specifies whether Backup creates continuous backups. True causes Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes Backup to create snapshot backups.
         public let enableContinuousBackup: Bool?
+        /// There can up to one IndexAction in each BackupRule, as each backup  can have 0 or 1 backup index associated with it. Within the array is ResourceTypes. Only 1 resource type will  be accepted for each BackupRule. Valid values:    EBS for Amazon Elastic Block Store    S3 for Amazon Simple Storage Service (Amazon S3)
+        public let indexActions: [IndexAction]?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold storage. Resource types that can transition to cold storage are listed in the Feature availability  by resource table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
         public let lifecycle: Lifecycle?
         /// The tags to assign to the resources.
@@ -569,10 +589,11 @@ extension Backup {
         public let targetBackupVaultName: String
 
         @inlinable
-        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, indexActions: [IndexAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
+            self.indexActions = indexActions
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleName = ruleName
@@ -583,6 +604,9 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.indexActions?.forEach {
+                try $0.validate(name: "\(name).indexActions[]")
+            }
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             try self.validate(self.targetBackupVaultName, name: "targetBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
@@ -591,6 +615,7 @@ extension Backup {
             case completionWindowMinutes = "CompletionWindowMinutes"
             case copyActions = "CopyActions"
             case enableContinuousBackup = "EnableContinuousBackup"
+            case indexActions = "IndexActions"
             case lifecycle = "Lifecycle"
             case recoveryPointTags = "RecoveryPointTags"
             case ruleName = "RuleName"
@@ -2310,6 +2335,10 @@ extension Backup {
         public let encryptionKeyArn: String?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
+        /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE can be included in a search.
+        public let indexStatus: IndexStatus?
+        /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
+        public let indexStatusMessage: String?
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public let isEncrypted: Bool?
         /// This returns the boolean value that a recovery point is a parent (composite) job.
@@ -2340,7 +2369,7 @@ extension Backup {
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil, vaultType: VaultType? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil, vaultType: VaultType? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -2351,6 +2380,8 @@ extension Backup {
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
             self.iamRoleArn = iamRoleArn
+            self.indexStatus = indexStatus
+            self.indexStatusMessage = indexStatusMessage
             self.isEncrypted = isEncrypted
             self.isParent = isParent
             self.lastRestoreTime = lastRestoreTime
@@ -2378,6 +2409,8 @@ extension Backup {
             case creationDate = "CreationDate"
             case encryptionKeyArn = "EncryptionKeyArn"
             case iamRoleArn = "IamRoleArn"
+            case indexStatus = "IndexStatus"
+            case indexStatusMessage = "IndexStatusMessage"
             case isEncrypted = "IsEncrypted"
             case isParent = "IsParent"
             case lastRestoreTime = "LastRestoreTime"
@@ -3075,6 +3108,78 @@ extension Backup {
         }
     }
 
+    public struct GetRecoveryPointIndexDetailsInput: AWSEncodableShape {
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens.
+        public let backupVaultName: String
+        /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public let recoveryPointArn: String
+
+        @inlinable
+        public init(backupVaultName: String, recoveryPointArn: String) {
+            self.backupVaultName = backupVaultName
+            self.recoveryPointArn = recoveryPointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            request.encodePath(self.recoveryPointArn, key: "RecoveryPointArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRecoveryPointIndexDetailsOutput: AWSDecodableShape {
+        /// An ARN that uniquely identifies the backup vault where the recovery  point index is stored. For example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
+        public let backupVaultArn: String?
+        /// The date and time that a backup index finished creation, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let indexCompletionDate: Date?
+        /// The date and time that a backup index was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let indexCreationDate: Date?
+        /// The date and time that a backup index was deleted, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let indexDeletionDate: Date?
+        /// This is the current status for the backup index associated  with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE  can be included in a search.
+        public let indexStatus: IndexStatus?
+        /// A detailed message explaining the status of a backup index associated  with the recovery point.
+        public let indexStatusMessage: String?
+        /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public let recoveryPointArn: String?
+        /// A string of the  Amazon Resource Name (ARN) that uniquely identifies  the source resource.
+        public let sourceResourceArn: String?
+        /// Count of items within the backup index associated with the  recovery point.
+        public let totalItemsIndexed: Int64?
+
+        @inlinable
+        public init(backupVaultArn: String? = nil, indexCompletionDate: Date? = nil, indexCreationDate: Date? = nil, indexDeletionDate: Date? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, recoveryPointArn: String? = nil, sourceResourceArn: String? = nil, totalItemsIndexed: Int64? = nil) {
+            self.backupVaultArn = backupVaultArn
+            self.indexCompletionDate = indexCompletionDate
+            self.indexCreationDate = indexCreationDate
+            self.indexDeletionDate = indexDeletionDate
+            self.indexStatus = indexStatus
+            self.indexStatusMessage = indexStatusMessage
+            self.recoveryPointArn = recoveryPointArn
+            self.sourceResourceArn = sourceResourceArn
+            self.totalItemsIndexed = totalItemsIndexed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultArn = "BackupVaultArn"
+            case indexCompletionDate = "IndexCompletionDate"
+            case indexCreationDate = "IndexCreationDate"
+            case indexDeletionDate = "IndexDeletionDate"
+            case indexStatus = "IndexStatus"
+            case indexStatusMessage = "IndexStatusMessage"
+            case recoveryPointArn = "RecoveryPointArn"
+            case sourceResourceArn = "SourceResourceArn"
+            case totalItemsIndexed = "TotalItemsIndexed"
+        }
+    }
+
     public struct GetRecoveryPointRestoreMetadataInput: AWSEncodableShape {
         /// The account ID of the specified backup vault.
         public let backupVaultAccountId: String?
@@ -3287,6 +3392,72 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case resourceTypes = "ResourceTypes"
+        }
+    }
+
+    public struct IndexAction: AWSEncodableShape & AWSDecodableShape {
+        /// 0 or 1 index action will be accepted for each BackupRule. Valid values:    EBS for Amazon Elastic Block Store    S3 for Amazon Simple Storage Service (Amazon S3)
+        public let resourceTypes: [String]?
+
+        @inlinable
+        public init(resourceTypes: [String]? = nil) {
+            self.resourceTypes = resourceTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceTypes?.forEach {
+                try validate($0, name: "resourceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceTypes = "ResourceTypes"
+        }
+    }
+
+    public struct IndexedRecoveryPoint: AWSDecodableShape {
+        /// The date and time that a backup was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let backupCreationDate: Date?
+        /// An ARN that uniquely identifies the backup vault where the recovery  point index is stored. For example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
+        public let backupVaultArn: String?
+        /// This specifies the IAM role ARN used for this operation. For example, arn:aws:iam::123456789012:role/S3Access
+        public let iamRoleArn: String?
+        /// The date and time that a backup index was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let indexCreationDate: Date?
+        /// This is the current status for the backup index associated  with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE  can be included in a search.
+        public let indexStatus: IndexStatus?
+        /// A string in the form of a detailed message explaining the status of a backup index associated  with the recovery point.
+        public let indexStatusMessage: String?
+        /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45
+        public let recoveryPointArn: String?
+        /// The resource type of the indexed recovery point.    EBS for Amazon Elastic Block Store    S3 for Amazon Simple Storage Service (Amazon S3)
+        public let resourceType: String?
+        /// A string of the  Amazon Resource Name (ARN) that uniquely identifies  the source resource.
+        public let sourceResourceArn: String?
+
+        @inlinable
+        public init(backupCreationDate: Date? = nil, backupVaultArn: String? = nil, iamRoleArn: String? = nil, indexCreationDate: Date? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, recoveryPointArn: String? = nil, resourceType: String? = nil, sourceResourceArn: String? = nil) {
+            self.backupCreationDate = backupCreationDate
+            self.backupVaultArn = backupVaultArn
+            self.iamRoleArn = iamRoleArn
+            self.indexCreationDate = indexCreationDate
+            self.indexStatus = indexStatus
+            self.indexStatusMessage = indexStatusMessage
+            self.recoveryPointArn = recoveryPointArn
+            self.resourceType = resourceType
+            self.sourceResourceArn = sourceResourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupCreationDate = "BackupCreationDate"
+            case backupVaultArn = "BackupVaultArn"
+            case iamRoleArn = "IamRoleArn"
+            case indexCreationDate = "IndexCreationDate"
+            case indexStatus = "IndexStatus"
+            case indexStatusMessage = "IndexStatusMessage"
+            case recoveryPointArn = "RecoveryPointArn"
+            case resourceType = "ResourceType"
+            case sourceResourceArn = "SourceResourceArn"
         }
     }
 
@@ -3979,6 +4150,72 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case frameworks = "Frameworks"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListIndexedRecoveryPointsInput: AWSEncodableShape {
+        /// Returns only indexed recovery points that were created after the  specified date.
+        public let createdAfter: Date?
+        /// Returns only indexed recovery points that were created before the  specified date.
+        public let createdBefore: Date?
+        /// Include this parameter to filter the returned list by  the indicated statuses. Accepted values: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE  can be included in a search.
+        public let indexStatus: IndexStatus?
+        /// The maximum number of resource list items to be returned.
+        public let maxResults: Int?
+        /// The next item following a partial list of returned recovery points. For example, if a request is made to return MaxResults number of indexed recovery points, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+        /// Returns a list of indexed recovery points for the specified  resource type(s). Accepted values include:    EBS for Amazon Elastic Block Store    S3 for Amazon Simple Storage Service (Amazon S3)
+        public let resourceType: String?
+        /// A string of the  Amazon Resource Name (ARN) that uniquely identifies  the source resource.
+        public let sourceResourceArn: String?
+
+        @inlinable
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, indexStatus: IndexStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil, sourceResourceArn: String? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.indexStatus = indexStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceType = resourceType
+            self.sourceResourceArn = sourceResourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.createdAfter, key: "createdAfter")
+            request.encodeQuery(self.createdBefore, key: "createdBefore")
+            request.encodeQuery(self.indexStatus, key: "indexStatus")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceType, key: "resourceType")
+            request.encodeQuery(self.sourceResourceArn, key: "sourceResourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListIndexedRecoveryPointsOutput: AWSDecodableShape {
+        /// This is a list of recovery points that have an  associated index, belonging to the specified account.
+        public let indexedRecoveryPoints: [IndexedRecoveryPoint]?
+        /// The next item following a partial list of returned recovery points. For example, if a request is made to return MaxResults number of indexed recovery points, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(indexedRecoveryPoints: [IndexedRecoveryPoint]? = nil, nextToken: String? = nil) {
+            self.indexedRecoveryPoints = indexedRecoveryPoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexedRecoveryPoints = "IndexedRecoveryPoints"
             case nextToken = "NextToken"
         }
     }
@@ -4970,6 +5207,10 @@ extension Backup {
         public let encryptionKeyArn: String?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
+        /// This is the current status for the backup index associated  with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE  can be included in a search.
+        public let indexStatus: IndexStatus?
+        /// A string in the form of a detailed message explaining the status of a backup index associated  with the recovery point.
+        public let indexStatusMessage: String?
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public let isEncrypted: Bool?
         /// This is a boolean value indicating this is  a parent (composite) recovery point.
@@ -4998,7 +5239,7 @@ extension Backup {
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -5009,6 +5250,8 @@ extension Backup {
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
             self.iamRoleArn = iamRoleArn
+            self.indexStatus = indexStatus
+            self.indexStatusMessage = indexStatusMessage
             self.isEncrypted = isEncrypted
             self.isParent = isParent
             self.lastRestoreTime = lastRestoreTime
@@ -5035,6 +5278,8 @@ extension Backup {
             case creationDate = "CreationDate"
             case encryptionKeyArn = "EncryptionKeyArn"
             case iamRoleArn = "IamRoleArn"
+            case indexStatus = "IndexStatus"
+            case indexStatusMessage = "IndexStatusMessage"
             case isEncrypted = "IsEncrypted"
             case isParent = "IsParent"
             case lastRestoreTime = "LastRestoreTime"
@@ -5060,6 +5305,10 @@ extension Backup {
         public let creationDate: Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
+        /// This is the current status for the backup index associated  with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE  can be included in a search.
+        public let indexStatus: IndexStatus?
+        /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
+        public let indexStatusMessage: String?
         /// This is a boolean value indicating this is  a parent (composite) recovery point.
         public let isParent: Bool?
         /// The Amazon Resource Name (ARN) of the parent (composite)  recovery point.
@@ -5076,11 +5325,13 @@ extension Backup {
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, isParent: Bool? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceName: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
+        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, isParent: Bool? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceName: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
             self.backupSizeBytes = backupSizeBytes
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
+            self.indexStatus = indexStatus
+            self.indexStatusMessage = indexStatusMessage
             self.isParent = isParent
             self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
@@ -5095,6 +5346,8 @@ extension Backup {
             case backupVaultName = "BackupVaultName"
             case creationDate = "CreationDate"
             case encryptionKeyArn = "EncryptionKeyArn"
+            case indexStatus = "IndexStatus"
+            case indexStatusMessage = "IndexStatusMessage"
             case isParent = "IsParent"
             case parentRecoveryPointArn = "ParentRecoveryPointArn"
             case recoveryPointArn = "RecoveryPointArn"
@@ -5819,6 +6072,8 @@ extension Backup {
         public let iamRoleArn: String
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartBackupJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
+        /// Include this parameter to enable index creation if your backup  job has a resource type that supports backup indexes. Resource types that support backup indexes include:    EBS for Amazon Elastic Block Store    S3 for Amazon Simple Storage Service (Amazon S3)   Index can have 1 of 2 possible values, either ENABLED or  DISABLED. To create a backup index for an eligible ACTIVE recovery point  that does not yet have a backup index, set value to ENABLED. To delete a backup index, set value to DISABLED.
+        public let index: Index?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Resource types that can transition to cold storage are listed in the Feature  availability by resource table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
         public let lifecycle: Lifecycle?
         /// The tags to assign to the resources.
@@ -5829,12 +6084,13 @@ extension Backup {
         public let startWindowMinutes: Int64?
 
         @inlinable
-        public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
+        public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = nil, index: Index? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
             self.backupOptions = backupOptions
             self.backupVaultName = backupVaultName
             self.completeWindowMinutes = completeWindowMinutes
             self.iamRoleArn = iamRoleArn
             self.idempotencyToken = idempotencyToken
+            self.index = index
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.resourceArn = resourceArn
@@ -5855,6 +6111,7 @@ extension Backup {
             case completeWindowMinutes = "CompleteWindowMinutes"
             case iamRoleArn = "IamRoleArn"
             case idempotencyToken = "IdempotencyToken"
+            case index = "Index"
             case lifecycle = "Lifecycle"
             case recoveryPointTags = "RecoveryPointTags"
             case resourceArn = "ResourceArn"
@@ -6245,6 +6502,69 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case globalSettings = "GlobalSettings"
+        }
+    }
+
+    public struct UpdateRecoveryPointIndexSettingsInput: AWSEncodableShape {
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens.
+        public let backupVaultName: String
+        /// This specifies the IAM role ARN used for this operation. For example, arn:aws:iam::123456789012:role/S3Access
+        public let iamRoleArn: String?
+        /// Index can have 1 of 2 possible values, either ENABLED or  DISABLED. To create a backup index for an eligible ACTIVE recovery point  that does not yet have a backup index, set value to ENABLED. To delete a backup index, set value to DISABLED.
+        public let index: Index
+        /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public let recoveryPointArn: String
+
+        @inlinable
+        public init(backupVaultName: String, iamRoleArn: String? = nil, index: Index, recoveryPointArn: String) {
+            self.backupVaultName = backupVaultName
+            self.iamRoleArn = iamRoleArn
+            self.index = index
+            self.recoveryPointArn = recoveryPointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupVaultName, key: "BackupVaultName")
+            try container.encodeIfPresent(self.iamRoleArn, forKey: .iamRoleArn)
+            try container.encode(self.index, forKey: .index)
+            request.encodePath(self.recoveryPointArn, key: "RecoveryPointArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamRoleArn = "IamRoleArn"
+            case index = "Index"
+        }
+    }
+
+    public struct UpdateRecoveryPointIndexSettingsOutput: AWSDecodableShape {
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created.
+        public let backupVaultName: String?
+        /// Index can have 1 of 2 possible values, either ENABLED or DISABLED. A value of ENABLED means a backup index for an eligible ACTIVE recovery point has been created. A value of DISABLED means a backup index was deleted.
+        public let index: Index?
+        /// This is the current status for the backup index associated  with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE  can be included in a search.
+        public let indexStatus: IndexStatus?
+        /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public let recoveryPointArn: String?
+
+        @inlinable
+        public init(backupVaultName: String? = nil, index: Index? = nil, indexStatus: IndexStatus? = nil, recoveryPointArn: String? = nil) {
+            self.backupVaultName = backupVaultName
+            self.index = index
+            self.indexStatus = indexStatus
+            self.recoveryPointArn = recoveryPointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultName = "BackupVaultName"
+            case index = "Index"
+            case indexStatus = "IndexStatus"
+            case recoveryPointArn = "RecoveryPointArn"
         }
     }
 

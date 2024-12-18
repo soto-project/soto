@@ -180,6 +180,12 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum OracleAuthenticationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kerberos = "kerberos"
+        case password = "password"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OriginTypeValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case source = "SOURCE"
         case target = "TARGET"
@@ -240,6 +246,12 @@ extension DatabaseMigrationService {
 
     public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case replicationInstance = "replication-instance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SqlServerAuthenticationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kerberos = "kerberos"
+        case password = "password"
         public var description: String { return self.rawValue }
     }
 
@@ -1340,6 +1352,8 @@ extension DatabaseMigrationService {
         public let dnsNameServers: String?
         /// The engine version number of the replication instance. If an engine version number is not specified when a replication  instance is created, the default is the latest engine version available.
         public let engineVersion: String?
+        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when creating a replication instance.
+        public let kerberosAuthenticationSettings: KerberosAuthenticationSettings?
         /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
@@ -1364,12 +1378,13 @@ extension DatabaseMigrationService {
         public let vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceClass: String, replicationInstanceIdentifier: String, replicationSubnetGroupIdentifier: String? = nil, resourceIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, kerberosAuthenticationSettings: KerberosAuthenticationSettings? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceClass: String, replicationInstanceIdentifier: String, replicationSubnetGroupIdentifier: String? = nil, resourceIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.dnsNameServers = dnsNameServers
             self.engineVersion = engineVersion
+            self.kerberosAuthenticationSettings = kerberosAuthenticationSettings
             self.kmsKeyId = kmsKeyId
             self.multiAZ = multiAZ
             self.networkType = networkType
@@ -1383,12 +1398,17 @@ extension DatabaseMigrationService {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.replicationInstanceClass, name: "replicationInstanceClass", parent: name, max: 30)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "AllocatedStorage"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityZone = "AvailabilityZone"
             case dnsNameServers = "DnsNameServers"
             case engineVersion = "EngineVersion"
+            case kerberosAuthenticationSettings = "KerberosAuthenticationSettings"
             case kmsKeyId = "KmsKeyId"
             case multiAZ = "MultiAZ"
             case networkType = "NetworkType"
@@ -2522,7 +2542,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeDataProvidersMessage: AWSEncodableShape {
-        /// Filters applied to the data providers described in the form of key-value pairs. Valid filter names: data-provider-identifier
+        /// Filters applied to the data providers described in the form of key-value pairs. Valid filter names and values: data-provider-identifier, data provider arn or name
         public let filters: [Filter]?
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
@@ -3098,7 +3118,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeInstanceProfilesMessage: AWSEncodableShape {
-        /// Filters applied to the instance profiles described in the form of key-value pairs.
+        /// Filters applied to the instance profiles described in the form of key-value pairs. Valid filter names and values: instance-profile-identifier, instance profile arn or name
         public let filters: [Filter]?
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
@@ -3358,7 +3378,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeMigrationProjectsMessage: AWSEncodableShape {
-        /// Filters applied to the migration projects described in the form of key-value pairs.
+        /// Filters applied to the migration projects described in the form of key-value pairs. Valid filter names and values:   instance-profile-identifier, instance profile arn or name   data-provider-identifier, data provider arn or name   migration-project-identifier, migration project arn or name
         public let filters: [Filter]?
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
@@ -5013,9 +5033,11 @@ extension DatabaseMigrationService {
         public let sslEndpointIdentificationAlgorithm: KafkaSslEndpointIdentificationAlgorithm?
         /// The topic to which you migrate the data. If you don't specify a topic, DMS specifies "kafka-default-topic" as the migration topic.
         public let topic: String?
+        /// Specifies using the large integer value with Kafka.
+        public let useLargeIntegerValue: Bool?
 
         @inlinable
-        public init(broker: String? = nil, includeControlDetails: Bool? = nil, includeNullAndEmpty: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, messageMaxBytes: Int? = nil, noHexPrefix: Bool? = nil, partitionIncludeSchemaTable: Bool? = nil, saslMechanism: KafkaSaslMechanism? = nil, saslPassword: String? = nil, saslUsername: String? = nil, securityProtocol: KafkaSecurityProtocol? = nil, sslCaCertificateArn: String? = nil, sslClientCertificateArn: String? = nil, sslClientKeyArn: String? = nil, sslClientKeyPassword: String? = nil, sslEndpointIdentificationAlgorithm: KafkaSslEndpointIdentificationAlgorithm? = nil, topic: String? = nil) {
+        public init(broker: String? = nil, includeControlDetails: Bool? = nil, includeNullAndEmpty: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, messageMaxBytes: Int? = nil, noHexPrefix: Bool? = nil, partitionIncludeSchemaTable: Bool? = nil, saslMechanism: KafkaSaslMechanism? = nil, saslPassword: String? = nil, saslUsername: String? = nil, securityProtocol: KafkaSecurityProtocol? = nil, sslCaCertificateArn: String? = nil, sslClientCertificateArn: String? = nil, sslClientKeyArn: String? = nil, sslClientKeyPassword: String? = nil, sslEndpointIdentificationAlgorithm: KafkaSslEndpointIdentificationAlgorithm? = nil, topic: String? = nil, useLargeIntegerValue: Bool? = nil) {
             self.broker = broker
             self.includeControlDetails = includeControlDetails
             self.includeNullAndEmpty = includeNullAndEmpty
@@ -5036,6 +5058,7 @@ extension DatabaseMigrationService {
             self.sslClientKeyPassword = sslClientKeyPassword
             self.sslEndpointIdentificationAlgorithm = sslEndpointIdentificationAlgorithm
             self.topic = topic
+            self.useLargeIntegerValue = useLargeIntegerValue
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5059,6 +5082,29 @@ extension DatabaseMigrationService {
             case sslClientKeyPassword = "SslClientKeyPassword"
             case sslEndpointIdentificationAlgorithm = "SslEndpointIdentificationAlgorithm"
             case topic = "Topic"
+            case useLargeIntegerValue = "UseLargeIntegerValue"
+        }
+    }
+
+    public struct KerberosAuthenticationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that grants Amazon Web Services DMS access to the secret containing key cache file for the replication instance.
+        public let keyCacheSecretIamArn: String?
+        /// Specifies the secret ID of the key cache for the replication instance.
+        public let keyCacheSecretId: String?
+        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication of the replication instance.
+        public let krb5FileContents: String?
+
+        @inlinable
+        public init(keyCacheSecretIamArn: String? = nil, keyCacheSecretId: String? = nil, krb5FileContents: String? = nil) {
+            self.keyCacheSecretIamArn = keyCacheSecretIamArn
+            self.keyCacheSecretId = keyCacheSecretId
+            self.krb5FileContents = krb5FileContents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyCacheSecretIamArn = "KeyCacheSecretIamArn"
+            case keyCacheSecretId = "KeyCacheSecretId"
+            case krb5FileContents = "Krb5FileContents"
         }
     }
 
@@ -5083,9 +5129,11 @@ extension DatabaseMigrationService {
         public let serviceAccessRoleArn: String?
         /// The Amazon Resource Name (ARN) for the Amazon Kinesis Data Streams endpoint.
         public let streamArn: String?
+        /// Specifies using the large integer value with Kinesis.
+        public let useLargeIntegerValue: Bool?
 
         @inlinable
-        public init(includeControlDetails: Bool? = nil, includeNullAndEmpty: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, noHexPrefix: Bool? = nil, partitionIncludeSchemaTable: Bool? = nil, serviceAccessRoleArn: String? = nil, streamArn: String? = nil) {
+        public init(includeControlDetails: Bool? = nil, includeNullAndEmpty: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, noHexPrefix: Bool? = nil, partitionIncludeSchemaTable: Bool? = nil, serviceAccessRoleArn: String? = nil, streamArn: String? = nil, useLargeIntegerValue: Bool? = nil) {
             self.includeControlDetails = includeControlDetails
             self.includeNullAndEmpty = includeNullAndEmpty
             self.includePartitionValue = includePartitionValue
@@ -5096,6 +5144,7 @@ extension DatabaseMigrationService {
             self.partitionIncludeSchemaTable = partitionIncludeSchemaTable
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.streamArn = streamArn
+            self.useLargeIntegerValue = useLargeIntegerValue
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5109,6 +5158,7 @@ extension DatabaseMigrationService {
             case partitionIncludeSchemaTable = "PartitionIncludeSchemaTable"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case streamArn = "StreamArn"
+            case useLargeIntegerValue = "UseLargeIntegerValue"
         }
     }
 
@@ -5205,6 +5255,8 @@ extension DatabaseMigrationService {
     }
 
     public struct MicrosoftSQLServerSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies using Kerberos authentication with Microsoft SQL Server.
+        public let authenticationMethod: SqlServerAuthenticationMethod?
         /// The maximum size of the packets (in bytes) used to transfer data using BCP.
         public let bcpPacketSize: Int?
         /// Specifies a file group for the DMS internal tables. When the replication task starts, all the internal DMS control tables (awsdms_ apply_exception, awsdms_apply, awsdms_changes) are created for the specified file group.
@@ -5241,7 +5293,8 @@ extension DatabaseMigrationService {
         public let useThirdPartyBackupDevice: Bool?
 
         @inlinable
-        public init(bcpPacketSize: Int? = nil, controlTablesFileGroup: String? = nil, databaseName: String? = nil, forceLobLookup: Bool? = nil, password: String? = nil, port: Int? = nil, querySingleAlwaysOnNode: Bool? = nil, readBackupOnly: Bool? = nil, safeguardPolicy: SafeguardPolicy? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, tlogAccessMode: TlogAccessMode? = nil, trimSpaceInChar: Bool? = nil, useBcpFullLoad: Bool? = nil, username: String? = nil, useThirdPartyBackupDevice: Bool? = nil) {
+        public init(authenticationMethod: SqlServerAuthenticationMethod? = nil, bcpPacketSize: Int? = nil, controlTablesFileGroup: String? = nil, databaseName: String? = nil, forceLobLookup: Bool? = nil, password: String? = nil, port: Int? = nil, querySingleAlwaysOnNode: Bool? = nil, readBackupOnly: Bool? = nil, safeguardPolicy: SafeguardPolicy? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, tlogAccessMode: TlogAccessMode? = nil, trimSpaceInChar: Bool? = nil, useBcpFullLoad: Bool? = nil, username: String? = nil, useThirdPartyBackupDevice: Bool? = nil) {
+            self.authenticationMethod = authenticationMethod
             self.bcpPacketSize = bcpPacketSize
             self.controlTablesFileGroup = controlTablesFileGroup
             self.databaseName = databaseName
@@ -5262,6 +5315,7 @@ extension DatabaseMigrationService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationMethod = "AuthenticationMethod"
             case bcpPacketSize = "BcpPacketSize"
             case controlTablesFileGroup = "ControlTablesFileGroup"
             case databaseName = "DatabaseName"
@@ -5889,6 +5943,8 @@ extension DatabaseMigrationService {
         public let autoMinorVersionUpgrade: Bool?
         /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set  AllowMajorVersionUpgrade to true.
         public let engineVersion: String?
+        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when modifying a replication instance.
+        public let kerberosAuthenticationSettings: KerberosAuthenticationSettings?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
         /// The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
@@ -5905,12 +5961,13 @@ extension DatabaseMigrationService {
         public let vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, engineVersion: String? = nil, kerberosAuthenticationSettings: KerberosAuthenticationSettings? = nil, multiAZ: Bool? = nil, networkType: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.engineVersion = engineVersion
+            self.kerberosAuthenticationSettings = kerberosAuthenticationSettings
             self.multiAZ = multiAZ
             self.networkType = networkType
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
@@ -5920,12 +5977,17 @@ extension DatabaseMigrationService {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.replicationInstanceClass, name: "replicationInstanceClass", parent: name, max: 30)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "AllocatedStorage"
             case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
             case applyImmediately = "ApplyImmediately"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case engineVersion = "EngineVersion"
+            case kerberosAuthenticationSettings = "KerberosAuthenticationSettings"
             case multiAZ = "MultiAZ"
             case networkType = "NetworkType"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
@@ -6389,7 +6451,7 @@ extension DatabaseMigrationService {
         public let allowSelectNestedTables: Bool?
         /// Specifies the ID of the destination for the archived redo logs. This value should be the same as a number in the dest_id column of the v$archived_log view. If you work with an additional redo log destination, use the AdditionalArchivedLogDestId option to specify the additional destination ID. Doing this improves performance by ensuring that the correct logs are accessed from the outset.
         public let archivedLogDestId: Int?
-        /// When this field is set to Y, DMS only accesses the archived redo logs. If the archived redo logs are stored on Automatic Storage Management (ASM) only, the DMS user account needs to be granted ASM privileges.
+        /// When this field is set to True, DMS only accesses the archived redo logs. If the archived redo logs are stored on Automatic Storage Management (ASM) only, the DMS user account needs to be granted ASM privileges.
         public let archivedLogsOnly: Bool?
         /// For an Oracle source endpoint, your Oracle Automatic Storage Management (ASM) password. You can set this value from the  asm_user_password value. You set this value as part of the comma-separated value that you set to the Password request parameter when you create the endpoint to access transaction logs using Binary Reader. For more information, see Configuration for change data capture (CDC) on an Oracle source database.
         public let asmPassword: String?
@@ -6397,6 +6459,8 @@ extension DatabaseMigrationService {
         public let asmServer: String?
         /// For an Oracle source endpoint, your ASM user name. You can set this value from the asm_user value. You set asm_user as part of the extra connection attribute string to access an Oracle server with Binary Reader that uses ASM. For more information, see Configuration for change data capture (CDC) on an Oracle source database.
         public let asmUser: String?
+        /// Specifies using Kerberos authentication with Oracle.
+        public let authenticationMethod: OracleAuthenticationMethod?
         /// Specifies whether the length of a character column is in bytes or in characters. To indicate that the character column length is in characters, set this attribute to CHAR. Otherwise, the character column length is in bytes. Example: charLengthSemantics=CHAR;
         public let charLengthSemantics: CharLengthSemantics?
         /// When true, converts timestamps with the timezone datatype to their UTC value.
@@ -6415,7 +6479,7 @@ extension DatabaseMigrationService {
         public let failTasksOnLobTruncation: Bool?
         /// Specifies the number scale. You can select a scale up to 38, or you can select FLOAT. By default, the NUMBER data type is converted to precision 38, scale 10. Example: numberDataTypeScale=12
         public let numberDatatypeScale: Int?
-        /// The timeframe in minutes to check for open transactions for a CDC-only task. You can specify an integer value between 0 (the default) and 240 (the maximum).   This parameter is only valid in DMS version 3.5.0 and later. DMS supports a window of up to 9.5 hours including the value for OpenTransactionWindow.
+        /// The timeframe in minutes to check for open transactions for a CDC-only task. You can specify an integer value between 0 (the default) and 240 (the maximum).   This parameter is only valid in DMS version 3.5.0 and later.
         public let openTransactionWindow: Int?
         /// Set this string attribute to the required value in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This value specifies the default Oracle root used to access the redo logs.
         public let oraclePathPrefix: String?
@@ -6455,11 +6519,11 @@ extension DatabaseMigrationService {
         public let trimSpaceInChar: Bool?
         /// Set this attribute to true in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This tells the DMS instance to use any specified prefix replacement to access all online redo logs.
         public let useAlternateFolderForOnline: Bool?
-        /// Set this attribute to Y to capture change data using the Binary Reader utility. Set UseLogminerReader to N to set this attribute to Y. To use Binary Reader with Amazon RDS for Oracle as the source, you set additional attributes. For more information about using this setting with Oracle Automatic Storage Management (ASM), see  Using Oracle LogMiner or DMS Binary Reader for CDC.
+        /// Set this attribute to True to capture change data using the Binary Reader utility. Set UseLogminerReader to False to set this attribute to True. To use Binary Reader with Amazon RDS for Oracle as the source, you set additional attributes. For more information about using this setting with Oracle Automatic Storage Management (ASM), see  Using Oracle LogMiner or DMS Binary Reader for CDC.
         public let useBFile: Bool?
-        /// Set this attribute to Y to have DMS use a direct path full load.  Specify this value to use the direct path protocol in the Oracle Call Interface (OCI).  By using this OCI protocol, you can bulk-load Oracle target tables during a full load.
+        /// Set this attribute to True to have DMS use a direct path full load.  Specify this value to use the direct path protocol in the Oracle Call Interface (OCI).  By using this OCI protocol, you can bulk-load Oracle target tables during a full load.
         public let useDirectPathFullLoad: Bool?
-        /// Set this attribute to Y to capture change data using the Oracle LogMiner utility (the default). Set this attribute to N if you want to access the redo logs as a binary file. When you set UseLogminerReader to N, also set UseBfile to Y. For more information on this setting and using Oracle ASM, see  Using Oracle LogMiner or DMS Binary Reader for CDC in the DMS User Guide.
+        /// Set this attribute to True to capture change data using the Oracle LogMiner utility (the default). Set this attribute to False if you want to access the redo logs as a binary file. When you set UseLogminerReader to False, also set UseBfile to True. For more information on this setting and using Oracle ASM, see  Using Oracle LogMiner or DMS Binary Reader for CDC in the DMS User Guide.
         public let useLogminerReader: Bool?
         /// Set this string attribute to the required value in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This value specifies the path prefix used to replace the default Oracle root to access the redo logs.
         public let usePathPrefix: String?
@@ -6467,7 +6531,7 @@ extension DatabaseMigrationService {
         public let username: String?
 
         @inlinable
-        public init(accessAlternateDirectly: Bool? = nil, additionalArchivedLogDestId: Int? = nil, addSupplementalLogging: Bool? = nil, allowSelectNestedTables: Bool? = nil, archivedLogDestId: Int? = nil, archivedLogsOnly: Bool? = nil, asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, charLengthSemantics: CharLengthSemantics? = nil, convertTimestampWithZoneToUTC: Bool? = nil, databaseName: String? = nil, directPathNoLog: Bool? = nil, directPathParallelLoad: Bool? = nil, enableHomogenousTablespace: Bool? = nil, extraArchivedLogDestIds: [Int]? = nil, failTasksOnLobTruncation: Bool? = nil, numberDatatypeScale: Int? = nil, openTransactionWindow: Int? = nil, oraclePathPrefix: String? = nil, parallelAsmReadThreads: Int? = nil, password: String? = nil, port: Int? = nil, readAheadBlocks: Int? = nil, readTableSpaceName: Bool? = nil, replacePathPrefix: Bool? = nil, retryInterval: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecretId: String? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, spatialDataOptionToGeoJsonFunctionName: String? = nil, standbyDelayTime: Int? = nil, trimSpaceInChar: Bool? = nil, useAlternateFolderForOnline: Bool? = nil, useBFile: Bool? = nil, useDirectPathFullLoad: Bool? = nil, useLogminerReader: Bool? = nil, usePathPrefix: String? = nil, username: String? = nil) {
+        public init(accessAlternateDirectly: Bool? = nil, additionalArchivedLogDestId: Int? = nil, addSupplementalLogging: Bool? = nil, allowSelectNestedTables: Bool? = nil, archivedLogDestId: Int? = nil, archivedLogsOnly: Bool? = nil, asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, authenticationMethod: OracleAuthenticationMethod? = nil, charLengthSemantics: CharLengthSemantics? = nil, convertTimestampWithZoneToUTC: Bool? = nil, databaseName: String? = nil, directPathNoLog: Bool? = nil, directPathParallelLoad: Bool? = nil, enableHomogenousTablespace: Bool? = nil, extraArchivedLogDestIds: [Int]? = nil, failTasksOnLobTruncation: Bool? = nil, numberDatatypeScale: Int? = nil, openTransactionWindow: Int? = nil, oraclePathPrefix: String? = nil, parallelAsmReadThreads: Int? = nil, password: String? = nil, port: Int? = nil, readAheadBlocks: Int? = nil, readTableSpaceName: Bool? = nil, replacePathPrefix: Bool? = nil, retryInterval: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecretId: String? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, spatialDataOptionToGeoJsonFunctionName: String? = nil, standbyDelayTime: Int? = nil, trimSpaceInChar: Bool? = nil, useAlternateFolderForOnline: Bool? = nil, useBFile: Bool? = nil, useDirectPathFullLoad: Bool? = nil, useLogminerReader: Bool? = nil, usePathPrefix: String? = nil, username: String? = nil) {
             self.accessAlternateDirectly = accessAlternateDirectly
             self.additionalArchivedLogDestId = additionalArchivedLogDestId
             self.addSupplementalLogging = addSupplementalLogging
@@ -6477,6 +6541,7 @@ extension DatabaseMigrationService {
             self.asmPassword = asmPassword
             self.asmServer = asmServer
             self.asmUser = asmUser
+            self.authenticationMethod = authenticationMethod
             self.charLengthSemantics = charLengthSemantics
             self.convertTimestampWithZoneToUTC = convertTimestampWithZoneToUTC
             self.databaseName = databaseName
@@ -6523,6 +6588,7 @@ extension DatabaseMigrationService {
             case asmPassword = "AsmPassword"
             case asmServer = "AsmServer"
             case asmUser = "AsmUser"
+            case authenticationMethod = "AuthenticationMethod"
             case charLengthSemantics = "CharLengthSemantics"
             case convertTimestampWithZoneToUTC = "ConvertTimestampWithZoneToUTC"
             case databaseName = "DatabaseName"
@@ -6645,35 +6711,37 @@ extension DatabaseMigrationService {
         public let afterConnectScript: String?
         /// The Babelfish for Aurora PostgreSQL database name for the endpoint.
         public let babelfishDatabaseName: String?
-        /// To capture DDL events, DMS creates various artifacts in the PostgreSQL database when the task starts. You can later remove these artifacts. If this value is set to N, you don't have to create tables or triggers on the source database.
+        /// To capture DDL events, DMS creates various artifacts in the PostgreSQL database when the task starts. You can later remove these artifacts. The default value is true. If this value is set to N, you don't have to create tables or triggers on the source database.
         public let captureDdls: Bool?
         /// Specifies the default behavior of the replication's handling of PostgreSQL- compatible endpoints that require some additional configuration, such as Babelfish endpoints.
         public let databaseMode: DatabaseMode?
         /// Database name for the endpoint.
         public let databaseName: String?
-        /// The schema in which the operational DDL database artifacts are created. Example: ddlArtifactsSchema=xyzddlschema;
+        /// The schema in which the operational DDL database artifacts are created. The default value is public. Example: ddlArtifactsSchema=xyzddlschema;
         public let ddlArtifactsSchema: String?
+        /// Disables the Unicode source filter with PostgreSQL, for values passed into the Selection rule filter on Source Endpoint column values.  By default DMS performs source filter comparisons using a Unicode string which can cause look ups to ignore the indexes in the text columns and slow down migrations. Unicode support should only be disabled when using a selection rule filter is on a text column in the Source database that is indexed.
+        public let disableUnicodeSourceFilter: Bool?
         /// Sets the client statement timeout for the PostgreSQL instance, in seconds. The default value is 60 seconds. Example: executeTimeout=100;
         public let executeTimeout: Int?
-        /// When set to true, this value causes a task to fail if the actual size of a LOB column is greater than the specified LobMaxSize. If task is set to Limited LOB mode and this option is set to true, the task fails instead of truncating the LOB data.
+        /// When set to true, this value causes a task to fail if the actual size of a LOB column is greater than the specified LobMaxSize. The default value is false. If task is set to Limited LOB mode and this option is set to true, the task fails instead of truncating the LOB data.
         public let failTasksOnLobTruncation: Bool?
-        /// The write-ahead log (WAL) heartbeat feature mimics a dummy transaction. By doing this, it prevents idle logical replication slots from holding onto old WAL logs, which can result in storage full situations on the source. This heartbeat keeps restart_lsn moving and prevents storage full scenarios.
+        /// The write-ahead log (WAL) heartbeat feature mimics a dummy transaction. By doing this, it prevents idle logical replication slots from holding onto old WAL logs, which can result in storage full situations on the source. This heartbeat keeps restart_lsn moving and prevents storage full scenarios. The default value is false.
         public let heartbeatEnable: Bool?
-        /// Sets the WAL heartbeat frequency (in minutes).
+        /// Sets the WAL heartbeat frequency (in minutes). The default value is 5 minutes.
         public let heartbeatFrequency: Int?
-        /// Sets the schema in which the heartbeat artifacts are created.
+        /// Sets the schema in which the heartbeat artifacts are created. The default value is public.
         public let heartbeatSchema: String?
-        /// When true, lets PostgreSQL migrate the boolean type as boolean. By default, PostgreSQL migrates booleans as  varchar(5). You must set this setting on both the source and target endpoints for it to take effect.
+        /// When true, lets PostgreSQL migrate the boolean type as boolean. By default, PostgreSQL migrates booleans as  varchar(5). You must set this setting on both the source and target endpoints for it to take effect. The default value is false.
         public let mapBooleanAsBoolean: Bool?
-        /// When true, DMS migrates JSONB values as CLOB.
+        /// When true, DMS migrates JSONB values as CLOB. The default value is false.
         public let mapJsonbAsClob: Bool?
-        /// When true, DMS migrates LONG values as VARCHAR.
+        /// Sets what datatype to map LONG values as. The default value is wstring.
         public let mapLongVarcharAs: LongVarcharMappingType?
-        /// Specifies the maximum size (in KB) of any .csv file used to transfer data to PostgreSQL. Example: maxFileSize=512
+        /// Specifies the maximum size (in KB) of any .csv file used to transfer data to PostgreSQL. The default value is 32,768 KB (32 MB). Example: maxFileSize=512
         public let maxFileSize: Int?
         /// Endpoint connection password.
         public let password: String?
-        /// Specifies the plugin to use to create a replication slot.
+        /// Specifies the plugin to use to create a replication slot. The default value is pglogical.
         public let pluginName: PluginNameValue?
         /// Endpoint TCP port. The default is 5432.
         public let port: Int?
@@ -6691,13 +6759,14 @@ extension DatabaseMigrationService {
         public let username: String?
 
         @inlinable
-        public init(afterConnectScript: String? = nil, babelfishDatabaseName: String? = nil, captureDdls: Bool? = nil, databaseMode: DatabaseMode? = nil, databaseName: String? = nil, ddlArtifactsSchema: String? = nil, executeTimeout: Int? = nil, failTasksOnLobTruncation: Bool? = nil, heartbeatEnable: Bool? = nil, heartbeatFrequency: Int? = nil, heartbeatSchema: String? = nil, mapBooleanAsBoolean: Bool? = nil, mapJsonbAsClob: Bool? = nil, mapLongVarcharAs: LongVarcharMappingType? = nil, maxFileSize: Int? = nil, password: String? = nil, pluginName: PluginNameValue? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, slotName: String? = nil, trimSpaceInChar: Bool? = nil, username: String? = nil) {
+        public init(afterConnectScript: String? = nil, babelfishDatabaseName: String? = nil, captureDdls: Bool? = nil, databaseMode: DatabaseMode? = nil, databaseName: String? = nil, ddlArtifactsSchema: String? = nil, disableUnicodeSourceFilter: Bool? = nil, executeTimeout: Int? = nil, failTasksOnLobTruncation: Bool? = nil, heartbeatEnable: Bool? = nil, heartbeatFrequency: Int? = nil, heartbeatSchema: String? = nil, mapBooleanAsBoolean: Bool? = nil, mapJsonbAsClob: Bool? = nil, mapLongVarcharAs: LongVarcharMappingType? = nil, maxFileSize: Int? = nil, password: String? = nil, pluginName: PluginNameValue? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, slotName: String? = nil, trimSpaceInChar: Bool? = nil, username: String? = nil) {
             self.afterConnectScript = afterConnectScript
             self.babelfishDatabaseName = babelfishDatabaseName
             self.captureDdls = captureDdls
             self.databaseMode = databaseMode
             self.databaseName = databaseName
             self.ddlArtifactsSchema = ddlArtifactsSchema
+            self.disableUnicodeSourceFilter = disableUnicodeSourceFilter
             self.executeTimeout = executeTimeout
             self.failTasksOnLobTruncation = failTasksOnLobTruncation
             self.heartbeatEnable = heartbeatEnable
@@ -6725,6 +6794,7 @@ extension DatabaseMigrationService {
             case databaseMode = "DatabaseMode"
             case databaseName = "DatabaseName"
             case ddlArtifactsSchema = "DdlArtifactsSchema"
+            case disableUnicodeSourceFilter = "DisableUnicodeSourceFilter"
             case executeTimeout = "ExecuteTimeout"
             case failTasksOnLobTruncation = "FailTasksOnLobTruncation"
             case heartbeatEnable = "HeartbeatEnable"
@@ -7399,7 +7469,7 @@ extension DatabaseMigrationService {
         public let replicationUpdateTime: Date?
         /// The Amazon Resource Name for an existing Endpoint the serverless replication uses for its data source.
         public let sourceEndpointArn: String?
-        /// The replication type.
+        /// The type of replication to start.
         public let startReplicationType: String?
         /// The current status of the serverless replication.
         public let status: String?
@@ -7523,6 +7593,8 @@ extension DatabaseMigrationService {
         public let freeUntil: Date?
         /// The time the replication instance was created.
         public let instanceCreateTime: Date?
+        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when replicating an instance.
+        public let kerberosAuthenticationSettings: KerberosAuthenticationSettings?
         /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
@@ -7561,7 +7633,7 @@ extension DatabaseMigrationService {
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstanceIpv6Addresses: [String]? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kerberosAuthenticationSettings: KerberosAuthenticationSettings? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstanceIpv6Addresses: [String]? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -7569,6 +7641,7 @@ extension DatabaseMigrationService {
             self.engineVersion = engineVersion
             self.freeUntil = freeUntil
             self.instanceCreateTime = instanceCreateTime
+            self.kerberosAuthenticationSettings = kerberosAuthenticationSettings
             self.kmsKeyId = kmsKeyId
             self.multiAZ = multiAZ
             self.networkType = networkType
@@ -7591,7 +7664,7 @@ extension DatabaseMigrationService {
 
         @available(*, deprecated, message: "Members replicationInstancePrivateIpAddress, replicationInstancePublicIpAddress have been deprecated")
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstanceIpv6Addresses: [String]? = nil, replicationInstancePrivateIpAddress: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddress: String? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: Date? = nil, instanceCreateTime: Date? = nil, kerberosAuthenticationSettings: KerberosAuthenticationSettings? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstanceIpv6Addresses: [String]? = nil, replicationInstancePrivateIpAddress: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddress: String? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -7599,6 +7672,7 @@ extension DatabaseMigrationService {
             self.engineVersion = engineVersion
             self.freeUntil = freeUntil
             self.instanceCreateTime = instanceCreateTime
+            self.kerberosAuthenticationSettings = kerberosAuthenticationSettings
             self.kmsKeyId = kmsKeyId
             self.multiAZ = multiAZ
             self.networkType = networkType
@@ -7627,6 +7701,7 @@ extension DatabaseMigrationService {
             case engineVersion = "EngineVersion"
             case freeUntil = "FreeUntil"
             case instanceCreateTime = "InstanceCreateTime"
+            case kerberosAuthenticationSettings = "KerberosAuthenticationSettings"
             case kmsKeyId = "KmsKeyId"
             case multiAZ = "MultiAZ"
             case networkType = "NetworkType"
@@ -7817,7 +7892,7 @@ extension DatabaseMigrationService {
         public let sourceEndpointArn: String?
         /// The status of the replication task. This response parameter can return one of the following values:    "moving" – The task is being moved in response to running the  MoveReplicationTask operation.    "creating" – The task is being created in response to running the  CreateReplicationTask operation.    "deleting" – The task is being deleted in response to running the  DeleteReplicationTask operation.    "failed" – The task failed to successfully complete the database migration in response to running the  StartReplicationTask operation.    "failed-move" – The task failed to move in response to running the  MoveReplicationTask operation.    "modifying" – The task definition is being modified in response to running the  ModifyReplicationTask operation.    "ready" – The task is in a ready state where it can respond to other task operations, such as  StartReplicationTask or  DeleteReplicationTask .     "running" – The task is performing a database migration in response to running the  StartReplicationTask operation.    "starting" – The task is preparing to perform a database migration in response to running the  StartReplicationTask operation.    "stopped" – The task has stopped in response to running the  StopReplicationTask operation.    "stopping" – The task is preparing to stop in response to running the  StopReplicationTask operation.    "testing" – The database migration specified for this task is being tested in response to running either the  StartReplicationTaskAssessmentRun or the  StartReplicationTaskAssessment  operation.    StartReplicationTaskAssessmentRun is an improved premigration task assessment operation. The  StartReplicationTaskAssessment  operation assesses data type compatibility only between the source and target database of a given migration task. In contrast,  StartReplicationTaskAssessmentRun  enables you to specify a variety of premigration task assessments in addition to data type compatibility. These assessments include ones for the validity of primary key definitions and likely issues with database migration performance, among others.
         public let status: String?
-        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "Stop Reason NORMAL"     "Stop Reason RECOVERABLE_ERROR"     "Stop Reason FATAL_ERROR"     "Stop Reason FULL_LOAD_ONLY_FINISHED"     "Stop Reason STOPPED_AFTER_FULL_LOAD" – Full load completed, with cached changes not applied    "Stop Reason STOPPED_AFTER_CACHED_EVENTS"  – Full load completed, with cached changes applied    "Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"     "Stop Reason STOPPED_AFTER_DDL_APPLY" – User-defined stop task after DDL applied    "Stop Reason STOPPED_DUE_TO_LOW_MEMORY"     "Stop Reason STOPPED_DUE_TO_LOW_DISK"     "Stop Reason STOPPED_AT_SERVER_TIME" – User-defined server time for stopping task    "Stop Reason STOPPED_AT_COMMIT_TIME" –  User-defined commit time for stopping task    "Stop Reason RECONFIGURATION_RESTART"     "Stop Reason RECYCLE_TASK"
+        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "Stop Reason NORMAL" – The task completed successfully with no additional information returned.    "Stop Reason RECOVERABLE_ERROR"     "Stop Reason FATAL_ERROR"     "Stop Reason FULL_LOAD_ONLY_FINISHED"  – The task completed the full load phase. DMS applied cached changes if you set StopTaskCachedChangesApplied to true.    "Stop Reason STOPPED_AFTER_FULL_LOAD" – Full load completed, with cached changes not applied    "Stop Reason STOPPED_AFTER_CACHED_EVENTS"  – Full load completed, with cached changes applied    "Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"     "Stop Reason STOPPED_AFTER_DDL_APPLY" – User-defined stop task after DDL applied    "Stop Reason STOPPED_DUE_TO_LOW_MEMORY"     "Stop Reason STOPPED_DUE_TO_LOW_DISK"     "Stop Reason STOPPED_AT_SERVER_TIME" – User-defined server time for stopping task    "Stop Reason STOPPED_AT_COMMIT_TIME" –  User-defined commit time for stopping task    "Stop Reason RECONFIGURATION_RESTART"     "Stop Reason RECYCLE_TASK"
         public let stopReason: String?
         /// Table mappings specified in the task.
         public let tableMappings: String?
@@ -7939,7 +8014,7 @@ extension DatabaseMigrationService {
         public let resultStatistic: ReplicationTaskAssessmentRunResultStatistic?
         /// ARN of the service role used to start the assessment run using the StartReplicationTaskAssessmentRun operation. The role must allow the iam:PassRole action.
         public let serviceAccessRoleArn: String?
-        /// Assessment run status.  This status can have one of the following values:    "cancelling" – The assessment run was canceled by the CancelReplicationTaskAssessmentRun operation.    "deleting" – The assessment run was deleted by the DeleteReplicationTaskAssessmentRun operation.    "failed" – At least one individual assessment completed with a failed status.    "error-provisioning" – An internal error occurred while resources were provisioned (during provisioning status).    "error-executing" – An internal error occurred while individual assessments ran (during running status).    "invalid state" – The assessment run is in an unknown state.    "passed" – All individual assessments have completed, and none has a failed status.    "provisioning" – Resources required to run individual assessments are being provisioned.    "running" – Individual assessments are being run.    "starting" – The assessment run is starting, but resources are not yet being provisioned for individual assessments.
+        /// Assessment run status.  This status can have one of the following values:    "cancelling" – The assessment run was canceled by the CancelReplicationTaskAssessmentRun operation.    "deleting" – The assessment run was deleted by the DeleteReplicationTaskAssessmentRun operation.    "failed" – At least one individual assessment completed with a failed status.    "error-provisioning" – An internal error occurred while resources were provisioned (during provisioning status).    "error-executing" – An internal error occurred while individual assessments ran (during running status).    "invalid state" – The assessment run is in an unknown state.    "passed" – All individual assessments have completed, and none has a failed status.    "provisioning" – Resources required to run individual assessments are being provisioned.    "running" – Individual assessments are being run.    "starting" – The assessment run is starting, but resources are not yet being provisioned for individual assessments.    "warning" – At least one individual assessment completed with a warning status.
         public let status: String?
 
         @inlinable
@@ -8776,7 +8851,7 @@ extension DatabaseMigrationService {
         public let cdcStopPosition: String?
         /// The Amazon Resource Name of the replication for which to start replication.
         public let replicationConfigArn: String
-        /// The replication type.
+        /// The replication type. When the replication type is full-load or full-load-and-cdc, the only valid value  for the first run of the replication is start-replication. This option will start the replication. You can also use ReloadTables to reload specific tables that failed during replication instead  of restarting the replication. The resume-processing option isn't applicable for a full-load replication, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes  that occur on the source. To load all the tables again, and start capturing source changes,  use reload-target. Otherwise use resume-processing, to replicate the  changes from the last stop position.
         public let startReplicationType: String
 
         @inlinable

@@ -524,6 +524,7 @@ public struct EKS: AWSService {
     ///   - labels: The Kubernetes labels to apply to the nodes in the node group when they are created.
     ///   - launchTemplate: An object representing a node group's launch template specification. When using this object, don't directly specify instanceTypes, diskSize, or remoteAccess. Make sure that the launch template meets the requirements in launchTemplateSpecification. Also refer to Customizing managed nodes with launch templates in the Amazon EKS User Guide.
     ///   - nodegroupName: The unique name to give your node group.
+    ///   - nodeRepairConfig: The node auto repair configuration for the node group.
     ///   - nodeRole: The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see Amazon EKS node IAM role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify   IamInstanceProfile in your launch template, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
     ///   - releaseVersion: The AMI version of the Amazon EKS optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  releaseVersion, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
     ///   - remoteAccess: The remote access configuration to use with your node group. For Linux, the protocol is SSH. For Windows, the protocol is RDP. If you specify launchTemplate, then don't specify  remoteAccess, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
@@ -545,6 +546,7 @@ public struct EKS: AWSService {
         labels: [String: String]? = nil,
         launchTemplate: LaunchTemplateSpecification? = nil,
         nodegroupName: String,
+        nodeRepairConfig: NodeRepairConfig? = nil,
         nodeRole: String,
         releaseVersion: String? = nil,
         remoteAccess: RemoteAccessConfig? = nil,
@@ -566,6 +568,7 @@ public struct EKS: AWSService {
             labels: labels, 
             launchTemplate: launchTemplate, 
             nodegroupName: nodegroupName, 
+            nodeRepairConfig: nodeRepairConfig, 
             nodeRole: nodeRole, 
             releaseVersion: releaseVersion, 
             remoteAccess: remoteAccess, 
@@ -2148,6 +2151,7 @@ public struct EKS: AWSService {
     ///   - clusterName: The name of your cluster.
     ///   - labels: The Kubernetes labels to apply to the nodes in the node group after the update.
     ///   - nodegroupName: The name of the managed node group to update.
+    ///   - nodeRepairConfig: The node auto repair configuration for the node group.
     ///   - scalingConfig: The scaling configuration details for the Auto Scaling group after the update.
     ///   - taints: The Kubernetes taints to be applied to the nodes in the node group after the update. For more information, see Node taints on managed node groups.
     ///   - updateConfig: The node group update configuration.
@@ -2158,6 +2162,7 @@ public struct EKS: AWSService {
         clusterName: String,
         labels: UpdateLabelsPayload? = nil,
         nodegroupName: String,
+        nodeRepairConfig: NodeRepairConfig? = nil,
         scalingConfig: NodegroupScalingConfig? = nil,
         taints: UpdateTaintsPayload? = nil,
         updateConfig: NodegroupUpdateConfig? = nil,
@@ -2168,6 +2173,7 @@ public struct EKS: AWSService {
             clusterName: clusterName, 
             labels: labels, 
             nodegroupName: nodegroupName, 
+            nodeRepairConfig: nodeRepairConfig, 
             scalingConfig: scalingConfig, 
             taints: taints, 
             updateConfig: updateConfig

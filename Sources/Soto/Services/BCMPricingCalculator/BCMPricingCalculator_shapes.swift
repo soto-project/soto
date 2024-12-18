@@ -497,21 +497,21 @@ extension BCMPricingCalculator {
 
         public func validate(name: String) throws {
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 32)
-            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:,]*$")
+            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:, \\/()]*$")
             try self.validate(self.group, name: "group", parent: name, max: 30)
             try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.historicalUsage?.validate(name: "\(name).historicalUsage")
             try self.validate(self.key, name: "key", parent: name, max: 10)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9]*$")
             try self.validate(self.operation, name: "operation", parent: name, max: 32)
-            try self.validate(self.operation, name: "operation", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:,]*$")
+            try self.validate(self.operation, name: "operation", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:, \\/()]*$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 32)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:, \\/()]*$")
             try self.validate(self.usageAccountId, name: "usageAccountId", parent: name, max: 12)
             try self.validate(self.usageAccountId, name: "usageAccountId", parent: name, min: 12)
             try self.validate(self.usageAccountId, name: "usageAccountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.usageType, name: "usageType", parent: name, max: 128)
-            try self.validate(self.usageType, name: "usageType", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:,]*$")
+            try self.validate(self.usageType, name: "usageType", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:, \\/()]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -701,14 +701,14 @@ extension BCMPricingCalculator {
             try self.validate(self.key, name: "key", parent: name, max: 10)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9]*$")
             try self.validate(self.operation, name: "operation", parent: name, max: 32)
-            try self.validate(self.operation, name: "operation", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:,]*$")
+            try self.validate(self.operation, name: "operation", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:, \\/()]*$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 32)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:, \\/()]*$")
             try self.validate(self.usageAccountId, name: "usageAccountId", parent: name, max: 12)
             try self.validate(self.usageAccountId, name: "usageAccountId", parent: name, min: 12)
             try self.validate(self.usageAccountId, name: "usageAccountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.usageType, name: "usageType", parent: name, max: 128)
-            try self.validate(self.usageType, name: "usageType", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:,]*$")
+            try self.validate(self.usageType, name: "usageType", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:, \\/()]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2439,14 +2439,14 @@ extension BCMPricingCalculator {
 
         public func validate(name: String) throws {
             try self.validate(self.operation, name: "operation", parent: name, max: 32)
-            try self.validate(self.operation, name: "operation", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:,]*$")
+            try self.validate(self.operation, name: "operation", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:, \\/()]*$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 32)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:, \\/()]*$")
             try self.validate(self.usageAccountId, name: "usageAccountId", parent: name, max: 12)
             try self.validate(self.usageAccountId, name: "usageAccountId", parent: name, min: 12)
             try self.validate(self.usageAccountId, name: "usageAccountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.usageType, name: "usageType", parent: name, max: 128)
-            try self.validate(self.usageType, name: "usageType", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:,]*$")
+            try self.validate(self.usageType, name: "usageType", parent: name, pattern: "^[-a-zA-Z0-9\\.\\-_:, \\/()]*$")
         }
 
         private enum CodingKeys: String, CodingKey {

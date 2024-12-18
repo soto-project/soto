@@ -345,7 +345,7 @@ public struct ServiceDiscovery: AWSService {
         return try await self.deleteNamespace(input, logger: logger)
     }
 
-    /// Deletes a specified service. If the service still contains one or more registered instances, the request fails.
+    /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the request fails.
     @Sendable
     @inlinable
     public func deleteService(_ input: DeleteServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceResponse {
@@ -358,7 +358,7 @@ public struct ServiceDiscovery: AWSService {
             logger: logger
         )
     }
-    /// Deletes a specified service. If the service still contains one or more registered instances, the request fails.
+    /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the request fails.
     ///
     /// Parameters:
     ///   - id: The ID of the service that you want to delete.
@@ -372,6 +372,38 @@ public struct ServiceDiscovery: AWSService {
             id: id
         )
         return try await self.deleteService(input, logger: logger)
+    }
+
+    /// Deletes specific attributes associated with a service.
+    @Sendable
+    @inlinable
+    public func deleteServiceAttributes(_ input: DeleteServiceAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceAttributesResponse {
+        try await self.client.execute(
+            operation: "DeleteServiceAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes specific attributes associated with a service.
+    ///
+    /// Parameters:
+    ///   - attributes: A list of keys corresponding to each attribute that you want to delete.
+    ///   - serviceId: The ID of the service from which the attributes will be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteServiceAttributes(
+        attributes: [String],
+        serviceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteServiceAttributesResponse {
+        let input = DeleteServiceAttributesRequest(
+            attributes: attributes, 
+            serviceId: serviceId
+        )
+        return try await self.deleteServiceAttributes(input, logger: logger)
     }
 
     /// Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the specified instance.
@@ -639,6 +671,35 @@ public struct ServiceDiscovery: AWSService {
             id: id
         )
         return try await self.getService(input, logger: logger)
+    }
+
+    /// Returns the attributes associated with a specified service.
+    @Sendable
+    @inlinable
+    public func getServiceAttributes(_ input: GetServiceAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceAttributesResponse {
+        try await self.client.execute(
+            operation: "GetServiceAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the attributes associated with a specified service.
+    ///
+    /// Parameters:
+    ///   - serviceId: The ID of the service that you want to get attributes for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getServiceAttributes(
+        serviceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetServiceAttributesResponse {
+        let input = GetServiceAttributesRequest(
+            serviceId: serviceId
+        )
+        return try await self.getServiceAttributes(input, logger: logger)
     }
 
     /// Lists summary information about the instances that you registered by using a specified service.
@@ -1069,7 +1130,7 @@ public struct ServiceDiscovery: AWSService {
     ///
     /// Parameters:
     ///   - id: The ID of the service that you want to update.
-    ///   - service: A complex type that contains the new settings for the service.
+    ///   - service: A complex type that contains the new settings for the service. You can specify a maximum of 30 attributes (key-value pairs).
     ///   - logger: Logger use during operation
     @inlinable
     public func updateService(
@@ -1082,6 +1143,38 @@ public struct ServiceDiscovery: AWSService {
             service: service
         )
         return try await self.updateService(input, logger: logger)
+    }
+
+    /// Submits a request to update a specified service to add service-level attributes.
+    @Sendable
+    @inlinable
+    public func updateServiceAttributes(_ input: UpdateServiceAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceAttributesResponse {
+        try await self.client.execute(
+            operation: "UpdateServiceAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Submits a request to update a specified service to add service-level attributes.
+    ///
+    /// Parameters:
+    ///   - attributes: A string map that contains attribute key-value pairs.
+    ///   - serviceId: The ID of the service that you want to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateServiceAttributes(
+        attributes: [String: String],
+        serviceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateServiceAttributesResponse {
+        let input = UpdateServiceAttributesRequest(
+            attributes: attributes, 
+            serviceId: serviceId
+        )
+        return try await self.updateServiceAttributes(input, logger: logger)
     }
 }
 

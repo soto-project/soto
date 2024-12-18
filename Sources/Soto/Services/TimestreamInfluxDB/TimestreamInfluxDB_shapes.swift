@@ -66,6 +66,12 @@ extension TimestreamInfluxDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dual = "DUAL"
+        case ipv4 = "IPV4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case creating = "CREATING"
@@ -104,9 +110,11 @@ extension TimestreamInfluxDB {
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// The name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB instance names must be unique per customer and per region.
         public let name: String
+        /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+        public let networkType: NetworkType?
         /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
         public let organization: String?
-        /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in AWS SecretManager in your account.
+        /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Amazon Web Services SecretManager in your account.
         public let password: String
         /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
         public let port: Int?
@@ -122,7 +130,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, organization: String? = nil, password: String, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.bucket = bucket
             self.dbInstanceType = dbInstanceType
@@ -131,6 +139,7 @@ extension TimestreamInfluxDB {
             self.deploymentType = deploymentType
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
+            self.networkType = networkType
             self.organization = organization
             self.password = password
             self.port = port
@@ -192,6 +201,7 @@ extension TimestreamInfluxDB {
             case deploymentType = "deploymentType"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
+            case networkType = "networkType"
             case organization = "organization"
             case password = "password"
             case port = "port"
@@ -222,12 +232,14 @@ extension TimestreamInfluxDB {
         public let endpoint: String?
         /// A service-generated unique identifier.
         public let id: String
-        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
+        /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+        public let networkType: NetworkType?
         /// The port number on which InfluxDB accepts connections. The default value is 8086.
         public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
@@ -242,7 +254,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -255,6 +267,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
+            self.networkType = networkType
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -276,6 +289,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
+            case networkType = "networkType"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
@@ -369,15 +383,17 @@ extension TimestreamInfluxDB {
         public let endpoint: String?
         /// The service-generated unique identifier of the DB instance.
         public let id: String
-        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and AWS CLI commands.
+        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and Amazon Web Services CLI commands.
         public let name: String
+        /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+        public let networkType: NetworkType?
         /// The port number on which InfluxDB accepts connections.
         public let port: Int?
         /// The status of the DB instance.
         public let status: Status?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, name: String, port: Int? = nil, status: Status? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, name: String, networkType: NetworkType? = nil, port: Int? = nil, status: Status? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.dbInstanceType = dbInstanceType
@@ -386,6 +402,7 @@ extension TimestreamInfluxDB {
             self.endpoint = endpoint
             self.id = id
             self.name = name
+            self.networkType = networkType
             self.port = port
             self.status = status
         }
@@ -399,6 +416,7 @@ extension TimestreamInfluxDB {
             case endpoint = "endpoint"
             case id = "id"
             case name = "name"
+            case networkType = "networkType"
             case port = "port"
             case status = "status"
         }
@@ -469,12 +487,14 @@ extension TimestreamInfluxDB {
         public let endpoint: String?
         /// A service-generated unique identifier.
         public let id: String
-        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
+        /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+        public let networkType: NetworkType?
         /// The port number on which InfluxDB accepts connections.
         public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
@@ -489,7 +509,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -502,6 +522,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
+            self.networkType = networkType
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -523,6 +544,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
+            case networkType = "networkType"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
@@ -589,12 +611,14 @@ extension TimestreamInfluxDB {
         public let endpoint: String?
         /// A service-generated unique identifier.
         public let id: String
-        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
+        /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+        public let networkType: NetworkType?
         /// The port number on which InfluxDB accepts connections.
         public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
@@ -609,7 +633,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -622,6 +646,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
+            self.networkType = networkType
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -643,6 +668,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
+            case networkType = "networkType"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
@@ -1129,12 +1155,14 @@ extension TimestreamInfluxDB {
         public let endpoint: String?
         /// A service-generated unique identifier.
         public let id: String
-        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
-        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and AWS CLI commands.
+        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and Amazon Web Services CLI commands.
         public let name: String
+        /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+        public let networkType: NetworkType?
         /// The port number on which InfluxDB accepts connections.
         public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
@@ -1149,7 +1177,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -1162,6 +1190,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
+            self.networkType = networkType
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -1183,6 +1212,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
+            case networkType = "networkType"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"

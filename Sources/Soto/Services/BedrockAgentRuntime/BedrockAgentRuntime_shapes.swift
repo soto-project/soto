@@ -2283,10 +2283,10 @@ extension BedrockAgentRuntime {
         /// The name of the flow output node that the output is from.
         public let nodeName: String
         /// The type of the node that the output is from.
-        public let nodeType: NodeType
+        public let nodeType: NodeType?
 
         @inlinable
-        public init(content: FlowOutputContent, nodeName: String, nodeType: NodeType) {
+        public init(content: FlowOutputContent, nodeName: String, nodeType: NodeType? = nil) {
             self.content = content
             self.nodeName = nodeName
             self.nodeType = nodeType

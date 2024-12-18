@@ -65,6 +65,7 @@ let package = Package(
         .library(name: "SotoBCMPricingCalculator", targets: ["SotoBCMPricingCalculator"]),
         .library(name: "SotoBackup", targets: ["SotoBackup"]),
         .library(name: "SotoBackupGateway", targets: ["SotoBackupGateway"]),
+        .library(name: "SotoBackupSearch", targets: ["SotoBackupSearch"]),
         .library(name: "SotoBatch", targets: ["SotoBatch"]),
         .library(name: "SotoBedrock", targets: ["SotoBedrock"]),
         .library(name: "SotoBedrockAgent", targets: ["SotoBedrockAgent"]),
@@ -656,6 +657,12 @@ let package = Package(
             name: "SotoBackupGateway",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/BackupGateway",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoBackupSearch",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/BackupSearch",
             swiftSettings: swiftSettings
         ),
         .target(

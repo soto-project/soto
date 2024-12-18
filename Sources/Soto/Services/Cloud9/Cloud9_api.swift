@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS Cloud9 service.
 ///
-/// Cloud9 Cloud9 is a collection of tools that you can use to code, build, run, test, debug, and release software in the cloud. For more information about Cloud9, see the Cloud9 User Guide. Cloud9 supports these operations:    CreateEnvironmentEC2: Creates an Cloud9 development environment, launches an Amazon EC2 instance, and then connects from the instance to the environment.    CreateEnvironmentMembership: Adds an environment member to an environment.    DeleteEnvironment: Deletes an environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.    DeleteEnvironmentMembership: Deletes an environment member from an environment.    DescribeEnvironmentMemberships: Gets information about environment members for an environment.    DescribeEnvironments: Gets information about environments.    DescribeEnvironmentStatus: Gets status information for an environment.    ListEnvironments: Gets a list of environment identifiers.    ListTagsForResource: Gets the tags for an environment.    TagResource: Adds tags to an environment.    UntagResource: Removes tags from an environment.    UpdateEnvironment: Changes the settings of an existing environment.    UpdateEnvironmentMembership: Changes the settings of an existing environment member for an environment.
+/// Cloud9 Cloud9 is a collection of tools that you can use to code, build, run, test, debug, and release software in the cloud. For more information about Cloud9, see the Cloud9 User Guide.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"   Cloud9 supports these operations:    CreateEnvironmentEC2: Creates an Cloud9 development environment, launches an Amazon EC2 instance, and then connects from the instance to the environment.    CreateEnvironmentMembership: Adds an environment member to an environment.    DeleteEnvironment: Deletes an environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.    DeleteEnvironmentMembership: Deletes an environment member from an environment.    DescribeEnvironmentMemberships: Gets information about environment members for an environment.    DescribeEnvironments: Gets information about environments.    DescribeEnvironmentStatus: Gets status information for an environment.    ListEnvironments: Gets a list of environment identifiers.    ListTagsForResource: Gets the tags for an environment.    TagResource: Adds tags to an environment.    UntagResource: Removes tags from an environment.    UpdateEnvironment: Changes the settings of an existing environment.    UpdateEnvironmentMembership: Changes the settings of an existing environment member for an environment.
 public struct Cloud9: AWSService {
     // MARK: Member variables
 
@@ -122,7 +122,7 @@ public struct Cloud9: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.
+    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func createEnvironmentEC2(_ input: CreateEnvironmentEC2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentEC2Result {
@@ -135,7 +135,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.
+    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - automaticStopTimeMinutes: The number of minutes until the running instance is shut down after the environment has last been used.
@@ -143,7 +143,7 @@ public struct Cloud9: AWSService {
     ///   - connectionType: The connection type used for connecting to an Amazon EC2 environment. Valid values are CONNECT_SSH (default) and CONNECT_SSM (connected through Amazon EC2 Systems Manager). For more information, see Accessing no-ingress EC2 instances with Amazon EC2 Systems Manager in the Cloud9 User Guide.
     ///   - description: The description of the environment to create.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - imageId: The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. From December 04, 2023, you will be required to include the imageId parameter for the CreateEnvironmentEC2 action. This change will be reflected across all direct methods of communicating with the API, such as Amazon Web Services SDK, Amazon Web Services CLI and Amazon Web Services CloudFormation. This change will only affect direct API consumers, and not Cloud9 console users. We recommend using Amazon Linux 2023 as the AMI to create your environment as it is fully supported.  Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04.  AMI aliases     Amazon Linux 2: amazonlinux-2-x86_64    Amazon Linux 2023 (recommended): amazonlinux-2023-x86_64    Ubuntu 18.04: ubuntu-18.04-x86_64    Ubuntu 22.04:  ubuntu-22.04-x86_64     SSM paths    Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64    Amazon Linux 2023 (recommended): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2023-x86_64    Ubuntu 18.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64    Ubuntu 22.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-22.04-x86_64
+    ///   - imageId: The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path.  We recommend using Amazon Linux 2023 as the AMI to create your environment as it is fully supported. From December 16, 2024, Ubuntu 18.04 will be removed from the list of available imageIds for Cloud9. This change is necessary as Ubuntu 18.04 has ended standard support on May 31, 2023. This change will only affect direct API consumers, and not Cloud9 console users. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04.  AMI aliases     Amazon Linux 2: amazonlinux-2-x86_64    Amazon Linux 2023 (recommended): amazonlinux-2023-x86_64    Ubuntu 18.04: ubuntu-18.04-x86_64    Ubuntu 22.04: ubuntu-22.04-x86_64     SSM paths    Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64    Amazon Linux 2023 (recommended): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2023-x86_64    Ubuntu 18.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64    Ubuntu 22.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-22.04-x86_64
     ///   - instanceType: The type of instance to connect to the environment (for example, t2.micro).
     ///   - name: The name of the environment to create. This name is visible to other IAM users in the same Amazon Web Services account.
     ///   - ownerArn: The Amazon Resource Name (ARN) of the environment owner. This ARN can be the ARN of any IAM principal. If this value is not specified, the ARN defaults to this environment's creator.
@@ -181,7 +181,7 @@ public struct Cloud9: AWSService {
         return try await self.createEnvironmentEC2(input, logger: logger)
     }
 
-    /// Adds an environment member to an Cloud9 development environment.
+    /// Adds an environment member to an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func createEnvironmentMembership(_ input: CreateEnvironmentMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentMembershipResult {
@@ -194,7 +194,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Adds an environment member to an Cloud9 development environment.
+    /// Adds an environment member to an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - environmentId: The ID of the environment that contains the environment member you want to add.
@@ -216,7 +216,7 @@ public struct Cloud9: AWSService {
         return try await self.createEnvironmentMembership(input, logger: logger)
     }
 
-    /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.
+    /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentResult {
@@ -229,7 +229,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.
+    /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - environmentId: The ID of the environment to delete.
@@ -245,7 +245,7 @@ public struct Cloud9: AWSService {
         return try await self.deleteEnvironment(input, logger: logger)
     }
 
-    /// Deletes an environment member from a development environment.
+    /// Deletes an environment member from a development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func deleteEnvironmentMembership(_ input: DeleteEnvironmentMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentMembershipResult {
@@ -258,7 +258,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Deletes an environment member from a development environment.
+    /// Deletes an environment member from a development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - environmentId: The ID of the environment to delete the environment member from.
@@ -277,7 +277,7 @@ public struct Cloud9: AWSService {
         return try await self.deleteEnvironmentMembership(input, logger: logger)
     }
 
-    /// Gets information about environment members for an Cloud9 development environment.
+    /// Gets information about environment members for an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func describeEnvironmentMemberships(_ input: DescribeEnvironmentMembershipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEnvironmentMembershipsResult {
@@ -290,7 +290,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Gets information about environment members for an Cloud9 development environment.
+    /// Gets information about environment members for an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - environmentId: The ID of the environment to get environment member information about.
@@ -318,7 +318,7 @@ public struct Cloud9: AWSService {
         return try await self.describeEnvironmentMemberships(input, logger: logger)
     }
 
-    /// Gets status information for an Cloud9 development environment.
+    /// Gets status information for an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func describeEnvironmentStatus(_ input: DescribeEnvironmentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEnvironmentStatusResult {
@@ -331,7 +331,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Gets status information for an Cloud9 development environment.
+    /// Gets status information for an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - environmentId: The ID of the environment to get status information about.
@@ -347,7 +347,7 @@ public struct Cloud9: AWSService {
         return try await self.describeEnvironmentStatus(input, logger: logger)
     }
 
-    /// Gets information about Cloud9 development environments.
+    /// Gets information about Cloud9 development environments.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func describeEnvironments(_ input: DescribeEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEnvironmentsResult {
@@ -360,7 +360,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Gets information about Cloud9 development environments.
+    /// Gets information about Cloud9 development environments.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - environmentIds: The IDs of individual environments to get information about.
@@ -376,7 +376,7 @@ public struct Cloud9: AWSService {
         return try await self.describeEnvironments(input, logger: logger)
     }
 
-    /// Gets a list of Cloud9 development environment identifiers.
+    /// Gets a list of Cloud9 development environment identifiers.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"    Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func listEnvironments(_ input: ListEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentsResult {
@@ -389,7 +389,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of Cloud9 development environment identifiers.
+    /// Gets a list of Cloud9 development environment identifiers.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"    Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of environments to get identifiers for.
@@ -408,7 +408,7 @@ public struct Cloud9: AWSService {
         return try await self.listEnvironments(input, logger: logger)
     }
 
-    /// Gets a list of the tags associated with an Cloud9 development environment.
+    /// Gets a list of the tags associated with an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -421,7 +421,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of the tags associated with an Cloud9 development environment.
+    /// Gets a list of the tags associated with an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the Cloud9 development environment to get the tags for.
@@ -437,7 +437,7 @@ public struct Cloud9: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Adds tags to an Cloud9 development environment.  Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
+    /// Adds tags to an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"    Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -450,7 +450,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Adds tags to an Cloud9 development environment.  Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
+    /// Adds tags to an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"    Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the Cloud9 development environment to add tags to.
@@ -469,7 +469,7 @@ public struct Cloud9: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Removes tags from an Cloud9 development environment.
+    /// Removes tags from an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -482,7 +482,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Removes tags from an Cloud9 development environment.
+    /// Removes tags from an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the Cloud9 development environment to remove tags from.
@@ -501,7 +501,7 @@ public struct Cloud9: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Changes the settings of an existing Cloud9 development environment.
+    /// Changes the settings of an existing Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func updateEnvironment(_ input: UpdateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentResult {
@@ -514,7 +514,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Changes the settings of an existing Cloud9 development environment.
+    /// Changes the settings of an existing Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - description: Any new or replacement description for the environment.
@@ -539,7 +539,7 @@ public struct Cloud9: AWSService {
         return try await self.updateEnvironment(input, logger: logger)
     }
 
-    /// Changes the settings of an existing environment member for an Cloud9 development environment.
+    /// Changes the settings of an existing environment member for an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     @Sendable
     @inlinable
     public func updateEnvironmentMembership(_ input: UpdateEnvironmentMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentMembershipResult {
@@ -552,7 +552,7 @@ public struct Cloud9: AWSService {
             logger: logger
         )
     }
-    /// Changes the settings of an existing environment member for an Cloud9 development environment.
+    /// Changes the settings of an existing environment member for an Cloud9 development environment.  Cloud9 is no longer available to new customers. Existing customers of  Cloud9 can continue to use the service as normal.  Learn more"
     ///
     /// Parameters:
     ///   - environmentId: The ID of the environment for the environment member whose settings you want to change.
