@@ -347,7 +347,12 @@ extension S3Tests {
             headers: [:],
             body: .init()
         )
-        let context = AWSMiddlewareContext(operation: "TestOperation", serviceConfig: config, logger: TestEnvironment.logger)
+        let context = AWSMiddlewareContext(
+            operation: "TestOperation",
+            serviceConfig: config,
+            credential: EmptyCredential().getStaticCredential(),
+            logger: TestEnvironment.logger
+        )
         _ = try await config.middleware?.handle(request, context: context) { request, _ in
             XCTAssertEqual(request.url.absoluteString, s3URL)
             return AWSHTTPResponse(status: .ok, headers: ["RequestURL": request.url.absoluteString])
@@ -358,7 +363,7 @@ extension S3Tests {
         try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/")
         try await self.testS3VirtualAddressing(
             "https://s3.us-east-1.amazonaws.com/bucket//filename",
-            s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename"
+            s3URL: "https://bucket.s3.us-east-1.amazonaws.com//filename"
         )
         try await self.testS3VirtualAddressing(
             "https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2",
@@ -373,8 +378,7 @@ extension S3Tests {
             s3URL: "https://bucket.s3.us-east-1.amazonaws.com/file%20name"
         )
         try await self.testS3VirtualAddressing("http://localhost:8000/bucket/filename", s3URL: "http://localhost:8000/bucket/filename")
-        try await self.testS3VirtualAddressing("http://localhost:8000//bucket/filename", s3URL: "http://localhost:8000/bucket/filename")
-        try await self.testS3VirtualAddressing("http://localhost:8000/bucket//filename", s3URL: "http://localhost:8000/bucket/filename")
+        try await self.testS3VirtualAddressing("http://localhost:8000/bucket//filename", s3URL: "http://localhost:8000/bucket//filename")
         try await self.testS3VirtualAddressing("https://localhost:8000/bucket/file%20name", s3URL: "https://localhost:8000/bucket/file%20name")
 
         let s3 = Self.s3.with(options: .s3ForceVirtualHost)

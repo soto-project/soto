@@ -583,4 +583,57 @@ class S3Tests: XCTestCase {
             _ = try await s3Control.listJobs(request)
         } catch is CancelError {}
     }
+
+    func testS3Express() async throws {
+        // doesnt work with LocalStack
+        let bucket = "soto-test-directory-bucket--use1-az6--x-s3"
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+        do {
+            _ = try await Self.s3.createBucket(
+                bucket: bucket,
+                createBucketConfiguration: .init(
+                    bucket: .init(dataRedundancy: .singleAvailabilityZone, type: .directory),
+                    location: .init(name: "use1-az6", type: .availabilityZone)
+                ),
+                logger: TestEnvironment.logger
+            )
+            try await Self.s3.waitUntilBucketExists(.init(bucket: bucket), logger: TestEnvironment.logger)
+        } catch let error as S3ErrorType where error == .bucketAlreadyOwnedByYou {}
+        try await withTeardown {
+            let (client, _expressS3) = Self.s3.createS3ExpressClientAndService(bucket: bucket)
+            let expressS3 = _expressS3.with(middleware: TestEnvironment.middlewares)
+            try await withTeardown {
+                let putResponse = try await expressS3.putObject(
+                    body: .init(buffer: ByteBuffer(string: "Uploaded")),
+                    bucket: bucket,
+                    key: "test-file",
+                    logger: TestEnvironment.logger
+                )
+                let listResponse = try await expressS3.listObjectsV2(
+                    bucket: bucket,
+                    logger: TestEnvironment.logger
+                )
+                let testFile = try XCTUnwrap(listResponse.contents?.first { $0.eTag == putResponse.eTag }?.key)
+                let getResponse = try await expressS3.getObject(
+                    bucket: bucket,
+                    key: testFile,
+                    logger: TestEnvironment.logger
+                )
+                let body = try await getResponse.body.collect(upTo: .max)
+                XCTAssertEqual(body, ByteBuffer(string: "Uploaded"))
+
+                _ = try await expressS3.deleteObject(bucket: bucket, key: "test-file", logger: TestEnvironment.logger)
+            } teardown: {
+                try? await client.shutdown()
+            }
+        } teardown: {
+            do {
+                _ = try await Self.s3.deleteBucket(
+                    bucket: bucket
+                )
+            } catch {
+                XCTFail("\(error)")
+            }
+        }
+    }
 }
