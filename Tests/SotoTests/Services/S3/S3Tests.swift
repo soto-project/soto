@@ -600,7 +600,8 @@ class S3Tests: XCTestCase {
             try await Self.s3.waitUntilBucketExists(.init(bucket: bucket), logger: TestEnvironment.logger)
         } catch let error as S3ErrorType where error == .bucketAlreadyOwnedByYou {}
         try await withTeardown {
-            let (client, expressS3) = Self.s3.createS3ExpressClientAndService(bucket: bucket)
+            let (client, _expressS3) = Self.s3.createS3ExpressClientAndService(bucket: bucket)
+            let expressS3 = _expressS3.with(middleware: TestEnvironment.middlewares)
             try await withTeardown {
                 let putResponse = try await expressS3.putObject(
                     body: .init(buffer: ByteBuffer(string: "Uploaded")),
@@ -608,10 +609,14 @@ class S3Tests: XCTestCase {
                     key: "test-file",
                     logger: TestEnvironment.logger
                 )
-                print(putResponse)
+                let listResponse = try await expressS3.listObjectsV2(
+                    bucket: bucket,
+                    logger: TestEnvironment.logger
+                )
+                let testFile = try XCTUnwrap(listResponse.contents?.first { $0.eTag == putResponse.eTag }?.key)
                 let getResponse = try await expressS3.getObject(
                     bucket: bucket,
-                    key: "test-file",
+                    key: testFile,
                     logger: TestEnvironment.logger
                 )
                 let body = try await getResponse.body.collect(upTo: .max)

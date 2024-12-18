@@ -110,6 +110,7 @@ extension S3 {
     public enum ChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case crc32 = "CRC32"
         case crc32c = "CRC32C"
+        case crc64nvme = "CRC64NVME"
         case sha1 = "SHA1"
         case sha256 = "SHA256"
         public var description: String { return self.rawValue }
